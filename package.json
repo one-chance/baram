@@ -9,6 +9,7 @@
   "author": "Team baram",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "npm-git-install": "^0.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
