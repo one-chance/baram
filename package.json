@@ -1,0 +1,20 @@
+{
+  "name": "baram",
+  "version": "1.0.0",
+  "description": "Community for The kingdom the wind",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Team baram",
+  "license": "MIT",
+  "dependencies": {
+    "npm-git-install": "^0.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
