@@ -4,15 +4,20 @@
   "description": "Community for The kingdom the wind",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "author": "Team baram",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "npm-git-install": "^0.3.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
@@ -22,5 +27,20 @@
     "babel-loader": "^8.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
