@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
-import { Menus } from 'utils/ConfigUtil';
+import { getMenus } from 'utils/ConfigUtil';
 import IMenu from 'interfaces/Common/IMenu';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TopTaps() {
   const classes = useStyles();
   
+  const Menus: Array<IMenu> = getMenus();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isOpenFixed, setIsOpenFixed] = React.useState(false);
 

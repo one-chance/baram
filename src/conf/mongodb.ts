@@ -1,0 +1,1 @@
+export const mongoDbConnectionString = "mongodb+srv://dearlsh:admin@mycluster.xcgrs.mongodb.net/baram?retryWrites=true&w=majority"

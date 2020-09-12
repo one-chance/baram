@@ -5,20 +5,29 @@ import {BrowserRouter, Route} from 'react-router-dom';
 
 import Container from '@material-ui/core/Container';
 
+import Test from './Test';
+
 import Header from 'components/Header/Header';
 import Home from 'pages/Home';
-import SignIn from 'pages/Common/SignIn';
-import SignUp from 'pages/Common/SignUp';
-import FindId from 'pages/Common/FindId';
-import FindPw from 'pages/Common/FindPw';
+
+import SignIn from 'pages/User/SignIn';
+import SignUp from 'pages/User/SignUp';
+import FindId from 'pages/User/FindId';
+import FindPw from 'pages/User/FindPw';
+import MyInfo from 'pages/User/MyInfo';
+
+import FreeBoard from 'pages/Board/FreeBoard';
+import PostWrite from 'pages/Board/PostWrite';
 
 import Item from 'pages/Dictionary/Item';
 import Raid from 'pages/Dictionary/Raid';
 import RaidInfo from 'pages/Dictionary/RaidInfo';
 
-import MyInfo from 'pages/MyPage/MyInfo';
+import MyAlert from 'elements/Alert/MyAlert';
+import MyBackdrop from 'elements/Backdrop/MyBackdrop';
 
 function App() {
+
   return (
     <Container
       maxWidth="xl">
@@ -34,6 +43,7 @@ function App() {
             <BrowserRouter>
               {/*Home*/}
               <Route exact path="/" component={Home}/>
+              <Route exact path="/test" component={Test}/>
 
               {/*Common*/}
               <Route exact path="/signin" component={SignIn}/>
@@ -41,6 +51,10 @@ function App() {
               <Route exact path="/findid" component={FindId}/>
               <Route exact path="/findpw" component={FindPw}/>
 
+              {/*Board*/}
+              <Route exact path="/board/free" component={FreeBoard}/>
+              <Route exact path="/board/write" component={PostWrite}/>
+              
               {/*Dictionary*/}
               <Route path="/dic/item" component={Item}/>
               <Route exact path="/dic/raid" component={Raid}/>
@@ -52,6 +66,8 @@ function App() {
           </Container>
         </main>
       </React.Fragment>
+      <MyAlert/>
+      <MyBackdrop/>
     </Container>
   );
 }

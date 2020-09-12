@@ -3,15 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { RecoilRoot } from 'recoil';
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
+  {/*<React.StrictMode>*/}
     <RecoilRoot>
+      <CssBaseline />
       <App />
     </RecoilRoot>
-  </React.StrictMode>,
+  {/*</React.StrictMode>,*/}
+  </React.Fragment>,
   document.getElementById('root')
 );
 

@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
 
 import { IRaid } from 'interfaces/Dictionary/IRaids';
-import { baseUrlForRaidImg } from 'utils/ConfigUtil';
+import { getBaseUrlForRaidImg } from 'utils/ConfigUtil';
 
 interface IProps {
   raid: IRaid,
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export default function RaidListItem(props: IProps) {
   const classes = useStyles();
 
+  const baseUrlForRaidImg = getBaseUrlForRaidImg();
   const [ isHover, setIsHover ] = React.useState(false);
 
   return (

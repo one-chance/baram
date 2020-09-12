@@ -13,9 +13,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Grid from '@material-ui/core/Grid';
 
 import TopTaps from 'components/Header/TopTaps';
-import SignIn from 'pages/Common/SignIn';
+import SignIn from 'pages/User/SignIn';
 
-import { getSignInUserInfo, LogoutUser } from 'utils/UserUtil';
+import { getSignInUserId, LogoutUser } from 'utils/UserUtil';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,13 +43,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
-  const title = "Basa";
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [isSignInOpen, setIsSignInOpen] = React.useState(false);
 
-  const userInfo = getSignInUserInfo();
-  console.log(userInfo);
+  const signInUserId = getSignInUserId();
 
   const _onMoveToMain = () => {
     document.location.href = "/";
@@ -97,13 +95,20 @@ export default function Header() {
                   className={classes.toolbarTitle}
                   onClick={_onMoveToMain}
                 >
-                  {title}
+                  logo
                 </Typography>
               </Grid>
               <Grid item xs={3}
                 className={classes.toolbarright}>
                   {
-                    userInfo === "" ?
+                    signInUserId ?
+                      <Button 
+                        variant="outlined" 
+                        size="small"
+                        onClick={_onLogoutUser}>
+                        Logout
+                      </Button>
+                    :
                       <Container>
                         <Button 
                           variant="outlined" 
@@ -119,13 +124,6 @@ export default function Header() {
                           SignUp
                         </Button>
                       </Container>
-                    :
-                      <Button 
-                        variant="outlined" 
-                        size="small"
-                        onClick={_onLogoutUser}>
-                         Logout
-                      </Button>
                   }               
               </Grid>
             </Grid>

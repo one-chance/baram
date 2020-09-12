@@ -8,7 +8,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import Carousel from "react-slick";
-import { baseUrlForMainCarousel } from 'utils/ConfigUtil';
+import { getBaseUrlForMainCarousel } from 'utils/ConfigUtil';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,6 +88,8 @@ export default function MainCarousel() {
     NextArrow: <NextArrow />,
     PrevArrow: <PrevArrow />
   };
+
+  const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
 
   //creating the ref
   const refCarousel: React.RefObject<Carousel> = React.createRef();
