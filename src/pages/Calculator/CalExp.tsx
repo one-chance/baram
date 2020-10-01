@@ -70,7 +70,7 @@ const useStyles = makeStyles({
 export default function CalExp() {
   const [level, setLevel] = useState<number>(0); // 나의 레벨(number)
   const [myExp, setMyExp] = useState<number>(0); // 보유 경험치 (number)
-  const [myExp2, setMyExp2] = useState<string>("0"); // 보유 경험치 (string)
+  const [myExp2, setMyExp2] = useState<string>("보유 경험치"); // 보유 경험치 (string)
   const [needExp, setNeedExp] = useState<string>("0"); // 체력 1당 필요 경험치 (string)
   const [hp, setHp] = useState<number>(0); // 목표 체력 (number)
   const [maxHp, setMaxHp] = useState<number>(0); // 해당 레벨의 최대 체력 (number)
@@ -194,14 +194,14 @@ export default function CalExp() {
         style={{
           width: "600px",
           height: "46px",
-          margin: "20px",
-          padding: "5px",
+          margin: "40px 20px",
+          padding: "5px 1px",
         }}
       >
         <Link
           underline="none"
           className={classes.title}
-          style={{ marginRight: "160px", fontSize: "1.25rem", fontWeight: "bold" }}
+          style={{ margin: "0 180px 0 0", fontSize: "1.25rem", fontWeight: "bold" }}
         >
           경험치 계산기 for 격수
         </Link>
@@ -229,7 +229,7 @@ export default function CalExp() {
           설정
         </Button>
       </Container>
-      <TableContainer component={Paper} elevation={0} style={{ width: "600px", margin: "15px", padding: "5px" }}>
+      <TableContainer component={Paper} elevation={0} style={{ width: "610px", margin: "15px", padding: "5px" }}>
         <Table className={classes.table} component="table" aria-label="customized table" style={{ width: "100%" }}>
           <TableHead>
             <TableRow>
@@ -261,7 +261,7 @@ export default function CalExp() {
         style={{ width: "600px", height: "100px", margin: "20px", padding: "10px 25px", border: "1px solid" }}
       >
         <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
-          {myExp2 || "보유 경험치"}
+          {myExp2}
         </Link>
         <Link underline="none" className={classes.title} style={{ margin: "0 30px 0 30px", width: "25px" }}>
           ▶&nbsp;
@@ -284,6 +284,9 @@ export default function CalExp() {
               setMyExp(parseInt(e.target.value));
               setMyExp2(numToText(parseInt(e.target.value)).toString());
               setResult1(0);
+            } else {
+              setMyExp(0);
+              setMyExp2("보유 경험치");
             }
           }}
           autoComplete="off"
