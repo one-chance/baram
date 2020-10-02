@@ -63,29 +63,29 @@
         {
           "idx": 0,
           "key": "0000201",
-          "title": "전투력 계산기",
-          "url": "/#2/#1",
+          "title": "전투력",
+          "url": "/cal/power",
           "sub": []
         },
         {
           "idx": 1,
           "key": "0000202",
-          "title": "능력치 계산기",
-          "url": "/#2/#2",
+          "title": "능력치",
+          "url": "/cal/abil",
           "sub": []
         },
         {
           "idx": 2,
           "key": "0000203",
-          "title": "생산 계산기",
-          "url": "/#2/#3",
+          "title": "경험치",
+          "url": "/cal/exp",
           "sub": []
         },
         {
           "idx": 3,
           "key": "0000204",
-          "title": "경험치 계산기",
-          "url": "/cal/exp",
+          "title": "생산",
+          "url": "/cal/prod",
           "sub": []
         }
       ]

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
 
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
@@ -16,6 +15,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
 
 import expTable from "interfaces/Calculator/exp";
+import exp from "conf/expTable.json";
 
 const useStyles = makeStyles({
   inLevel: {
@@ -86,12 +86,12 @@ export default function CalExp() {
 
   const classes = useStyles();
 
-  const fillTable = (lev: number, arr: any) => {
+  const fillTable = (lev: number) => {
     let num: number = lev - 700;
     const r: Array<expTable> = [];
 
     for (var c = num; c < num + 3; c++) {
-      r.push(arr[c]);
+      r.push(temp[c]);
     }
 
     setNeedExp(r[1].필요경험치);
@@ -176,12 +176,7 @@ export default function CalExp() {
   };
 
   useEffect(() => {
-    axios.get("./expTable.json").then((res) => {
-      for (var k = 0; k < 101; k++) {
-        temp.push(res.data[k]);
-      }
-      setTemp(temp);
-    });
+    setTemp(exp);
 
     // eslint-disable-next-line
   }, []);
@@ -222,7 +217,7 @@ export default function CalExp() {
           variant="outlined"
           color="primary"
           onClick={() => {
-            if (level >= 700 && level < 799) setDatas(fillTable(level, temp));
+            if (level >= 700 && level < 799) setDatas(fillTable(level));
             else setLevel(0);
           }}
         >
@@ -233,12 +228,12 @@ export default function CalExp() {
         <Table className={classes.table} component="table" aria-label="customized table" style={{ width: "100%" }}>
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: "13%" }}>순수체력</TableCell>
-              <TableCell style={{ width: "10%" }}>레벨</TableCell>
-              <TableCell style={{ width: "12%" }}>최소체력</TableCell>
+              <TableCell style={{ width: "16%" }}>순수 체력</TableCell>
+              <TableCell style={{ width: "8%" }}>레벨</TableCell>
+              <TableCell style={{ width: "8%" }}>최소</TableCell>
               <TableCell style={{ width: "26%" }}>필요 경험치</TableCell>
-              <TableCell style={{ width: "12%" }}>최대체력</TableCell>
-              <TableCell style={{ width: "26%" }}>필요 경험치</TableCell>
+              <TableCell style={{ width: "12%" }}>최대</TableCell>
+              <TableCell style={{ width: "30%" }}>필요 경험치</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
