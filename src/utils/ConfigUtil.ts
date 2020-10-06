@@ -17,9 +17,11 @@ export const getBaseUrlForRaidImg = () => {
 export const getMenus = () => {
   const menus = Array<IMenu>();
 
-  config.menus.map((menu, i) => {
+  const res = config.menus.map((menu) => {
     menus.push(menu);
+
+    return true;
   });
   
-  return menus;
+  return res ? menus : new Array<IMenu>();
 }

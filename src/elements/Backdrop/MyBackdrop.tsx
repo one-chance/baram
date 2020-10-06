@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {MyBackdropState} from 'state/index';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const MyBackdrop = () => {
   const classes = useStyles();
 
-  const [backdrop, setBackdrop] = useRecoilState(MyBackdropState);
+  const backdrop = useRecoilValue(MyBackdropState);
 
   return (
     <Backdrop className={classes.backdrop} open={backdrop}>

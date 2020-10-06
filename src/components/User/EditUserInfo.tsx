@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {useSetRecoilState} from 'recoil';
+import {MyAlertState, MyBackdropState} from 'state/index';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -29,30 +31,36 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const duration = 3000;
+
 function EditUserInfo(props: IProps) {
 
   const classes = useStyles();
   const userInfo: IUserInfo = props.userInfo;
 
+  const setMyAlert = useSetRecoilState(MyAlertState);
+  const setMyBackdrop = useSetRecoilState(MyBackdropState);
+
   const [isConfirm, setIsConfirm] = React.useState(false);
-  const [server, setServer] = React.useState(props.userInfo.server);
-  const [character, setCharacter] = React.useState(props.userInfo.character);
+  const [openKakao, setOpenKakao] = React.useState("");
+  const [server, setServer] = React.useState("");
+  const [character, setCharacter] = React.useState("");
   const [password, setPassword] = React.useState("");
-  //TODO 비밀번호 변경 별도 페이지로 분리하기
-  const [changePassword, setChangePassword] = React.useState("");
-  const [changePasswordConfirm, setChangePasswordConfirm] = React.useState("");
-  
+
+  useEffect(() => {
+    setOpenKakao(userInfo.openKakao ? userInfo.openKakao : "");
+    setServer(userInfo.titleAccount ? userInfo.titleAccount.server : "");
+    setCharacter(userInfo.titleAccount ? userInfo.titleAccount.character : "");
+  }, [userInfo]);
+
   const clear = () => {
     setIsConfirm(false);
-    setServer(props.userInfo.server);
-    setCharacter(props.userInfo.character);
+    setOpenKakao(userInfo.openKakao ? userInfo.openKakao : "");
     setPassword("");
-    setChangePassword("");
-    setChangePasswordConfirm("");
   }
 
   const _onEnterPassword = (keyCode: number) => {
-		if (keyCode == 13) {
+		if (keyCode === 13) {
 			_onConfirm();
 		}
 	}
@@ -75,13 +83,34 @@ function EditUserInfo(props: IProps) {
   }
 
   const _onSave = async () => {
+    setMyBackdrop(true);
+
     const editUserInfo: IUserInfo = Object.assign(userInfo);
-    editUserInfo.server = server;
-    editUserInfo.character = character;
+    editUserInfo.openKakao = openKakao;
 
     const res = await setUserInfo(editUserInfo);
-    alert(res);
-    window.location.replace("/myinfo");
+
+    if (res.code === 200) {
+      setMyAlert({
+        isOpen: true,
+        severity: "success",
+        duration: duration,
+        message: res.message
+      });
+    }
+    else {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: res.message
+      });  
+    }
+
+    setTimeout(() => {
+      setMyBackdrop(false);
+      window.location.reload();
+    }, duration);
   }
 
   return (
@@ -111,13 +140,18 @@ function EditUserInfo(props: IProps) {
                       이메일
                   </Grid>
                   <Grid item xs={9}>
-                    {userInfo.mail}
+                    {
+                      userInfo.mail ?
+                        userInfo.mail
+                      :
+                        "인증 된 이메일이 없습니다."
+                    }
                   </Grid>
                 </Grid>
                 <Grid container item xs={12}>
                   <Grid item xs={3}
                     className={classes.text}>
-                      서버
+                      오픈카카오톡 주소
                   </Grid>
                   <Grid item xs={9}>
                     <TextField
@@ -125,73 +159,40 @@ function EditUserInfo(props: IProps) {
                       required
                       fullWidth
                       size="small"
-                      name="server"
-                      label="Server"
-                      id="server"
-                      value={server}
-                      onChange={(e) => (setServer(e.target.value))}
+                      name="openKakao"
+                      label="Open KakaoTalk"
+                      id="openKakao"
+                      value={openKakao}
+                      onChange={(e) => (setOpenKakao(e.target.value))}
                     />
                   </Grid>
                 </Grid>
                 <Grid container item xs={12}>
                   <Grid item xs={3}
                     className={classes.text}>
-                      닉네임
+                      대표캐릭터 서버
                   </Grid>
                   <Grid item xs={9}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      size="small"
-                      name="character"
-                      label="Character"
-                      id="character"
-                      value={character}
-                      onChange={(e) => (setCharacter(e.target.value))}
-                    />
+                    {
+                      server ?
+                        server
+                      :
+                        "대표 설정 된 캐릭터 서버 정보가 없습니다."
+                    }
                   </Grid>
                 </Grid>
                 <Grid container item xs={12}>
                   <Grid item xs={3}
                     className={classes.text}>
-                     변경 비밀번호
+                      대표캐릭터 닉네임
                   </Grid>
                   <Grid item xs={9}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      size="small"
-                      name="password"
-                      label="Password"
-                      id="password"
-                      type="password"
-                      value={changePassword}
-                      onChange={(e) => (setChangePassword(e.target.value))}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={3}
-                    className={classes.text}>
-                      변경 비밀번호 확인
-                  </Grid>
-                  <Grid item xs={9}>
-                    <TextField
-                      error={((changePasswordConfirm !== "") && (changePassword !== changePasswordConfirm))}
-                      helperText={(changePasswordConfirm !== "") && (changePassword !== changePasswordConfirm) ? "비밀번호가 일치하지 않습니다." : ""}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      size="small"
-                      name="passwordConfrim"
-                      label="password Confrim"
-                      id="passwordConfrim"
-                      type="password"
-                      value={changePasswordConfirm}
-                      onChange={(e) => (setChangePasswordConfirm(e.target.value))}
-                    />
+                    {
+                      character ?
+                        character
+                      :
+                        "대표 설정 된 캐릭터 닉네임 정보가 없습니다."
+                    }
                   </Grid>
                 </Grid>
                 <Grid container item xs={12} spacing={3}>
@@ -221,6 +222,7 @@ function EditUserInfo(props: IProps) {
                       variant="outlined"
                       required
                       fullWidth
+                      autoFocus={true}
                       size="small"
                       name="password"
                       label="Password"

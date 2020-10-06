@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FindId() {
+export default function Item() {
   const classes = useStyles();
 
   const [value, setValue] = React.useState(0);
@@ -78,7 +78,7 @@ export default function FindId() {
           <MyInputSearch />
         </Grid>
         <Grid item xs={12}>
-
+          현재 검색어 : {searchValue}
         </Grid>
       </Grid>
     </React.Fragment>
