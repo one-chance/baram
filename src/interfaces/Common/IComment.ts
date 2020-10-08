@@ -1,12 +1,12 @@
 import IWriter from 'interfaces/Common/IWriter';
 
 interface IComment {
-  key: string,
+  seq: string,
   id: string,
   message: string,
   writer: IWriter
   comments?: Array<{
-    key: string,
+    seq: string,
     id: string,
     message: string,
     writer: IWriter

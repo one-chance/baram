@@ -52,6 +52,14 @@ function ViewUserInfo(props: IProps) {
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={3}>
+            오픈카카오톡
+          </Grid>
+          <Grid item xs={9}>
+            {userInfo.openKakao}
+          </Grid>
+        </Grid>
+        <Grid container item xs={12}>
+          <Grid item xs={3}>
             등급
           </Grid>
           <Grid item xs={9}>
@@ -68,30 +76,18 @@ function ViewUserInfo(props: IProps) {
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={3}>
-            서버
+            대표 캐릭터 서버
           </Grid>
           <Grid item xs={9}>
-            {userInfo.server}
+            {userInfo.titleAccount ? userInfo.titleAccount.server : ""}
           </Grid>
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={3}>
-            닉네임
+            대표 캐릭터 이름
           </Grid>
           <Grid item xs={9}>
-            {userInfo.character}
-          </Grid>
-        </Grid>
-        <Grid container item xs={12}>
-          <Grid item xs={3}>
-            인증정보
-          </Grid>
-          <Grid item xs={9}>
-            {
-              userInfo.isAuth 
-              ? "인증"
-              : "미인증"
-            }
+            {userInfo.titleAccount ? userInfo.titleAccount.character : ""}
           </Grid>
         </Grid>
         <Grid container item xs={12}>
@@ -104,10 +100,10 @@ function ViewUserInfo(props: IProps) {
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={3}>
-            인증일
+            최종변경일
           </Grid>
           <Grid item xs={9}>
-            {userInfo.authDateString}
+            {userInfo.editDateString}
           </Grid>
         </Grid>
       </Grid>

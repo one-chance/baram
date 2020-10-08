@@ -47,12 +47,12 @@ export default function TopTaps() {
     setIsOpen(false);
   };
 
-  const _onTabsEnter = (e: React.MouseEvent<{}>) => {
-    _tabsOpen();
-  };
-  const _onTabsLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    _tabsClose();
-  };
+  // const _onTabsEnter = (e: React.MouseEvent<{}>) => {
+  //   _tabsOpen();
+  // }
+  // const _onTabsLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  //   _tabsClose();
+  // }
 
   const _onListItemOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setIsOpenFixed(true);
@@ -70,24 +70,23 @@ export default function TopTaps() {
   return (
     <React.Fragment>
       <Box>
-        <Grid container spacing={0} direction="row" justify="center" className={classes.menuTabs}>
-          {Menus.map((menu: IMenu) => {
-            return (
-              <Grid
-                item
-                key={menu.idx}
-                className={classes.menuTab}
-                onMouseEnter={_onTabsEnter}
-                onMouseLeave={_onTabsLeave}
-              >
-                <List>
-                  <ListItem key={menu.key} button className={classes.tabListItem} onClick={() => _onMoveMenu(menu.url)}>
-                    <Typography align="center" variant="subtitle1" display="block">
-                      {menu.title}
-                    </Typography>
-                  </ListItem>
-                  {(isOpen || isOpenFixed) &&
-                    menu.sub.map((submenu: IMenu) => (
+        <Grid
+          container
+          spacing={0}
+          direction="row"
+          justify="center"
+          className={classes.menuTabs}>
+          {
+            Menus.map((menu: IMenu) => {
+              return(
+                <Grid
+                  item
+                  key={menu.idx}
+                  className={classes.menuTab}
+                  //onMouseEnter={_onTabsEnter}
+                  //onMouseLeave={_onTabsLeave}
+                  >
+                    <List>
                       <ListItem
                         key={submenu.key}
                         button

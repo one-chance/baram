@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignIn() {
+export default function SignInForm() {
   const classes = useStyles();
 
 	const [id, setId] = React.useState("");
@@ -28,28 +29,28 @@ export default function SignIn() {
 	const refPassword = React.useRef<any>();
 
 	const _onEnterPassword = (keyCode: number) => {
-		if (keyCode == 13) {
+		if (keyCode === 13) {
 			_onSignIn();
 		}
 	}
 
 	const _onSignIn = async () => {
 		if ( id.length < 1 ) {
-			alert("PLEASE INPUT USER ID");
+			alert("ID를 입력해주세요.");
 			refId.current.focus();
 
 			return false;
 		}
 
 		if ( password.length < 1 ) {
-			alert("PLEASE INPUT PASSWORD");
+			alert("비밀번호를 입력해주세요.");
 			refPassword.current.focus();
 
 			return false;
 		}
 
-		const res = await SignInUser(id, password);
-		if (res) {
+		const token = await SignInUser(id, password);
+		if (token) {
 			document.location.href = "/";
 		}
 	}
@@ -65,20 +66,21 @@ export default function SignIn() {
 							<Grid container spacing={2}>
 								<Grid container item xs={12}>
 									<TextField
-											variant="outlined"
-											required
-											fullWidth
-											margin="dense"
-											id="id"
-											name="id"
-											label="User ID"
-											autoComplete="id"
-											value={id}
-											inputRef={refId}
-											onChange={(e) => setId(e.target.value)}
+										variant="outlined"
+										required
+										fullWidth
+										autoFocus
+										margin="dense"
+										id="id"
+										name="id"
+										label="User ID"
+										autoComplete="id"
+										value={id}
+										inputRef={refId}
+										onChange={(e) => setId(e.target.value)}
 									/>
 									<Link href="/findid" variant="body2" tabIndex={-1}>
-											아이디 찾기
+										아이디 찾기
 									</Link>
 								</Grid>
 								<Grid container item xs={12}>

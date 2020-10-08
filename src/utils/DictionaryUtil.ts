@@ -129,7 +129,7 @@ export const getDicRaidBykey = (findKey: string) => {
 
   resRaid = tempRaidList.filter((raid) => raid.key === findKey);
 
-  if (resRaid.length == 0) {
+  if (resRaid.length === 0) {
     resRaid = tempRaidList2.filter((raid) => raid.key === findKey);
   }
 

@@ -1,17 +1,25 @@
 const mongoose = require('mongoose');
-const { ObjectID } = require('mongodb');
 
 const userInfoSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
   mail: { type: String, required: false },
-  server: { type: String, required: false },
-  character: { type: String, required: false },
+  openKakao: { type: String, required: false },
+  titleAccount: {
+    server: { type: String, required: false },
+    character: { type: String, required: false }
+  },
+  accountList: [
+    new mongoose.Schema({
+      server: { type: String, required: false },
+      character: { type: String, required: false },
+      authDateString: { type: String, required: false },
+    })
+  ],
   isAuth: { type: Boolean, required: false },
   point: { type: Number, required: false },
   grade: { type: String, required: false },
   createDateString: { type: String, required: false },
   editDateString: { type: String, required: false },
-  authDateString: { type: String, required: false },
   isActive: { type: Boolean, required: false },
 });
 
@@ -29,17 +37,12 @@ userInfoSchema.statics.findOneById = function (id) {
 
 // Update by user id
 userInfoSchema.statics.updateById = function (id, payload) {
-  return this.findOneAndUpdate({ id: id }, payload, { upsert: true })
-    .then(() => {
-      return true;
-    })
-    .catch((e) => {
-      // upsert 동작 시에는 insert가 실행되면서 500 error 가 발생해서, 잘 됐나 확인 해보기.
-      this.findOne({id: id})
-        .then((user) => {
-          return ObjectID.is(user, payload);
-        })
-    })
+  return this.findOneAndUpdate({ id: id }, { $set: payload }, { upsert: true, new: true });
+};
+
+// Add Baram Account
+userInfoSchema.statics.pushAccountList = function (id, payload) {
+  return this.findOneAndUpdate({ id: id }, { $push: { accountList: payload } }, { upsert: true, new: true });
 };
 
 /*

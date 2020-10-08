@@ -1,4 +1,5 @@
 const express = require('express');
+const error = require('./error');
 const common = require('./common');
 const user = require('./user');
 const authMiddleware = require('../middleware/auth');
@@ -12,6 +13,7 @@ router.use('/*', (req, res, next) => {
 });
 
 router.use('/common', common);
+router.use('/error', error);
 
 router.use('/user', authMiddleware);
 router.use('/user', user);

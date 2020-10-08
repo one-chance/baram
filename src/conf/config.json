@@ -8,8 +8,8 @@
     {
       "idx": 0,
       "key": "0000100",
-      "title": "게시판",
-      "url": "/#1",
+      "title": "게시판", 
+      "url": "/board/free",
       "sub": [
         {
           "idx": 0,
@@ -195,14 +195,14 @@
     {
       "idx": 5,
       "key": "0000600",
-      "title": "마이페이지",
-      "url": "/#6",
+      "title": "마이페이지", 
+      "url": "/myinfo/view",
       "sub": [
         {
           "idx": 0,
           "key": "0000601",
           "title": "*내정보",
-          "url": "/myinfo",
+          "url": "/myinfo/view",
           "sub": []
         },
         {

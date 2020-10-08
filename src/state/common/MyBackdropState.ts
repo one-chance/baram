@@ -1,6 +1,8 @@
 import {atom} from 'recoil';
 
-export const MyBackdropState = atom({
+const MyBackdropState = atom({
   key: "MyBackdropState",
   default: false
 });
+
+export default MyBackdropState;

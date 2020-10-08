@@ -1,19 +1,22 @@
-import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Grid from "@material-ui/core/Grid";
+import React from 'react';
+import {useRecoilState} from 'recoil';
+import SignInDialogState from 'state/common/SignInDialogState';
 
-import TopTaps from "components/Header/TopTaps";
-import SignIn from "pages/User/SignIn";
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Grid from '@material-ui/core/Grid';
+
+import TopTaps from 'components/Header/TopTaps';
+import SignInForm from 'components/User/SignInForm';
 
 import { getSignInUserId, LogoutUser } from "utils/UserUtil";
 
@@ -42,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [isSignInOpen, setIsSignInOpen] = React.useState(false);
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
 
   const signInUserId = getSignInUserId();
 
@@ -129,16 +132,23 @@ export default function Header() {
               Blah Blah ~~~~ 
             </DialogContentText>
             */}
-          <SignIn />
-        </DialogContent>
-        <DialogActions className={classes.dialogActions}>
-          <Button autoFocus tabIndex={-1} onClick={_onMoveSignUp} color="primary">
-            회원가입
-          </Button>
-          <Button autoFocus tabIndex={-1} onClick={_onSignInClose} color="primary">
-            닫기
-          </Button>
-        </DialogActions>
+            <SignInForm/>
+          </DialogContent>
+          <DialogActions
+            className={classes.dialogActions}>
+            <Button 
+              tabIndex={-1}
+              onClick={_onMoveSignUp} 
+              color="primary">
+                회원가입
+            </Button>
+            <Button 
+              tabIndex={-1}
+              onClick={_onSignInClose} 
+              color="primary">
+                닫기
+            </Button>
+          </DialogActions>
       </Dialog>
     </React.Fragment>
   );

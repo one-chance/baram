@@ -1,14 +1,18 @@
-export default interface IUserInfo {
-  id: string,
-  mail: string,
+interface IAccount {
   server: string,
   character: string,
+  authDateString?: string
+}
+
+export default interface IUserInfo {
+  id: string,
+  mail?: string,
+  titleAccount?: IAccount,
+  accountList?: Array<IAccount>,
+  openKakao?: string,
   isActive: boolean,
   createDateString: string,
   editDateString: string,
-  // 인증 완료 시 사용 하게 될 항목들
-  isAuth: boolean,
   point?: number,
-  grade?: string,
-  authDateString?: string,
+  grade?: string
 }

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import cheerio from 'cheerio';
 import crypto from 'crypto';
 
 import IUserInfo from 'interfaces/User/IUserInfo';
@@ -7,46 +6,46 @@ import ISignUpUser from 'interfaces/User/ISignUpUser';
 
 import * as CommonUtil from 'utils/ComoonUtil';
 
-import { getToken, setToken, delToken } from 'utils/ComoonUtil';
+import { setToken, delToken, checkServerError, getNowIdFromToken } from 'utils/ComoonUtil';
 
 /*
 * 중복 유저 있는 지 체크
 */
 export const CheckExistUser = async (id: string) => {
-  
+  const res = await axios.post('/api/common/checkid', {id: id})
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      return false;
+    });
+
+  return res;
 }
 
 /*
 * 사용자 회원가입
 */
-export const SignUpUser = (user: ISignUpUser) => {
+export const SignUpUser = async (id: string, password: string) => {
 
   // Create Encrypt salt
-  let mySalt = Math.round((new Date().valueOf() * Math.random())) + "";
+  let mySalt = getRandomSalt();
 
   const newUser: ISignUpUser = {
-    id: user.id,
-    mail: user.mail,
-    password: crypto.createHash("sha512").update(user.password + mySalt).digest("hex"),
-    salt: mySalt
+    id: id,
+    password: crypto.createHash("sha512").update(password + mySalt).digest("hex"),
+    salt: mySalt,
+    createDateString: CommonUtil.getNowDateString(),
+    editDateString: CommonUtil.getNowDateString()
   }
 
   //DB Process for Create User
-  const res = axios.post('api/common/signup', newUser)
+  const res = await axios.post('api/common/signup', newUser)
     .then((res) => {
-      console.log("SIGN UP RES > ", res);
 
-      if (res.data.code === 1) {
-        return true;
-      }
-      else {
-        alert(res.data.message);
-
-        return false;
-      }
+      return res.data;
     })
     .catch((e) => {
-      console.log("SIGN UP ERROR > ", e);
 
       return false;
     });
@@ -58,19 +57,15 @@ export const SignUpUser = (user: ISignUpUser) => {
 * 사용자 로그인
 */
 export const SignInUser = async (_id: string, _password: string) => {
-  // TODO - DB Process for Check Sign Up User
-  const res = await axios.post('api/common/signin', {id: _id, password: _password})
+  const res = await axios.post('/api/common/signin', {id: _id, password: _password})
     .then((res) => {
-      console.log("SIGN IN RES > ", res);
 
-      if (res.data.code === 1) {
-        // Create JWT
+      if (res.data.code === 200) {
         const token = res.data.token;
-
         // Session Store
         setToken(token);
 
-        return true;
+        return token;
       }
       else {
         alert(res.data.message);
@@ -93,30 +88,35 @@ export const LogoutUser = () => {
 * 로그인 한 사용자 ID 가져오기
 */
 export const getSignInUserId = () => {
-  const token = getToken();
-  
-  return token ? getIdFromToken(token) : null;
+  return getNowIdFromToken();
 }
 
 /*
 * 사용자 ID로 사용자 정보 가져오기
 */
 export const getUserInfoById = async (_id: string) => {
-  // TODO - DB Process Get UserInfo By Id
-  let user: IUserInfo;
-  const res = await axios.get('api/user/find/', {
-      params: {
-        "id": _id
-      },
-      ...CommonUtil.getHeaderToken()})
-    .then((res) => {
-      const json = JSON.parse(res.data.userInfo);
-      const userInfo: IUserInfo = {...json};
+  const info = await axios.get('/api/user/find', {
+    params: {
+      "id": _id
+    },
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    checkServerError(res.data);
 
-      user = { ...json };
+    return res.data.userInfo;
+  });
 
-      Promise.resolve(true);
-    });
+  if ( typeof info === "object" ) {
+    const userInfo: IUserInfo = getUserInfoFromJson(info);
+
+    return userInfo;
+  }
+  else {
+    return null;
+  }
 }
 
 /*
@@ -125,14 +125,18 @@ export const getUserInfoById = async (_id: string) => {
 export const setUserInfo = async (userInfo: IUserInfo) => {
   const r = await axios.put('/api/user/update', {
       id: userInfo.id,
-      server: userInfo.server,
-      character: userInfo.character,
+      openKakao: userInfo.openKakao,
       editDateString: CommonUtil.getNowDateString(),
-    }, CommonUtil.getHeaderToken())
+    }, 
+    {
+      headers: {
+        token: CommonUtil.getToken()
+      }
+    })
     .then((res) => {
-      console.log(res);
+      checkServerError(res.data);
 
-      return res.data.message;
+      return res.data;
     })
     .catch((e) => {
       console.log("EDIT USER INFO ERROR > ", e);
@@ -144,18 +148,60 @@ export const setUserInfo = async (userInfo: IUserInfo) => {
 }
 
 /*
-* 바람의 나라 공식 사이트 한줄인사말 데이터 크롤링하여, 사용자 인증 처리
+* 사용자 비밀번호 수정
 */
-export const checkGameUser = async (server: string, character: string) => {
-  const r = await axios.post('/api/user/check', {
-      character: character,
-      server: server
-    }, CommonUtil.getHeaderToken())
+export const setChangePassword = async (id: string, changePassword: string) => {
+  const mySalt = getRandomSalt();
+
+  const r = await axios.put('/api/user/changepassword', {
+      id: id,
+      password: crypto.createHash("sha512").update(changePassword + mySalt).digest("hex"),
+      salt: mySalt,
+      editDateString: CommonUtil.getNowDateString()
+    },
+    {
+      headers: {
+        token: CommonUtil.getToken()
+      }
+    })
     .then((res) => {
-      console.log(res.data);
-      //alert(res.data.message);
+      checkServerError(res.data);
 
       return res.data;
+    })
+    .catch((e) => {
+      console.log("CHANGE USER PASSWORD ERROR > ", e);
+
+      return false;
+    });
+
+  return r;
+}
+
+/*
+* 바람의 나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
+*/
+export const checkGameUser = async (id: string, server: string, character: string) => {
+  const r = await axios.post('/api/user/check', {
+      id: id,
+      character: character,
+      server: server
+    }, 
+    {
+      headers: {
+        token: CommonUtil.getToken()
+      }
+    })
+    .then((res) => {
+      checkServerError(res.data);
+
+      if (res.data.code === 200) {
+        return authUser(id, server, character);
+      }
+      else {
+        return res.data;
+      }
+
     })
     .catch((e) => {
       console.log("CHECK GAME USER ERROR > ", e);
@@ -167,29 +213,72 @@ export const checkGameUser = async (server: string, character: string) => {
 }
 
 /*
-* JWT 구조
-* [HEADER].[PAYLOAD].[VERIFY SIGNATURE]
+* 사용자 인증 DB 처리
 */
-const getIdFromToken = (token: string) => {
-  if (token !== "") {
-    // Get Token
-    const splitToken = token.split(".");
-  
-    // Get Payload Token
-    const payloadToken = splitToken[1];
-  
-    // Decode Base64 and Transfer to JSON
-    const payload = JSON.parse(atob(payloadToken));
-  
-    return payload.id;
-  }
-  else {
-    return null;
-  }
+export const authUser = async (userId: string, server: string, character: string) => {
+  const r = await axios.put('/api/user/auth', {
+    id: userId,
+    server: server,
+    character: character,
+    authDateString: CommonUtil.getNowDateString()
+  }, 
+  {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    checkServerError(res.data);
+
+    return res.data;
+  })
+  .catch((e) => {
+    console.log("AUTH USER ERROR > ", e);
+  });
+
+  return r;
 }
 
-//TODO
-const getUserInfoModel = (data: any) => {
-  let userInfo: IUserInfo;
+/*
+* 대표캐릭터 설정
+*/
+export const setTitleAccount = async (userId: string, server: string, character: string) => {
+  const r = await axios.put('/api/user/settitle', {
+    id: userId,
+    server: server,
+    character: character,
+    editDateString: CommonUtil.getNowDateString()
+  },
+  {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    checkServerError(res.data);
+    
+    return res.data;
+  })
+  .catch((e) => {
+    console.log("SET TITLE ACCOUNT ERROR > ", e);
+  });
 
+  return r;
+}
+
+const getUserInfoFromJson = (jsonInfo: JSON) => {
+  const userInfo: IUserInfo = {
+    id: "",
+    mail: "",
+    isActive: false,
+    createDateString: "",
+    editDateString: ""
+  }
+
+  return Object.setPrototypeOf(jsonInfo, userInfo);
+}
+
+const getRandomSalt = () => {
+  // Create Encrypt salt
+  return Math.round((new Date().valueOf() * Math.random())) + "";
 }

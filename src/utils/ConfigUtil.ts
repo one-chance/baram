@@ -21,9 +21,11 @@ export const getBaseUrlForPetItemImg = () => {
 export const getMenus = () => {
   const menus = Array<IMenu>();
 
-  config.menus.map((menu, i) => {
+  const res = config.menus.map((menu) => {
     menus.push(menu);
-  });
 
-  return menus;
-};
+    return true;
+  });
+  
+  return res ? menus : new Array<IMenu>();
+}
