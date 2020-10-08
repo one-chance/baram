@@ -13,10 +13,14 @@ import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    btn: {
-      width: "64px",
-      height: "36px",
-      padding: "2px",
+    btnGroup: {
+      margin: "5px 0 20px 0",
+      padding: "1px",
+      "& Button": {
+        width: "64px",
+        height: "36px",
+        padding: "2px",
+      },
     },
     title: {
       width: "200px",
@@ -130,7 +134,6 @@ export default function PetItem() {
                   handleChange(e, 1);
                 }}
                 id="select-outlined"
-                name="환수"
                 inputProps={{
                   style: { padding: "2px 20px 2px 2px", height: "26px" },
                 }}
@@ -151,7 +154,6 @@ export default function PetItem() {
                   handleChange(e, 2);
                 }}
                 id="select-outlined"
-                name="등급"
                 inputProps={{
                   style: { padding: "2px 20px 2px 2px", height: "26px" },
                 }}
@@ -171,7 +173,6 @@ export default function PetItem() {
                   handleChange(e, 3);
                 }}
                 id="select-outlined"
-                name="무기"
                 inputProps={{
                   style: { padding: "2px 20px 2px 2px", height: "26px" },
                 }}
@@ -226,7 +227,7 @@ export default function PetItem() {
             </FormControl>
             <TextField
               variant="outlined"
-              label="&nbsp; &nbsp;부적"
+              label="&nbsp;부적"
               value={acc11 || ""}
               onChange={(e) => {
                 handleChange(e, 11);
@@ -235,10 +236,10 @@ export default function PetItem() {
                 style: { height: "35px", lineHeight: "30px", textAlign: "center", padding: "0" },
               }}
               style={{
-                width: "90px",
+                width: "70px",
                 height: "45px",
                 margin: "10px 10px 0 10px",
-                padding: "10px 0 0 0",
+                paddingTop: "10px",
                 float: "left",
               }}
             ></TextField>
@@ -337,7 +338,7 @@ export default function PetItem() {
             </FormControl>
             <TextField
               variant="outlined"
-              label="&nbsp; &nbsp;황돋"
+              label="&nbsp;황돋"
               value={acc12 || ""}
               onChange={(e) => {
                 handleChange(e, 12);
@@ -346,10 +347,10 @@ export default function PetItem() {
                 style: { height: "35px", lineHeight: "30px", textAlign: "center", padding: "0" },
               }}
               style={{
-                width: "90px",
+                width: "70px",
                 height: "45px",
                 margin: "10px 10px 0 10px",
-                padding: "10px 0 0 0",
+                paddingTop: "10px",
                 float: "left",
               }}
             ></TextField>
@@ -372,57 +373,54 @@ export default function PetItem() {
           </Link>
         </Container>
       </Container>
-      <Container component="div" style={{ width: "100%", margin: "0", padding: "0 20px", float: "left" }}>
-        <Container component="div" style={{ width: "510px", margin: "0 60px 0 20px", padding: "0", float: "left" }}>
-          <ButtonGroup color="primary" style={{ margin: "5px 0 20px 0", padding: "1px" }}>
-            <Button className={classes.btn} color={img1 === "centerGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("centerGod.png")}>
+      <Container component="div" style={{ width: "100%", margin: "0", padding: "0", float: "left" }}>
+        <Container component="div" style={{ width: "40%", margin: "0 6% 0 2%", padding: "0", float: "left" }}>
+          <ButtonGroup color="primary" className={classes.btnGroup}>
+            <Button color={img1 === "centerGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("centerGod.png")}>
               황룡
             </Button>
-            <Button className={classes.btn} color={img1 === "eastGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("eastGod.png")}>
+            <Button color={img1 === "eastGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("eastGod.png")}>
               청룡
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg1("southGod.png")}>
+            <Button color={img1 === "southGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("southGod.png")}>
               주작
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg1("westGod.png")}>
+            <Button color={img1 === "westGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("westGod.png")}>
               백호
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg1("northGod.png")}>
+            <Button color={img1 === "northGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("northGod.png")}>
               현무
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg1("others.png")}>
+            <Button color={img1 === "others.png" ? "secondary" : "primary"} onClick={() => SetImg1("others.png")}>
               기타
             </Button>
-            <Button className={classes.btn} color={img1 === "empty.png" ? "secondary" : "primary"} onClick={() => SetImg1("empty.png")}>
+            <Button color="primary" onClick={() => SetImg1("empty.png")}>
               X
             </Button>
           </ButtonGroup>
           <img src={baseUrlForPetItemImg + img1} alt="장비1" />
         </Container>
-        <Container
-          component="div"
-          style={{ width: "510px", margin: "0 20px 0 60px", padding: "0", float: "left", textAlign: "center" }}
-        >
-          <ButtonGroup color="primary" style={{ margin: "5px 0 20px 0", padding: "1px" }}>
-            <Button className={classes.btn} onClick={() => SetImg2("centerGod.png")}>
+        <Container component="div" style={{ width: "40%", margin: "0 2% 0 6%", padding: "0", float: "left" }}>
+          <ButtonGroup color="primary" className={classes.btnGroup}>
+            <Button color={img2 === "centerGod.png" ? "secondary" : "primary"} onClick={() => SetImg2("centerGod.png")}>
               황룡
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg2("eastGod.png")}>
+            <Button color={img2 === "eastGod.png" ? "secondary" : "primary"} onClick={() => SetImg2("eastGod.png")}>
               청룡
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg2("southGod.png")}>
+            <Button color={img2 === "southGod.png" ? "secondary" : "primary"} onClick={() => SetImg2("southGod.png")}>
               주작
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg2("westGod.png")}>
+            <Button color={img2 === "westGod.png" ? "secondary" : "primary"} onClick={() => SetImg2("westGod.png")}>
               백호
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg2("northGod.png")}>
+            <Button color={img2 === "northGod.png" ? "secondary" : "primary"} onClick={() => SetImg2("northGod.png")}>
               현무
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg2("others.png")}>
+            <Button color={img2 === "others.png" ? "secondary" : "primary"} onClick={() => SetImg2("others.png")}>
               기타
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg2("empty.png")}>
+            <Button color="primary" onClick={() => SetImg2("empty.png")}>
               X
             </Button>
           </ButtonGroup>
