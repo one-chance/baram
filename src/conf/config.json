@@ -2,6 +2,7 @@
   "sessionUserToken": "SignInUser",
   "baseUrlForMainCarousel": "/assets/img/",
   "baseUrlForRaidImg": "/assets/img/dictionary/raid/",
+  "baseUrlForPetItemImg": "/assets/img/dictionary/petitem/",
   "serverPort": 3001,
   "menus": [
     {
@@ -106,8 +107,8 @@
         {
           "idx": 1,
           "key": "0000302",
-          "title": "환수",
-          "url": "/#3/#2",
+          "title": "환수장비",
+          "url": "/dic/petitem",
           "sub": []
         },
         {

@@ -20,6 +20,7 @@ import FreeBoard from "pages/Board/FreeBoard";
 import PostWrite from "pages/Board/PostWrite";
 
 import Item from "pages/Dictionary/Item";
+import PetItem from "pages/Dictionary/PetItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 
@@ -59,6 +60,7 @@ function App() {
 
               {/*Dictionary*/}
               <Route path="/dic/item" component={Item} />
+              <Route path="/dic/petitem" component={PetItem} />
               <Route exact path="/dic/raid" component={Raid} />
               <Route path="/dic/raid/:key" component={RaidInfo} />
 
