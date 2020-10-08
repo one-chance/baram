@@ -24,6 +24,9 @@ import PetItem from "pages/Dictionary/PetItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 
+import MyAlert from 'elements/Alert/MyAlert';
+import MyBackdrop from 'elements/Backdrop/MyBackdrop';
+
 import Exp from "pages/Calculator/CalExp";
 
 import { refreshToken } from 'utils/ComoonUtil';

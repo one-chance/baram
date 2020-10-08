@@ -8,7 +8,6 @@ import Container from "@material-ui/core/Container";
 import Select from "@material-ui/core/NativeSelect";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 
@@ -376,10 +375,10 @@ export default function PetItem() {
       <Container component="div" style={{ width: "100%", margin: "0", padding: "0 20px", float: "left" }}>
         <Container component="div" style={{ width: "510px", margin: "0 60px 0 20px", padding: "0", float: "left" }}>
           <ButtonGroup color="primary" style={{ margin: "5px 0 20px 0", padding: "1px" }}>
-            <Button className={classes.btn} onClick={() => SetImg1("centerGod.png")}>
+            <Button className={classes.btn} color={img1 === "centerGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("centerGod.png")}>
               황룡
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg1("eastGod.png")}>
+            <Button className={classes.btn} color={img1 === "eastGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("eastGod.png")}>
               청룡
             </Button>
             <Button className={classes.btn} onClick={() => SetImg1("southGod.png")}>
@@ -394,7 +393,7 @@ export default function PetItem() {
             <Button className={classes.btn} onClick={() => SetImg1("others.png")}>
               기타
             </Button>
-            <Button className={classes.btn} onClick={() => SetImg1("empty.png")}>
+            <Button className={classes.btn} color={img1 === "empty.png" ? "secondary" : "primary"} onClick={() => SetImg1("empty.png")}>
               X
             </Button>
           </ButtonGroup>
