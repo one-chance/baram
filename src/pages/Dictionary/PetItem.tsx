@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       width: "200px",
-      height: "80px",
-      lineHeight: "80px",
-      margin: "30px 20px 10px 20px",
+      height: "50px",
+      lineHeight: "50px",
+      margin: "15px 0 15px 60px",
       padding: "0",
       fontSize: "2rem",
       color: "black",
@@ -114,6 +114,7 @@ export default function PetItem() {
         component="div"
         style={{
           width: "100%",
+          minWidth: "1200px",
           height: "140px",
           margin: "20px 0",
           padding: "0 20px",
@@ -123,7 +124,7 @@ export default function PetItem() {
       >
         <Container
           component="div"
-          style={{ width: "65%", height: "140px", padding: "10px 0 10px 50px", float: "left" }}
+          style={{ width: "62%", height: "140px", padding: "10px 0 10px 60px", float: "left" }}
         >
           <Container component="div" style={{ width: "100%", height: "60px", padding: "0", float: "left" }}>
             <FormControl variant="outlined" className={classes.selectBox}>
@@ -358,13 +359,25 @@ export default function PetItem() {
         </Container>
         <Container
           component="div"
-          style={{ width: "35%", height: "140px", padding: "10px 50px 10px 0", float: "left" }}
+          style={{ width: "38%", height: "140px", padding: "10px 60px 10px 0", float: "left" }}
         >
+          <Link
+            style={{
+              width: "100%",
+              color: "gray",
+              marginTop: "15px",
+              textDecoration: "none",
+              textAlign: "right",
+              float: "left",
+            }}
+          >
+            * 모든 명중률은 최대치(강화석o)로 반영 *
+          </Link>
           <Button
             variant="contained"
             color="primary"
             onClick={totalAccuracy}
-            style={{ width: "60px", height: "60px", margin: "35px 30px 25px 10px", float: "left" }}
+            style={{ width: "60px", height: "60px", margin: "10px 20px 10px 20px", float: "left" }}
           >
             계산
           </Button>
@@ -373,7 +386,10 @@ export default function PetItem() {
           </Link>
         </Container>
       </Container>
-      <Container component="div" style={{ width: "100%", margin: "0", padding: "0", float: "left" }}>
+      <Container
+        component="div"
+        style={{ width: "100%", minWidth: "1020px", margin: "0", padding: "0", float: "left" }}
+      >
         <Container component="div" style={{ width: "40%", margin: "0 6% 0 2%", padding: "0", float: "left" }}>
           <ButtonGroup color="primary" className={classes.btnGroup}>
             <Button color={img1 === "centerGod.png" ? "secondary" : "primary"} onClick={() => SetImg1("centerGod.png")}>
