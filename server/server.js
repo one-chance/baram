@@ -25,22 +25,19 @@ mongoose.set('useCreateIndex', true)
 connect();
 mongoose.connection.on('disconnected', connect);
 
-
 const app = express();
 app.use(bodyParser.json());
-
-app.use('/api', route);
 
 app.listen(PORT, ()=>{
   myLogger(`express is running on ${PORT}`);
 })
 
+app.use('/api', route);
 
 /*
 * TEST API ZONE START
 */
 app.use('/hello', (req, res)=> {
-  myLogger(config.id);
   res.send("HELLO, SERVER");
 });
 /*

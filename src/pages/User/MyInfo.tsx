@@ -14,9 +14,10 @@ import LeftMenuList from 'components/User/LeftMenuList';
 import NoSignInUser from 'components/User/NoSignInUser';
 import ViewUserInfo from 'components/User/ViewUserInfo';
 import EditUserInfo from 'components/User/EditUserInfo';
-import AuthUserInfo from 'components/User/AuthUserInfo';
+import AuthAccount from 'components/User/AuthAccount';
 import AccountInfo from 'components/User/AccountInfo';
 import ChagnePassword from 'components/User/ChagnePassword';
+import WithdrawUser from 'components/User/WithdrawUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +90,7 @@ function MyInfo({match}: any) {
                 }
                 {
                   mode === "auth" &&
-                    <AuthUserInfo 
+                    <AuthAccount 
                       userInfo={userInfo}/>
                 }
                 {
@@ -100,6 +101,11 @@ function MyInfo({match}: any) {
                 {
                   mode === "chgPwd" &&
                     <ChagnePassword
+                      id={userInfo.id} />
+                }
+                {
+                  mode === "withdraw" &&
+                    <WithdrawUser
                       id={userInfo.id} />
                 }
               </Grid>

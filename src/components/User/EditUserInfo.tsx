@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 
 import MyButton from 'elements/Button/MyButton';
 
-import { SignInUser, setUserInfo } from 'utils/UserUtil';
+import { setUserInfo } from 'utils/UserUtil';
 
 import IUserInfo from 'interfaces/User/IUserInfo';
 
@@ -41,11 +41,9 @@ function EditUserInfo(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
-  const [isConfirm, setIsConfirm] = React.useState(false);
   const [openKakao, setOpenKakao] = React.useState("");
   const [server, setServer] = React.useState("");
   const [character, setCharacter] = React.useState("");
-  const [password, setPassword] = React.useState("");
 
   useEffect(() => {
     setOpenKakao(userInfo.openKakao ? userInfo.openKakao : "");
@@ -54,32 +52,11 @@ function EditUserInfo(props: IProps) {
   }, [userInfo]);
 
   const clear = () => {
-    setIsConfirm(false);
     setOpenKakao(userInfo.openKakao ? userInfo.openKakao : "");
-    setPassword("");
-  }
-
-  const _onEnterPassword = (keyCode: number) => {
-		if (keyCode === 13) {
-			_onConfirm();
-		}
-	}
-  const _onConfirm = async () => {
-    const res = await SignInUser(userInfo.id, password);
-    
-    if (res) {
-      setIsConfirm(true);
-    }
-    else {
-      
-      setPassword("");
-      setIsConfirm(false);
-    }
   }
 
   const _onCancle = () => {
     clear();
-    setIsConfirm(false);
   }
 
   const _onSave = async () => {
@@ -122,128 +99,92 @@ function EditUserInfo(props: IProps) {
       </Typography>
       <Grid container spacing={3}
         className={classes.form}>
-          {
-            isConfirm ?
-              <React.Fragment>
-                <Grid container item xs={12}>
-                  <Grid item xs={3}
-                    className={classes.text}>
-                      아이디
-                  </Grid>
-                  <Grid item xs={9}>
-                    {userInfo.id}
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={3}
-                    className={classes.text}>
-                      이메일
-                  </Grid>
-                  <Grid item xs={9}>
-                    {
-                      userInfo.mail ?
-                        userInfo.mail
-                      :
-                        "인증 된 이메일이 없습니다."
-                    }
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={3}
-                    className={classes.text}>
-                      오픈카카오톡 주소
-                  </Grid>
-                  <Grid item xs={9}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      size="small"
-                      name="openKakao"
-                      label="Open KakaoTalk"
-                      id="openKakao"
-                      value={openKakao}
-                      onChange={(e) => (setOpenKakao(e.target.value))}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={3}
-                    className={classes.text}>
-                      대표캐릭터 서버
-                  </Grid>
-                  <Grid item xs={9}>
-                    {
-                      server ?
-                        server
-                      :
-                        "대표 설정 된 캐릭터 서버 정보가 없습니다."
-                    }
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={3}
-                    className={classes.text}>
-                      대표캐릭터 닉네임
-                  </Grid>
-                  <Grid item xs={9}>
-                    {
-                      character ?
-                        character
-                      :
-                        "대표 설정 된 캐릭터 닉네임 정보가 없습니다."
-                    }
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12} spacing={3}>
-                  <Grid item xs={6}>
-                    <MyButton
-                      color="red"
-                      text="취소"
-                      onClick={_onCancle}/>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <MyButton
-                      color="blue"
-                      text="저장"
-                      onClick={_onSave}/>
-                  </Grid>
-                </Grid>
-              </React.Fragment>
-            :
-              <React.Fragment>
-                <Grid container item xs={12}>
-                  <Grid item xs={3}
-                    className={classes.text}>
-                      비밀번호 확인
-                  </Grid>
-                  <Grid item xs={9}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      autoFocus={true}
-                      size="small"
-                      name="password"
-                      label="Password"
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => (setPassword(e.target.value))}
-                      onKeyUp={(e) => (_onEnterPassword(e.keyCode))}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12}>
-                  <Grid item xs={12}>
-                    <MyButton
-                      color="blue"
-                      text="확인"
-                      onClick={_onConfirm}/>
-                  </Grid>
-                </Grid>
-              </React.Fragment>
-            }
+          <React.Fragment>
+            <Grid container item xs={12}>
+              <Grid item xs={3}
+                className={classes.text}>
+                  아이디
+              </Grid>
+              <Grid item xs={9}>
+                {userInfo.id}
+              </Grid>
+            </Grid>
+            <Grid container item xs={12}>
+              <Grid item xs={3}
+                className={classes.text}>
+                  이메일
+              </Grid>
+              <Grid item xs={9}>
+                {
+                  userInfo.mail ?
+                    userInfo.mail
+                  :
+                    "인증 된 이메일이 없습니다."
+                }
+              </Grid>
+            </Grid>
+            <Grid container item xs={12}>
+              <Grid item xs={3}
+                className={classes.text}>
+                  오픈카카오톡 주소
+              </Grid>
+              <Grid item xs={9}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  size="small"
+                  name="openKakao"
+                  label="Open KakaoTalk"
+                  id="openKakao"
+                  value={openKakao}
+                  onChange={(e) => (setOpenKakao(e.target.value))}
+                />
+              </Grid>
+            </Grid>
+            <Grid container item xs={12}>
+              <Grid item xs={3}
+                className={classes.text}>
+                  대표캐릭터 서버
+              </Grid>
+              <Grid item xs={9}>
+                {
+                  server ?
+                    server
+                  :
+                    "대표 설정 된 캐릭터 서버 정보가 없습니다."
+                }
+              </Grid>
+            </Grid>
+            <Grid container item xs={12}>
+              <Grid item xs={3}
+                className={classes.text}>
+                  대표캐릭터 닉네임
+              </Grid>
+              <Grid item xs={9}>
+                {
+                  character ?
+                    character
+                  :
+                    "대표 설정 된 캐릭터 닉네임 정보가 없습니다."
+                }
+              </Grid>
+            </Grid>
+            <Grid container item xs={12} spacing={3}>
+              <Grid item xs={6}>
+                <MyButton
+                  color="red"
+                  text="취소"
+                  onClick={_onCancle}/>
+              </Grid>
+              <Grid item xs={6}>
+                <MyButton
+                  color="blue"
+                  text="저장"
+                  onClick={_onSave}/>
+              </Grid>
+            </Grid>
+          </React.Fragment>
       </Grid>
     </Container>
   ); 

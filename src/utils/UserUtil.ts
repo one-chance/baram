@@ -11,8 +11,8 @@ import { setToken, delToken, checkServerError, getNowIdFromToken } from 'utils/C
 /*
 * 중복 유저 있는 지 체크
 */
-export const CheckExistUser = async (id: string) => {
-  const res = await axios.post('/api/common/checkid', {id: id})
+export const CheckExistUser = async (_id: string) => {
+  const res = await axios.post('/api/common/checkid', {id: _id})
     .then((res) => {
       return res.data;
     })
@@ -26,14 +26,14 @@ export const CheckExistUser = async (id: string) => {
 /*
 * 사용자 회원가입
 */
-export const SignUpUser = async (id: string, password: string) => {
+export const SignUpUser = async (_id: string, _password: string) => {
 
   // Create Encrypt salt
   let mySalt = getRandomSalt();
 
   const newUser: ISignUpUser = {
-    id: id,
-    password: crypto.createHash("sha512").update(password + mySalt).digest("hex"),
+    id: _id,
+    password: crypto.createHash("sha512").update(_password + mySalt).digest("hex"),
     salt: mySalt,
     createDateString: CommonUtil.getNowDateString(),
     editDateString: CommonUtil.getNowDateString()
@@ -75,6 +75,32 @@ export const SignInUser = async (_id: string, _password: string) => {
     });
 
   return res;
+}
+
+/*
+* 사용자 비밀번호 확인
+*/
+export const CheckPassword = async (_id: string, _password: string) => {
+  const r = await axios.post('/api/user/checkpassword', {
+      id: _id, 
+      password: _password
+    },
+    {
+      headers: {
+        token: CommonUtil.getToken()
+      }
+    })
+    .then((res) => {
+      checkServerError(res.data);
+      return res.data.code === 200 ? true : false;
+    })
+    .catch((e) => {
+      console.log("PASSWORD CHECK ERROR > ", e);
+
+      return false;
+    });
+
+  return r;
 }
 
 /*
@@ -150,12 +176,12 @@ export const setUserInfo = async (userInfo: IUserInfo) => {
 /*
 * 사용자 비밀번호 수정
 */
-export const setChangePassword = async (id: string, changePassword: string) => {
+export const setChangePassword = async (_id: string, _changePassword: string) => {
   const mySalt = getRandomSalt();
 
   const r = await axios.put('/api/user/changepassword', {
-      id: id,
-      password: crypto.createHash("sha512").update(changePassword + mySalt).digest("hex"),
+      id: _id,
+      password: crypto.createHash("sha512").update(_changePassword + mySalt).digest("hex"),
       salt: mySalt,
       editDateString: CommonUtil.getNowDateString()
     },
@@ -181,11 +207,11 @@ export const setChangePassword = async (id: string, changePassword: string) => {
 /*
 * 바람의 나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
 */
-export const checkGameUser = async (id: string, server: string, character: string) => {
+export const checkGameUser = async (_id: string, _server: string, _character: string) => {
   const r = await axios.post('/api/user/check', {
-      id: id,
-      character: character,
-      server: server
+      id: _id,
+      server: _server,
+      character: _character
     }, 
     {
       headers: {
@@ -196,7 +222,7 @@ export const checkGameUser = async (id: string, server: string, character: strin
       checkServerError(res.data);
 
       if (res.data.code === 200) {
-        return authUser(id, server, character);
+        return authUser(_id, _server, _character);
       }
       else {
         return res.data;
@@ -215,11 +241,11 @@ export const checkGameUser = async (id: string, server: string, character: strin
 /*
 * 사용자 인증 DB 처리
 */
-export const authUser = async (userId: string, server: string, character: string) => {
+export const authUser = async (_id: string, _server: string, _character: string) => {
   const r = await axios.put('/api/user/auth', {
-    id: userId,
-    server: server,
-    character: character,
+    id: _id,
+    server: _server,
+    character: _character,
     authDateString: CommonUtil.getNowDateString()
   }, 
   {
@@ -242,11 +268,11 @@ export const authUser = async (userId: string, server: string, character: string
 /*
 * 대표캐릭터 설정
 */
-export const setTitleAccount = async (userId: string, server: string, character: string) => {
+export const setTitleAccount = async (_id: string, _server: string, _character: string) => {
   const r = await axios.put('/api/user/settitle', {
-    id: userId,
-    server: server,
-    character: character,
+    id: _id,
+    server: _server,
+    character: _character,
     editDateString: CommonUtil.getNowDateString()
   },
   {
@@ -262,6 +288,33 @@ export const setTitleAccount = async (userId: string, server: string, character:
   .catch((e) => {
     console.log("SET TITLE ACCOUNT ERROR > ", e);
   });
+
+  return r;
+}
+
+/*
+* 회원 탈퇴
+*/
+export const WithDrawUser = async (_id: string, _password: string) => {
+  const r = await axios.post('/api/user/withdraw', {
+    id: _id,
+    password: _password
+  },
+  {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    checkServerError(res.data);
+
+    return res.data;
+  })
+  .catch((e) => {
+    console.log("WITHDRAW ERROR > ", e);
+
+    return false;
+  })
 
   return r;
 }

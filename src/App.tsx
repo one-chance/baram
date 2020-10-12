@@ -48,6 +48,7 @@ function App() {
             fixed>
             <BrowserRouter>
               {/*Error Handling*/}
+              <Route exact path="/signin" component={NoAuth}/>
               <Route exact path="/error/auth" component={NoAuth}/>
 
               {/*Home*/}

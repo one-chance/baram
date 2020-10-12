@@ -2,28 +2,32 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const cheerio = require('cheerio');
+const crypto = require('crypto');
 
 const myLogger = require('../myLogger');
 
+const SignUpUserSchema = require('../schemas/User/SignUpUserSchema');
 const UserInfoSchema = require('../schemas/User/UserInfoSchema');
 const AccountInfoSchema = require('../schemas/User/AccountInfoSchema');
-const SignUpUserSchema = require('../schemas/User/SignUpUserSchema');
 
 /*
 *    사용자 서버, 닉네임 검사
 *    TYPE : POST
 *    URI : /api/user/check
 *    HEADER: { "token": token }
-*    BODY: { "character", "server" }
+*    BODY: { "id", "server", "character" }
 *    RETURN CODES:
 *        200: 성공
 *        2001: 인증 실패
 *        500: 서버 오류
 */
 router.post('/check', (req, res) => {
+  const id = req.body.id;
+  const server = req.body.server;
+  const character = req.body.character;
 
-  const encodeCharacter = encodeURI(req.body.character);
-  const encodeServer = encodeURI(req.body.server);
+  const encodeServer = encodeURI(server);
+  const encodeCharacter = encodeURI(character);
 
   new Promise((resolve, reject) => {
     
@@ -36,29 +40,31 @@ router.post('/check', (req, res) => {
       }
     }
 
-    axios.get(`https://baram.nexon.com/Profile/Info?character=${encodeCharacter}%40${encodeServer}`, option)
+    const getUri = `https://baram.nexon.com/Profile/Info?character=${encodeCharacter}%40${encodeServer}`;
+
+    axios.get(getUri, option)
       .then((html) => {
         if (html === undefined)
             throw new Error("NO HTML");
           
           const $ = cheerio.load(html.data);
           const $txtMessage = $("textarea").text();
-          //myLogger($txtMessage);
+          myLogger(`[SUCCESS] : ${character}%${server} PROFILE MESSAGE : ${$txtMessage}`);
 
-          const regRes = new RegExp(`${req.body.id}`).test($txtMessage);
+          const regRes = new RegExp(`${id}`).test($txtMessage);
 
           return regRes;
       })
       .then((regRes) => {
         if (regRes) {
-          myLogger(`[SUCCESS] : ${req.body.id} - ${req.body.server}%${req.body.character}} CONFIRM`);
+          myLogger(`[SUCCESS] : ${id} - ${character}%${server} CONFIRM`);
           res.status(200).send({
             code: 200,
             message: "바람의 나라 계정 확인에 성공하였습니다."
           });
         }
         else {
-          myLogger(`[ERROR] : ${req.body.id} - ${req.body.server}%${req.body.character}} CONFIRM ERROR`);
+          myLogger(`[ERROR] : ${id} - ${character}%${server} CONFIRM ERROR`);
           res.status(200).send({
             code: 2001,
             message: "바람의 나라 계정 확인에 실패하였습니다. 인증 방법을 확인해주세요."
@@ -67,12 +73,13 @@ router.post('/check', (req, res) => {
       })
       .catch((e) => {
         myLogger("AUTHENTICATION ERROR > ", e);
+        myLogger(`[GET URI] : ${getUri}`);
         res.status(200).send({
           code: 500,
           message: "바람의 나라 계정 확인 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
         });
 
-        resolve(false);
+        return false;
       });
   });
 });
@@ -99,7 +106,7 @@ router.put('/auth', (req, res) => {
   };
 
   // Exist Check
-  AccountInfoSchema.checkAccount(id, accountInfo.server, accountInfo.character)
+  AccountInfoSchema.checkAccount(accountInfo.server, accountInfo.character)
     .then((exist) => {
       if (exist) {
         myLogger(`[ERROR] : ${id} AUTHETICATION ERROR`);
@@ -109,9 +116,12 @@ router.put('/auth', (req, res) => {
         });
       }
       else {
-        AccountInfoSchema.create(id, accountInfo);
+        AccountInfoSchema.create({
+          ...accountInfo,
+          id: id
+        });
 
-        UserInfoSchema.pushAccountList(id, accountInfo)
+        UserInfoSchema.pushAccountListById(id, accountInfo)
           .then((updated) => {
             
             if (updated) {
@@ -142,7 +152,7 @@ router.put('/auth', (req, res) => {
         message: "바람의 나라 계정 확인 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
       });
 
-      resolve(false);
+      return false;
     });
 });
 
@@ -151,19 +161,20 @@ router.put('/auth', (req, res) => {
 *    TYPE : PUT
 *    URI : /api/user/update
 *    HEADER: { "token": token }
-*    BODY: { "userInfo": IUserInfo }
+*    BODY: { "id", "openKakao", "editDateString"}
 *    RETURN CODES:
 *        200: 성공
 *        2004: 변경 오류
 *        500: 서버 오류
 */
 router.put('/update', (req, res) => {
+  const id = req.body.id;
   const editedUserInfo = {
     openKakao: req.body.openKakao,
     editDateString: req.body.editDateString
   }
 
-  UserInfoSchema.updateById(req.body.id, editedUserInfo)
+  UserInfoSchema.updateById(id, editedUserInfo)
     .then((updatedUserInfo) => {
       if (updatedUserInfo) {
         myLogger(`[SUCCESS] : ${updatedUserInfo.id} INFORMATION UPDATE`);
@@ -191,7 +202,7 @@ router.put('/update', (req, res) => {
         message: "바람의 나라 계정 확인 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
       });
 
-      resolve(false);
+      return false;
     })
 });
 
@@ -210,14 +221,14 @@ router.put('/update', (req, res) => {
 router.get('/find', (req, res) => {
   const id = req.query.id;
 
-  UserInfoSchema.findOneById(req.query.id)
-    .then((user) => {
-      if (user) {
+  UserInfoSchema.findOneById(id)
+    .then((userInfo) => {
+      if (userInfo) {
         myLogger(`[SUCCESS] : ${id} INFORMATION FIND`);
         res.status(200).send({
           code: 200,
           message: "사용자 정보를 조회하였습니다.",
-          userInfo: user
+          userInfo: userInfo
         });
 
         return true;
@@ -229,7 +240,7 @@ router.get('/find', (req, res) => {
           message: "사용자 정보를 찾을 수 없습니다."
         });
 
-        return null;
+        return false;
       }
     })
     .catch((e) => {
@@ -238,6 +249,8 @@ router.get('/find', (req, res) => {
         code: 500,
         message: "사용자 정보를 찾는 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
       });
+
+      return false;
     })
 });
 
@@ -283,11 +296,12 @@ router.put('/settitle', (req, res) => {
     })
     .catch((e) => {
       myLogger(`SET TITLE ACCOUNT ERROR > ${e}`);
-      myLogger(e);
       res.status(200).send({
         code: 500,
         message: "대표캐릭터 설정 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
       });
+
+      return false;
     })
 
 });
@@ -297,7 +311,7 @@ router.put('/settitle', (req, res) => {
 *    TYPE : PUT
 *    URI : /api/user/changepassword
 *    HEADER: { "token": token }
-*    BODY: { "id", "password", "slat", "editDateString" }
+*    BODY: { "id", "password", "salt", "editDateString" }
 *    RETURN CODES:
 *        200: 성공
 *        2007: 비밀번호 변경 실패
@@ -312,7 +326,7 @@ router.put('/changepassword', (req, res) => {
     editDateString: req.body.editDateString
   };
 
-  SignUpUserSchema.changePassword(id, changePasswordInfo)
+  SignUpUserSchema.updateById(id, changePasswordInfo)
     .then((changedInfo) => {
       if (changedInfo) {
         myLogger(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
@@ -339,30 +353,118 @@ router.put('/changepassword', (req, res) => {
         code: 500,
         message: "비밀번호 변경 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
       });
+
+      return false;
     })
 });
 
-
-
 /*
-    LOGOUT: POST /api/account/logout
+*    비밀번호 일치 확인
+*    TYPE : PUT
+*    URI : /api/user/checkpassword
+*    HEADER: { "token": token }
+*    BODY: { "id", "password" }
+*    RETURN CODES:
+*        200: 성공
+*        2007: 비밀번호 변경 실패
+*        500: 서버 오류
 */
-router.post('/logout', (req, res) => {
-    
+router.post('/checkpassword', (req, res) => {
+  const id = req.body.id;
+  const password = req.body.password;
+
+  SignUpUserSchema.findOneById(id)
+    .then((user) => {
+      if(user) {
+        // 패스워드 암호화 비교
+        const encryptPassword = crypto.createHash("sha512").update(password + user.salt).digest("hex");
+        if ( encryptPassword !== user.password ) {
+          myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
+          res.status(200).send({
+            code: 1003,
+            message: "일치하지 않는 비밀번호 입니다."
+          });
+
+          return false;
+        }
+        else {
+          myLogger(`[SUCCESS] : ${id} IS MATCHED PASSWORD`);
+
+          res.status(200).send({
+            code: 200,
+            message: "일치하는 비밀번호 입니다."
+          });
+
+          return true;
+        }
+      }
+      else {
+        myLogger(`[ERROR] : ${id} IS NOT EXIST USER`);
+        res.status(200).send({
+          code: 1001,
+          message: "존재하지 않는 사용자입니다."
+        });
+
+        return false;
+      }
+    })
+    .catch((e) => {
+      myLogger(`PASSWORD CHECK ERROR > ${e}`);
+
+      res.status(500).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+    });
 });
 
-
 /*
-    SEARCH USER: GET /api/account/search/:username
+*    회원 탈퇴
+*    TYPE : POST
+*    URI : /api/user/withdraw
+*    HEADER: { "token": token }
+*    BODY: { "id" }
+*    RETURN CODES:
+*        200: 성공
+*        500: 서버 오류
 */
-router.get('/search/:username', (req, res) => {
-    // SEARCH USERNAMES THAT STARTS WITH GIVEN KEYWORD USING REGEX
+router.post('/withdraw', (req, res) => {
+  const id = req.body.id;
 
-});
+  SignUpUserSchema.deleteById(id)
+    .then((result) => {
+      myLogger(`${result}`);
+      myLogger(`[SUCCESS] : ${id} WAS DELETED`);
+    })
+    .then(UserInfoSchema.deleteById(id))
+    .then((result) => {
+      myLogger(`${result}`);
+      myLogger(`[SUCCESS] : ${id} INFORMATION WAS DELETED`);
+    })
+    .then(AccountInfoSchema.deleteById(id))
+    .then((result) => {
+      myLogger(`${result}`);
+      myLogger(`[SUCCESS] : ${id} ACCOUNT INFORMATION WAS DELETED`);
+    })
+    .then(() => {
 
-// EMPTY SEARCH REQUEST: GET /api/account/search
-router.get('/search', (req, res) => {
-    res.json([]);
+      res.status(200).send({
+        code: 200,
+        message: "사용자 정보가 정상적으로 삭제되었습니다.",
+      });
+
+      return true;
+    })
+    .catch((e) => {
+      myLogger(`DELETE USER ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류로 인하여 사용자 정보가 정상적으로 삭제 되지 않았습니다. 관리자에게 문의해주세요.",
+      });
+
+      return false;
+    });
 });
 
 module.exports = router;
