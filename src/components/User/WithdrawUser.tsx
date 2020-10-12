@@ -50,7 +50,7 @@ function WithdrawUser(props: IProps) {
   const _onWithdraw = async () => {
     setMyBackdrop(true);
 
-    const checked = true; //await CheckPassword(id, password);
+    const checked = await CheckPassword(id, password);
 
     if (checked) {
       const res = await WithDrawUser(id, password);
