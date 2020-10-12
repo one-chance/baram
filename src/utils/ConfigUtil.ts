@@ -18,6 +18,10 @@ export const getBaseUrlForPetItemImg = () => {
   return config.baseUrlForPetItemImg;
 };
 
+export const getBaseUrlForFonts = () => {
+  return config.baseUrlForFonts;
+};
+
 export const getMenus = () => {
   const menus = Array<IMenu>();
 

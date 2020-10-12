@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
 
 import { BrowserRouter, Route } from "react-router-dom";
 
 import Container from "@material-ui/core/Container";
 
-import NoAuth from 'pages/NoAuth';
+import NoAuth from "pages/NoAuth";
 
 import Header from "components/Header/Header";
 import Home from "pages/Home";
 
-import SignUp from 'pages/User/SignUp';
-import FindId from 'pages/User/FindId';
-import FindPw from 'pages/User/FindPw';
+import SignUp from "pages/User/SignUp";
+import FindId from "pages/User/FindId";
+import FindPw from "pages/User/FindPw";
 
-import MyInfo from 'pages/User/MyInfo';
+import MyInfo from "pages/User/MyInfo";
 
 import FreeBoard from "pages/Board/FreeBoard";
 import PostWrite from "pages/Board/PostWrite";
@@ -24,15 +24,15 @@ import PetItem from "pages/Dictionary/PetItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 
-import MyAlert from 'elements/Alert/MyAlert';
-import MyBackdrop from 'elements/Backdrop/MyBackdrop';
+import MyAlert from "elements/Alert/MyAlert";
+import MyBackdrop from "elements/Backdrop/MyBackdrop";
 
-import Exp from "pages/Calculator/CalExp";
+import Exp from "pages/Calculator/Exp";
+import Power from "pages/Calculator/Power";
 
-import { refreshToken } from 'utils/ComoonUtil';
+import { refreshToken } from "utils/ComoonUtil";
 
 function App() {
-
   useEffect(() => {
     setInterval(refreshToken, 1000 * 60 * 25);
   }, []);
@@ -49,15 +49,15 @@ function App() {
           <Container fixed>
             <BrowserRouter>
               {/*Error Handling*/}
-              <Route exact path="/error/auth" component={NoAuth}/>
+              <Route exact path="/error/auth" component={NoAuth} />
 
               {/*Home*/}
-              <Route exact path="/" component={Home}/>
+              <Route exact path="/" component={Home} />
 
               {/*Common*/}
-              <Route exact path="/signup" component={SignUp}/>
-              <Route exact path="/findid" component={FindId}/>
-              <Route exact path="/findpw" component={FindPw}/>
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/findid" component={FindId} />
+              <Route exact path="/findpw" component={FindPw} />
 
               {/*Board*/}
               <Route exact path="/board/free" component={FreeBoard} />
@@ -65,6 +65,7 @@ function App() {
 
               {/*Calculator*/}
               <Route exact path="/cal/exp" component={Exp} />
+              <Route exact path="/cal/power" component={Power} />
 
               {/*Dictionary*/}
               <Route path="/dic/item" component={Item} />
@@ -73,7 +74,7 @@ function App() {
               <Route path="/dic/raid/:key" component={RaidInfo} />
 
               {/*MyInfo*/}
-              <Route path="/myinfo/:tab" component={MyInfo}/>
+              <Route path="/myinfo/:tab" component={MyInfo} />
             </BrowserRouter>
           </Container>
         </main>
