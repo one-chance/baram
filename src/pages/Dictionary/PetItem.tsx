@@ -140,6 +140,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 1);
                 }}
@@ -160,6 +161,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 2);
                 }}
@@ -179,6 +181,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 3);
                 }}
@@ -199,6 +202,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 4);
                 }}
@@ -219,6 +223,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 5);
                 }}
@@ -239,6 +244,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 11);
                 }}
@@ -259,6 +265,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 6);
                 }}
@@ -277,6 +284,7 @@ export default function PetItem() {
                 labelId="select-standard"
                 id="select-standard"
                 className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 7);
                 }}
@@ -291,10 +299,11 @@ export default function PetItem() {
                 신물
               </InputLabel>
               <Select
-                className={classes.select}
                 label="신물"
                 labelId="select-standard"
                 id="select-standard"
+                className={classes.select}
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 8);
                 }}
@@ -315,6 +324,7 @@ export default function PetItem() {
                 label="목걸이"
                 labelId="select-standard"
                 id="select-standard"
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 9);
                 }}
@@ -335,6 +345,7 @@ export default function PetItem() {
                 label="문양"
                 labelId="select-standard"
                 id="select-standard"
+                defaultValue={""}
                 onChange={(e) => {
                   handleChange(e, 10);
                 }}
