@@ -17,35 +17,40 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
-//import Accordion from "@material-ui/core/Accordion";
-//import AccordionSummary from "@material-ui/core/AccordionSummary";
-//import AccordionDetails from "@material-ui/core/AccordionDetails";
-//import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-//import Typography from "@material-ui/core/Typography";
-
 import itemList from "conf/itemList.json";
 import itemPowers from "interfaces/Calculator/power";
 import "./Power.css";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    itemBox: {
+    itemInput: {
       width: "155px",
-      height: "40px",
       margin: "5px",
       float: "left",
       "& input": {
-        height: "40px",
+        height: "45px",
         padding: "0 10px",
       },
     },
 
     powers: {
-      width: "80px",
-      height: "50px",
+      width: "60px",
       float: "left",
-      margin: "0 5px",
-      "& input": { height: "50px", padding: "0", textAlign: "center" },
+      margin: "0",
+      "& input": { height: "40px", padding: "0", textAlign: "center" },
+    },
+
+    plus: {
+      width: "15px",
+      height: "20px",
+      margin: "10px 0",
+      float: "left",
+      fontSize: "1rem",
+      textAlign: "center",
+      color: "black",
+      "&:focus, &:hover, &:visited, &:link, &:active": {
+        textDecoration: "none",
+      },
     },
 
     select: {
@@ -69,39 +74,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     selText: {
-      margin: "5px",
       width: "80px",
-      height: "50px",
+      margin: "5px",
       textAlign: "center",
       float: "left",
       "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
         display: "none",
       },
       "& input": {
-        padding: "5px",
-        height: "40px",
+        padding: "0",
+        height: "50px",
         textAlign: "center",
         color: "blue",
-      },
-    },
-
-    slider: {
-      width: "150px",
-      padding: "19px 0",
-      margin: "5px 10px",
-      float: "left",
-    },
-
-    sliText: {
-      width: "40px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 5px",
-      float: "left",
-      textAlign: "center",
-      color: "black",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
       },
     },
 
@@ -143,6 +127,13 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "0",
       float: "left",
     },
+
+    btnCal: {
+      height: "35px",
+      margin: "5px",
+      padding: "0",
+      float: "left",
+    },
   })
 );
 
@@ -173,6 +164,16 @@ export default function Power() {
   const [skillPower, setSkillPower] = useState<number>(0); // 기술능력 전투력
   const [animalPower, setAnimalPower] = useState<number>(0); // 신수 전투력
   const [petPower, setPetPower] = useState<number>(0); // 환수 전투력
+
+  const [box1, setBox1] = useState<number>(0);
+  const [box2, setBox2] = useState<number>(0);
+  const [box3, setBox3] = useState<number>(0);
+  const [box4, setBox4] = useState<number>(0);
+  const [box5, setBox5] = useState<number>(0);
+  const [box6, setBox6] = useState<number>(0);
+  const [box7, setBox7] = useState<number>(0);
+  const [box8, setBox8] = useState<number>(0);
+
   const [items1, setItems1] = useState<string>("");
   /*
   const [items2, setItems2] = useState<string>("");
@@ -500,114 +501,90 @@ export default function Power() {
 
   return (
     <React.Fragment>
-      <Container style={{ margin: "10px", padding: "5px", float: "left" }}>
-        <TextField
-          className={classes.powers}
-          variant="outlined"
-          label="레벨"
-          value={levelPower || ""}
-          onChange={(e) => {
-            if (e.target.value !== "") setLevelPower(parseInt(e.target.value));
-            else setLevelPower(0);
+      <Container
+        style={{
+          width: "1152px",
+          margin: "10px 0",
+          padding: "0",
+          float: "left",
+          border: "1px solid gray",
+          borderRadius: "10px",
+        }}
+      >
+        <Container style={{ width: "270px", margin: "0", padding: "10px 20px", float: "left" }}>
+          <TextField
+            variant="outlined"
+            placeholder="아이디@서버"
+            inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
+            style={{ width: "175px", marginLeft: "5px", float: "left" }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              minWidth: "50px",
+              height: "40px",
+              marginLeft: "-5px",
+              padding: "0",
+              float: "left",
+              borderTopLeftRadius: "0",
+              borderBottomLeftRadius: "0",
+            }}
+          >
+            적용
+          </Button>
+        </Container>
+        <Container
+          style={{
+            width: "630px",
+            margin: "0",
+            padding: "10px 20px",
+            float: "left",
+            borderLeft: "1px solid gray",
+            borderRight: "1px solid gray",
           }}
-        />
-        <TextField
-          className={classes.powers}
-          variant="outlined"
-          label="장비"
-          value={itemPower || ""}
-          onChange={(e) => {
-            if (e.target.value !== "") setItemPower(parseInt(e.target.value));
-            else setItemPower(0);
+        >
+          <TextField
+            className={classes.powers}
+            variant="outlined"
+            placeholder="전투력"
+            value={box1 || ""}
+            onChange={(e) => {
+              setBox1(parseInt(e.target.value));
+            }}
+          />
+          <Link className={classes.plus}>+</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box2 || ""} />
+          <Link className={classes.plus}>+</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box3 || ""} />
+          <Link className={classes.plus}>+</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box4 || ""} />
+          <Link className={classes.plus}>+</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box5 || ""} />
+          <Link className={classes.plus}>=</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box6 || ""} />
+          <Link className={classes.plus}>=</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box7 || ""} />
+          <Link className={classes.plus}>=</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="결과" value={box8 || ""} />
+        </Container>
+        <Container
+          style={{
+            width: "250px",
+            margin: "0",
+            padding: "10px 20px",
+            float: "left",
           }}
-        />
-        <TextField
-          className={classes.powers}
-          variant="outlined"
-          label="각인"
-          value={engravePower || ""}
-          onChange={(e) => {
-            if (e.target.value !== "") setEngravePower(parseInt(e.target.value));
-            else setEngravePower(0);
-          }}
-        />
-        <TextField
-          className={classes.powers}
-          variant="outlined"
-          label="황돋"
-          value={goldPower || ""}
-          onChange={(e) => {
-            if (e.target.value !== "") setGoldPower(parseInt(e.target.value));
-            else setGoldPower(0);
-          }}
-        />
-        <TextField
-          className={classes.powers}
-          variant="outlined"
-          label="기술능력"
-          value={skillPower || ""}
-          onChange={(e) => {
-            if (e.target.value !== "") setSkillPower(parseInt(e.target.value));
-            else setSkillPower(0);
-          }}
-        />
-        <TextField
-          className={classes.powers}
-          variant="outlined"
-          label="신수"
-          value={animalPower || ""}
-          onChange={(e) => {
-            if (e.target.value !== "") setAnimalPower(parseInt(e.target.value));
-            else setAnimalPower(0);
-          }}
-        />
-        <TextField
-          className={classes.powers}
-          variant="outlined"
-          label="환수"
-          value={petPower || ""}
-          onChange={(e) => {
-            if (e.target.value !== "") setPetPower(parseInt(e.target.value));
-            else setPetPower(0);
-          }}
-        />
-
-        <TextField className={classes.powers} variant="outlined" label="합계" value={levelPower + itemPower || ""} />
+        >
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box7 || ""} />
+          <Link className={classes.plus}>x</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="품의" value={box8 || ""} />
+          <Link className={classes.plus}>=</Link>
+          <TextField className={classes.powers} variant="outlined" placeholder="결과" value={box8 || ""} />
+        </Container>
       </Container>
       <Grid container spacing={3} style={{ margin: "0", padding: "0" }}>
         <Grid item style={{ width: "350px", padding: "0", margin: "10px 20px" }}>
-          <Container
-            component="div"
-            style={{
-              width: "100%",
-              marginBottom: "7.5px",
-              textAlign: "center",
-              padding: "9px",
-              float: "left",
-            }}
-          >
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
-              <TextField
-                variant="outlined"
-                placeholder="아이디@서버"
-                inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-                style={{ width: "180px", marginLeft: "50px", float: "left" }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                style={{
-                  margin: "0 10px 0 -5px",
-                  height: "40px",
-                  float: "left",
-                  borderTopLeftRadius: "0",
-                  borderBottomLeftRadius: "0",
-                }}
-              >
-                적용
-              </Button>
-            </Container>
-          </Container>
           <Container
             component="div"
             style={{
@@ -627,7 +604,7 @@ export default function Power() {
                 onChange={(e) => {
                   setLevel(parseInt(e.target.value));
                 }}
-                inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
+                inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 style={{ width: "105px", margin: "5px 0 5px 45px", float: "left" }}
               />
               <Button
@@ -638,7 +615,7 @@ export default function Power() {
                   else setLevel(0);
                 }}
                 style={{
-                  height: "35px",
+                  height: "40px",
                   margin: "5px 5px 5px -5px",
                   borderTopLeftRadius: "0",
                   borderBottomLeftRadius: "0",
@@ -654,14 +631,14 @@ export default function Power() {
                 onClick={() => {
                   opening(1);
                 }}
+                style={{ width: "40px", height: "40px" }}
               >
                 ?
               </Button>
             </Container>
-
             <Container
               component="div"
-              style={{ width: "100%", height: "40px", margin: "0px", padding: "0", float: "left" }}
+              style={{ width: "100%", height: "40px", margin: "0", padding: "0", float: "left" }}
             >
               <Link
                 style={{
@@ -692,7 +669,7 @@ export default function Power() {
             }}
           >
             <TextField
-              className={classes.itemBox}
+              className={classes.itemInput}
               variant="outlined"
               //value={item1}
               onChange={(e) => {
@@ -700,53 +677,56 @@ export default function Power() {
               }}
               placeholder="1. 목/어깨장식"
             />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="2. 투구" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="3. 얼굴장식" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="4. 무기" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="5. 갑옷" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="2. 투구" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="3. 얼굴장식" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="4. 무기" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="5. 갑옷" />
 
-            <TextField className={classes.itemBox} variant="outlined" placeholder="6. 방패/보조무기" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="7. 오른손" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="8. 망토" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="9. 왼손" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="10. 보조1" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="11. 신발" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="12. 보조2" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="13. 장신구" />
-            <TextField className={classes.itemBox} variant="outlined" placeholder="14. 세트옷" />
-            <Link className={classes.petText} style={{ width: "60px", margin: "5px 5px 5px 10px" }}>
-              15. 강화
-            </Link>
-            <TextField
-              variant="outlined"
-              placeholder="0 ~ 11"
-              inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-              style={{ width: "80px", float: "left", margin: "5px", textAlign: "center" }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                minWidth: "50px",
-                height: "35px",
-                margin: "7.5px 0 7.5px 30px",
-                padding: "0",
-                float: "left",
-              }}
-            >
-              계산
-            </Button>
-            <Button
-              variant="contained"
-              className={classes.btnTMI}
-              color="secondary"
-              onClick={() => {
-                opening(2);
-              }}
-              style={{ margin: "7.5px 5px" }}
-            >
-              ?
-            </Button>
+            <TextField className={classes.itemInput} variant="outlined" placeholder="6. 방패/보조무기" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="7. 오른손" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="8. 망토" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="9. 왼손" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="10. 보조1" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="11. 신발" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="12. 보조2" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="13. 장신구" />
+            <TextField className={classes.itemInput} variant="outlined" placeholder="14. 세트옷" />
+            <Container component="div" style={{ height: "55px", padding: "0", float: "left" }}>
+              <Link
+                className={classes.petText}
+                style={{ width: "60px", height: "45px", lineHeight: "45px", margin: "5px 5px 5px 10px" }}
+              >
+                15. 강화
+              </Link>
+              <TextField
+                className={classes.itemInput}
+                variant="outlined"
+                placeholder="0 ~ 11"
+                inputProps={{ style: { textAlign: "center" } }}
+                style={{ width: "80px" }}
+              />
+              <Button
+                className={classes.btnCal}
+                variant="contained"
+                color="primary"
+                style={{
+                  margin: "10px 0 10px 35px",
+                }}
+              >
+                계산
+              </Button>
+              <Button
+                variant="contained"
+                className={classes.btnTMI}
+                color="secondary"
+                onClick={() => {
+                  opening(2);
+                }}
+                style={{ margin: "10px 5px" }}
+              >
+                ?
+              </Button>
+            </Container>
             <Link
               style={{
                 width: "150px",
@@ -771,7 +751,7 @@ export default function Power() {
             style={{
               width: "100%",
               padding: "9px",
-              marginBottom: "20px",
+              marginBottom: "10px",
               float: "left",
               border: "1px solid gray",
               borderRadius: "10px",
@@ -890,7 +870,7 @@ export default function Power() {
             style={{
               width: "100%",
               padding: "9px",
-              marginBottom: "20px",
+              marginBottom: "10px",
               float: "left",
               border: "1px solid gray",
               borderRadius: "10px",
@@ -1084,8 +1064,9 @@ export default function Power() {
               borderRadius: "10px",
             }}
           >
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
+            <Container component="div" style={{ width: "100%", padding: "0", margin: "0", float: "left" }}>
               <Select
+                className={classes.select}
                 variant="outlined"
                 defaultValue={0}
                 onChange={(e) => {
@@ -1101,12 +1082,6 @@ export default function Power() {
                 }}
                 style={{
                   width: "110px",
-                  height: "50px",
-                  padding: "1px",
-                  margin: "5px",
-                  color: "blue",
-                  textAlignLast: "center",
-                  float: "left",
                 }}
               >
                 <Menus2 value={0}>직업</Menus2>
@@ -1121,6 +1096,7 @@ export default function Power() {
                 <Menus2 value={9}>차사</Menus2>
               </Select>
               <Select
+                className={classes.select}
                 variant="outlined"
                 defaultValue={0}
                 onChange={(e) => {
@@ -1136,12 +1112,6 @@ export default function Power() {
                 }}
                 style={{
                   width: "170px",
-                  height: "50px",
-                  padding: "1px",
-                  margin: "5px",
-                  color: "blue",
-                  textAlignLast: "center",
-                  float: "left",
                 }}
               >
                 <Menus2 value={0}>아이템 부위</Menus2>
@@ -1232,7 +1202,7 @@ export default function Power() {
               borderRadius: "10px",
             }}
           >
-            <Container component="div" className={classes.sliBox} style={{ height: "45px", marginBottom: "10px" }}>
+            <Container component="div" className={classes.sliBox} style={{ height: "45px" }}>
               <TextField
                 variant="outlined"
                 inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
@@ -1282,24 +1252,22 @@ export default function Power() {
                 레벨
               </Link>
               <Button
+                className={classes.btnCal}
                 variant="contained"
                 color="primary"
                 onClick={calAnimal}
                 style={{
-                  height: "35px",
-                  margin: "5px 0px 5px 35px",
-                  padding: "0",
-                  float: "left",
+                  margin: "5px 0 5px 35px",
                 }}
               >
                 계산
               </Button>
-              <Button className={classes.btnTMI} variant="contained" color="secondary">
+              <Button className={classes.btnTMI} variant="contained" color="secondary" style={{ margin: "5px" }}>
                 ?
               </Button>
             </Container>
             <Container component="div" className={classes.sliBox}>
-              <Link className={classes.sliText}>무기</Link>
+              <Link className={classes.petText}>무기</Link>
               <Select
                 className={classes.select2}
                 variant="outlined"
@@ -1323,7 +1291,7 @@ export default function Power() {
                 <Menus value={8}>8성</Menus>
                 <Menus value={9}>9성</Menus>
               </Select>
-              <Link className={classes.sliText} style={{ marginLeft: "35px" }}>
+              <Link className={classes.petText} style={{ marginLeft: "20px" }}>
                 손
               </Link>
               <Select
@@ -1350,7 +1318,7 @@ export default function Power() {
               </Select>
             </Container>
             <Container component="div" className={classes.sliBox}>
-              <Link className={classes.sliText}>투구</Link>
+              <Link className={classes.petText}>투구</Link>
               <Select
                 className={classes.select2}
                 variant="outlined"
@@ -1374,7 +1342,7 @@ export default function Power() {
                 <Menus value={8}>8성</Menus>
                 <Menus value={9}>9성</Menus>
               </Select>
-              <Link className={classes.sliText} style={{ marginLeft: "35px" }}>
+              <Link className={classes.petText} style={{ marginLeft: "20px" }}>
                 손
               </Link>
               <Select
@@ -1401,7 +1369,7 @@ export default function Power() {
               </Select>
             </Container>
             <Container component="div" className={classes.sliBox}>
-              <Link className={classes.sliText}>갑옷</Link>
+              <Link className={classes.petText}>갑옷</Link>
               <Select
                 className={classes.select2}
                 variant="outlined"
@@ -1425,7 +1393,7 @@ export default function Power() {
                 <Menus value={8}>8성</Menus>
                 <Menus value={9}>9성</Menus>
               </Select>
-              <Link className={classes.sliText} style={{ marginLeft: "35px" }}>
+              <Link className={classes.petText} style={{ marginLeft: "20px" }}>
                 보주
               </Link>
               <Select
@@ -1454,9 +1422,9 @@ export default function Power() {
               <Link
                 style={{
                   width: "150px",
-                  height: "30px",
-                  lineHeight: "30px",
-                  margin: "5px 0 5px 30%",
+                  height: "40px",
+                  lineHeight: "40px",
+                  marginLeft: "30%",
                   color: "black",
                   fontSize: "1rem",
                   fontWeight: "bold",
@@ -1478,7 +1446,7 @@ export default function Power() {
               borderRadius: "10px",
             }}
           >
-            <Container component="div" className={classes.sliBox} style={{ height: "45px", marginBottom: "10px" }}>
+            <Container component="div" className={classes.sliBox} style={{ height: "45px" }}>
               <TextField
                 variant="outlined"
                 value={pet1}
@@ -1486,14 +1454,14 @@ export default function Power() {
                 onChange={(e) => {
                   setPet1(parseInt(e.target.value));
                 }}
-                style={{ width: "35px", float: "left", margin: "5px 0 5px 10px" }}
+                style={{ width: "35px", float: "left", margin: "2.5px 0 2.5px 10px" }}
               />
               <Link
                 style={{
                   width: "35px",
                   height: "35px",
                   lineHeight: "35px",
-                  margin: "5px",
+                  margin: "2.5px 5px",
                   float: "left",
                   textDecoration: "none",
                   textAlign: "center",
@@ -1509,14 +1477,14 @@ export default function Power() {
                 onChange={(e) => {
                   setPet2(parseInt(e.target.value));
                 }}
-                style={{ width: "35px", float: "left", margin: "5px 0 5px 5px" }}
+                style={{ width: "35px", float: "left", margin: "2.5px 0 2.5px 5px" }}
               />
               <Link
                 style={{
                   width: "35px",
                   height: "35px",
                   lineHeight: "35px",
-                  margin: "5px",
+                  margin: "2.5px 5px",
                   float: "left",
                   textDecoration: "none",
                   textAlign: "center",
@@ -1526,18 +1494,17 @@ export default function Power() {
                 레벨
               </Link>
               <Button
+                className={classes.btnCal}
                 variant="contained"
                 color="primary"
                 onClick={calPet}
                 style={{
-                  height: "35px",
                   margin: "5px 0 5px 30px",
-                  float: "left",
                 }}
               >
                 계산
               </Button>
-              <Button className={classes.btnTMI} variant="contained" color="secondary">
+              <Button className={classes.btnTMI} variant="contained" color="secondary" style={{ margin: "5px" }}>
                 ?
               </Button>
             </Container>
@@ -1690,9 +1657,9 @@ export default function Power() {
               <Link
                 style={{
                   width: "150px",
-                  height: "30px",
-                  lineHeight: "30px",
-                  margin: "5px 0 5px 30%",
+                  height: "40px",
+                  lineHeight: "40px",
+                  marginLeft: "30%",
                   color: "black",
                   fontSize: "1rem",
                   fontWeight: "bold",
