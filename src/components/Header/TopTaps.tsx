@@ -16,7 +16,7 @@ import IMenu from 'interfaces/Common/IMenu';
 
 const useStyles = makeStyles((theme) => ({
   menuTabs: {
-    margin: "0 auto",
+    margin: "0 auto"
   },
   menuTab: {
     paddingLeft: theme.spacing(1),
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     alignItems: "center",
     flexShrink: 0,
+    overflow: "visible"
   }
 }));
 

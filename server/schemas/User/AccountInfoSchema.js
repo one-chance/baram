@@ -1,24 +1,42 @@
 const mongoose = require('mongoose');
 
 const accountInfoSchema = new mongoose.Schema({
-  id: { type: String, require: true },
+  id: { type: String, require: true},
   server: { type: String, require: true },
   character: { type: String, require: true },
   authDateString: { type: String, required: false }
 });
 
 // Create new todo document
-accountInfoSchema.statics.create = function (id, payload) {
-  const accountInfo = new this(payload);
-  accountInfo.id = id;
+accountInfoSchema.statics.create = function (payload) {
+  return new this(payload).save();
+}
 
-  return accountInfo.save();
+// Find All by user id
+accountInfoSchema.statics.findAllById = function (id) {
+  return this.find({
+    id: id
+  });
+}
+// Delete by user key
+accountInfoSchema.statics.deleteByKey = function (key) {
+  return this.remove({ key: key });
+}
+
+// Delete by user id
+accountInfoSchema.statics.deleteById = function (id) {
+  return this.deleteMany({ id: id }, (err, result) => {
+    if (err) {
+      return err;
+    }
+
+    return result;
+  });
 }
 
 // Check Exist
-accountInfoSchema.statics.checkAccount = function (id, server, character) {
+accountInfoSchema.statics.checkAccount = function (server, character) {
   return this.findOne({
-    id: id,
     server: server,
     character: character
   });

@@ -1,13 +1,12 @@
 import IWriter from 'interfaces/Common/IWriter';
 
 interface IComment {
-  seq: string,
-  id: string,
+  idx?: number,
   message: string,
-  writer: IWriter
-  comments?: Array<{
-    seq: string,
-    id: string,
+  writer: IWriter,
+  recommentIdx?: number,
+  recommentList?: Array<{
+    idx?: number,
     message: string,
     writer: IWriter
   }>

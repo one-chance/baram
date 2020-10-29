@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
 
 const userInfoSchema = new mongoose.Schema({
+  key: { type: Number, required: true, unique: true },
   id: { type: String, required: true, unique: true },
   mail: { type: String, required: false },
   openKakao: { type: String, required: false },
@@ -23,16 +25,25 @@ const userInfoSchema = new mongoose.Schema({
   isActive: { type: Boolean, required: false },
 });
 
-// Create new todo document
+// Create new userInfo
 userInfoSchema.statics.create = function (payload) {
   const user = new this(payload);
-  // return Promise
   return user.save();
 };
+
+// Get by user key
+userInfoSchema.statics.findOneByKey = function (key) {
+  return this.findOne({key: key});
+}
 
 // Get by user id
 userInfoSchema.statics.findOneById = function (id) {
   return this.findOne({id: id});
+}
+
+// Update by user key
+userInfoSchema.statics.updateByKey = function (key, payload) {
+  return this.findOneAndUpdate({ key: key }, { $set: payload }, { upsert: true, new: true });
 }
 
 // Update by user id
@@ -40,42 +51,35 @@ userInfoSchema.statics.updateById = function (id, payload) {
   return this.findOneAndUpdate({ id: id }, { $set: payload }, { upsert: true, new: true });
 };
 
-// Add Baram Account
-userInfoSchema.statics.pushAccountList = function (id, payload) {
+// Add Baram Account by user key
+userInfoSchema.statics.pushAccountListByKey = function (key, payload) {
+  return this.findOneAndUpdate({ key: key }, { $push: { accountList: payload } }, { upsert: true, new: true });
+}
+
+// Add Baram Account by user id
+userInfoSchema.statics.pushAccountListById = function (id, payload) {
   return this.findOneAndUpdate({ id: id }, { $push: { accountList: payload } }, { upsert: true, new: true });
 };
 
-/*
-// Create new todo document
-userInfoSchema.statics.create = function (payload) {
-  // this === Model
-  const todo = new this(payload);
-  // return Promise
-  return todo.save();
-};
+// Delete by user key
+userInfoSchema.statics.deleteByKey = function (key) {
+  return this.remove({ key: key });
+}
 
-// Find All
-userInfoSchema.statics.findAll = function () {
-  // return promise
-  // V4부터 exec() 필요없음
+// Delete by user id
+userInfoSchema.statics.deleteById = function (id) {
+  return this.deleteOne({ id: id }, (err, result) => {
+    if (err) {
+      return err;
+    }
+
+    return result;
+  });
+}
+
+// Get All UserInfo
+userInfoSchema.statics.getAllUserInfo = function () {
   return this.find({});
-};
+}
 
-// Find One by todoid
-userInfoSchema.statics.findOneByTodoid = function (todoid) {
-  return this.findOne({ todoid });
-};
-
-// Update by todoid
-userInfoSchema.statics.updateByTodoid = function (todoid, payload) {
-  // { new: true }: return the modified document rather than the original. defaults to false
-  return this.findOneAndUpdate({ todoid }, payload, { new: true });
-};
-
-// Delete by todoid
-userInfoSchema.statics.deleteByTodoid = function (todoid) {
-  return this.remove({ todoid });
-};
-
-*/
 module.exports = mongoose.model("UserInfo", userInfoSchema, "userInfo");

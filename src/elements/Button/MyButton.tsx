@@ -32,10 +32,10 @@ function MyButton(props: Props & Omit<MuiButtonProps, keyof Props>) {
   const { color, ...other } = props;
   const classes = useStyles(props);
   return <Button 
-            fullWidth
-            variant="contained"
-            className={classes.root} 
-            {...other}/>;
+          fullWidth
+          variant="contained"
+          className={classes.root} 
+          {...other}/>;
 }
 
 export default function AdaptingHook(props: Props) {

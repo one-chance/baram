@@ -1,1 +1,1 @@
-export { default as SignUpUserSchema } from './User/SignUpUserSchema';
+export { default as UserSchema } from './User/UserSchema';

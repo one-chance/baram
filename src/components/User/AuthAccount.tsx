@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const duration = 3000;
 
-function AuthUserInfo(props: IProps) {
+function AuthAccount(props: IProps) {
 
   const classes = useStyles();
   const userInfo: IUserInfo = props.userInfo;
@@ -54,6 +54,12 @@ function AuthUserInfo(props: IProps) {
     setIsDisabled(false);
     
     setMyBackdrop(false);
+  }
+
+  const _onEnterCharacter = (keyCode: number) => {
+		if (keyCode === 13) {
+			_onAuthRequest();
+		}
   }
 
   const _onAuthRequest = async () => {
@@ -131,6 +137,7 @@ function AuthUserInfo(props: IProps) {
               id="character"
               value={character}
               onChange={(e) => (setCharacter(e.target.value))}
+              onKeyUp={(e) => (_onEnterCharacter(e.keyCode))}
             />
           </Grid>
         </Grid>
@@ -146,4 +153,4 @@ function AuthUserInfo(props: IProps) {
   ); 
 }
 
-export default AuthUserInfo;
+export default AuthAccount;

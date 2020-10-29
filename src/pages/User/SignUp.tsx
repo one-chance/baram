@@ -44,7 +44,7 @@ interface IState{
 	mailAuth: string,
 }
 
-const duration = 3000;
+const duration = 2000;
 
 export default function SignUp(props: IProps) {
 	const classes = useStyles();
@@ -95,7 +95,7 @@ export default function SignUp(props: IProps) {
         duration: duration,
         message: res.message
       });
-      setTimeout(() => document.location.href = "/", duration);
+      setTimeout(() => document.location.href = "/signin", duration);
     }
     else {
       // Failed Authentication

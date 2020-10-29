@@ -88,7 +88,7 @@ function AccountInfo(props: IProps) {
           캐릭터 관리
       </Typography>
       {
-        userInfo.accountList ?
+        userInfo.accountList && userInfo.accountList.length > 0 ?
           <Grid container spacing={2}
             className={classes.list}>
               <FormControl component="fieldset">
