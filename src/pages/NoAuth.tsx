@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useSetRecoilState} from 'recoil';
 import SignInDialogState from 'state/common/SignInDialogState';
 
 const NoAuth = () => {
-
   const setIsOpen = useSetRecoilState(SignInDialogState);
-  setIsOpen(true);
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
 
   return (
     <div>

@@ -6,8 +6,6 @@ import ISignUpUser from 'interfaces/User/ISignUpUser';
 
 import * as CommonUtil from 'utils/ComoonUtil';
 
-import { setToken, delToken, checkServerError, getNowIdFromToken } from 'utils/ComoonUtil';
-
 /*
 * 중복 유저 있는 지 체크
 */
@@ -34,9 +32,7 @@ export const SignUpUser = async (_id: string, _password: string) => {
   const newUser: ISignUpUser = {
     id: _id,
     password: crypto.createHash("sha512").update(_password + mySalt).digest("hex"),
-    salt: mySalt,
-    createDateString: CommonUtil.getNowDateString(),
-    editDateString: CommonUtil.getNowDateString()
+    salt: mySalt
   }
 
   //DB Process for Create User
@@ -63,7 +59,7 @@ export const SignInUser = async (_id: string, _password: string) => {
       if (res.data.code === 200) {
         const token = res.data.token;
         // Session Store
-        setToken(token);
+        CommonUtil.setToken(token);
 
         return token;
       }
@@ -91,7 +87,7 @@ export const CheckPassword = async (_id: string, _password: string) => {
       }
     })
     .then((res) => {
-      checkServerError(res.data);
+      CommonUtil.checkServerError(res.data);
       return res.data.code === 200 ? true : false;
     })
     .catch((e) => {
@@ -107,14 +103,20 @@ export const CheckPassword = async (_id: string, _password: string) => {
 * 사용자 로그아웃
 */
 export const LogoutUser = () => {
-  delToken();
+  CommonUtil.delToken();
 }
 
 /*
 * 로그인 한 사용자 ID 가져오기
 */
 export const getSignInUserId = () => {
-  return getNowIdFromToken();
+  return CommonUtil.getNowId();
+}
+/*
+* 로그인 한 사용자 KEY 가져오기
+*/
+export const getSignInUserKey = () => {
+  return CommonUtil.getNowKey();
 }
 
 /*
@@ -130,7 +132,7 @@ export const getUserInfoById = async (_id: string) => {
     }
   })
   .then((res) => {
-    checkServerError(res.data);
+    CommonUtil.checkServerError(res.data);
 
     return res.data.userInfo;
   });
@@ -151,8 +153,7 @@ export const getUserInfoById = async (_id: string) => {
 export const setUserInfo = async (userInfo: IUserInfo) => {
   const r = await axios.put('/api/user/update', {
       id: userInfo.id,
-      openKakao: userInfo.openKakao,
-      editDateString: CommonUtil.getNowDateString(),
+      openKakao: userInfo.openKakao
     }, 
     {
       headers: {
@@ -160,7 +161,7 @@ export const setUserInfo = async (userInfo: IUserInfo) => {
       }
     })
     .then((res) => {
-      checkServerError(res.data);
+      CommonUtil.checkServerError(res.data);
 
       return res.data;
     })
@@ -182,8 +183,7 @@ export const setChangePassword = async (_id: string, _changePassword: string) =>
   const r = await axios.put('/api/user/changepassword', {
       id: _id,
       password: crypto.createHash("sha512").update(_changePassword + mySalt).digest("hex"),
-      salt: mySalt,
-      editDateString: CommonUtil.getNowDateString()
+      salt: mySalt
     },
     {
       headers: {
@@ -191,7 +191,7 @@ export const setChangePassword = async (_id: string, _changePassword: string) =>
       }
     })
     .then((res) => {
-      checkServerError(res.data);
+      CommonUtil.checkServerError(res.data);
 
       return res.data;
     })
@@ -219,7 +219,7 @@ export const checkGameUser = async (_id: string, _server: string, _character: st
       }
     })
     .then((res) => {
-      checkServerError(res.data);
+      CommonUtil.checkServerError(res.data);
 
       if (res.data.code === 200) {
         return authUser(_id, _server, _character);
@@ -245,8 +245,7 @@ export const authUser = async (_id: string, _server: string, _character: string)
   const r = await axios.put('/api/user/auth', {
     id: _id,
     server: _server,
-    character: _character,
-    authDateString: CommonUtil.getNowDateString()
+    character: _character
   }, 
   {
     headers: {
@@ -254,7 +253,7 @@ export const authUser = async (_id: string, _server: string, _character: string)
     }
   })
   .then((res) => {
-    checkServerError(res.data);
+    CommonUtil.checkServerError(res.data);
 
     return res.data;
   })
@@ -272,8 +271,7 @@ export const setTitleAccount = async (_id: string, _server: string, _character: 
   const r = await axios.put('/api/user/settitle', {
     id: _id,
     server: _server,
-    character: _character,
-    editDateString: CommonUtil.getNowDateString()
+    character: _character
   },
   {
     headers: {
@@ -281,7 +279,7 @@ export const setTitleAccount = async (_id: string, _server: string, _character: 
     }
   })
   .then((res) => {
-    checkServerError(res.data);
+    CommonUtil.checkServerError(res.data);
     
     return res.data;
   })
@@ -306,7 +304,7 @@ export const WithDrawUser = async (_id: string, _password: string) => {
     }
   })
   .then((res) => {
-    checkServerError(res.data);
+    CommonUtil.checkServerError(res.data);
 
     return res.data;
   })

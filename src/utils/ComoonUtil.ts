@@ -2,10 +2,6 @@ import axios from 'axios';
 
 import { getSessionNameUserToken } from 'utils/ConfigUtil';
 
-export const getNowDateString = () => {
-  return new Date().toLocaleString();
-}
-
 export const setToken = (_token: string) => {
   localStorage.setItem(
     getSessionNameUserToken(),
@@ -23,11 +19,17 @@ export const delToken = () => {
 }
 
 export const refreshToken = () => {
-  const _token = getToken();
-  const _id = getIdFromToken(_token);
+  const token = getToken();
+  const id = getIdFromToken(token);
+  const key = getKeyFromToken(token);
 
-  if (_token){
-    const res = axios.post('/api/common/refresh', {id: _id, token: _token})
+  if (!id || !key ) {
+    delToken();
+    document.location.href="/signin";
+  }
+  
+  if (token){
+    const res = axios.post('/api/common/refresh', {id: id, key: key, token: token})
       .then((res) => {
         if (res.data.code === 200 && res.data.token) {
           setToken(res.data.token);
@@ -83,6 +85,35 @@ export const getIdFromToken = (token: string | null) => {
   }
 }
 
-export const getNowIdFromToken = () => {
+export const getKeyFromToken = (token: string | null) => {
+  if (token !== null) {
+    // Get Token
+    const splitToken = token.split(".");
+  
+    // Get Payload Token
+    const payloadToken = splitToken[1];
+  
+    // Decode Base64 and Transfer to JSON
+    const payload = JSON.parse(atob(payloadToken));
+  
+    return payload.key;
+  }
+  else {
+    return null;
+  }
+}
+
+export const getNowId = () => {
   return getIdFromToken(getToken());
+}
+
+export const getNowKey = () => {
+  return getKeyFromToken(getToken());
+}
+
+export const getDateFromString = (dateString: string | undefined) => {
+  if (!dateString) return "Unknown Date";
+
+  const date = dateString.split(' ');
+  return date[0];
 }

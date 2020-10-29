@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 const myLogger = require('../myLogger');
 
-const SignUpUserSchema = require('../schemas/User/SignUpUserSchema');
+const UserSchema = require('../schemas/User/UserSchema');
 const UserInfoSchema = require('../schemas/User/UserInfoSchema');
 const AccountInfoSchema = require('../schemas/User/AccountInfoSchema');
 
@@ -102,7 +102,7 @@ router.put('/auth', (req, res) => {
   const accountInfo = {
     server: req.body.server,
     character: req.body.character,
-    authDateString: req.body.authDateString
+    authDateString: new Date().toLocaleString()
   };
 
   // Exist Check
@@ -123,7 +123,6 @@ router.put('/auth', (req, res) => {
 
         UserInfoSchema.pushAccountListById(id, accountInfo)
           .then((updated) => {
-            
             if (updated) {
               myLogger(`[SUCCESS] : ${id} AUTHETICATION`);
               res.status(200).send({
@@ -171,7 +170,7 @@ router.put('/update', (req, res) => {
   const id = req.body.id;
   const editedUserInfo = {
     openKakao: req.body.openKakao,
-    editDateString: req.body.editDateString
+    editDateString: new Date().toLocaleString()
   }
 
   UserInfoSchema.updateById(id, editedUserInfo)
@@ -271,7 +270,7 @@ router.put('/settitle', (req, res) => {
     server: req.body.server,
     character: req.body.character,
   }
-  const editDateString = req.body.editDateString;
+  const editDateString = new Date().toLocaleString();
   
   UserInfoSchema.updateById(id, {titleAccount: titleAccountInfo, editDateString: editDateString})
     .then((updatedUserInfo) => {
@@ -323,10 +322,10 @@ router.put('/changepassword', (req, res) => {
   const changePasswordInfo = {
     password: req.body.password,
     salt: req.body.salt,
-    editDateString: req.body.editDateString
+    editDateString: new Date().toLocaleString()
   };
 
-  SignUpUserSchema.updateById(id, changePasswordInfo)
+  UserSchema.updateById(id, changePasswordInfo)
     .then((changedInfo) => {
       if (changedInfo) {
         myLogger(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
@@ -373,7 +372,7 @@ router.post('/checkpassword', (req, res) => {
   const id = req.body.id;
   const password = req.body.password;
 
-  SignUpUserSchema.findOneById(id)
+  UserSchema.findOneById(id)
     .then((user) => {
       if(user) {
         // 패스워드 암호화 비교
@@ -431,7 +430,7 @@ router.post('/checkpassword', (req, res) => {
 router.post('/withdraw', (req, res) => {
   const id = req.body.id;
 
-  SignUpUserSchema.deleteById(id)
+  UserSchema.deleteById(id)
     .then((result) => {
       myLogger(`${result}`);
       myLogger(`[SUCCESS] : ${id} WAS DELETED`);

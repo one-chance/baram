@@ -6,7 +6,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const config = require('../config.json');
 const myLogger = require('../myLogger');
 
-const SignUpUserSchema = require('../schemas/User/SignUpUserSchema');
+const UserSchema = require('../schemas/User/UserSchema');
 const UserInfoSchema = require('../schemas/User/UserInfoSchema');
 
 /*
@@ -20,7 +20,7 @@ const UserInfoSchema = require('../schemas/User/UserInfoSchema');
 */
 router.post('/checkid', (req, res) => {
   const id = req.body.id;
-  SignUpUserSchema.findOneById(id)
+  UserSchema.findOneById(id)
     .then((exist) => {
       if (exist) {
         myLogger(`[ERROR] : ${id} IS ALREADY EXIST`);
@@ -50,15 +50,15 @@ router.post('/checkid', (req, res) => {
 *        1003: DB 중복 확인 오류
 */
 router.post('/signup', (req, res) => {
-  const user = new SignUpUserSchema({
+  const user = new UserSchema({
     id: req.body.id,
     password: req.body.password,
     salt: req.body.salt,
-    createDateString: req.body.createDateString,
-    editDateString: req.body.editDateString
+    createDateString: new Date().toLocaleString(),
+    editDateString: new Date().toLocaleString()
   });
   
-  SignUpUserSchema.findOneById(user.id)
+  UserSchema.findOneById(user.id)
     .then((exist) => {
       if (exist) {
         myLogger(`[ERROR] : ${user.id} IS ALREADY EXIST`);
@@ -70,9 +70,9 @@ router.post('/signup', (req, res) => {
         return false;
       }
       else {
-        SignUpUserSchema.create(user, (err, user) => {
-          myLogger(`[ERROR] : ${user.id} CREATED ERROR`);
+        UserSchema.create(user, (err, user) => {
           if (err) {
+            myLogger(`[ERROR] : ${user.id} CREATED ERROR`);
             res.status(500).send({
               code: 1002,
               message: "DB 계정 생성 오류"
@@ -129,6 +129,8 @@ router.post('/signup', (req, res) => {
         code: 500,
         message: "서버 오류가 발생했습니다.",
       });
+
+      return false;
     });
 });
 
@@ -148,7 +150,7 @@ router.post('/signin', (req, res) => {
   const id = req.body.id;
   const password = req.body.password;
   
-  SignUpUserSchema.findOneById(id)
+  UserSchema.findOneById(id)
     .then((user) => {
       if(user) {
         // 패스워드 암호화 비교
@@ -165,7 +167,7 @@ router.post('/signin', (req, res) => {
         else {
           myLogger(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
 
-          const token = createToken(id);
+          const token = createToken(user.key, id);
 
           res.status(200).send({
             code: 200,
@@ -208,6 +210,7 @@ router.post('/signin', (req, res) => {
 router.post('/refresh', (req, res) => {
   const token = req.body.token;
   const id = req.body.id;
+  const key = req.body.key;
 
   const decoded = jsonwebtoken.verify(token, config.secret);
 
@@ -215,11 +218,11 @@ router.post('/refresh', (req, res) => {
     myLogger(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
     res.status(200).send({
       code: 200,
-      token: createToken(id)
+      token: createToken(key, id)
     });
   }
   else {
-    myLogger(`[SUCCESS] : ${id} INVALID ACCESS TOKEN`);
+    myLogger(`[ERROR] : ${id} INVALID ACCESS TOKEN`);
     res.status(200).send({
       code: 401,
       token: null
@@ -230,10 +233,11 @@ router.post('/refresh', (req, res) => {
 /*
 *   신규 토큰 생성
 */
-const createToken = (_id) => {
+const createToken = (_key, _id) => {
   // CREATE JSONWEBTOKEN
   const token = jsonwebtoken.sign(
     {
+      key: _key,
       id: _id,
     },
     config.secret,
