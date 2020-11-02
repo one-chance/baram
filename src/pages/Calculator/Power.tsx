@@ -16,9 +16,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-
-import itemList from "conf/itemList.json";
-import itemPowers from "interfaces/Calculator/power";
 import "./Power.css";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -86,6 +83,20 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "50px",
         textAlign: "center",
         color: "blue",
+      },
+    },
+
+    powerText: {
+      width: "150px",
+      height: "40px",
+      lineHeight: "40px",
+      margin: "0 0 0 30%",
+      color: "black",
+      fontSize: "1rem",
+      fontWeight: "bold",
+      float: "left",
+      "&:focus, &:hover, &:visited, &:link, &:active": {
+        textDecoration: "none",
       },
     },
 
@@ -191,6 +202,7 @@ export default function Power() {
   const [items14, setItems14] = useState<string>("");
   const [items15, setItems15] = useState<number>(0);
   */
+
   const [engrave1, setEngrave1] = useState<number>(0); // 각인1 종류
   const [engrave2, setEngrave2] = useState<number>(0); // 각인1 수치
   const [engrave3, setEngrave3] = useState<number>(0); // 각인2 종류
@@ -250,24 +262,6 @@ export default function Power() {
       //let ary = Number($bodyList.find("span.system").text());
       console.log("성공");
     });
-
-    /*
-    const getHtml = async () => {
-      try {
-        return await axios.get(basic + name + sev, option);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getHtml().then((html: any) => {
-      const $ = cheerio.load(html.data);
-      const $bodyList = $("div.inner ul").children("li.level");
-      console.log("성공");
-      let ary = Number($bodyList.find("span.system").text());
-      console.log(ary);
-    });
-    */
   };
 
   const calLevel = (lev: number) => {
@@ -311,28 +305,8 @@ export default function Power() {
     setLevelPower(Math.round(c));
   };
 
-  const closing = (num: number) => {
-    switch (num) {
-      case 1:
-        setOpen1(false);
-        break;
-      case 2:
-        setOpen2(false);
-        break;
-    }
-  };
-
-  const opening = (num: number) => {
-    if (ready === true) {
-      switch (num) {
-        case 1:
-          setOpen1(true);
-          break;
-        case 2:
-          setOpen2(true);
-          break;
-      }
-    }
+  const calEngrave = () => {
+    setEngravePower(engrave1 * engrave2 + engrave3 * engrave4);
   };
 
   const calGold1 = (e: React.ChangeEvent<{ value: unknown }>, num: number) => {
@@ -419,6 +393,8 @@ export default function Power() {
         }
         break;
     }
+
+    setGoldPower(gold7 + gold8 + gold9);
   };
 
   const calAnimal = () => {
@@ -491,6 +467,30 @@ export default function Power() {
         setItems15(parseInt(name));
         break;
         */
+    }
+  };
+
+  const opening = (num: number) => {
+    if (ready === true) {
+      switch (num) {
+        case 1:
+          setOpen1(true);
+          break;
+        case 2:
+          setOpen2(true);
+          break;
+      }
+    }
+  };
+
+  const closing = (num: number) => {
+    switch (num) {
+      case 1:
+        setOpen1(false);
+        break;
+      case 2:
+        setOpen2(false);
+        break;
     }
   };
 
@@ -640,21 +640,7 @@ export default function Power() {
               component="div"
               style={{ width: "100%", height: "40px", margin: "0", padding: "0", float: "left" }}
             >
-              <Link
-                style={{
-                  width: "150px",
-                  height: "40px",
-                  lineHeight: "40px",
-                  marginLeft: "30%",
-                  color: "black",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  float: "left",
-                }}
-              >
-                레벨 전투력 : {levelPower}
-              </Link>
+              <Link className={classes.powerText}>레벨 전투력 : {levelPower}</Link>
             </Container>
           </Container>
           <Container
@@ -727,21 +713,7 @@ export default function Power() {
                 ?
               </Button>
             </Container>
-            <Link
-              style={{
-                width: "150px",
-                height: "40px",
-                lineHeight: "40px",
-                marginLeft: "30%",
-                color: "black",
-                fontSize: "1rem",
-                fontWeight: "bold",
-                textDecoration: "none",
-                float: "left",
-              }}
-            >
-              장비 전투력 : {itemPower}
-            </Link>
+            <Link className={classes.powerText}>장비 전투력 : {itemPower}</Link>
           </Container>
         </Grid>
 
@@ -763,7 +735,7 @@ export default function Power() {
                 className={classes.select}
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 1);
+                  setEngrave1(Number(e.target.value));
                 }}
                 SelectDisplayProps={{
                   style: {
@@ -795,7 +767,9 @@ export default function Power() {
                 placeholder="수치"
                 type="number"
                 value={engrave2 || ""}
-                onChange={(e) => {}}
+                onChange={(e) => {
+                  setEngrave2(parseInt(e.target.value));
+                }}
               />
             </Container>
             <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
@@ -804,7 +778,7 @@ export default function Power() {
                 className={classes.select}
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 1);
+                  setEngrave3(Number(e.target.value));
                 }}
                 SelectDisplayProps={{
                   style: {
@@ -835,22 +809,17 @@ export default function Power() {
                 className={classes.selText}
                 placeholder="수치"
                 type="number"
-                value={engrave3 || ""}
-                onChange={(e) => {}}
+                value={engrave4 || ""}
+                onChange={(e) => {
+                  setEngrave4(parseInt(e.target.value));
+                }}
               />
             </Container>
             <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
               <Link
+                className={classes.powerText}
                 style={{
-                  width: "150px",
-                  height: "40px",
-                  lineHeight: "40px",
                   marginLeft: "20%",
-                  color: "black",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  float: "left",
                 }}
               >
                 각인 전투력 : {engravePower}
@@ -1040,7 +1009,7 @@ export default function Power() {
                   float: "left",
                 }}
               >
-                황돋 전투력 : {gold7 + gold8 + gold9}
+                황돋 전투력 : {goldPower}
               </Link>
               <Button
                 className={classes.btnTMI}
@@ -1166,16 +1135,9 @@ export default function Power() {
             </Container>
             <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
               <Link
+                className={classes.powerText}
                 style={{
-                  width: "180px",
-                  height: "40px",
-                  lineHeight: "40px",
-                  margin: "0 0 0 15%",
-                  color: "black",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  float: "left",
+                  marginLeft: "15%",
                 }}
               >
                 기술능력 전투력 : {skillPower}
@@ -1419,21 +1381,7 @@ export default function Power() {
               </Select>
             </Container>
             <Container component="div" className={classes.sliBox} style={{ height: "40px" }}>
-              <Link
-                style={{
-                  width: "150px",
-                  height: "40px",
-                  lineHeight: "40px",
-                  marginLeft: "30%",
-                  color: "black",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  float: "left",
-                }}
-              >
-                신수 전투력 : {animalPower}
-              </Link>
+              <Link className={classes.powerText}>신수 전투력 : {animalPower}</Link>
             </Container>
           </Container>
           <Container
@@ -1652,23 +1600,12 @@ export default function Power() {
                   setPet7(parseInt(e.target.value));
                 }}
               />
+              <Link className={classes.petText} style={{ width: "145px", color: "gray", fontSize: "0.8rem" }}>
+                &nbsp;* 신물은 강화 적용됨 *
+              </Link>
             </Container>
             <Container component="div" className={classes.sliBox} style={{ height: "40px" }}>
-              <Link
-                style={{
-                  width: "150px",
-                  height: "40px",
-                  lineHeight: "40px",
-                  marginLeft: "30%",
-                  color: "black",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  float: "left",
-                }}
-              >
-                환수 전투력 : {petPower}
-              </Link>
+              <Link className={classes.powerText}>환수 전투력 : {petPower}</Link>
             </Container>
           </Container>
         </Grid>

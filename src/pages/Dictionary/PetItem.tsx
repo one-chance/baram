@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 import { getBaseUrlForPetItemImg } from "utils/ConfigUtil";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -14,6 +14,9 @@ import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    "& body": {
+      height: "1200px",
+    },
     btnGroup: {
       margin: "5px 0 20px 0",
       padding: "1px",
@@ -48,6 +51,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const Menus = withStyles({
+  root: {
+    justifyContent: "center",
+  },
+})(MenuItem);
+
 export default function PetItem() {
   const classes = useStyles();
   const baseUrlForPetItemImg = getBaseUrlForPetItemImg();
@@ -74,36 +83,6 @@ export default function PetItem() {
         break;
       case 2:
         setAcc2(parseInt(e.target.value));
-        break;
-      case 3:
-        setAcc3(parseInt(e.target.value));
-        break;
-      case 4:
-        setAcc4(parseInt(e.target.value));
-        break;
-      case 5:
-        setAcc5(parseInt(e.target.value));
-        break;
-      case 6:
-        setAcc6(parseInt(e.target.value));
-        break;
-      case 7:
-        setAcc7(parseInt(e.target.value));
-        break;
-      case 8:
-        setAcc8(parseInt(e.target.value));
-        break;
-      case 9:
-        setAcc9(parseInt(e.target.value));
-        break;
-      case 10:
-        setAcc10(parseInt(e.target.value));
-        break;
-      case 11:
-        setAcc11(parseInt(e.target.value));
-        break;
-      case 12:
-        setAcc12(parseInt(e.target.value));
         break;
     }
   };
@@ -144,12 +123,20 @@ export default function PetItem() {
                 onChange={(e) => {
                   handleChange(e, 1);
                 }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
+                }}
               >
-                <MenuItem value={0}>황룡</MenuItem>
-                <MenuItem value={5}>청룡</MenuItem>
-                <MenuItem value={5}>주작</MenuItem>
-                <MenuItem value={5}>백호</MenuItem>
-                <MenuItem value={5}>현무</MenuItem>
+                <Menus value={0}>황룡</Menus>
+                <Menus value={5}>청룡</Menus>
+                <Menus value={5}>주작</Menus>
+                <Menus value={5}>백호</Menus>
+                <Menus value={5}>현무</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -165,11 +152,19 @@ export default function PetItem() {
                 onChange={(e) => {
                   handleChange(e, 2);
                 }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
+                }}
               >
-                <MenuItem value={2}>6등급</MenuItem>
-                <MenuItem value={3}>7등급</MenuItem>
-                <MenuItem value={4}>8등급</MenuItem>
-                <MenuItem value={5}>9등급</MenuItem>
+                <Menus value={2}>6등급</Menus>
+                <Menus value={3}>7등급</Menus>
+                <Menus value={4}>8등급</Menus>
+                <Menus value={5}>9등급</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -183,14 +178,22 @@ export default function PetItem() {
                 className={classes.select}
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 3);
+                  setAcc3(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={35}>3성</MenuItem>
-                <MenuItem value={45}>4성</MenuItem>
-                <MenuItem value={54}>5성</MenuItem>
-                <MenuItem value={70}>6성</MenuItem>
-                <MenuItem value={85}>7성</MenuItem>
+                <Menus value={35}>3성</Menus>
+                <Menus value={45}>4성</Menus>
+                <Menus value={54}>5성</Menus>
+                <Menus value={70}>6성</Menus>
+                <Menus value={85}>7성</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -204,14 +207,22 @@ export default function PetItem() {
                 className={classes.select}
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 4);
+                  setAcc4(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={16}>3성</MenuItem>
-                <MenuItem value={24}>4성</MenuItem>
-                <MenuItem value={32}>5성</MenuItem>
-                <MenuItem value={41}>6성</MenuItem>
-                <MenuItem value={52}>7성</MenuItem>
+                <Menus value={16}>3성</Menus>
+                <Menus value={24}>4성</Menus>
+                <Menus value={32}>5성</Menus>
+                <Menus value={41}>6성</Menus>
+                <Menus value={52}>7성</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -225,14 +236,22 @@ export default function PetItem() {
                 className={classes.select}
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 5);
+                  setAcc5(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={10}>3성</MenuItem>
-                <MenuItem value={14}>4성</MenuItem>
-                <MenuItem value={20}>5성</MenuItem>
-                <MenuItem value={26}>6성</MenuItem>
-                <MenuItem value={32}>7성</MenuItem>
+                <Menus value={10}>3성</Menus>
+                <Menus value={14}>4성</Menus>
+                <Menus value={20}>5성</Menus>
+                <Menus value={26}>6성</Menus>
+                <Menus value={32}>7성</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -246,12 +265,20 @@ export default function PetItem() {
                 className={classes.select}
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 11);
+                  setAcc11(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={5}>고명부</MenuItem>
-                <MenuItem value={6}>최명부</MenuItem>
-                <MenuItem value={7}>전명부</MenuItem>
+                <Menus value={5}>고명부</Menus>
+                <Menus value={6}>최명부</Menus>
+                <Menus value={7}>전명부</Menus>
               </Select>
             </FormControl>
           </Container>
@@ -267,12 +294,20 @@ export default function PetItem() {
                 className={classes.select}
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 6);
+                  setAcc6(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={0}>없음</MenuItem>
-                <MenuItem value={5}>성물</MenuItem>
-                <MenuItem value={7}>성물'진</MenuItem>
+                <Menus value={0}>없음</Menus>
+                <Menus value={5}>성물</Menus>
+                <Menus value={7}>성물'진</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -286,12 +321,20 @@ export default function PetItem() {
                 className={classes.select}
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 7);
+                  setAcc7(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={0}>없음</MenuItem>
-                <MenuItem value={5}>성물</MenuItem>
-                <MenuItem value={7}>성물'진</MenuItem>
+                <Menus value={0}>없음</Menus>
+                <Menus value={5}>성물</Menus>
+                <Menus value={7}>성물'진</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -305,14 +348,22 @@ export default function PetItem() {
                 className={classes.select}
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 8);
+                  setAcc8(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={0}>없음</MenuItem>
-                <MenuItem value={5}>1성</MenuItem>
-                <MenuItem value={10}>2성</MenuItem>
-                <MenuItem value={20}>3성</MenuItem>
-                <MenuItem value={31}>4성</MenuItem>
+                <Menus value={0}>없음</Menus>
+                <Menus value={5}>1성</Menus>
+                <Menus value={10}>2성</Menus>
+                <Menus value={20}>3성</Menus>
+                <Menus value={31}>4성</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -326,14 +377,22 @@ export default function PetItem() {
                 id="select-standard"
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 9);
+                  setAcc9(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={0}>없음</MenuItem>
-                <MenuItem value={3}>작생목</MenuItem>
-                <MenuItem value={5}>생목</MenuItem>
-                <MenuItem value={7}>커생목</MenuItem>
-                <MenuItem value={10}>극락목</MenuItem>
+                <Menus value={0}>없음</Menus>
+                <Menus value={3}>작생목</Menus>
+                <Menus value={5}>생목</Menus>
+                <Menus value={7}>커생목</Menus>
+                <Menus value={10}>극락목</Menus>
               </Select>
             </FormControl>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -347,20 +406,28 @@ export default function PetItem() {
                 id="select-standard"
                 defaultValue={""}
                 onChange={(e) => {
-                  handleChange(e, 10);
+                  setAcc10(Number(e.target.value));
+                }}
+                SelectDisplayProps={{
+                  style: {
+                    padding: "2px 20px 2px 5px",
+                    lineHeight: "30px",
+                    textAlign: "center",
+                    color: "blue",
+                  },
                 }}
               >
-                <MenuItem value={0}>없음</MenuItem>
-                <MenuItem value={10}>문양</MenuItem>
-                <MenuItem value={20}>문양'진</MenuItem>
+                <Menus value={0}>없음</Menus>
+                <Menus value={10}>문양</Menus>
+                <Menus value={20}>문양'진</Menus>
               </Select>
             </FormControl>
             <TextField
               variant="outlined"
-              label="기타(돋)"
+              placeholder="기타(돋)"
               value={acc12 || ""}
               onChange={(e) => {
-                handleChange(e, 12);
+                setAcc12(Number(e.target.value));
               }}
               inputProps={{
                 style: { height: "35px", lineHeight: "30px", textAlign: "center", padding: "0" },
@@ -461,6 +528,9 @@ export default function PetItem() {
           <img src={baseUrlForPetItemImg + img2} alt="장비2" />
         </Container>
       </Container>
+      <div style={{ float: "left", height: "200px" }}>
+        <h6>123</h6>
+      </div>
     </React.Fragment>
   );
 }
