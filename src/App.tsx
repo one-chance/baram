@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
+import { makeStyles } from '@material-ui/core/styles';
 
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -32,7 +33,25 @@ import Power from "pages/Calculator/Power";
 
 import { refreshToken } from "utils/ComoonUtil";
 
+const useStyles = makeStyles((theme) => ({
+  header: {
+    zIndex: 10,
+    // position: "absolute",
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '10%',
+    maxHeight: '10%'
+  },
+  root: {
+    // position: "absolute"
+    marginTop: '15%'
+  }
+}));
+
 function App() {
+  const classes = useStyles();
   useEffect(() => {
     setInterval(refreshToken, 1000 * 60 * 25);
   }, []);
@@ -41,12 +60,15 @@ function App() {
     <Container maxWidth="xl">
       <React.Fragment>
         <header>
-          <Container>
+          <Container
+            fixed
+            className={classes.header}>
             <Header />
           </Container>
         </header>
         <main>
-          <Container fixed>
+          <Container
+            className={classes.root}>
             <BrowserRouter>
               {/*Error Handling*/}
               <Route exact path="/error/auth" component={NoAuth} />
