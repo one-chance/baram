@@ -52,7 +52,7 @@ function PostTitle(props: IProps) {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          [{post.writer.key}]{post.writer.id}
+          {post.writer.id}
           <Typography variant="body2" className={classes.middleText}>
             <VisibilityIcon fontSize="small"/> {post.viewCount}
           </Typography>

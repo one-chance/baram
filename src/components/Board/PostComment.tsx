@@ -62,10 +62,10 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   commentRow: {
-    backgroundColor: "#d6e0f0",
+    backgroundColor: "#f1f3f8",
   },
   recommentRow: {
-    backgroundColor: "#f1f3f8",
+    backgroundColor: "#d6e0f0",
   },
   commentButton: {
     spacing: "5"
@@ -228,7 +228,7 @@ function PostComment(props: IProps) {
                     <Box key={comment.idx}>
                       <TableRow key={comment.idx} className={classes.commentRow}>
                         <TableCell  style={{ width: "20%" }} component="th" scope="row">
-                          [{comment.writer.key}]{comment.writer.id}<br/>
+                          {comment.writer.id}<br/>
                           {comment.writer.createDateString}
                         </TableCell>
                         <TableCell style={{ width: "70%" }}>
@@ -267,7 +267,7 @@ function PostComment(props: IProps) {
                           comment.recommentList.map((recomment) => (
                             <TableRow key={`${comment.idx}-${recomment.idx}`} className={classes.recommentRow}>
                               <TableCell  style={{ width: "20%" }} component="th" scope="row">
-                                [{recomment.writer.key}]{recomment.writer.id}<br/>
+                                {recomment.writer.id}<br/>
                                 {recomment.writer.createDateString}
                               </TableCell>
                               <TableCell style={{ width: "70%" }}>
