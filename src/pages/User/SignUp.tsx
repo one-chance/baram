@@ -63,11 +63,21 @@ export default function SignUp(props: IProps) {
 		const res = await CheckExistUser(id);
 
 		if (res.code === 200) {
-			alert(res.message);
+			setMyAlert({
+        isOpen: true,
+        severity: "success",
+        duration: duration,
+        message: res.message
+      });
 			setIsNewId(true);
 		}
 		else {
-			alert(res.message);
+			setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: res.message
+      });
 			setIsNewId(false);
 			refId.current.focus();
 		}
@@ -75,13 +85,23 @@ export default function SignUp(props: IProps) {
 
 	const _onClickSignUp = async () => {
 		if (!isNewId) {
-			alert("ID 중복확인 후 진행 가능합니다.");
+			setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: "ID 중복확인 후 진행 가능합니다."
+      });
 			refId.current.focus();
 			return 0;
 		}
 
 		if (!isAgree) {
-			alert("동의 후 진행 가능합니다.");
+			setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: "동의 후 진행 가능합니다."
+      });
 			return 0;
 		}
 

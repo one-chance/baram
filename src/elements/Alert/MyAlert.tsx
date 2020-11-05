@@ -33,7 +33,7 @@ export default function MyAlert() {
   return (
     <div className={classes.root}>
       <Snackbar 
-        anchorOrigin={{ vertical: "top", horizontal: "right"}}
+        anchorOrigin={{ vertical: "top", horizontal: "center"}}
         open={myAlert.isOpen} 
         autoHideDuration={myAlert.duration} 
         onClose={_close}>
