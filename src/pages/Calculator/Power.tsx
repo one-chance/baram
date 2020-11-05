@@ -503,15 +503,15 @@ export default function Power() {
     <React.Fragment>
       <Container
         style={{
-          width: "1152px",
-          margin: "10px 0",
+          width: "1117px",
+          margin: "10px 20px",
           padding: "0",
           float: "left",
           border: "1px solid gray",
           borderRadius: "10px",
         }}
       >
-        <Container style={{ width: "270px", margin: "0", padding: "10px 20px", float: "left" }}>
+        <Container style={{ width: "255px", margin: "0", padding: "10px 12.5px", float: "left" }}>
           <TextField
             variant="outlined"
             placeholder="아이디@서버"
@@ -536,9 +536,9 @@ export default function Power() {
         </Container>
         <Container
           style={{
-            width: "630px",
+            width: "620px",
             margin: "0",
-            padding: "10px 20px",
+            padding: "10px 15px",
             float: "left",
             borderLeft: "1px solid gray",
             borderRight: "1px solid gray",
@@ -570,9 +570,9 @@ export default function Power() {
         </Container>
         <Container
           style={{
-            width: "250px",
+            width: "240px",
             margin: "0",
-            padding: "10px 20px",
+            padding: "10px 15px",
             float: "left",
           }}
         >

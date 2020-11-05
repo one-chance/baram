@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -37,17 +37,17 @@ const useStyles = makeStyles((theme) => ({
   header: {
     zIndex: 10,
     // position: "absolute",
-    position: 'fixed',
+    position: "fixed",
     top: 0,
     left: 0,
     right: 0,
-    height: '10%',
-    maxHeight: '10%'
+    height: "140px",
+    padding: "0",
   },
   root: {
     // position: "absolute"
-    marginTop: '15%'
-  }
+    marginTop: "140px",
+  },
 }));
 
 function App() {
@@ -60,15 +60,12 @@ function App() {
     <Container maxWidth="xl">
       <React.Fragment>
         <header>
-          <Container
-            fixed
-            className={classes.header}>
+          <Container fixed className={classes.header}>
             <Header />
           </Container>
         </header>
         <main>
-          <Container
-            className={classes.root}>
+          <Container className={classes.root}>
             <BrowserRouter>
               {/*Error Handling*/}
               <Route exact path="/error/auth" component={NoAuth} />

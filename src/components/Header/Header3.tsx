@@ -15,7 +15,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 
-import TopTaps2 from "components/Header/TopTaps2";
+import TopTaps from "components/Header/TopTaps";
 import SignInForm from "components/User/SignInForm";
 
 import { getSignInUserId, LogoutUser } from "utils/UserUtil";
@@ -115,7 +115,7 @@ export default function Header3() {
         </nav>
         <aside>
           <Box>
-            <TopTaps2 />
+            <TopTaps />
           </Box>
         </aside>
       </React.Fragment>

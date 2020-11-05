@@ -77,14 +77,16 @@ const useStyles = makeStyles((theme) => ({
       height: "30px",
       "& a": {
         lineHeight: "30px",
-        margin: "0",
+        margin: "0 50px",
+        padding: "0",
         textDecoration: "none",
         fontSize: "0.9rem",
         fontWeight: "400",
         color: "black",
       },
       "& a:hover": {
-        textDecoration: "underline",
+        //textDecoration: "underline",
+        backgroundColor: "lightgray",
       },
     },
   },
@@ -153,12 +155,12 @@ export default function Header() {
   return (
     <React.Fragment>
       <AppBar
-        color="transparent"
+        color="inherit"
         elevation={0}
         style={{
           position: "-webkit-sticky",
           width: "100%",
-          height: "112px",
+          height: "120px",
           float: "left",
         }}
       >
@@ -171,7 +173,6 @@ export default function Header() {
             padding: "0",
             float: "left",
             textAlign: "center",
-            backgroundColor: "white",
           }}
         >
           <Button size="small" style={{ lineHeight: "52px", marginLeft: "20px", float: "left" }}>
