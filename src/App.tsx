@@ -6,16 +6,16 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import Container from "@material-ui/core/Container";
 
-import NoAuth from 'pages/NoAuth';
+import NoAuth from "pages/NoAuth";
 
 import Header from "components/Header/Header";
 import Home from "pages/Home";
 
-import SignUp from 'pages/User/SignUp';
-import FindId from 'pages/User/FindId';
-import FindPw from 'pages/User/FindPw';
+import SignUp from "pages/User/SignUp";
+import FindId from "pages/User/FindId";
+import FindPw from "pages/User/FindPw";
 
-import MyInfo from 'pages/User/MyInfo';
+import MyInfo from "pages/User/MyInfo";
 
 import FreeBoard from 'pages/Board/Free/FreeBoard';
 import FreePostView from 'pages/Board/Free/FreePostView';
@@ -26,27 +26,33 @@ import PetItem from "pages/Dictionary/PetItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 
-import MyAlert from 'elements/Alert/MyAlert';
-import MyBackdrop from 'elements/Backdrop/MyBackdrop';
+import MyAlert from "elements/Alert/MyAlert";
+import MyBackdrop from "elements/Backdrop/MyBackdrop";
 
-import Exp from "pages/Calculator/CalExp";
+import Exp from "pages/Calculator/Exp";
+import Power from "pages/Calculator/Power";
 
-import { refreshToken } from 'utils/ComoonUtil';
+import { refreshToken } from "utils/ComoonUtil";
 
 const useStyles = makeStyles((theme) => ({
   header: {
+    zIndex: 10,
     // position: "absolute",
-    // zIndex: 10,
-    // backgroundColor: "white"
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: "140px",
+    padding: "0",
   },
   root: {
     // position: "absolute"
-  }
+    marginTop: "140px",
+  },
 }));
 
 function App() {
   const classes = useStyles();
-
   useEffect(() => {
     setInterval(refreshToken, 1000 * 60 * 10);
   }, []);
@@ -55,26 +61,23 @@ function App() {
     <Container maxWidth="xl">
       <React.Fragment>
         <header>
-          <Container
-            className={classes.header}>
-            <Header/>
+          <Container fixed className={classes.header}>
+            <Header />
           </Container>
         </header>
         <main>
-          <Container
-            fixed
-            className={classes.root}>
+          <Container className={classes.root}>
             <BrowserRouter>
               {/*Error Handling*/}
               <Route exact path="/signin" component={NoAuth}/>
 
               {/*Home*/}
-              <Route exact path="/" component={Home}/>
+              <Route exact path="/" component={Home} />
 
               {/*Common*/}
-              <Route exact path="/signup" component={SignUp}/>
-              <Route exact path="/findid" component={FindId}/>
-              <Route exact path="/findpw" component={FindPw}/>
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/findid" component={FindId} />
+              <Route exact path="/findpw" component={FindPw} />
 
               {/*Board*/}
               <Route exact path="/board/free" component={FreeBoard}/>
@@ -85,6 +88,7 @@ function App() {
 
               {/*Calculator*/}
               <Route exact path="/cal/exp" component={Exp} />
+              <Route exact path="/cal/power" component={Power} />
 
               {/*Dictionary*/}
               <Route path="/dic/item" component={Item} />
@@ -93,7 +97,7 @@ function App() {
               <Route path="/dic/raid/:key" component={RaidInfo} />
 
               {/*MyInfo*/}
-              <Route path="/myinfo/:tab" component={MyInfo}/>
+              <Route path="/myinfo/:tab" component={MyInfo} />
             </BrowserRouter>
           </Container>
         </main>

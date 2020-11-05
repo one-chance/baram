@@ -1,22 +1,18 @@
-import React from 'react';
-import {useRecoilState} from 'recoil';
-import SignInDialogState from 'state/common/SignInDialogState';
+import React from "react";
+import { useRecoilState } from "recoil";
+import SignInDialogState from "state/common/SignInDialogState";
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import SignInForm from "components/User/SignInForm";
 
-import TopTaps from 'components/Header/TopTaps';
-import SignInForm from 'components/User/SignInForm';
+import AppBar from "@material-ui/core/AppBar";
 
 import { getSignInUserId, LogoutUser } from "utils/UserUtil";
 
@@ -40,12 +36,66 @@ const useStyles = makeStyles((theme) => ({
   dialogActions: {
     justifyContent: "space-between",
   },
+
+  mainmenu: {
+    width: "100%",
+    height: "60px",
+    padding: "0",
+    margin: "0",
+    listStyle: "none",
+    textAlign: "center",
+    float: "left",
+    backgroundColor: "white",
+  },
+
+  mainmenu2: {
+    width: "20%",
+    height: "60px",
+    margin: "0",
+    float: "left",
+    "& a": {
+      display: "block",
+      lineHeight: "40px",
+      margin: "10px 0",
+      textDecoration: "none",
+      fontSize: "1.2rem",
+      fontWeight: "bold",
+      color: "black",
+    },
+  },
+
+  submenu: {
+    display: "none",
+    width: "100%",
+    height: "200px",
+    padding: "5px 0 10px 0",
+    listStyle: "none",
+    backgroundColor: "white",
+    borderBottom: "1px solid darkgray",
+    "& li": {
+      width: "100%",
+      height: "30px",
+      "& a": {
+        lineHeight: "30px",
+        margin: "0 50px",
+        padding: "0",
+        textDecoration: "none",
+        fontSize: "0.9rem",
+        fontWeight: "400",
+        color: "black",
+      },
+      "& a:hover": {
+        //textDecoration: "underline",
+        backgroundColor: "lightgray",
+      },
+    },
+  },
 }));
 
 export default function Header() {
   const classes = useStyles();
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
 
   const signInUserId = getSignInUserId();
@@ -72,53 +122,192 @@ export default function Header() {
     _onMoveToMain();
   };
 
+  function opening() {
+    let a = document.getElementById("testA");
+    let b = document.getElementById("testB");
+    let c = document.getElementById("testC");
+    let d = document.getElementById("testD");
+    let e = document.getElementById("testE");
+    if (a !== null && b !== null && c !== null && d !== null && e !== null) {
+      a.style.display = "block";
+      b.style.display = "block";
+      c.style.display = "block";
+      d.style.display = "block";
+      e.style.display = "block";
+    }
+  }
+
+  function closing() {
+    let a = document.getElementById("testA");
+    let b = document.getElementById("testB");
+    let c = document.getElementById("testC");
+    let d = document.getElementById("testD");
+    let e = document.getElementById("testE");
+    if (a !== null && b !== null && c !== null && d !== null && e !== null) {
+      a.style.display = "none";
+      b.style.display = "none";
+      c.style.display = "none";
+      d.style.display = "none";
+      e.style.display = "none";
+    }
+  }
+
   return (
     <React.Fragment>
-      <React.Fragment>
-        <nav>
-          <Toolbar className={classes.toolbar}>
-            <Grid container item xs={12}>
-              <Grid item xs={3} className={classes.toolbarleft}>
-                <Button size="small">Subscribe</Button>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  color="inherit"
-                  align="center"
-                  noWrap
-                  className={classes.toolbarTitle}
-                  onClick={_onMoveToMain}
-                >
-                  logo
-                </Typography>
-              </Grid>
-              <Grid item xs={3} className={classes.toolbarright}>
-                {signInUserId ? (
-                  <Button variant="outlined" size="small" onClick={_onLogoutUser}>
-                    Logout
-                  </Button>
-                ) : (
-                  <Container>
-                    <Button variant="outlined" size="small" onClick={_onSignInOpen} style={{ marginRight: "5px" }}>
-                      로그인
-                    </Button>
-                    <Button variant="outlined" size="small" onClick={_onMoveSignUp} style={{ marginLeft: "5px" }}>
-                      회원가입
-                    </Button>
-                  </Container>
-                )}
-              </Grid>
-            </Grid>
-          </Toolbar>
-        </nav>
-        <aside>
-          <Box>
-            <TopTaps />
-          </Box>
-        </aside>
-      </React.Fragment>
+      <AppBar
+        color="inherit"
+        elevation={0}
+        style={{
+          position: "-webkit-sticky",
+          width: "100%",
+          height: "120px",
+          float: "left",
+        }}
+      >
+        <div
+          id="up"
+          style={{
+            width: "80%",
+            height: "60px",
+            margin: "0 10%",
+            padding: "0",
+            float: "left",
+            textAlign: "center",
+          }}
+        >
+          <Button size="small" style={{ lineHeight: "52px", marginLeft: "20px", float: "left" }}>
+            Subscribe
+          </Button>
+
+          <h1 style={{ width: "860px", margin: "10px 0 10px 100px", float: "left" }}>logo</h1>
+
+          {signInUserId ? (
+            <Button variant="outlined" size="small" onClick={_onLogoutUser}>
+              로그아웃
+            </Button>
+          ) : (
+            <Container style={{ width: "200px", height: "60px", padding: "0", float: "left" }}>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={_onSignInOpen}
+                style={{ border: "0", lineHeight: "50px", marginRight: "5px" }}
+              >
+                로그인
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={_onMoveSignUp}
+                style={{ border: "0", lineHeight: "50px", marginLeft: "5px" }}
+              >
+                회원가입
+              </Button>
+            </Container>
+          )}
+        </div>
+        <div
+          id="down"
+          style={{
+            width: "80%",
+            margin: "0 10%",
+            padding: "0",
+            backgroundColor: "white",
+            borderTop: "1px solid darkgray",
+            borderBottom: "1px solid darkgray",
+            float: "left",
+          }}
+        >
+          <ul className={classes.mainmenu} onMouseOver={opening} onMouseOut={closing}>
+            <li className={classes.mainmenu2}>
+              <a href="/cal/power">게시판</a>
+              <ul id="testA" className={classes.submenu}>
+                <li>
+                  <a href="/board/free">팁 게시판</a>
+                </li>
+                <li>
+                  <a href="/board/free">자유 게시판</a>
+                </li>
+                <li>
+                  <a href="/board/free">스샷 게시판</a>
+                </li>
+                <li>
+                  <a href="/board/free">구인 게시판</a>
+                </li>
+                <li>
+                  <a href="/board/free">직업 게시판</a>
+                </li>
+              </ul>
+            </li>
+            <li className={classes.mainmenu2}>
+              <a href="/cal/power">계산기</a>
+              <ul id="testB" className={classes.submenu}>
+                <li>
+                  <a href="/cal/power">전투력</a>
+                </li>
+                <li>
+                  <a href="/cal/power">능력치</a>
+                </li>
+                <li>
+                  <a href="/cal/exp">경험치</a>
+                </li>
+                <li>
+                  <a href="/cal/exp">생 산</a>
+                </li>
+              </ul>
+            </li>
+            <li className={classes.mainmenu2}>
+              <a href="/cal/power">도감</a>
+              <ul id="testC" className={classes.submenu}>
+                <li>
+                  <a href="/dic/item">아이템</a>
+                </li>
+                <li>
+                  <a href="/dic/petitem">환수장비</a>
+                </li>
+                <li>
+                  <a href="/dic/petitem">신수장비</a>
+                </li>
+                <li>
+                  <a href="/dic/raid">레이드/사냥터</a>
+                </li>
+                <li>
+                  <a href="/dic/raid">장비마법</a>
+                </li>
+                <li>
+                  <a href="/dic/raid">고고학</a>
+                </li>
+              </ul>
+            </li>
+            <li className={classes.mainmenu2}>
+              <a href="/cal/power">경매장</a>
+              <ul id="testD" className={classes.submenu}>
+                <li>
+                  <a href="/cal/power">경매장</a>
+                </li>
+                <li>
+                  <a href="/cal/power">장 터</a>
+                </li>
+              </ul>
+            </li>
+            <li className={classes.mainmenu2}>
+              <a href="/cal/power">내정보</a>
+              <ul id="testE" className={classes.submenu}>
+                <li>
+                  <a href="/cal/power">회원정보</a>
+                </li>
+                <li>
+                  <a href="/cal/power">아이디 찾기</a>
+                </li>
+                <li>
+                  <a href="/cal/power">비밀번호 찾기</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </AppBar>
+
       <Dialog
         fullScreen={fullScreen}
         open={isSignInOpen}
@@ -132,23 +321,16 @@ export default function Header() {
               Blah Blah ~~~~ 
             </DialogContentText>
             */}
-            <SignInForm/>
-          </DialogContent>
-          <DialogActions
-            className={classes.dialogActions}>
-            <Button 
-              tabIndex={-1}
-              onClick={_onMoveSignUp} 
-              color="primary">
-                회원가입
-            </Button>
-            <Button 
-              tabIndex={-1}
-              onClick={_onSignInClose} 
-              color="primary">
-                닫기
-            </Button>
-          </DialogActions>
+          <SignInForm />
+        </DialogContent>
+        <DialogActions className={classes.dialogActions}>
+          <Button tabIndex={-1} onClick={_onMoveSignUp} color="primary">
+            회원가입
+          </Button>
+          <Button tabIndex={-1} onClick={_onSignInClose} color="primary">
+            닫기
+          </Button>
+        </DialogActions>
       </Dialog>
     </React.Fragment>
   );

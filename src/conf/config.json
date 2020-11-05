@@ -3,6 +3,7 @@
   "baseUrlForMainCarousel": "/assets/img/",
   "baseUrlForRaidImg": "/assets/img/dictionary/raid/",
   "baseUrlForPetItemImg": "/assets/img/dictionary/petitem/",
+  "baseUrlForFonts": "/assets/fonts/",
   "serverPort": 3001,
   "menus": [
     {
