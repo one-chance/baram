@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
       margin: "10px 0",
       textDecoration: "none",
       fontSize: "1.2rem",
-      fontWeight: "bold",
       color: "black",
     },
   },
@@ -89,6 +88,13 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "lightgray",
       },
     },
+  },
+
+  btn: {
+    lineHeight: "30px",
+    margin: "15px 0",
+    padding: "0",
+    float: "left",
   },
 }));
 
@@ -158,7 +164,7 @@ export default function Header() {
         color="inherit"
         elevation={0}
         style={{
-          position: "-webkit-sticky",
+          position: "sticky",
           width: "100%",
           height: "120px",
           float: "left",
@@ -175,32 +181,28 @@ export default function Header() {
             textAlign: "center",
           }}
         >
-          <Button size="small" style={{ lineHeight: "52px", marginLeft: "20px", float: "left" }}>
-            Subscribe
-          </Button>
-
-          <h1 style={{ width: "860px", margin: "10px 0 10px 100px", float: "left" }}>logo</h1>
+          <div style={{ width: "8%", marginLeft: "1%", float: "left" }}>
+            <Button className={classes.btn}>Subscribe</Button>
+          </div>
+          <div style={{ width: "68%", marginLeft: "6% ", float: "left" }}>
+            <h1 style={{ margin: "10px 0" }}>logo</h1>
+          </div>
 
           {signInUserId ? (
-            <Button variant="outlined" size="small" onClick={_onLogoutUser}>
-              로그아웃
-            </Button>
+            <Container style={{ width: "17%", height: "60px", padding: "0", float: "left" }}>
+              <Button className={classes.btn} onClick={_onLogoutUser} style={{ marginRight: "5px" }}>
+                로그아웃
+              </Button>
+              <Button className={classes.btn} style={{ marginLeft: "5px", color: "blue" }} disabled>
+                아이디
+              </Button>
+            </Container>
           ) : (
-            <Container style={{ width: "200px", height: "60px", padding: "0", float: "left" }}>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={_onSignInOpen}
-                style={{ border: "0", lineHeight: "50px", marginRight: "5px" }}
-              >
+            <Container style={{ width: "17%", height: "60px", padding: "0", float: "left" }}>
+              <Button className={classes.btn} onClick={_onSignInOpen} style={{ marginRight: "5px" }}>
                 로그인
               </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={_onMoveSignUp}
-                style={{ border: "0", lineHeight: "50px", marginLeft: "5px" }}
-              >
+              <Button className={classes.btn} onClick={_onMoveSignUp} style={{ marginLeft: "5px" }}>
                 회원가입
               </Button>
             </Container>

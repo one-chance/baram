@@ -96,18 +96,17 @@ export default function PetItem() {
       <Container
         component="div"
         style={{
-          width: "100%",
-          minWidth: "1200px",
+          width: "1120px",
           height: "140px",
-          margin: "20px 0",
-          padding: "0 20px",
+          margin: "20px 70px",
+          padding: "0",
           float: "left",
           border: "1px solid",
         }}
       >
         <Container
           component="div"
-          style={{ width: "62%", height: "140px", padding: "10px 0 10px 60px", float: "left" }}
+          style={{ width: "62%", height: "140px", padding: "10px 0 10px 30px", float: "left" }}
         >
           <Container component="div" style={{ width: "100%", height: "60px", padding: "0", float: "left" }}>
             <FormControl variant="standard" className={classes.selectBox}>
@@ -444,11 +443,11 @@ export default function PetItem() {
         </Container>
         <Container
           component="div"
-          style={{ width: "38%", height: "140px", padding: "10px 60px 10px 0", float: "left" }}
+          style={{ width: "38%", height: "140px", padding: "10px 30px 10px 0", float: "left" }}
         >
           <Link
             style={{
-              width: "100%",
+              width: "95%",
               color: "gray",
               marginTop: "15px",
               textDecoration: "none",
@@ -528,9 +527,6 @@ export default function PetItem() {
           <img src={baseUrlForPetItemImg + img2} alt="장비2" />
         </Container>
       </Container>
-      <div style={{ float: "left", height: "200px" }}>
-        <h6>123</h6>
-      </div>
     </React.Fragment>
   );
 }

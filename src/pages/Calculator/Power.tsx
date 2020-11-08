@@ -165,7 +165,6 @@ export default function Power() {
   const classes = useStyles();
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-  const [ready, setReady] = React.useState(false);
 
   const [level, setLevel] = useState<number>(0); // 레벨
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
@@ -393,8 +392,6 @@ export default function Power() {
         }
         break;
     }
-
-    setGoldPower(gold7 + gold8 + gold9);
   };
 
   const calAnimal = () => {
@@ -471,15 +468,13 @@ export default function Power() {
   };
 
   const opening = (num: number) => {
-    if (ready === true) {
-      switch (num) {
-        case 1:
-          setOpen1(true);
-          break;
-        case 2:
-          setOpen2(true);
-          break;
-      }
+    switch (num) {
+      case 1:
+        setOpen1(true);
+        break;
+      case 2:
+        setOpen2(true);
+        break;
     }
   };
 
@@ -495,16 +490,19 @@ export default function Power() {
   };
 
   useEffect(() => {
-    setReady(true);
+    const calculating = () => {
+      setGoldPower(gold7 + gold8 + gold9);
+    };
+    calculating();
     // eslint-disable-next-line
-  }, []);
+  });
 
   return (
     <React.Fragment>
       <Container
         style={{
           width: "1117px",
-          margin: "10px 20px",
+          margin: "0 20px 10px 20px",
           padding: "0",
           float: "left",
           border: "1px solid gray",
@@ -561,9 +559,9 @@ export default function Power() {
           <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box4 || ""} />
           <Link className={classes.plus}>+</Link>
           <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box5 || ""} />
-          <Link className={classes.plus}>=</Link>
+          <Link className={classes.plus}>+</Link>
           <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box6 || ""} />
-          <Link className={classes.plus}>=</Link>
+          <Link className={classes.plus}>+</Link>
           <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box7 || ""} />
           <Link className={classes.plus}>=</Link>
           <TextField className={classes.powers} variant="outlined" placeholder="결과" value={box8 || ""} />
@@ -1146,7 +1144,7 @@ export default function Power() {
                 className={classes.btnTMI}
                 variant="contained"
                 color="secondary"
-                style={{ margin: "2.5px 0 2.5px 10px" }}
+                style={{ margin: "2.5px 0 2.5px 40px" }}
               >
                 ?
               </Button>
