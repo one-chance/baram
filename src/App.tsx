@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect } from "react";
+import "./App.css";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -17,12 +17,13 @@ import FindPw from "pages/User/FindPw";
 
 import MyInfo from "pages/User/MyInfo";
 
-import FreeBoard from 'pages/Board/Free/FreeBoard';
-import FreePostView from 'pages/Board/Free/FreePostView';
-import FreeWrite from 'pages/Board//Free/FreeWrite';
+import FreeBoard from "pages/Board/Free/FreeBoard";
+import FreePostView from "pages/Board/Free/FreePostView";
+import FreeWrite from "pages/Board//Free/FreeWrite";
 
 import Item from "pages/Dictionary/Item";
 import PetItem from "pages/Dictionary/PetItem";
+import AnimalItem from "pages/Dictionary/AnimalItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     right: 0,
-    height: "140px",
+    height: "120px",
     padding: "0",
   },
   root: {
@@ -69,7 +70,7 @@ function App() {
           <Container className={classes.root}>
             <BrowserRouter>
               {/*Error Handling*/}
-              <Route exact path="/signin" component={NoAuth}/>
+              <Route exact path="/signin" component={NoAuth} />
 
               {/*Home*/}
               <Route exact path="/" component={Home} />
@@ -80,11 +81,11 @@ function App() {
               <Route exact path="/findpw" component={FindPw} />
 
               {/*Board*/}
-              <Route exact path="/board/free" component={FreeBoard}/>
-              <Route exact path="/board/:category/:seq" component={FreePostView}/>
-              <Route exact path="/board/write" component={FreeWrite}/>
-              <Route exact path="/board/write/:tab" component={FreeWrite}/>
-              <Route exact path="/board/write/:tab/:seq" component={FreeWrite}/>
+              <Route exact path="/board/free" component={FreeBoard} />
+              <Route exact path="/board/:category/:seq" component={FreePostView} />
+              <Route exact path="/board/write" component={FreeWrite} />
+              <Route exact path="/board/write/:tab" component={FreeWrite} />
+              <Route exact path="/board/write/:tab/:seq" component={FreeWrite} />
 
               {/*Calculator*/}
               <Route exact path="/cal/exp" component={Exp} />
@@ -93,6 +94,7 @@ function App() {
               {/*Dictionary*/}
               <Route path="/dic/item" component={Item} />
               <Route path="/dic/petitem" component={PetItem} />
+              <Route path="/dic/animalitem" component={AnimalItem} />
               <Route exact path="/dic/raid" component={Raid} />
               <Route path="/dic/raid/:key" component={RaidInfo} />
 

@@ -58,6 +58,12 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "blue",
       textAlignLast: "center",
       float: "left",
+      "& .MuiSelect-selectMenu": {
+        padding: "2px 20px 2px 5px",
+        lineHeight: "30px",
+        textAlign: "center",
+        color: "blue",
+      },
     },
 
     select2: {
@@ -68,6 +74,13 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "blue",
       textAlignLast: "center",
       float: "left",
+      "& .MuiSelect-selectMenu": {
+        padding: "2px 20px 2px 5px",
+        lineHeight: "30px",
+        fontSize: "0.9rem",
+        textAlign: "center",
+        color: "blue",
+      },
     },
 
     selText: {
@@ -735,14 +748,6 @@ export default function Power() {
                 onChange={(e) => {
                   setEngrave1(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력(0.4%)</Menus>
@@ -777,14 +782,6 @@ export default function Power() {
                 defaultValue={0}
                 onChange={(e) => {
                   setEngrave3(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={0}>능력치</Menus>
@@ -851,15 +848,6 @@ export default function Power() {
                 onChange={(e) => {
                   calGold1(e, 1);
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    fontSize: "0.9rem",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력</Menus>
@@ -901,15 +889,6 @@ export default function Power() {
                 onChange={(e) => {
                   calGold1(e, 2);
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    fontSize: "0.9rem",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력</Menus>
@@ -950,15 +929,6 @@ export default function Power() {
                 defaultValue={0}
                 onChange={(e) => {
                   calGold1(e, 3);
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    fontSize: "0.9rem",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={0}>능력치</Menus>
@@ -1039,14 +1009,6 @@ export default function Power() {
                 onChange={(e) => {
                   calGold1(e, 1);
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
                 style={{
                   width: "110px",
                 }}
@@ -1069,14 +1031,6 @@ export default function Power() {
                 onChange={(e) => {
                   calGold1(e, 1);
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
                 style={{
                   width: "170px",
                 }}
@@ -1096,14 +1050,6 @@ export default function Power() {
                 defaultValue={0}
                 onChange={(e) => {
                   calGold1(e, 1);
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus2 value={0}>기술능력</Menus2>
@@ -1235,15 +1181,6 @@ export default function Power() {
                 onChange={(e) => {
                   setAnimal3(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={5}>5성</Menus>
                 <Menus value={6}>6성</Menus>
@@ -1261,15 +1198,6 @@ export default function Power() {
                 onChange={(e) => {
                   setAnimal6(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={1}>1단</Menus>
@@ -1285,15 +1213,6 @@ export default function Power() {
                 defaultValue={7}
                 onChange={(e) => {
                   setAnimal4(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={5}>5성</Menus>
@@ -1312,15 +1231,6 @@ export default function Power() {
                 onChange={(e) => {
                   setAnimal7(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={1}>1단</Menus>
@@ -1336,15 +1246,6 @@ export default function Power() {
                 defaultValue={7}
                 onChange={(e) => {
                   setAnimal5(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={5}>5성</Menus>
@@ -1362,15 +1263,6 @@ export default function Power() {
                 defaultValue={2}
                 onChange={(e) => {
                   setAnimal8(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1472,15 +1364,6 @@ export default function Power() {
                 onChange={(e) => {
                   setPet8(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={1}>작생목</Menus>
@@ -1507,15 +1390,6 @@ export default function Power() {
                 onChange={(e) => {
                   setPet9(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    fontSize: "0.9rem",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={2}>문양</Menus>
@@ -1539,15 +1413,6 @@ export default function Power() {
                 defaultValue={0}
                 onChange={(e) => {
                   setPet10(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1574,14 +1439,6 @@ export default function Power() {
                 defaultValue={0}
                 onChange={(e) => {
                   setPet11(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 15px 2px 5px",
-                    lineHeight: "30px",
-                    fontSize: "0.9rem",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={0}>없음</Menus>

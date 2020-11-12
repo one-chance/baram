@@ -42,11 +42,17 @@ const useStyles = makeStyles((theme: Theme) =>
       float: "left",
     },
     select: {
-      width: "90px",
+      width: "80px",
       height: "40px",
       textAlign: "center",
       textAlignLast: "center",
       float: "left",
+      "& .MuiSelect-selectMenu": {
+        padding: "2px 15px 2px 5px",
+        lineHeight: "30px",
+        textAlign: "center",
+        color: "blue",
+      },
     },
   })
 );
@@ -96,9 +102,9 @@ export default function PetItem() {
       <Container
         component="div"
         style={{
-          width: "1120px",
+          width: "92%",
           height: "140px",
-          margin: "20px 70px",
+          margin: "20px 4%",
           padding: "0",
           float: "left",
           border: "1px solid",
@@ -122,14 +128,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   handleChange(e, 1);
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>황룡</Menus>
                 <Menus value={5}>청룡</Menus>
@@ -151,14 +149,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   handleChange(e, 2);
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={2}>6등급</Menus>
                 <Menus value={3}>7등급</Menus>
@@ -178,14 +168,6 @@ export default function PetItem() {
                 defaultValue={""}
                 onChange={(e) => {
                   setAcc3(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={35}>3성</Menus>
@@ -208,14 +190,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   setAcc4(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={16}>3성</Menus>
                 <Menus value={24}>4성</Menus>
@@ -236,14 +210,6 @@ export default function PetItem() {
                 defaultValue={""}
                 onChange={(e) => {
                   setAcc5(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={10}>3성</Menus>
@@ -266,14 +232,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   setAcc11(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={5}>고명부</Menus>
                 <Menus value={6}>최명부</Menus>
@@ -295,14 +253,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   setAcc6(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={5}>성물</Menus>
@@ -322,14 +272,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   setAcc7(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={5}>성물</Menus>
@@ -348,14 +290,6 @@ export default function PetItem() {
                 defaultValue={""}
                 onChange={(e) => {
                   setAcc8(Number(e.target.value));
-                }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -378,14 +312,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   setAcc9(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={3}>작생목</Menus>
@@ -407,14 +333,6 @@ export default function PetItem() {
                 onChange={(e) => {
                   setAcc10(Number(e.target.value));
                 }}
-                SelectDisplayProps={{
-                  style: {
-                    padding: "2px 20px 2px 5px",
-                    lineHeight: "30px",
-                    textAlign: "center",
-                    color: "blue",
-                  },
-                }}
               >
                 <Menus value={0}>없음</Menus>
                 <Menus value={10}>문양</Menus>
@@ -432,7 +350,7 @@ export default function PetItem() {
                 style: { height: "35px", lineHeight: "30px", textAlign: "center", padding: "0" },
               }}
               style={{
-                width: "90px",
+                width: "80px",
                 height: "45px",
                 margin: "10px 10px 0 10px",
                 paddingTop: "10px",
@@ -470,11 +388,8 @@ export default function PetItem() {
           </Link>
         </Container>
       </Container>
-      <Container
-        component="div"
-        style={{ width: "100%", minWidth: "1020px", margin: "0", padding: "0", float: "left" }}
-      >
-        <Container component="div" style={{ width: "40%", margin: "0 6% 0 2%", padding: "0", float: "left" }}>
+      <Container component="div" style={{ width: "100%", margin: "0", padding: "0", float: "left" }}>
+        <Container component="div" style={{ width: "42%", margin: "0 2% 0 5%", padding: "0", float: "left" }}>
           <ButtonGroup color="primary" className={classes.btnGroup}>
             <Button color={img1 === "centerGod.png" ? "secondary" : "primary"} onClick={() => setImg1("centerGod.png")}>
               황룡
@@ -494,13 +409,16 @@ export default function PetItem() {
             <Button color={img1 === "others.png" ? "secondary" : "primary"} onClick={() => setImg1("others.png")}>
               기타
             </Button>
+            <Button color={img1 === "required.png" ? "secondary" : "primary"} onClick={() => setImg1("required.png")}>
+              재료
+            </Button>
             <Button color="primary" onClick={() => setImg1("empty.png")}>
               X
             </Button>
           </ButtonGroup>
           <img src={baseUrlForPetItemImg + img1} alt="장비1" />
         </Container>
-        <Container component="div" style={{ width: "40%", margin: "0 2% 0 6%", padding: "0", float: "left" }}>
+        <Container component="div" style={{ width: "42%", margin: "0 2% 0 5%", padding: "0", float: "left" }}>
           <ButtonGroup color="primary" className={classes.btnGroup}>
             <Button color={img2 === "centerGod.png" ? "secondary" : "primary"} onClick={() => setImg2("centerGod.png")}>
               황룡
@@ -519,6 +437,9 @@ export default function PetItem() {
             </Button>
             <Button color={img2 === "others.png" ? "secondary" : "primary"} onClick={() => setImg2("others.png")}>
               기타
+            </Button>
+            <Button color={img2 === "required.png" ? "secondary" : "primary"} onClick={() => setImg1("required.png")}>
+              재료
             </Button>
             <Button color="primary" onClick={() => setImg2("empty.png")}>
               X
