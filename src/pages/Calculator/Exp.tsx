@@ -268,7 +268,7 @@ export default function CalExp() {
         }}
       >
         <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
-          {myExp2}
+          {myExp2 || "보유 경험치"}
         </Link>
         <Link underline="none" className={classes.title} style={{ margin: "0 30px 0 30px", width: "25px" }}>
           ▶&nbsp;
@@ -287,7 +287,7 @@ export default function CalExp() {
           style={{ marginLeft: "5px" }}
           value={myExp || ""}
           onChange={(e) => {
-            if (e.target.value.length < 14 && e.target.value.length > 0) {
+            if (e.target.value.length < 14 && needExp !== "0") {
               setMyExp(parseInt(e.target.value));
               setMyExp2(numToText(parseInt(e.target.value)).toString());
               setResult1(0);
@@ -303,11 +303,8 @@ export default function CalExp() {
           variant="outlined"
           color="primary"
           onClick={(e) => {
-            if (needExp !== "0") {
+            if (needExp !== "0" && myExp !== 0) {
               calculateExp(myExp, needExp);
-            } else {
-              setMyExp(0);
-              setMyExp2("0");
             }
           }}
           style={{ margin: "0 5px" }}
@@ -369,7 +366,7 @@ export default function CalExp() {
           variant="outlined"
           color="primary"
           onClick={(e) => {
-            if (needExp !== "0") {
+            if (needExp !== "0" && hp !== 0) {
               calculateHp(hp, needExp);
             }
           }}

@@ -180,15 +180,15 @@ export default function Header() {
             textAlign: "center",
           }}
         >
-          <div style={{ width: "8%", marginLeft: "1%", float: "left" }}>
+          <div style={{ width: "8%", minWidth: "80px", margin: "0 1%", float: "left" }}>
             <Button className={classes.btn}>Subscribe</Button>
           </div>
-          <div style={{ width: "68%", marginLeft: "6% ", float: "left" }}>
-            <h1 style={{ margin: "10px 0" }}>logo</h1>
+          <div style={{ width: "50%", margin: "0 5% 0 15%", float: "left" }}>
+            <h1 style={{ margin: "10px 0", display: "block" }}>logo</h1>
           </div>
 
           {signInUserId ? (
-            <Container style={{ width: "17%", minWidth: "170px", padding: "0", float: "left" }}>
+            <Container style={{ width: "18%", minWidth: "170px", margin: "0 1%", padding: "0", float: "left" }}>
               <Button className={classes.btn} onClick={_onLogoutUser} style={{ marginRight: "5px" }}>
                 로그아웃
               </Button>
@@ -197,7 +197,7 @@ export default function Header() {
               </Button>
             </Container>
           ) : (
-            <Container style={{ width: "17%", minWidth: "170px", padding: "0", float: "left" }}>
+            <Container style={{ width: "18%", minWidth: "170px", margin: "0 1%", padding: "0", float: "left" }}>
               <Button className={classes.btn} onClick={_onSignInOpen} style={{ marginRight: "5px" }}>
                 로그인
               </Button>

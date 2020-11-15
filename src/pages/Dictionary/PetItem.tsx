@@ -14,9 +14,6 @@ import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    "& body": {
-      height: "1200px",
-    },
     btnGroup: {
       margin: "5px 0 20px 0",
       padding: "1px",

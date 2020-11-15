@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
-import axios from "axios";
-import cheerio from "cheerio";
 
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -16,7 +14,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import "./Power.css";
+
+import { getItemData } from "utils/CalUtil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -179,6 +178,7 @@ export default function Power() {
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
 
+  const [auto, setAuto] = useState<string>("");
   const [level, setLevel] = useState<number>(0); // 레벨
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
   const [itemPower, setItemPower] = useState<number>(0); // 장비 전투력
@@ -189,31 +189,8 @@ export default function Power() {
   const [petPower, setPetPower] = useState<number>(0); // 환수 전투력
 
   const [box1, setBox1] = useState<number>(0);
-  const [box2, setBox2] = useState<number>(0);
-  const [box3, setBox3] = useState<number>(0);
-  const [box4, setBox4] = useState<number>(0);
-  const [box5, setBox5] = useState<number>(0);
-  const [box6, setBox6] = useState<number>(0);
-  const [box7, setBox7] = useState<number>(0);
-  const [box8, setBox8] = useState<number>(0);
 
   const [items1, setItems1] = useState<string>("");
-  /*
-  const [items2, setItems2] = useState<string>("");
-  const [items3, setItems3] = useState<string>("");
-  const [items4, setItems4] = useState<string>("");
-  const [items5, setItems5] = useState<string>("");
-  const [items6, setItems6] = useState<string>("");
-  const [items7, setItems7] = useState<string>("");
-  const [items8, setItems8] = useState<string>("");
-  const [items9, setItems9] = useState<string>("");
-  const [items10, setItems10] = useState<string>("");
-  const [items11, setItems11] = useState<string>("");
-  const [items12, setItems12] = useState<string>("");
-  const [items13, setItems13] = useState<string>("");
-  const [items14, setItems14] = useState<string>("");
-  const [items15, setItems15] = useState<number>(0);
-  */
 
   const [engrave1, setEngrave1] = useState<number>(0); // 각인1 종류
   const [engrave2, setEngrave2] = useState<number>(0); // 각인1 수치
@@ -230,51 +207,8 @@ export default function Power() {
   const [gold8, setGold8] = useState<number>(0); // 황돋2 투력
   const [gold9, setGold9] = useState<number>(0); // 황돋3 투력
 
-  const [animal1, setAnimal1] = useState<number>(5); // 신수등급
-  const [animal2, setAnimal2] = useState<number>(99); // 신수레벨
-  const [animal3, setAnimal3] = useState<number>(7); // 신수무기
-  const [animal4, setAnimal4] = useState<number>(7); // 신수투구
-  const [animal5, setAnimal5] = useState<number>(7); // 신수갑옷
-  const [animal6, setAnimal6] = useState<number>(2); // 신수장갑1
-  const [animal7, setAnimal7] = useState<number>(2); // 신수장갑2
-  const [animal8, setAnimal8] = useState<number>(2); // 신수보주
-
-  const [pet1, setPet1] = useState<number>(9); // 환수등급
-  const [pet2, setPet2] = useState<number>(99); // 환수레벨
-  const [pet3, setPet3] = useState<number>(0); // 환수무기 전투력
-  const [pet4, setPet4] = useState<number>(0); // 환수투구 전투력
-  const [pet5, setPet5] = useState<number>(0); // 환수갑옷 전투력
-  const [pet6, setPet6] = useState<number>(0); // 환수성물 전투력
-  const [pet7, setPet7] = useState<number>(0); // 환수성물 전투력
-  const [pet8, setPet8] = useState<number>(0); // 환수목걸이 전투력
-  const [pet9, setPet9] = useState<number>(0); // 환수문양 전투력
-  const [pet10, setPet10] = useState<number>(0); // 환수세트옷 전투력
-  const [pet11, setPet11] = useState<number>(0); // 환수신물 전투력
-
-  const loadData = () => {
-    let basic = "https://baram.nexon.com/Profile/Info?character=";
-    let encodeCharacter = encodeURI("협가검");
-    let encodeServer = "%40%ED%95%98%EC%9E%90";
-
-    var option = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type,Authorization, Content-Length, X-Request-With",
-      },
-    };
-
-    axios.get(basic + encodeCharacter + encodeServer, option).then((html) => {
-      if (html === undefined) throw new Error("NO HTML");
-
-      console.log(html.data);
-      const $ = cheerio.load(html.data);
-      //const $bodyList = $("div.inner ul").children("li.level");
-      //let ary = Number($bodyList.find("span.system").text());
-      console.log("성공");
-    });
-  };
+  let animals: number[] = [5, 99, 7, 7, 7, 2, 2, 2]; // 신수 : 등급, 레벨, 무기, 투구, 갑옷, 장갑1, 장갑2, 보주
+  let pets: number[] = [9, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 환수 : 등급, 레벨, 무기, 투구, 갑옷, 성물1, 성물2, 목걸이, 문양, 세트옷, 신물
 
   const calLevel = (lev: number) => {
     let a: number = Math.floor(lev / 100);
@@ -408,23 +342,31 @@ export default function Power() {
   };
 
   const calAnimal = () => {
-    if (animal1 !== 0 && animal2 !== 0) {
-      setAnimalPower(
-        animal1 * 400 +
-          animal2 * 4 +
-          (animal3 * 50 + 250) +
-          (animal4 * 50 + 250) +
-          (animal5 * 50 + 250) +
-          animal6 * 100 +
-          animal7 * 100 +
-          animal8 * 200
-      );
-    }
+    setAnimalPower(
+      animals[0] * 400 +
+        animals[1] * 4 +
+        (animals[2] * 50 + 250) +
+        (animals[3] * 50 + 250) +
+        (animals[4] * 50 + 250) +
+        animals[5] * 100 +
+        animals[6] * 100 +
+        animals[7] * 200
+    );
   };
 
   const calPet = () => {
     setPetPower(
-      pet1 * 200 + pet2 * 2 + pet3 + pet4 + pet5 + pet6 + pet7 + pet8 * 100 + pet9 * 100 + pet10 * 100 + pet11 * 100
+      pets[0] * 200 +
+        pets[1] * 2 +
+        pets[2] +
+        pets[3] +
+        pets[4] +
+        pets[5] +
+        pets[6] +
+        pets[7] * 100 +
+        pets[8] * 100 +
+        pets[9] * 100 +
+        pets[10] * 100
     );
   };
 
@@ -433,50 +375,6 @@ export default function Power() {
       case 1:
         setItems1(name);
         break;
-      /*
-      case 2:
-        setItems2(name);
-        break;
-      case 3:
-        setItems3(name);
-        break;
-      case 4:
-        setItems4(name);
-        break;
-      case 5:
-        setItems5(name);
-        break;
-      case 6:
-        setItems6(name);
-        break;
-      case 7:
-        setItems7(name);
-        break;
-      case 8:
-        setItems8(name);
-        break;
-      case 9:
-        setItems9(name);
-        break;
-      case 10:
-        setItems10(name);
-        break;
-      case 11:
-        setItems11(name);
-        break;
-      case 12:
-        setItems12(name);
-        break;
-      case 13:
-        setItems13(name);
-        break;
-      case 14:
-        setItems14(name);
-        break;
-      case 15:
-        setItems15(parseInt(name));
-        break;
-        */
     }
   };
 
@@ -502,9 +400,15 @@ export default function Power() {
     }
   };
 
+  const autoApply = (cen: string) => {
+    getItemData("협가검");
+  };
+
   useEffect(() => {
     const calculating = () => {
       setGoldPower(gold7 + gold8 + gold9);
+      setSkillPower(0);
+      setItemPower(0);
     };
     calculating();
     // eslint-disable-next-line
@@ -512,22 +416,20 @@ export default function Power() {
 
   return (
     <React.Fragment>
-      <Container
-        style={{
-          width: "1117px",
-          margin: "0 20px 10px 20px",
-          padding: "0",
-          float: "left",
-          border: "1px solid gray",
-          borderRadius: "10px",
-        }}
+      <Grid
+        container
+        spacing={3}
+        style={{ width: "90%", margin: "10px 5%", padding: "0", float: "left", textAlign: "center" }}
       >
-        <Container style={{ width: "255px", margin: "0", padding: "10px 12.5px", float: "left" }}>
+        <Grid item style={{ width: "310px", padding: "0", margin: "10px 25px" }}>
           <TextField
             variant="outlined"
             placeholder="아이디@서버"
+            onChange={(e) => {
+              setAuto(e.target.value);
+            }}
             inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-            style={{ width: "175px", marginLeft: "5px", float: "left" }}
+            style={{ width: "175px", marginLeft: "30px", float: "left" }}
           />
           <Button
             variant="contained"
@@ -541,20 +443,14 @@ export default function Power() {
               borderTopLeftRadius: "0",
               borderBottomLeftRadius: "0",
             }}
+            onClick={(e) => {
+              autoApply(auto);
+            }}
           >
             적용
           </Button>
-        </Container>
-        <Container
-          style={{
-            width: "620px",
-            margin: "0",
-            padding: "10px 15px",
-            float: "left",
-            borderLeft: "1px solid gray",
-            borderRight: "1px solid gray",
-          }}
-        >
+        </Grid>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 25px" }}>
           <TextField
             className={classes.powers}
             variant="outlined"
@@ -563,39 +459,31 @@ export default function Power() {
             onChange={(e) => {
               setBox1(parseInt(e.target.value));
             }}
+            style={{ marginLeft: "30px" }}
           />
           <Link className={classes.plus}>+</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box2 || ""} />
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" />
           <Link className={classes.plus}>+</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box3 || ""} />
-          <Link className={classes.plus}>+</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box4 || ""} />
-          <Link className={classes.plus}>+</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box5 || ""} />
-          <Link className={classes.plus}>+</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box6 || ""} />
-          <Link className={classes.plus}>+</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box7 || ""} />
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" />
           <Link className={classes.plus}>=</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="결과" value={box8 || ""} />
-        </Container>
-        <Container
-          style={{
-            width: "240px",
-            margin: "0",
-            padding: "10px 15px",
-            float: "left",
-          }}
-        >
-          <TextField className={classes.powers} variant="outlined" placeholder="전투력" value={box7 || ""} />
+          <TextField className={classes.powers} variant="outlined" placeholder="결과" />
+        </Grid>
+        <Grid item style={{ width: "310px", padding: "0", margin: "10px 0 10px 50px" }}>
+          <TextField
+            className={classes.powers}
+            variant="outlined"
+            placeholder="전투력"
+            style={{ marginLeft: "30px" }}
+          />
           <Link className={classes.plus}>x</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="품의" value={box8 || ""} />
+          <TextField className={classes.powers} variant="outlined" placeholder="품의" />
           <Link className={classes.plus}>=</Link>
-          <TextField className={classes.powers} variant="outlined" placeholder="결과" value={box8 || ""} />
-        </Container>
-      </Container>
-      <Grid container spacing={3} style={{ margin: "0", padding: "0" }}>
-        <Grid item style={{ width: "350px", padding: "0", margin: "10px 20px" }}>
+          <TextField className={classes.powers} variant="outlined" placeholder="결과" />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3} style={{ width: "90%", margin: "10px 5%", padding: "0" }}>
+        <Grid item style={{ width: "350px", padding: "0", margin: "10px 29px 10px 0" }}>
           <Container
             component="div"
             style={{
@@ -728,7 +616,7 @@ export default function Power() {
           </Container>
         </Grid>
 
-        <Grid item style={{ width: "320px", padding: "0", margin: "10px 30px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 44px 10px 15px" }}>
           <Container
             component="div"
             style={{
@@ -1010,7 +898,7 @@ export default function Power() {
                   calGold1(e, 1);
                 }}
                 style={{
-                  width: "110px",
+                  width: "120px",
                 }}
               >
                 <Menus2 value={0}>직업</Menus2>
@@ -1032,7 +920,7 @@ export default function Power() {
                   calGold1(e, 1);
                 }}
                 style={{
-                  width: "170px",
+                  width: "160px",
                 }}
               >
                 <Menus2 value={0}>아이템 부위</Menus2>
@@ -1097,7 +985,7 @@ export default function Power() {
             </Container>
           </Container>
         </Grid>
-        <Grid item style={{ width: "350px", padding: "0", margin: "10px 15px" }}>
+        <Grid item style={{ width: "350px", padding: "0", margin: "10px 0" }}>
           <Container
             component="div"
             style={{
@@ -1112,10 +1000,12 @@ export default function Power() {
               <TextField
                 variant="outlined"
                 inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
-                defaultValue={animal1}
+                defaultValue={5}
                 onChange={(e) => {
                   let a = parseInt(e.target.value);
-                  if (a > 0 && a < 6) setAnimal1(a);
+                  if (a > 0 && a < 6) {
+                    animals[0] = a;
+                  }
                 }}
                 style={{ width: "35px", float: "left", margin: "5px 0 5px 10px" }}
               />
@@ -1136,10 +1026,12 @@ export default function Power() {
               <TextField
                 variant="outlined"
                 inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
-                defaultValue={animal2}
+                defaultValue={99}
                 onChange={(e) => {
                   let a = parseInt(e.target.value);
-                  if (a > 0 && a < 99) setAnimal2(a);
+                  if (a > 0 && a < 99) {
+                    animals[1] = a;
+                  }
                 }}
                 style={{ width: "35px", float: "left", margin: "5px 0 5px 5px" }}
               />
@@ -1179,7 +1071,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={7}
                 onChange={(e) => {
-                  setAnimal3(Number(e.target.value));
+                  animals[2] = Number(e.target.value);
                 }}
               >
                 <Menus value={5}>5성</Menus>
@@ -1196,7 +1088,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={2}
                 onChange={(e) => {
-                  setAnimal6(Number(e.target.value));
+                  animals[5] = Number(e.target.value);
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1212,7 +1104,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={7}
                 onChange={(e) => {
-                  setAnimal4(Number(e.target.value));
+                  animals[3] = Number(e.target.value);
                 }}
               >
                 <Menus value={5}>5성</Menus>
@@ -1229,7 +1121,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={2}
                 onChange={(e) => {
-                  setAnimal7(Number(e.target.value));
+                  animals[6] = Number(e.target.value);
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1245,7 +1137,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={7}
                 onChange={(e) => {
-                  setAnimal5(Number(e.target.value));
+                  animals[4] = Number(e.target.value);
                 }}
               >
                 <Menus value={5}>5성</Menus>
@@ -1262,7 +1154,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={2}
                 onChange={(e) => {
-                  setAnimal8(Number(e.target.value));
+                  animals[7] = Number(e.target.value);
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1287,10 +1179,10 @@ export default function Power() {
             <Container component="div" className={classes.sliBox} style={{ height: "45px" }}>
               <TextField
                 variant="outlined"
-                value={pet1}
+                value={9}
                 inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
                 onChange={(e) => {
-                  setPet1(parseInt(e.target.value));
+                  pets[0] = parseInt(e.target.value);
                 }}
                 style={{ width: "35px", float: "left", margin: "2.5px 0 2.5px 10px" }}
               />
@@ -1311,9 +1203,9 @@ export default function Power() {
               <TextField
                 variant="outlined"
                 inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
-                value={pet2}
+                value={99}
                 onChange={(e) => {
-                  setPet2(parseInt(e.target.value));
+                  pets[1] = parseInt(e.target.value);
                 }}
                 style={{ width: "35px", float: "left", margin: "2.5px 0 2.5px 5px" }}
               />
@@ -1353,7 +1245,7 @@ export default function Power() {
                 className={classes.petInput}
                 placeholder="전투력"
                 onChange={(e) => {
-                  setPet3(parseInt(e.target.value));
+                  pets[2] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText}>목걸이</Link>
@@ -1362,7 +1254,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={0}
                 onChange={(e) => {
-                  setPet8(Number(e.target.value));
+                  pets[7] = Number(e.target.value);
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1379,7 +1271,7 @@ export default function Power() {
                 className={classes.petInput}
                 placeholder="전투력"
                 onChange={(e) => {
-                  setPet4(parseInt(e.target.value));
+                  pets[3] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText}>문 양</Link>
@@ -1388,7 +1280,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={0}
                 onChange={(e) => {
-                  setPet9(Number(e.target.value));
+                  pets[8] = Number(e.target.value);
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1403,33 +1295,7 @@ export default function Power() {
                 className={classes.petInput}
                 placeholder="전투력"
                 onChange={(e) => {
-                  setPet5(parseInt(e.target.value));
-                }}
-              />
-              <Link className={classes.petText}>신 물</Link>
-              <Select
-                className={classes.select2}
-                variant="outlined"
-                defaultValue={0}
-                onChange={(e) => {
-                  setPet10(Number(e.target.value));
-                }}
-              >
-                <Menus value={0}>없음</Menus>
-                <Menus value={1}>1성</Menus>
-                <Menus value={2}>2성</Menus>
-                <Menus value={3}>3성</Menus>
-                <Menus value={4}>4성</Menus>
-              </Select>
-            </Container>
-            <Container component="div" className={classes.sliBox}>
-              <Link className={classes.petText}>성 물</Link>
-              <TextField
-                variant="outlined"
-                className={classes.petInput}
-                placeholder="전투력"
-                onChange={(e) => {
-                  setPet6(parseInt(e.target.value));
+                  pets[4] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText}>세트옷</Link>
@@ -1438,7 +1304,7 @@ export default function Power() {
                 variant="outlined"
                 defaultValue={0}
                 onChange={(e) => {
-                  setPet11(Number(e.target.value));
+                  pets[9] = Number(e.target.value);
                 }}
               >
                 <Menus value={0}>없음</Menus>
@@ -1452,7 +1318,33 @@ export default function Power() {
                 className={classes.petInput}
                 placeholder="전투력"
                 onChange={(e) => {
-                  setPet7(parseInt(e.target.value));
+                  pets[5] = parseInt(e.target.value);
+                }}
+              />
+              <Link className={classes.petText}>신 물</Link>
+              <Select
+                className={classes.select2}
+                variant="outlined"
+                defaultValue={0}
+                onChange={(e) => {
+                  pets[10] = Number(e.target.value);
+                }}
+              >
+                <Menus value={0}>없음</Menus>
+                <Menus value={3}>1성</Menus>
+                <Menus value={4}>2성</Menus>
+                <Menus value={5}>3성</Menus>
+                <Menus value={6}>4성</Menus>
+              </Select>
+            </Container>
+            <Container component="div" className={classes.sliBox}>
+              <Link className={classes.petText}>성 물</Link>
+              <TextField
+                variant="outlined"
+                className={classes.petInput}
+                placeholder="전투력"
+                onChange={(e) => {
+                  pets[6] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText} style={{ width: "145px", color: "gray", fontSize: "0.8rem" }}>
