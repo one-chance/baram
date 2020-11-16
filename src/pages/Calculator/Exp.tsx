@@ -189,8 +189,9 @@ export default function CalExp() {
         style={{
           width: "600px",
           height: "46px",
-          margin: "40px 20px",
+          margin: "10px",
           padding: "5px 1px",
+          float: "left",
         }}
       >
         <Link
@@ -224,8 +225,12 @@ export default function CalExp() {
           설정
         </Button>
       </Container>
-      <TableContainer component={Paper} elevation={0} style={{ width: "610px", margin: "15px", padding: "5px" }}>
-        <Table className={classes.table} component="table" aria-label="customized table" style={{ width: "100%" }}>
+      <TableContainer
+        component={Paper}
+        elevation={0}
+        style={{ width: "600px", margin: "10px", padding: "5px 0", float: "left" }}
+      >
+        <Table className={classes.table}>
           <TableHead>
             <TableRow>
               <TableCell style={{ width: "16%" }}>순수 체력</TableCell>
@@ -253,10 +258,17 @@ export default function CalExp() {
 
       <Container
         component="div"
-        style={{ width: "600px", height: "100px", margin: "20px", padding: "10px 25px", border: "1px solid" }}
+        style={{
+          width: "600px",
+          height: "100px",
+          margin: "10px",
+          padding: "10px 25px",
+          border: "1px solid",
+          float: "left",
+        }}
       >
         <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
-          {myExp2}
+          {myExp2 || "보유 경험치"}
         </Link>
         <Link underline="none" className={classes.title} style={{ margin: "0 30px 0 30px", width: "25px" }}>
           ▶&nbsp;
@@ -275,7 +287,7 @@ export default function CalExp() {
           style={{ marginLeft: "5px" }}
           value={myExp || ""}
           onChange={(e) => {
-            if (e.target.value.length < 14 && e.target.value.length > 0) {
+            if (e.target.value.length < 14 && needExp !== "0") {
               setMyExp(parseInt(e.target.value));
               setMyExp2(numToText(parseInt(e.target.value)).toString());
               setResult1(0);
@@ -291,11 +303,8 @@ export default function CalExp() {
           variant="outlined"
           color="primary"
           onClick={(e) => {
-            if (needExp !== "0") {
+            if (needExp !== "0" && myExp !== 0) {
               calculateExp(myExp, needExp);
-            } else {
-              setMyExp(0);
-              setMyExp2("0");
             }
           }}
           style={{ margin: "0 5px" }}
@@ -318,7 +327,14 @@ export default function CalExp() {
       </Container>
       <Container
         component="div"
-        style={{ width: "600px", height: "100px", margin: "20px", padding: "10px 25px", border: "1px solid" }}
+        style={{
+          width: "600px",
+          height: "100px",
+          margin: "10px",
+          padding: "10px 25px",
+          border: "1px solid",
+          float: "left",
+        }}
       >
         <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
           목표 체력량
@@ -350,7 +366,7 @@ export default function CalExp() {
           variant="outlined"
           color="primary"
           onClick={(e) => {
-            if (needExp !== "0") {
+            if (needExp !== "0" && hp !== 0) {
               calculateHp(hp, needExp);
             }
           }}

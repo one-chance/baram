@@ -6,7 +6,6 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -59,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
       margin: "10px 0",
       textDecoration: "none",
       fontSize: "1.2rem",
-      fontWeight: "bold",
       color: "black",
     },
   },
@@ -89,6 +87,13 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "lightgray",
       },
     },
+  },
+
+  btn: {
+    lineHeight: "30px",
+    margin: "15px 0",
+    padding: "0",
+    float: "left",
   },
 }));
 
@@ -158,7 +163,7 @@ export default function Header() {
         color="inherit"
         elevation={0}
         style={{
-          position: "-webkit-sticky",
+          position: "sticky",
           width: "100%",
           height: "120px",
           float: "left",
@@ -175,32 +180,28 @@ export default function Header() {
             textAlign: "center",
           }}
         >
-          <Button size="small" style={{ lineHeight: "52px", marginLeft: "20px", float: "left" }}>
-            Subscribe
-          </Button>
-
-          <h1 style={{ width: "860px", margin: "10px 0 10px 100px", float: "left" }}>logo</h1>
+          <div style={{ width: "8%", minWidth: "80px", margin: "0 1%", float: "left" }}>
+            <Button className={classes.btn}>Subscribe</Button>
+          </div>
+          <div style={{ width: "50%", margin: "0 5% 0 15%", float: "left" }}>
+            <h1 style={{ margin: "10px 0", display: "block" }}>logo</h1>
+          </div>
 
           {signInUserId ? (
-            <Button variant="outlined" size="small" onClick={_onLogoutUser}>
-              로그아웃
-            </Button>
+            <Container style={{ width: "18%", minWidth: "170px", margin: "0 1%", padding: "0", float: "left" }}>
+              <Button className={classes.btn} onClick={_onLogoutUser} style={{ marginRight: "5px" }}>
+                로그아웃
+              </Button>
+              <Button className={classes.btn} style={{ marginLeft: "5px", color: "blue" }} disabled>
+                아이디
+              </Button>
+            </Container>
           ) : (
-            <Container style={{ width: "200px", height: "60px", padding: "0", float: "left" }}>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={_onSignInOpen}
-                style={{ border: "0", lineHeight: "50px", marginRight: "5px" }}
-              >
+            <Container style={{ width: "18%", minWidth: "170px", margin: "0 1%", padding: "0", float: "left" }}>
+              <Button className={classes.btn} onClick={_onSignInOpen} style={{ marginRight: "5px" }}>
                 로그인
               </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={_onMoveSignUp}
-                style={{ border: "0", lineHeight: "50px", marginLeft: "5px" }}
-              >
+              <Button className={classes.btn} onClick={_onMoveSignUp} style={{ marginLeft: "5px" }}>
                 회원가입
               </Button>
             </Container>
@@ -266,7 +267,7 @@ export default function Header() {
                   <a href="/dic/petitem">환수장비</a>
                 </li>
                 <li>
-                  <a href="/dic/petitem">신수장비</a>
+                  <a href="/dic/animalitem">신수장비</a>
                 </li>
                 <li>
                   <a href="/dic/raid">레이드/사냥터</a>
@@ -314,23 +315,20 @@ export default function Header() {
         onClose={_onSignInClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">{"로그인"}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title" style={{ padding: "0 5px", textAlign: "center" }}>
+          <div>
+            <h2 style={{ margin: "20px 0 0 0" }}>로그인</h2>
+            <Button
+              onClick={_onSignInClose}
+              style={{ minWidth: 10, fontSize: "1rem", padding: "0", position: "absolute", top: 5, right: 10 }}
+            >
+              &#10006;
+            </Button>
+          </div>
+        </DialogTitle>
         <DialogContent>
-          {/*
-            <DialogContentText>
-              Blah Blah ~~~~ 
-            </DialogContentText>
-            */}
           <SignInForm />
         </DialogContent>
-        <DialogActions className={classes.dialogActions}>
-          <Button tabIndex={-1} onClick={_onMoveSignUp} color="primary">
-            회원가입
-          </Button>
-          <Button tabIndex={-1} onClick={_onSignInClose} color="primary">
-            닫기
-          </Button>
-        </DialogActions>
       </Dialog>
     </React.Fragment>
   );

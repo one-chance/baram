@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: "BMJUA";
+  src: url(/assets/fonts/BMJUA.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "BMDOHYEON";
+  src: url(/assets/fonts/BMDOHYEON.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Youth";
+  src: url(/assets/fonts/Youth.ttf) format("truetype");
+}
