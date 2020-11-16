@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     bigBox: {
       width: "100%",
-      marginBottom: "10px",
+      margin: "5px 0",
       padding: "9px",
       border: "1px solid gray",
       borderRadius: "10px",
@@ -359,9 +359,15 @@ export default function Power() {
   };
 
   const autoApply = (cen: string) => {
-    let a = getItemData("협가검");
-    console.log(a);
-    calLevel(level);
+    if (auto !== "" && auto.split("@").length === 2) {
+      let a = getItemData(auto);
+      a.then((res) => {
+        setLevel(res.ary);
+        calLevel(res.ary);
+      });
+    } else {
+      alert("에러! 아이디@서버 형식을 확인하세요.");
+    }
   };
 
   useEffect(() => {
@@ -392,6 +398,7 @@ export default function Power() {
           <TextField
             variant="outlined"
             placeholder="아이디@서버"
+            value={auto || ""}
             onChange={(e) => {
               setAuto(e.target.value);
             }}
@@ -454,7 +461,7 @@ export default function Power() {
           float: "left",
         }}
       >
-        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
           <Container className={classes.bigBox}>
             <Container className={classes.smallBox} style={{ margin: "5px 0", textAlign: "center" }}>
               <TextField
@@ -504,16 +511,7 @@ export default function Power() {
               </Link>
             </Container>
           </Container>
-          <Container
-            style={{
-              width: "100%",
-              margin: "0",
-              padding: "9px",
-              float: "left",
-              border: "1px solid gray",
-              borderRadius: "10px",
-            }}
-          >
+          <Container className={classes.bigBox}>
             <TextField
               className={classes.itemInput}
               variant="outlined"
@@ -587,7 +585,7 @@ export default function Power() {
           </Container>
         </Grid>
 
-        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
           <Container className={classes.bigBox}>
             <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
@@ -806,16 +804,7 @@ export default function Power() {
             </Button>
           </Container>
 
-          <Container
-            style={{
-              width: "100%",
-              padding: "9px",
-              margin: "0",
-              float: "left",
-              border: "1px solid gray",
-              borderRadius: "10px",
-            }}
-          >
+          <Container className={classes.bigBox}>
             <Container style={{ width: "100%", padding: "0", margin: "0", float: "left" }}>
               <Select
                 className={classes.select}
@@ -898,7 +887,7 @@ export default function Power() {
             </Button>
           </Container>
         </Grid>
-        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
           <Container className={classes.bigBox}>
             <Container className={classes.smallBox}>
               <TextField
@@ -1076,15 +1065,7 @@ export default function Power() {
               </Button>
             </Container>
           </Container>
-          <Container
-            style={{
-              width: "100%",
-              padding: "9px",
-              margin: "0",
-              border: "1px solid gray",
-              borderRadius: "10px",
-            }}
-          >
+          <Container className={classes.bigBox}>
             <Container className={classes.smallBox}>
               <TextField
                 variant="outlined"
