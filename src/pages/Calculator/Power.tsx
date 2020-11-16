@@ -20,7 +20,7 @@ import { getItemData } from "utils/CalUtil";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     itemInput: {
-      width: "155px",
+      width: "140px",
       margin: "5px",
       float: "left",
       "& input": {
@@ -31,18 +31,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
     powers: {
       width: "60px",
-      float: "left",
       margin: "0",
       "& input": { height: "40px", padding: "0", textAlign: "center" },
     },
 
     plus: {
-      width: "15px",
-      height: "20px",
-      margin: "10px 0",
-      float: "left",
-      fontSize: "1rem",
-      textAlign: "center",
+      minWidth: "10px",
+      lineHeight: "40px",
+      margin: "0 2px",
       color: "black",
       "&:focus, &:hover, &:visited, &:link, &:active": {
         textDecoration: "none",
@@ -66,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     select2: {
-      width: "90px",
+      width: "80px",
       height: "40px",
       padding: "1px",
       margin: "5px 2.5px",
@@ -99,31 +95,41 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     powerText: {
-      width: "150px",
+      width: "80%",
       height: "40px",
       lineHeight: "40px",
-      margin: "0 0 0 30%",
+      margin: "5px 0",
       color: "black",
       fontSize: "1rem",
       fontWeight: "bold",
+      textAlign: "center",
       float: "left",
       "&:focus, &:hover, &:visited, &:link, &:active": {
         textDecoration: "none",
       },
     },
 
-    sliBox: {
-      width: "330px",
+    smallBox: {
+      width: "300px",
       height: "50px",
       padding: "0",
       margin: "0",
+    },
+
+    bigBox: {
+      width: "100%",
+      marginBottom: "10px",
+      padding: "9px",
+      border: "1px solid gray",
+      borderRadius: "10px",
+      float: "left",
     },
 
     petText: {
       width: "50px",
       height: "40px",
       lineHeight: "40px",
-      margin: "5px 2.5px",
+      margin: "5px 0",
       float: "left",
       textAlign: "center",
       color: "black",
@@ -133,9 +139,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     petInput: {
-      width: "90px",
+      width: "80px",
       float: "left",
-      margin: "5px 20px 5px 0",
+      margin: "5px 25px 5px 0",
       "& input": {
         height: "40px",
         padding: "0",
@@ -143,19 +149,10 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
 
-    btnTMI: {
-      minWidth: "35px",
-      height: "35px",
+    btn: {
+      height: "40px",
       margin: "5px",
       padding: "0",
-      float: "left",
-    },
-
-    btnCal: {
-      height: "35px",
-      margin: "5px",
-      padding: "0",
-      float: "left",
     },
   })
 );
@@ -163,12 +160,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const Menus = withStyles({
   root: {
     fontSize: "0.9rem",
-    justifyContent: "center",
-  },
-})(MenuItem);
-
-const Menus2 = withStyles({
-  root: {
     justifyContent: "center",
   },
 })(MenuItem);
@@ -181,6 +172,7 @@ export default function Power() {
   const [auto, setAuto] = useState<string>("");
   const [level, setLevel] = useState<number>(0); // 레벨
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
+  const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
   const [itemPower, setItemPower] = useState<number>(0); // 장비 전투력
   const [engravePower, setEngravePower] = useState<number>(0); // 각인 전투력
   const [goldPower, setGoldPower] = useState<number>(0); // 황돋 전투력
@@ -207,55 +199,30 @@ export default function Power() {
   const [gold8, setGold8] = useState<number>(0); // 황돋2 투력
   const [gold9, setGold9] = useState<number>(0); // 황돋3 투력
 
+  let golds: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // 황돋 : 종류1, 수치1, 종류2, 수치2, 종류3, 수치3
   let animals: number[] = [5, 99, 7, 7, 7, 2, 2, 2]; // 신수 : 등급, 레벨, 무기, 투구, 갑옷, 장갑1, 장갑2, 보주
   let pets: number[] = [9, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 환수 : 등급, 레벨, 무기, 투구, 갑옷, 성물1, 성물2, 목걸이, 문양, 세트옷, 신물
 
   const calLevel = (lev: number) => {
-    let a: number = Math.floor(lev / 100);
-    var b: number = lev % 100;
-    var c: number = 0;
-
-    switch (a) {
-      case 0:
-        c = 649.5;
-        break;
-
-      case 1:
-        c = 1003 + b * 3.5 * a;
-        break;
-
-      case 2:
-        c = 2056.5 + b * 3.5 * a;
-        break;
-
-      case 3:
-        c = 3810 + b * 3.5 * a;
-        break;
-
-      case 4:
-        c = 6263.5 + b * 3.5 * a;
-        break;
-
-      case 5:
-        c = 9417 + b * 3.5 * a;
-        break;
-
-      case 6:
-        c = 13270.5 + b * 3.5 * a;
-        break;
-
-      case 7:
-        c = 17824 + b * 3.5 * a;
-        break;
+    if (lev < 1 || lev > 799) {
+      return;
     }
-    setLevelPower(Math.round(c));
+
+    let a: number = Math.floor(lev / 100);
+    let b: number = lev % 100;
+    let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
+    let res: number = 0;
+
+    res = a * 3.5 * b + c[a];
+    setLevelPower(Math.round(res));
+    setLevelPower2(res);
   };
 
   const calEngrave = () => {
     setEngravePower(engrave1 * engrave2 + engrave3 * engrave4);
   };
 
-  const calGold1 = (e: React.ChangeEvent<{ value: unknown }>, num: number) => {
+  const calGold1 = (e: React.ChangeEvent<{ value: unknown }>) => {
     let val: number = 0;
 
     switch (e.target.value as number) {
@@ -301,16 +268,7 @@ export default function Power() {
         break;
     }
 
-    if (num === 1) {
-      setGold1(val);
-      setGold2(0);
-    } else if (num === 2) {
-      setGold3(val);
-      setGold4(0);
-    } else if (num === 3) {
-      setGold5(val);
-      setGold6(0);
-    }
+    return val;
   };
 
   const calGold2 = (val: number, num: number) => {
@@ -401,7 +359,9 @@ export default function Power() {
   };
 
   const autoApply = (cen: string) => {
-    getItemData("협가검");
+    let a = getItemData("협가검");
+    console.log(a);
+    calLevel(level);
   };
 
   useEffect(() => {
@@ -419,9 +379,16 @@ export default function Power() {
       <Grid
         container
         spacing={3}
-        style={{ width: "90%", margin: "10px 5%", padding: "0", float: "left", textAlign: "center" }}
+        style={{
+          width: "90%",
+          margin: "0 5%",
+          padding: "0",
+          justifyContent: "center",
+          alignItems: "center",
+          float: "left",
+        }}
       >
-        <Grid item style={{ width: "310px", padding: "0", margin: "10px 25px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px", textAlign: "center" }}>
           <TextField
             variant="outlined"
             placeholder="아이디@서버"
@@ -429,7 +396,7 @@ export default function Power() {
               setAuto(e.target.value);
             }}
             inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-            style={{ width: "175px", marginLeft: "30px", float: "left" }}
+            style={{ width: "175px" }}
           />
           <Button
             variant="contained"
@@ -439,7 +406,6 @@ export default function Power() {
               height: "40px",
               marginLeft: "-5px",
               padding: "0",
-              float: "left",
               borderTopLeftRadius: "0",
               borderBottomLeftRadius: "0",
             }}
@@ -450,7 +416,7 @@ export default function Power() {
             적용
           </Button>
         </Grid>
-        <Grid item style={{ width: "320px", padding: "0", margin: "10px 25px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px", textAlign: "center" }}>
           <TextField
             className={classes.powers}
             variant="outlined"
@@ -459,7 +425,6 @@ export default function Power() {
             onChange={(e) => {
               setBox1(parseInt(e.target.value));
             }}
-            style={{ marginLeft: "30px" }}
           />
           <Link className={classes.plus}>+</Link>
           <TextField className={classes.powers} variant="outlined" placeholder="전투력" />
@@ -468,13 +433,8 @@ export default function Power() {
           <Link className={classes.plus}>=</Link>
           <TextField className={classes.powers} variant="outlined" placeholder="결과" />
         </Grid>
-        <Grid item style={{ width: "310px", padding: "0", margin: "10px 0 10px 50px" }}>
-          <TextField
-            className={classes.powers}
-            variant="outlined"
-            placeholder="전투력"
-            style={{ marginLeft: "30px" }}
-          />
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px", textAlign: "center" }}>
+          <TextField className={classes.powers} variant="outlined" placeholder="전투력" />
           <Link className={classes.plus}>x</Link>
           <TextField className={classes.powers} variant="outlined" placeholder="품의" />
           <Link className={classes.plus}>=</Link>
@@ -482,31 +442,35 @@ export default function Power() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} style={{ width: "90%", margin: "10px 5%", padding: "0" }}>
-        <Grid item style={{ width: "350px", padding: "0", margin: "10px 29px 10px 0" }}>
-          <Container
-            component="div"
-            style={{
-              width: "100%",
-              marginBottom: "10px",
-              padding: "9px",
-              float: "left",
-              border: "1px solid gray",
-              borderRadius: "10px",
-            }}
-          >
-            <Container component="div" style={{ width: "100%", margin: "0", padding: "0", float: "left" }}>
+      <Grid
+        container
+        spacing={3}
+        style={{
+          width: "90%",
+          margin: "0 5%",
+          padding: "0",
+          justifyContent: "center",
+          alignItems: "center",
+          float: "left",
+        }}
+      >
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
+          <Container className={classes.bigBox}>
+            <Container className={classes.smallBox} style={{ margin: "5px 0", textAlign: "center" }}>
               <TextField
+                id="test"
                 variant="outlined"
                 placeholder="99~799"
                 value={level || ""}
                 onChange={(e) => {
                   setLevel(parseInt(e.target.value));
+                  setLevel(level);
                 }}
                 inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-                style={{ width: "105px", margin: "5px 0 5px 45px", float: "left" }}
+                style={{ width: "105px", margin: "5px 0 5px 5px" }}
               />
               <Button
+                className={classes.btn}
                 variant="contained"
                 color="primary"
                 onClick={() => {
@@ -514,36 +478,33 @@ export default function Power() {
                   else setLevel(0);
                 }}
                 style={{
-                  height: "40px",
-                  margin: "5px 5px 5px -5px",
+                  minWidth: "60px",
+                  marginLeft: "-5px",
                   borderTopLeftRadius: "0",
                   borderBottomLeftRadius: "0",
-                  float: "left",
                 }}
               >
                 계산
               </Button>
               <Button
                 variant="contained"
-                className={classes.btnTMI}
+                className={classes.btn}
                 color="secondary"
                 onClick={() => {
                   opening(1);
                 }}
-                style={{ width: "40px", height: "40px" }}
+                style={{ minWidth: "40px" }}
               >
                 ?
               </Button>
             </Container>
-            <Container
-              component="div"
-              style={{ width: "100%", height: "40px", margin: "0", padding: "0", float: "left" }}
-            >
-              <Link className={classes.powerText}>레벨 전투력 : {levelPower}</Link>
+            <Container className={classes.smallBox}>
+              <Link className={classes.powerText} style={{ width: "100%" }}>
+                레벨 전투력 : {levelPower === levelPower2 ? levelPower : levelPower + " (" + levelPower2 + ")"}
+              </Link>
             </Container>
           </Container>
           <Container
-            component="div"
             style={{
               width: "100%",
               margin: "0",
@@ -566,7 +527,6 @@ export default function Power() {
             <TextField className={classes.itemInput} variant="outlined" placeholder="3. 얼굴장식" />
             <TextField className={classes.itemInput} variant="outlined" placeholder="4. 무기" />
             <TextField className={classes.itemInput} variant="outlined" placeholder="5. 갑옷" />
-
             <TextField className={classes.itemInput} variant="outlined" placeholder="6. 방패/보조무기" />
             <TextField className={classes.itemInput} variant="outlined" placeholder="7. 오른손" />
             <TextField className={classes.itemInput} variant="outlined" placeholder="8. 망토" />
@@ -576,59 +536,60 @@ export default function Power() {
             <TextField className={classes.itemInput} variant="outlined" placeholder="12. 보조2" />
             <TextField className={classes.itemInput} variant="outlined" placeholder="13. 장신구" />
             <TextField className={classes.itemInput} variant="outlined" placeholder="14. 세트옷" />
-            <Container component="div" style={{ height: "55px", padding: "0", float: "left" }}>
-              <Link
-                className={classes.petText}
-                style={{ width: "60px", height: "45px", lineHeight: "45px", margin: "5px 5px 5px 10px" }}
-              >
-                15. 강화
-              </Link>
-              <TextField
-                className={classes.itemInput}
-                variant="outlined"
-                placeholder="0 ~ 11"
-                inputProps={{ style: { textAlign: "center" } }}
-                style={{ width: "80px" }}
-              />
+            <Link
+              className={classes.petText}
+              style={{ width: "60px", height: "45px", lineHeight: "45px", margin: "5px" }}
+            >
+              15. 강화
+            </Link>
+            <TextField
+              className={classes.itemInput}
+              variant="outlined"
+              placeholder="0 ~ 11"
+              inputProps={{ style: { textAlign: "center" } }}
+              style={{ width: "70px" }}
+            />
+            <Container
+              style={{
+                width: "140px",
+                height: "45px",
+                padding: "0",
+                margin: "5px",
+                textAlign: "center",
+                float: "left",
+              }}
+            >
               <Button
-                className={classes.btnCal}
+                className={classes.btn}
                 variant="contained"
                 color="primary"
                 style={{
-                  margin: "10px 0 10px 35px",
+                  margin: "2.5px",
                 }}
               >
                 계산
               </Button>
               <Button
                 variant="contained"
-                className={classes.btnTMI}
+                className={classes.btn}
                 color="secondary"
                 onClick={() => {
                   opening(2);
                 }}
-                style={{ margin: "10px 5px" }}
+                style={{ minWidth: "40px", margin: "2.5px" }}
               >
                 ?
               </Button>
             </Container>
-            <Link className={classes.powerText}>장비 전투력 : {itemPower}</Link>
+            <Link className={classes.powerText} style={{ width: "100%" }}>
+              장비 전투력 : {itemPower}
+            </Link>
           </Container>
         </Grid>
 
-        <Grid item style={{ width: "320px", padding: "0", margin: "10px 44px 10px 15px" }}>
-          <Container
-            component="div"
-            style={{
-              width: "100%",
-              padding: "9px",
-              marginBottom: "10px",
-              float: "left",
-              border: "1px solid gray",
-              borderRadius: "10px",
-            }}
-          >
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
+          <Container className={classes.bigBox}>
+            <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
                 variant="outlined"
                 className={classes.select}
@@ -663,7 +624,7 @@ export default function Power() {
                 }}
               />
             </Container>
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
+            <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
                 variant="outlined"
                 className={classes.select}
@@ -698,27 +659,12 @@ export default function Power() {
                 }}
               />
             </Container>
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
-              <Link
-                className={classes.powerText}
-                style={{
-                  marginLeft: "20%",
-                }}
-              >
-                각인 전투력 : {engravePower}
-              </Link>
-              <Button
-                className={classes.btnTMI}
-                variant="contained"
-                color="secondary"
-                style={{ margin: "2.5px 5px 2.5px 25px" }}
-              >
-                ?
-              </Button>
-            </Container>
+            <Link className={classes.powerText}>각인 전투력 : {engravePower}</Link>
+            <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+              ?
+            </Button>
           </Container>
           <Container
-            component="div"
             style={{
               width: "100%",
               padding: "9px",
@@ -728,13 +674,14 @@ export default function Power() {
               borderRadius: "10px",
             }}
           >
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
+            <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
                 variant="outlined"
                 className={classes.select}
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 1);
+                  setGold1(Number(calGold1(e)));
+                  setGold2(0);
                 }}
               >
                 <Menus value={0}>능력치</Menus>
@@ -769,13 +716,14 @@ export default function Power() {
                 }}
               />
             </Container>
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
+            <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
                 variant="outlined"
                 className={classes.select}
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 2);
+                  setGold3(Number(calGold1(e)));
+                  setGold4(0);
                 }}
               >
                 <Menus value={0}>능력치</Menus>
@@ -810,13 +758,14 @@ export default function Power() {
                 }}
               />
             </Container>
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
+            <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
                 variant="outlined"
                 className={classes.select}
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 3);
+                  setGold5(Number(calGold1(e)));
+                  setGold6(0);
                 }}
               >
                 <Menus value={0}>능력치</Menus>
@@ -851,35 +800,13 @@ export default function Power() {
                 }}
               />
             </Container>
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
-              <Link
-                style={{
-                  width: "150px",
-                  height: "40px",
-                  lineHeight: "40px",
-                  marginLeft: "20%",
-                  color: "black",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  float: "left",
-                }}
-              >
-                황돋 전투력 : {goldPower}
-              </Link>
-              <Button
-                className={classes.btnTMI}
-                variant="contained"
-                color="secondary"
-                style={{ margin: "2.5px 5px 2.5px 25px" }}
-              >
-                ?
-              </Button>
-            </Container>
+            <Link className={classes.powerText}>황돋 전투력 : {goldPower}</Link>
+            <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+              ?
+            </Button>
           </Container>
 
           <Container
-            component="div"
             style={{
               width: "100%",
               padding: "9px",
@@ -889,71 +816,71 @@ export default function Power() {
               borderRadius: "10px",
             }}
           >
-            <Container component="div" style={{ width: "100%", padding: "0", margin: "0", float: "left" }}>
+            <Container style={{ width: "100%", padding: "0", margin: "0", float: "left" }}>
               <Select
                 className={classes.select}
                 variant="outlined"
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 1);
+                  calGold1(e);
                 }}
                 style={{
                   width: "120px",
                 }}
               >
-                <Menus2 value={0}>직업</Menus2>
-                <Menus2 value={1}>전사</Menus2>
-                <Menus2 value={2}>도적</Menus2>
-                <Menus2 value={3}>주술사</Menus2>
-                <Menus2 value={4}>도사</Menus2>
-                <Menus2 value={5}>궁사</Menus2>
-                <Menus2 value={6}>천인</Menus2>
-                <Menus2 value={7}>마도사</Menus2>
-                <Menus2 value={8}>영술사</Menus2>
-                <Menus2 value={9}>차사</Menus2>
+                <Menus value={0}>직업</Menus>
+                <Menus value={1}>전사</Menus>
+                <Menus value={2}>도적</Menus>
+                <Menus value={3}>주술사</Menus>
+                <Menus value={4}>도사</Menus>
+                <Menus value={5}>궁사</Menus>
+                <Menus value={6}>천인</Menus>
+                <Menus value={7}>마도사</Menus>
+                <Menus value={8}>영술사</Menus>
+                <Menus value={9}>차사</Menus>
               </Select>
               <Select
                 className={classes.select}
                 variant="outlined"
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 1);
+                  calGold1(e);
                 }}
                 style={{
                   width: "160px",
                 }}
               >
-                <Menus2 value={0}>아이템 부위</Menus2>
-                <Menus2 value={1}>목/어깨장식</Menus2>
-                <Menus2 value={2}>투구</Menus2>
-                <Menus2 value={3}>무기</Menus2>
-                <Menus2 value={4}>갑옷</Menus2>
-                <Menus2 value={5}>망토</Menus2>
+                <Menus value={0}>아이템 부위</Menus>
+                <Menus value={1}>목/어깨장식</Menus>
+                <Menus value={2}>투구</Menus>
+                <Menus value={3}>무기</Menus>
+                <Menus value={4}>갑옷</Menus>
+                <Menus value={5}>망토</Menus>
               </Select>
             </Container>
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
+            <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
                 variant="outlined"
                 className={classes.select}
                 defaultValue={0}
                 onChange={(e) => {
-                  calGold1(e, 1);
+                  calGold1(e);
                 }}
               >
-                <Menus2 value={0}>기술능력</Menus2>
-                <Menus2 value={1}>무영보법-명중회피</Menus2>
-                <Menus2 value={2}>투명-피해증가율</Menus2>
-                <Menus2 value={3}>전혈-지속시간</Menus2>
-                <Menus2 value={4}>전혈-전환율</Menus2>
-                <Menus2 value={5}>전혈'첨-지속시간</Menus2>
-                <Menus2 value={6}>전혈'첨-전환율</Menus2>
-                <Menus2 value={7}>운상미보-이속증가율</Menus2>
-                <Menus2 value={8}>은형연막탄-직타저항</Menus2>
-                <Menus2 value={9}>은형연막탄-피해흡수</Menus2>
-                <Menus2 value={10}>은형연막탄-쿨타임</Menus2>
-                <Menus2 value={11}>묵혈광참-피해량</Menus2>
-                <Menus2 value={12}>묵혈광참-피해량감소</Menus2>
-                <Menus2 value={13}>묵혈광참-방어감소</Menus2>
+                <Menus value={0}>기술능력</Menus>
+                <Menus value={1}>무영보법-명중회피</Menus>
+                <Menus value={2}>투명-피해증가율</Menus>
+                <Menus value={3}>전혈-지속시간</Menus>
+                <Menus value={4}>전혈-전환율</Menus>
+                <Menus value={5}>전혈'첨-지속시간</Menus>
+                <Menus value={6}>전혈'첨-전환율</Menus>
+                <Menus value={7}>운상미보-이속증가율</Menus>
+                <Menus value={8}>은형연막탄-직타저항</Menus>
+                <Menus value={9}>은형연막탄-피해흡수</Menus>
+                <Menus value={10}>은형연막탄-쿨타임</Menus>
+                <Menus value={11}>묵혈광참-피해량</Menus>
+                <Menus value={12}>묵혈광참-피해량감소</Menus>
+                <Menus value={13}>묵혈광참-방어감소</Menus>
               </Select>
               <TextField
                 variant="outlined"
@@ -965,41 +892,18 @@ export default function Power() {
                 }}
               />
             </Container>
-            <Container component="div" style={{ width: "100%", padding: "0", float: "left" }}>
-              <Link
-                className={classes.powerText}
-                style={{
-                  marginLeft: "15%",
-                }}
-              >
-                기술능력 전투력 : {skillPower}
-              </Link>
-              <Button
-                className={classes.btnTMI}
-                variant="contained"
-                color="secondary"
-                style={{ margin: "2.5px 0 2.5px 40px" }}
-              >
-                ?
-              </Button>
-            </Container>
+            <Link className={classes.powerText}>기술능력 전투력 : {skillPower}</Link>
+            <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+              ?
+            </Button>
           </Container>
         </Grid>
-        <Grid item style={{ width: "350px", padding: "0", margin: "10px 0" }}>
-          <Container
-            component="div"
-            style={{
-              width: "100%",
-              padding: "9px",
-              marginBottom: "10px",
-              border: "1px solid gray",
-              borderRadius: "10px",
-            }}
-          >
-            <Container component="div" className={classes.sliBox} style={{ height: "45px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
+          <Container className={classes.bigBox}>
+            <Container className={classes.smallBox}>
               <TextField
                 variant="outlined"
-                inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
+                inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 defaultValue={5}
                 onChange={(e) => {
                   let a = parseInt(e.target.value);
@@ -1012,9 +916,9 @@ export default function Power() {
               <Link
                 style={{
                   width: "35px",
-                  height: "35px",
-                  lineHeight: "35px",
-                  margin: "5px",
+                  height: "40px",
+                  lineHeight: "40px",
+                  margin: "5px 0",
                   float: "left",
                   textDecoration: "none",
                   textAlign: "center",
@@ -1025,7 +929,7 @@ export default function Power() {
               </Link>
               <TextField
                 variant="outlined"
-                inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
+                inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 defaultValue={99}
                 onChange={(e) => {
                   let a = parseInt(e.target.value);
@@ -1038,9 +942,9 @@ export default function Power() {
               <Link
                 style={{
                   width: "35px",
-                  height: "35px",
-                  lineHeight: "35px",
-                  margin: "5px",
+                  height: "40px",
+                  lineHeight: "40px",
+                  margin: "5px 0",
                   float: "left",
                   textDecoration: "none",
                   textAlign: "center",
@@ -1050,21 +954,19 @@ export default function Power() {
                 레벨
               </Link>
               <Button
-                className={classes.btnCal}
+                className={classes.btn}
                 variant="contained"
                 color="primary"
                 onClick={calAnimal}
                 style={{
-                  margin: "5px 0 5px 35px",
+                  marginRight: "15px",
+                  float: "right",
                 }}
               >
                 계산
               </Button>
-              <Button className={classes.btnTMI} variant="contained" color="secondary" style={{ margin: "5px" }}>
-                ?
-              </Button>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>무기</Link>
               <Select
                 className={classes.select2}
@@ -1097,7 +999,7 @@ export default function Power() {
                 <Menus value={3}>3단</Menus>
               </Select>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>투구</Link>
               <Select
                 className={classes.select2}
@@ -1130,7 +1032,7 @@ export default function Power() {
                 <Menus value={3}>3단</Menus>
               </Select>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>갑옷</Link>
               <Select
                 className={classes.select2}
@@ -1162,12 +1064,19 @@ export default function Power() {
                 <Menus value={2}>2개</Menus>
               </Select>
             </Container>
-            <Container component="div" className={classes.sliBox} style={{ height: "40px" }}>
+            <Container className={classes.smallBox}>
               <Link className={classes.powerText}>신수 전투력 : {animalPower}</Link>
+              <Button
+                className={classes.btn}
+                variant="contained"
+                color="secondary"
+                style={{ minWidth: "40px", margin: "5px 0" }}
+              >
+                ?
+              </Button>
             </Container>
           </Container>
           <Container
-            component="div"
             style={{
               width: "100%",
               padding: "9px",
@@ -1176,22 +1085,22 @@ export default function Power() {
               borderRadius: "10px",
             }}
           >
-            <Container component="div" className={classes.sliBox} style={{ height: "45px" }}>
+            <Container className={classes.smallBox}>
               <TextField
                 variant="outlined"
                 value={9}
-                inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
+                inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 onChange={(e) => {
                   pets[0] = parseInt(e.target.value);
                 }}
-                style={{ width: "35px", float: "left", margin: "2.5px 0 2.5px 10px" }}
+                style={{ width: "35px", float: "left", margin: "5px 0 5px 10px" }}
               />
               <Link
                 style={{
                   width: "35px",
-                  height: "35px",
-                  lineHeight: "35px",
-                  margin: "2.5px 5px",
+                  height: "40px",
+                  lineHeight: "40px",
+                  margin: "5px 0",
                   float: "left",
                   textDecoration: "none",
                   textAlign: "center",
@@ -1202,19 +1111,19 @@ export default function Power() {
               </Link>
               <TextField
                 variant="outlined"
-                inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
+                inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 value={99}
                 onChange={(e) => {
                   pets[1] = parseInt(e.target.value);
                 }}
-                style={{ width: "35px", float: "left", margin: "2.5px 0 2.5px 5px" }}
+                style={{ width: "35px", float: "left", margin: "5px 0 5px 5px" }}
               />
               <Link
                 style={{
                   width: "35px",
-                  height: "35px",
-                  lineHeight: "35px",
-                  margin: "2.5px 5px",
+                  height: "40px",
+                  lineHeight: "40px",
+                  margin: "5px 0",
                   float: "left",
                   textDecoration: "none",
                   textAlign: "center",
@@ -1224,21 +1133,19 @@ export default function Power() {
                 레벨
               </Link>
               <Button
-                className={classes.btnCal}
+                className={classes.btn}
                 variant="contained"
                 color="primary"
                 onClick={calPet}
                 style={{
-                  margin: "5px 0 5px 30px",
+                  marginRight: "15px",
+                  float: "right",
                 }}
               >
                 계산
               </Button>
-              <Button className={classes.btnTMI} variant="contained" color="secondary" style={{ margin: "5px" }}>
-                ?
-              </Button>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>무 기</Link>
               <TextField
                 variant="outlined"
@@ -1264,7 +1171,7 @@ export default function Power() {
                 <Menus value={4}>극락목</Menus>
               </Select>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>투 구</Link>
               <TextField
                 variant="outlined"
@@ -1288,7 +1195,7 @@ export default function Power() {
                 <Menus value={4}>문양'진</Menus>
               </Select>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>갑 옷</Link>
               <TextField
                 variant="outlined"
@@ -1311,7 +1218,7 @@ export default function Power() {
                 <Menus value={3}>환수神</Menus>
               </Select>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>성 물</Link>
               <TextField
                 variant="outlined"
@@ -1337,7 +1244,7 @@ export default function Power() {
                 <Menus value={6}>4성</Menus>
               </Select>
             </Container>
-            <Container component="div" className={classes.sliBox}>
+            <Container className={classes.smallBox}>
               <Link className={classes.petText}>성 물</Link>
               <TextField
                 variant="outlined"
@@ -1347,12 +1254,15 @@ export default function Power() {
                   pets[6] = parseInt(e.target.value);
                 }}
               />
-              <Link className={classes.petText} style={{ width: "145px", color: "gray", fontSize: "0.8rem" }}>
-                &nbsp;* 신물은 강화 적용됨 *
+              <Link className={classes.petText} style={{ width: "130px", color: "gray", fontSize: "0.8rem" }}>
+                * 신물은 강화 적용됨 *
               </Link>
             </Container>
-            <Container component="div" className={classes.sliBox} style={{ height: "40px" }}>
+            <Container className={classes.smallBox}>
               <Link className={classes.powerText}>환수 전투력 : {petPower}</Link>
+              <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+                ?
+              </Button>
             </Container>
           </Container>
         </Grid>
