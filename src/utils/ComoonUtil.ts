@@ -22,11 +22,6 @@ export const refreshToken = () => {
   const token = getToken();
   const id = getIdFromToken(token);
   const key = getKeyFromToken(token);
-
-  if (!id || !key ) {
-    delToken();
-    document.location.href="/signin";
-  }
   
   if (token){
     const res = axios.post('/api/common/refresh', {id: id, key: key, token: token})
