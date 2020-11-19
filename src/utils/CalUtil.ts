@@ -10,6 +10,7 @@ export const getItemData = async (_id: string) => {
       }
     })
     .then((res) => {
+      console.log(res.data.item);
       return res.data;
     })
     .catch((e) => {

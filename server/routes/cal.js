@@ -39,7 +39,7 @@ router.get("/item", (req, res) => {
 
         const $ = cheerio.load(html.data);
         const $bodyList = $("div.inner ul").children("li.level");
-        const $itemList = $("div.inner ul").children("li.i1");
+        const $itemList = $("div.item_list ul").children("li.i1");
 
         let ary = Number($bodyList.find("span.system").text());
         let item = $itemList.find("span.system").text();
@@ -49,11 +49,9 @@ router.get("/item", (req, res) => {
           code: 200,
           message: "성공하였습니다.",
           data: html.data,
-          ary: ary,
+          level: ary,
           item: item,
         });
-
-        return $bodyList;
       })
       .catch((e) => {
         myLogger(`[GET URI] : `);
