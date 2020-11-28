@@ -212,7 +212,7 @@ export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomme
 }
 
 // 답글 수정
-export const EditRecomment = async (post: IPost, commentIdx: number, recomment: IComment) => {
+export const EditRecomment = async (post: IPost, commentIdx: number, comment: IComment, recomment: IComment) => {
   recomment = {
     ...recomment,
     writer: Object.assign(getWriter(), recomment.writer)
@@ -221,6 +221,7 @@ export const EditRecomment = async (post: IPost, commentIdx: number, recomment: 
   const res = await axios.put(`/api/board/${post.category}/recomment`, {
     post: post,
     commentIdx: commentIdx,
+    comment: comment,
     recomment: recomment
   }, {
     headers: {

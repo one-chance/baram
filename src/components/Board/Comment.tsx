@@ -191,7 +191,7 @@ function Comment(props: IProps) {
       }
   
       if (comment && comment.idx) {
-        const res = await EditRecomment(post, comment.idx, recomment);
+        const res = await EditRecomment(post, comment.idx, comment, recomment);
         if (res.code === 200) {
           setMyAlert({
             isOpen: true,

@@ -355,7 +355,7 @@ router.post('/recomment', (req, res) => {
 *    TYPE : PUT
 *    URI : /api/board/free/recomment
 *    HEADER: { "token": token }
-*    BODY: { "post", "commentIdx", "recomment" }
+*    BODY: { "post", "commentIdx", "comment", "recomment" }
 *    RETURN CODES:
 *        200: 성공
 *        401: 사용자 인증 오류
@@ -365,12 +365,9 @@ router.use('/recomment', authMiddleware);
 router.put('/recomment', (req, res) => {
   const post =  req.body.post;
   const commentIdx = req.body.commentIdx;
+  const comment = req.body.comment;
   const recomment = req.body.recomment;
   recomment.writer.lastEditDateString = new Date().toLocaleString();
-
-  const comment = post.commentList.filter((comment) => {
-    return comment.idx === commentIdx;
-  })[0];
 
   comment.recommentList.map((rec, idx) => {
     if (rec.idx === recomment.idx) {
