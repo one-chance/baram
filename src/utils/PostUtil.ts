@@ -16,7 +16,7 @@ export const CreatePost = async (_category: CategoryType, _title: string, _conte
     writer: getWriter()
   }
   
-  const res = await axios.post(`/api/board/${post.category}/create`, {
+  const res = await axios.post(`/api/board/${post.category}/post`, {
     post: post
   }, {
     headers: {
@@ -46,7 +46,7 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost) 
       content: _content
     }
   
-    const res = await axios.put(`/api/board/${post.category}/edit`, {
+    const res = await axios.put(`/api/board/${post.category}/post`, {
       post: post
     }, {
       headers: {
@@ -74,7 +74,7 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost) 
 
 // 게시글 삭제
 export const DeletePost = async (_category: CategoryType, _seq: number) => {
-  const res = await axios.delete(`/api/board/${_category}/delete/${_seq}`, {
+  const res = await axios.delete(`/api/board/${_category}/post/${_seq}`, {
     headers: {
       token: CommonUtil.getToken()
     }
@@ -101,8 +101,9 @@ export const CreateComment = async (post: IPost, _comment: string) => {
     writer: getWriter()
   }
 
-  const res = await axios.post(`/api/board/${post.category}/comment/create`, {
+  const res = await axios.post(`/api/board/${post.category}/comment`, {
       seq: post.seq,
+      commentIdx: post.commentIdx,
       comment: comment
     }, {
     headers: {
@@ -123,20 +124,71 @@ export const CreateComment = async (post: IPost, _comment: string) => {
   return res;
 }
 
-// 댓글 답글 생성
+// 댓글 수정 
+export const EditComment = async (post: IPost, comment: IComment) => {
+  comment = {
+    ...comment,
+    writer: Object.assign(getWriter(), comment.writer)
+  }
+
+  const res = await axios.put(`/api/board/${post.category}/comment`, {
+    post: post,
+    comment: comment
+  }, {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    CommonUtil.checkServerError(res.data);
+    
+    return res.data;
+  })
+  .catch((e) => {
+    console.log(`UPDATE COMMENT ERROR > ${e}`);
+
+    return false;
+  })
+
+  return res;
+}
+
+// 댓글 삭제
+export const DeleteComment = async (post: IPost, commentIdx: number) => {
+  const res = await axios.delete(`/api/board/${post.category}/comment/${post.seq}/${commentIdx}`, {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    CommonUtil.checkServerError(res.data);
+    
+    return res.data;
+  })
+  .catch((e) => {
+    console.log(`DELETE COMMENT ERROR > ${e}`);
+
+    return false;
+  })
+
+  return res;
+}
+
+// 답글 생성
 export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomment: string) => {
   const comment = post.commentList?.filter((comment) => {
     return comment.idx === _commentIdx;
-  });
+  })[0];
 
-  const recommentIdx = comment ? comment[0].recommentIdx : 0;
+  console.log(comment);
+  const recommentIdx = comment ? comment.recommentIdx : 0;
   const recomment: IComment = {
     idx: recommentIdx,
     message: _recomment,
     writer: getWriter()
   }
   
-  const res = await axios.post(`/api/board/${post.category}/recomment/create`, {
+  const res = await axios.post(`/api/board/${post.category}/recomment`, {
       seq: post.seq,
       commentIdx: _commentIdx,
       recomment: recomment
@@ -152,6 +204,60 @@ export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomme
   })
   .catch((e) => {
     console.log(`CREATE COMMENT ERROR > ${e}`);
+
+    return false;
+  })
+
+  return res;
+}
+
+// 답글 수정
+export const EditRecomment = async (post: IPost, commentIdx: number, recomment: IComment) => {
+  recomment = {
+    ...recomment,
+    writer: Object.assign(getWriter(), recomment.writer)
+  }
+
+  const res = await axios.put(`/api/board/${post.category}/recomment`, {
+    post: post,
+    commentIdx: commentIdx,
+    recomment: recomment
+  }, {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    CommonUtil.checkServerError(res.data);
+    
+    return res.data;
+  })
+  .catch((e) => {
+    console.log(`UPDATE RECOMMENT ERROR > ${e}`);
+
+    return false;
+  })
+
+  return res;
+}
+
+// 답글 삭제
+export const DeleteRecomment = async (post: IPost, commentIdx: number, recommentIdx: number) => {
+  const res = await axios.put(`/api/board/${post.category}/recomment/${recommentIdx}`, {
+    post: post,
+    commentIdx: commentIdx,
+  }, {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    CommonUtil.checkServerError(res.data);
+    
+    return res.data;
+  })
+  .catch((e) => {
+    console.log(`DELETE RECOMMENT ERROR > ${e}`);
 
     return false;
   })

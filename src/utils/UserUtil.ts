@@ -77,7 +77,7 @@ export const SignInUser = async (_id: string, _password: string) => {
 * 사용자 비밀번호 확인
 */
 export const CheckPassword = async (_id: string, _password: string) => {
-  const r = await axios.post('/api/user/checkpassword', {
+  const r = await axios.post('/api/user/password', {
       id: _id, 
       password: _password
     },
@@ -151,7 +151,7 @@ export const getUserInfoById = async (_id: string) => {
 * 사용자 정보 수정하기
 */
 export const setUserInfo = async (userInfo: IUserInfo) => {
-  const r = await axios.put('/api/user/update', {
+  const r = await axios.put('/api/user/info', {
       id: userInfo.id,
       openKakao: userInfo.openKakao
     }, 
@@ -180,7 +180,7 @@ export const setUserInfo = async (userInfo: IUserInfo) => {
 export const setChangePassword = async (_id: string, _changePassword: string) => {
   const mySalt = getRandomSalt();
 
-  const r = await axios.put('/api/user/changepassword', {
+  const r = await axios.put('/api/user/password', {
       id: _id,
       password: crypto.createHash("sha512").update(_changePassword + mySalt).digest("hex"),
       salt: mySalt
@@ -268,7 +268,7 @@ export const authUser = async (_id: string, _server: string, _character: string)
 * 대표캐릭터 설정
 */
 export const setTitleAccount = async (_id: string, _server: string, _character: string) => {
-  const r = await axios.put('/api/user/settitle', {
+  const r = await axios.put('/api/user/titleaccount', {
     id: _id,
     server: _server,
     character: _character
@@ -294,13 +294,10 @@ export const setTitleAccount = async (_id: string, _server: string, _character: 
 * 회원 탈퇴
 */
 export const WithDrawUser = async (_id: string, _password: string) => {
-  const r = await axios.post('/api/user/withdraw', {
-    id: _id,
-    password: _password
-  },
-  {
+  const r = await axios.delete('/api/user/info', {
     headers: {
-      token: CommonUtil.getToken()
+      token: CommonUtil.getToken(),
+      id: _id
     }
   })
   .then((res) => {

@@ -158,7 +158,7 @@ router.put('/auth', (req, res) => {
 /*
 *    사용자 정보수정
 *    TYPE : PUT
-*    URI : /api/user/update
+*    URI : /api/user/info
 *    HEADER: { "token": token }
 *    BODY: { "id", "openKakao", "editDateString"}
 *    RETURN CODES:
@@ -166,7 +166,7 @@ router.put('/auth', (req, res) => {
 *        2004: 변경 오류
 *        500: 서버 오류
 */
-router.put('/update', (req, res) => {
+router.put('/info', (req, res) => {
   const id = req.body.id;
   const editedUserInfo = {
     openKakao: req.body.openKakao,
@@ -256,7 +256,7 @@ router.get('/find', (req, res) => {
 /*
 *    대표캐릭터 설정
 *    TYPE : PUT
-*    URI : /api/user/settitle
+*    URI : /api/user/titleaccount
 *    HEADER: { "token": token }
 *    BODY: { "id", "server", "character", "editDateString" }
 *    RETURN CODES:
@@ -264,7 +264,7 @@ router.get('/find', (req, res) => {
 *        2006: 사용자 정보가 존재하지 않음.
 *        500: 서버 오류
 */
-router.put('/settitle', (req, res) => {
+router.put('/titleaccount', (req, res) => {
   const id = req.body.id;
   const titleAccountInfo = {
     server: req.body.server,
@@ -308,7 +308,7 @@ router.put('/settitle', (req, res) => {
 /*
 *    비밀번호 변경
 *    TYPE : PUT
-*    URI : /api/user/changepassword
+*    URI : /api/user/password
 *    HEADER: { "token": token }
 *    BODY: { "id", "password", "salt", "editDateString" }
 *    RETURN CODES:
@@ -316,7 +316,7 @@ router.put('/settitle', (req, res) => {
 *        2007: 비밀번호 변경 실패
 *        500: 서버 오류
 */
-router.put('/changepassword', (req, res) => {
+router.put('/password', (req, res) => {
   // CHANGE PASSWORD INFO
   const id = req.body.id;
   const changePasswordInfo = {
@@ -359,8 +359,8 @@ router.put('/changepassword', (req, res) => {
 
 /*
 *    비밀번호 일치 확인
-*    TYPE : PUT
-*    URI : /api/user/checkpassword
+*    TYPE : POST
+*    URI : /api/user/password
 *    HEADER: { "token": token }
 *    BODY: { "id", "password" }
 *    RETURN CODES:
@@ -368,7 +368,7 @@ router.put('/changepassword', (req, res) => {
 *        2007: 비밀번호 변경 실패
 *        500: 서버 오류
 */
-router.post('/checkpassword', (req, res) => {
+router.post('/password', (req, res) => {
   const id = req.body.id;
   const password = req.body.password;
 
@@ -419,16 +419,15 @@ router.post('/checkpassword', (req, res) => {
 
 /*
 *    회원 탈퇴
-*    TYPE : POST
-*    URI : /api/user/withdraw
-*    HEADER: { "token": token }
-*    BODY: { "id" }
+*    TYPE : DELETE
+*    URI : /api/user/info
+*    HEADER: { "token": token, "id", "password" }
 *    RETURN CODES:
 *        200: 성공
 *        500: 서버 오류
 */
-router.post('/withdraw', (req, res) => {
-  const id = req.body.id;
+router.delete('/info', (req, res) => {
+  const id = req.headers.id;
 
   UserSchema.deleteById(id)
     .then((result) => {

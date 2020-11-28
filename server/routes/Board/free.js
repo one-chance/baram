@@ -9,7 +9,7 @@ const FreeSchema = require('../../schemas/Board/FreeSchema');
 /*
 *    글쓰기
 *    TYPE : POST
-*    URI : /api/board/free/create
+*    URI : /api/board/free/post
 *    HEADER: { "token": token }
 *    BODY: { "post" }
 *    RETURN CODES:
@@ -17,8 +17,8 @@ const FreeSchema = require('../../schemas/Board/FreeSchema');
 *        3001: 게시글 DB 생성 오류
 *        500: 서버 오류
 */
-router.use('/create', authMiddleware);
-router.post('/create', (req, res) => {
+router.use('/post', authMiddleware);
+router.post('/post', (req, res) => {
   const post = new FreeSchema({
     category: req.body.post.category,
     title: req.body.post.title,
@@ -68,7 +68,7 @@ router.post('/create', (req, res) => {
 /*
 *    게시글 수정
 *    TYPE : PUT
-*    URI : /api/board/free/edit
+*    URI : /api/board/free/post
 *    HEADER: { "token": token }
 *    BODY: { "post" }
 *    RETURN CODES:
@@ -76,8 +76,8 @@ router.post('/create', (req, res) => {
 *        3002: 게시글 DB 수정 오류
 *        500: 서버 오류
 */
-router.use('/edit', authMiddleware);
-router.put('/edit', (req, res) => {
+router.use('/post', authMiddleware);
+router.put('/post', (req, res) => {
   const post = {
     ...req.body.post,
     writer: {
@@ -123,15 +123,15 @@ router.put('/edit', (req, res) => {
 /*
 *    게시글 삭제
 *    TYPE : DLELTE
-*    URI : /api/board/free/delete/${seq}
+*    URI : /api/board/free/post/${seq}
 *    HEADER: { "token": token }
 *    RETURN CODES:
 *        200: 성공
 *        3003: 게시글 DB 삭제 오류
 *        500: 서버 오류
 */
-router.use('/delete/:seq', authMiddleware);
-router.delete('/delete/:seq', (req, res) => {
+router.use('/post/:seq', authMiddleware);
+router.delete('/post/:seq', (req, res) => {
   const seq = req.params.seq;
 
   FreeSchema.deleteBySeq(seq)
@@ -170,7 +170,7 @@ router.delete('/delete/:seq', (req, res) => {
 /*
 *    댓글쓰기
 *    TYPE : POST
-*    URI : /api/board/free/comment/create
+*    URI : /api/board/free/comment
 *    HEADER: { "token": token }
 *    BODY: { "seq", "comment" }
 *    RETURN CODES:
@@ -178,10 +178,12 @@ router.delete('/delete/:seq', (req, res) => {
 *        401: 사용자 인증 오류
 *        500: 서버 오류
 */
-router.use('/comment/create', authMiddleware);
-router.post('/comment/create', (req, res) => {
+router.use('/comment', authMiddleware);
+router.post('/comment', (req, res) => {
   const seq =  req.body.seq;
-  const comment = req.body.comment;
+  const commentIdx = req.body.commentIdx;
+  const comment = Object.assign(req.body.comment, {idx: commentIdx});
+
   comment.writer.createDateString = new Date().toLocaleString();
   comment.writer.lastEditDateString = new Date().toLocaleString();
 
@@ -201,8 +203,87 @@ router.post('/comment/create', (req, res) => {
     myLogger(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
     res.status(200).send({
       code: 200,
-      message: "댓글이 등록되었습니다. 잠시 후 새로고침 됩니다.",
-      seq: post.seq
+      message: "댓글이 등록되었습니다.",
+      commentList: post.commentList,
+      commentIdx: post.commentIdx
+    });
+  
+    return true;
+  })
+  .catch((e) => {
+    myLogger(`COMMENT CREATE ERROR > ${e}`);
+
+    res.status(200).send({
+      code: 500,
+      message: "서버 오류가 발생했습니다.",
+    });
+
+    return false;
+  })
+});
+
+/*
+*    댓글수정
+*    TYPE : PUT
+*    URI : /api/board/free/comment
+*    HEADER: { "token": token }
+*    BODY: { "post", "comment" }
+*    RETURN CODES:
+*        200: 성공
+*        401: 사용자 인증 오류
+*        500: 서버 오류
+*/
+router.use('/comment', authMiddleware);
+router.put('/comment', (req, res) => {
+  const post =  req.body.post;
+  const comment = req.body.comment;
+  comment.writer.lastEditDateString = new Date().toLocaleString();
+
+  FreeSchema.updateComment(post.seq, comment)
+  .then((post) => {
+    myLogger(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
+    res.status(200).send({
+      code: 200,
+      message: "댓글이 수정되었습니다.",
+      commentList: post.commentList,
+      comment: comment
+    });
+  
+    return true;
+  })
+  .catch((e) => {
+    myLogger(`COMMENT CREATE ERROR > ${e}`);
+
+    res.status(200).send({
+      code: 500,
+      message: "서버 오류가 발생했습니다.",
+    });
+
+    return false;
+  })
+});
+
+/*
+*    댓글삭제
+*    TYPE : DELETE
+*    URI : /api/board/free/comment/:postSeq/:commentIdx
+*    HEADER: { "token": token }
+*    RETURN CODES:
+*        200: 성공
+*        401: 사용자 인증 오류
+*        500: 서버 오류
+*/
+router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
+  const postSeq =  req.params.postSeq;
+  const commentIdx = req.params.commentIdx;
+
+  FreeSchema.deleteComment(postSeq, commentIdx)
+  .then((post) => {
+    myLogger(`[SUCCESS] : COMMENT DELETED SUCCESS`);
+    res.status(200).send({
+      code: 200,
+      message: "댓글이 삭제되었습니다.",
+      commentList: post.commentList
     });
   
     return true;
@@ -222,15 +303,15 @@ router.post('/comment/create', (req, res) => {
 /*
 *    답글쓰기
 *    TYPE : POST
-*    URI : /api/board/free/recomment/create
+*    URI : /api/board/free/recomment
 *    HEADER: { "token": token }
 *    BODY: { "seq", "commentSeq", "recomment" }
 *    RETURN CODES:
 *        200: 성공
 *        500: 서버 오류
 */
-router.use('/recomment/create', authMiddleware);
-router.post('/recomment/create', (req, res) => {
+router.use('/recomment', authMiddleware);
+router.post('/recomment', (req, res) => {
   const seq =  req.body.seq;
   const commentIdx = req.body.commentIdx;
   const recomment = req.body.recomment;
@@ -240,10 +321,12 @@ router.post('/recomment/create', (req, res) => {
   FreeSchema.createRecomment(seq, commentIdx, recomment)
   .then((post) => {
     myLogger(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
+
     res.status(200).send({
       code: 200,
-      message: "답글이 등록되었습니다. 잠시 후 새로고침 됩니다.",
-      seq: post.seq
+      message: "답글이 등록되었습니다.",
+      recomment: recomment,
+      commentList: post.commentList,
     });
   
     return true;
@@ -260,6 +343,115 @@ router.post('/recomment/create', (req, res) => {
   })
 });
 
+/*
+*    답글수정
+*    TYPE : PUT
+*    URI : /api/board/free/recomment
+*    HEADER: { "token": token }
+*    BODY: { "post", "commentIdx", "recomment" }
+*    RETURN CODES:
+*        200: 성공
+*        401: 사용자 인증 오류
+*        500: 서버 오류
+*/
+router.use('/recomment', authMiddleware);
+router.put('/recomment', (req, res) => {
+  const post =  req.body.post;
+  const commentIdx = req.body.commentIdx;
+  const recomment = req.body.recomment;
+  recomment.writer.lastEditDateString = new Date().toLocaleString();
+
+  const comment = post.commentList.filter((comment) => {
+    return comment.idx === commentIdx;
+  })[0];
+
+  comment.recommentList.map((rec, idx) => {
+    if (rec.idx === recomment.idx) {
+      Object.assign(comment.recommentList[idx], recomment);
+    }
+  });
+
+  FreeSchema.updateRecomment(post.seq, commentIdx, comment.recommentList)
+  .then((post) => {
+    myLogger(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
+
+    res.status(200).send({
+      code: 200,
+      message: "답글이 수정되었습니다.",
+      commentList: post.commentList,
+      recommentList: comment.recommentList
+    });
+  
+    return true;
+  })
+  .catch((e) => {
+    myLogger(`RECOMMENT UPDATE ERROR > ${e}`);
+
+    res.status(200).send({
+      code: 500,
+      message: "서버 오류가 발생했습니다.",
+    });
+
+    return false;
+  })
+});
+
+/*
+*    답글삭제
+*    TYPE : PUT
+*    URI : /api/board/free/recomment/:recommentIdx
+*    HEADER: { "token": token }
+*    PARAMS: {recommentIdx}
+*    BODY : {post, commentIdx}
+*    RETURN CODES:
+*        200: 성공
+*        401: 사용자 인증 오류
+*        500: 서버 오류
+*/
+router.use('/recomment', authMiddleware);
+router.put('/recomment/:recommentIdx', (req, res) => {
+  const recommentIdx = req.params.recommentIdx;
+  const post =  req.body.post;
+  const commentIdx = req.body.commentIdx;
+
+  const comment = post.commentList.filter((comment) => {
+    return comment.idx === commentIdx;
+  })[0];
+
+  comment.recommentList.map((rec, idx) => {
+    if (rec.idx === Number.parseInt(recommentIdx)) {
+      comment.recommentList.splice(idx, 1);
+    }
+  });
+
+  FreeSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
+  .then((post) => {
+    myLogger(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
+
+    const comment = post.commentList.filter((com) => {
+      return com.idx === commentIdx;
+    })[0];
+
+    res.status(200).send({
+      code: 200,
+      message: "답글이 삭제되었습니다.",
+      commentList: post.commentList,
+      recommentList: comment.recommentList
+    });
+  
+    return true;
+  })
+  .catch((e) => {
+    myLogger(`RECOMMENT DELETE ERROR > ${e}`);
+
+    res.status(200).send({
+      code: 500,
+      message: "서버 오류가 발생했습니다.",
+    });
+
+    return false;
+  })
+});
 
 /*
 *    게시글 전체 조회

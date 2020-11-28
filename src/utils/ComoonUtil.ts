@@ -50,9 +50,11 @@ export const refreshToken = () => {
 export const checkServerError = (res: any) => {
   
   if (res.code === 401) {
-    alert(res.message);
+    // alert(res.message);
     delToken();
-    document.location.href = res.redirectUri;
+    setTimeout(() => {
+      document.location.href = res.redirectUri
+    }, 5000);
   }
 
   return true;

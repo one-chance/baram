@@ -1,4 +1,6 @@
 import React from 'react';
+import {useSetRecoilState} from 'recoil';
+import {MyAlertState} from 'state/index';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function PostContent(props: IProps) {
+  const setMyAlert = useSetRecoilState(MyAlertState);
 
   const classes = useStyles();
   const post: IPost = props.post;
@@ -34,6 +37,13 @@ function PostContent(props: IProps) {
     ta.select();
     document.execCommand("copy");
     document.body.removeChild(ta);
+
+    setMyAlert({
+      isOpen: true,
+      severity: "success",
+      duration: 2000,
+      message: "클립보드에 복사되었습니다."
+    });
   }
 
   return (

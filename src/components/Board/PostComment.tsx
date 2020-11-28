@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {MyAlertState, MyBackdropState} from 'state/index';
+import {CommentListState} from 'state/index';
 
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-
-import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -29,7 +27,9 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import IPost from 'interfaces/Board/IPost';
 import IComment from 'interfaces/Board/IComment';
 
-import { CreateComment, CreateRecomment } from 'utils/PostUtil';
+import { CreateComment } from 'utils/PostUtil';
+
+import Comment from 'components/Board/Comment';
 
 interface IProps {
   post: IPost
@@ -86,10 +86,16 @@ function PostComment(props: IProps) {
 
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
+  const [commentList, setCommentList] = useRecoilState(CommentListState);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, comments.length - page * rowsPerPage);
+  const [count, setCount] = React.useState(0);
+  const [inputComment, setInputComment] = React.useState("");
+  // const [viewCommentList, setViewCommentList] = React.useState<Array<IComment>>([]);
+
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, comments.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, commentList.length - page * rowsPerPage);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -102,18 +108,19 @@ function PostComment(props: IProps) {
     setPage(0);
   };
 
-  const [count, setCount] = React.useState(0);
-  const [inputComment, setInputComment] = React.useState("");
-  const [inputRecomment, setInputRecomment] = React.useState("");
-
-  const [commentIdx, setCommentIdx] = React.useState(-1);
-
+  //NOTE 최초 로딩 시 
   useEffect(() => {
     if (post.commentList) {
       setCount(post.commentList.length);
-      comments = post.commentList;
+      // comments = post.commentList;
+      setCommentList(post.commentList);
     }
   }, []);
+
+  //NOTE 댓글 목록 변경 시
+  useEffect(() => {
+    setCount(commentList.length);
+  }, [commentList]);
 
   const _onSubmitComment = async () => {
     setMyBackdrop(true);
@@ -128,8 +135,13 @@ function PostComment(props: IProps) {
           duration: duration,
           message: res.message
         });
-  
-        setTimeout(() => document.location.reload(), duration);
+
+        setMyBackdrop(false);
+        setInputComment("");
+        setCommentList(res.commentList);
+        post.commentIdx = res.commentIdx;
+
+        // setTimeout(() => document.location.reload(), duration);
       }
       else {
         setMyAlert({
@@ -142,44 +154,6 @@ function PostComment(props: IProps) {
         setTimeout(()=> { setMyBackdrop(false); }, duration);
       }
     }
-  }
-
-  const _onSubmitRecomment = async () => {
-    setMyBackdrop(true);
-
-    if (post.seq) {
-      const res = await CreateRecomment(post, commentIdx, inputRecomment);
-  
-      if (res.code === 200) {
-        setMyAlert({
-          isOpen: true,
-          severity: "success",
-          duration: duration,
-          message: res.message
-        });
-  
-        setTimeout(() => document.location.reload(), duration);
-      }
-      else {
-        setMyAlert({
-          isOpen: true,
-          severity: "error",
-          duration: duration,
-          message: res.message
-        });
-        
-        setTimeout(()=> { setMyBackdrop(false); }, duration);
-      }
-    }
-  }
-
-  // TODO 댓글 수정, 삭제 기능 구현
-  const _onEdit = async () => {
-    alert("구현 예정인 기능입니다.");
-  }
-
-  const _onDelete = async () => {
-    alert("구현 예정인 기능입니다.");
   }
 
   return (
@@ -202,6 +176,7 @@ function PostComment(props: IProps) {
                 fullWidth
                 rows={4}
                 placeholder="댓글을 입력하세요. 올바른 언어 사용 문화를 지지합니다."
+                value={inputComment}
                 onChange={(e) => setInputComment(e.target.value)}
               />
             </Grid>
@@ -220,109 +195,16 @@ function PostComment(props: IProps) {
             <TableContainer component={Paper}>
               <Table 
                 className={classes.table} aria-label="custom pagination table">
+                {/* <TableHead></TableHead> */}
                 <TableBody>
-                  {(rowsPerPage > 0
-                    ? comments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : comments
+                  { (rowsPerPage > 0
+                    ? commentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : commentList
                   ).map((comment: IComment) => (
-                    <Box key={comment.idx}>
-                      <TableRow key={comment.idx} className={classes.commentRow}>
-                        <TableCell  style={{ width: "20%" }} component="th" scope="row">
-                          {comment.writer.id}<br/>
-                          {comment.writer.createDateString}
-                        </TableCell>
-                        <TableCell style={{ width: "70%" }}>
-                          <Typography>
-                            {comment.message}
-                          </Typography>
-                        </TableCell>
-                        <TableCell style={{ width: "10%" }} align="right">
-                          <Grid container direction="row"
-                            className={classes.commentButton}>
-                            <Grid item>
-                              <Button
-                                onClick={() => {
-                                  setCommentIdx(comment.idx !== undefined ? comment.idx : -1);
-                                }}>
-                                  답글
-                              </Button>
-                            </Grid> 
-                            <Grid item>
-                              <Button
-                                onClick={_onEdit}>
-                                  수정
-                              </Button>
-                            </Grid> 
-                            <Grid item>
-                              <Button
-                                onClick={_onDelete}>
-                                  삭제
-                              </Button>
-                            </Grid> 
-                          </Grid>
-                        </TableCell>
-                      </TableRow>
-                      {
-                        (comment.recommentList && comment.recommentList.length > 0) &&
-                          comment.recommentList.map((recomment) => (
-                            <TableRow key={`${comment.idx}-${recomment.idx}`} className={classes.recommentRow}>
-                              <TableCell  style={{ width: "20%" }} component="th" scope="row">
-                                {recomment.writer.id}<br/>
-                                {recomment.writer.createDateString}
-                              </TableCell>
-                              <TableCell style={{ width: "70%" }}>
-                                {recomment.message}
-                              </TableCell>
-                              <TableCell style={{ width: "10%" }} align="right">
-                                <Grid container direction="row"
-                                  className={classes.commentButton}>
-                                  <Grid item>
-                                    <Button>
-                                      수정
-                                    </Button>
-                                  </Grid> 
-                                  <Grid item>
-                                    <Button>
-                                      삭제
-                                    </Button>
-                                  </Grid> 
-                                </Grid>
-                              </TableCell>
-                            </TableRow>
-                          ))
-                      }
-                      {
-                        commentIdx === comment.idx &&
-                          <TableRow key={comment.idx}>
-                            <TableCell  style={{ textAlign: "center", verticalAlign: "middle", margin: "auto", width: "20%" }} component="th" scope="row">
-                              <Typography variant="subtitle1">
-                                <SubdirectoryArrowRightIcon/> 답글 달기
-                              </Typography>
-                            </TableCell>
-                            <TableCell style={{ width: "70%" }}>
-                              <Input
-                                id="input-recomment"
-                                className={classes.input}
-                                multiline
-                                fullWidth
-                                rows={4}
-                                placeholder="답글을 입력하세요. 올바른 언어 사용 문화를 지지합니다."
-                                onChange={(e) => setInputRecomment(e.target.value)}
-                              />
-                            </TableCell>
-                            <TableCell style={{ width: "10%" }} align="right">
-                              <Button
-                                onClick={_onSubmitRecomment}>
-                                  등록
-                              </Button>
-                              <Button
-                                onClick={() => setCommentIdx(-1)}>
-                                  취소
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                      }
-                    </Box>
+                    <Comment
+                      key={comment.idx}
+                      post={post}
+                      comment={comment}/>
                   ))}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
@@ -341,7 +223,8 @@ function PostComment(props: IProps) {
                                 ${paginationInfo.to === -1 ? "All" : paginationInfo.to}`;
                       }}
                       colSpan={3}
-                      count={comments.length}
+                      // count={comments.length}
+                      count={commentList.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       SelectProps={{

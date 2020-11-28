@@ -20,7 +20,13 @@ const authMiddleware = (req, res, next) => {
   } catch (error) {
     myLogger(`[AUTH ERROR] - [${error.name}] : ${error.message} at ${error.expiredAt}`);
 
-    res.redirect('/api/error/auth');
+    res.status(200).send({
+      code: 401,
+      message: "접근 권한이 만료되었습니다.",
+      redirectUri: "/signin"
+    });
+
+    // res.redirect('/api/error/auth');
   }
 }
 
