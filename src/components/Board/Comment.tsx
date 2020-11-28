@@ -55,7 +55,7 @@ function Comment(props: IProps) {
 
   const classes = useStyles();
   const { post } = props;
-  const [comment, setComment] = React.useState<IComment | null>(props.comment);
+  const [comment, setComment] = React.useState<IComment>(props.comment);
   const [recommentList, setRecommentList] = React.useState<Array<IComment>>([]);
   
   const [editComment, setEditComment] = React.useState("");
@@ -70,11 +70,18 @@ function Comment(props: IProps) {
     if (props.comment.recommentList) setRecommentList(props.comment.recommentList);
   }, []);
 
+  useEffect(() => {
+    setComment({
+      ...comment,
+      recommentList: recommentList
+    });
+  }, [recommentList]);
+
   const _onSubmitRecomment = async () => {
     setMyBackdrop(true);
 
-    if (post.seq) {
-      const res = await CreateRecomment(post, commentIdx, inputRecomment);
+    if (post.seq && comment) {
+      const res = await CreateRecomment(post, commentIdx, inputRecomment, comment.recommentIdx);
   
       if (res.code === 200) {
         setMyAlert({
@@ -87,8 +94,10 @@ function Comment(props: IProps) {
         setMyBackdrop(false);
         setCommentIdx(-1);
         setInputRecomment("");
-        setRecommentList(recommentList.concat(res.recomment));
-        setCommentList(res.commentList);
+        const updatedRecommentList = recommentList.concat(res.recomment);
+        setRecommentList(updatedRecommentList);
+        comment.recommentIdx = res.recommentIdx;
+        comment.recommentList = updatedRecommentList;
 
         // setTimeout(() => document.location.reload(), duration);
       }
@@ -155,7 +164,7 @@ function Comment(props: IProps) {
         });
   
         setMyBackdrop(false);
-        setComment(null);
+        // setComment(null);
 
         setCommentList(res.commentList);
       }
@@ -214,8 +223,8 @@ function Comment(props: IProps) {
   const _onDeleteRecomment = async (commentIdx?: number, recommentIdx?: number) => {
     setMyBackdrop(true);
 
-    if (commentIdx !== undefined && recommentIdx !== undefined) {
-      const res = await DeleteRecomment(post, commentIdx, recommentIdx);
+    if (comment && commentIdx !== undefined && recommentIdx !== undefined) {
+      const res = await DeleteRecomment(post, commentIdx, comment, recommentIdx);
       if (res.code === 200) {
         setMyAlert({
           isOpen: true,

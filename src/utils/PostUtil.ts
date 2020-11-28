@@ -175,12 +175,11 @@ export const DeleteComment = async (post: IPost, commentIdx: number) => {
 }
 
 // 답글 생성
-export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomment: string) => {
+export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomment: string, _recommentIdx?: number) => {
   const comment = post.commentList?.filter((comment) => {
     return comment.idx === _commentIdx;
   })[0];
 
-  console.log(comment);
   const recommentIdx = comment ? comment.recommentIdx : 0;
   const recomment: IComment = {
     idx: recommentIdx,
@@ -191,6 +190,7 @@ export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomme
   const res = await axios.post(`/api/board/${post.category}/recomment`, {
       seq: post.seq,
       commentIdx: _commentIdx,
+      recommentIdx: _recommentIdx,
       recomment: recomment
     }, {
     headers: {
@@ -242,10 +242,11 @@ export const EditRecomment = async (post: IPost, commentIdx: number, recomment: 
 }
 
 // 답글 삭제
-export const DeleteRecomment = async (post: IPost, commentIdx: number, recommentIdx: number) => {
+export const DeleteRecomment = async (post: IPost, commentIdx: number, comment: IComment, recommentIdx: number) => {
   const res = await axios.put(`/api/board/${post.category}/recomment/${recommentIdx}`, {
     post: post,
     commentIdx: commentIdx,
+    comment: comment
   }, {
     headers: {
       token: CommonUtil.getToken()

@@ -314,19 +314,26 @@ router.use('/recomment', authMiddleware);
 router.post('/recomment', (req, res) => {
   const seq =  req.body.seq;
   const commentIdx = req.body.commentIdx;
-  const recomment = req.body.recomment;
+  const recommentIdx = req.body.recommentIdx;
+  // const recomment = req.body.recomment;
+  const recomment = Object.assign(req.body.recomment, {idx: recommentIdx});
   recomment.writer.createDateString = new Date().toLocaleString();
   recomment.writer.lastEditDateString = new Date().toLocaleString();
-
+  
   FreeSchema.createRecomment(seq, commentIdx, recomment)
   .then((post) => {
     myLogger(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
+
+    const comment = post.commentList.filter((com) => {
+      return com.idx === commentIdx;
+    })[0];
 
     res.status(200).send({
       code: 200,
       message: "답글이 등록되었습니다.",
       recomment: recomment,
       commentList: post.commentList,
+      recommentIdx: comment.recommentIdx+1
     });
   
     return true;
@@ -413,13 +420,10 @@ router.put('/recomment/:recommentIdx', (req, res) => {
   const recommentIdx = req.params.recommentIdx;
   const post =  req.body.post;
   const commentIdx = req.body.commentIdx;
+  const comment = req.body.comment;
 
-  const comment = post.commentList.filter((comment) => {
-    return comment.idx === commentIdx;
-  })[0];
-
-  comment.recommentList.map((rec, idx) => {
-    if (rec.idx === Number.parseInt(recommentIdx)) {
+  comment.recommentList.map((recomment, idx) => {
+    if (recomment.idx === Number.parseInt(recommentIdx)) {
       comment.recommentList.splice(idx, 1);
     }
   });
@@ -427,10 +431,6 @@ router.put('/recomment/:recommentIdx', (req, res) => {
   FreeSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
   .then((post) => {
     myLogger(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
-
-    const comment = post.commentList.filter((com) => {
-      return com.idx === commentIdx;
-    })[0];
 
     res.status(200).send({
       code: 200,
