@@ -63,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   submenu: {
+    position: "relative",
+    zIndex: 2,
     display: "none",
     width: "100%",
     height: "200px",

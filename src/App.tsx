@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
     padding: "0",
   },
   root: {
-    // position: "absolute"
+    position: "absolute",
+    zIndex: 1,
     marginTop: "130px",
   },
 }));
