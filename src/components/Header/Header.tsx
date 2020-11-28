@@ -255,7 +255,7 @@ export default function Header() {
                   <a href="/cal/exp">경험치</a>
                 </li>
                 <li>
-                  <a href="/cal/exp">생 산</a>
+                  <a href="/cal/production">생 산</a>
                 </li>
               </ul>
             </li>

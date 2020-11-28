@@ -19,8 +19,9 @@ router.get("/item", (req, res) => {
 
   new Promise((resolve, reject) => {
     let basic = "https://baram.nexon.com/Profile/Info?character=";
-    let encodeCharacter = encodeURI("협가검");
-    let encodeServer = "%40%ED%95%98%EC%9E%90";
+    //let encodeCharacter = encodeURI(id);
+    //let encodeServer = "%40%ED%95%98%EC%9E%90";
+    const uri = basic + encodeURI(id);
 
     const option = {
       headers: {
@@ -31,7 +32,6 @@ router.get("/item", (req, res) => {
       },
     };
 
-    const uri = basic + encodeCharacter + encodeServer;
     axios
       .get(uri, option)
       .then((html) => {
@@ -39,16 +39,19 @@ router.get("/item", (req, res) => {
 
         const $ = cheerio.load(html.data);
         const $bodyList = $("div.inner ul").children("li.level");
+        const $itemList = $("div.item_list ul").children("li.i1");
+
         let ary = Number($bodyList.find("span.system").text());
+        let item = $itemList.find("span.system").text();
+
         myLogger(`[SUCCESS] : `);
         res.status(200).send({
           code: 200,
           message: "성공하였습니다.",
           data: html.data,
-          ary: ary,
+          level: ary,
+          item: item,
         });
-
-        return $bodyList;
       })
       .catch((e) => {
         myLogger(`[GET URI] : `);

@@ -32,6 +32,7 @@ import MyBackdrop from "elements/Backdrop/MyBackdrop";
 
 import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
+import Production from "pages/Calculator/Production";
 
 import { refreshToken } from "utils/ComoonUtil";
 
@@ -91,6 +92,7 @@ function App() {
               {/*Calculator*/}
               <Route exact path="/cal/exp" component={Exp} />
               <Route exact path="/cal/power" component={Power} />
+              <Route exact path="/cal/production" component={Production} />
 
               {/*Dictionary*/}
               <Route path="/dic/item" component={Item} />
