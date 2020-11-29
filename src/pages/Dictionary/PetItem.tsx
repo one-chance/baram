@@ -41,13 +41,13 @@ const useStyles = makeStyles((theme: Theme) =>
     select: {
       width: "80px",
       height: "40px",
-      textAlign: "center",
       textAlignLast: "center",
+      fontSize: "0.9rem",
       float: "left",
       "& .MuiSelect-selectMenu": {
         padding: "2px 15px 2px 5px",
         lineHeight: "30px",
-        textAlign: "center",
+        fontSize: "0.9rem",
         color: "blue",
       },
     },
@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Menus = withStyles({
   root: {
+    fontSize: "0.9rem",
     justifyContent: "center",
   },
 })(MenuItem);
@@ -66,38 +67,18 @@ export default function PetItem() {
   const [img1, setImg1] = useState<string>("empty.png");
   const [img2, setImg2] = useState<string>("empty.png");
   const [accuracy, setAccuracy] = useState<number>(0);
-  const [acc1, setAcc1] = useState<number>(0);
-  const [acc2, setAcc2] = useState<number>(0);
-  const [acc3, setAcc3] = useState<number>(0);
-  const [acc4, setAcc4] = useState<number>(0);
-  const [acc5, setAcc5] = useState<number>(0);
-  const [acc6, setAcc6] = useState<number>(0);
-  const [acc7, setAcc7] = useState<number>(0);
-  const [acc8, setAcc8] = useState<number>(0);
-  const [acc9, setAcc9] = useState<number>(0);
-  const [acc10, setAcc10] = useState<number>(0);
-  const [acc11, setAcc11] = useState<number>(0);
-  const [acc12, setAcc12] = useState<number>(0);
 
-  const handleChange = (e: any, num: number) => {
-    switch (num) {
-      case 1:
-        setAcc1(parseInt(e.target.value));
-        break;
-      case 2:
-        setAcc2(parseInt(e.target.value));
-        break;
-    }
-  };
+  let accs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   const totalAccuracy = () => {
-    setAccuracy(acc1 * acc2 + acc3 + acc4 + acc5 + acc6 + acc7 + acc8 + acc9 + acc10 + acc11 + acc12);
+    if (accs[0] === 1) setAccuracy(accs[2] + accs[3] + accs[4] + accs[5] + accs[6] + accs[7] + accs[8] + accs[9] + accs[10] + accs[11]);
+    else setAccuracy(5 * accs[2] + accs[3] + accs[4] + accs[5] + accs[6] + accs[7] + accs[8] + accs[9] + accs[10] + accs[11]);
   };
 
   return (
     <React.Fragment>
       <Container
-        component="div"
+        component='div'
         style={{
           width: "92%",
           height: "140px",
@@ -105,68 +86,61 @@ export default function PetItem() {
           padding: "0",
           float: "left",
           border: "1px solid",
-        }}
-      >
-        <Container
-          component="div"
-          style={{ width: "62%", height: "140px", padding: "10px 0 10px 30px", float: "left" }}
-        >
-          <Container component="div" style={{ width: "100%", height: "60px", padding: "0", float: "left" }}>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+        }}>
+        <Container component='div' style={{ width: "62%", height: "140px", padding: "10px 0 10px 30px", float: "left" }}>
+          <Container component='div' style={{ width: "100%", height: "60px", padding: "0", float: "left" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 환수
               </InputLabel>
               <Select
-                label="환수"
-                labelId="select-standard"
-                id="select-standard"
+                label='환수'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  handleChange(e, 1);
-                }}
-              >
-                <Menus value={0}>황룡</Menus>
-                <Menus value={5}>청룡</Menus>
-                <Menus value={5}>주작</Menus>
-                <Menus value={5}>백호</Menus>
+                onChange={e => {
+                  accs[0] = Number(e.target.value);
+                }}>
+                <Menus value={1}>황룡</Menus>
+                <Menus value={2}>청룡</Menus>
+                <Menus value={3}>주작</Menus>
+                <Menus value={4}>백호</Menus>
                 <Menus value={5}>현무</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 등급
               </InputLabel>
               <Select
-                label="등급"
-                labelId="select-standard"
-                id="select-standard"
+                label='등급'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  handleChange(e, 2);
-                }}
-              >
+                onChange={e => {
+                  accs[1] = Number(e.target.value);
+                }}>
                 <Menus value={2}>6등급</Menus>
                 <Menus value={3}>7등급</Menus>
                 <Menus value={4}>8등급</Menus>
                 <Menus value={5}>9등급</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 무기
               </InputLabel>
               <Select
-                label="무기"
-                labelId="select-standard"
-                id="select-standard"
+                label='무기'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc3(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[2] = Number(e.target.value);
+                }}>
                 <Menus value={35}>3성</Menus>
                 <Menus value={45}>4성</Menus>
                 <Menus value={54}>5성</Menus>
@@ -174,20 +148,19 @@ export default function PetItem() {
                 <Menus value={85}>7성</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 투구
               </InputLabel>
               <Select
-                label="투구"
-                labelId="select-standard"
-                id="select-standard"
+                label='투구'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc4(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[3] = Number(e.target.value);
+                }}>
                 <Menus value={16}>3성</Menus>
                 <Menus value={24}>4성</Menus>
                 <Menus value={32}>5성</Menus>
@@ -195,20 +168,19 @@ export default function PetItem() {
                 <Menus value={52}>7성</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 갑옷
               </InputLabel>
               <Select
-                label="갑옷"
-                labelId="select-standard"
-                id="select-standard"
+                label='갑옷'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc5(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[4] = Number(e.target.value);
+                }}>
                 <Menus value={10}>3성</Menus>
                 <Menus value={14}>4성</Menus>
                 <Menus value={20}>5성</Menus>
@@ -216,79 +188,75 @@ export default function PetItem() {
                 <Menus value={32}>7성</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 부적
               </InputLabel>
               <Select
-                label="부적"
-                labelId="select-standard"
-                id="select-standard"
+                label='부적'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc11(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[5] = Number(e.target.value);
+                }}>
                 <Menus value={5}>고명부</Menus>
                 <Menus value={6}>최명부</Menus>
                 <Menus value={7}>전명부</Menus>
               </Select>
             </FormControl>
           </Container>
-          <Container component="div" style={{ width: "100%", height: "60px", padding: "0", float: "left" }}>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+          <Container component='div' style={{ width: "100%", height: "60px", padding: "0", float: "left" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 성물
               </InputLabel>
               <Select
-                label="성물"
-                labelId="select-standard"
-                id="select-standard"
+                label='성물'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc6(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[6] = Number(e.target.value);
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={5}>성물</Menus>
                 <Menus value={7}>성물'진</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 성물
               </InputLabel>
               <Select
-                label="성물"
-                labelId="select-standard"
-                id="select-standard"
+                label='성물'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc7(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[7] = Number(e.target.value);
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={5}>성물</Menus>
                 <Menus value={7}>성물'진</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 신물
               </InputLabel>
               <Select
-                label="신물"
-                labelId="select-standard"
-                id="select-standard"
+                label='신물'
+                labelId='select-standard'
+                id='select-standard'
                 className={classes.select}
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc8(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[8] = Number(e.target.value);
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={5}>1성</Menus>
                 <Menus value={10}>2성</Menus>
@@ -296,20 +264,19 @@ export default function PetItem() {
                 <Menus value={31}>4성</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "15px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "15px", color: "black" }}>
                 목걸이
               </InputLabel>
               <Select
                 className={classes.select}
-                label="목걸이"
-                labelId="select-standard"
-                id="select-standard"
+                label='목걸이'
+                labelId='select-standard'
+                id='select-standard'
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc9(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[9] = Number(e.target.value);
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={3}>작생목</Menus>
                 <Menus value={5}>생목</Menus>
@@ -317,31 +284,29 @@ export default function PetItem() {
                 <Menus value={10}>극락목</Menus>
               </Select>
             </FormControl>
-            <FormControl variant="standard" className={classes.selectBox}>
-              <InputLabel id="select-standard" style={{ paddingLeft: "20px", color: "black" }}>
+            <FormControl variant='standard' className={classes.selectBox}>
+              <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
                 문양
               </InputLabel>
               <Select
                 className={classes.select}
-                label="문양"
-                labelId="select-standard"
-                id="select-standard"
+                label='문양'
+                labelId='select-standard'
+                id='select-standard'
                 defaultValue={""}
-                onChange={(e) => {
-                  setAcc10(Number(e.target.value));
-                }}
-              >
+                onChange={e => {
+                  accs[10] = Number(e.target.value);
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={10}>문양</Menus>
                 <Menus value={20}>문양'진</Menus>
               </Select>
             </FormControl>
             <TextField
-              variant="outlined"
-              placeholder="기타(돋)"
-              value={acc12 || ""}
-              onChange={(e) => {
-                setAcc12(Number(e.target.value));
+              variant='outlined'
+              placeholder='기타(돋)'
+              onChange={e => {
+                accs[11] = Number(e.target.value);
               }}
               inputProps={{
                 style: { height: "35px", lineHeight: "30px", textAlign: "center", padding: "0" },
@@ -356,10 +321,7 @@ export default function PetItem() {
             />
           </Container>
         </Container>
-        <Container
-          component="div"
-          style={{ width: "38%", height: "140px", padding: "10px 30px 10px 0", float: "left" }}
-        >
+        <Container component='div' style={{ width: "38%", height: "140px", padding: "10px 30px 10px 0", float: "left" }}>
           <Link
             style={{
               width: "95%",
@@ -368,16 +330,14 @@ export default function PetItem() {
               textDecoration: "none",
               textAlign: "right",
               float: "left",
-            }}
-          >
+            }}>
             * 모든 명중률은 최대치(강화석o)로 반영 *
           </Link>
           <Button
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             onClick={totalAccuracy}
-            style={{ width: "60px", height: "60px", margin: "0 20px 10px 20px", float: "left" }}
-          >
+            style={{ width: "60px", height: "60px", margin: "0 20px 10px 20px", float: "left" }}>
             계산
           </Button>
           <Link className={classes.title} style={{ textDecoration: "none" }}>
@@ -385,9 +345,9 @@ export default function PetItem() {
           </Link>
         </Container>
       </Container>
-      <Container component="div" style={{ width: "100%", margin: "0", padding: "0", float: "left" }}>
-        <Container component="div" style={{ width: "42%", margin: "0 2% 0 5%", padding: "0", float: "left" }}>
-          <ButtonGroup color="primary" className={classes.btnGroup}>
+      <Container component='div' style={{ width: "100%", margin: "0", padding: "0", float: "left" }}>
+        <Container component='div' style={{ width: "42%", margin: "0 2% 0 5%", padding: "0", float: "left" }}>
+          <ButtonGroup color='primary' className={classes.btnGroup}>
             <Button color={img1 === "centerGod.png" ? "secondary" : "primary"} onClick={() => setImg1("centerGod.png")}>
               황룡
             </Button>
@@ -409,14 +369,14 @@ export default function PetItem() {
             <Button color={img1 === "required.png" ? "secondary" : "primary"} onClick={() => setImg1("required.png")}>
               재료
             </Button>
-            <Button color="primary" onClick={() => setImg1("empty.png")}>
+            <Button color='primary' onClick={() => setImg1("empty.png")}>
               X
             </Button>
           </ButtonGroup>
-          <img src={baseUrlForPetItemImg + img1} alt="장비1" />
+          <img src={baseUrlForPetItemImg + img1} alt='장비1' />
         </Container>
-        <Container component="div" style={{ width: "42%", margin: "0 2% 0 5%", padding: "0", float: "left" }}>
-          <ButtonGroup color="primary" className={classes.btnGroup}>
+        <Container component='div' style={{ width: "42%", margin: "0 2% 0 5%", padding: "0", float: "left" }}>
+          <ButtonGroup color='primary' className={classes.btnGroup}>
             <Button color={img2 === "centerGod.png" ? "secondary" : "primary"} onClick={() => setImg2("centerGod.png")}>
               황룡
             </Button>
@@ -438,11 +398,11 @@ export default function PetItem() {
             <Button color={img2 === "required.png" ? "secondary" : "primary"} onClick={() => setImg1("required.png")}>
               재료
             </Button>
-            <Button color="primary" onClick={() => setImg2("empty.png")}>
+            <Button color='primary' onClick={() => setImg2("empty.png")}>
               X
             </Button>
           </ButtonGroup>
-          <img src={baseUrlForPetItemImg + img2} alt="장비2" />
+          <img src={baseUrlForPetItemImg + img2} alt='장비2' />
         </Container>
       </Container>
     </React.Fragment>

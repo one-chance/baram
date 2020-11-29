@@ -12,10 +12,9 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import SignInForm from "components/User/SignInForm";
 
 import AppBar from "@material-ui/core/AppBar";
-
 import { getSignInUserId, LogoutUser } from "utils/UserUtil";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   toolbar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -52,19 +51,17 @@ const useStyles = makeStyles((theme) => ({
     height: "60px",
     margin: "0",
     float: "left",
-    "& a": {
-      display: "block",
+    "& h3": {
       lineHeight: "40px",
       margin: "10px 0",
       textDecoration: "none",
       fontSize: "1.2rem",
       color: "black",
+      cursor: "default",
     },
   },
 
   submenu: {
-    position: "relative",
-    zIndex: 2,
     display: "none",
     width: "100%",
     height: "200px",
@@ -76,16 +73,15 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       height: "30px",
       "& a": {
+        display: "block",
         lineHeight: "30px",
         margin: "0 50px",
         padding: "0",
         textDecoration: "none",
         fontSize: "0.9rem",
-        fontWeight: "400",
         color: "black",
       },
       "& a:hover": {
-        //textDecoration: "underline",
         backgroundColor: "lightgray",
       },
     },
@@ -94,8 +90,13 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     lineHeight: "30px",
     margin: "15px 0",
+    textTransform: "none",
     padding: "0",
     float: "left",
+    "&:hover, &:active, &:focus": {
+      color: "blue",
+      backgroundColor: "transparent",
+    },
   },
 }));
 
@@ -162,44 +163,38 @@ export default function Header() {
   return (
     <React.Fragment>
       <AppBar
-        color="inherit"
+        color='inherit'
         elevation={0}
         style={{
+          minWidth: "600px",
           position: "sticky",
-          width: "100%",
-          height: "120px",
-          float: "left",
-        }}
-      >
+          height: "122px",
+        }}>
         <div
-          id="up"
+          id='up'
           style={{
-            width: "80%",
+            width: "100%",
             height: "60px",
-            margin: "0 10%",
-            padding: "0",
+            margin: "0",
+            padding: "0 10px",
+            backgroundColor: "white",
             float: "left",
-            textAlign: "center",
-          }}
-        >
-          <div style={{ width: "8%", minWidth: "80px", margin: "0 1%", float: "left" }}>
-            <Button className={classes.btn}>Subscribe</Button>
-          </div>
-          <div style={{ width: "50%", margin: "0 5% 0 15%", float: "left" }}>
-            <h1 style={{ margin: "10px 0", display: "block" }}>logo</h1>
-          </div>
+          }}>
+          <Button className={classes.btn} onClick={_onMoveToMain}>
+            Subscribe
+          </Button>
 
           {signInUserId ? (
-            <Container style={{ width: "18%", minWidth: "170px", margin: "0 1%", padding: "0", float: "left" }}>
+            <Container style={{ maxWidth: "180px", minWidth: "170px", margin: "0", padding: "0", float: "right" }}>
               <Button className={classes.btn} onClick={_onLogoutUser} style={{ marginRight: "5px" }}>
                 로그아웃
               </Button>
               <Button className={classes.btn} style={{ marginLeft: "5px", color: "blue" }} disabled>
-                아이디
+                {signInUserId}
               </Button>
             </Container>
           ) : (
-            <Container style={{ width: "18%", minWidth: "170px", margin: "0 1%", padding: "0", float: "left" }}>
+            <Container style={{ maxWidth: "180px", minWidth: "170px", margin: "0", padding: "0", float: "right" }}>
               <Button className={classes.btn} onClick={_onSignInOpen} style={{ marginRight: "5px" }}>
                 로그인
               </Button>
@@ -210,100 +205,99 @@ export default function Header() {
           )}
         </div>
         <div
-          id="down"
+          id='down'
           style={{
-            width: "80%",
-            margin: "0 10%",
+            width: "100%",
+            margin: "0",
             padding: "0",
             backgroundColor: "white",
             borderTop: "1px solid darkgray",
             borderBottom: "1px solid darkgray",
             float: "left",
-          }}
-        >
+          }}>
           <ul className={classes.mainmenu} onMouseOver={opening} onMouseOut={closing}>
             <li className={classes.mainmenu2}>
-              <a href="/cal/power">게시판</a>
-              <ul id="testA" className={classes.submenu}>
+              <h3>게시판</h3>
+              <ul id='testA' className={classes.submenu}>
                 <li>
-                  <a href="/board/free">팁 게시판</a>
+                  <a href='/board/free'>팁 게시판</a>
                 </li>
                 <li>
-                  <a href="/board/free">자유 게시판</a>
+                  <a href='/board/free'>자유 게시판</a>
                 </li>
                 <li>
-                  <a href="/board/free">스샷 게시판</a>
+                  <a href='/board/free'>스샷 게시판</a>
                 </li>
                 <li>
-                  <a href="/board/free">구인 게시판</a>
+                  <a href='/board/free'>구인 게시판</a>
                 </li>
                 <li>
-                  <a href="/board/free">직업 게시판</a>
-                </li>
-              </ul>
-            </li>
-            <li className={classes.mainmenu2}>
-              <a href="/cal/power">계산기</a>
-              <ul id="testB" className={classes.submenu}>
-                <li>
-                  <a href="/cal/power">전투력</a>
-                </li>
-                <li>
-                  <a href="/cal/power">능력치</a>
-                </li>
-                <li>
-                  <a href="/cal/exp">경험치</a>
-                </li>
-                <li>
-                  <a href="/cal/production">생 산</a>
+                  <a href='/board/free'>직업 게시판</a>
                 </li>
               </ul>
             </li>
             <li className={classes.mainmenu2}>
-              <a href="/cal/power">도감</a>
-              <ul id="testC" className={classes.submenu}>
+              <h3>계산기</h3>
+              <ul id='testB' className={classes.submenu}>
                 <li>
-                  <a href="/dic/item">아이템</a>
+                  <a href='/cal/power'>전투력</a>
                 </li>
                 <li>
-                  <a href="/dic/petitem">환수장비</a>
+                  <a href='/cal/power'>능력치</a>
                 </li>
                 <li>
-                  <a href="/dic/animalitem">신수장비</a>
+                  <a href='/cal/exp'>경험치</a>
                 </li>
                 <li>
-                  <a href="/dic/raid">레이드/사냥터</a>
-                </li>
-                <li>
-                  <a href="/dic/raid">장비마법</a>
-                </li>
-                <li>
-                  <a href="/dic/raid">고고학</a>
+                  <a href='/cal/production'>생 산</a>
                 </li>
               </ul>
             </li>
             <li className={classes.mainmenu2}>
-              <a href="/cal/power">경매장</a>
-              <ul id="testD" className={classes.submenu}>
+              <h3>도감</h3>
+              <ul id='testC' className={classes.submenu}>
                 <li>
-                  <a href="/cal/power">경매장</a>
+                  <a href='/dic/item'>아이템</a>
                 </li>
                 <li>
-                  <a href="/cal/power">장 터</a>
+                  <a href='/dic/petitem'>환수장비</a>
+                </li>
+                <li>
+                  <a href='/dic/animalitem'>신수장비</a>
+                </li>
+                <li>
+                  <a href='/dic/raid'>레이드/사냥터</a>
+                </li>
+                <li>
+                  <a href='/dic/raid'>장비마법</a>
+                </li>
+                <li>
+                  <a href='/dic/raid'>고고학</a>
                 </li>
               </ul>
             </li>
             <li className={classes.mainmenu2}>
-              <a href="/cal/power">내정보</a>
-              <ul id="testE" className={classes.submenu}>
+              <h3>경매장</h3>
+              <ul id='testD' className={classes.submenu}>
                 <li>
-                  <a href="/cal/power">회원정보</a>
+                  <a href='/cal/power'>경매장</a>
                 </li>
                 <li>
-                  <a href="/cal/power">아이디 찾기</a>
+                  <a href='/cal/power'>장 터</a>
+                </li>
+              </ul>
+            </li>
+            <li className={classes.mainmenu2}>
+              <h3>내정보</h3>
+              <ul id='testE' className={classes.submenu}>
+                <li>
+                  <a href='/cal/power'>회원정보</a>
                 </li>
                 <li>
-                  <a href="/cal/power">비밀번호 찾기</a>
+                  <a href='/cal/power'>아이디 찾기</a>
+                </li>
+                <li>
+                  <a href='/cal/power'>비밀번호 찾기</a>
                 </li>
               </ul>
             </li>
@@ -311,19 +305,11 @@ export default function Header() {
         </div>
       </AppBar>
 
-      <Dialog
-        fullScreen={fullScreen}
-        open={isSignInOpen}
-        onClose={_onSignInClose}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title" style={{ padding: "0 5px", textAlign: "center" }}>
+      <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose} aria-labelledby='responsive-dialog-title'>
+        <DialogTitle id='responsive-dialog-title' style={{ padding: "0 5px", textAlign: "center" }}>
           <div>
             <h2 style={{ margin: "20px 0 0 0" }}>로그인</h2>
-            <Button
-              onClick={_onSignInClose}
-              style={{ minWidth: 10, fontSize: "1rem", padding: "0", position: "absolute", top: 5, right: 10 }}
-            >
+            <Button onClick={_onSignInClose} style={{ minWidth: 10, fontSize: "1rem", padding: "0", position: "absolute", top: 5, right: 10 }}>
               &#10006;
             </Button>
           </div>

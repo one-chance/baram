@@ -16,7 +16,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import { getItemData } from "utils/CalUtil";
-import ItemList from "conf/itemList.json";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -119,7 +118,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     bigBox: {
       width: "100%",
-      margin: "5px 0",
+      marginBottom: "10px",
       padding: "9px",
       border: "1px solid gray",
       borderRadius: "10px",
@@ -183,10 +182,7 @@ export default function Power() {
 
   const [box1, setBox1] = useState<number>(0);
 
-  let itemList = ItemList;
-  let itemP: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const [item1, setItem1] = useState<string>("");
-  const [item2, setItem2] = useState<string>("");
+  const [items1, setItems1] = useState<string>("");
 
   const [engrave1, setEngrave1] = useState<number>(0); // 각인1 종류
   const [engrave2, setEngrave2] = useState<number>(0); // 각인1 수치
@@ -208,8 +204,7 @@ export default function Power() {
   let pets: number[] = [9, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 환수 : 등급, 레벨, 무기, 투구, 갑옷, 성물1, 성물2, 목걸이, 문양, 세트옷, 신물
 
   const calLevel = (lev: number) => {
-    if (lev < 99 || lev > 799) {
-      setLevel(0);
+    if (lev < 1 || lev > 799) {
       return;
     }
 
@@ -221,14 +216,6 @@ export default function Power() {
     res = a * 3.5 * b + c[a];
     setLevelPower(Math.round(res));
     setLevelPower2(res);
-  };
-
-  const calItem = (e: string, num: number) => {
-    for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
-      if (e.localeCompare(Object.keys(itemList[num])[i]) === 0) {
-        return Object.values(itemList[num])[i];
-      }
-    }
   };
 
   const calEngrave = () => {
@@ -326,19 +313,15 @@ export default function Power() {
   };
 
   const calPet = () => {
-    setPetPower(
-      pets[0] * 200 +
-        pets[1] * 2 +
-        pets[2] +
-        pets[3] +
-        pets[4] +
-        pets[5] +
-        pets[6] +
-        pets[7] * 100 +
-        pets[8] * 100 +
-        pets[9] * 100 +
-        pets[10] * 100
-    );
+    setPetPower(pets[0] * 200 + pets[1] * 2 + pets[2] + pets[3] + pets[4] + pets[5] + pets[6] + pets[7] * 100 + pets[8] * 100 + pets[9] * 100 + pets[10] * 100);
+  };
+
+  const itemsUpdate = (name: string, type: number) => {
+    switch (type) {
+      case 1:
+        setItems1(name);
+        break;
+    }
   };
 
   const opening = (num: number) => {
@@ -364,24 +347,16 @@ export default function Power() {
   };
 
   const autoApply = (cen: string) => {
-    if (auto.split("@").length === 2) {
-      let a = getItemData(auto);
-      a.then((res) => {
-        if (!isNaN(res.level)) {
-          setLevel(res.level);
-          calLevel(res.level);
-        }
-      });
-    } else {
-      alert("에러! 아이디@서버 형식을 확인하세요.");
-    }
+    let a = getItemData("협가검");
+    console.log(a);
+    calLevel(level);
   };
 
   useEffect(() => {
     const calculating = () => {
       setGoldPower(gold7 + gold8 + gold9);
       setSkillPower(0);
-      setItemPower(itemP[1] + itemP[2]);
+      setItemPower(0);
     };
     calculating();
     // eslint-disable-next-line
@@ -399,75 +374,110 @@ export default function Power() {
           justifyContent: "center",
           alignItems: "center",
           float: "left",
-        }}
-      >
-        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
-          <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
-            <TextField
-              variant="outlined"
-              placeholder="아이디@서버"
-              value={auto || ""}
-              onChange={(e) => {
-                setAuto(e.target.value);
-              }}
-              inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-              style={{ width: "175px" }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                minWidth: "50px",
-                height: "40px",
-                marginLeft: "-5px",
-                padding: "0",
-                borderTopLeftRadius: "0",
-                borderBottomLeftRadius: "0",
-              }}
-              onClick={(e) => {
-                autoApply(auto);
-              }}
-            >
-              적용
-            </Button>
-          </Container>
+        }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px", textAlign: "center" }}>
+          <TextField
+            variant='outlined'
+            placeholder='아이디@서버'
+            onChange={e => {
+              setAuto(e.target.value);
+            }}
+            inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
+            style={{ width: "175px" }}
+          />
+          <Button
+            variant='contained'
+            color='primary'
+            style={{
+              minWidth: "50px",
+              height: "40px",
+              marginLeft: "-5px",
+              padding: "0",
+              borderTopLeftRadius: "0",
+              borderBottomLeftRadius: "0",
+            }}
+            onClick={e => {
+              autoApply(auto);
+            }}>
+            적용
+          </Button>
+        </Grid>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px", textAlign: "center" }}>
+          <TextField
+            className={classes.powers}
+            variant='outlined'
+            placeholder='전투력'
+            value={box1 || ""}
+            onChange={e => {
+              setBox1(parseInt(e.target.value));
+            }}
+          />
+          <Link className={classes.plus}>+</Link>
+          <TextField className={classes.powers} variant='outlined' placeholder='전투력' />
+          <Link className={classes.plus}>+</Link>
+          <TextField className={classes.powers} variant='outlined' placeholder='전투력' />
+          <Link className={classes.plus}>=</Link>
+          <TextField className={classes.powers} variant='outlined' placeholder='결과' />
+        </Grid>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px", textAlign: "center" }}>
+          <TextField className={classes.powers} variant='outlined' placeholder='전투력' />
+          <Link className={classes.plus}>x</Link>
+          <TextField className={classes.powers} variant='outlined' placeholder='품의' />
+          <Link className={classes.plus}>=</Link>
+          <TextField className={classes.powers} variant='outlined' placeholder='결과' />
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        spacing={3}
+        style={{
+          width: "90%",
+          margin: "0 5%",
+          padding: "0",
+          justifyContent: "center",
+          alignItems: "center",
+          float: "left",
+        }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
           <Container className={classes.bigBox}>
             <Container className={classes.smallBox} style={{ margin: "5px 0", textAlign: "center" }}>
               <TextField
-                variant="outlined"
-                placeholder="99~799"
+                id='test'
+                variant='outlined'
+                placeholder='99~799'
                 value={level || ""}
-                onChange={(e) => {
+                onChange={e => {
                   setLevel(parseInt(e.target.value));
+                  setLevel(level);
                 }}
                 inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 style={{ width: "105px", margin: "5px 0 5px 5px" }}
               />
               <Button
                 className={classes.btn}
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 onClick={() => {
-                  calLevel(level);
+                  if (level > 98 && level < 800) calLevel(level);
+                  else setLevel(0);
                 }}
                 style={{
                   minWidth: "60px",
                   marginLeft: "-5px",
                   borderTopLeftRadius: "0",
                   borderBottomLeftRadius: "0",
-                }}
-              >
+                }}>
                 계산
               </Button>
               <Button
-                variant="contained"
+                variant='contained'
                 className={classes.btn}
-                color="secondary"
+                color='secondary'
                 onClick={() => {
                   opening(1);
                 }}
-                style={{ minWidth: "40px" }}
-              >
+                style={{ minWidth: "40px" }}>
                 ?
               </Button>
             </Container>
@@ -477,47 +487,44 @@ export default function Power() {
               </Link>
             </Container>
           </Container>
-          <Container className={classes.bigBox}>
+          <Container
+            style={{
+              width: "100%",
+              margin: "0",
+              padding: "9px",
+              float: "left",
+              border: "1px solid gray",
+              borderRadius: "10px",
+            }}>
             <TextField
               className={classes.itemInput}
-              variant="outlined"
-              value={item1 || ""}
-              onChange={(e) => {
-                setItem1(e.target.value);
+              variant='outlined'
+              //value={item1}
+              onChange={e => {
+                itemsUpdate(e.target.value, 1);
               }}
-              placeholder="1. 목/어깨장식"
+              placeholder='1. 목/어깨장식'
             />
-            <TextField
-              className={classes.itemInput}
-              variant="outlined"
-              value={item2 || ""}
-              onChange={(e) => {
-                setItem2(e.target.value);
-              }}
-              placeholder="2. 투구"
-            />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="3. 얼굴장식" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="4. 무기" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="5. 갑옷" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="6. 방패/보조무기" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="7. 오른손" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="8. 망토" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="9. 왼손" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="10. 보조1" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="11. 신발" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="12. 보조2" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="13. 장신구" />
-            <TextField className={classes.itemInput} variant="outlined" placeholder="14. 세트옷" />
-            <Link
-              className={classes.petText}
-              style={{ width: "60px", height: "45px", lineHeight: "45px", margin: "5px" }}
-            >
+            <TextField className={classes.itemInput} variant='outlined' placeholder='2. 투구' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='3. 얼굴장식' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='4. 무기' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='5. 갑옷' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='6. 방패/보조무기' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='7. 오른손' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='8. 망토' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='9. 왼손' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='10. 보조1' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='11. 신발' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='12. 보조2' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='13. 장신구' />
+            <TextField className={classes.itemInput} variant='outlined' placeholder='14. 세트옷' />
+            <Link className={classes.petText} style={{ width: "60px", height: "45px", lineHeight: "45px", margin: "5px" }}>
               15. 강화
             </Link>
             <TextField
               className={classes.itemInput}
-              variant="outlined"
-              placeholder="0 ~ 11"
+              variant='outlined'
+              placeholder='0 ~ 11'
               inputProps={{ style: { textAlign: "center" } }}
               style={{ width: "70px" }}
             />
@@ -529,31 +536,24 @@ export default function Power() {
                 margin: "5px",
                 textAlign: "center",
                 float: "left",
-              }}
-            >
+              }}>
               <Button
                 className={classes.btn}
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  itemP[1] = Number(calItem(item1, 1));
-                  itemP[2] = Number(calItem(item2, 2));
-                }}
+                variant='contained'
+                color='primary'
                 style={{
                   margin: "2.5px",
-                }}
-              >
+                }}>
                 계산
               </Button>
               <Button
-                variant="contained"
+                variant='contained'
                 className={classes.btn}
-                color="secondary"
+                color='secondary'
                 onClick={() => {
                   opening(2);
                 }}
-                style={{ minWidth: "40px", margin: "2.5px" }}
-              >
+                style={{ minWidth: "40px", margin: "2.5px" }}>
                 ?
               </Button>
             </Container>
@@ -563,34 +563,16 @@ export default function Power() {
           </Container>
         </Grid>
 
-        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
-          <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
-            <TextField
-              className={classes.powers}
-              variant="outlined"
-              placeholder="전투력"
-              value={box1 || ""}
-              onChange={(e) => {
-                setBox1(parseInt(e.target.value));
-              }}
-            />
-            <Link className={classes.plus}>+</Link>
-            <TextField className={classes.powers} variant="outlined" placeholder="전투력" />
-            <Link className={classes.plus}>+</Link>
-            <TextField className={classes.powers} variant="outlined" placeholder="전투력" />
-            <Link className={classes.plus}>=</Link>
-            <TextField className={classes.powers} variant="outlined" placeholder="결과" />
-          </Container>
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
           <Container className={classes.bigBox}>
             <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
-                variant="outlined"
+                variant='outlined'
                 className={classes.select}
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   setEngrave1(Number(e.target.value));
-                }}
-              >
+                }}>
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력(0.4%)</Menus>
                 <Menus value={2}>체력/마력(0.5%)</Menus>
@@ -607,25 +589,24 @@ export default function Power() {
                 <Menus value={11}>치명타(1%)</Menus>
               </Select>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.selText}
-                placeholder="수치"
-                type="number"
+                placeholder='수치'
+                type='number'
                 value={engrave2 || ""}
-                onChange={(e) => {
+                onChange={e => {
                   setEngrave2(parseInt(e.target.value));
                 }}
               />
             </Container>
             <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
-                variant="outlined"
+                variant='outlined'
                 className={classes.select}
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   setEngrave3(Number(e.target.value));
-                }}
-              >
+                }}>
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력(0.4%)</Menus>
                 <Menus value={2}>체력/마력(0.5%)</Menus>
@@ -642,32 +623,39 @@ export default function Power() {
                 <Menus value={13}>치명타(1%)</Menus>
               </Select>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.selText}
-                placeholder="수치"
-                type="number"
+                placeholder='수치'
+                type='number'
                 value={engrave4 || ""}
-                onChange={(e) => {
+                onChange={e => {
                   setEngrave4(parseInt(e.target.value));
                 }}
               />
             </Container>
             <Link className={classes.powerText}>각인 전투력 : {engravePower}</Link>
-            <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+            <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}>
               ?
             </Button>
           </Container>
-          <Container className={classes.bigBox}>
+          <Container
+            style={{
+              width: "100%",
+              padding: "9px",
+              marginBottom: "10px",
+              float: "left",
+              border: "1px solid gray",
+              borderRadius: "10px",
+            }}>
             <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
-                variant="outlined"
+                variant='outlined'
                 className={classes.select}
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   setGold1(Number(calGold1(e)));
                   setGold2(0);
-                }}
-              >
+                }}>
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력</Menus>
                 <Menus value={2}>재생력</Menus>
@@ -689,12 +677,12 @@ export default function Power() {
                 <Menus value={18}>마법수준/재생력(%)</Menus>
               </Select>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.selText}
                 value={gold2 || ""}
-                placeholder="수치"
-                type="number"
-                onChange={(e) => {
+                placeholder='수치'
+                type='number'
+                onChange={e => {
                   setGold2(Number(e.target.value));
                   calGold2(Number(e.target.value), 1);
                 }}
@@ -702,14 +690,13 @@ export default function Power() {
             </Container>
             <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
-                variant="outlined"
+                variant='outlined'
                 className={classes.select}
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   setGold3(Number(calGold1(e)));
                   setGold4(0);
-                }}
-              >
+                }}>
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력</Menus>
                 <Menus value={2}>재생력</Menus>
@@ -731,12 +718,12 @@ export default function Power() {
                 <Menus value={18}>마법수준/재생력(%)</Menus>
               </Select>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.selText}
                 value={gold4 || ""}
-                placeholder="수치"
-                type="number"
-                onChange={(e) => {
+                placeholder='수치'
+                type='number'
+                onChange={e => {
                   setGold4(Number(e.target.value));
                   calGold2(Number(e.target.value), 2);
                 }}
@@ -744,14 +731,13 @@ export default function Power() {
             </Container>
             <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
-                variant="outlined"
+                variant='outlined'
                 className={classes.select}
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   setGold5(Number(calGold1(e)));
                   setGold6(0);
-                }}
-              >
+                }}>
                 <Menus value={0}>능력치</Menus>
                 <Menus value={1}>체력/마력</Menus>
                 <Menus value={2}>재생력</Menus>
@@ -773,36 +759,43 @@ export default function Power() {
                 <Menus value={18}>마법수준/재생력(%)</Menus>
               </Select>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.selText}
                 value={gold6 || ""}
-                placeholder="수치"
-                type="number"
-                onChange={(e) => {
+                placeholder='수치'
+                type='number'
+                onChange={e => {
                   setGold6(Number(e.target.value));
                   calGold2(Number(e.target.value), 3);
                 }}
               />
             </Container>
             <Link className={classes.powerText}>황돋 전투력 : {goldPower}</Link>
-            <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+            <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}>
               ?
             </Button>
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container
+            style={{
+              width: "100%",
+              padding: "9px",
+              margin: "0",
+              float: "left",
+              border: "1px solid gray",
+              borderRadius: "10px",
+            }}>
             <Container style={{ width: "100%", padding: "0", margin: "0", float: "left" }}>
               <Select
                 className={classes.select}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   calGold1(e);
                 }}
                 style={{
                   width: "120px",
-                }}
-              >
+                }}>
                 <Menus value={0}>직업</Menus>
                 <Menus value={1}>전사</Menus>
                 <Menus value={2}>도적</Menus>
@@ -816,15 +809,14 @@ export default function Power() {
               </Select>
               <Select
                 className={classes.select}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   calGold1(e);
                 }}
                 style={{
                   width: "160px",
-                }}
-              >
+                }}>
                 <Menus value={0}>아이템 부위</Menus>
                 <Menus value={1}>목/어깨장식</Menus>
                 <Menus value={2}>투구</Menus>
@@ -835,13 +827,12 @@ export default function Power() {
             </Container>
             <Container style={{ width: "100%", padding: "0", float: "left" }}>
               <Select
-                variant="outlined"
+                variant='outlined'
                 className={classes.select}
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   calGold1(e);
-                }}
-              >
+                }}>
                 <Menus value={0}>기술능력</Menus>
                 <Menus value={1}>무영보법-명중회피</Menus>
                 <Menus value={2}>투명-피해증가율</Menus>
@@ -858,37 +849,29 @@ export default function Power() {
                 <Menus value={13}>묵혈광참-방어감소</Menus>
               </Select>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.selText}
-                placeholder="수치"
-                type="number"
-                onChange={(e) => {
+                placeholder='수치'
+                type='number'
+                onChange={e => {
                   calGold2(Number(e.target.value), 1);
                 }}
               />
             </Container>
             <Link className={classes.powerText}>기술능력 전투력 : {skillPower}</Link>
-            <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+            <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}>
               ?
             </Button>
           </Container>
         </Grid>
-        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
-          <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
-            <TextField className={classes.powers} variant="outlined" placeholder="전투력" />
-            <Link className={classes.plus}>x</Link>
-            <TextField className={classes.powers} variant="outlined" placeholder="품의" />
-            <Link className={classes.plus}>=</Link>
-            <TextField className={classes.powers} variant="outlined" placeholder="결과" />
-          </Container>
-
+        <Grid item style={{ width: "320px", padding: "0", margin: "10px 15px" }}>
           <Container className={classes.bigBox}>
             <Container className={classes.smallBox}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 defaultValue={5}
-                onChange={(e) => {
+                onChange={e => {
                   let a = parseInt(e.target.value);
                   if (a > 0 && a < 6) {
                     animals[0] = a;
@@ -906,15 +889,14 @@ export default function Power() {
                   textDecoration: "none",
                   textAlign: "center",
                   color: "black",
-                }}
-              >
+                }}>
                 등급
               </Link>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 defaultValue={99}
-                onChange={(e) => {
+                onChange={e => {
                   let a = parseInt(e.target.value);
                   if (a > 0 && a < 99) {
                     animals[1] = a;
@@ -932,20 +914,18 @@ export default function Power() {
                   textDecoration: "none",
                   textAlign: "center",
                   color: "black",
-                }}
-              >
+                }}>
                 레벨
               </Link>
               <Button
                 className={classes.btn}
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 onClick={calAnimal}
                 style={{
                   marginRight: "15px",
                   float: "right",
-                }}
-              >
+                }}>
                 계산
               </Button>
             </Container>
@@ -953,12 +933,11 @@ export default function Power() {
               <Link className={classes.petText}>무기</Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={7}
-                onChange={(e) => {
+                onChange={e => {
                   animals[2] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={5}>5성</Menus>
                 <Menus value={6}>6성</Menus>
                 <Menus value={7}>7성</Menus>
@@ -970,12 +949,11 @@ export default function Power() {
               </Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={2}
-                onChange={(e) => {
+                onChange={e => {
                   animals[5] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={1}>1단</Menus>
                 <Menus value={2}>2단</Menus>
@@ -986,12 +964,11 @@ export default function Power() {
               <Link className={classes.petText}>투구</Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={7}
-                onChange={(e) => {
+                onChange={e => {
                   animals[3] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={5}>5성</Menus>
                 <Menus value={6}>6성</Menus>
                 <Menus value={7}>7성</Menus>
@@ -1003,12 +980,11 @@ export default function Power() {
               </Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={2}
-                onChange={(e) => {
+                onChange={e => {
                   animals[6] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={1}>1단</Menus>
                 <Menus value={2}>2단</Menus>
@@ -1019,12 +995,11 @@ export default function Power() {
               <Link className={classes.petText}>갑옷</Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={7}
-                onChange={(e) => {
+                onChange={e => {
                   animals[4] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={5}>5성</Menus>
                 <Menus value={6}>6성</Menus>
                 <Menus value={7}>7성</Menus>
@@ -1036,12 +1011,11 @@ export default function Power() {
               </Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={2}
-                onChange={(e) => {
+                onChange={e => {
                   animals[7] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={1}>1개</Menus>
                 <Menus value={2}>2개</Menus>
@@ -1049,23 +1023,25 @@ export default function Power() {
             </Container>
             <Container className={classes.smallBox}>
               <Link className={classes.powerText}>신수 전투력 : {animalPower}</Link>
-              <Button
-                className={classes.btn}
-                variant="contained"
-                color="secondary"
-                style={{ minWidth: "40px", margin: "5px 0" }}
-              >
+              <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px", margin: "5px 0" }}>
                 ?
               </Button>
             </Container>
           </Container>
-          <Container className={classes.bigBox}>
+          <Container
+            style={{
+              width: "100%",
+              padding: "9px",
+              margin: "0",
+              border: "1px solid gray",
+              borderRadius: "10px",
+            }}>
             <Container className={classes.smallBox}>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 value={9}
                 inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-                onChange={(e) => {
+                onChange={e => {
                   pets[0] = parseInt(e.target.value);
                 }}
                 style={{ width: "35px", float: "left", margin: "5px 0 5px 10px" }}
@@ -1080,15 +1056,14 @@ export default function Power() {
                   textDecoration: "none",
                   textAlign: "center",
                   color: "black",
-                }}
-              >
+                }}>
                 등급
               </Link>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
                 value={99}
-                onChange={(e) => {
+                onChange={e => {
                   pets[1] = parseInt(e.target.value);
                 }}
                 style={{ width: "35px", float: "left", margin: "5px 0 5px 5px" }}
@@ -1103,42 +1078,39 @@ export default function Power() {
                   textDecoration: "none",
                   textAlign: "center",
                   color: "black",
-                }}
-              >
+                }}>
                 레벨
               </Link>
               <Button
                 className={classes.btn}
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 onClick={calPet}
                 style={{
                   marginRight: "15px",
                   float: "right",
-                }}
-              >
+                }}>
                 계산
               </Button>
             </Container>
             <Container className={classes.smallBox}>
               <Link className={classes.petText}>무 기</Link>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.petInput}
-                placeholder="전투력"
-                onChange={(e) => {
+                placeholder='전투력'
+                onChange={e => {
                   pets[2] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText}>목걸이</Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   pets[7] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={1}>작생목</Menus>
                 <Menus value={2}>생목</Menus>
@@ -1149,22 +1121,21 @@ export default function Power() {
             <Container className={classes.smallBox}>
               <Link className={classes.petText}>투 구</Link>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.petInput}
-                placeholder="전투력"
-                onChange={(e) => {
+                placeholder='전투력'
+                onChange={e => {
                   pets[3] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText}>문 양</Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   pets[8] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={2}>문양</Menus>
                 <Menus value={4}>문양'진</Menus>
@@ -1173,22 +1144,21 @@ export default function Power() {
             <Container className={classes.smallBox}>
               <Link className={classes.petText}>갑 옷</Link>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.petInput}
-                placeholder="전투력"
-                onChange={(e) => {
+                placeholder='전투력'
+                onChange={e => {
                   pets[4] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText}>세트옷</Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   pets[9] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={3}>환수神</Menus>
               </Select>
@@ -1196,22 +1166,21 @@ export default function Power() {
             <Container className={classes.smallBox}>
               <Link className={classes.petText}>성 물</Link>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.petInput}
-                placeholder="전투력"
-                onChange={(e) => {
+                placeholder='전투력'
+                onChange={e => {
                   pets[5] = parseInt(e.target.value);
                 }}
               />
               <Link className={classes.petText}>신 물</Link>
               <Select
                 className={classes.select2}
-                variant="outlined"
+                variant='outlined'
                 defaultValue={0}
-                onChange={(e) => {
+                onChange={e => {
                   pets[10] = Number(e.target.value);
-                }}
-              >
+                }}>
                 <Menus value={0}>없음</Menus>
                 <Menus value={3}>1성</Menus>
                 <Menus value={4}>2성</Menus>
@@ -1222,10 +1191,10 @@ export default function Power() {
             <Container className={classes.smallBox}>
               <Link className={classes.petText}>성 물</Link>
               <TextField
-                variant="outlined"
+                variant='outlined'
                 className={classes.petInput}
-                placeholder="전투력"
-                onChange={(e) => {
+                placeholder='전투력'
+                onChange={e => {
                   pets[6] = parseInt(e.target.value);
                 }}
               />
@@ -1235,7 +1204,7 @@ export default function Power() {
             </Container>
             <Container className={classes.smallBox}>
               <Link className={classes.powerText}>환수 전투력 : {petPower}</Link>
-              <Button className={classes.btn} variant="contained" color="secondary" style={{ minWidth: "40px" }}>
+              <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}>
                 ?
               </Button>
             </Container>
@@ -1247,18 +1216,15 @@ export default function Power() {
         onClose={() => {
           closing(1);
         }}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title" style={{ textAlign: "center" }}>
+        aria-labelledby='responsive-dialog-title'>
+        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
           <div>
             <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>레벨 전투력 TMI</h3>
           </div>
         </DialogTitle>
         <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
           <h3 style={{ color: "red", fontFamily: "BMJUA" }}>★ 레벨 전투력 = 렙업 전투력 + 승급 전투력 ★</h3>
-          <h3 style={{ fontFamily: "BMJUA" }}>
-            * Lv.99에 최초 전투력이 부여되며 이후 렙업과 승급마다 전투력이 증가한다.
-          </h3>
+          <h3 style={{ fontFamily: "BMJUA" }}>* Lv.99에 최초 전투력이 부여되며 이후 렙업과 승급마다 전투력이 증가한다.</h3>
           <h4>* 승급퀘를 완료하지 않아도 레벨만 달성하면 승급 전투력이 증가한다.</h4>
           <h4>* 렙업 전투력 = 3.5 x 승급 차수 | 승급 전투력 = 350 x 승급 차수</h4>
           <h5>ex) 699 달성시 3.5 x 6 = 21 증가 </h5>
@@ -1270,11 +1236,10 @@ export default function Power() {
         <DialogActions>
           <Button
             tabIndex={-1}
-            color="primary"
+            color='primary'
             onClick={() => {
               closing(1);
-            }}
-          >
+            }}>
             닫기
           </Button>
         </DialogActions>
@@ -1284,18 +1249,15 @@ export default function Power() {
         onClose={() => {
           closing(2);
         }}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title" style={{ textAlign: "center" }}>
+        aria-labelledby='responsive-dialog-title'>
+        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
           <div>
             <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>장비 전투력 TMI</h3>
           </div>
         </DialogTitle>
         <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
           <h3 style={{ color: "red", fontFamily: "BMJUA" }}>★ 장비 전투력 ★</h3>
-          <h3 style={{ fontFamily: "BMJUA" }}>
-            * Lv.99에 최초 전투력이 부여되며 이후 렙업과 승급마다 전투력이 증가한다.
-          </h3>
+          <h3 style={{ fontFamily: "BMJUA" }}>* Lv.99에 최초 전투력이 부여되며 이후 렙업과 승급마다 전투력이 증가한다.</h3>
           <h4>* 승급퀘를 완료하지 않아도 레벨만 달성하면 승급 전투력이 증가한다.</h4>
           <h4>* 렙업 전투력 = 3.5 x 승급 차수 | 승급 전투력 = 350 x 승급 차수</h4>
           <h5>ex) 699 달성시 3.5 x 6 = 21 증가 </h5>
@@ -1307,11 +1269,10 @@ export default function Power() {
         <DialogActions>
           <Button
             tabIndex={-1}
-            color="primary"
+            color='primary'
             onClick={() => {
               closing(2);
-            }}
-          >
+            }}>
             닫기
           </Button>
         </DialogActions>

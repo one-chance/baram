@@ -36,21 +36,20 @@ import Production from "pages/Calculator/Production";
 
 import { refreshToken } from "utils/ComoonUtil";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   header: {
     zIndex: 10,
-    // position: "absolute",
     position: "fixed",
     top: 0,
     left: 0,
     right: 0,
-    height: "120px",
+    height: "122px",
     padding: "0",
   },
   root: {
-    position: "absolute",
+    position: "relative",
     zIndex: 1,
-    marginTop: "130px",
+    marginTop: "132px",
   },
 }));
 
@@ -61,7 +60,7 @@ function App() {
   }, []);
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth='xl'>
       <React.Fragment>
         <header>
           <Container fixed className={classes.header}>
@@ -72,37 +71,37 @@ function App() {
           <Container className={classes.root}>
             <BrowserRouter>
               {/*Error Handling*/}
-              <Route exact path="/signin" component={NoAuth} />
+              <Route exact path='/signin' component={NoAuth} />
 
               {/*Home*/}
-              <Route exact path="/" component={Home} />
+              <Route exact path='/' component={Home} />
 
               {/*Common*/}
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/findid" component={FindId} />
-              <Route exact path="/findpw" component={FindPw} />
+              <Route exact path='/signup' component={SignUp} />
+              <Route exact path='/findid' component={FindId} />
+              <Route exact path='/findpw' component={FindPw} />
 
               {/*Board*/}
-              <Route exact path="/board/free" component={FreeBoard} />
-              <Route exact path="/board/:category/:seq" component={FreePostView} />
-              <Route exact path="/board/write" component={FreeWrite} />
-              <Route exact path="/board/write/:tab" component={FreeWrite} />
-              <Route exact path="/board/write/:tab/:seq" component={FreeWrite} />
+              <Route exact path='/board/free' component={FreeBoard} />
+              <Route exact path='/board/:category/:seq' component={FreePostView} />
+              <Route exact path='/board/write' component={FreeWrite} />
+              <Route exact path='/board/write/:tab' component={FreeWrite} />
+              <Route exact path='/board/write/:tab/:seq' component={FreeWrite} />
 
               {/*Calculator*/}
-              <Route exact path="/cal/exp" component={Exp} />
-              <Route exact path="/cal/power" component={Power} />
-              <Route exact path="/cal/production" component={Production} />
+              <Route exact path='/cal/exp' component={Exp} />
+              <Route exact path='/cal/power' component={Power} />
+              <Route exact path='/cal/production' component={Production} />
 
               {/*Dictionary*/}
-              <Route path="/dic/item" component={Item} />
-              <Route path="/dic/petitem" component={PetItem} />
-              <Route path="/dic/animalitem" component={AnimalItem} />
-              <Route exact path="/dic/raid" component={Raid} />
-              <Route path="/dic/raid/:key" component={RaidInfo} />
+              <Route path='/dic/item' component={Item} />
+              <Route path='/dic/petitem' component={PetItem} />
+              <Route path='/dic/animalitem' component={AnimalItem} />
+              <Route exact path='/dic/raid' component={Raid} />
+              <Route path='/dic/raid/:key' component={RaidInfo} />
 
               {/*MyInfo*/}
-              <Route path="/myinfo/:tab" component={MyInfo} />
+              <Route path='/myinfo/:tab' component={MyInfo} />
             </BrowserRouter>
           </Container>
         </main>
