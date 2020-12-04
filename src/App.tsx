@@ -83,7 +83,7 @@ function App() {
 
               {/*Board*/}
               <Route exact path='/board/free' component={FreeBoard} />
-              <Route exact path='/board/:category/:seq' component={FreePostView} />
+              <Route exact path='/board/free/:seq' component={FreePostView} />
               <Route exact path='/board/write' component={FreeWrite} />
               <Route exact path='/board/write/:tab' component={FreeWrite} />
               <Route exact path='/board/write/:tab/:seq' component={FreeWrite} />

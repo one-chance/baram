@@ -4,18 +4,18 @@ import { DataGrid, RowsProp, ComponentProps, ColDef, GridOverlay } from '@materi
 import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import IPost from 'interfaces/Board/IPost';
 
 import * as CommonUtil from 'utils/ComoonUtil';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: "10px",
-  },
   top: {
     textAlign: "right",
     margin: "5px",
+    paddingTop: "10px",
     justifyContent: "space-between"
   },
   header: {
@@ -54,11 +54,28 @@ function CustomHeader(props: ComponentProps) {
   const classes = useStyles();
 
   return (
-    <Typography
-      className={classes.header}
-      variant="h6">
-      자유게시판
-    </Typography>
+    <Grid
+      container
+      direction="row"
+      justify="space-between"
+      alignItems="center"
+      style={{marginBottom: '5px'}}>
+      <Typography
+        className={classes.header}
+        variant="h6">
+        자유게시판
+      </Typography>
+      {
+        CommonUtil.getToken() &&
+          <Button 
+            variant="contained" 
+            color="primary"
+            style={{marginRight: '15px'}}
+            onClick={() => {document.location.href="/board/write/free"}}>
+            글쓰기
+          </Button>
+      }
+    </Grid>
   );
 }
 

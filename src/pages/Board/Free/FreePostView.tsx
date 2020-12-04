@@ -32,10 +32,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const duration = 2000;
+const category = 'free';
 
 function FreeBoard({match}: any) {
   const classes = useStyles();
-  const { category, seq } = match.params;
+  // const { category, seq } = match.params;
+  const { seq } = match.params;
 
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);

@@ -10,7 +10,7 @@ import Board from 'components/Board/Board';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "10px"
+    marginTop: "30px"
   },
 }));
 
@@ -30,14 +30,10 @@ function FreeBoard() {
   return (
     <Container
       className={classes.root}>
-      <Link href="/board/write/free" variant="body2">
+      {/* <Link href="/board/write/free" variant="body2">
           글쓰기
-      </Link>
-      <Container>
-      {
-        <Board posts={posts} page={2}/>
-      }
-      </Container>
+      </Link> */}
+      <Board posts={posts} page={2}/>
     </Container>
   );
 }

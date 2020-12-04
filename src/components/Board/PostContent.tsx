@@ -49,7 +49,8 @@ function PostContent(props: IProps) {
   return (
     <Container>
       <Grid item xs={12}>
-        <Typography>
+        <Typography
+          variant="body1">
           <div dangerouslySetInnerHTML={ {__html: post.content} }></div>
         </Typography>
       </Grid>
