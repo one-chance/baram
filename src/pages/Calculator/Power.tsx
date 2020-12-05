@@ -144,8 +144,10 @@ export default function Power() {
 
   let itemList = ItemList;
   let itemP: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const [item1, setItem1] = useState<string>("");
-  const [item2, setItem2] = useState<string>("");
+  let item: string = "";
+  let itemitem: string = "";
+  const [item1, setItem1] = useState<number>(0);
+  const [item2, setItem2] = useState<number>(0);
 
   const [engrave1, setEngrave1] = useState<number>(0); // 각인1 종류
   const [engrave2, setEngrave2] = useState<number>(0); // 각인1 수치
@@ -168,11 +170,15 @@ export default function Power() {
   };
 
   const calItem = (e: string, num: number) => {
-    for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
-      if (e.localeCompare(Object.keys(itemList[num])[i]) === 0) {
-        return Object.values(itemList[num])[i];
+    if (e.localeCompare("") !== 0) {
+      for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
+        if (e.localeCompare(Object.keys(itemList[num])[i]) === 0) {
+          return Object.values(itemList[num])[i];
+        }
       }
     }
+
+    return 0;
   };
 
   const calEngrave = () => {
@@ -218,7 +224,7 @@ export default function Power() {
   useEffect(() => {
     const calculating = () => {
       setSkillPower(0);
-      setItemPower(itemP[1] + itemP[2]);
+      setItemPower(item1 + item2);
     };
     calculating();
     // eslint-disable-next-line
@@ -242,7 +248,6 @@ export default function Power() {
             <TextField
               variant='outlined'
               placeholder='아이디@서버'
-              value={auto || ""}
               onChange={e => {
                 setAuto(e.target.value);
               }}
@@ -314,18 +319,17 @@ export default function Power() {
             <TextField
               className={classes.itemInput}
               variant='outlined'
-              value={item1 || ""}
               onChange={e => {
-                setItem1(e.target.value);
+                //setItem1(e.target.value);
+                item = e.target.value;
               }}
               placeholder='1. 목/어깨장식'
             />
             <TextField
               className={classes.itemInput}
               variant='outlined'
-              value={item2 || ""}
               onChange={e => {
-                setItem2(e.target.value);
+                itemitem = e.target.value;
               }}
               placeholder='2. 투구'
             />
@@ -375,8 +379,8 @@ export default function Power() {
                 variant='contained'
                 color='primary'
                 onClick={() => {
-                  itemP[1] = Number(calItem(item1, 1));
-                  itemP[2] = Number(calItem(item2, 2));
+                  setItem1(Number(calItem(item, 1)));
+                  setItem2(Number(calItem(itemitem, 2)));
                 }}
                 style={{
                   margin: "2.5px",
