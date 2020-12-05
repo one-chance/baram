@@ -21,31 +21,31 @@ const commentSchema = new mongoose.Schema({
   }]
 });
 
-const freeSchema = new mongoose.Schema({
+const tipSchema = new mongoose.Schema({
   seq: { type: Number, default: 0, required: true, unique: true },
   category: { type: String, required: true },
   title: { type: String, required: true },
   content: { type: String, required: true },
-  writer: { type: writerSchema, required: true },
+  writer: { type: writerSchema, required: false },
   viewCount: { type: Number, required: false, default: 0},
   commentIdx: { type: Number, required: false, default: 0},
   commentList: [{ type: commentSchema, required: false, unique: false }]
 });
 
-freeSchema.plugin(autoIncrement.plugin, {
-  model: "freeBoard",
+tipSchema.plugin(autoIncrement.plugin, {
+  model: "tipBoard",
   field: "seq",
   startAt: 1,
   increment: 1
 });
 
 // create new post
-freeSchema.statics.create = function (payload) {
+tipSchema.statics.create = function (payload) {
   return new this(payload).save();
 }
 
 // update post
-freeSchema.statics.updateBySeq = function (seq, post) {
+tipSchema.statics.updateBySeq = function (seq, post) {
   return this.findOneAndUpdate({
     seq: seq
   }, { 
@@ -57,12 +57,12 @@ freeSchema.statics.updateBySeq = function (seq, post) {
 }
 
 // delete post
-freeSchema.statics.deleteBySeq = function (seq, post) {
+tipSchema.statics.deleteBySeq = function (seq, post) {
   return this.deleteOne({seq: seq});
 }
 
 // add viewCount
-freeSchema.statics.addViewCount = function (seq) {
+tipSchema.statics.addViewCount = function (seq) {
   return this.findOneAndUpdate({
     seq: seq
   }, { 
@@ -71,22 +71,22 @@ freeSchema.statics.addViewCount = function (seq) {
 }
 
 // find all
-freeSchema.statics.findAll = function () {
+tipSchema.statics.findAll = function () {
   return this.find({});
 }
 
 // find by filter
-freeSchema.statics.findByFilter = function (filter) {
+tipSchema.statics.findByFilter = function (filter) {
   return this.find(filter).sort({seq: -1});
 }
 
 // Get by seq
-freeSchema.statics.findOneBySeq = function (seq) {
+tipSchema.statics.findOneBySeq = function (seq) {
   return this.findOne({seq: seq});
 }
 
 // Push Comment
-freeSchema.statics.createComment = function (postSeq, comment) {
+tipSchema.statics.createComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq
   }, { 
@@ -101,7 +101,7 @@ freeSchema.statics.createComment = function (postSeq, comment) {
 }
 
 // Update Comment
-freeSchema.statics.updateComment = function (postSeq, comment) {
+tipSchema.statics.updateComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq,
     commentList: {
@@ -115,7 +115,7 @@ freeSchema.statics.updateComment = function (postSeq, comment) {
 }
 
 // Delete Comment
-freeSchema.statics.deleteComment = function (postSeq, commentIdx) {
+tipSchema.statics.deleteComment = function (postSeq, commentIdx) {
   return this.findOneAndUpdate({
     seq: postSeq,
   }, {
@@ -131,7 +131,7 @@ freeSchema.statics.deleteComment = function (postSeq, commentIdx) {
 }
 
 // Push Recomment
-freeSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
+tipSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
   return this.findOne({
     seq: postSeq,
     commentList: {
@@ -153,7 +153,7 @@ freeSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
 }
 
 // Update Recomment
-freeSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentList) {
+tipSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentList) {
   return this.findOneAndUpdate({
     seq: postSeq,
     commentList: {
@@ -168,8 +168,8 @@ freeSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentLis
 }
 
 // Delete Recomment
-// freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentIdx) {
-freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentList) {
+// tipSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentIdx) {
+tipSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentList) {
   return this.findOneAndUpdate({
     seq: postSeq,
     commentList: {
@@ -190,4 +190,4 @@ freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentLis
   })
 }
 
-module.exports = mongoose.model("Free", freeSchema, "freeBoard");
+module.exports = mongoose.model("Tip", tipSchema, "tipBoard");

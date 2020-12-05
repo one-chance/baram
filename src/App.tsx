@@ -19,7 +19,9 @@ import MyInfo from "pages/User/MyInfo";
 
 import FreeBoard from "pages/Board/Free/FreeBoard";
 import FreePostView from "pages/Board/Free/FreePostView";
-import FreeWrite from "pages/Board//Free/FreeWrite";
+import TipBoard from "pages/Board/Tip/TipBoard";
+import TipPostView from "pages/Board/Tip/TipPostView";
+import Write from "pages/Board/Write";
 
 import Item from "pages/Dictionary/Item";
 import PetItem from "pages/Dictionary/PetItem";
@@ -84,9 +86,11 @@ function App() {
               {/*Board*/}
               <Route exact path='/board/free' component={FreeBoard} />
               <Route exact path='/board/free/:seq' component={FreePostView} />
-              <Route exact path='/board/write' component={FreeWrite} />
-              <Route exact path='/board/write/:tab' component={FreeWrite} />
-              <Route exact path='/board/write/:tab/:seq' component={FreeWrite} />
+              <Route exact path='/board/tip' component={TipBoard} />
+              <Route exact path='/board/tip/:seq' component={TipPostView} />
+              <Route exact path='/board/write' component={Write} />
+              <Route exact path='/board/write/:tab' component={Write} />
+              <Route exact path='/board/write/:tab/:seq' component={Write} />
 
               {/*Calculator*/}
               <Route exact path='/cal/exp' component={Exp} />
