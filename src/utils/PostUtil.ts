@@ -269,19 +269,12 @@ export const DeleteRecomment = async (post: IPost, commentIdx: number, comment: 
 
 
 // 게시글 리스트 조회
-export const getPosts = async (_category: CategoryType, _title?: string, 
-        _content?: string, _writer?: string, _createDateString?: string) => {
+export const getPosts = async (_category: CategoryType, _filterUri?: string) => {
 
   let posts: Array<IPost> = [];
 
-  let filter = "";
-  if ( _category ) filter += `category=${_category}&`;
-  if ( _title ) filter += `title=${_title}&`;
-  if ( _content ) filter += `content=${_content}&`;
-  if ( _writer ) filter += `writer=${_writer}&`;
-  if ( _createDateString ) filter += `createDateString=${_createDateString}&`;
-
-  await axios.get(`/api/board/free/find?${filter}`)
+  // await axios.get(`/api/board/free/find?${filter}`)
+  await axios.get(`/api/board/${_category}/find?${_filterUri}`)
   .then((res) => {
     if (res.data.code === 200) {
       posts = Object.setPrototypeOf(res.data.posts, posts);

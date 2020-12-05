@@ -72,6 +72,7 @@ const useStyles = makeStyles(theme => ({
     "& li": {
       width: "100%",
       height: "30px",
+      overflow: 'visible',
       "& a": {
         display: "block",
         lineHeight: "30px",
@@ -220,7 +221,7 @@ export default function Header() {
               <h3>게시판</h3>
               <ul id='testA' className={classes.submenu}>
                 <li>
-                  <a href='/board/free'>팁 게시판</a>
+                  <a href='/board/tip'>팁 게시판</a>
                 </li>
                 <li>
                   <a href='/board/free'>자유 게시판</a>

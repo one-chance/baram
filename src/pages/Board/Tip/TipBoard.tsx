@@ -11,7 +11,7 @@ import { getPosts } from 'utils/PostUtil';
 
 import Board from 'components/Board/Board';
 
-const nowCategory = "free";
+const nowCategory = "tip";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FreeBoard({location}: any) {
+function TipBoard({location}: any) {
   const classes = useStyles();
   const query = queryString.parse(location.search);
   const setFilter = useSetRecoilState(FilterState);
@@ -54,4 +54,4 @@ function FreeBoard({location}: any) {
   );
 }
 
-export default FreeBoard;
+export default TipBoard;

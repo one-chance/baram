@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function FreeWrite({match}: any) {
+function Write({match}: any) {
   const classes = useStyles();
   const {tab, seq} = match.params;
 
@@ -35,4 +35,4 @@ function FreeWrite({match}: any) {
   );
 }
 
-export default FreeWrite;
+export default Write;

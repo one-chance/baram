@@ -7,10 +7,12 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import IPost from 'interfaces/Board/IPost';
+
+import MyGridDivider from 'elements/Grid/MyGridDivider';
+import Bottom from './Bottom';
 
 interface IProps {
   post: IPost
@@ -49,7 +51,8 @@ function PostContent(props: IProps) {
   return (
     <Container>
       <Grid item xs={12}>
-        <Typography>
+        <Typography
+          variant="body1">
           <div dangerouslySetInnerHTML={ {__html: post.content} }></div>
         </Typography>
       </Grid>
@@ -64,6 +67,8 @@ function PostContent(props: IProps) {
               URL 복사
           </Button>
       </Grid>
+      <Bottom
+        category={post.category}/>
     </Container>
   ); 
 }

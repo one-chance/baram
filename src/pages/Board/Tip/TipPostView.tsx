@@ -32,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const duration = 2000;
-const category = 'free';
+const category = 'tip';
 
-function FreeBoard({match}: any) {
+function TipBoard({match}: any) {
   const classes = useStyles();
   // const { category, seq } = match.params;
   const { seq } = match.params;
@@ -151,4 +151,4 @@ function FreeBoard({match}: any) {
   );
 }
 
-export default FreeBoard;
+export default TipBoard;

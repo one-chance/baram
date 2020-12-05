@@ -4,12 +4,12 @@ const router = express.Router();
 const authMiddleware = require('../../middleware/auth');
 const myLogger = require('../../myLogger');
 
-const FreeSchema = require('../../schemas/Board/FreeSchema');
+const TipSchema = require('../../schemas/Board/TipSchema');
 
 /*
-*    NOTE 글쓰기
+*    글쓰기
 *    TYPE : POST
-*    URI : /api/board/free/post
+*    URI : /api/board/tip/post
 *    HEADER: { "token": token }
 *    BODY: { "post" }
 *    RETURN CODES:
@@ -19,7 +19,7 @@ const FreeSchema = require('../../schemas/Board/FreeSchema');
 */
 router.use('/post', authMiddleware);
 router.post('/post', (req, res) => {
-  const post = new FreeSchema({
+  const post = new TipSchema({
     category: req.body.post.category,
     title: req.body.post.title,
     content: req.body.post.content,
@@ -30,7 +30,7 @@ router.post('/post', (req, res) => {
     }
   });
   
-  FreeSchema.create(post, (err, post) => {
+  TipSchema.create(post, (err, post) => {
     if (err) {
       myLogger(`[ERROR] : ${post.title} CREATED ERROR`);
       res.status(200).send({
@@ -66,9 +66,9 @@ router.post('/post', (req, res) => {
 });
 
 /*
-*    NOTE 게시글 수정
+*    게시글 수정
 *    TYPE : PUT
-*    URI : /api/board/free/post
+*    URI : /api/board/tip/post
 *    HEADER: { "token": token }
 *    BODY: { "post" }
 *    RETURN CODES:
@@ -86,7 +86,7 @@ router.put('/post', (req, res) => {
     }
   };
   
-  FreeSchema.updateBySeq(post.seq, post)
+  TipSchema.updateBySeq(post.seq, post)
     .then((updatedPost) => {
       if (updatedPost) {
         myLogger(`[SUCCESS] : ${post.title} EDITED SUCCESS`);
@@ -121,9 +121,9 @@ router.put('/post', (req, res) => {
 });
 
 /*
-*    NOTE 게시글 삭제
+*    게시글 삭제
 *    TYPE : DLELTE
-*    URI : /api/board/free/post/${seq}
+*    URI : /api/board/tip/post/${seq}
 *    HEADER: { "token": token }
 *    RETURN CODES:
 *        200: 성공
@@ -134,7 +134,7 @@ router.use('/post/:seq', authMiddleware);
 router.delete('/post/:seq', (req, res) => {
   const seq = req.params.seq;
 
-  FreeSchema.deleteBySeq(seq)
+  TipSchema.deleteBySeq(seq)
     .then((deletedCount) => {
       if (deletedCount) {
         myLogger(`[SUCCESS] : POST NUMBER ${seq} DELETED SUCCESS`);
@@ -168,9 +168,9 @@ router.delete('/post/:seq', (req, res) => {
 });
 
 /*
-*    NOTE 댓글쓰기
+*    댓글쓰기
 *    TYPE : POST
-*    URI : /api/board/free/comment
+*    URI : /api/board/tip/comment
 *    HEADER: { "token": token }
 *    BODY: { "seq", "comment" }
 *    RETURN CODES:
@@ -198,7 +198,7 @@ router.post('/comment', (req, res) => {
     return false;
   }
 
-  FreeSchema.createComment(seq, comment)
+  TipSchema.createComment(seq, comment)
   .then((post) => {
     myLogger(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
     res.status(200).send({
@@ -223,9 +223,9 @@ router.post('/comment', (req, res) => {
 });
 
 /*
-*    NOTE 댓글수정
+*    댓글수정
 *    TYPE : PUT
-*    URI : /api/board/free/comment
+*    URI : /api/board/tip/comment
 *    HEADER: { "token": token }
 *    BODY: { "post", "comment" }
 *    RETURN CODES:
@@ -239,7 +239,7 @@ router.put('/comment', (req, res) => {
   const comment = req.body.comment;
   comment.writer.lastEditDateString = new Date().toLocaleString();
 
-  FreeSchema.updateComment(post.seq, comment)
+  TipSchema.updateComment(post.seq, comment)
   .then((post) => {
     myLogger(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
     res.status(200).send({
@@ -264,9 +264,9 @@ router.put('/comment', (req, res) => {
 });
 
 /*
-*    NOTE 댓글삭제
+*    댓글삭제
 *    TYPE : DELETE
-*    URI : /api/board/free/comment/:postSeq/:commentIdx
+*    URI : /api/board/tip/comment/:postSeq/:commentIdx
 *    HEADER: { "token": token }
 *    RETURN CODES:
 *        200: 성공
@@ -277,7 +277,7 @@ router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
   const postSeq =  req.params.postSeq;
   const commentIdx = req.params.commentIdx;
 
-  FreeSchema.deleteComment(postSeq, commentIdx)
+  TipSchema.deleteComment(postSeq, commentIdx)
   .then((post) => {
     myLogger(`[SUCCESS] : COMMENT DELETED SUCCESS`);
     res.status(200).send({
@@ -301,9 +301,9 @@ router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
 });
 
 /*
-*    NOTE 답글쓰기
+*    답글쓰기
 *    TYPE : POST
-*    URI : /api/board/free/recomment
+*    URI : /api/board/tip/recomment
 *    HEADER: { "token": token }
 *    BODY: { "seq", "commentSeq", "recomment" }
 *    RETURN CODES:
@@ -320,7 +320,7 @@ router.post('/recomment', (req, res) => {
   recomment.writer.createDateString = new Date().toLocaleString();
   recomment.writer.lastEditDateString = new Date().toLocaleString();
   
-  FreeSchema.createRecomment(seq, commentIdx, recomment)
+  TipSchema.createRecomment(seq, commentIdx, recomment)
   .then((post) => {
     myLogger(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
 
@@ -351,9 +351,9 @@ router.post('/recomment', (req, res) => {
 });
 
 /*
-*    NOTE 답글수정
+*    답글수정
 *    TYPE : PUT
-*    URI : /api/board/free/recomment
+*    URI : /api/board/tip/recomment
 *    HEADER: { "token": token }
 *    BODY: { "post", "commentIdx", "comment", "recomment" }
 *    RETURN CODES:
@@ -375,7 +375,7 @@ router.put('/recomment', (req, res) => {
     }
   });
 
-  FreeSchema.updateRecomment(post.seq, commentIdx, comment.recommentList)
+  TipSchema.updateRecomment(post.seq, commentIdx, comment.recommentList)
   .then((post) => {
     myLogger(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
 
@@ -401,9 +401,9 @@ router.put('/recomment', (req, res) => {
 });
 
 /*
-*    NOTE 답글삭제
+*    답글삭제
 *    TYPE : PUT
-*    URI : /api/board/free/recomment/:recommentIdx
+*    URI : /api/board/tip/recomment/:recommentIdx
 *    HEADER: { "token": token }
 *    PARAMS: {recommentIdx}
 *    BODY : {post, commentIdx}
@@ -425,7 +425,7 @@ router.put('/recomment/:recommentIdx', (req, res) => {
     }
   });
 
-  FreeSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
+  TipSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
   .then((post) => {
     myLogger(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
 
@@ -451,9 +451,9 @@ router.put('/recomment/:recommentIdx', (req, res) => {
 });
 
 /*
-*    NOTE 게시글 전체 조회
+*    게시글 전체 조회
 *    TYPE : GET
-*    URI : /api/board/free/find
+*    URI : /api/board/tip/find
 *    HEADER: { "token": token }
 *    BODY: { "filter" }
 *    RETURN CODES:
@@ -477,7 +477,7 @@ router.get('/find', (req, res) => {
     filter['writer.id'] = {$regex: req.query.writer}
   }
 
-  FreeSchema.findByFilter(filter)
+  TipSchema.findByFilter(filter)
   .then((posts) => {
     myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
     res.status(200).send({
@@ -501,9 +501,9 @@ router.get('/find', (req, res) => {
 
 
 /*
-*    NOTE 게시글 조회
+*    게시글 조회
 *    TYPE : GET
-*    URI : /api/board/free/find/:seq
+*    URI : /api/board/tip/find/:seq
 *    RETURN CODES:
 *        200: 성공
 *        500: 서버 오류
@@ -513,7 +513,7 @@ router.get('/find/:seq', (req, res) => {
 
   addViewCount(seq);
 
-  FreeSchema.findOneBySeq(seq)
+  TipSchema.findOneBySeq(seq)
   .then((post) => {
     myLogger(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
     res.status(200).send({
@@ -536,7 +536,7 @@ router.get('/find/:seq', (req, res) => {
 });
 
 function addViewCount(seq) {
-  FreeSchema.addViewCount(seq)
+  TipSchema.addViewCount(seq)
   .then(() => {
     myLogger(`Add ViewCount`);
   });

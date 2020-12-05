@@ -53,7 +53,7 @@ const modules = {
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{'list': 'ordered'}, {'list': 'bullet'},
       {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image', 'video']
+      // ['link', 'image', 'video']
     ],
     // container:  [['bold', 'italic', 'underline', 'blockquote'],
     // [{'list': 'ordered'}, {'list': 'bullet'}],
@@ -233,15 +233,16 @@ function PostWrite(props: IProps) {
                 theme="snow"
                 modules={modules}
                 formats={formats}
+                style={{height: '350px'}}
                 placeholder={'내용을 입력해주세요'}
                 onChange={(e) => {setContent(e)}}
               />
             </div>
           </Grid>
-          <Grid container item xs={12}
+          <Grid container item xs={12} style={{marginTop: "50px", flex: "top"}}
             justify="space-between"
             className={classes.buttonZone}>
-              <Grid item xs={3}>
+              {/* <Grid item xs={3}>
                 <MyButton
                   color="red"
                   text="취소"
@@ -252,6 +253,24 @@ function PostWrite(props: IProps) {
                   color="blue"
                   text="저장"
                   onClick={_onWrite}/>
+              </Grid> */}
+              <Grid item xs={3}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  onClick={() => setOpenConfirmCancle(true)}>
+                    취소
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button
+                  variant="contained" 
+                  color="primary"
+                  fullWidth
+                  onClick={_onWrite}>
+                    저장
+                </Button>
               </Grid>
           </Grid>
         </Grid>
