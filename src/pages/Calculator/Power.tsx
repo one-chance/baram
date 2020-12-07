@@ -143,11 +143,25 @@ export default function Power() {
   const [box1, setBox1] = useState<number>(0);
 
   let itemList = ItemList;
-  let itemP: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  let item: string = "";
-  let itemitem: string = "";
+  let items: string[] = ["", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+  let itemRein: number = 0;
+
+  let test: number = 0;
   const [item1, setItem1] = useState<number>(0);
   const [item2, setItem2] = useState<number>(0);
+  const [item3, setItem3] = useState<number>(0);
+  const [item4, setItem4] = useState<number>(0);
+  const [item5, setItem5] = useState<number>(0);
+  const [item6, setItem6] = useState<number>(0);
+  const [item7, setItem7] = useState<number>(0);
+  const [item8, setItem8] = useState<number>(0);
+  const [item9, setItem9] = useState<number>(0);
+  const [item10, setItem10] = useState<number>(0);
+  const [item11, setItem11] = useState<number>(0);
+  const [item12, setItem12] = useState<number>(0);
+  const [item13, setItem13] = useState<number>(0);
+  const [item14, setItem14] = useState<number>(0);
+  const [item15, setItem15] = useState<number>(0);
 
   const [engrave1, setEngrave1] = useState<number>(0); // 각인1 종류
   const [engrave2, setEngrave2] = useState<number>(0); // 각인1 수치
@@ -170,15 +184,26 @@ export default function Power() {
   };
 
   const calItem = (e: string, num: number) => {
+    /*
+    if (e !== "") {
+      for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
+        if (e === Object.keys(itemList[num])[i]) {
+          return Object.values(itemList[num])[i];
+        } else {
+          console.log(Object.keys(itemList[num])[276]);
+          return 123;
+        }
+      }
+    }
+    */
     if (e.localeCompare("") !== 0) {
       for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
         if (e.localeCompare(Object.keys(itemList[num])[i]) === 0) {
+          console.log(e);
           return Object.values(itemList[num])[i];
         }
       }
     }
-
-    return 0;
   };
 
   const calEngrave = () => {
@@ -224,7 +249,7 @@ export default function Power() {
   useEffect(() => {
     const calculating = () => {
       setSkillPower(0);
-      setItemPower(item1 + item2);
+      setItemPower(item1 + item2 + item3 + item4 + item5 + item6 + item7 + item8 + item9 + item10 + item11 + item12 + item13 + item14 + item15);
     };
     calculating();
     // eslint-disable-next-line
@@ -320,8 +345,7 @@ export default function Power() {
               className={classes.itemInput}
               variant='outlined'
               onChange={e => {
-                //setItem1(e.target.value);
-                item = e.target.value;
+                items[0] = e.target.value;
               }}
               placeholder='1. 목/어깨장식'
             />
@@ -329,22 +353,106 @@ export default function Power() {
               className={classes.itemInput}
               variant='outlined'
               onChange={e => {
-                itemitem = e.target.value;
+                items[1] = e.target.value;
               }}
               placeholder='2. 투구'
             />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='3. 얼굴장식' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='4. 무기' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='5. 갑옷' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='6. 방패/보조무기' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='7. 오른손' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='8. 망토' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='9. 왼손' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='10. 보조1' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='11. 신발' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='12. 보조2' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='13. 장신구' />
-            <TextField className={classes.itemInput} variant='outlined' placeholder='14. 세트옷' />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[2] = e.target.value;
+              }}
+              placeholder='3. 얼굴장식'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[3] = e.target.value;
+              }}
+              placeholder='4. 무기'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[4] = e.target.value;
+              }}
+              placeholder='5. 갑옷'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[5] = e.target.value;
+              }}
+              placeholder='6. 방패/보조무기'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[6] = e.target.value;
+              }}
+              placeholder='7. 오른손'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[7] = e.target.value;
+              }}
+              placeholder='8. 망토'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[8] = e.target.value;
+              }}
+              placeholder='9. 왼손'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[9] = e.target.value;
+              }}
+              placeholder='10. 보조1'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[10] = e.target.value;
+              }}
+              placeholder='11. 신발'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[11] = e.target.value;
+              }}
+              placeholder='12. 보조2'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[12] = e.target.value;
+              }}
+              placeholder='13. 장신구'
+            />
+            <TextField
+              className={classes.itemInput}
+              variant='outlined'
+              onChange={e => {
+                items[13] = e.target.value;
+              }}
+              placeholder='14. 세트옷'
+            />
             <Link
               style={{
                 width: "60px",
@@ -362,6 +470,9 @@ export default function Power() {
               className={classes.itemInput}
               variant='outlined'
               placeholder='0 ~ 11'
+              onChange={e => {
+                itemRein = Number(e.target.value);
+              }}
               inputProps={{ style: { textAlign: "center" } }}
               style={{ width: "70px" }}
             />
@@ -379,8 +490,24 @@ export default function Power() {
                 variant='contained'
                 color='primary'
                 onClick={() => {
-                  setItem1(Number(calItem(item, 1)));
-                  setItem2(Number(calItem(itemitem, 2)));
+                  setItem4(Number(calItem(items[3], 4)));
+                  /*
+                  setItem1(Number(calItem(items[0], 1)));
+                  setItem2(Number(calItem(items[1], 2)));
+                  setItem3(Number(calItem(items[2], 3)));
+                  setItem4(Number(calItem(items[3], 4)));
+                  setItem5(Number(calItem(items[4], 5)));
+                  setItem6(Number(calItem(items[5], 6)));
+                  setItem7(Number(calItem(items[6], 7)));
+                  setItem8(Number(calItem(items[7], 8)));
+                  setItem9(Number(calItem(items[8], 7)));
+                  setItem10(Number(calItem(items[9], 9)));
+                  setItem11(Number(calItem(items[10], 10)));
+                  setItem12(Number(calItem(items[11], 9)));
+                  setItem13(Number(calItem(items[12], 11)));
+                  setItem14(Number(calItem(items[13], 12)));
+                  setItem15(itemRein * 200);
+                  */
                 }}
                 style={{
                   margin: "2.5px",

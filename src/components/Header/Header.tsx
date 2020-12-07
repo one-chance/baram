@@ -73,9 +73,10 @@ const useStyles = makeStyles(theme => ({
       width: "100%",
       height: "30px",
       "& a": {
+        minWidth: "100px",
         display: "block",
         lineHeight: "30px",
-        margin: "0 50px",
+        margin: "0 20%",
         padding: "0",
         textDecoration: "none",
         fontSize: "0.9rem",
