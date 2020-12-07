@@ -127,6 +127,10 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
+interface IEquip {
+  head?: String,
+  weaphon?: String
+}
 export default function Power() {
   const classes = useStyles();
   const [open1, setOpen1] = React.useState(false);
@@ -145,6 +149,8 @@ export default function Power() {
   let itemList = ItemList;
   let items: string[] = ["", "", "", "", "", "", "", "", "", "", "", "", "", ""];
   let itemRein: number = 0;
+
+  let [Equip, setEquip] = useState<IEquip>({});
 
   let test: number = 0;
   const [item1, setItem1] = useState<number>(0);
@@ -183,19 +189,22 @@ export default function Power() {
     setLevelPower2(res);
   };
 
-  const calItem = (e: string, num: number) => {
-    /*
+  const calItem = (e: String, num: number) => {
+    let value;
     if (e !== "") {
       for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
         if (e === Object.keys(itemList[num])[i]) {
           return Object.values(itemList[num])[i];
+          // value = Object.values(itemList[num])[i];
         } else {
           console.log(Object.keys(itemList[num])[276]);
-          return 123;
+          // return 123;
+          value = 123;
         }
       }
     }
-    */
+    return value;
+    /*
     if (e.localeCompare("") !== 0) {
       for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
         if (e.localeCompare(Object.keys(itemList[num])[i]) === 0) {
@@ -204,6 +213,7 @@ export default function Power() {
         }
       }
     }
+    */
   };
 
   const calEngrave = () => {
@@ -369,7 +379,12 @@ export default function Power() {
               className={classes.itemInput}
               variant='outlined'
               onChange={e => {
-                items[3] = e.target.value;
+                // items[3] = e.target.value;
+                // Equip.weaphon = e.target.value;
+                Equip = {
+                  ...Equip,
+                  weaphon: e.target.value
+                }
               }}
               placeholder='4. 무기'
             />
@@ -490,7 +505,8 @@ export default function Power() {
                 variant='contained'
                 color='primary'
                 onClick={() => {
-                  setItem4(Number(calItem(items[3], 4)));
+                  if (Equip.weaphon) setItem4(Number(calItem(Equip.weaphon, 4)));
+                  // setItem4(Number(calItem(items[3], 4)));
                   /*
                   setItem1(Number(calItem(items[0], 1)));
                   setItem2(Number(calItem(items[1], 2)));
