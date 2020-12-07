@@ -74,9 +74,10 @@ const useStyles = makeStyles(theme => ({
       height: "30px",
       overflow: 'visible',
       "& a": {
+        minWidth: "100px",
         display: "block",
         lineHeight: "30px",
-        margin: "0 50px",
+        margin: "0 20%",
         padding: "0",
         textDecoration: "none",
         fontSize: "0.9rem",
