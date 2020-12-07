@@ -128,8 +128,9 @@ const Menus = withStyles({
 })(MenuItem);
 
 interface IEquip {
-  head?: String,
-  weaphon?: String
+  head?: String;
+  weaphon?: String;
+  reinforce?: number;
 }
 export default function Power() {
   const classes = useStyles();
@@ -195,25 +196,12 @@ export default function Power() {
       for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
         if (e === Object.keys(itemList[num])[i]) {
           return Object.values(itemList[num])[i];
-          // value = Object.values(itemList[num])[i];
         } else {
-          console.log(Object.keys(itemList[num])[276]);
-          // return 123;
-          value = 123;
+          value = 0;
         }
       }
     }
     return value;
-    /*
-    if (e.localeCompare("") !== 0) {
-      for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
-        if (e.localeCompare(Object.keys(itemList[num])[i]) === 0) {
-          console.log(e);
-          return Object.values(itemList[num])[i];
-        }
-      }
-    }
-    */
   };
 
   const calEngrave = () => {
@@ -383,8 +371,8 @@ export default function Power() {
                 // Equip.weaphon = e.target.value;
                 Equip = {
                   ...Equip,
-                  weaphon: e.target.value
-                }
+                  weaphon: e.target.value,
+                };
               }}
               placeholder='4. 무기'
             />
@@ -486,7 +474,10 @@ export default function Power() {
               variant='outlined'
               placeholder='0 ~ 11'
               onChange={e => {
-                itemRein = Number(e.target.value);
+                Equip = {
+                  ...Equip,
+                  reinforce: Number(e.target.value),
+                };
               }}
               inputProps={{ style: { textAlign: "center" } }}
               style={{ width: "70px" }}
@@ -506,7 +497,7 @@ export default function Power() {
                 color='primary'
                 onClick={() => {
                   if (Equip.weaphon) setItem4(Number(calItem(Equip.weaphon, 4)));
-                  // setItem4(Number(calItem(items[3], 4)));
+                  if (Equip.reinforce) setItem15(Equip.reinforce * 200);
                   /*
                   setItem1(Number(calItem(items[0], 1)));
                   setItem2(Number(calItem(items[1], 2)));
