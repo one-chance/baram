@@ -23,11 +23,12 @@ import TipBoard from "pages/Board/Tip/TipBoard";
 import TipPostView from "pages/Board/Tip/TipPostView";
 import Write from "pages/Board/Write";
 
-import Item from "pages/Dictionary/Item";
-import PetItem from "pages/Dictionary/PetItem";
+import Adventure from "pages/Dictionary/Adventure";
 import AnimalItem from "pages/Dictionary/AnimalItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
+import Item from "pages/Dictionary/Item";
+import PetItem from "pages/Dictionary/PetItem";
 
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
@@ -98,11 +99,12 @@ function App() {
               <Route exact path='/cal/production' component={Production} />
 
               {/*Dictionary*/}
-              <Route path='/dic/item' component={Item} />
-              <Route path='/dic/petitem' component={PetItem} />
+              <Route path='/dic/adventure' component={Adventure} />
               <Route path='/dic/animalitem' component={AnimalItem} />
               <Route exact path='/dic/raid' component={Raid} />
               <Route path='/dic/raid/:key' component={RaidInfo} />
+              <Route path='/dic/item' component={Item} />
+              <Route path='/dic/petitem' component={PetItem} />
 
               {/*MyInfo*/}
               <Route path='/myinfo/:tab' component={MyInfo} />

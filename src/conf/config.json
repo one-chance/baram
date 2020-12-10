@@ -1,6 +1,7 @@
 {
   "sessionUserToken": "SignInUser",
   "baseUrlForMainCarousel": "/assets/img/",
+  "baseUrlForAdventureImg": "/assets/img/dictionary/adventure/",
   "baseUrlForRaidImg": "/assets/img/dictionary/raid/",
   "baseUrlForPetItemImg": "/assets/img/dictionary/petitem/",
   "baseUrlForFonts": "/assets/fonts/",
@@ -9,7 +10,7 @@
     {
       "idx": 0,
       "key": "0000100",
-      "title": "게시판", 
+      "title": "게시판",
       "url": "/board/free",
       "sub": [
         {
@@ -196,7 +197,7 @@
     {
       "idx": 5,
       "key": "0000600",
-      "title": "마이페이지", 
+      "title": "마이페이지",
       "url": "/myinfo/view",
       "sub": [
         {

@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     "& li": {
       width: "100%",
       height: "30px",
-      overflow: 'visible',
+      overflow: "visible",
       "& a": {
         minWidth: "100px",
         display: "block",
@@ -271,7 +271,7 @@ export default function Header() {
                   <a href='/dic/raid'>레이드/사냥터</a>
                 </li>
                 <li>
-                  <a href='/dic/raid'>장비마법</a>
+                  <a href='/dic/adventure'>탐험일지</a>
                 </li>
                 <li>
                   <a href='/dic/raid'>고고학</a>
