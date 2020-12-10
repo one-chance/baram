@@ -127,17 +127,19 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
-interface IEquip {
-  head?: String;
-  weaphon?: String;
-  reinforce?: number;
+interface IEquipSlot {
+  num: number,
+  type: string,
+  name: string,
+  value: string
 }
+
 export default function Power() {
   const classes = useStyles();
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
 
-  const [auto, setAuto] = useState<string>("");
+  let [auto, setAuto] = useState<string>("협가검@하자");
   const [level, setLevel] = useState<number>(0); // 레벨
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
   const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
@@ -147,28 +149,54 @@ export default function Power() {
 
   const [box1, setBox1] = useState<number>(0);
 
-  let itemList = ItemList;
-  let items: string[] = ["", "", "", "", "", "", "", "", "", "", "", "", "", ""];
-  let itemRein: number = 0;
+  // 장비 전투력 계산기에서 사용하는 변수들
+  const [equipSlotList, setEquipSlotList] = useState<Array<IEquipSlot>>([
+    {num: 1, type: 'neck', name: "목/어깨장식", value: ''},
+    {num: 2, type: 'head', name: "투구", value: ''},
+    {num: 3, type: 'face', name: "얼굴장식", value: ''},
+    {num: 4, type: 'weaphon', name: "무기", value: ''},
+    {num: 5, type: 'armor', name: "갑옷", value: ''},
+    {num: 6, type: 'subWeaphon', name: "방패/보조무기", value: ''},
+    {num: 7, type: 'rightHand', name: "오른손", value: ''},
+    {num: 8, type: 'cloak', name: "망토", value: ''},
+    {num: 9, type: 'leftHand', name: "왼손", value: ''},
+    {num: 10, type: 'sub1', name: "보조1", value: ''},
+    {num: 11, type: 'shoes', name: "신발", value: ''},
+    {num: 12, type: 'sub2', name: "보조2", value: ''},
+    {num: 13, type: 'accessories', name: "장신구", value: ''},
+    {num: 14, type: 'set', name: "세트옷", value: ''},
+    {num: 15, type: 'reinforce', name: "0~11", value: ''}, // 커스텀 UI 강화
+  ]);
 
-  let [Equip, setEquip] = useState<IEquip>({});
+  // 장비 총 전투력 계산하는 함수
+  const _calTotalPower = () => {
+    // 현재 객체 저장
+    setEquipSlotList(equipSlotList);
 
-  let test: number = 0;
-  const [item1, setItem1] = useState<number>(0);
-  const [item2, setItem2] = useState<number>(0);
-  const [item3, setItem3] = useState<number>(0);
-  const [item4, setItem4] = useState<number>(0);
-  const [item5, setItem5] = useState<number>(0);
-  const [item6, setItem6] = useState<number>(0);
-  const [item7, setItem7] = useState<number>(0);
-  const [item8, setItem8] = useState<number>(0);
-  const [item9, setItem9] = useState<number>(0);
-  const [item10, setItem10] = useState<number>(0);
-  const [item11, setItem11] = useState<number>(0);
-  const [item12, setItem12] = useState<number>(0);
-  const [item13, setItem13] = useState<number>(0);
-  const [item14, setItem14] = useState<number>(0);
-  const [item15, setItem15] = useState<number>(0);
+    let totalPower: number = 0;
+    equipSlotList.map((equipSlot: IEquipSlot) => {
+      if (equipSlot.value) {
+        if (equipSlot.type === 'reinforce') totalPower += Number(equipSlot.value) * 200;
+        else totalPower += Number(searchItemPower(equipSlot.value, equipSlot.num));
+      }
+    });
+
+    setItemPower(totalPower);
+  }
+
+  // itemList.json 에서 아이템 전투력 찾는 함수
+  const searchItemPower = (item: String, num: number) => {
+    item = item.replace(/ /g, ""); // 찾는 아이템 명에서 공백제거
+
+    if (item !== "") {
+      for (let i = 0; i < Object.keys(ItemList[num]).length; i++) {
+        if (item === Object.keys(ItemList[num])[i])
+          return Object.values(ItemList[num])[i];
+      }
+    }
+    
+    return 0;
+  };
 
   const [engrave1, setEngrave1] = useState<number>(0); // 각인1 종류
   const [engrave2, setEngrave2] = useState<number>(0); // 각인1 수치
@@ -188,20 +216,6 @@ export default function Power() {
     res = a * 3.5 * b + c[a];
     setLevelPower(Math.round(res));
     setLevelPower2(res);
-  };
-
-  const calItem = (e: String, num: number) => {
-    let value;
-    if (e !== "") {
-      for (let i = 0; i < Object.keys(itemList[num]).length; i++) {
-        if (e === Object.keys(itemList[num])[i]) {
-          return Object.values(itemList[num])[i];
-        } else {
-          value = 0;
-        }
-      }
-    }
-    return value;
   };
 
   const calEngrave = () => {
@@ -230,26 +244,30 @@ export default function Power() {
     }
   };
 
-  const autoApply = (cen: string) => {
+  // 계정 정보 찾아와서 자동 입력해주는 함수
+  const autoApply = () => {
+    setAuto(auto);
     if (auto.split("@").length === 2) {
-      let a = getItemData(auto);
-      a.then(res => {
-        if (!isNaN(res.level)) {
-          setLevel(res.level);
-          calLevel(res.level);
-        }
-      });
+      getItemData(auto)
+        .then((res) => {
+          // 레벨 세팅
+          if (!isNaN(res.level)) {
+            setLevel(res.level); 
+            calLevel(res.level);
+          }
+
+          // 아이템 정보 세팅 .item_list
+          if (!isNaN(res.item)) {
+
+          }
+        });
     } else {
       alert("에러! 아이디@서버 형식을 확인하세요.");
     }
   };
 
   useEffect(() => {
-    const calculating = () => {
-      setSkillPower(0);
-      setItemPower(item1 + item2 + item3 + item4 + item5 + item6 + item7 + item8 + item9 + item10 + item11 + item12 + item13 + item14 + item15);
-    };
-    calculating();
+    setSkillPower(0);
     // eslint-disable-next-line
   });
 
@@ -272,7 +290,7 @@ export default function Power() {
               variant='outlined'
               placeholder='아이디@서버'
               onChange={e => {
-                setAuto(e.target.value);
+                auto = e.target.value; //setAuto(e.target.value);
               }}
               inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
               style={{ width: "175px" }}
@@ -288,9 +306,7 @@ export default function Power() {
                 borderTopLeftRadius: "0",
                 borderBottomLeftRadius: "0",
               }}
-              onClick={() => {
-                autoApply(auto);
-              }}>
+              onClick={() => autoApply()}>
               적용
             </Button>
           </Container>
@@ -339,149 +355,52 @@ export default function Power() {
             </Container>
           </Container>
           <Container className={classes.bigBox}>
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[0] = e.target.value;
-              }}
-              placeholder='1. 목/어깨장식'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[1] = e.target.value;
-              }}
-              placeholder='2. 투구'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[2] = e.target.value;
-              }}
-              placeholder='3. 얼굴장식'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                // items[3] = e.target.value;
-                // Equip.weaphon = e.target.value;
-                Equip = {
-                  ...Equip,
-                  weaphon: e.target.value,
-                };
-              }}
-              placeholder='4. 무기'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[4] = e.target.value;
-              }}
-              placeholder='5. 갑옷'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[5] = e.target.value;
-              }}
-              placeholder='6. 방패/보조무기'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[6] = e.target.value;
-              }}
-              placeholder='7. 오른손'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[7] = e.target.value;
-              }}
-              placeholder='8. 망토'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[8] = e.target.value;
-              }}
-              placeholder='9. 왼손'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[9] = e.target.value;
-              }}
-              placeholder='10. 보조1'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[10] = e.target.value;
-              }}
-              placeholder='11. 신발'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[11] = e.target.value;
-              }}
-              placeholder='12. 보조2'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[12] = e.target.value;
-              }}
-              placeholder='13. 장신구'
-            />
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                items[13] = e.target.value;
-              }}
-              placeholder='14. 세트옷'
-            />
-            <Link
-              style={{
-                width: "60px",
-                height: "45px",
-                lineHeight: "45px",
-                margin: "5px",
-                textAlign: "center",
-                color: "black",
-                textDecoration: "none",
-                float: "left",
-              }}>
-              15. 강화
-            </Link>
-            <TextField
-              className={classes.itemInput}
-              variant='outlined'
-              placeholder='0 ~ 11'
-              onChange={e => {
-                Equip = {
-                  ...Equip,
-                  reinforce: Number(e.target.value),
-                };
-              }}
-              inputProps={{ style: { textAlign: "center" } }}
-              style={{ width: "70px" }}
-            />
+            {
+              equipSlotList.map((equipSlot: IEquipSlot, idx: number) => {
+                if (equipSlot.type === 'reinforce') {
+                  return (
+                    <div>
+                      <Link
+                        style={{
+                          width: "60px",
+                          height: "45px",
+                          lineHeight: "45px",
+                          margin: "5px",
+                          textAlign: "center",
+                          color: "black",
+                          textDecoration: "none",
+                          float: "left",
+                        }}>
+                        15. 강화
+                      </Link>
+                      <TextField
+                        className={classes.itemInput}
+                        variant='outlined'
+                        placeholder={equipSlot.name}
+                        onChange={e => {
+                          equipSlotList[idx].value = e.target.value;
+                        }}
+                        inputProps={{ style: { textAlign: "center" } }}
+                        style={{ width: "70px" }}
+                      />
+                    </div>
+                  )
+                }
+                else {
+                  return (
+                    <TextField
+                      key={equipSlot.num}
+                      className={classes.itemInput}
+                      variant='outlined'
+                      onChange={e => {
+                        equipSlotList[idx].value = e.target.value;
+                      }}
+                      placeholder={`${equipSlot.num}. ${equipSlot.name}`}
+                    />
+                  );
+                }
+              })
+            }
             <Container
               style={{
                 width: "140px",
@@ -495,27 +414,7 @@ export default function Power() {
                 className={classes.btn}
                 variant='contained'
                 color='primary'
-                onClick={() => {
-                  if (Equip.weaphon) setItem4(Number(calItem(Equip.weaphon, 4)));
-                  if (Equip.reinforce) setItem15(Equip.reinforce * 200);
-                  /*
-                  setItem1(Number(calItem(items[0], 1)));
-                  setItem2(Number(calItem(items[1], 2)));
-                  setItem3(Number(calItem(items[2], 3)));
-                  setItem4(Number(calItem(items[3], 4)));
-                  setItem5(Number(calItem(items[4], 5)));
-                  setItem6(Number(calItem(items[5], 6)));
-                  setItem7(Number(calItem(items[6], 7)));
-                  setItem8(Number(calItem(items[7], 8)));
-                  setItem9(Number(calItem(items[8], 7)));
-                  setItem10(Number(calItem(items[9], 9)));
-                  setItem11(Number(calItem(items[10], 10)));
-                  setItem12(Number(calItem(items[11], 9)));
-                  setItem13(Number(calItem(items[12], 11)));
-                  setItem14(Number(calItem(items[13], 12)));
-                  setItem15(itemRein * 200);
-                  */
-                }}
+                onClick={() => _calTotalPower()}
                 style={{
                   margin: "2.5px",
                 }}>

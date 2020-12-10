@@ -37,24 +37,32 @@ router.get("/item", (req, res) => {
       .then((html) => {
         if (html === undefined) throw new Error("NO HTML");
 
-        const $ = cheerio.load(html.data);
-        const $bodyList = $("div.inner ul").children("li.level");
-        const $itemList = $("div.item_list ul").children("li.i1");
+        let itemList = [];
 
-        let ary = Number($bodyList.find("span.system").text());
-        let item = $itemList.find("span.system").text();
+        const $ = cheerio.load(html.data);
+        console.log($['_equipItem']);
+        const $level = Number($("div.inner ul").children("li.level").find("span.system").text());
+        /*
+        동적 웹 크롤링이 안되는 이슈로 인하여 아이템 가져오는 부분은 홀딩...
+
+        const $itemList = $("div.item_list ul").children("li");
+        $itemList.each((idx, el) => {
+          itemList.push($(this).find('span.system').text());
+        })
+        console.log(itemList);
+        */
 
         myLogger(`[SUCCESS] : `);
         res.status(200).send({
           code: 200,
           message: "성공하였습니다.",
           data: html.data,
-          level: ary,
-          item: item,
+          level: $level,
+          // itemList: itemList,
         });
       })
       .catch((e) => {
-        myLogger(`[GET URI] : `);
+        myLogger(`[GET URI] : `, uri);
         res.status(200).send({
           code: 500,
           message: "잠시 후 다시 시도해주세요.",
