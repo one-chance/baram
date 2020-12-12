@@ -8,6 +8,11 @@ import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     select: {
@@ -99,6 +104,7 @@ const Menus = withStyles({
 export default function Gold() {
   const classes = useStyles();
 
+  const [openHelper, setOpenHelper] = useState<boolean>(false);
   const [gold1, setGold1] = useState<number>(0); // 황돋1 종류
   const [gold2, setGold2] = useState<number>(0); // 황돋1 수치
   const [gold3, setGold3] = useState<number>(0); // 황돋2 종류
@@ -267,9 +273,35 @@ export default function Gold() {
         />
       </Container>
       <Link className={classes.powerText}>황돋 전투력 : {gold7 + gold8 + gold9}</Link>
-      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}>
+      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}
+        onClick={() => setOpenHelper(true)}>
         ?
       </Button>
+      <Dialog
+        open={openHelper}
+        onClose={() => {
+          setOpenHelper(false);
+        }}
+        aria-labelledby='responsive-dialog-title'>
+        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
+          <div>
+            <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>황돋 전투력 TMI</h3>
+          </div>
+        </DialogTitle>
+        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
+          내용
+        </DialogContent>
+        <DialogActions>
+          <Button
+            tabIndex={-1}
+            color='primary'
+            onClick={() => {
+              setOpenHelper(false);
+            }}>
+            닫기
+          </Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }
