@@ -59,7 +59,14 @@ export default function Animal() {
   }, [level]);
 
   const calLevel = () => {
-    if (0 < level || level < 800) {
+    if (!level) {
+      setLevelPower(0);
+      setLevelPower2(0);
+
+      return 0;
+    }
+
+    if (0 < level && level < 800) {
       let a: number = Math.floor(level / 100);
       let b: number = level % 100;
       let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
@@ -118,11 +125,14 @@ export default function Animal() {
       <Container className={classes.smallBox}>
         <Link className={classes.powerText} style={{ width: "100%" }}>
           {
-            isRight ?
-              levelPower === levelPower ?
-                `레벨 전투력 : ${levelPower}`
-              : `레벨 전투력 : ${levelPower} (${levelPower2})`
-            : `올바르지 않은 레벨 범위입니다.`
+            levelPower === 0 && levelPower2 === 0 ?
+              `레벨 전투력 : 0`
+            :
+              isRight ?
+                levelPower === levelPower2 ?
+                  `레벨 전투력 : ${levelPower}`
+                : `레벨 전투력 : ${levelPower} (${levelPower2})`
+              : `올바르지 않은 레벨 범위입니다.`
           }
         </Link>
       </Container>
