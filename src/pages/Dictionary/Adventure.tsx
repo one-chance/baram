@@ -8,13 +8,19 @@ import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import AddIcon from "@material-ui/icons/Add";
 
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -92,19 +98,30 @@ const AccordionDetails = withStyles(theme => ({
 
 export default function Adventure() {
   const classes = useStyles();
+  const [open1, setOpen1] = React.useState(false);
   const baseUrlForAdventureImg = getBaseUrlForAdventureImg();
+  const [image, setImage] = useState<string>("");
 
   const [expanded, setExpanded] = React.useState<string | false>("panel0");
-  const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
+  const openPanel = (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
+  };
+
+  const opening = (imageName: string) => {
+    setImage(imageName);
+    setOpen1(true);
+  };
+
+  const closing = () => {
+    setOpen1(false);
   };
 
   return (
     <React.Fragment>
       <Container style={{ width: "90%", height: "100%", margin: "10px 5%", padding: "0", textAlign: "center", float: "left" }}>
-        <Container style={{ width: "40%", height: "100%", padding: "0", float: "left" }}>
-          <Accordion square expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
-            <AccordionSummary aria-controls='panel1d-content' id='panel1d-header'>
+        <Container style={{ width: "60%", minWidth: "360px", padding: "0", float: "left" }}>
+          <Accordion square expanded={expanded === "panel1"} onChange={openPanel("panel1")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>괴수(32) - 570점</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -251,8 +268,8 @@ export default function Adventure() {
               </Table>
             </AccordionDetails>
           </Accordion>
-          <Accordion square expanded={expanded === "panel2"} onChange={handleChange("panel2")}>
-            <AccordionSummary aria-controls='panel2d-content' id='panel2d-header'>
+          <Accordion square expanded={expanded === "panel2"} onChange={openPanel("panel2")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>물품(3) - 15점</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -261,19 +278,31 @@ export default function Adventure() {
                   <TableRow>
                     <TableCell>물품</TableCell>
                     <TableCell>점수</TableCell>
+                    <TableCell>획득방법</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
                     <TableCell>독사여왕의낫</TableCell>
                     <TableCell>10</TableCell>
+                    <TableCell>독사여왕(드랍)</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>폭염익룡의꼬리</TableCell>
+                    <TableCell>3</TableCell>
+                    <TableCell>폭염익룡(드랍)</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>환상의섬동동주</TableCell>
+                    <TableCell>2</TableCell>
+                    <TableCell>환상의섬주막</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </AccordionDetails>
           </Accordion>
-          <Accordion square expanded={expanded === "panel3"} onChange={handleChange("panel3")}>
-            <AccordionSummary aria-controls='panel3d-content' id='panel3d-header'>
+          <Accordion square expanded={expanded === "panel3"} onChange={openPanel("panel3")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>임무(11) - 60점</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -282,19 +311,21 @@ export default function Adventure() {
                   <TableRow>
                     <TableCell>임무</TableCell>
                     <TableCell>점수</TableCell>
+                    <TableCell>시작 NPC</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
                     <TableCell>돌돌이와 친해지기</TableCell>
                     <TableCell>2</TableCell>
+                    <TableCell>돌돌이</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </AccordionDetails>
           </Accordion>
-          <Accordion square expanded={expanded === "panel4"} onChange={handleChange("panel4")}>
-            <AccordionSummary>
+          <Accordion square expanded={expanded === "panel4"} onChange={openPanel("panel4")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>탐방(16) - 105점</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -304,9 +335,27 @@ export default function Adventure() {
               </Typography>
             </AccordionDetails>
           </Accordion>
+          <Accordion
+            square
+            onClick={() => {
+              opening("reward1.png");
+            }}>
+            <AccordionSummary expandIcon={<AddIcon />}>
+              <Typography>최종 보상 - 750점</Typography>
+            </AccordionSummary>
+          </Accordion>
         </Container>
-        <img src={baseUrlForAdventureImg + "reward1.png"} alt='장비2' style={{ float: "left" }} />
       </Container>
+
+      <Dialog open={open1} onClose={closing} maxWidth='lg'>
+        <DialogTitle style={{ textAlign: "center" }}>최종 보상</DialogTitle>
+        <Divider />
+        <DialogContent style={{ padding: "10px" }}>
+          <h3> 선택 보상 : 앞의 2종류, 교환 불가</h3>
+          <h3> 랜덤 보상 : 5종류, 1회 교환 가능</h3>
+          <img src={baseUrlForAdventureImg + image} alt='환상의섬' />
+        </DialogContent>
+      </Dialog>
     </React.Fragment>
   );
 }
