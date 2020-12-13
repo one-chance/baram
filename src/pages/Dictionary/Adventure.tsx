@@ -98,22 +98,22 @@ const AccordionDetails = withStyles(theme => ({
 
 export default function Adventure() {
   const classes = useStyles();
-  const [open1, setOpen1] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const baseUrlForAdventureImg = getBaseUrlForAdventureImg();
   const [image, setImage] = useState<string>("");
 
-  const [expanded, setExpanded] = React.useState<string | false>("panel0");
+  const [expanded, setExpanded] = useState<string | false>("panel");
   const openPanel = (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
 
   const opening = (imageName: string) => {
     setImage(imageName);
-    setOpen1(true);
+    setOpen(true);
   };
 
   const closing = () => {
-    setOpen1(false);
+    setOpen(false);
   };
 
   return (
@@ -347,13 +347,11 @@ export default function Adventure() {
         </Container>
       </Container>
 
-      <Dialog open={open1} onClose={closing} maxWidth='lg'>
-        <DialogTitle style={{ textAlign: "center" }}>최종 보상</DialogTitle>
+      <Dialog open={open} onClose={closing} maxWidth='lg'>
+        <DialogTitle style={{ textAlign: "center", padding: "5px" }}>최종 보상</DialogTitle>
         <Divider />
         <DialogContent style={{ padding: "10px" }}>
-          <h3> 선택 보상 : 앞의 2종류, 교환 불가</h3>
-          <h3> 랜덤 보상 : 5종류, 1회 교환 가능</h3>
-          <img src={baseUrlForAdventureImg + image} alt='환상의섬' />
+          <img src={baseUrlForAdventureImg + image} alt='최종 보상' />
         </DialogContent>
       </Dialog>
     </React.Fragment>
