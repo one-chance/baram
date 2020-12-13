@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {useRecoilState} from 'recoil';
-import LevelState from 'state/Calculator/LevelState';
+import { useRecoilState } from "recoil";
+import LevelState from "state/Calculator/LevelState";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import Container from "@material-ui/core/Container";
@@ -53,7 +53,7 @@ export default function Animal() {
   const [isRight, setIsRight] = useState<boolean>(true);
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
   const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
-  
+
   useEffect(() => {
     calLevel();
   }, [level]);
@@ -66,23 +66,22 @@ export default function Animal() {
       return 0;
     }
 
-    if (0 < level && level < 800) {
+    if (98 < level && level < 800) {
       let a: number = Math.floor(level / 100);
       let b: number = level % 100;
       let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
       let res: number = 0;
-  
+
       res = a * 3.5 * b + c[a];
       setLevelPower(Math.round(res));
       setLevelPower2(res);
 
       setIsRight(true);
-    }
-    else {
+    } else {
       setIsRight(false);
     }
   };
-  
+
   return (
     <React.Fragment>
       <Container className={classes.smallBox} style={{ margin: "5px 0", textAlign: "center" }}>
@@ -124,16 +123,13 @@ export default function Animal() {
       </Container>
       <Container className={classes.smallBox}>
         <Link className={classes.powerText} style={{ width: "100%" }}>
-          {
-            levelPower === 0 && levelPower2 === 0 ?
-              `레벨 전투력 : 0`
-            :
-              isRight ?
-                levelPower === levelPower2 ?
-                  `레벨 전투력 : ${levelPower}`
-                : `레벨 전투력 : ${levelPower} (${levelPower2})`
-              : `올바르지 않은 레벨 범위입니다.`
-          }
+          {levelPower === 0 && levelPower2 === 0
+            ? `레벨 전투력 : 0`
+            : isRight
+            ? levelPower === levelPower2
+              ? `레벨 전투력 : ${levelPower}`
+              : `레벨 전투력 : ${levelPower} (${levelPower2})`
+            : `잘못된 범위입니다.`}
         </Link>
       </Container>
       <Dialog
