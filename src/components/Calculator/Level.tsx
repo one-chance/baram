@@ -50,7 +50,6 @@ export default function Animal() {
 
   const [openHelper, setOpenHelper] = useState<boolean>(false);
   let [level, setLevel] = useRecoilState(LevelState);
-  const [isRight, setIsRight] = useState<boolean>(true);
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
   const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
 
@@ -66,19 +65,23 @@ export default function Animal() {
       return 0;
     }
 
-    if (98 < level && level < 800) {
-      let a: number = Math.floor(level / 100);
-      let b: number = level % 100;
-      let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
-      let res: number = 0;
+    let a: number = Math.floor(level / 100);
+    let b: number = level % 100;
+    let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
+    let res: number = 0;
 
+    if (level.toString().length === 3 && level < 800) {
       res = a * 3.5 * b + c[a];
       setLevelPower(Math.round(res));
       setLevelPower2(res);
-
-      setIsRight(true);
-    } else {
-      setIsRight(false);
+    } else if (level === 99) {
+      res = 649.5;
+      setLevelPower(Math.round(res));
+      setLevelPower2(res);
+    } else if (level.toString().length > 3) {
+      setLevel(0);
+      setLevelPower(0);
+      setLevelPower2(0);
     }
   };
 
@@ -93,23 +96,8 @@ export default function Animal() {
             setLevel(parseInt(e.target.value));
           }}
           inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-          style={{ width: "105px", margin: "5px 0 5px 5px" }}
+          style={{ width: "150px", margin: "5px 0 5px 5px" }}
         />
-        <Button
-          className={classes.btn}
-          variant='contained'
-          color='primary'
-          onClick={() => {
-            calLevel();
-          }}
-          style={{
-            minWidth: "60px",
-            marginLeft: "-5px",
-            borderTopLeftRadius: "0",
-            borderBottomLeftRadius: "0",
-          }}>
-          계산
-        </Button>
         <Button
           variant='contained'
           className={classes.btn}
@@ -123,13 +111,7 @@ export default function Animal() {
       </Container>
       <Container className={classes.smallBox}>
         <Link className={classes.powerText} style={{ width: "100%" }}>
-          {levelPower === 0 && levelPower2 === 0
-            ? `레벨 전투력 : 0`
-            : isRight
-            ? levelPower === levelPower2
-              ? `레벨 전투력 : ${levelPower}`
-              : `레벨 전투력 : ${levelPower} (${levelPower2})`
-            : `잘못된 범위입니다.`}
+          레벨 전투력 : {levelPower === levelPower2 ? levelPower : levelPower + "(" + levelPower2 + ")"}
         </Link>
       </Container>
       <Dialog
