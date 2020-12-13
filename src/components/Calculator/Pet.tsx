@@ -8,6 +8,11 @@ import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     select2: {
@@ -83,6 +88,7 @@ const Menus = withStyles({
 
 export default function Animal() {
   const classes = useStyles();
+  const [openHelper, setOpenHelper] = useState<boolean>(false);
   const [petPower, setPetPower] = useState<number>(0); // 환수 전투력
   let pets: number[] = [9, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 환수 : 등급, 레벨, 무기, 투구, 갑옷, 성물1, 성물2, 목걸이, 문양, 세트옷, 신물
 
@@ -264,10 +270,36 @@ export default function Animal() {
       </Container>
       <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
         <Link className={classes.powerText}>환수 전투력 : {petPower}</Link>
-        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}>
+        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}
+          onClick={() => setOpenHelper(true)}>
           ?
         </Button>
       </Container>
+      <Dialog
+        open={openHelper}
+        onClose={() => {
+          setOpenHelper(false);
+        }}
+        aria-labelledby='responsive-dialog-title'>
+        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
+          <div>
+            <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>환수 전투력 TMI</h3>
+          </div>
+        </DialogTitle>
+        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
+          내용
+        </DialogContent>
+        <DialogActions>
+          <Button
+            tabIndex={-1}
+            color='primary'
+            onClick={() => {
+              setOpenHelper(false);
+            }}>
+            닫기
+          </Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }

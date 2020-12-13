@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /*
-* ㅁㅁ
+* 계정 장비 정보 가져오기
 */
 export const getItemData = async (_id: string) => {
   const res = await axios.get('/api/cal/item', {
@@ -10,7 +10,6 @@ export const getItemData = async (_id: string) => {
       }
     })
     .then((res) => {
-      console.log(res.data.item);
       return res.data;
     })
     .catch((e) => {
