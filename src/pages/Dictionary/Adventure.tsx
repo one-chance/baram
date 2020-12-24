@@ -54,10 +54,6 @@ export default function Adventure() {
   return (
     <React.Fragment>
       <Grid container spacing={3} style={{ width: "90%", margin: "10px 5%", justifyContent: "center", alignItems: "center" }}>
-        <Grid item style={{ width: "45%", margin: "10px 2%", padding: "10px" }}>
-          <h1 style={{ width: "100%", margin: "0", textAlign: "center", color: "blue" }}>탐험일지</h1>
-        </Grid>
-
         <Grid item style={{ width: "45%", margin: "10px 2%", padding: "10px", border: "1px solid gray", borderRadius: "10px" }}>
           <h1 style={{ width: "100%", margin: "0", textAlign: "center" }}>환상의섬</h1>
           <Container style={{ width: "100%", padding: "0", textAlign: "center" }}>
@@ -449,6 +445,8 @@ export default function Adventure() {
             </Button>
           </Container>
         </Grid>
+
+        <Grid item style={{ width: "45%", margin: "10px 2%", padding: "10px" }}></Grid>
       </Grid>
 
       <Dialog open={open} onClose={closing} maxWidth='lg'>
