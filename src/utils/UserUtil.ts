@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import IUserInfo from 'interfaces/User/IUserInfo';
 import ISignUpUser from 'interfaces/User/ISignUpUser';
 
-import * as CommonUtil from 'utils/ComoonUtil';
+import * as CommonUtil from 'utils/CommonUtil';
 
 /*
 * 중복 유저 있는 지 체크

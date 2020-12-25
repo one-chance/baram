@@ -6,21 +6,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import { checkGameUser } from 'utils/UserUtil';
 import IUserInfo from 'interfaces/User/IUserInfo';
-
-import MyButton from 'elements/Button/MyButton';
 
 interface IProps {
   userInfo: IUserInfo,
 }
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    
-  },
   form: {
     marginTop: 10,
   },
@@ -64,6 +60,7 @@ function AuthAccount(props: IProps) {
 
   const _onAuthRequest = async () => {
     setMyBackdrop(true);
+    setIsDisabled(true);
 
     const res = await checkGameUser(userInfo.id, server, character);
     
@@ -88,13 +85,14 @@ function AuthAccount(props: IProps) {
 
       setTimeout(() => setMyBackdrop(false), duration);
     }
+
+    setIsDisabled(false);
   }
 
   return (
     <Container>
       <Typography
-        variant="h6"
-        className={classes.title}>
+        variant="h6">
           캐릭터 인증
       </Typography>
       <Grid container spacing={2}
@@ -142,11 +140,14 @@ function AuthAccount(props: IProps) {
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <MyButton
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
             disabled={isDisabled}
-            color="blue"
-            text={isDisabled ? "인증 중입니다." : "인증신청"}
-            onClick={_onAuthRequest}/>
+            onClick={_onAuthRequest}>
+              { isDisabled ? '인증 중입니다.' : '인증신청' }
+          </Button>
         </Grid>
       </Grid>
     </Container>

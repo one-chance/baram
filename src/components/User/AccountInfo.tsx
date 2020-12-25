@@ -21,16 +21,15 @@ interface IProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    
-  },
-  text: {
-    marginTop: 10,
-  },
   list: {
     width: '100%',
     maxWidth: 360,
-    marginTop: 30
+    marginTop: 10,
+    marginLeft: 20
+  },
+  noList: {
+    marginTop: 10,
+    marginLeft: 20
   },
 }));
 
@@ -61,7 +60,6 @@ function AccountInfo(props: IProps) {
     const res = await setTitleAccount(userInfo.id, parseValue[0], parseValue[1]);
 
     if (res.code === 200) {
-      // Successed
       setMyAlert({
         isOpen: true,
         severity: "success",
@@ -70,7 +68,6 @@ function AccountInfo(props: IProps) {
       });
     }
     else {
-      // Failed
       setMyAlert({
         isOpen: true,
         severity: "error",
@@ -82,17 +79,22 @@ function AccountInfo(props: IProps) {
   
   return (
     <Container>
-      <Typography
-        variant="h6"
-        className={classes.title}>
-          캐릭터 관리
-      </Typography>
+      <Grid container direction="row">
+        <Grid item>
+          <Typography
+            variant="h6">
+              캐릭터 관리
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button color="primary" onClick={_onSave}>저장</Button>
+        </Grid>
+      </Grid>
       {
         userInfo.accountList && userInfo.accountList.length > 0 ?
           <Grid container spacing={2}
             className={classes.list}>
               <FormControl component="fieldset">
-                <Button color="primary" onClick={_onSave}>저장</Button>
                 <RadioGroup aria-label="gender" name="gender1" value={value} onChange={_onChangeAccount}>
                   {
                     userInfo.accountList.map((acc, index) => (
@@ -106,7 +108,7 @@ function AccountInfo(props: IProps) {
           </Grid>
         :
           <Typography
-            className={classes.text}>
+            className={classes.noList}>
               현재 인증 된 바람의 나라 계정이 없습니다.
           </Typography>
       }

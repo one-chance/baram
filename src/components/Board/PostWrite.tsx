@@ -25,7 +25,7 @@ import { CategoryType } from 'interfaces/Board/IPost';
 
 import { CreatePost, EditPost, getPost } from 'utils/PostUtil';
 
-import * as CommonUtil from 'utils/ComoonUtil';
+import * as CommonUtil from 'utils/CommonUtil';
 
 interface IProps {
   tab: CategoryType,

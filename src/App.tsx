@@ -37,7 +37,7 @@ import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
 
-import { refreshToken } from "utils/ComoonUtil";
+import { refreshToken } from 'utils/CommonUtil';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -58,10 +58,11 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
-  useEffect(() => {
-    setInterval(refreshToken, 1000 * 60 * 10);
-  }, []);
 
+  useEffect(() => {
+    // NOTE 토큰 자동갱신 실행
+    setInterval(refreshToken, 1000 * 60 * 10);
+  }, [])
   return (
     <Container maxWidth='xl'>
       <React.Fragment>

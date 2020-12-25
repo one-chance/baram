@@ -12,9 +12,6 @@ interface IProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    
-  },
   form: {
     marginTop: 10,
   },
@@ -28,8 +25,7 @@ function ViewUserInfo(props: IProps) {
   return (
     <Container>
       <Typography
-        variant="h6"
-        className={classes.title}>
+        variant="h6">
           회원정보
       </Typography>
       <Grid container spacing={2}

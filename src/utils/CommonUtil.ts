@@ -2,6 +2,19 @@ import axios from 'axios';
 
 import { getSessionNameUserToken } from 'utils/ConfigUtil';
 
+export const checkServerError = (res: any) => {
+  
+  if (res.code === 401) {
+    // alert(res.message);
+    delToken();
+    setTimeout(() => {
+      document.location.href = res.redirectUri
+    }, 5000);
+  }
+
+  return true;
+}
+
 export const setToken = (_token: string) => {
   localStorage.setItem(
     getSessionNameUserToken(),
@@ -19,45 +32,43 @@ export const delToken = () => {
 }
 
 export const refreshToken = () => {
+  console.log('Run refreshToken');
+
   const token = getToken();
   const id = getIdFromToken(token);
   const key = getKeyFromToken(token);
   
   if (token){
+    console.log('check token');
     const res = axios.post('/api/common/refresh', {id: id, key: key, token: token})
       .then((res) => {
-        if (res.data.code === 200 && res.data.token) {
+        if (res.data.code === 200 && res.data.token) { // 토큰 갱신
+          console.log('refreshed token');
           setToken(res.data.token);
           return true;
         }
-        else {
+        else { // 토큰 만료
+          console.log('invalid token');
           delToken();
+          document.location.href = '/signin';
+
           return false;
         }
       })
       .catch((e) => {
-        // delToken();
+        console.log(e);
+        delToken();
+        document.location.href = '/signin';
+        
         return false;
       });
     
     return res;
   }
   else {
+    console.log('empty token');
     return false;
   }
-}
-
-export const checkServerError = (res: any) => {
-  
-  if (res.code === 401) {
-    // alert(res.message);
-    delToken();
-    setTimeout(() => {
-      document.location.href = res.redirectUri
-    }, 5000);
-  }
-
-  return true;
 }
 
 /*
