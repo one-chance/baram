@@ -33,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 function MyInfo({match}: any) {
   const classes = useStyles();
   const {tab} = match.params;
-
-  //const [mode, setMode] = React.useState(tab);
   const mode = tab;
 
   const [isNoSignInUser, setIsNoSignInUser] = React.useState(false);
@@ -45,7 +43,7 @@ function MyInfo({match}: any) {
     editDateString: ""
   });
 
-  // Init User Information
+  // NOTE Init User Information
   useEffect(() => {
     const getUserInfo = async () => {
       const id = getSignInUserId();

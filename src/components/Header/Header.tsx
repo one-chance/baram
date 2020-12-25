@@ -293,7 +293,7 @@ export default function Header() {
               <h3>내정보</h3>
               <ul id='testE' className={classes.submenu}>
                 <li>
-                  <a href='/cal/power'>회원정보</a>
+                  <a href='/myinfo/view'>회원정보</a>
                 </li>
                 <li>
                   <a href='/cal/power'>아이디 찾기</a>

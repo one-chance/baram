@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { CategoryType } from "interfaces/Board/IPost";
 
-import * as CommonUtil from "utils/ComoonUtil";
+import * as CommonUtil from "utils/CommonUtil";
 
 interface IProps {
   category: CategoryType;

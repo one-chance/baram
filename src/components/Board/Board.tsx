@@ -23,7 +23,7 @@ import Bottom from './Bottom';
 import IPost from 'interfaces/Board/IPost';
 import { CategoryType } from 'interfaces/Board/IPost';
 
-import * as CommonUtil from 'utils/ComoonUtil';
+import * as CommonUtil from 'utils/CommonUtil';
 import { getCategoryName } from 'utils/PostUtil';
 
 let nowCategory: CategoryType;

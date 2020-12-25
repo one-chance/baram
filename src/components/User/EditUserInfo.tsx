@@ -13,6 +13,7 @@ import MyButton from 'elements/Button/MyButton';
 import { setUserInfo } from 'utils/UserUtil';
 
 import IUserInfo from 'interfaces/User/IUserInfo';
+import { Button } from '@material-ui/core';
 
 interface IProps {
   userInfo: IUserInfo,
@@ -172,16 +173,22 @@ function EditUserInfo(props: IProps) {
             </Grid>
             <Grid container item xs={12} spacing={3}>
               <Grid item xs={6}>
-                <MyButton
-                  color="red"
-                  text="취소"
-                  onClick={_onCancle}/>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  onClick={_onCancle}>
+                    취소
+                </Button>
               </Grid>
               <Grid item xs={6}>
-                <MyButton
-                  color="blue"
-                  text="저장"
-                  onClick={_onSave}/>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={_onSave}>
+                    저장
+                </Button>
               </Grid>
             </Grid>
           </React.Fragment>

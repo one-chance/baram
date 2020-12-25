@@ -15,7 +15,9 @@ const NoSignInUser = () => {
 
   return (
     <React.Fragment>
-      <Typography gutterBottom>
+      <Typography
+        style={{width:'100%', textAlign: "center", margin: '10px'}}
+        gutterBottom>
         로그인 된 정보가 없습니다. 로그인 해주세요.
       </Typography>
       <Link 
