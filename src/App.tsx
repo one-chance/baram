@@ -61,7 +61,7 @@ function App() {
 
   useEffect(() => {
     // NOTE 토큰 자동갱신 실행
-    setInterval(refreshToken, 1000 * 30 * 1);
+    setInterval(refreshToken, 1000 * 60 * 10);
   }, [])
   return (
     <Container maxWidth='xl'>
