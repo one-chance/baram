@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles, withStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-
 import Avatar from '@material-ui/core/Avatar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -67,6 +66,7 @@ export default function Raid() {
   
   const allRaids: Array<IRaids> = getDicAllRaidList();
   const baseUrlForRaidImg = getBaseUrlForRaidImg();
+  
   const _onMoveRaidInfo = (key: string) => {
     document.location.href="/dic/raid/" + key;
   }
