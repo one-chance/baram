@@ -1,7 +1,9 @@
 import IRaids, { IRaid } from 'interfaces/Dictionary/IRaids';
 import IArcheology from 'interfaces/Dictionary/IArcheology';
+import {IAdventure} from 'interfaces/Dictionary/IAdventure';
 
 import archeologyList from "conf/archeologyList.json";
+import adventureList from 'conf/adventureList.json';
 
 const tempRaidList: Array<IRaid> = [
   {
@@ -144,4 +146,11 @@ export const getArcheologyList = () => {
   const _archeologyList: Array<IArcheology> = archeologyList;
 
   return _archeologyList;
+}
+
+export const getAdventureList = () => {
+  // conf/adventureList.json 파일 저장
+  const _adventureList: Array<IAdventure> = adventureList;
+
+  return _adventureList;
 }
