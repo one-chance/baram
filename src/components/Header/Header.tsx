@@ -274,7 +274,7 @@ export default function Header() {
                   <a href='/dic/adventure'>탐험일지</a>
                 </li>
                 <li>
-                  <a href='/dic/raid'>고고학</a>
+                  <a href='/dic/archeology'>고고학</a>
                 </li>
               </ul>
             </li>

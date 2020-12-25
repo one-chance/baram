@@ -29,6 +29,7 @@ import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 import Item from "pages/Dictionary/Item";
 import PetItem from "pages/Dictionary/PetItem";
+import Archeology from "pages/Dictionary/Archeology";
 
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
@@ -106,6 +107,7 @@ function App() {
               <Route path='/dic/raid/:key' component={RaidInfo} />
               <Route path='/dic/item' component={Item} />
               <Route path='/dic/petitem' component={PetItem} />
+              <Route path='/dic/archeology' component={Archeology} />
 
               {/*MyInfo*/}
               <Route path='/myinfo/:tab' component={MyInfo} />

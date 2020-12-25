@@ -1,4 +1,7 @@
 import IRaids, { IRaid } from 'interfaces/Dictionary/IRaids';
+import IArcheology from 'interfaces/Dictionary/IArcheology';
+
+import archeologyList from "conf/archeologyList.json";
 
 const tempRaidList: Array<IRaid> = [
   {
@@ -134,4 +137,11 @@ export const getDicRaidBykey = (findKey: string) => {
   }
 
   return resRaid;
+}
+
+export const getArcheologyList = () => {
+  // conf/archeologyList.json 파일 저장
+  const _archeologyList: Array<IArcheology> = archeologyList;
+
+  return _archeologyList;
 }
