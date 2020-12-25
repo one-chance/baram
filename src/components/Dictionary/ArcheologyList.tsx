@@ -84,8 +84,8 @@ function ArcheologyList() {
               
               if (rewardCount > 1) {
                 return (
-                  <React.Fragment>
-                    <StyledTableRow key={archeology.idx}>
+                  <React.Fragment key={archeology.idx}>
+                    <StyledTableRow>
                       <StyledTableCell align="center" rowSpan={rewardCount+1}>{archeology.itemName}</StyledTableCell>
                       <StyledTableCell align="center" rowSpan={rewardCount+1}>{archeology.location}</StyledTableCell>
                       <StyledTableCell align="center" rowSpan={rewardCount+1}>{archeology.use}</StyledTableCell>
@@ -103,8 +103,8 @@ function ArcheologyList() {
               }
               else {
                 return (
-                  <React.Fragment>
-                    <StyledTableRow key={archeology.idx}>
+                  <React.Fragment key={archeology.idx}>
+                    <StyledTableRow>
                       <StyledTableCell align="center">{archeology.itemName}</StyledTableCell>
                       <StyledTableCell align="center">{archeology.location}</StyledTableCell>
                       <StyledTableCell align="center">{archeology.use}</StyledTableCell>
