@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import IPost from 'interfaces/Board/IPost';
 import { getSignInUserKey, getSignInUserId } from 'utils/UserUtil';
-import * as CommonUtil from 'utils/ComoonUtil';
+import * as CommonUtil from 'utils/CommonUtil';
 
 import { CategoryType } from 'interfaces/Board/IPost';
 import IComment from 'interfaces/Board/IComment';

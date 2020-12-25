@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {useSetRecoilState} from 'recoil';
 import SignInDialogState from 'state/common/SignInDialogState';
+import Typography from '@material-ui/core/Typography';
 
 const NoAuth = () => {
   const setIsOpen = useSetRecoilState(SignInDialogState);
@@ -10,9 +11,11 @@ const NoAuth = () => {
   }, []);
 
   return (
-    <div>
-      로그인 해주세요
-    </div>
+    <Typography
+      style={{width:'100%', textAlign: "center", margin: '10px'}}
+      gutterBottom>
+        로그인 된 정보가 없습니다. 로그인 해주세요.
+    </Typography>
   );
 }
 

@@ -6,9 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
-import MyButton from 'elements/Button/MyButton';
 
 import { CheckPassword, WithDrawUser, LogoutUser } from 'utils/UserUtil';
 
@@ -17,9 +16,6 @@ interface IProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    
-  },
   form: {
     marginTop: 10,
   },
@@ -90,8 +86,7 @@ function WithdrawUser(props: IProps) {
   return (
     <Container>
       <Typography
-        variant="h6"
-        className={classes.title}>
+        variant="h6">
           회원 탈퇴
       </Typography>
       <Grid container spacing={3}
@@ -134,10 +129,13 @@ function WithdrawUser(props: IProps) {
                 </Grid>
                 <Grid container item xs={12}>
                   <Grid item xs={12}>
-                    <MyButton
-                      color="blue"
-                      text="확인"
-                      onClick={_onWithdraw}/>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      fullWidth
+                      onClick={_onWithdraw}>
+                        예, 탈퇴할게요.
+                    </Button>
                   </Grid>
                 </Grid>
               </React.Fragment>
