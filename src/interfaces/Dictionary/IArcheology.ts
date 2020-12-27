@@ -1,5 +1,5 @@
 interface IReward {
-  count: string,
+  count: number,
   name: string
 }
 
