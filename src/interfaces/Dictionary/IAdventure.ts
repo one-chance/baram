@@ -5,24 +5,24 @@ export interface IMonster {
   location: string
 }
 
-export interface IArticle {
+export interface IStuff {
   idx: number,
   name: string,
-  score: string,
+  score: number,
   obtain: string
 }
 
 export interface IMission {
   idx: number,
   name: string,
-  score: string,
+  score: number,
   npc: string
 }
 
-export interface IExploration {
+export interface IPlace {
   idx: number,
   name: string,
-  score: string,
+  score: number,
   location: string
 }
 
@@ -35,8 +35,8 @@ export interface IAdventure {
   idx: number,
   name: string,
   monsterList: Array<IMonster>,
-  articleList: Array<IArticle>,
+  stuffList: Array<IStuff>,
   missionList: Array<IMission>,
-  explorationList: Array<IExploration>,
+  placeList: Array<IPlace>,
   rewardImgList: Array<IRewardImg>
 }
