@@ -49,14 +49,15 @@ const StyledTableRow = withStyles((theme: Theme) =>
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: "#a1887f",
+      backgroundColor: "#004e66",
       color: theme.palette.common.white,
       padding: "10px",
-      fontFamily: "youth",
+      fontSize: 20,
+      fontWeight: "bolder",
     },
     body: {
-      fontSize: 14,
-      fontFamily: "youth",
+      fontSize: 18,
+      //fontWeight: "bolder",
       padding: "10px",
     },
   })
@@ -113,7 +114,7 @@ export default function AdventureList() {
                 onClick={() => {
                   setDlgMonster({
                     isOpen: true,
-                    title: `${adventure.name} - 괴수`,
+                    title: `${adventure.name}`,
                     monsterList: adventure.monsterList,
                   });
                 }}>
@@ -128,7 +129,7 @@ export default function AdventureList() {
                 onClick={() => {
                   setDlgStuff({
                     isOpen: true,
-                    title: `${adventure.name} - 물품`,
+                    title: `${adventure.name}`,
                     stuffList: adventure.stuffList,
                   });
                 }}>
@@ -143,7 +144,7 @@ export default function AdventureList() {
                 onClick={() => {
                   setDlgMission({
                     isOpen: true,
-                    title: `${adventure.name} - 임무`,
+                    title: `${adventure.name}`,
                     missionList: adventure.missionList,
                   });
                 }}>
@@ -158,7 +159,7 @@ export default function AdventureList() {
                 onClick={() => {
                   setDlgPlace({
                     isOpen: true,
-                    title: `${adventure.name} - 탐방`,
+                    title: `${adventure.name}`,
                     placeList: adventure.placeList,
                   });
                 }}>
@@ -173,7 +174,7 @@ export default function AdventureList() {
                 onClick={() => {
                   setDlgRewardImg({
                     isOpen: true,
-                    title: `${adventure.name} - 보상`,
+                    title: `${adventure.name}`,
                     rewardImgList: adventure.rewardImgList,
                   });
                 }}>

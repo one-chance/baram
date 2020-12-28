@@ -51,13 +51,13 @@ const StyledTableRow = withStyles((theme: Theme) =>
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: "#a1887f",
+      backgroundColor: "#e94e77",
       color: theme.palette.common.white,
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: "bolder",
     },
     body: {
-      fontSize: 14,
+      fontSize: 16,
     },
   })
 )(TableCell);
@@ -68,7 +68,7 @@ function ArcheologyList() {
   const archeologyList: Array<IArcheology> = getArcheologyList();
 
   return (
-    <TableContainer component={Paper} className={classes.tableContainer}>
+    <TableContainer component={Paper} elevation={0} className={classes.tableContainer}>
       <Table className={classes.table} aria-label={`archeologyList-Table`}>
         <TableHead>
           <TableRow>
