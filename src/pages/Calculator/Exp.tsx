@@ -67,7 +67,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CalExp() {
+export default function Exp() {
   const classes = useStyles();
 
   const [level, setLevel] = useState<number>(0); // 나의 레벨(number)
