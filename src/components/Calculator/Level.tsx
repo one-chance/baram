@@ -53,10 +53,6 @@ export default function Animal() {
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
   const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
 
-  useEffect(() => {
-    calLevel();
-  }, [level]);
-
   const calLevel = () => {
     if (!level) {
       setLevelPower(0);
@@ -84,6 +80,10 @@ export default function Animal() {
       setLevelPower2(0);
     }
   };
+
+  useEffect(() => {
+    calLevel();
+  }, [level]);
 
   return (
     <React.Fragment>

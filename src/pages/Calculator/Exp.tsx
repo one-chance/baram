@@ -14,7 +14,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
 
-import expTable from "interfaces/Calculator/exp";
+import IExp from "interfaces/Calculator/IExp";
 import exp from "conf/expTable.json";
 
 const useStyles = makeStyles({
@@ -68,6 +68,8 @@ const useStyles = makeStyles({
 });
 
 export default function CalExp() {
+  const classes = useStyles();
+
   const [level, setLevel] = useState<number>(0); // 나의 레벨(number)
   const [myExp, setMyExp] = useState<number>(0); // 보유 경험치 (number)
   const [myExp2, setMyExp2] = useState<string>("보유 경험치"); // 보유 경험치 (string)
@@ -77,25 +79,23 @@ export default function CalExp() {
   const [result1, setResult1] = useState<number>(0); // 상승 체력량(number) = 보유 경험치 / 체력 1당 필요 경험치
   const [result2, setResult2] = useState<string>("0"); // 필요 경험치량(string) = 목표 체력 * 체력 1당 필요 경험치
 
-  const [temp, setTemp] = useState<Array<expTable>>([]); // exp.json 전체를 저장하는 배열
-  const [datas, setDatas] = useState<Array<expTable>>([
-    { 순수체력: "0", 레벨: "0", 최소체력: "0", 필요경험치: "0", 최대체력: "0", 필요경험치2: "0" },
-    { 순수체력: "0", 레벨: "0", 최소체력: "0", 필요경험치: "0", 최대체력: "0", 필요경험치2: "0" },
-    { 순수체력: "0", 레벨: "0", 최소체력: "0", 필요경험치: "0", 최대체력: "0", 필요경험치2: "0" },
+  const [temp, setTemp] = useState<Array<IExp>>([]); // exp.json 전체를 저장하는 배열
+  const [datas, setDatas] = useState<Array<IExp>>([
+    { 순수체력: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+    { 순수체력: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+    { 순수체력: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
   ]); // 레벨에 맞는 json 값만 저장하는 배열
-
-  const classes = useStyles();
 
   const fillTable = (lev: number) => {
     let num: number = lev - 700;
-    const r: Array<expTable> = [];
+    const r: Array<IExp> = [];
 
     for (var c = num; c < num + 3; c++) {
       r.push(temp[c]);
     }
 
-    setNeedExp(r[1].필요경험치);
-    setMaxHp(parseInt(r[1].최대체력));
+    setNeedExp(r[1].필요경험치1);
+    setMaxHp(r[1].최대);
 
     return r;
   };
@@ -118,13 +118,7 @@ export default function CalExp() {
         len.substr(len.length - 4, 4) +
         "만";
     } else if (len.length > 8 && len.length < 13) {
-      text =
-        len.substr(0, len.length - 8) +
-        "조 " +
-        len.substr(len.length - 8, 4) +
-        "억 " +
-        len.substr(len.length - 4, 4) +
-        "만";
+      text = len.substr(0, len.length - 8) + "조 " + len.substr(len.length - 8, 4) + "억 " + len.substr(len.length - 4, 4) + "만";
     } else if (len.length < 9 && len.length > 4) {
       text = len.substr(0, len.length - 4) + "억 " + len.substr(len.length - 4, 4) + "만";
     } else if (len.length < 5 && len.length > 0) {
@@ -185,51 +179,41 @@ export default function CalExp() {
     /* eslint-disable jsx-a11y/anchor-is-valid */
     <React.Fragment>
       <Container
-        component="div"
+        component='div'
         style={{
           width: "600px",
           height: "46px",
           margin: "10px",
           padding: "5px 1px",
           float: "left",
-        }}
-      >
-        <Link
-          underline="none"
-          className={classes.title}
-          style={{ margin: "0 180px 0 0", fontSize: "1.25rem", fontWeight: "bold" }}
-        >
+        }}>
+        <Link underline='none' className={classes.title} style={{ margin: "0 180px 0 0", fontSize: "1.25rem", fontWeight: "bold" }}>
           경험치 계산기 for 격수
         </Link>
         <TextField
           className={classes.inLevel}
-          placeholder="레벨 (700~798)"
-          variant="outlined"
+          placeholder='레벨 (700~798)'
+          variant='outlined'
           inputProps={{ style: { height: "30px", padding: "3px", textAlign: "center" } }}
           value={level || ""}
-          onChange={(e) => {
+          onChange={e => {
             setLevel(parseInt(e.target.value));
           }}
-          autoComplete="off"
+          autoComplete='off'
         />
 
         <Button
           className={classes.btn}
-          variant="outlined"
-          color="primary"
+          variant='outlined'
+          color='primary'
           onClick={() => {
             if (level >= 700 && level < 799) setDatas(fillTable(level));
             else setLevel(0);
-          }}
-        >
+          }}>
           설정
         </Button>
       </Container>
-      <TableContainer
-        component={Paper}
-        elevation={0}
-        style={{ width: "600px", margin: "10px", padding: "5px 0", float: "left" }}
-      >
+      <TableContainer component={Paper} elevation={0} style={{ width: "600px", margin: "10px", padding: "5px 0", float: "left" }}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -244,11 +228,11 @@ export default function CalExp() {
           <TableBody>
             {datas.map((row, index) => (
               <TableRow key={index} selected={index === 1}>
-                <TableCell scope="row">{row.순수체력 || 0}</TableCell>
+                <TableCell scope='row'>{row.순수체력 || 0}</TableCell>
                 <TableCell>{row.레벨 || 0}</TableCell>
-                <TableCell>{row.최소체력 || 0}</TableCell>
-                <TableCell>{row.필요경험치 || 0}</TableCell>
-                <TableCell>{row.최대체력 || 0}</TableCell>
+                <TableCell>{row.최소 || 0}</TableCell>
+                <TableCell>{row.필요경험치1 || 0}</TableCell>
+                <TableCell>{row.최대 || 0}</TableCell>
                 <TableCell>{row.필요경험치2 || 0}</TableCell>
               </TableRow>
             ))}
@@ -257,7 +241,7 @@ export default function CalExp() {
       </TableContainer>
 
       <Container
-        component="div"
+        component='div'
         style={{
           width: "600px",
           height: "100px",
@@ -265,28 +249,27 @@ export default function CalExp() {
           padding: "10px 25px",
           border: "1px solid",
           float: "left",
-        }}
-      >
-        <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
+        }}>
+        <Link underline='none' className={classes.title} style={{ margin: "0", width: "230px" }}>
           {myExp2 || "보유 경험치"}
         </Link>
-        <Link underline="none" className={classes.title} style={{ margin: "0 30px 0 30px", width: "25px" }}>
+        <Link underline='none' className={classes.title} style={{ margin: "0 30px 0 30px", width: "25px" }}>
           ▶&nbsp;
         </Link>
-        <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
+        <Link underline='none' className={classes.title} style={{ margin: "0", width: "230px" }}>
           체력 샹승량
         </Link>
         <br />
         <TextField
           className={classes.inExp}
-          placeholder="1만 ~ 경험치 최대량"
-          variant="outlined"
+          placeholder='1만 ~ 경험치 최대량'
+          variant='outlined'
           inputProps={{
             style: { height: "30px", padding: "3px", textAlign: "center" },
           }}
           style={{ marginLeft: "5px" }}
           value={myExp || ""}
-          onChange={(e) => {
+          onChange={e => {
             if (e.target.value.length < 14 && needExp !== "0") {
               setMyExp(parseInt(e.target.value));
               setMyExp2(numToText(parseInt(e.target.value)).toString());
@@ -296,19 +279,17 @@ export default function CalExp() {
               setMyExp2("보유 경험치");
             }
           }}
-          autoComplete="off"
-        ></TextField>
+          autoComplete='off'></TextField>
         <Button
           className={classes.btn}
-          variant="outlined"
-          color="primary"
-          onClick={(e) => {
+          variant='outlined'
+          color='primary'
+          onClick={e => {
             if (needExp !== "0" && myExp !== 0) {
               calculateExp(myExp, needExp);
             }
           }}
-          style={{ margin: "0 5px" }}
-        >
+          style={{ margin: "0 5px" }}>
           변환
         </Button>
         <Link
@@ -320,13 +301,12 @@ export default function CalExp() {
             height: "34px",
             textDecoration: "none",
             color: "black",
-          }}
-        >
+          }}>
           {result1}
         </Link>
       </Container>
       <Container
-        component="div"
+        component='div'
         style={{
           width: "600px",
           height: "100px",
@@ -334,44 +314,41 @@ export default function CalExp() {
           padding: "10px 25px",
           border: "1px solid",
           float: "left",
-        }}
-      >
-        <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
+        }}>
+        <Link underline='none' className={classes.title} style={{ margin: "0", width: "230px" }}>
           목표 체력량
         </Link>
-        <Link underline="none" className={classes.title} style={{ margin: "0 30px 0 30px", width: "20px" }}>
+        <Link underline='none' className={classes.title} style={{ margin: "0 30px 0 30px", width: "20px" }}>
           ▶&nbsp;
         </Link>
-        <Link underline="none" className={classes.title} style={{ margin: "0", width: "230px" }}>
+        <Link underline='none' className={classes.title} style={{ margin: "0", width: "230px" }}>
           필요 경험치
         </Link>
         <br />
         <TextField
           className={classes.inExp}
-          placeholder="1 ~ 최대 체력"
-          variant="outlined"
+          placeholder='1 ~ 최대 체력'
+          variant='outlined'
           value={hp || ""}
           inputProps={{ style: { height: "30px", padding: "3px", textAlign: "center" } }}
-          onChange={(e) => {
+          onChange={e => {
             if (parseInt(e.target.value) <= maxHp && parseInt(e.target.value) > 0) {
               setHp(parseInt(e.target.value));
             } else {
               setHp(0);
             }
           }}
-          autoComplete="off"
-        ></TextField>
+          autoComplete='off'></TextField>
         <Button
           className={classes.btn}
-          variant="outlined"
-          color="primary"
-          onClick={(e) => {
+          variant='outlined'
+          color='primary'
+          onClick={e => {
             if (needExp !== "0" && hp !== 0) {
               calculateHp(hp, needExp);
             }
           }}
-          style={{ margin: "0 5px" }}
-        >
+          style={{ margin: "0 5px" }}>
           변환
         </Button>
         <Link
@@ -383,8 +360,7 @@ export default function CalExp() {
             height: "34px",
             textDecoration: "none",
             color: "black",
-          }}
-        >
+          }}>
           {result2}
         </Link>
       </Container>
