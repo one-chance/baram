@@ -176,7 +176,6 @@ export default function Exp() {
   }, []);
 
   return (
-    /* eslint-disable jsx-a11y/anchor-is-valid */
     <React.Fragment>
       <Container
         component='div'
