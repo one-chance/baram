@@ -108,21 +108,13 @@ export default function Exp() {
       setMyExp(0);
       return 0;
     } else if (len.length > 12 && len.length < 15) {
-      text =
-        len.substr(0, len.length - 12) +
-        "경 " +
-        len.substr(len.length - 12, 4) +
-        "조 " +
-        len.substr(len.length - 8, 4) +
-        "억 " +
-        len.substr(len.length - 4, 4) +
-        "만";
+      text = `${len.substr(0, len.length - 12)}경 ${len.substr(len.length - 12, 4)}조 ${len.substr(len.length - 8, 4)}억 ${len.substr(len.length - 4, 4)}만`;
     } else if (len.length > 8 && len.length < 13) {
-      text = len.substr(0, len.length - 8) + "조 " + len.substr(len.length - 8, 4) + "억 " + len.substr(len.length - 4, 4) + "만";
+      text = `${len.substr(0, len.length - 8)}조 ${len.substr(len.length - 8, 4)}억 ${len.substr(len.length - 4, 4)}만`;
     } else if (len.length < 9 && len.length > 4) {
-      text = len.substr(0, len.length - 4) + "억 " + len.substr(len.length - 4, 4) + "만";
+      text = `${len.substr(0, len.length - 4)}억 ${len.substr(len.length - 4, 4)}만`;
     } else if (len.length < 5 && len.length > 0) {
-      text = num + "만";
+      text = `${num}만`;
     }
 
     return text;

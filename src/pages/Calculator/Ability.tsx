@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 
-import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import Chip from "@material-ui/core/Chip";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
@@ -49,7 +49,6 @@ const useStyles = makeStyles({
     color: "blue",
     textAlignLast: "center",
     fontSize: "0.8rem",
-    float: "left",
     "& .MuiSelect-selectMenu": {
       padding: "2px 20px 2px 5px",
       lineHeight: "30px",
@@ -61,18 +60,14 @@ const useStyles = makeStyles({
   table: {
     maxWidth: "360px",
     margin: "10px 50px",
-    border: "1px solid",
     borderCollapse: "collapse",
     "& th, td": {
-      height: "4vh",
-      border: "1px solid",
-      fontSize: "1rem",
-      padding: "2px",
+      border: "1px solid lightgray",
       textAlign: "center",
+      fontSize: "1rem",
+      padding: "0",
     },
     "& th": {
-      border: "1px solid",
-      fontSize: "1rem",
       fontWeight: "bold",
     },
   },
@@ -88,14 +83,44 @@ const Menus = withStyles({
 export default function Ability() {
   const classes = useStyles();
 
+  const [search, setSearch] = useState("0");
   const [option1, setOption1] = useState(0);
   const [option2, setOption2] = useState(0);
   const [option3, setOption3] = useState(0);
+  let nameList = [
+    "패자황금투구",
+    "쇄자황금투구",
+    "황금투구",
+    "[상급]마령투구(남)",
+    "[상급]마령투구(여)",
+    "금린추월관'겁",
+    "금린화월관'겁",
+    "일이삼사오",
+    "육칠팔구십",
+    "하나둘셋넷",
+  ];
 
-  const [dlgMonster, setDlgMonster] = useState({
+  const itemName = nameList.map(item => <Chip label={item} key={item} variant='outlined' clickable={true} style={{ height: "30px", margin: "2.5px" }} />);
+
+  const [dlgItem, setDlgItem] = useState({
     isOpen: false,
     title: "",
   });
+
+  const searchByName = (name: string) => {
+    console.log(name);
+    // 이름 직접 검색
+  };
+
+  const loadItemList = (typeA: number, typeB: number, typeC: number) => {
+    let abc = typeA + typeB + typeC;
+    // chip 생성할 이름 받아오기
+  };
+
+  const searchByList = (name: string) => {
+    console.log(name);
+    // 리스트 통해서 검색
+  };
 
   return (
     <React.Fragment>
@@ -107,7 +132,7 @@ export default function Ability() {
             variant='outlined'
             color='primary'
             onClick={() => {
-              setDlgMonster({ ...dlgMonster, isOpen: true });
+              setDlgItem({ ...dlgItem, isOpen: true });
             }}>
             장비
           </Button>
@@ -115,29 +140,42 @@ export default function Ability() {
       </Container>
 
       <Dialog
-        open={dlgMonster.isOpen}
+        open={dlgItem.isOpen}
         onClose={() => {
-          setDlgMonster({ ...dlgMonster, isOpen: false });
+          setDlgItem({ ...dlgItem, isOpen: false });
         }}>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>장비 전투력</h2>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>장비 전투력</span>
           <Button
             onClick={() => {
-              setDlgMonster({ ...dlgMonster, isOpen: false });
+              setDlgItem({ ...dlgItem, isOpen: false });
             }}
             style={{ minWidth: 20, fontSize: "1.25rem", padding: "0", position: "absolute", top: 5, right: 10 }}>
             &#10006;
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ maxWidth: "480px", padding: "10px 15px" }}>
+        <DialogContent style={{ maxWidth: "500px", padding: "10px" }}>
           <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <TextField className={classes.itemText} variant='outlined' placeholder='아이템명' />
-            <Button variant='contained' color='primary' style={{ height: "40px", marginLeft: "-5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
+            <TextField
+              className={classes.itemText}
+              variant='outlined'
+              placeholder='아이템명'
+              onChange={e => {
+                setSearch(e.target.value);
+              }}
+            />
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={e => {
+                searchByName(search);
+              }}
+              style={{ height: "40px", marginLeft: "-5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
               검색
             </Button>
           </Container>
-          <Container style={{ margin: "5px 0", padding: "0", float: "left" }}>
+          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
             <Select
               variant='outlined'
               className={classes.select}
@@ -209,16 +247,30 @@ export default function Ability() {
             </Select>
           </Container>
           <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Button variant='contained' color='primary' style={{ width: "150px", color: "white" }}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                searchByList("쇄자황금투구");
+              }}
+              style={{ width: "140px", color: "white" }}>
               <ArrowDownwardIcon />
             </Button>
           </Container>
-          <Container style={{ width: "96%", margin: "5px 2%", padding: "10px", border: "1px solid lightgray", borderRadius: "10px", float: "left" }}>
-            123
-            <br />
-            123
+          <Container
+            style={{
+              width: "96%",
+              minHeight: "82px",
+              margin: "5px 2%",
+              padding: "5px",
+              border: "1px solid lightgray",
+              borderRadius: "10px",
+              textAlign: "center",
+              float: "left",
+            }}>
+            {nameList[0] === "" ? "" : itemName}
           </Container>
-          <TableContainer style={{ margin: "10px 0 ", padding: "5px", textAlign: "center", float: "left" }}>
+          <TableContainer style={{ margin: "5px 0 ", padding: "0 5px", textAlign: "center", float: "left" }}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
@@ -266,6 +318,11 @@ export default function Ability() {
               </TableBody>
             </Table>
           </TableContainer>
+          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+            <Button variant='contained' color='primary' style={{ width: "140px", marginLeft: "-12px", color: "white" }}>
+              적용
+            </Button>
+          </Container>
         </DialogContent>
       </Dialog>
     </React.Fragment>

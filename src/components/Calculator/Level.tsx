@@ -121,9 +121,7 @@ export default function Animal() {
         }}
         aria-labelledby='responsive-dialog-title'>
         <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
-          <div>
-            <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>레벨 전투력 TMI</h3>
-          </div>
+          <span style={{ fontFamily: "BMDOHYEON", margin: "0" }}>레벨 전투력 TMI</span>
         </DialogTitle>
         <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
           <h3 style={{ color: "red", fontFamily: "BMJUA" }}>★ 레벨 전투력 = 렙업 전투력 + 승급 전투력 ★</h3>

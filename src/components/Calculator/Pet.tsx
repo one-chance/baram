@@ -270,8 +270,7 @@ export default function Animal() {
       </Container>
       <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
         <Link className={classes.powerText}>환수 전투력 : {petPower}</Link>
-        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}
-          onClick={() => setOpenHelper(true)}>
+        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={() => setOpenHelper(true)}>
           ?
         </Button>
       </Container>
@@ -282,13 +281,9 @@ export default function Animal() {
         }}
         aria-labelledby='responsive-dialog-title'>
         <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
-          <div>
-            <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>환수 전투력 TMI</h3>
-          </div>
+          <span style={{ fontFamily: "BMDOHYEON", margin: "0" }}>환수 전투력 TMI</span>
         </DialogTitle>
-        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
-          내용
-        </DialogContent>
+        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>내용</DialogContent>
         <DialogActions>
           <Button
             tabIndex={-1}

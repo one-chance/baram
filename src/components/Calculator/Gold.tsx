@@ -273,8 +273,7 @@ export default function Gold() {
         />
       </Container>
       <Link className={classes.powerText}>황돋 전투력 : {gold7 + gold8 + gold9}</Link>
-      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}
-        onClick={() => setOpenHelper(true)}>
+      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={() => setOpenHelper(true)}>
         ?
       </Button>
       <Dialog
@@ -284,13 +283,9 @@ export default function Gold() {
         }}
         aria-labelledby='responsive-dialog-title'>
         <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
-          <div>
-            <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>황돋 전투력 TMI</h3>
-          </div>
+          <span style={{ fontFamily: "BMDOHYEON", margin: "0" }}>황돋 전투력 TMI</span>
         </DialogTitle>
-        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
-          내용
-        </DialogContent>
+        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>내용</DialogContent>
         <DialogActions>
           <Button
             tabIndex={-1}
