@@ -123,7 +123,7 @@ export default function CalProduction() {
     <React.Fragment>
       <Container style={{ width: "80%", height: "100%", margin: "10px 10%", padding: "0", textAlign: "center", float: "left" }}>
         <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
-          <Container style={{ width: "96%", minWidth: "360px", margin: "5px 2%", padding: "0", float: "left" }}>
+          <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
             <Select
               className={classes.select}
               variant='outlined'
@@ -143,7 +143,8 @@ export default function CalProduction() {
               defaultValue={0}
               onChange={e => {
                 setName(String(e.target.value));
-              }}>
+              }}
+              style={{ width: "140px" }}>
               <Menus value={0}>품 목</Menus>
               {type === 1 ? menu1 : type === 2 ? menu2 : type === 3 ? menu3 : type === 4 ? menu4 : null}
             </Select>
@@ -190,7 +191,7 @@ export default function CalProduction() {
           </Container>
         </Container>
         <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
-          <Container style={{ width: "96%", minWidth: "360px", margin: "5px 2%", padding: "0", float: "left" }}>
+          <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
             <Select
               className={classes.select}
               variant='outlined'
@@ -210,7 +211,8 @@ export default function CalProduction() {
               defaultValue='0'
               onChange={e => {
                 setName2(String(e.target.value));
-              }}>
+              }}
+              style={{ width: "140px" }}>
               <Menus value={0}>품 목</Menus>
               {type2 === 1 ? menu1 : type2 === 2 ? menu2 : type2 === 3 ? menu3 : type2 === 4 ? menu4 : null}
             </Select>

@@ -87,18 +87,7 @@ export default function Ability() {
   const [option1, setOption1] = useState(0);
   const [option2, setOption2] = useState(0);
   const [option3, setOption3] = useState(0);
-  let nameList = [
-    "패자황금투구",
-    "쇄자황금투구",
-    "황금투구",
-    "[상급]마령투구(남)",
-    "[상급]마령투구(여)",
-    "금린추월관'겁",
-    "금린화월관'겁",
-    "일이삼사오",
-    "육칠팔구십",
-    "하나둘셋넷",
-  ];
+  var nameList: string[] = [];
 
   const itemName = nameList.map(item => <Chip label={item} key={item} variant='outlined' clickable={true} style={{ height: "30px", margin: "2.5px" }} />);
 
@@ -268,7 +257,7 @@ export default function Ability() {
               textAlign: "center",
               float: "left",
             }}>
-            {nameList[0] === "" ? "" : itemName}
+            {itemName}
           </Container>
           <TableContainer style={{ margin: "5px 0 ", padding: "0 5px", textAlign: "center", float: "left" }}>
             <Table className={classes.table}>
