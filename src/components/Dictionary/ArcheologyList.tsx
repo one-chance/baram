@@ -97,8 +97,8 @@ function ArcheologyList() {
                       {archeology.use}
                     </StyledTableCell>
                   </StyledTableRow>
-                  {archeology.rewardList.map(reward => (
-                    <StyledTableRow key={archeology.idx}>
+                  {archeology.rewardList.map((reward, idx) => (
+                    <StyledTableRow key={idx}>
                       <StyledTableCell align='center'>{reward.count}</StyledTableCell>
                       <StyledTableCell align='center'>{reward.name}</StyledTableCell>
                     </StyledTableRow>

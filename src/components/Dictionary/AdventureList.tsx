@@ -12,9 +12,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-//import TableContainer from "@material-ui/core/TableContainer";
-//import Paper from "@material-ui/core/Paper";
-
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -104,7 +101,7 @@ export default function AdventureList() {
     <React.Fragment>
       {adventureList.map((adventure: IAdventure) => (
         <Grid item key={adventure.idx} style={{ width: "45%", margin: "10px 2%", padding: "10px", border: "1px solid gray", borderRadius: "10px" }}>
-          <h1 style={{ width: "100%", margin: "0", textAlign: "center" }}>{adventure.name}</h1>
+          <h2 style={{ width: "100%", margin: "0", textAlign: "center" }}>{adventure.name}</h2>
           <Container style={{ width: "100%", padding: "0", textAlign: "center" }}>
             {adventure.monsterList && (
               <Button
@@ -196,7 +193,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgMonster.title}</h1>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgMonster.title}</span>
           <Button
             onClick={() => {
               setDlgMonster({ ...dlgMonster, isOpen: false });
@@ -236,7 +233,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgStuff.title}</h1>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgStuff.title}</span>
           <Button
             onClick={() => {
               setDlgStuff({ ...dlgStuff, isOpen: false });
@@ -276,7 +273,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgMission.title}</h1>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgMission.title}</span>
           <Button
             onClick={() => {
               setDlgMission({ ...dlgMission, isOpen: false });
@@ -316,7 +313,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgPlace.title}</h1>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgPlace.title}</span>
           <Button
             onClick={() => {
               setDlgPlace({ ...dlgPlace, isOpen: false });
@@ -356,7 +353,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgRewardImg.title}</h1>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgRewardImg.title}</span>
           <Button
             onClick={() => {
               setDlgRewardImg({ ...dlgRewardImg, isOpen: false });
