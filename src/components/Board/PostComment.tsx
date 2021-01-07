@@ -1,41 +1,41 @@
-import React, { useEffect } from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {MyAlertState, MyBackdropState} from 'state/index';
-import {CommentListState} from 'state/index';
+import React, { useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { MyAlertState, MyBackdropState } from "state/index";
+import { CommentListState } from "state/index";
 
-import { useTheme, makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
+import { useTheme, makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableFooter from "@material-ui/core/TableFooter";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
 
-import IPost from 'interfaces/Board/IPost';
-import IComment from 'interfaces/Board/IComment';
+import IPost from "interfaces/Board/IPost";
+import IComment from "interfaces/Board/IComment";
 
-import { CreateComment } from 'utils/PostUtil';
+import { CreateComment } from "utils/PostUtil";
 
-import Comment from 'components/Board/Comment';
+import Comment from "components/Board/Comment";
 
 interface IProps {
-  post: IPost
+  post: IPost;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     marginTop: "40px",
   },
@@ -45,21 +45,21 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px",
   },
   inputButton: {
-    height: "100%"
+    height: "100%",
   },
   footer: {
-    marginTop: '50px',
-    textAlign: 'center'
+    marginTop: "50px",
+    textAlign: "center",
   },
   table: {
     minWidth: 500,
     padding: "20px",
     backgroundColor: "#ffffff",
-    '& .MuiTablePagination-root': {
-      textAlign: 'center',
-      align: 'center',
-      margin: 'auto'
-    }
+    "& .MuiTablePagination-root": {
+      textAlign: "center",
+      align: "center",
+      margin: "auto",
+    },
   },
   commentRow: {
     backgroundColor: "#f1f3f8",
@@ -68,19 +68,18 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#d6e0f0",
   },
   commentButton: {
-    spacing: "5"
+    spacing: "5",
   },
   tableButton: {
     flexShrink: 0,
-    width: 'auto'
-  }
+    width: "auto",
+  },
 }));
 
 const duration = 2000;
 let comments: Array<IComment> = [];
 
 function PostComment(props: IProps) {
-
   const classes = useStyles();
   const post: IPost = props.post;
 
@@ -101,14 +100,12 @@ function PostComment(props: IProps) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  //NOTE 최초 로딩 시 
+  //NOTE 최초 로딩 시
   useEffect(() => {
     if (post.commentList) {
       setCount(post.commentList.length);
@@ -127,13 +124,13 @@ function PostComment(props: IProps) {
 
     if (post.seq) {
       const res = await CreateComment(post, inputComment);
-  
+
       if (res.code === 200) {
         setMyAlert({
           isOpen: true,
           severity: "success",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
 
         setMyBackdrop(false);
@@ -142,107 +139,92 @@ function PostComment(props: IProps) {
         post.commentIdx = res.commentIdx;
 
         // setTimeout(() => document.location.reload(), duration);
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-        
-        setTimeout(()=> { setMyBackdrop(false); }, duration);
+
+        setTimeout(() => {
+          setMyBackdrop(false);
+        }, duration);
       }
     }
-  }
+  };
 
   return (
-    <Container
-      className={classes.root}>
-        <Grid container item xs={12} spacing={2}>
-          <Grid item xs={12}>
-            <Typography
-              variant="subtitle2">
-              {count} 개의 댓글이 있습니다.
-            </Typography>
+    <Container className={classes.root}>
+      <Grid container item xs={12} spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant='subtitle2'>{count} 개의 댓글이 있습니다.</Typography>
+        </Grid>
+        <Grid container item xs={12}>
+          <Grid item xs={10}>
+            <Input
+              type='text'
+              id='input-comment'
+              className={classes.input}
+              multiline
+              fullWidth
+              rows={4}
+              placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
+              value={inputComment}
+              onChange={e => setInputComment(e.target.value)}
+            />
           </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={10}>
-              <Input
-                type="text"
-                id="input-comment"
-                className={classes.input}
-                multiline
-                fullWidth
-                rows={4}
-                placeholder="댓글을 입력하세요. 올바른 언어 사용 문화를 지지합니다."
-                value={inputComment}
-                onChange={(e) => setInputComment(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <Button
-                className={classes.inputButton}
-                fullWidth
-                variant="outlined"
-                color="primary"
-                onClick={_onSubmitComment}>
-                  등록
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <TableContainer component={Paper}>
-              <Table 
-                className={classes.table} aria-label="custom pagination table">
-                {/* <TableHead></TableHead> */}
-                <TableBody>
-                  { (rowsPerPage > 0
-                    ? commentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : commentList
-                  ).map((comment: IComment) => (
-                    <Comment
-                      key={comment.idx}
-                      post={post}
-                      comment={comment}/>
-                  ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                      labelRowsPerPage="표시 개수"
-                      labelDisplayedRows={(paginationInfo) => {
-                        return `총 ${paginationInfo.count}개 중 
-                                ${paginationInfo.from} - 
-                                ${paginationInfo.to === -1 ? "All" : paginationInfo.to}`;
-                      }}
-                      colSpan={3}
-                      // count={comments.length}
-                      count={commentList.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: { 'aria-label': 'rows per page' },
-                        native: true,
-                      }}
-                      onChangePage={handleChangePage}
-                      onChangeRowsPerPage={handleChangeRowsPerPage}
-                      ActionsComponent={TablePaginationActions}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </TableContainer>
+          <Grid item xs={2}>
+            <Button className={classes.inputButton} fullWidth variant='outlined' color='primary' onClick={_onSubmitComment}>
+              등록
+            </Button>
           </Grid>
         </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label='custom pagination table'>
+              {/* <TableHead></TableHead> */}
+              <TableBody>
+                {(rowsPerPage > 0 ? commentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : commentList).map((comment: IComment) => (
+                  <Comment key={comment.idx} post={post} comment={comment} />
+                ))}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                    labelRowsPerPage='표시 개수'
+                    labelDisplayedRows={paginationInfo => {
+                      return `총 ${paginationInfo.count}개 중 
+                                ${paginationInfo.from} - 
+                                ${paginationInfo.to === -1 ? "All" : paginationInfo.to}`;
+                    }}
+                    colSpan={3}
+                    // count={comments.length}
+                    count={commentList.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: { "aria-label": "rows per page" },
+                      native: true,
+                    }}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Grid>
+      </Grid>
     </Container>
-  ); 
+  );
 }
 
 interface TablePaginationActionsProps {
@@ -275,29 +257,17 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 
   return (
     <div className={classes.tableButton}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label='first page'>
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label='previous page'>
+        {theme.direction === "rtl" ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      <IconButton onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label='next page'>
+        {theme.direction === "rtl" ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      <IconButton onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label='last page'>
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );

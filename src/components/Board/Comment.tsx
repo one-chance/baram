@@ -343,7 +343,7 @@ function Comment(props: IProps) {
                   multiline
                   fullWidth
                   rows={4}
-                  placeholder="답글을 입력하세요. 올바른 언어 사용 문화를 지지합니다."
+                  placeholder="욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다."
                   value={inputRecomment}
                   onChange={(e) => setInputRecomment(e.target.value)}
                 />

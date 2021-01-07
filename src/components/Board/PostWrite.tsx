@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
@@ -6,7 +7,6 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 //Quill.register('modules/imageUpload', ImageUpload); // 커스텀 라이브러리를 등록해 준다.
 
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
@@ -31,16 +31,25 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "10px",
+    marginTop: "20px",
+    float: "left",
   },
   selector: {
-    minWidth: "180px",
-    textAlign: "center",
-  },
-  buttonZone: {
-    marginTop: "10px",
+    minWidth: "150px",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "36px",
+      textAlign: "center",
+    },
   },
 }));
+
+const Menus = withStyles({
+  root: {
+    fontSize: "0.9rem",
+    justifyContent: "center",
+  },
+})(MenuItem);
 
 const modules = {
   toolbar: {
@@ -176,17 +185,28 @@ function PostWrite(props: IProps) {
 
   return (
     <React.Fragment>
-      <Container maxWidth='md' className={classes.root}>
-        <Grid container spacing={1} direction='column' justify='flex-start'>
+      <Container className={classes.root}>
+        <Grid container spacing={1} justify='flex-start'>
           <Grid item xs={3}>
-            <Select labelId='post-category' id='category' value={category} onChange={_onChangeCategory} displayEmpty className={classes.selector}>
-              <MenuItem value={"tip"}>팁게시판</MenuItem>
-              <MenuItem value={"free"}>자유게시판</MenuItem>
-              <MenuItem value={"screenshot"}>스크린샷게시판</MenuItem>
-              <MenuItem value={"server"}>서버게시판</MenuItem>
-              <MenuItem value={"offer"}>구인게시판</MenuItem>
-              <MenuItem value={"job"}>직업게시판</MenuItem>
+            <Select variant='outlined' id='category' value={category} onChange={_onChangeCategory} displayEmpty className={classes.selector}>
+              <Menus value={"tip"}>팁게시판</Menus>
+              <Menus value={"free"}>자유게시판</Menus>
+              <Menus value={"screenshot"}>스크린샷게시판</Menus>
+              <Menus value={"server"}>서버게시판</Menus>
+              <Menus value={"offer"}>구인게시판</Menus>
+              <Menus value={"job"}>직업게시판</Menus>
             </Select>
+          </Grid>
+          <Grid item xs={5}></Grid>
+          <Grid item xs={2}>
+            <Button variant='contained' color='secondary' fullWidth onClick={() => setOpenConfirmCancle(true)} style={{ height: "40px" }}>
+              취소
+            </Button>
+          </Grid>
+          <Grid item xs={2}>
+            <Button variant='contained' color='primary' fullWidth onClick={_onWrite} style={{ height: "40px" }}>
+              저장
+            </Button>
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -212,36 +232,12 @@ function PostWrite(props: IProps) {
                 modules={modules}
                 formats={formats}
                 style={{ height: "350px" }}
-                placeholder={"내용을 입력해주세요"}
+                placeholder='작성할 내용을 입력하세요.'
                 onChange={e => {
                   setContent(e);
                 }}
               />
             </div>
-          </Grid>
-          <Grid container item xs={12} style={{ marginTop: "50px", flex: "top" }} justify='space-between' className={classes.buttonZone}>
-            {/* <Grid item xs={3}>
-                <MyButton
-                  color="red"
-                  text="취소"
-                  onClick={() => setOpenConfirmCancle(true)}/>
-              </Grid>
-              <Grid item xs={3}>
-                <MyButton
-                  color="blue"
-                  text="저장"
-                  onClick={_onWrite}/>
-              </Grid> */}
-            <Grid item xs={3}>
-              <Button variant='contained' color='secondary' fullWidth onClick={() => setOpenConfirmCancle(true)}>
-                취소
-              </Button>
-            </Grid>
-            <Grid item xs={3}>
-              <Button variant='contained' color='primary' fullWidth onClick={_onWrite}>
-                저장
-              </Button>
-            </Grid>
           </Grid>
         </Grid>
       </Container>

@@ -14,6 +14,10 @@ export const getBaseUrlForAdventureImg = () => {
   return config.baseUrlForAdventureImg;
 };
 
+export const getBaseUrlForExpImg = () => {
+  return config.baseUrlForExpImg;
+};
+
 export const getBaseUrlForRaidImg = () => {
   return config.baseUrlForRaidImg;
 };

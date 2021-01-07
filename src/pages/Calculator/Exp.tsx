@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { getBaseUrlForExpImg } from "utils/ConfigUtil";
 
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
@@ -13,6 +14,11 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
 
 import IExp from "interfaces/Calculator/IExp";
 import exp from "conf/expTable.json";
@@ -70,6 +76,8 @@ const useStyles = makeStyles({
 export default function Exp() {
   const classes = useStyles();
 
+  const [openHelper, setOpenHelper] = useState<boolean>(false);
+  const baseUrlForExpImg = getBaseUrlForExpImg();
   const [level, setLevel] = useState<number>(0); // 나의 레벨(number)
   const [myExp, setMyExp] = useState<number>(0); // 보유 경험치 (number)
   const [myExp2, setMyExp2] = useState<string>("보유 경험치"); // 보유 경험치 (string)
@@ -170,7 +178,6 @@ export default function Exp() {
   return (
     <React.Fragment>
       <Container
-        component='div'
         style={{
           width: "600px",
           height: "46px",
@@ -232,7 +239,6 @@ export default function Exp() {
       </TableContainer>
 
       <Container
-        component='div'
         style={{
           width: "600px",
           height: "100px",
@@ -297,7 +303,6 @@ export default function Exp() {
         </Link>
       </Container>
       <Container
-        component='div'
         style={{
           width: "600px",
           height: "100px",
@@ -355,6 +360,45 @@ export default function Exp() {
           {result2}
         </Link>
       </Container>
+      <Container
+        style={{
+          width: "600px",
+          height: "46px",
+          margin: "10px",
+          padding: "5px 1px",
+          textAlign: "center",
+          float: "left",
+        }}>
+        <Button variant='contained' color='primary' onClick={() => setOpenHelper(true)}>
+          격수용 마력별 필요경험치표
+        </Button>
+      </Container>
+
+      <Dialog
+        open={openHelper}
+        maxWidth='lg'
+        onClose={() => {
+          setOpenHelper(false);
+        }}
+        aria-labelledby='responsive-dialog-title'>
+        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
+          <span style={{ margin: "0", fontSize: "1.25rem", fontWeight: "bolder" }}>격수용 마력별 필요경험치표</span>
+        </DialogTitle>
+        <DialogContent style={{ padding: "10px" }}>
+          <img src={baseUrlForExpImg + "mana.png"} alt='마력별 필요경험치표' />
+        </DialogContent>
+        <DialogActions style={{ padding: "0" }}>
+          <Button
+            tabIndex={-1}
+            color='primary'
+            onClick={() => {
+              setOpenHelper(false);
+            }}
+            style={{ fontSize: "1.25rem", fontWeight: "bolder" }}>
+            닫기
+          </Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }
