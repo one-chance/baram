@@ -38,6 +38,8 @@ import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
 
+import AuctionAuction from "pages/TesseractOcr";
+
 import { refreshToken } from 'utils/CommonUtil';
 
 const useStyles = makeStyles(theme => ({
@@ -108,6 +110,9 @@ function App() {
               <Route path='/dic/item' component={Item} />
               <Route path='/dic/petitem' component={PetItem} />
               <Route path='/dic/archeology' component={Archeology} />
+
+              {/*Auction*/}
+              <Route path='/auction/auction' component={AuctionAuction} />
 
               {/*MyInfo*/}
               <Route path='/myinfo/:tab' component={MyInfo} />
