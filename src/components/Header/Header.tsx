@@ -245,7 +245,7 @@ export default function Header() {
                   <a href='/cal/power'>전투력</a>
                 </li>
                 <li>
-                  <a href='/cal/power'>능력치</a>
+                  <a href='/cal/ability'>능력치</a>
                 </li>
                 <li>
                   <a href='/cal/exp'>경험치</a>

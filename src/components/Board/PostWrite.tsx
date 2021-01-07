@@ -1,58 +1,63 @@
-import React, { useEffect } from 'react';
-import {useSetRecoilState} from 'recoil';
-import {MyAlertState, MyBackdropState} from 'state/index';
+import React, { useEffect } from "react";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { useSetRecoilState } from "recoil";
+import { MyAlertState, MyBackdropState } from "state/index";
 
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 //Quill.register('modules/imageUpload', ImageUpload); // 커스텀 라이브러리를 등록해 준다.
 
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
 
-import IPost from 'interfaces/Board/IPost';
+import IPost from "interfaces/Board/IPost";
 
-import MyButton from 'elements/Button/MyButton';
+import { CategoryType } from "interfaces/Board/IPost";
+import { CreatePost, EditPost, getPost } from "utils/PostUtil";
 
-import { CategoryType } from 'interfaces/Board/IPost';
-
-import { CreatePost, EditPost, getPost } from 'utils/PostUtil';
-
-import * as CommonUtil from 'utils/CommonUtil';
+import * as CommonUtil from "utils/CommonUtil";
 
 interface IProps {
-  tab: CategoryType,
-  seq?: number
+  tab: CategoryType;
+  seq?: number;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "10px",
+    marginTop: "20px",
+    float: "left",
   },
   selector: {
-    minWidth: "180px",
-    textAlign: "center",
+    minWidth: "150px",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "36px",
+      textAlign: "center",
+    },
   },
-  buttonZone: {
-    marginTop: "10px"
-  }
 }));
+
+const Menus = withStyles({
+  root: {
+    fontSize: "0.9rem",
+    justifyContent: "center",
+  },
+})(MenuItem);
 
 const modules = {
   toolbar: {
     container: [
-      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-      [{size: []}],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'},
-      {'indent': '-1'}, {'indent': '+1'}],
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
       // ['link', 'image', 'video']
     ],
     // container:  [['bold', 'italic', 'underline', 'blockquote'],
@@ -91,14 +96,9 @@ const modules = {
   },
   // imageDrop: true, // imageDrop 등록
   // imageResize: {} // imageResize 등록
-}
+};
 
-const formats = [
-  'header', 'font', 'size',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent',
-  'link', 'image', 'video'
-]
+const formats = ["header", "font", "size", "bold", "italic", "underline", "strike", "blockquote", "list", "bullet", "indent", "link", "image", "video"];
 
 const duration = 3000;
 
@@ -108,7 +108,7 @@ function PostWrite(props: IProps) {
 
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
-  
+
   const refTitle = React.useRef<any>();
 
   const [openConfirmCancle, setOpenConfirmCancle] = React.useState(false);
@@ -127,10 +127,9 @@ function PostWrite(props: IProps) {
     if (seq) {
       const res: IPost | null = await getPost(category, seq);
       if (res) {
-
         if (res.writer.key !== CommonUtil.getNowKey()) {
           alert("수정 권한이 없습니다.");
-          window.location.href = `/board/${category}/${seq}`
+          window.location.href = `/board/${category}/${seq}`;
 
           return false;
         }
@@ -140,154 +139,122 @@ function PostWrite(props: IProps) {
         setPost(res);
       }
     }
-  }
+  };
 
   const _onChangeCategory = (event: React.ChangeEvent<{ value: unknown }>) => {
     setCategory(event.target.value as CategoryType);
     refTitle.current.focus();
-  }
+  };
 
   const _onCancle = () => {
     setCategory("free");
     setTitle("");
     setContent("");
     setOpenConfirmCancle(false);
-    
+
     window.history.back();
-  }
+  };
 
   const _onWrite = async () => {
     setMyBackdrop(true);
 
-    const res = seq ? 
-      await EditPost(title, content, post) :
-      await CreatePost(category, title, content)
-    
+    const res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
+
     if (res.code === 200) {
       setMyAlert({
         isOpen: true,
         severity: "success",
         duration: duration,
-        message: res.message
+        message: res.message,
       });
 
-      setTimeout(() => document.location.href = `/board/${category}/${res.seq}`, duration);
-    }
-    else {
+      setTimeout(() => (document.location.href = `/board/${category}/${res.seq}`), duration);
+    } else {
       setMyAlert({
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: res.message
+        message: res.message,
       });
-      
-      setTimeout(()=> { setMyBackdrop(false); }, duration);
+
+      setTimeout(() => {
+        setMyBackdrop(false);
+      }, duration);
     }
-  }
+  };
 
   return (
     <React.Fragment>
-      <Container
-        maxWidth="md"
-        className={classes.root}>
-        <Grid 
-          container
-          spacing={1}
-          direction="column"
-          justify="flex-start">
+      <Container className={classes.root}>
+        <Grid container spacing={1} justify='flex-start'>
           <Grid item xs={3}>
-            <Select
-              labelId="post-category"
-              id="category"
-              value={category}
-              onChange={_onChangeCategory}
-              displayEmpty
-              className={classes.selector}>
-                <MenuItem value={"tip"}>팁게시판</MenuItem>
-                <MenuItem value={"free"}>자유게시판</MenuItem>
-                <MenuItem value={"screenshot"}>스크린샷게시판</MenuItem>
-                <MenuItem value={"server"}>서버게시판</MenuItem>
-                <MenuItem value={"offer"}>구인게시판</MenuItem>
-                <MenuItem value={"job"}>직업게시판</MenuItem>
+            <Select variant='outlined' id='category' value={category} onChange={_onChangeCategory} displayEmpty className={classes.selector}>
+              <Menus value={"tip"}>팁게시판</Menus>
+              <Menus value={"free"}>자유게시판</Menus>
+              <Menus value={"screenshot"}>스크린샷게시판</Menus>
+              <Menus value={"server"}>서버게시판</Menus>
+              <Menus value={"offer"}>구인게시판</Menus>
+              <Menus value={"job"}>직업게시판</Menus>
             </Select>
+          </Grid>
+          <Grid item xs={5}></Grid>
+          <Grid item xs={2}>
+            <Button variant='contained' color='secondary' fullWidth onClick={() => setOpenConfirmCancle(true)} style={{ height: "40px" }}>
+              취소
+            </Button>
+          </Grid>
+          <Grid item xs={2}>
+            <Button variant='contained' color='primary' fullWidth onClick={_onWrite} style={{ height: "40px" }}>
+              저장
+            </Button>
           </Grid>
           <Grid item xs={12}>
             <TextField
-              variant="outlined"
+              variant='outlined'
               required
               fullWidth
               autoFocus
-              margin="dense"
-              id="title"
-              name="title"
-              label="Title"
+              margin='dense'
+              id='title'
+              placeholder='게시글의 제목을 입력하세요.'
               value={title}
               inputRef={refTitle}
-              onChange={(e) => {setTitle(e.target.value)}}
+              onChange={e => {
+                setTitle(e.target.value);
+              }}
             />
           </Grid>
           <Grid item xs={12}>
-            <div className="editor">
+            <div className='editor'>
               <ReactQuill
                 value={content}
-                theme="snow"
+                theme='snow'
                 modules={modules}
                 formats={formats}
-                style={{height: '350px'}}
-                placeholder={'내용을 입력해주세요'}
-                onChange={(e) => {setContent(e)}}
+                style={{ height: "350px" }}
+                placeholder='작성할 내용을 입력하세요.'
+                onChange={e => {
+                  setContent(e);
+                }}
               />
             </div>
           </Grid>
-          <Grid container item xs={12} style={{marginTop: "50px", flex: "top"}}
-            justify="space-between"
-            className={classes.buttonZone}>
-              {/* <Grid item xs={3}>
-                <MyButton
-                  color="red"
-                  text="취소"
-                  onClick={() => setOpenConfirmCancle(true)}/>
-              </Grid>
-              <Grid item xs={3}>
-                <MyButton
-                  color="blue"
-                  text="저장"
-                  onClick={_onWrite}/>
-              </Grid> */}
-              <Grid item xs={3}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  fullWidth
-                  onClick={() => setOpenConfirmCancle(true)}>
-                    취소
-                </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  variant="contained" 
-                  color="primary"
-                  fullWidth
-                  onClick={_onWrite}>
-                    저장
-                </Button>
-              </Grid>
-          </Grid>
         </Grid>
       </Container>
-      <Dialog
-        open={openConfirmCancle}>
-          <DialogContent>
-            작업한 내용이 사라집니다. 
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => {setOpenConfirmCancle(false)}} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={_onCancle} color="primary">
-              Ok
-            </Button>
-          </DialogActions>
+      <Dialog open={openConfirmCancle}>
+        <DialogContent style={{ padding: "20px" }}>게시글 작성을 취소하시겠습니까?</DialogContent>
+        <DialogActions style={{ padding: "0" }} disableSpacing={true}>
+          <Button
+            onClick={() => {
+              setOpenConfirmCancle(false);
+            }}
+            color='primary'>
+            돌아가기
+          </Button>
+          <Button onClick={_onCancle} color='primary'>
+            확인
+          </Button>
+        </DialogActions>
       </Dialog>
     </React.Fragment>
   );

@@ -34,6 +34,7 @@ import Archeology from "pages/Dictionary/Archeology";
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
 
+import Ability from "pages/Calculator/Ability";
 import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
@@ -65,7 +66,7 @@ function App() {
   useEffect(() => {
     // NOTE 토큰 자동갱신 실행
     setInterval(refreshToken, 1000 * 60 * 10);
-  }, [])
+  }, []);
   return (
     <Container maxWidth='xl'>
       <React.Fragment>
@@ -98,6 +99,7 @@ function App() {
               <Route exact path='/board/write/:tab/:seq' component={Write} />
 
               {/*Calculator*/}
+              <Route exact path='/cal/ability' component={Ability} />
               <Route exact path='/cal/exp' component={Exp} />
               <Route exact path='/cal/power' component={Power} />
               <Route exact path='/cal/production' component={Production} />
