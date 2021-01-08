@@ -63,7 +63,7 @@ export default function SignUp(props: IProps) {
   const [isAgree, setIsAgree] = useState(false);
 
   const [checkId, setCheckId] = useState(true);
-  const [checkPassword, setCheckPassword] = useState(true);
+  const [checkPassword, setCheckPassword] = useState(false);
 
   const _onCheckExist = async () => {
     const res = await CheckExistUser(id);
@@ -139,6 +139,7 @@ export default function SignUp(props: IProps) {
     var pattern = /[`~!@#$%^&*()_+|<>?:{}]/; // 특수문자
 
     if (input === "") {
+      setCheckId(true);
       setId("");
       return;
     }
@@ -154,28 +155,35 @@ export default function SignUp(props: IProps) {
     }
   };
 
-  /*
   const verifyPassword = (input: string) => {
-    setCheckPassword(true);
     var pattern1 = /[0-9]/; // 숫자
     var pattern2 = /[a-zA-Z]/; // 문자
     var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+    var pa1 = false;
+    var pa2 = false;
+    var pa3 = false;
 
     if (input === "") {
       setPassword("");
+      setCheckPassword(true);
       return;
     }
 
+    setPassword(input);
+
     for (let i = 0; i < input.length; i++) {
-      if (!pattern1.test(input) && !pattern2.test(input) && !pattern3.test(input)) {
-        setCheckPassword(false);
-      } else {
-        setCheckPassword(true);
-        setPassword(input);
-      }
+      let letters = input.charAt(i);
+      if (pattern1.test(letters)) pa1 = true;
+      if (pattern2.test(letters)) pa2 = true;
+      if (pattern3.test(letters)) pa3 = true;
+    }
+
+    if (pa1 === true && pa2 === true && pa3 === true && input.length > 7) {
+      setCheckPassword(true);
+    } else {
+      setCheckPassword(false);
     }
   };
-  */
 
   return (
     <React.Fragment>
@@ -192,7 +200,7 @@ export default function SignUp(props: IProps) {
             required
             id='id'
             name='id'
-            placeholder='아이디(6~8자리)'
+            placeholder='아이디 (6~8자리)'
             inputRef={refId}
             value={id || ""}
             onChange={e => {
@@ -215,31 +223,31 @@ export default function SignUp(props: IProps) {
         </Container>
         <Container style={{ width: "100%", margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
           <TextField
-            error={checkPassword === false}
-            helperText={checkPassword === false ? "숫자/문자/특수문자를 합해 8자리 이상이어야 합니다." : ""}
+            error={password !== "" && checkPassword === false}
+            helperText={password !== "" && checkPassword === false ? "숫자/문자/특수문자를 모두 포함해야 합니다." : ""}
             variant='outlined'
             required
             name='password'
-            placeholder='비밀번호'
+            placeholder='비밀번호 (8~12자리)'
             id='password'
             type='password'
             value={password || ""}
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => verifyPassword(e.target.value)}
             inputProps={{ style: { height: "40px", padding: "0 10px" } }}
             style={{ width: "300px", margin: "10px 5px" }}
           />
           <Button disabled={true} style={{ width: "90px", height: "40px", margin: "10px 5px", padding: "0" }}>
-            {checkPassword === false ? <RightIcon color='primary' fontSize='large' /> : <WrongIcon color='secondary' fontSize='large' />}
+            {password !== "" && checkPassword === true ? <RightIcon color='primary' fontSize='large' /> : <WrongIcon color='secondary' fontSize='large' />}
           </Button>
         </Container>
         <Container style={{ width: "100%", margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
           <TextField
             error={passwordConfirm !== "" && password !== passwordConfirm}
-            helperText={passwordConfirm !== "" && password !== passwordConfirm ? "비밀번호가 일치하지 않습니다." : ""}
+            helperText={passwordConfirm !== "" && password !== passwordConfirm ? "비밀번호와 일치하지 않습니다." : ""}
             variant='outlined'
             required
             name='passwordConfrim'
-            placeholder='비밀번호 확인'
+            placeholder='비밀번호 확인 (8~12자리)'
             id='passwordConfrim'
             type='password'
             value={passwordConfirm || ""}
