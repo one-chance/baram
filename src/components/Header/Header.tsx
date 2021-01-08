@@ -282,7 +282,7 @@ export default function Header() {
               <h3>경매장</h3>
               <ul id='testD' className={classes.submenu}>
                 <li>
-                  <a href='/cal/power'>경매장</a>
+                  <a href='/auction/auction'>경매장</a>
                 </li>
                 <li>
                   <a href='/cal/power'>장 터</a>
