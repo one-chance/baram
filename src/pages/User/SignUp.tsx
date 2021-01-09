@@ -62,7 +62,7 @@ export default function SignUp(props: IProps) {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isAgree, setIsAgree] = useState(false);
 
-  const [checkId, setCheckId] = useState(true);
+  const [checkId, setCheckId] = useState(false);
   const [checkPassword, setCheckPassword] = useState(false);
 
   const _onCheckExist = async () => {
@@ -136,7 +136,8 @@ export default function SignUp(props: IProps) {
 
   const verifyId = (input: string) => {
     setCheckId(true);
-    var pattern = /[`~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+    var pattern1 = /[0-9]/; // 숫자
+    var pattern2 = /[a-zA-Z]/; // 문자
 
     if (input === "") {
       setCheckId(true);
@@ -146,19 +147,19 @@ export default function SignUp(props: IProps) {
 
     for (let i = 0; i < input.length; i++) {
       var letters = input.charAt(i);
-      if (pattern.test(letters)) {
+      if (!pattern1.test(letters) && !pattern2.test(letters) && input.length < 6) {
         setCheckId(false);
       } else {
         setCheckId(true);
-        setId(input);
       }
+      setId(input);
     }
   };
 
   const verifyPassword = (input: string) => {
     var pattern1 = /[0-9]/; // 숫자
     var pattern2 = /[a-zA-Z]/; // 문자
-    var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+    var pattern3 = /[`~!@#$%^&*()_+|<>?:{} ]/; // 특수문자
     var pa1 = false;
     var pa2 = false;
     var pa3 = false;
@@ -191,16 +192,16 @@ export default function SignUp(props: IProps) {
         <Typography className={classes.title} component='h1' variant='h4'>
           회원가입
         </Typography>
-        <Container style={{ width: "100%", margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+        <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
           <TextField
             variant='outlined'
-            error={checkId === false}
-            helperText={checkId === false ? "아이디에 특수문자가 포함되어 있습니다." : ""}
+            error={id !== "" && checkId === false}
+            helperText={id !== "" && checkId === false ? "아이디에 특수문자가 포함되어 있습니다." : ""}
             autoFocus
             required
             id='id'
             name='id'
-            placeholder='아이디 (6~8자리)'
+            placeholder='아이디 (6~12자리)'
             inputRef={refId}
             value={id || ""}
             onChange={e => {
@@ -208,20 +209,20 @@ export default function SignUp(props: IProps) {
               setIsNewId(false);
             }}
             inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-            style={{ width: "300px", margin: "10px 5px" }}
+            style={{ width: "300px", margin: "0 5px" }}
           />
           <Button
             variant={isNewId ? "contained" : "outlined"}
             color='primary'
-            disabled={checkId === false}
+            disabled={checkId === false || id.length < 6}
             className={classes.checkButton}
             startIcon={isNewId ? <CheckIcon /> : ""}
             onClick={_onCheckExist}
-            style={{ width: "90px", height: "40px", margin: "10px 5px", padding: "5px" }}>
+            style={{ width: "90px", height: "40px", margin: "0 5px", padding: "5px" }}>
             {isNewId ? "완료" : "중복확인"}
           </Button>
         </Container>
-        <Container style={{ width: "100%", margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+        <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
           <TextField
             error={password !== "" && checkPassword === false}
             helperText={password !== "" && checkPassword === false ? "숫자/문자/특수문자를 모두 포함해야 합니다." : ""}
@@ -234,13 +235,13 @@ export default function SignUp(props: IProps) {
             value={password || ""}
             onChange={e => verifyPassword(e.target.value)}
             inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-            style={{ width: "300px", margin: "10px 5px" }}
+            style={{ width: "300px", margin: "0 5px" }}
           />
-          <Button disabled={true} style={{ width: "90px", height: "40px", margin: "10px 5px", padding: "0" }}>
+          <Button disabled={true} style={{ width: "90px", height: "40px", margin: "0 5px", padding: "0" }}>
             {password !== "" && checkPassword === true ? <RightIcon color='primary' fontSize='large' /> : <WrongIcon color='secondary' fontSize='large' />}
           </Button>
         </Container>
-        <Container style={{ width: "100%", margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+        <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
           <TextField
             error={passwordConfirm !== "" && password !== passwordConfirm}
             helperText={passwordConfirm !== "" && password !== passwordConfirm ? "비밀번호와 일치하지 않습니다." : ""}
@@ -253,9 +254,9 @@ export default function SignUp(props: IProps) {
             value={passwordConfirm || ""}
             onChange={e => setPasswordConfirm(e.target.value)}
             inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-            style={{ width: "300px", margin: "10px 5px" }}
+            style={{ width: "300px", margin: "0 5px" }}
           />
-          <Button disabled={true} style={{ width: "90px", height: "40px", margin: "10px 5px", padding: "0" }}>
+          <Button disabled={true} style={{ width: "90px", height: "40px", margin: "0 5px", padding: "0" }}>
             {passwordConfirm !== "" && password === passwordConfirm ? (
               <RightIcon color='primary' fontSize='large' />
             ) : (
