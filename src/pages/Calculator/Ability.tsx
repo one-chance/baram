@@ -224,15 +224,16 @@ export default function Ability() {
                 setOption3(Number(e.target.value));
               }}>
               <Menus value={0}>직업</Menus>
-              <Menus value={1}>전사</Menus>
-              <Menus value={2}>도적</Menus>
-              <Menus value={3}>주술사</Menus>
-              <Menus value={4}>도사</Menus>
-              <Menus value={5}>궁사</Menus>
-              <Menus value={6}>천인</Menus>
-              <Menus value={7}>마도사</Menus>
-              <Menus value={8}>영술사</Menus>
-              <Menus value={9}>차사</Menus>
+              <Menus value={1}>공용</Menus>
+              <Menus value={2}>전사</Menus>
+              <Menus value={3}>도적</Menus>
+              <Menus value={4}>주술사</Menus>
+              <Menus value={5}>도사</Menus>
+              <Menus value={6}>궁사</Menus>
+              <Menus value={7}>천인</Menus>
+              <Menus value={8}>마도사</Menus>
+              <Menus value={9}>영술사</Menus>
+              <Menus value={10}>차사</Menus>
             </Select>
           </Container>
           <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>

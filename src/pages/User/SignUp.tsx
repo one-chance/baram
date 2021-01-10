@@ -60,10 +60,12 @@ export default function SignUp(props: IProps) {
   const [isNewId, setIsNewId] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [email, setEmail] = useState("");
   const [isAgree, setIsAgree] = useState(false);
 
   const [checkId, setCheckId] = useState(false);
   const [checkPassword, setCheckPassword] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
 
   const _onCheckExist = async () => {
     const res = await CheckExistUser(id);
@@ -186,6 +188,23 @@ export default function SignUp(props: IProps) {
     }
   };
 
+  const verifyEmail = (input: string) => {
+    var pattern = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+
+    if (input !== "") {
+      setEmail("");
+      setCheckEmail(false);
+    }
+
+    setEmail(input);
+
+    if (!pattern.test(input)) {
+      setCheckEmail(false);
+    } else {
+      setCheckEmail(true);
+    }
+  };
+
   return (
     <React.Fragment>
       <Container style={{ width: "40%", margin: "10px 30%", float: "left" }}>
@@ -262,6 +281,30 @@ export default function SignUp(props: IProps) {
             ) : (
               <WrongIcon color='secondary' fontSize='large' />
             )}
+          </Button>
+        </Container>
+        <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
+          <TextField
+            error={email !== "" && checkEmail === false}
+            helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
+            variant='outlined'
+            required
+            name='email'
+            placeholder='이메일 (ID/PW 찾기 제공)'
+            id='email'
+            type='email'
+            value={email || ""}
+            onChange={e => verifyEmail(e.target.value)}
+            inputProps={{ style: { height: "40px", padding: "0 10px" } }}
+            style={{ width: "300px", margin: "0 5px" }}
+          />
+          <Button
+            variant='outlined'
+            color='primary'
+            disabled={checkEmail === false}
+            className={classes.checkButton}
+            style={{ width: "90px", height: "40px", margin: "0 5px", padding: "5px" }}>
+            인증받기
           </Button>
         </Container>
         <Grid item xs={12}>

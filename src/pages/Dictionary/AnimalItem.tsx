@@ -284,7 +284,7 @@ export default function AnimalItem() {
 
   return (
     <React.Fragment>
-      <Container component="div" style={{ width: "80%", margin: "10px 10%" }}>
+      <Container style={{ width: "80%", margin: "10px 10%" }}>
         <TableContainer className={classes.tableContainer} component={Paper} elevation={0}>
           <Table className={classes.table}>
             <TableHead>
@@ -304,7 +304,7 @@ export default function AnimalItem() {
             <TableBody>
               {datas1.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell scope="row">{row.등급 || 0}</TableCell>
+                  <TableCell scope='row'>{row.등급 || 0}</TableCell>
                   <TableCell>{row.파괴력 || 0}</TableCell>
                   <TableCell>{row.피흡무시 || 0}</TableCell>
                   <TableCell>{row.체력 || 0}</TableCell>
@@ -338,7 +338,7 @@ export default function AnimalItem() {
             <TableBody>
               {datas2.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell scope="row">{row.등급 || 0}</TableCell>
+                  <TableCell scope='row'>{row.등급 || 0}</TableCell>
                   <TableCell>{row.방어도 || 0}</TableCell>
                   <TableCell>{row.피흡무시 || 0}</TableCell>
                   <TableCell>{row.체력 || 0}</TableCell>
@@ -372,7 +372,7 @@ export default function AnimalItem() {
             <TableBody>
               {datas3.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell scope="row">{row.등급 || 0}</TableCell>
+                  <TableCell scope='row'>{row.등급 || 0}</TableCell>
                   <TableCell>{row.방어도 || 0}</TableCell>
                   <TableCell>{row.피흡무시 || 0}</TableCell>
                   <TableCell>{row.체력 || 0}</TableCell>
@@ -402,7 +402,7 @@ export default function AnimalItem() {
             <TableBody>
               {datas4.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell scope="row">{row.등급 || 0}</TableCell>
+                  <TableCell scope='row'>{row.등급 || 0}</TableCell>
                   <TableCell>{row.방어도 || 0}</TableCell>
                   <TableCell>{row.피흡무시 || 0}</TableCell>
                   <TableCell>{row.힘민지 || 0}</TableCell>
@@ -414,7 +414,6 @@ export default function AnimalItem() {
           </Table>
         </TableContainer>
         <Container
-          component="div"
           style={{
             width: "45%",
             minWidth: "420px",
@@ -422,8 +421,7 @@ export default function AnimalItem() {
             margin: "10px 0",
             padding: "5px",
             float: "left",
-          }}
-        >
+          }}>
           <h4 className={classes.text}>▶ 범위 수치는 최초 감정시 랜덤으로 부여되며 재감정할 수 없다.</h4>
           <h4 className={classes.text}>▶ 손, 보주 아이템은 사신단 레이드로 얻을 수 있다. (교환불가)</h4>
           <h4 className={classes.text} style={{ marginBottom: "0" }}>
@@ -444,7 +442,7 @@ export default function AnimalItem() {
             <TableBody>
               {datas5.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell scope="row">{row.종류 || 0}</TableCell>
+                  <TableCell scope='row'>{row.종류 || 0}</TableCell>
                   <TableCell>{row.특성 || 0}</TableCell>
                   <TableCell>{row.명중회피 || 0}</TableCell>
                   <TableCell>{row.피흡무시 || 0}</TableCell>
@@ -455,7 +453,6 @@ export default function AnimalItem() {
           </Table>
         </TableContainer>
         <Container
-          component="div"
           style={{
             width: "40%",
             minWidth: "350px",
@@ -463,11 +460,10 @@ export default function AnimalItem() {
             margin: "5px 0",
             padding: "5px",
             float: "left",
-          }}
-        >
+          }}>
           <h4 className={classes.text}>▶ 보주는 신수에 관계없이 착용할 수 있다.</h4>
           <h4 className={classes.text}>▶ 손, 보주 아이템은 신수계 대장장이에게 파괴할 수 있다.</h4>
-          <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상 강화시 손상된다.</h4>
+          <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 강화시 손상된다.</h4>
           <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 교환시 전속된다.</h4>
         </Container>
         <TableContainer className={classes.tableContainer2} component={Paper} elevation={0}>
@@ -488,7 +484,7 @@ export default function AnimalItem() {
             <TableBody>
               {datas6.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell scope="row">{row.재료 || 0}</TableCell>
+                  <TableCell scope='row'>{row.재료 || 0}</TableCell>
                   <TableCell>{row.이성 || 0}</TableCell>
                   <TableCell>{row.삼성 || 0}</TableCell>
                   <TableCell>{row.사성 || 0}</TableCell>
@@ -503,7 +499,6 @@ export default function AnimalItem() {
           </Table>
         </TableContainer>
         <Container
-          component="div"
           style={{
             width: "40%",
             minWidth: "350px",
@@ -511,8 +506,7 @@ export default function AnimalItem() {
             margin: "5px 0",
             padding: "5px",
             float: "left",
-          }}
-        >
+          }}>
           <h4 className={classes.text}>▶ 10성은 없지만 9성(손상)은 데이터로 존재한다.</h4>
           <h4 className={classes.text}>▶ 손상 되어도 지를 수 있으나 재료가 2배 필요하다.</h4>
         </Container>

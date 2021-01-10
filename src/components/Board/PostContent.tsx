@@ -50,9 +50,7 @@ function PostContent(props: IProps) {
   return (
     <Container>
       <Grid item xs={12}>
-        <Typography variant='body1'>
-          <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
-        </Typography>
+        <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
       </Grid>
       <Grid item xs={12} className={classes.footer}>
         <input type='hidden' id='url' value={copyUrl} />
