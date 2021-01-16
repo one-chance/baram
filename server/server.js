@@ -7,7 +7,17 @@ const PORT = 3001;
 
 const myLogger = require("./myLogger");
 
-function connect() {
+mongoose.Promise = global.Promise;
+mongoose
+  .connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+  .then(() => {
+    myLogger("[MONGO DB CONNECT SUCCESS]");
+  })
+  .catch(e => {
+    myLogger("[MONGO DB CONNECT ERROR] >>>", e);
+  });
+
+/* function connect() {
   mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, err => {
     if (err) {
       myLogger("[MONGO DB CONNECT ERROR] >>> ", err);
@@ -17,10 +27,10 @@ function connect() {
   });
 }
 connect();
+mongoose.connection.on("disconnected", connect); */
 
 // FIX FOR (node:8120) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
 mongoose.set("useCreateIndex", true);
-mongoose.connection.on("disconnected", connect);
 
 const app = express();
 app.use(bodyParser.json());
