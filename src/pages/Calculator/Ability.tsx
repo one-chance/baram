@@ -182,14 +182,13 @@ export default function Ability() {
               <Menus value={4}>일본전설</Menus>
               <Menus value={5}>환웅장비</Menus>
               <Menus value={6}>백제/황산벌</Menus>
-              <Menus value={7}>격전지</Menus>
-              <Menus value={8}>생산</Menus>
-              <Menus value={9}>전우치/구미호</Menus>
-              <Menus value={10}>흉수계</Menus>
-              <Menus value={11}>탐라장비</Menus>
-              <Menus value={12}>타계장비</Menus>
-              <Menus value={13}>승급장비</Menus>
-              <Menus value={14}>기타</Menus>
+              <Menus value={7}>전우치/구미호</Menus>
+              <Menus value={8}>타계장비</Menus>
+              <Menus value={9}>흉수계/봉래산</Menus>
+              <Menus value={10}>생산장비</Menus>
+              <Menus value={11}>격전지/전장</Menus>
+              <Menus value={12}>승급장비</Menus>
+              <Menus value={13}>기타</Menus>
             </Select>
 
             <Select

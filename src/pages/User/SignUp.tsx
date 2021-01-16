@@ -189,7 +189,7 @@ export default function SignUp(props: IProps) {
   };
 
   const verifyEmail = (input: string) => {
-    var pattern = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    var pattern = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
     if (input !== "") {
       setEmail("");
