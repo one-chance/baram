@@ -11,23 +11,20 @@ mongoose.Promise = global.Promise;
 mongoose
   .connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => {
-    myLogger("[MONGO DB CONNECT SUCCESS]");
+    myLogger("[MONGODB CONNECT SUCCESS]");
   })
   .catch(e => {
-    myLogger("[MONGO DB CONNECT ERROR] >>>", e);
+    myLogger("[MONGODB CONNECT ERROR] >>>", e);
   });
 
-/* function connect() {
-  mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, err => {
-    if (err) {
-      myLogger("[MONGO DB CONNECT ERROR] >>> ", err);
-    } else {
-      myLogger("[MONGO DB CONNECT SUCCESS]");
-    }
-  });
-}
-connect();
-mongoose.connection.on("disconnected", connect); */
+mongoose.connection.on("reconnected", function () {
+  myLogger("[MONGODB RECONNECTED]");
+});
+
+mongoose.connection.on("disconnected", function () {
+  myLogger("[MONGODB DESCONNECTED]");
+  mongoose.connect(process.env.MONGODB_URL, { server: { auto_reconnect: true } });
+});
 
 // FIX FOR (node:8120) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
 mongoose.set("useCreateIndex", true);
