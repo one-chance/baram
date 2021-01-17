@@ -3,9 +3,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-//Quill.register('modules/imageUpload', ImageUpload); // 커스텀 라이브러리를 등록해 준다.
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -59,37 +58,36 @@ const modules = {
       ["bold", "italic", "underline", "strike", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
       // ['link', 'image', 'video']
+      ['link', 'image']
     ],
     // container:  [['bold', 'italic', 'underline', 'blockquote'],
     // [{'list': 'ordered'}, {'list': 'bullet'}],
     // ['formula','link', 'image'],
     // ['clean']],
-    // handlers: { 'image' : this.handleImage }
+    // handlers: { 'image' : handleImage }
   },
-  /*
-  imageUpload: {
-    url: "image server url", // server url
-    method: "POST", // change query method, default 'POST'
-    name : 'images', // 아래 설정으로 image upload form의 key 값을 변경할 수 있다.
-    headers: {
-      Authorization: `Bearer tokenValue`, 
-      'X-Total-Count': 0,
-    },
-    callbackOK: (serverResponse, next) => { // 성공하면 리턴되는 함수
-        next(serverResponse);
-    },
-    callbackKO: (serverError) => { // 실패하면 리턴되는 함수
-      console.log(serverError);
-        // alert(serverError);
-    },
-    // optional
-    // add callback when a image have been chosen
-    checkBeforeSend: (file, next) => {
-        console.log(file);
-        next(file); // go back to component and send to the server
-    }
-  },
-  */
+  // imageUpload: {
+  //   url: "image server url", // server url
+  //   method: "POST", // change query method, default 'POST'
+  //   name : 'images', // 아래 설정으로 image upload form의 key 값을 변경할 수 있다.
+  //   headers: {
+  //     Authorization: `Bearer tokenValue`, 
+  //     'X-Total-Count': 0,
+  //   },
+  //   callbackOK: (serverResponse: any, next: any) => { // 성공하면 리턴되는 함수
+  //       next(serverResponse);
+  //   },
+  //   callbackKO: (serverError: any) => { // 실패하면 리턴되는 함수
+  //     console.log(serverError);
+  //       // alert(serverError);
+  //   },
+  //   // optional
+  //   // add callback when a image have been chosen
+  //   checkBeforeSend: (file: any, next: any) => {
+  //       console.log(file);
+  //       next(file); // go back to component and send to the server
+  //   }
+  // },
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
     matchVisual: false,

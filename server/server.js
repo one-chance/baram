@@ -30,7 +30,14 @@ mongoose.connection.on("disconnected", function () {
 mongoose.set("useCreateIndex", true);
 
 const app = express();
-app.use(bodyParser.json());
+// request 데이터 크기 기본 최대 100kb 인 것 수정
+app.use(bodyParser.json({
+  limit: "50mb"
+}));
+app.use(bodyParser.urlencoded({ 
+  limit:"50mb", 
+  extended: false
+}));
 
 app.listen(PORT, () => {
   myLogger(`express is running on ${PORT}`);
