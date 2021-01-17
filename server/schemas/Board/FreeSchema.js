@@ -29,7 +29,8 @@ const freeSchema = new mongoose.Schema({
   writer: { type: writerSchema, required: true },
   viewCount: { type: Number, required: false, default: 0},
   commentIdx: { type: Number, required: false, default: 0},
-  commentList: [{ type: commentSchema, required: false, unique: false }]
+  commentList: [{ type: commentSchema, required: false, unique: false }],
+  imgs: [{type: String}]
 });
 
 freeSchema.plugin(autoIncrement.plugin, {

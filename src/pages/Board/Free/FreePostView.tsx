@@ -144,7 +144,7 @@ function FreeBoard({match}: any) {
             </Container>
           :
             <Container>
-              정보가 없습니다.
+              게시글 내용을 불러오고 있습니다.
             </Container>
         }
     </Container>

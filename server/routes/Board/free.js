@@ -20,9 +20,7 @@ const FreeSchema = require('../../schemas/Board/FreeSchema');
 router.use('/post', authMiddleware);
 router.post('/post', (req, res) => {
   const post = new FreeSchema({
-    category: req.body.post.category,
-    title: req.body.post.title,
-    content: req.body.post.content,
+    ...req.body.post,
     writer: {
       ...req.body.post.writer,
       createDateString: new Date().toLocaleString(),

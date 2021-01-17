@@ -18,6 +18,7 @@ interface IPost {
   viewCount?: number,
   commentIdx?: number,
   commentList?: Array<IComment>,
+  imgs?: Array<string>
 }
 
 export default  IPost;

@@ -4,14 +4,12 @@ import {MyAlertState} from 'state/index';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import IPost from 'interfaces/Board/IPost';
 
-import MyGridDivider from 'elements/Grid/MyGridDivider';
 import Bottom from './Bottom';
 
 interface IProps {
@@ -23,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '50px',
     textAlign: 'center'
   },
+  BodyContent: {
+    "& img": {
+      display: 'block',
+      maxWidth: '100%',
+      height: 'auto',
+    }
+  }
 }));
 
 function PostContent(props: IProps) {
@@ -51,10 +56,7 @@ function PostContent(props: IProps) {
   return (
     <Container>
       <Grid item xs={12}>
-        <Typography
-          variant="body1">
-          <div dangerouslySetInnerHTML={ {__html: post.content} }></div>
-        </Typography>
+        <div className={classes.BodyContent}dangerouslySetInnerHTML={ {__html: post.content} }></div>
       </Grid>
       <Grid item xs={12}
         className={classes.footer}>

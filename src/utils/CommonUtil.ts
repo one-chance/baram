@@ -125,3 +125,54 @@ export const getDateFromString = (dateString: string | undefined) => {
   const date = dateString.split(' ');
   return date[0];
 }
+
+// 이미지 포함여부를 확인하여 있을 경우 S3에 업로드 처리
+// react quill 에서 이미지는 <img src={base64}> 로 사용함..
+// 1. base64 를 이미지 파일로 변경
+// 2. 서버 위치에 업로드
+// 3. 업로드 된 경로로 img src 경로 변경
+// 4. 서버 저장
+
+export const checkUploadImage = async (content: any) => {
+
+  const imgs: Array<string> = [];
+  
+  // base 64 이미지 포함 검사.
+  let elImgList = content.match(new RegExp(/<img src="data:image\/\w+;base64,.*?>/g));
+  
+  if (elImgList) {
+    for(let elImg of elImgList) {
+      // base64 코드들 추출
+      const base64 = elImg.replace(/<img src=\"data:image\/.*?;base64,/, "").substr(0, elImg.length-1);
+      const base64Data: Buffer = Buffer.from(base64, 'base64');
+
+      // 파일번호 채번
+      await axios.post('/api/common/config/imageCount')
+        .then(async (res) => {
+          if (res.data.code === 200) {
+            // S3에 저장.
+            await axios.post('/api/common/upload', {
+              fileName: `IM${res.data.newImageCount}`,
+              file: base64Data
+            })
+              .then((res) => {
+                if (res.data.code === 200) {
+                  // 게시글 내용의 base64 이미지를 S3 이미지 경로로 변경.
+                  content = content.replace(/data:image\/.*?;base64,/g, "");
+                  content = content.replace(base64, `${res.data.url}">`);
+                  imgs.push(res.data.url);
+                }
+                else {
+                  // 업로드 실패
+                }
+            });
+          }
+        });
+    }
+
+    return { content, imgs };
+  }
+  else {
+    return undefined;
+  }
+}

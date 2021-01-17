@@ -3,11 +3,18 @@ const router = express.Router();
 const crypto = require("crypto");
 const jsonwebtoken = require("jsonwebtoken");
 
+const RUNTIME_MODE = 'dev';
+const S3_REGION = 'ap-northeast-2';
+
+const AWS = require('aws-sdk');
+const fs  = require('fs');
+
 const config = require("../config.json");
 const myLogger = require("../myLogger");
 
 const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
+const ConfigSchema = require("../schemas/Common/ConfigSchema");
 
 /*
  *    아이디 중복 검사
@@ -223,6 +230,95 @@ router.post("/refresh", (req, res) => {
       token: null,
     });
   }
+});
+
+/*
+*    TODO S3 이미지 업로드
+*    TYPE : PUT
+*    URI : /api/common/upload
+*    PARAM: { "fileName", "file"}
+*    ERROR CODES:
+*        200: 성공
+*        500: 업로드 실패
+*/
+router.post("/upload", (req, res) => {
+  const fileName = req.body.fileName;
+  const file = req.body.file;
+
+  const s3 = new AWS.S3({
+    accessKeyId: config.bucketAccessKey,
+    secretAccessKey: config.bucketSecretKey,
+    region: S3_REGION
+  });
+
+  var param = {
+    Bucket: config.bucketName,
+    Key: `${RUNTIME_MODE}/${config.bucketKey}/${fileName}`, // File Location and Name
+    ACL:'public-read',
+    Body: Buffer.from(file, "base64"), // String, Buffer, Stream
+    ContentEncoding: 'base64',
+    ContentType:'image/png'
+  }
+
+  s3.upload(param, (err, data) => {
+    if (data) {
+      console.log(`[SUCCESS] UPLOADDED IMAGE ${fileName}`);
+      const url = `https://${config.bucketName}.s3.${S3_REGION}.amazonaws.com/${RUNTIME_MODE}/${config.bucketKey}/${fileName}`;
+      res.status(200).send({
+        code: 200,
+        url: url
+      });
+    }
+    else{
+      console.log(`[ERROR] IMAGE UPLOAD FAILED : `, err);
+      res.status(200).send({
+        code: 500,
+      });
+    }
+  });
+});
+
+/*
+*    TODO S3 이미지 개수 체크
+*    TYPE : PUT
+*    URI : /api/common/config/imageCount
+*    ERROR CODES:
+*        200: 성공
+*        500: 실패
+*/
+router.post("/config/imageCount", (req, res) => {
+
+  ConfigSchema.findOne({
+    mode: RUNTIME_MODE
+  })
+    .then((config) => {
+      if (config) {
+        console.log(config);
+
+        const newImageCount = config.newImageCount;
+        config.newImageCount += 1;
+
+        ConfigSchema.updateByMode(RUNTIME_MODE, config)
+          .then(() => {
+
+            res.status(200).send({
+              code: 200,
+              newImageCount: newImageCount
+            });
+    
+            return true;
+          });
+      }
+    })
+    .catch((e) => {
+      console.log('[ERROR] GET CONFIG SERVER ERROR');
+
+      res.status(500).send({
+        code: 500,
+      });
+
+      return false;
+    });
 });
 
 /*
