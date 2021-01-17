@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
 const jsonwebtoken = require("jsonwebtoken");
+require("dotenv").config({ path: "variables.env" });
 
-const config = require("../config.json");
 const myLogger = require("../myLogger");
 
 const UserSchema = require("../schemas/User/UserSchema");
@@ -20,7 +20,7 @@ const UserInfoSchema = require("../schemas/User/UserInfoSchema");
  */
 router.post("/checkid", (req, res) => {
   const id = req.body.id;
-  UserSchema.findOneById(id).then((exist) => {
+  UserSchema.findOneById(id).then(exist => {
     if (exist) {
       myLogger(`[ERROR] : ${id} IS ALREADY EXIST`);
       res.status(200).send({
@@ -57,7 +57,7 @@ router.post("/signup", (req, res) => {
   });
 
   UserSchema.findOneById(user.id)
-    .then((exist) => {
+    .then(exist => {
       if (exist) {
         myLogger(`[ERROR] : ${user.id} IS ALREADY EXIST`);
         res.status(200).send({
@@ -80,7 +80,7 @@ router.post("/signup", (req, res) => {
 
           return user;
         })
-          .then((signupUser) => {
+          .then(signupUser => {
             const userInfo = new UserInfoSchema({
               key: signupUser.key,
               id: signupUser.id,
@@ -107,7 +107,7 @@ router.post("/signup", (req, res) => {
               return true;
             });
           })
-          .then((isCreated) => {
+          .then(isCreated => {
             myLogger(isCreated);
             res.status(200).send({
               code: 200,
@@ -118,7 +118,7 @@ router.post("/signup", (req, res) => {
           });
       }
     })
-    .catch((e) => {
+    .catch(e => {
       myLogger(`SIGNUP ERROR > ${e}`);
 
       res.status(500).send({
@@ -146,7 +146,7 @@ router.post("/signin", (req, res) => {
   const password = req.body.password;
 
   UserSchema.findOneById(id)
-    .then((user) => {
+    .then(user => {
       if (user) {
         // 패스워드 암호화 비교
         const encryptPassword = crypto
@@ -184,7 +184,7 @@ router.post("/signin", (req, res) => {
         return false;
       }
     })
-    .catch((e) => {
+    .catch(e => {
       myLogger(`SIGNIN ERROR > ${e}`);
 
       res.status(500).send({
@@ -208,7 +208,7 @@ router.post("/refresh", (req, res) => {
   const id = req.body.id;
   const key = req.body.key;
 
-  const decoded = jsonwebtoken.verify(token, config.secret);
+  const decoded = jsonwebtoken.verify(token, process.env.MONGODB_SECRET);
 
   if (decoded) {
     myLogger(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
@@ -235,7 +235,7 @@ const createToken = (_key, _id) => {
       key: _key,
       id: _id,
     },
-    config.secret,
+    process.env.MONGODB_SECRET,
     {
       expiresIn: "1h",
     }
