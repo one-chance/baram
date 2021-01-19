@@ -104,7 +104,7 @@ router.post("/signup", (req, res) => {
               editDateString: user.editDateString,
               mail: email,
               point: 0,
-              grade: "Level 1",
+              grade: "1",
               isActive: true,
             });
 
@@ -363,9 +363,14 @@ router.put("/email", (req, res) => {
     region: process.env.S3_REGION
   });
 
-  const SUBJECT = '바창 커뮤니티 이메일 인증';
+  const SUBJECT = '바창 커뮤니티 이메일 인증번호 발송';
   const HTML_BODY = `
-    <b>Hello</b> World
+    <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에 오신 것을 환영합니다!
+    아래 인증번호를 복사하시어 이메일 인증 단계를 완료해주시기 바랍니다.
+    <br>
+    <b>${verifyCode}</b>
+    <br>
+    감사합니다.
   `;
 
   var params = {
