@@ -376,26 +376,28 @@ router.post('/password', (req, res) => {
     .then((user) => {
       if(user) {
         // 패스워드 암호화 비교
-        const encryptPassword = crypto.createHash("sha512").update(password + user.salt).digest("hex");
-        if ( encryptPassword !== user.password ) {
-          myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
-          res.status(200).send({
-            code: 1003,
-            message: "일치하지 않는 비밀번호 입니다."
-          });
+        // 1: 입력비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
+        crypto.pbkdf2(password, user.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
+          if (key.toString('base64') === user.password) {
+            myLogger(`[SUCCESS] : ${id} IS MATCHED PASSWORD`);
 
-          return false;
-        }
-        else {
-          myLogger(`[SUCCESS] : ${id} IS MATCHED PASSWORD`);
+            res.status(200).send({
+              code: 200,
+              message: "일치하는 비밀번호 입니다."
+            });
 
-          res.status(200).send({
-            code: 200,
-            message: "일치하는 비밀번호 입니다."
-          });
+            return true;
+          }
+          else {
+            myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
+            res.status(200).send({
+              code: 1003,
+              message: "일치하지 않는 비밀번호 입니다."
+            });
 
-          return true;
-        }
+            return false;
+          }
+        });
       }
       else {
         myLogger(`[ERROR] : ${id} IS NOT EXIST USER`);

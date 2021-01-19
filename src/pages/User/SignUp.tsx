@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
@@ -12,16 +12,15 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import CheckIcon from "@material-ui/icons/Check";
 
-import MyButton from "elements/Button/MyButton";
-
 import RightIcon from "@material-ui/icons/SentimentVerySatisfied";
 import WrongIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
 import { CheckExistUser, SignUpUser } from "utils/UserUtil";
+import { sendVerifyEmail, checkVerifyEmail } from "utils/CommonUtil";
 
 const useStyles = makeStyles({
   title: {
-    margin: "20px 10px",
+    margin: "10px",
     textAlign: "center",
   },
   form: {
@@ -58,9 +57,13 @@ export default function SignUp(props: IProps) {
   const [id, setId] = useState("");
   const refId = React.useRef<any>();
   const [isNewId, setIsNewId] = useState(false);
+  const [isConfirmId, setIsConfirmId] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
+  const [emailCode, setEmailCode] = useState<string | undefined>(undefined); //메일 전송 전 > undefined
+  const refEmailCode = React.useRef<any>();
+  const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
 
   const [checkId, setCheckId] = useState(false);
@@ -70,23 +73,29 @@ export default function SignUp(props: IProps) {
   const _onCheckExist = async () => {
     const res = await CheckExistUser(id);
 
-    if (res.code === 200 && id !== "") {
-      setMyAlert({
-        isOpen: true,
-        severity: "success",
-        duration: duration,
-        message: res.message,
-      });
-      setIsNewId(true);
-    } else if (id !== "") {
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: res.message,
-      });
-      setIsNewId(false);
-      refId.current.focus();
+    if (isNewId) {
+      // ID 고정
+      setIsConfirmId(true);
+    }
+    else {
+      if (res.code === 200 && id !== "") {
+        setMyAlert({
+          isOpen: true,
+          severity: "success",
+          duration: duration,
+          message: res.message,
+        });
+        setIsNewId(true);
+      } else if (id !== "") {
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: duration,
+          message: res.message,
+        });
+        setIsNewId(false);
+        refId.current.focus();
+      }
     }
   };
 
@@ -101,6 +110,16 @@ export default function SignUp(props: IProps) {
       refId.current.focus();
       return 0;
     }
+    
+    if (!isVerifiedEmail) {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: "이메일 인증 완료 후 진행 가능합니다.",
+      });
+      return 0;
+    }
 
     if (!isAgree) {
       setMyAlert({
@@ -113,7 +132,7 @@ export default function SignUp(props: IProps) {
     }
 
     setMyBackdrop(true);
-    const res = await SignUpUser(id, password);
+    const res = await SignUpUser(id, password, email);
     if (res.code === 200) {
       // Successed Authentication
       setMyAlert({
@@ -205,6 +224,59 @@ export default function SignUp(props: IProps) {
     }
   };
 
+  const _onSendEmail = async () => {
+    console.log('_onSendEmail');
+    // 인증 이메일 전송
+    const res = await sendVerifyEmail(email);
+    if (res) {
+      setMyAlert({
+        isOpen: true,
+        severity: "success",
+        duration: duration,
+        message: `발송된 이메일 내용을 확인해주세요.`,
+      });
+      setEmailCode("");
+      refEmailCode.current.focus();
+    }
+    else {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: `인증메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.`,
+      });
+    }    
+  }
+  const _onCheckEmail = async () => {
+    console.log('_onCheckEmail');
+
+    if (emailCode) {
+
+      // 인증번호 확인
+      const res = await checkVerifyEmail(email, emailCode);
+      if (res) {
+        setMyAlert({
+          isOpen: true,
+          severity: "success",
+          duration: duration,
+          message: `인증번호 확인에 성공하였습니다.`,
+        });
+
+        setIsVerifiedEmail(true);
+      }
+      else {
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: duration,
+          message: `인증번호 확인에 실패하였습니다.`,
+        });
+
+        setIsVerifiedEmail(false);
+      }
+    }
+  }
+
   return (
     <React.Fragment>
       <Container style={{ width: "40%", margin: "10px 30%", float: "left" }}>
@@ -223,6 +295,7 @@ export default function SignUp(props: IProps) {
             placeholder='아이디 (6~12자리)'
             inputRef={refId}
             value={id || ""}
+            disabled={isConfirmId}
             onChange={e => {
               verifyId(e.target.value);
               setIsNewId(false);
@@ -233,7 +306,7 @@ export default function SignUp(props: IProps) {
           <Button
             variant={isNewId ? "contained" : "outlined"}
             color='primary'
-            disabled={checkId === false || id.length < 6}
+            disabled={checkId === false || id.length < 6 || isConfirmId}
             className={classes.checkButton}
             startIcon={isNewId ? <CheckIcon /> : ""}
             onClick={_onCheckExist}
@@ -294,6 +367,7 @@ export default function SignUp(props: IProps) {
             id='email'
             type='email'
             value={email || ""}
+            disabled={isVerifiedEmail}
             onChange={e => verifyEmail(e.target.value)}
             inputProps={{ style: { height: "40px", padding: "0 10px" } }}
             style={{ width: "300px", margin: "0 5px" }}
@@ -301,12 +375,45 @@ export default function SignUp(props: IProps) {
           <Button
             variant='outlined'
             color='primary'
-            disabled={checkEmail === false}
+            disabled={checkEmail === false || isVerifiedEmail}
             className={classes.checkButton}
-            style={{ width: "90px", height: "40px", margin: "0 5px", padding: "5px" }}>
-            인증받기
+            style={{ width: "90px", height: "40px", margin: "0 5px", padding: "5px" }}
+            onClick={() => _onSendEmail()}>
+              {
+                emailCode === undefined ?
+                  "전송" : "재전송"
+              }
           </Button>
         </Container>
+        { emailCode !== undefined &&
+          <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
+            <TextField
+              error={email !== "" && checkEmail === false}
+              helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
+              variant='outlined'
+              required
+              name='code'
+              placeholder='인증번호'
+              id='code'
+              autoComplete='off'
+              value={emailCode || ""}
+              inputRef={refEmailCode}
+              disabled={isVerifiedEmail}
+              onChange={e => setEmailCode(e.target.value.toString())}
+              inputProps={{ style: { height: "40px", padding: "0 10px" } }}
+              style={{ width: "300px", margin: "0 5px" }}
+            />
+            <Button
+              variant='outlined'
+              color='primary'
+              disabled={checkEmail === false || isVerifiedEmail}
+              className={classes.checkButton}
+              style={{ width: "90px", height: "40px", margin: "0 5px", padding: "5px" }}
+              onClick={() => _onCheckEmail()}>
+                인증
+            </Button>
+          </Container>
+        }
         <Grid item xs={12}>
           <Grid item xs={12}>
             <Typography>인증방식 설명</Typography>
@@ -326,7 +433,11 @@ export default function SignUp(props: IProps) {
           />
         </Grid>
         <Grid container justify='flex-end' className={classes.signup}>
-          <MyButton color='blue' text='가입하기' onClick={_onClickSignUp} />
+          <Button 
+            variant='contained' color="primary" fullWidth
+            onClick={_onClickSignUp} >
+            가입하기
+          </Button>
         </Grid>
       </Container>
     </React.Fragment>
