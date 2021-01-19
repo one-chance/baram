@@ -5,6 +5,8 @@ const jsonwebtoken = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
 
 const AWS = require('aws-sdk');
+AWS.config.update({region: process.env.S3_REGION});
+
 const fs  = require('fs');
 const myLogger = require("../myLogger");
 
@@ -54,9 +56,20 @@ router.post("/signup", (req, res) => {
   const user = new UserSchema({
     id: req.body.id,
     password: req.body.password,
-    salt: req.body.salt,
     createDateString: new Date().toLocaleString(),
     editDateString: new Date().toLocaleString(),
+  });
+  const email = req.body.email;
+
+  // salt 획득
+  crypto.randomBytes(64, (err, buf) => { // 64바이트 길이 랜덤 값 생성
+    user.salt = buf.toString('base64');
+
+    // 비밀번호 암호화
+    // 1: 비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
+    crypto.pbkdf2(user.password, user.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
+      user.password = key.toString('base64');
+    });
   });
 
   UserSchema.findOneById(user.id)
@@ -89,6 +102,7 @@ router.post("/signup", (req, res) => {
               id: signupUser.id,
               createDateString: user.createDateString,
               editDateString: user.editDateString,
+              mail: email,
               point: 0,
               grade: "Level 1",
               isActive: true,
@@ -151,32 +165,33 @@ router.post("/signin", (req, res) => {
   UserSchema.findOneById(id)
     .then(user => {
       if (user) {
+
         // 패스워드 암호화 비교
-        const encryptPassword = crypto
-          .createHash("sha512")
-          .update(password + user.salt)
-          .digest("hex");
-        if (encryptPassword !== user.password) {
-          myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
-          res.status(200).send({
-            code: 1003,
-            message: "일치하지 않는 비밀번호 입니다.",
-          });
+        // 1: 입력비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
+        crypto.pbkdf2(password, user.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
+          if (key.toString('base64') === user.password) {
+            myLogger(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
 
-          return false;
-        } else {
-          myLogger(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
+            const token = createToken(user.key, id);
+  
+            res.status(200).send({
+              code: 200,
+              message: "로그인 하였습니다.",
+              token: token,
+            });
+  
+            return true;
+          }
+          else {
+            myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
+            res.status(200).send({
+              code: 1003,
+              message: "일치하지 않는 비밀번호 입니다.",
+            });
 
-          const token = createToken(user.key, id);
-
-          res.status(200).send({
-            code: 200,
-            message: "로그인 하였습니다.",
-            token: token,
-          });
-
-          return true;
-        }
+            return false;
+          }
+        });
       } else {
         myLogger(`[ERROR] : ${id} IS NOT EXIST USER`);
         res.status(200).send({
@@ -312,6 +327,127 @@ router.post("/config/imageCount", (req, res) => {
 
       return false;
     });
+});
+
+/*
+*    이메일 주소 인증 메일 발송
+*    TYPE : POST
+*    URI : /api/common/email
+*    ERROR CODES:
+*        200: 성공
+*        500: 실패
+*/
+// 인증코드 정보를 저장할 객체
+const mapVerifyCodeByEmail = new Map();
+router.put("/email", (req, res) => {
+
+  const email = req.body.email;
+
+  // 서버 메모리에 인증번호 정보 저장
+  const date = new Date();
+  const verifyCode = crypto
+    .createHash("sha512")
+    .update(`${email}${date.toLocaleString()}`)
+    .digest("base64"); // base64, hex, latin1
+
+  mapVerifyCodeByEmail.set(email, {
+    email,
+    verifyCode,
+    date: date
+  });
+  
+  const ses = new AWS.SES({
+    apiVersion: '2010-12-01',
+    accessKeyId: process.env.SES_USER_NAME,
+    secretAccessKey: process.env.SES_SECRET_KEY,
+    region: process.env.S3_REGION
+  });
+
+  const SUBJECT = '바창 커뮤니티 이메일 인증';
+  const HTML_BODY = `
+    <b>Hello</b> World
+  `;
+
+  var params = {
+    Destination: { /* required */
+      // CcAddresses: [
+      // ],
+      ToAddresses: [
+        email
+      ]
+    },
+    Message: { /* required */
+      Body: { /* required */
+        Html: {
+          Charset: "UTF-8",
+          Data: HTML_BODY
+        },
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: SUBJECT
+      }
+    },
+    Source: 'whitow@naver.com', /* required */
+    // ReplyToAddresses: [
+    //   /* more items */
+    // ],
+  };
+
+  // Create the promise and SES service object
+  var sendPromise = ses.sendEmail(params).promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise.then(
+    function(data) {
+      console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
+      res.status(200).send({
+        code: 200
+      });
+    }).catch(
+      function(err) {
+        console.log(`[ERROR] SEND EMAIL FAILED : `, err);
+        res.status(200).send({
+          code: 500,
+        });
+    });
+});
+
+/*
+*    인증메일 코드 인증
+*    TYPE : POST
+*    URI : /api/common/email
+*    ERROR CODES:
+*        200: 성공
+*        201: 불일치
+*        500: 에러
+*/
+router.post("/email", (req, res) => {
+  const email = req.body.email;
+  const emailCode = req.body.emailCode;
+
+  const verify = mapVerifyCodeByEmail.get(email);
+  
+  if (verify) {
+    if (verify.verifyCode === emailCode) {
+      console.log(`[SUCCESS] VERIFIED EMAIL ${email}`);
+      res.status(200).send({
+        code: 200,
+      });
+    }
+    else {
+      console.log(`[ERROR] NOT VERIFIED EMAIL ${email}`);
+      res.status(200).send({
+        code: 201,
+      });
+    }
+  }
+  else {
+    console.log(`[ERROR] NOT FOUND VERIFIY EMAIL ${email}`);
+    res.status(200).send({
+      code: 500,
+    });
+  }
 });
 
 /*

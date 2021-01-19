@@ -24,25 +24,20 @@ export const CheckExistUser = async (_id: string) => {
 /*
 * 사용자 회원가입
 */
-export const SignUpUser = async (_id: string, _password: string) => {
-
-  // Create Encrypt salt
-  let mySalt = getRandomSalt();
+export const SignUpUser = async (_id: string, _password: string, _email: string) => {
 
   const newUser: ISignUpUser = {
     id: _id,
-    password: crypto.createHash("sha512").update(_password + mySalt).digest("hex"),
-    salt: mySalt
+    password: _password,
+    email: _email
   }
 
   //DB Process for Create User
   const res = await axios.post('api/common/signup', newUser)
     .then((res) => {
-
       return res.data;
     })
     .catch((e) => {
-
       return false;
     });
 

@@ -176,3 +176,46 @@ export const checkUploadImage = async (content: any) => {
     return undefined;
   }
 }
+
+export const sendVerifyEmail = async (email: string) => {
+  // 인증 이메일 전송
+  const res = await axios.put('/api/common/email', {
+    email
+  })
+    .then((res) => {
+      if (res.data.code === 200) {
+        // 메일 전송 성공
+        return true;
+      }
+      else {
+        // 메일 전송 실패
+        return false;
+      }
+    });
+
+  return res;
+}
+
+export const checkVerifyEmail = async (email: string, emailCode: string) => {
+  // 인증번호 확인
+  const res = await axios.post('/api/common/email', {
+    email,
+    emailCode
+  })
+    .then((res) => {
+      if (res.data.code === 200) {
+        // 인증 성공
+        return true;
+      }
+      else if (res.data.code === 201) {
+        // 불일치
+        return false;
+      }
+      else {
+        // 실패
+        return false;
+      }
+    });
+
+  return res;
+}
