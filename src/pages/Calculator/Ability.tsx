@@ -42,7 +42,7 @@ const useStyles = makeStyles({
   },
 
   select: {
-    width: "140px",
+    width: "120px",
     height: "40px",
     padding: "1px",
     margin: "5px",
@@ -248,9 +248,9 @@ export default function Ability() {
           </Container>
           <Container
             style={{
-              width: "96%",
+              width: "92%",
               minHeight: "82px",
-              margin: "5px 2%",
+              margin: "5px 4%",
               padding: "5px",
               border: "1px solid lightgray",
               borderRadius: "10px",

@@ -3,8 +3,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -58,7 +58,7 @@ const modules = {
       ["bold", "italic", "underline", "strike", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
       // ['link', 'image', 'video']
-      ['link', 'image']
+      ["link", "image"],
     ],
     // container:  [['bold', 'italic', 'underline', 'blockquote'],
     // [{'list': 'ordered'}, {'list': 'bullet'}],
@@ -71,7 +71,7 @@ const modules = {
   //   method: "POST", // change query method, default 'POST'
   //   name : 'images', // 아래 설정으로 image upload form의 key 값을 변경할 수 있다.
   //   headers: {
-  //     Authorization: `Bearer tokenValue`, 
+  //     Authorization: `Bearer tokenValue`,
   //     'X-Total-Count': 0,
   //   },
   //   callbackOK: (serverResponse: any, next: any) => { // 성공하면 리턴되는 함수
@@ -184,9 +184,9 @@ function PostWrite(props: IProps) {
   return (
     <React.Fragment>
       <Container className={classes.root}>
-        <Grid container spacing={1} justify='flex-start'>
+        <Grid container spacing={1} justify='flex-start' style={{ minWidth: "850px" }}>
           <Grid item xs={3}>
-            <Select variant='outlined' id='category' value={category} onChange={_onChangeCategory} displayEmpty className={classes.selector}>
+            <Select variant='outlined' id='category' value={category} onChange={_onChangeCategory} displayEmpty className={classes.selector} disabled={true}>
               <Menus value={"tip"}>팁게시판</Menus>
               <Menus value={"free"}>자유게시판</Menus>
               <Menus value={"screenshot"}>스크린샷게시판</Menus>
@@ -195,15 +195,20 @@ function PostWrite(props: IProps) {
               <Menus value={"job"}>직업게시판</Menus>
             </Select>
           </Grid>
-          <Grid item xs={5}></Grid>
-          <Grid item xs={2}>
-            <Button variant='contained' color='secondary' fullWidth onClick={() => setOpenConfirmCancle(true)} style={{ height: "40px" }}>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={5} style={{ textAlign: "right" }}>
+            <Button
+              variant='contained'
+              color='secondary'
+              onClick={() => setOpenConfirmCancle(true)}
+              style={{ width: "100px", margin: "0 5px", height: "40px" }}>
               취소
             </Button>
-          </Grid>
-          <Grid item xs={2}>
-            <Button variant='contained' color='primary' fullWidth onClick={_onWrite} style={{ height: "40px" }}>
-              저장
+            <Button variant='outlined' onClick={() => setOpenConfirmCancle(true)} style={{ width: "100px", margin: "0 5px", height: "40px" }}>
+              미리보기
+            </Button>
+            <Button variant='contained' color='primary' onClick={_onWrite} style={{ width: "100px", margin: "0 5px", height: "40px" }}>
+              작성
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -217,6 +222,7 @@ function PostWrite(props: IProps) {
               placeholder='게시글의 제목을 입력하세요.'
               value={title}
               inputRef={refTitle}
+              inputProps={{ style: { padding: "2.5px 10px", height: "35px", lineHeight: "35px", fontSize: "1rem" } }}
               onChange={e => {
                 setTitle(e.target.value);
               }}
