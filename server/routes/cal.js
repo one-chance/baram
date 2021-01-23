@@ -5,6 +5,8 @@ const cheerio = require("cheerio");
 
 const myLogger = require("../myLogger");
 
+const SearchItemSchema = require('../schemas/Cal/SearchItemSchema');
+
 /*
  *
  *    TYPE : GET
@@ -71,6 +73,49 @@ router.get("/item", (req, res) => {
         return false;
       });
   });
+});
+
+/*
+ *    TYPE : GET
+ *    URI : /api/cal/searchitem
+ *    QUERYSTRING: {
+        "name": _name,
+        "op1": _op1,
+        "op2": _op2,
+        "op3": _op3
+      }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.get("/searchitem", (req, res) => {
+  var filter = {};
+  if(req.query.name !== "" && req.query.name !== "0")
+    filter['name'] = {$regex: req.query.name + '.*'};
+  if(req.query.op1 !== "0")
+    filter['op1'] = req.query.op1;
+  if(req.query.op2 !== "0")
+    filter['op2'] = req.query.op2;
+  if(req.query.op3 !== "0")
+    filter['op3'] = req.query.op3;
+
+  SearchItemSchema.findByFilter(filter)
+  .then((items) => {
+    res.status(200).send({
+      code: 200,
+      message: "아이템 조회에 성공하였습니다.",
+      items: items
+    });
+
+    return true;
+  })
+  .catch((e) => {
+    res.status(200).send({
+      code: 500,
+      message: "아이템 조회 중 오류가 발생하였습니다."
+    });
+    return false;
+  })
 });
 
 module.exports = router;

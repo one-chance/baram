@@ -21,6 +21,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Divider from "@material-ui/core/Divider";
 
+import { SearchItemByOption } from "../../utils/CalUtil";
+
 const useStyles = makeStyles({
   btn: {
     height: "36px",
@@ -87,7 +89,7 @@ export default function Ability() {
   const [option1, setOption1] = useState(0);
   const [option2, setOption2] = useState(0);
   const [option3, setOption3] = useState(0);
-  var nameList: string[] = [];
+  const [nameList, setNameList] = useState<string[]>([]);
 
   const itemName = nameList.map(item => <Chip label={item} key={item} variant='outlined' clickable={true} style={{ height: "30px", margin: "2.5px" }} />);
 
@@ -96,8 +98,9 @@ export default function Ability() {
     title: "",
   });
 
-  const searchByName = (name: string) => {
-    console.log(name);
+  const searchByName = async (name: string) => {
+    const res = await SearchItemByOption(search, option1, option2, option3);
+    setNameList(res);
     // 이름 직접 검색
   };
 
