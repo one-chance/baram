@@ -17,8 +17,10 @@ export const CreatePost = async (_category: CategoryType, _title: string, _conte
   }
 
   const up = await CommonUtil.checkUploadImage(_content);
-  post.content = up?.content;
-  post.imgs = up?.imgs;
+  if (up) {
+    post.content = up?.content;
+    post.imgs = up?.imgs;
+  }
 
   const res = await axios.post(`/api/board/${post.category}/post`, {
     post: post
@@ -51,8 +53,10 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost) 
     }
   
     const up = await CommonUtil.checkUploadImage(_content);
-    post.content = up?.content;
-    post.imgs = up?.imgs;
+    if (up) {
+      post.content = up?.content;
+      post.imgs = up?.imgs;
+    }
 
     const res = await axios.put(`/api/board/${post.category}/post`, {
       post: post
