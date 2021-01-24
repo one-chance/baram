@@ -31,6 +31,11 @@ const useStyles = makeStyles({
     margintLeft: "5px",
   },
 
+  itemChip: {
+    height: "30px",
+    margin: "2.5px",
+  },
+
   itemText: {
     width: "200px",
     "& input": {
@@ -85,34 +90,66 @@ const Menus = withStyles({
 export default function Ability() {
   const classes = useStyles();
 
-  const [search, setSearch] = useState("0");
-  const [option1, setOption1] = useState(0);
-  const [option2, setOption2] = useState(0);
-  const [option3, setOption3] = useState(0);
-  const [nameList, setNameList] = useState<string[]>([]);
+  const [searchName1, setSearchName1] = useState(""); // 검색할 장비 이름 (이름용)
+  const [searchName2, setSearchName2] = useState(""); // 검색할 장비 이름 (스탯용)
+  const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
+  const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
+  const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
 
-  const itemName = nameList.map(item => <Chip label={item} key={item} variant='outlined' clickable={true} style={{ height: "30px", margin: "2.5px" }} />);
+  const [nameList, setNameList] = useState<string[]>([""]);
+  //const [statusList, setStatusList] = useState<string[]>([]);
+  const itemName = nameList.map(item => (
+    <Chip
+      className={classes.itemChip}
+      label={item}
+      key={item}
+      variant='outlined'
+      onClick={() => {
+        loadData(item);
+      }}
+    />
+  ));
 
   const [dlgItem, setDlgItem] = useState({
     isOpen: false,
     title: "",
   });
 
+  const inputName = (name: string) => {
+    if (name === "") {
+      setSearchName1("");
+      setNameList([""]);
+    } else {
+      setSearchName1(name);
+    }
+  };
+
+  // 이름 직접 검색
   const searchByName = async (name: string) => {
+    setOption1(0);
+    setOption2(0);
+    setOption3(0);
+
     const res = await SearchItemByName(name);
     setNameList(res);
-    // 이름 직접 검색
   };
 
-  const loadItemList = (typeA: number, typeB: number, typeC: number) => {
-    let abc = typeA + typeB + typeC;
-    // chip 생성할 이름 받아오기
-  };
-
+  // 리스트 통해서 검색
   const searchByList = async () => {
+    if (option1 === 0 || option2 === 0 || option3 === 0) {
+      alert("세부 옵션을 모두 선택해주세요.");
+      return;
+    }
+    setSearchName1("");
+
     const res = await SearchItemByOption(option1, option2, option3);
     setNameList(res);
-    // 리스트 통해서 검색
+  };
+
+  // 해당 아이템의 스텟 데이터 불러오기
+  const loadData = (name: string) => {
+    setSearchName2(name);
+    console.log(searchName2);
   };
 
   return (
@@ -154,15 +191,16 @@ export default function Ability() {
               className={classes.itemText}
               variant='outlined'
               placeholder='아이템명'
+              value={searchName1 || ""}
               onChange={e => {
-                setSearch(e.target.value);
+                inputName(e.target.value);
               }}
             />
             <Button
               variant='contained'
               color='primary'
               onClick={e => {
-                searchByName(search);
+                searchByName(searchName1);
               }}
               style={{ height: "40px", marginLeft: "-5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
               검색
@@ -172,7 +210,7 @@ export default function Ability() {
             <Select
               variant='outlined'
               className={classes.select}
-              defaultValue={0}
+              value={option1}
               MenuProps={{
                 disableScrollLock: true,
               }}
@@ -198,7 +236,7 @@ export default function Ability() {
             <Select
               variant='outlined'
               className={classes.select}
-              defaultValue={0}
+              value={option2}
               MenuProps={{ disableScrollLock: true }}
               onChange={e => {
                 setOption2(Number(e.target.value));
@@ -221,7 +259,7 @@ export default function Ability() {
             <Select
               variant='outlined'
               className={classes.select}
-              defaultValue={0}
+              value={option3}
               MenuProps={{ disableScrollLock: true }}
               onChange={e => {
                 setOption3(Number(e.target.value));
@@ -261,7 +299,7 @@ export default function Ability() {
               textAlign: "center",
               float: "left",
             }}>
-            {itemName}
+            {nameList[0] === "" ? "검색 결과가 없습니다." : itemName}
           </Container>
           <TableContainer style={{ margin: "5px 0 ", padding: "0 5px", textAlign: "center", float: "left" }}>
             <Table className={classes.table}>
