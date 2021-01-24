@@ -21,7 +21,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Divider from "@material-ui/core/Divider";
 
-import { SearchItemByOption } from "../../utils/CalUtil";
+import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
 
 const useStyles = makeStyles({
   btn: {
@@ -99,7 +99,7 @@ export default function Ability() {
   });
 
   const searchByName = async (name: string) => {
-    const res = await SearchItemByOption(search, option1, option2, option3);
+    const res = await SearchItemByName(name);
     setNameList(res);
     // 이름 직접 검색
   };
@@ -109,8 +109,9 @@ export default function Ability() {
     // chip 생성할 이름 받아오기
   };
 
-  const searchByList = (name: string) => {
-    console.log(name);
+  const searchByList = async () => {
+    const res = await SearchItemByOption(option1, option2, option3);
+    setNameList(res);
     // 리스트 통해서 검색
   };
 
@@ -243,7 +244,7 @@ export default function Ability() {
               variant='contained'
               color='primary'
               onClick={() => {
-                searchByList("쇄자황금투구");
+                searchByList();
               }}
               style={{ width: "140px", color: "white" }}>
               <ArrowDownwardIcon />
