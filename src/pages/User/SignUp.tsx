@@ -225,15 +225,15 @@ export default function SignUp(props: IProps) {
   };
 
   const _onSendEmail = async () => {
-    console.log('_onSendEmail');
+
     // 인증 이메일 전송
     const res = await sendVerifyEmail(email);
-    if (res) {
+    if (res.result === 'success') {
       setMyAlert({
         isOpen: true,
         severity: "success",
         duration: duration,
-        message: `발송된 이메일 내용을 확인해주세요.`,
+        message: res.message,
       });
       setEmailCode("");
       refEmailCode.current.focus();
@@ -243,13 +243,11 @@ export default function SignUp(props: IProps) {
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: `인증메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.`,
+        message: res.message,
       });
     }    
   }
   const _onCheckEmail = async () => {
-    console.log('_onCheckEmail');
-
     if (emailCode) {
 
       // 인증번호 확인
@@ -389,7 +387,6 @@ export default function SignUp(props: IProps) {
           <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
             <TextField
               error={email !== "" && checkEmail === false}
-              helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
               variant='outlined'
               required
               name='code'

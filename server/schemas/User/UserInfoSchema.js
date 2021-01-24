@@ -4,7 +4,7 @@ const autoIncrement = require('mongoose-auto-increment');
 const userInfoSchema = new mongoose.Schema({
   key: { type: Number, required: true, unique: true },
   id: { type: String, required: true, unique: true },
-  mail: { type: String, required: false },
+  email: { type: String, required: false },
   openKakao: { type: String, required: false },
   titleAccount: {
     server: { type: String, required: false },
@@ -39,6 +39,16 @@ userInfoSchema.statics.findOneByKey = function (key) {
 // Get by user id
 userInfoSchema.statics.findOneById = function (id) {
   return this.findOne({id: id});
+}
+
+// Get by email
+userInfoSchema.statics.findOneByEmail = function (email) {
+  return this.findOne({email: email});
+}
+
+// Get by user id and email
+userInfoSchema.statics.findOneByIdAndEmail = function (id, email) {
+  return this.findOne({id: id, email: email});
 }
 
 // Update by user key

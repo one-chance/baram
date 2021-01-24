@@ -53,10 +53,14 @@ export const SignInUser = async (_id: string, _password: string) => {
 
       if (res.data.code === 200) {
         const token = res.data.token;
+        const isReset = res.data.isReset;
         // Session Store
         CommonUtil.setToken(token);
 
-        return token;
+        return {
+          token,
+          isReset
+        };
       }
       else {
         alert(res.data.message);
@@ -173,12 +177,9 @@ export const setUserInfo = async (userInfo: IUserInfo) => {
 * 사용자 비밀번호 수정
 */
 export const setChangePassword = async (_id: string, _changePassword: string) => {
-  const mySalt = getRandomSalt();
-
   const r = await axios.put('/api/user/password', {
       id: _id,
-      password: crypto.createHash("sha512").update(_changePassword + mySalt).digest("hex"),
-      salt: mySalt
+      password: _changePassword,
     },
     {
       headers: {
@@ -312,16 +313,11 @@ export const WithDrawUser = async (_id: string, _password: string) => {
 const getUserInfoFromJson = (jsonInfo: JSON) => {
   const userInfo: IUserInfo = {
     id: "",
-    mail: "",
+    email: "",
     isActive: false,
     createDateString: "",
     editDateString: ""
   }
 
   return Object.setPrototypeOf(jsonInfo, userInfo);
-}
-
-const getRandomSalt = () => {
-  // Create Encrypt salt
-  return Math.round((new Date().valueOf() * Math.random())) + "";
 }

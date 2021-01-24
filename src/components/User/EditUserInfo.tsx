@@ -104,7 +104,7 @@ function EditUserInfo(props: IProps) {
               이메일
             </Grid>
             <Grid item xs={9}>
-              {userInfo.mail ? userInfo.mail : "인증 된 이메일이 없습니다."}
+              {userInfo.email ? userInfo.email : "인증 된 이메일이 없습니다."}
             </Grid>
           </Grid>
           <Grid container item xs={12}>

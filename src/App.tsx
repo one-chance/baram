@@ -12,8 +12,9 @@ import Header from "components/Header/Header";
 import Home from "pages/Home";
 
 import SignUp from "pages/User/SignUp";
-import FindId from "pages/User/FindId";
-import FindPw from "pages/User/FindPw";
+import Forget from "pages/User/Forget";
+import FindId from "components/User/FindId";
+import FindPw from "components/User/FindPassword";
 
 import MyInfo from "pages/User/MyInfo";
 
@@ -86,6 +87,8 @@ function App() {
 
               {/*Common*/}
               <Route exact path='/signup' component={SignUp} />
+              <Route exact path='/forget' component={Forget} />
+              <Route exact path='/forget/:mode' component={Forget} />
               <Route exact path='/findid' component={FindId} />
               <Route exact path='/findpw' component={FindPw} />
 

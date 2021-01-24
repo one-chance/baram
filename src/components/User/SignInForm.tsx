@@ -47,9 +47,14 @@ export default function SignInForm() {
       return false;
     }
 
-    const token = await SignInUser(id, password);
-    if (token) {
-      document.location.href = "/";
+    const res = await SignInUser(id, password);
+    if (res) {
+      if (res.isReset) {
+        document.location.href = "/myinfo/changepassword";
+      }
+      else {
+        document.location.href = "/";
+      }
     }
   };
 
@@ -107,13 +112,13 @@ export default function SignInForm() {
             </Button>
           </Container>
           <Container component="div" style={{ margin: "10px 0 15px 0", float: "left" }}>
-            <Link href="/findid" variant="body2" tabIndex={-1} style={{ float: "left" }}>
+            <Link href="/forget/id" variant="body2" tabIndex={-1} style={{ float: "left" }}>
               아이디
             </Link>
             <Link variant="body2" tabIndex={-1} style={{ float: "left" }}>
               &nbsp;/&nbsp;
             </Link>
-            <Link href="/findpw" variant="body2" tabIndex={-1} style={{ float: "left" }}>
+            <Link href="/forget/password" variant="body2" tabIndex={-1} style={{ float: "left" }}>
               비밀번호 찾기
             </Link>
             <Link href="/signup" variant="body2" tabIndex={-1} style={{ float: "right" }}>

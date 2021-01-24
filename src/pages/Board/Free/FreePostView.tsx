@@ -36,7 +36,6 @@ const category = 'free';
 
 function FreeBoard({match}: any) {
   const classes = useStyles();
-  // const { category, seq } = match.params;
   const { seq } = match.params;
 
   const setMyAlert = useSetRecoilState(MyAlertState);

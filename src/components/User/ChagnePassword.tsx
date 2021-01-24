@@ -65,7 +65,7 @@ function ChagnePassword(props: IProps) {
         });
   
         LogoutUser();
-        setTimeout(document.location.href="/", duration);
+        setTimeout(document.location.href="/signin", duration);
       }
       else {
         setMyAlert({

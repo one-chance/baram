@@ -6,7 +6,7 @@ interface IAccount {
 
 export default interface IUserInfo {
   id: string,
-  mail?: string,
+  email?: string,
   titleAccount?: IAccount,
   accountList?: Array<IAccount>,
   openKakao?: string,

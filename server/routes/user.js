@@ -319,42 +319,61 @@ router.put('/titleaccount', (req, res) => {
 router.put('/password', (req, res) => {
   // CHANGE PASSWORD INFO
   const id = req.body.id;
-  const changePasswordInfo = {
+
+  const newPassword = {
     password: req.body.password,
-    salt: req.body.salt,
-    editDateString: new Date().toLocaleString()
+    salt: null,
   };
 
-  UserSchema.updateById(id, changePasswordInfo)
-    .then((changedInfo) => {
-      if (changedInfo) {
-        myLogger(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
-        res.status(200).send({
-          code: 200,
-          message: "비밀번호가 변경되었습니다. 다시 로그인 해 주세요."
+  // salt 획득
+  crypto.randomBytes(32, (err, buf) => { // 32 바이트 길이 랜덤 값 생성
+    newPassword.salt = buf.toString('base64');
+
+    // 비밀번호 암호화
+    // 1: 비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
+    crypto.pbkdf2(newPassword.password, newPassword.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
+      newPassword.password = key.toString('base64');
+
+      // 2. 사용자 업데이트
+      const changePasswordInfo = {
+        password: newPassword.password,
+        salt: newPassword.salt,
+        isReset: false,
+        editDateString: new Date().toLocaleString()
+      };
+
+      UserSchema.updateById(id, changePasswordInfo)
+        .then((changedInfo) => {
+          if (changedInfo) {
+            myLogger(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
+            res.status(200).send({
+              code: 200,
+              message: "비밀번호가 변경되었습니다. 다시 로그인 해 주세요."
+            });
+    
+            return true;
+          }
+          else {
+            myLogger(`[ERROR] : ${changedInfo.id} CHANGE PASSWORD ERROR`);
+            res.status(200).send({
+              code: 2007,
+              message: "비밀번호 변경에 실패하였습니다. 잠시 후 다시 시도하여주세요."
+            });
+    
+            return false;
+          }
+        })
+        .catch((e) => {
+          myLogger(`CHANGE PASSWORD ERROR > ${e}`);
+          res.status(200).send({
+            code: 500,
+            message: "비밀번호 변경 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
+          });
+
+          return false;
         });
-
-        return true;
-      }
-      else {
-        myLogger(`[ERROR] : ${changedInfo.id} CHANGE PASSWORD ERROR`);
-        res.status(200).send({
-          code: 2007,
-          message: "비밀번호 변경에 실패하였습니다. 잠시 후 다시 시도하여주세요."
-        });
-
-        return false;
-      }
-    })
-    .catch((e) => {
-      myLogger(`CHANGE PASSWORD ERROR > ${e}`);
-      res.status(200).send({
-        code: 500,
-        message: "비밀번호 변경 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
-      });
-
-      return false;
-    })
+    });
+  });
 });
 
 /*
