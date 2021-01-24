@@ -660,7 +660,7 @@ router.get('/find', (req, res) => {
     })
 });
 
-/*   TODO
+/*   
 *    비밀번호 초기화
 *    TYPE : POST
 *    URI : /api/common/reset
