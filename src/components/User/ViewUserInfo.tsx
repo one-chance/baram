@@ -43,7 +43,7 @@ function ViewUserInfo(props: IProps) {
             이메일
           </Grid>
           <Grid item xs={9}>
-            {userInfo.mail}
+            {userInfo.email}
           </Grid>
         </Grid>
         <Grid container item xs={12}>

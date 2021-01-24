@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   salt: { type: String, required: true },
+  isReset: { type: Boolean, default: false },
   createDateString: { type: String, required: true },
   editDateString: { type: String, required: true }
 }, { timestamps: true });

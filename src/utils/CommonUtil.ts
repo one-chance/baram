@@ -185,11 +185,39 @@ export const sendVerifyEmail = async (email: string) => {
     .then((res) => {
       if (res.data.code === 200) {
         // 메일 전송 성공
-        return true;
+        return {result: 'success', message: res.data.message};
+      }
+      else if (res.data.code === 201) {
+        // 이미 인증된 이메일
+        return {result: 'fail', message: res.data.message};
       }
       else {
         // 메일 전송 실패
-        return false;
+        return {result: 'error', message: res.data.message};
+      }
+    });
+
+  return res;
+}
+
+export const sendVerifyEmailById = async (id: string, email: string) => {
+  // 인증 이메일 전송
+  const res = await axios.put('/api/common/id/email', {
+    id,
+    email
+  })
+    .then((res) => {
+      if (res.data.code === 200) {
+        // 메일 전송 성공
+        return {result: 'success', message: res.data.message};
+      }
+      else if (res.data.code === 2005) {
+        // 존재하지 않는 사용자
+        return {result: 'fail', message: res.data.message};
+      }
+      else {
+        // 메일 전송 실패
+        return {result: 'error', message: res.data.message};
       }
     });
 
@@ -216,6 +244,48 @@ export const checkVerifyEmail = async (email: string, emailCode: string) => {
         return false;
       }
     });
+
+  return res;
+}
+
+export const FindIdByEmail = async (email: string) => {
+  const res = await axios.get('/api/common/find', {
+    params: {
+      email
+    }
+  })
+  .then((res) => {
+    if (res.data.code === 200) {
+      return {result: 'success', message: res.data.message, id: res.data.id};
+    }
+    else {
+      return {result: 'error', message: res.data.message};
+    }
+  });
+
+  return res;
+}
+
+export const resetPassword = async (id: string, email: string) => {
+  // 인증 이메일 전송
+  const res = await axios.put('/api/common/reset', {
+    id,
+    email
+  })
+  .then((res) => {
+    if (res.data.code === 200) {
+      // 메일 전송 성공
+      return {result: 'success', message: res.data.message};
+    }
+    else if (res.data.code === 201) {
+      // 이미 인증된 이메일
+      return {result: 'fail', message: res.data.message};
+    }
+    else {
+      // 메일 전송 실패
+      return {result: 'error', message: res.data.message};
+    }
+  });
 
   return res;
 }
