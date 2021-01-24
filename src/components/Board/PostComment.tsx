@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const duration = 2000;
-let comments: Array<IComment> = [];
+//let comments: Array<IComment> = [];
 
 function PostComment(props: IProps) {
   const classes = useStyles();
@@ -89,7 +89,7 @@ function PostComment(props: IProps) {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [count, setCount] = React.useState(0);
+  //const [count, setCount] = React.useState(0);
   const [inputComment, setInputComment] = React.useState("");
   // const [viewCommentList, setViewCommentList] = React.useState<Array<IComment>>([]);
 
@@ -105,6 +105,7 @@ function PostComment(props: IProps) {
     setPage(0);
   };
 
+  /*
   //NOTE 최초 로딩 시
   useEffect(() => {
     if (post.commentList) {
@@ -118,6 +119,7 @@ function PostComment(props: IProps) {
   useEffect(() => {
     setCount(commentList.length);
   }, [commentList]);
+  */
 
   const _onSubmitComment = async () => {
     setMyBackdrop(true);
@@ -157,11 +159,8 @@ function PostComment(props: IProps) {
   return (
     <Container className={classes.root}>
       <Grid container item xs={12} spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant='subtitle2'>{count} 개의 댓글이 있습니다.</Typography>
-        </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={10}>
+          <Grid item xs={11}>
             <Input
               type='text'
               id='input-comment'
@@ -174,7 +173,7 @@ function PostComment(props: IProps) {
               onChange={e => setInputComment(e.target.value)}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1}>
             <Button className={classes.inputButton} fullWidth variant='outlined' color='primary' onClick={_onSubmitComment}>
               등록
             </Button>
