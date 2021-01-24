@@ -90,13 +90,13 @@ router.get("/item", (req, res) => {
  */
 router.get("/searchitem", (req, res) => {
   var filter = {};
-  if(req.query.name !== "" && req.query.name !== "0")
+  if(req.query.hasOwnProperty('name') && req.query.name !== "" && req.query.name !== "0")
     filter['name'] = {$regex: req.query.name + '.*'};
-  if(req.query.op1 !== "0")
+  if(req.query.hasOwnProperty('op1') && req.query.op1 !== "0")
     filter['op1'] = req.query.op1;
-  if(req.query.op2 !== "0")
+  if(req.query.hasOwnProperty('op2') && req.query.op2 !== "0")
     filter['op2'] = req.query.op2;
-  if(req.query.op3 !== "0")
+  if(req.query.hasOwnProperty('op3') && req.query.op3 !== "0")
     filter['op3'] = req.query.op3;
 
   SearchItemSchema.findByFilter(filter)
