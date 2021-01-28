@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -42,7 +43,6 @@ const useStyles = makeStyles(theme => ({
   input: {
     backgroundColor: "#ffffff",
     border: "2px",
-    padding: "20px",
   },
   inputButton: {
     height: "100%",
@@ -161,8 +161,9 @@ function PostComment(props: IProps) {
       <Grid container item xs={12} spacing={2}>
         <Grid container item xs={12}>
           <Grid item xs={11}>
-            <Input
+            <TextField
               type='text'
+              variant='outlined'
               id='input-comment'
               className={classes.input}
               multiline

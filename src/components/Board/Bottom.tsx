@@ -26,7 +26,7 @@ const Bottom = (props: IProps) => {
         <Button
           variant='contained'
           color='primary'
-          style={{ margin: "auto", alignItems: "right", marginRight: "10px" }}
+          style={{ margin: "auto", alignItems: "right", marginRight: "10px", boxShadow: "none" }}
           onClick={() => {
             document.location.href = `/board/write/${category}`;
           }}>

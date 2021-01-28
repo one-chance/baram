@@ -113,7 +113,9 @@ function PostTitle(props: IProps) {
             복사
           </Button>
           <Typography variant='h6' style={{ margin: "2px 0", fontSize: "0.8rem", float: "right" }}>
-            작성 [{post.writer.createDateString}] | 수정 [{post.writer.lastEditDateString}]
+            {post.writer.createDateString === post.writer.lastEditDateString
+              ? `작성 [${post.writer.createDateString}]`
+              : `작성 [${post.writer.createDateString}] | 수정 [${post.writer.lastEditDateString}]`}
           </Typography>
         </Grid>
       </Grid>

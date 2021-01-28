@@ -54,7 +54,7 @@ function PostContent(props: IProps) {
 
   return (
     <Container>
-      <Grid item xs={12}>
+      <Grid item xs={12} style={{ padding: "0 15px" }}>
         <div className={classes.BodyContent} dangerouslySetInnerHTML={{ __html: post.content }}></div>
       </Grid>
       {/*       <Grid item xs={12} className={classes.footer}>
