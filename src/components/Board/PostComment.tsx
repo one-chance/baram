@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
 
 import { useTheme, makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
@@ -77,7 +75,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const duration = 2000;
-//let comments: Array<IComment> = [];
 
 function PostComment(props: IProps) {
   const classes = useStyles();
@@ -89,10 +86,7 @@ function PostComment(props: IProps) {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  //const [count, setCount] = React.useState(0);
   const [inputComment, setInputComment] = React.useState("");
-  // const [viewCommentList, setViewCommentList] = React.useState<Array<IComment>>([]);
-
   // const emptyRows = rowsPerPage - Math.min(rowsPerPage, comments.length - page * rowsPerPage);
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, commentList.length - page * rowsPerPage);
 
@@ -104,22 +98,6 @@ function PostComment(props: IProps) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  /*
-  //NOTE 최초 로딩 시
-  useEffect(() => {
-    if (post.commentList) {
-      setCount(post.commentList.length);
-      // comments = post.commentList;
-      setCommentList(post.commentList);
-    }
-  }, []);
-
-  //NOTE 댓글 목록 변경 시
-  useEffect(() => {
-    setCount(commentList.length);
-  }, [commentList]);
-  */
 
   const _onSubmitComment = async () => {
     setMyBackdrop(true);
@@ -139,8 +117,6 @@ function PostComment(props: IProps) {
         setInputComment("");
         setCommentList(res.commentList);
         post.commentIdx = res.commentIdx;
-
-        // setTimeout(() => document.location.reload(), duration);
       } else {
         setMyAlert({
           isOpen: true,
@@ -205,7 +181,6 @@ function PostComment(props: IProps) {
                                 ${paginationInfo.to === -1 ? "All" : paginationInfo.to}`;
                     }}
                     colSpan={3}
-                    // count={comments.length}
                     count={commentList.length}
                     rowsPerPage={rowsPerPage}
                     page={page}

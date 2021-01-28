@@ -35,6 +35,12 @@ const useStyles = makeStyles(theme => ({
     margin: "auto",
     verticalAlign: "middle",
   },
+  btn: {
+    minWidth: "40px",
+    padding: "0",
+    margin: "0 5px",
+    fontSize: "0.8rem",
+  },
 }));
 
 function PostTitle(props: IProps) {
@@ -109,10 +115,10 @@ function PostTitle(props: IProps) {
         <MyGridDivider />
         <Grid item xs={12} style={{ color: "darkgray", padding: "0 10px", margin: "2px 0" }}>
           {window.location.href}
-          <Button variant='outlined' color='default' style={{ minWidth: "40px", padding: "0", margin: "0 5px", fontSize: "0.8rem" }} onClick={_onCopyUrl}>
+          <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl}>
             복사
           </Button>
-          <Typography variant='h6' style={{ margin: "2px 0", fontSize: "0.8rem", float: "right" }}>
+          <Typography variant='h6' style={{ margin: "2px 10px", fontSize: "0.8rem", float: "right" }}>
             {post.writer.createDateString === post.writer.lastEditDateString
               ? `작성 [${post.writer.createDateString}]`
               : `작성 [${post.writer.createDateString}] | 수정 [${post.writer.lastEditDateString}]`}
