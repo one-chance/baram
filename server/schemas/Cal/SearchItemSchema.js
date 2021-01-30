@@ -10,7 +10,7 @@ const itemNameSchema = new mongoose.Schema({
 });
 
 itemNameSchema.statics.findByFilter = function(filter) {
-  return this.find(filter);
+  return this.find(filter).sort('idx');
 }
 
 module.exports = mongoose.model("ItemSearch", itemNameSchema, "itemList");

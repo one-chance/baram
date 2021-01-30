@@ -21,7 +21,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Divider from "@material-ui/core/Divider";
 
-import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
+import { SearchItemByName, SearchItemByOption, SearchOptionByName } from "../../utils/CalUtil";
 
 const useStyles = makeStyles({
   btn: {

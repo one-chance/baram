@@ -118,4 +118,37 @@ router.get("/searchitem", (req, res) => {
   })
 });
 
+/*
+ *    TYPE : GET
+ *    URI : /api/cal/searchoption
+ *    QUERYSTRING: {
+        "name": _name,
+      }
+ *    RETURN CODES:
+ *        200: 성공, item option 1개
+ *        500: 서버 오류
+ */
+router.get("/searchoption", (req, res) => {
+  var filter = {};
+  filter['name'] = req.query.name;
+  
+  SearchItemSchema.findByFilter(filter)
+  .then((items) => {
+    res.status(200).send({
+      code: 200,
+      message: "아이템 조회에 성공하였습니다.",
+      items: items
+    });
+
+    return true;
+  })
+  .catch((e) => {
+    res.status(200).send({
+      code: 500,
+      message: "아이템 조회 중 오류가 발생하였습니다."
+    });
+    return false;
+  })
+});
+
 module.exports = router;
