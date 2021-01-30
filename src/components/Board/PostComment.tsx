@@ -138,7 +138,6 @@ function PostComment(props: IProps) {
         <Grid container item xs={12}>
           <Grid item xs={11}>
             <TextField
-              type='text'
               variant='outlined'
               id='input-comment'
               className={classes.input}
