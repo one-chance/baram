@@ -62,9 +62,11 @@ interface IProps {
 
 const cols: ColDef[] = [
   { field: "id", headerName: "번호", type: "number", headerAlign: "center", align: "center" },
-  { field: "title", headerName: "제목", type: "string", width: 450, sortable: false, headerClassName: "title", cellClassName: "title" },
+  { field: "title", headerName: "제목", type: "string", width: 480, sortable: false, headerClassName: "title", cellClassName: "title" },
   { field: "writer", headerName: "작성자", type: "string", width: 150, sortable: false, headerAlign: "center", align: "center" },
-  { field: "viewCount", headerName: "조회수", type: "number", width: 100, headerAlign: "center", align: "center" },
+  { field: "viewCount", headerName: "조회수", type: "number", width: 80, headerAlign: "center", align: "center" },
+  { field: "commentCount", headerName: "댓글수", type: "number", width: 80, headerAlign: "center", align: "center" },
+  { field: "recommendCount", headerName: "추천수", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "createDateString", headerName: "작성일", type: "date", width: 150, headerAlign: "center", align: "center" },
 ];
 
@@ -76,16 +78,6 @@ function CustomHeader(props: ComponentProps) {
       <Typography className={classes.header} variant='h6'>
         {getCategoryName(nowCategory)}
       </Typography>
-      {/* {
-        CommonUtil.getToken() &&
-          <Button 
-            variant="contained" 
-            color="primary"
-            style={{marginRight: '15px'}}
-            onClick={() => {document.location.href=`/board/write/${nowCategory}`}}>
-            글쓰기
-          </Button>
-      } */}
     </Grid>
   );
 }
@@ -200,6 +192,8 @@ const Board = (props: IProps, {}) => {
       title: post.title,
       writer: post.writer.id,
       viewCount: post.viewCount,
+      commentCount: post.commentList ? post.commentList.length : 0,
+      recommendCount: post.recommendUserList ? post.recommendUserList.length : 0,
       createDateString: CommonUtil.getDateFromString(post.writer.createDateString),
     });
   });

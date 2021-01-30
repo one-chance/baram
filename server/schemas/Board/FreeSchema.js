@@ -30,6 +30,7 @@ const freeSchema = new mongoose.Schema({
   viewCount: { type: Number, required: false, default: 0},
   commentIdx: { type: Number, required: false, default: 0},
   commentList: [{ type: commentSchema, required: false, unique: false }],
+  recommendUserList: [{ type: String, required: false }],
   imgs: [{type: String}]
 });
 
@@ -69,6 +70,32 @@ freeSchema.statics.addViewCount = function (seq) {
   }, { 
     $inc: {viewCount: 1} 
   });
+}
+
+// recommend
+freeSchema.statics.pushRecommendUser = function (seq, userid) {
+  return this.findOneAndUpdate({
+    seq: seq
+  }, { 
+    $push: { 
+      recommendUserList: userid } 
+  }, { 
+    upsert: true, 
+    new: true
+  });
+}
+// unRecommend
+freeSchema.statics.popRecommendUser = function (seq, userid) {
+  return this.findOneAndUpdate({
+    seq: seq,
+  }, {
+    $pull: {
+      recommendUserList: userid
+    }
+  }, {
+    upsert: true, 
+    new: true
+  })
 }
 
 // find all

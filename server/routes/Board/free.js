@@ -164,6 +164,80 @@ router.delete("/post/:seq", (req, res) => {
 });
 
 /*
+ *    NOTE 게시글 추천
+ *    TYPE : POST
+ *    URI : /api/board/free/post/recommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/recommend/:seq", authMiddleware);
+router.post("/post/recommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  FreeSchema.pushRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} RECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글을 추천하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST RECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
+ *    NOTE 게시글 추천해제
+ *    TYPE : POST
+ *    URI : /api/board/free/post/unrecommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/unrecommend/:seq", authMiddleware);
+router.post("/post/unrecommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  FreeSchema.popRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} UNRECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글 추천을 취소하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST UNRECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
  *    NOTE 댓글쓰기
  *    TYPE : POST
  *    URI : /api/board/free/comment

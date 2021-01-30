@@ -7,7 +7,7 @@ const myLogger = require('../../myLogger');
 const TipSchema = require('../../schemas/Board/TipSchema');
 
 /*
-*    글쓰기
+*    NOTE 글쓰기
 *    TYPE : POST
 *    URI : /api/board/tip/post
 *    HEADER: { "token": token }
@@ -66,7 +66,7 @@ router.post('/post', (req, res) => {
 });
 
 /*
-*    게시글 수정
+*    NOTE 게시글 수정
 *    TYPE : PUT
 *    URI : /api/board/tip/post
 *    HEADER: { "token": token }
@@ -121,7 +121,7 @@ router.put('/post', (req, res) => {
 });
 
 /*
-*    게시글 삭제
+*    NOTE 게시글 삭제
 *    TYPE : DLELTE
 *    URI : /api/board/tip/post/${seq}
 *    HEADER: { "token": token }
@@ -168,7 +168,81 @@ router.delete('/post/:seq', (req, res) => {
 });
 
 /*
-*    댓글쓰기
+ *    NOTE 게시글 추천
+ *    TYPE : POST
+ *    URI : /api/board/tip/post/recommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/recommend/:seq", authMiddleware);
+router.post("/post/recommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  TipSchema.pushRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} RECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글을 추천하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST RECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
+ *    NOTE 게시글 추천해제
+ *    TYPE : POST
+ *    URI : /api/board/tip/post/unrecommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/unrecommend/:seq", authMiddleware);
+router.post("/post/unrecommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  TipSchema.popRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} UNRECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글 추천을 취소하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST UNRECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
+*    NOTE 댓글쓰기
 *    TYPE : POST
 *    URI : /api/board/tip/comment
 *    HEADER: { "token": token }
@@ -223,7 +297,7 @@ router.post('/comment', (req, res) => {
 });
 
 /*
-*    댓글수정
+*    NOTE 댓글수정
 *    TYPE : PUT
 *    URI : /api/board/tip/comment
 *    HEADER: { "token": token }
@@ -264,7 +338,7 @@ router.put('/comment', (req, res) => {
 });
 
 /*
-*    댓글삭제
+*    NOTE 댓글삭제
 *    TYPE : DELETE
 *    URI : /api/board/tip/comment/:postSeq/:commentIdx
 *    HEADER: { "token": token }
@@ -301,7 +375,7 @@ router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
 });
 
 /*
-*    답글쓰기
+*    NOTE 답글쓰기
 *    TYPE : POST
 *    URI : /api/board/tip/recomment
 *    HEADER: { "token": token }
@@ -351,7 +425,7 @@ router.post('/recomment', (req, res) => {
 });
 
 /*
-*    답글수정
+*    NOTE 답글수정
 *    TYPE : PUT
 *    URI : /api/board/tip/recomment
 *    HEADER: { "token": token }
@@ -401,7 +475,7 @@ router.put('/recomment', (req, res) => {
 });
 
 /*
-*    답글삭제
+*    NOTE 답글삭제
 *    TYPE : PUT
 *    URI : /api/board/tip/recomment/:recommentIdx
 *    HEADER: { "token": token }
@@ -451,7 +525,7 @@ router.put('/recomment/:recommentIdx', (req, res) => {
 });
 
 /*
-*    게시글 전체 조회
+*    NOTE 게시글 전체 조회
 *    TYPE : GET
 *    URI : /api/board/tip/find
 *    HEADER: { "token": token }
@@ -501,7 +575,7 @@ router.get('/find', (req, res) => {
 
 
 /*
-*    게시글 조회
+*    NOTE 게시글 조회
 *    TYPE : GET
 *    URI : /api/board/tip/find/:seq
 *    RETURN CODES:

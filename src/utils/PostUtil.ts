@@ -7,7 +7,7 @@ import * as CommonUtil from 'utils/CommonUtil';
 import { CategoryType } from 'interfaces/Board/IPost';
 import IComment from 'interfaces/Board/IComment';
 
-// 게시글 생성
+// NOTE 게시글 생성
 export const CreatePost = async (_category: CategoryType, _title: string, _content: string) => {
   const post: IPost = {
     category: _category,
@@ -43,7 +43,7 @@ export const CreatePost = async (_category: CategoryType, _title: string, _conte
   return res;
 }
 
-// 게시글 수정
+// NOTE 게시글 수정
 export const EditPost = async (_title: string, _content: string, _post?: IPost) => {
   if (_post) {
     const post: IPost = {
@@ -84,7 +84,7 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost) 
   }
 }
 
-// 게시글 삭제
+// NOTE 게시글 삭제
 export const DeletePost = async (_category: CategoryType, _seq: number) => {
   const res = await axios.delete(`/api/board/${_category}/post/${_seq}`, {
     headers: {
@@ -105,7 +105,55 @@ export const DeletePost = async (_category: CategoryType, _seq: number) => {
   return res;
 }
 
-// 댓글 생성
+// NOTE 게시글 추천
+export const RecommendPost = async (_category: CategoryType, _seq: number, _userid: string) => {
+  const res = await axios.post(`/api/board/${_category}/post/recommend/${_seq}`, {
+    seq: _seq,
+    userid: _userid
+  }, {
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    CommonUtil.checkServerError(res.data);
+
+    return res.data;
+  })
+  .catch((e) => {
+    console.log(`RECOMMEND POST ERROR > ${e}`);
+
+    return false;
+  });
+
+  return res;
+}
+
+// NOTE 게시글 추천해제
+export const UnrecommendPost = async (_category: CategoryType, _seq: number, _userid: string) => {
+  const res = await axios.post(`/api/board/${_category}/post/unrecommend/${_seq}`, {
+    seq: _seq,
+    userid: _userid
+  },{
+    headers: {
+      token: CommonUtil.getToken()
+    }
+  })
+  .then((res) => {
+    CommonUtil.checkServerError(res.data);
+
+    return res.data;
+  })
+  .catch((e) => {
+    console.log(`RECOMMEND POST ERROR > ${e}`);
+
+    return false;
+  });
+
+  return res;
+}
+
+// NOTE 댓글 생성
 export const CreateComment = async (post: IPost, _comment: string) => {
   const comment: IComment = {
     idx: post.commentIdx,
@@ -136,7 +184,7 @@ export const CreateComment = async (post: IPost, _comment: string) => {
   return res;
 }
 
-// 댓글 수정 
+// NOTE 댓글 수정 
 export const EditComment = async (post: IPost, comment: IComment) => {
   comment = {
     ...comment,
@@ -165,7 +213,7 @@ export const EditComment = async (post: IPost, comment: IComment) => {
   return res;
 }
 
-// 댓글 삭제
+// NOTE 댓글 삭제
 export const DeleteComment = async (post: IPost, commentIdx: number) => {
   const res = await axios.delete(`/api/board/${post.category}/comment/${post.seq}/${commentIdx}`, {
     headers: {
@@ -186,7 +234,7 @@ export const DeleteComment = async (post: IPost, commentIdx: number) => {
   return res;
 }
 
-// 답글 생성
+// NOTE 답글 생성
 export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomment: string, _recommentIdx?: number) => {
   const comment = post.commentList?.filter((comment) => {
     return comment.idx === _commentIdx;
@@ -223,7 +271,7 @@ export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomme
   return res;
 }
 
-// 답글 수정
+// NOTE 답글 수정
 export const EditRecomment = async (post: IPost, commentIdx: number, comment: IComment, recomment: IComment) => {
   recomment = {
     ...recomment,
@@ -254,7 +302,7 @@ export const EditRecomment = async (post: IPost, commentIdx: number, comment: IC
   return res;
 }
 
-// 답글 삭제
+// NOTE 답글 삭제
 export const DeleteRecomment = async (post: IPost, commentIdx: number, comment: IComment, recommentIdx: number) => {
   const res = await axios.put(`/api/board/${post.category}/recomment/${recommentIdx}`, {
     post: post,
@@ -279,8 +327,7 @@ export const DeleteRecomment = async (post: IPost, commentIdx: number, comment: 
   return res;
 }
 
-
-// 게시글 리스트 조회
+// NOTE 게시글 리스트 조회
 export const getPosts = async (_category: CategoryType, _filterUri?: string) => {
 
   let posts: Array<IPost> = [];
@@ -302,7 +349,7 @@ export const getPosts = async (_category: CategoryType, _filterUri?: string) => 
   return posts;
 }
 
-// 게시글 조회
+// NOTE 게시글 조회
 export const getPost = async (_category: CategoryType, _seq: number) => {
 
   const getUri = `/api/board/${_category}/find/${_seq}`;
@@ -325,7 +372,7 @@ export const getPost = async (_category: CategoryType, _seq: number) => {
 
 
 
-// 게시판 목록 이름 조회
+// NOTE 게시판 목록 이름 조회
 export const getCategoryName = (_category: CategoryType) => {
   switch (_category) {
     case "tip":
@@ -345,7 +392,7 @@ export const getCategoryName = (_category: CategoryType) => {
   }
 }
 
-// 작성자 객체 생성
+// NOTE 작성자 객체 생성
 const getWriter = () => {
   return {
     key: getSignInUserKey(),
