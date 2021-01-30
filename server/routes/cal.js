@@ -130,8 +130,7 @@ router.get("/searchitem", (req, res) => {
  */
 router.get("/searchoption", (req, res) => {
   var filter = {};
-  if(req.query.hasOwnProperty('name') && req.query.name !== "" && req.query.name !== "0")
-    filter['name'] = req.query.name;
+  filter['name'] = req.query.name;
   
   SearchItemSchema.findByFilter(filter)
   .then((items) => {
