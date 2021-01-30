@@ -1,28 +1,28 @@
-import React, { useEffect } from 'react';
-import {useSetRecoilState} from 'recoil';
-import {MyAlertState, MyBackdropState} from 'state/index';
-import {CommentListState} from 'state/index';
+import React, { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { MyAlertState, MyBackdropState } from "state/index";
+import { CommentListState } from "state/index";
 
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
+import SubdirectoryArrowRightIcon from "@material-ui/icons/SubdirectoryArrowRight";
 
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableRow from "@material-ui/core/TableRow";
 
-import IPost from 'interfaces/Board/IPost';
-import IComment from 'interfaces/Board/IComment';
+import IPost from "interfaces/Board/IPost";
+import IComment from "interfaces/Board/IComment";
 
-import { CreateRecomment, DeleteComment, EditComment, EditRecomment, DeleteRecomment } from 'utils/PostUtil';
+import { CreateRecomment, DeleteComment, EditComment, EditRecomment, DeleteRecomment } from "utils/PostUtil";
 
 interface IProps {
-  post: IPost,
-  comment: IComment
+  post: IPost;
+  comment: IComment;
 }
 
 const useStyles = makeStyles(() => ({
@@ -38,12 +38,12 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#d6e0f0",
   },
   commentButton: {
-    spacing: "5"
+    spacing: "5",
   },
   tableButton: {
     flexShrink: 0,
-    width: 'auto'
-  }
+    width: "auto",
+  },
 }));
 
 const duration = 2000;
@@ -57,7 +57,7 @@ function Comment(props: IProps) {
   const { post } = props;
   const [comment, setComment] = React.useState<IComment>(props.comment);
   const [recommentList, setRecommentList] = React.useState<Array<IComment>>([]);
-  
+
   const [editComment, setEditComment] = React.useState("");
   const [editCommentIdx, setEditCommentIdx] = React.useState<number | undefined>(undefined);
 
@@ -73,7 +73,7 @@ function Comment(props: IProps) {
   useEffect(() => {
     setComment({
       ...comment,
-      recommentList: recommentList
+      recommentList: recommentList,
     });
   }, [recommentList]);
 
@@ -82,15 +82,15 @@ function Comment(props: IProps) {
 
     if (post.seq && comment) {
       const res = await CreateRecomment(post, commentIdx, inputRecomment, comment.recommentIdx);
-  
+
       if (res.code === 200) {
         setMyAlert({
           isOpen: true,
           severity: "success",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-  
+
         setMyBackdrop(false);
         setCommentIdx(-1);
         setInputRecomment("");
@@ -100,27 +100,28 @@ function Comment(props: IProps) {
         comment.recommentList = updatedRecommentList;
 
         // setTimeout(() => document.location.reload(), duration);
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-        
-        setTimeout(()=> { setMyBackdrop(false); }, duration);
+
+        setTimeout(() => {
+          setMyBackdrop(false);
+        }, duration);
       }
     }
-  }
+  };
 
   const _onEditComment = async (comment: IComment) => {
     setMyBackdrop(true);
 
     comment = {
       ...comment,
-      message: editComment
-    }
+      message: editComment,
+    };
 
     if (post.seq) {
       const res = await EditComment(post, comment);
@@ -129,26 +130,27 @@ function Comment(props: IProps) {
           isOpen: true,
           severity: "success",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-        
+
         setMyBackdrop(false);
         setEditCommentIdx(undefined);
         setComment(res.comment);
         setCommentList(res.commentList);
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
 
-        setTimeout(()=> { setMyBackdrop(false); }, duration);
+        setTimeout(() => {
+          setMyBackdrop(false);
+        }, duration);
       }
     }
-  }
+  };
 
   const _onDeleteComment = async (commentIdx?: number) => {
     setMyBackdrop(true);
@@ -160,36 +162,37 @@ function Comment(props: IProps) {
           isOpen: true,
           severity: "success",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-  
+
         setMyBackdrop(false);
         // setComment(null);
 
         setCommentList(res.commentList);
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-        
-        setTimeout(()=> { setMyBackdrop(false); }, duration);
+
+        setTimeout(() => {
+          setMyBackdrop(false);
+        }, duration);
       }
     }
-  }
-  
+  };
+
   const _onEditRecomment = async (recomment: IComment) => {
     if (recommentList) {
       setMyBackdrop(true);
-  
+
       recomment = {
         ...recomment,
-        message: editRecomment
-      }
-  
+        message: editRecomment,
+      };
+
       if (comment && comment.idx) {
         const res = await EditRecomment(post, comment.idx, comment, recomment);
         if (res.code === 200) {
@@ -197,28 +200,29 @@ function Comment(props: IProps) {
             isOpen: true,
             severity: "success",
             duration: duration,
-            message: res.message
+            message: res.message,
           });
-          
+
           setMyBackdrop(false);
           setEditRecommentIdx(undefined);
           setRecommentList(res.recommentList);
 
           setCommentList(res.commentList);
-        }
-        else {
+        } else {
           setMyAlert({
             isOpen: true,
             severity: "error",
             duration: duration,
-            message: res.message
+            message: res.message,
           });
-  
-          setTimeout(()=> { setMyBackdrop(false); }, duration);
+
+          setTimeout(() => {
+            setMyBackdrop(false);
+          }, duration);
         }
       }
     }
-  }
+  };
 
   const _onDeleteRecomment = async (commentIdx?: number, recommentIdx?: number) => {
     setMyBackdrop(true);
@@ -230,210 +234,179 @@ function Comment(props: IProps) {
           isOpen: true,
           severity: "success",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-  
+
         setMyBackdrop(false);
-        setRecommentList(res.recommentList)
+        setRecommentList(res.recommentList);
 
         setCommentList(res.commentList);
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
           duration: duration,
-          message: res.message
+          message: res.message,
         });
-        
-        setTimeout(()=> { setMyBackdrop(false); }, duration);
+
+        setTimeout(() => {
+          setMyBackdrop(false);
+        }, duration);
       }
     }
-  }
+  };
 
   return (
-    comment && 
+    comment && (
       <TableContainer key={comment.idx}>
         <TableRow key={comment.idx} className={classes.commentRow}>
-          <TableCell  style={{ width: "20%" }} component="th" scope="row">
-            {comment.writer.id}<br/>
+          <TableCell style={{ width: "15%", padding: "5px 10px" }} component='th' scope='row'>
+            {comment.writer.id}
+            <br />
             {comment.writer.lastEditDateString}
           </TableCell>
-          <TableCell style={{ width: "70%" }}>
-            {
-              editCommentIdx === comment.idx ?
-                <Input
-                  type="text"
-                  id="edit-comment"
-                  className={classes.input}
-                  multiline
-                  fullWidth
-                  rows={4}
-                  placeholder={comment.message}
-                  value={editComment}
-                  onChange={(e) => setEditComment(e.target.value)}
-                />
-              :
-                <Typography>
-                  {comment.message}
-                </Typography>
-            }
+          <TableCell style={{ width: "80%", padding: "5px 10px" }}>
+            {editCommentIdx === comment.idx ? (
+              <TextField
+                id='edit-comment'
+                variant='outlined'
+                className={classes.input}
+                multiline
+                fullWidth
+                rows={4}
+                placeholder={comment.message}
+                value={editComment}
+                onChange={e => setEditComment(e.target.value)}
+              />
+            ) : (
+              <Typography>{comment.message}</Typography>
+            )}
           </TableCell>
-          <TableCell style={{ width: "10%" }} align="right">
-            {
-              editCommentIdx === comment.idx ?
-                <Grid container direction="row"
-                  className={classes.commentButton}>
-                  <Grid item>
-                    <Button
-                      onClick={() => _onEditComment(comment)}>
-                        완료
-                    </Button>
-                  </Grid> 
-                  <Grid item>
-                    <Button
-                      onClick={() => setEditCommentIdx(undefined)}>
-                        취소
-                    </Button>
-                  </Grid> 
+          <TableCell style={{ width: "5%", padding: "5px" }} align='right'>
+            {editCommentIdx === comment.idx ? (
+              <Grid container direction='row' className={classes.commentButton}>
+                <Grid item>
+                  <Button onClick={() => _onEditComment(comment)}>완료</Button>
                 </Grid>
-              :
-                <Grid container direction="row"
-                  className={classes.commentButton}>
-                  <Grid item>
-                    <Button
-                      onClick={() => {
-                        setCommentIdx(comment.idx !== undefined ? comment.idx : -1);
-                      }}>
-                        답글
-                    </Button>
-                  </Grid> 
-                  <Grid item>
-                    <Button
-                      onClick={() => {
-                        setEditRecommentIdx(undefined);
-                        setEditComment(comment.message);
-                        setEditCommentIdx(comment.idx);
-                      }}>
-                        수정
-                    </Button>
-                  </Grid> 
-                  <Grid item>
-                    <Button
-                      onClick={() => _onDeleteComment(comment.idx)}>
-                        삭제
-                    </Button>
-                  </Grid> 
+                <Grid item>
+                  <Button onClick={() => setEditCommentIdx(undefined)}>취소</Button>
                 </Grid>
-            }
+              </Grid>
+            ) : (
+              <Grid container direction='row' className={classes.commentButton}>
+                <Grid item>
+                  <Button
+                    onClick={() => {
+                      setCommentIdx(comment.idx !== undefined ? comment.idx : -1);
+                    }}>
+                    답글
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    onClick={() => {
+                      setEditRecommentIdx(undefined);
+                      setEditComment(comment.message);
+                      setEditCommentIdx(comment.idx);
+                    }}>
+                    수정
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button onClick={() => _onDeleteComment(comment.idx)}>삭제</Button>
+                </Grid>
+              </Grid>
+            )}
           </TableCell>
         </TableRow>
-        {
-          commentIdx === comment.idx &&
-            <TableRow key={comment.idx}>
-              <TableCell  style={{ textAlign: "center", verticalAlign: "middle", margin: "auto", width: "20%" }} component="th" scope="row">
-                <Typography variant="subtitle1">
-                  <SubdirectoryArrowRightIcon/> 답글 달기
-                </Typography>
-              </TableCell>
-              <TableCell style={{ width: "70%" }}>
-                <Input
-                  id="input-recomment"
-                  className={classes.input}
-                  multiline
-                  fullWidth
-                  rows={4}
-                  placeholder="욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다."
-                  value={inputRecomment}
-                  onChange={(e) => setInputRecomment(e.target.value)}
-                />
-              </TableCell>
-              <TableCell style={{ width: "10%" }} align="right">
-                <Button
-                  onClick={_onSubmitRecomment}>
-                    등록
-                </Button>
-                <Button
-                  onClick={() => setCommentIdx(-1)}>
-                    취소
-                </Button>
-              </TableCell>
-            </TableRow>
-        }
-        {
-          recommentList.length > 0 &&
-            recommentList.map((recomment: IComment) => (
-              (recomment.idx !== null && recomment.idx !== undefined) &&
-              <TableRow key={`${comment.idx}-${recomment.idx}`} className={classes.recommentRow}>
-                <TableCell  style={{ width: "20%" }} component="th" scope="row">
-                  {recomment.writer.id}<br/>
-                  {recomment.writer.lastEditDateString}
-                </TableCell>
-                <TableCell style={{ width: "70%" }}>
-                {
-                  editRecommentIdx === recomment.idx ?
-                    <Input
-                      type="text"
-                      id="edit-comment"
-                      className={classes.input}
-                      multiline
-                      fullWidth
-                      rows={4}
-                      placeholder={recomment.message}
-                      value={editRecomment}
-                      onChange={(e) => setEditRecomment(e.target.value)}
-                    />
-                  :
-                    <Typography>
-                      {recomment.message}
-                    </Typography>
-                }
-                </TableCell>
-                <TableCell style={{ width: "10%" }} align="right">
-                {
-                  editRecommentIdx === recomment.idx ?
-                    <Grid container direction="row"
-                      className={classes.commentButton}>
-                      <Grid item>
-                        <Button
-                          onClick={() => _onEditRecomment(recomment)}>
-                            완료
-                        </Button>
-                      </Grid> 
-                      <Grid item>
-                        <Button
-                          onClick={() => setEditRecommentIdx(undefined)}>
-                            취소
-                        </Button>
-                      </Grid> 
-                    </Grid>
-                  :
-                    <Grid container direction="row"
-                      className={classes.commentButton}>
-                      <Grid item>
-                        <Button
-                          onClick={() => {
-                            setEditCommentIdx(undefined);
-                            setEditRecomment(recomment.message);
-                            setEditRecommentIdx(recomment.idx)
-                          }}>
+        {commentIdx === comment.idx && (
+          <TableRow key={comment.idx}>
+            <TableCell style={{ textAlign: "center", verticalAlign: "middle", margin: "auto", width: "20%" }} component='th' scope='row'>
+              <Typography variant='subtitle1'>
+                <SubdirectoryArrowRightIcon /> 답글 달기
+              </Typography>
+            </TableCell>
+            <TableCell style={{ width: "70%" }}>
+              <TextField
+                variant='outlined'
+                id='input-recomment'
+                className={classes.input}
+                multiline
+                fullWidth
+                rows={4}
+                placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
+                value={inputRecomment}
+                onChange={e => setInputRecomment(e.target.value)}
+              />
+            </TableCell>
+            <TableCell style={{ width: "10%" }} align='right'>
+              <Button onClick={_onSubmitRecomment}>등록</Button>
+              <Button onClick={() => setCommentIdx(-1)}>취소</Button>
+            </TableCell>
+          </TableRow>
+        )}
+        {recommentList.length > 0 &&
+          recommentList.map(
+            (recomment: IComment) =>
+              recomment.idx !== null &&
+              recomment.idx !== undefined && (
+                <TableRow key={`${comment.idx}-${recomment.idx}`} className={classes.recommentRow}>
+                  <TableCell style={{ width: "20%" }} component='th' scope='row'>
+                    {recomment.writer.id}
+                    <br />
+                    {recomment.writer.lastEditDateString}
+                  </TableCell>
+                  <TableCell style={{ width: "70%" }}>
+                    {editRecommentIdx === recomment.idx ? (
+                      <TextField
+                        variant='outlined'
+                        id='edit-comment'
+                        className={classes.input}
+                        multiline
+                        fullWidth
+                        rows={4}
+                        placeholder={recomment.message}
+                        value={editRecomment}
+                        onChange={e => setEditRecomment(e.target.value)}
+                      />
+                    ) : (
+                      <Typography>{recomment.message}</Typography>
+                    )}
+                  </TableCell>
+                  <TableCell style={{ width: "10%" }} align='right'>
+                    {editRecommentIdx === recomment.idx ? (
+                      <Grid container direction='row' className={classes.commentButton}>
+                        <Grid item>
+                          <Button onClick={() => _onEditRecomment(recomment)}>완료</Button>
+                        </Grid>
+                        <Grid item>
+                          <Button onClick={() => setEditRecommentIdx(undefined)}>취소</Button>
+                        </Grid>
+                      </Grid>
+                    ) : (
+                      <Grid container direction='row' className={classes.commentButton}>
+                        <Grid item>
+                          <Button
+                            onClick={() => {
+                              setEditCommentIdx(undefined);
+                              setEditRecomment(recomment.message);
+                              setEditRecommentIdx(recomment.idx);
+                            }}>
                             수정
-                        </Button>
-                      </Grid> 
-                      <Grid item>
-                        <Button
-                          onClick={() => _onDeleteRecomment(comment.idx, recomment.idx)}>
-                            삭제
-                        </Button>
-                      </Grid> 
-                    </Grid>
-                } 
-                </TableCell>
-              </TableRow>
-            ))
-        }
+                          </Button>
+                        </Grid>
+                        <Grid item>
+                          <Button onClick={() => _onDeleteRecomment(comment.idx, recomment.idx)}>삭제</Button>
+                        </Grid>
+                      </Grid>
+                    )}
+                  </TableCell>
+                </TableRow>
+              )
+          )}
       </TableContainer>
-  ); 
+    )
+  );
 }
 
 export default Comment;

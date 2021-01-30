@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { CommentListState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import MessageIcon from "@material-ui/icons/Message";
+
+import { MyAlertState } from "state/index";
 
 import IPost from "interfaces/Board/IPost";
 
@@ -32,6 +35,12 @@ const useStyles = makeStyles(theme => ({
     margin: "auto",
     verticalAlign: "middle",
   },
+  btn: {
+    minWidth: "40px",
+    padding: "0",
+    margin: "0 5px",
+    fontSize: "0.8rem",
+  },
 }));
 
 function PostTitle(props: IProps) {
@@ -41,6 +50,25 @@ function PostTitle(props: IProps) {
   const categoryName = getCategoryName(post.category);
   const [count, setCount] = useState(0);
   const [commentList, setCommentList] = useRecoilState(CommentListState);
+
+  const setMyAlert = useSetRecoilState(MyAlertState);
+  const copyUrl = document.location.href;
+
+  const _onCopyUrl = () => {
+    var ta = document.createElement("textarea");
+    ta.value = copyUrl;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+
+    setMyAlert({
+      isOpen: true,
+      severity: "success",
+      duration: 2000,
+      message: "클립보드에 복사되었습니다.",
+    });
+  };
 
   //NOTE 최초 로딩 시
   useEffect(() => {
@@ -85,8 +113,16 @@ function PostTitle(props: IProps) {
           </Typography>
         </Grid>
         <MyGridDivider />
-        <Grid item xs={12}>
-          작성일 : {post.writer.createDateString} / 수정일 : {post.writer.lastEditDateString}
+        <Grid item xs={12} style={{ color: "darkgray", padding: "0 10px", margin: "2px 0" }}>
+          {window.location.href}
+          <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl}>
+            복사
+          </Button>
+          <Typography variant='h6' style={{ margin: "2px 10px", fontSize: "0.8rem", float: "right" }}>
+            {post.writer.createDateString === post.writer.lastEditDateString
+              ? `작성 [${post.writer.createDateString}]`
+              : `작성 [${post.writer.createDateString}] | 수정 [${post.writer.lastEditDateString}]`}
+          </Typography>
         </Grid>
       </Grid>
     </Container>

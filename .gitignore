@@ -1,5 +1,6 @@
 node_modules/
 build/
+
 *.env
 
 /src/conf/mongodb.ts

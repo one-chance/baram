@@ -3,7 +3,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 import Container from "@material-ui/core/Container";
@@ -12,6 +12,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
@@ -110,6 +111,7 @@ function PostWrite(props: IProps) {
   const refTitle = React.useRef<any>();
 
   const [openConfirmCancle, setOpenConfirmCancle] = React.useState(false);
+  const [openPreview, setOpenPreview] = React.useState(false);
   const [category, setCategory] = React.useState<CategoryType>(tab);
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
@@ -137,11 +139,6 @@ function PostWrite(props: IProps) {
         setPost(res);
       }
     }
-  };
-
-  const _onChangeCategory = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setCategory(event.target.value as CategoryType);
-    refTitle.current.focus();
   };
 
   const _onCancle = () => {
@@ -186,7 +183,7 @@ function PostWrite(props: IProps) {
       <Container className={classes.root}>
         <Grid container spacing={1} justify='flex-start' style={{ minWidth: "850px" }}>
           <Grid item xs={3}>
-            <Select variant='outlined' id='category' value={category} onChange={_onChangeCategory} displayEmpty className={classes.selector} disabled={true}>
+            <Select variant='outlined' id='category' value={category} className={classes.selector} disabled={true}>
               <Menus value={"tip"}>팁게시판</Menus>
               <Menus value={"free"}>자유게시판</Menus>
               <Menus value={"screenshot"}>스크린샷게시판</Menus>
@@ -201,13 +198,18 @@ function PostWrite(props: IProps) {
               variant='contained'
               color='secondary'
               onClick={() => setOpenConfirmCancle(true)}
-              style={{ width: "100px", margin: "0 5px", height: "40px" }}>
+              style={{ width: "100px", margin: "0 5px", height: "40px", boxShadow: "none" }}>
               취소
             </Button>
-            <Button variant='outlined' onClick={() => setOpenConfirmCancle(true)} style={{ width: "100px", margin: "0 5px", height: "40px" }}>
+            <Button
+              variant='outlined'
+              onClick={() => {
+                if (title !== "" && content !== "") setOpenPreview(true);
+              }}
+              style={{ width: "100px", margin: "0 5px", height: "40px" }}>
               미리보기
             </Button>
-            <Button variant='contained' color='primary' onClick={_onWrite} style={{ width: "100px", margin: "0 5px", height: "40px" }}>
+            <Button variant='contained' color='primary' onClick={_onWrite} style={{ width: "100px", margin: "0 5px", height: "40px", boxShadow: "none" }}>
               작성
             </Button>
           </Grid>
@@ -235,7 +237,7 @@ function PostWrite(props: IProps) {
                 theme='snow'
                 modules={modules}
                 formats={formats}
-                style={{ height: "350px" }}
+                style={{ height: "400px" }}
                 placeholder='작성할 내용을 입력하세요.'
                 onChange={e => {
                   setContent(e);
@@ -257,6 +259,19 @@ function PostWrite(props: IProps) {
           </Button>
           <Button onClick={_onCancle} color='primary'>
             확인
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openPreview} fullWidth>
+        <DialogTitle style={{ textAlign: "center" }}>{title}</DialogTitle>
+        <DialogContent style={{ padding: "10px" }} dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
+        <DialogActions style={{ padding: "10px" }} disableSpacing={true}>
+          <Button
+            onClick={() => {
+              setOpenPreview(false);
+            }}
+            color='primary'>
+            닫기
           </Button>
         </DialogActions>
       </Dialog>
