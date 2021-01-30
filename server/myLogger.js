@@ -1,5 +1,5 @@
 const myLogger = log => {
-  const dt = new Date().toLocaleString().split(" ├")[0];
+  const dt = new Date();
 
   console.log(`[${dt}] : ${log}`);
 };

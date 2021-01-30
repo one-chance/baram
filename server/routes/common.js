@@ -59,8 +59,8 @@ router.post("/signup", (req, res) => {
   const user = new UserSchema({
     id: req.body.id,
     password: req.body.password,
-    createDateString: new Date().toLocaleString(),
-    editDateString: new Date().toLocaleString(),
+    createDateString: new Date(),
+    editDateString: new Date(),
   });
   const email = req.body.email;
 
@@ -697,7 +697,7 @@ router.put("/reset", (req, res) => {
           password: newPassword.password,
           salt: newPassword.salt,
           isReset: true,
-          editDateString: new Date().toLocaleString()
+          editDateString: new Date()
         };
 
         UserSchema.updateById(id, changePasswordInfo)

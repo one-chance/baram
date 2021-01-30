@@ -334,19 +334,19 @@ export const getPosts = async (_category: CategoryType, _filterUri?: string) => 
 
   // await axios.get(`/api/board/free/find?${filter}`)
   await axios.get(`/api/board/${_category}/find?${_filterUri}`)
-  .then((res) => {
-    if (res.data.code === 200) {
-      posts = Object.setPrototypeOf(res.data.posts, posts);
-    }
-    return true;
-  })
-  .catch((e) => {
-    console.log(`FIND POSTS ERROR > ${e}`);
+    .then((res) => {
+      if (res.data.code === 200) {
+        posts = Object.setPrototypeOf(res.data.posts, posts);
+      }
+      return true;
+    })
+    .catch((e) => {
+      console.log(`FIND POSTS ERROR > ${e}`);
 
-    return false;
-  });
+      return false;
+    });
 
-  return posts;
+    return posts;
 }
 
 // NOTE 게시글 조회
@@ -354,18 +354,18 @@ export const getPost = async (_category: CategoryType, _seq: number) => {
 
   const getUri = `/api/board/${_category}/find/${_seq}`;
   const res = await axios.get(getUri)
-  .then((res) => {
-    if (res.data.code === 200) {
-      return res.data.post as IPost;
-    }
+    .then((res) => {
+      if (res.data.code === 200) {
+        return res.data.post as IPost;
+      }
 
-    return null;
-  })
-  .catch((e) => {
-    console.log(`FIND POST ERROR > ${e}`);
+      return null;
+    })
+    .catch((e) => {
+      console.log(`FIND POST ERROR > ${e}`);
 
-    return null;
-  });
+      return null;
+    });
 
   return res;
 }
@@ -397,7 +397,5 @@ const getWriter = () => {
   return {
     key: getSignInUserKey(),
     id: getSignInUserId(),
-    // createDateString: new Date().toLocaleString(),
-    // lastEditDateString: new Date().toLocaleString(),
   }
 }

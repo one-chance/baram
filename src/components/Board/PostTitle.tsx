@@ -14,6 +14,7 @@ import MessageIcon from "@material-ui/icons/Message";
 import { MyAlertState } from "state/index";
 
 import IPost from "interfaces/Board/IPost";
+import * as CommonUtil from "utils/CommonUtil";
 
 import { getCategoryName } from "utils/PostUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
@@ -119,9 +120,14 @@ function PostTitle(props: IProps) {
             복사
           </Button>
           <Typography variant='h6' style={{ margin: "2px 10px", fontSize: "0.8rem", float: "right" }}>
-            {post.writer.createDateString === post.writer.lastEditDateString
-              ? `작성 [${post.writer.createDateString}]`
-              : `작성 [${post.writer.createDateString}] | 수정 [${post.writer.lastEditDateString}]`}
+            {
+              post.writer.createDateString &&
+                `작성 [${CommonUtil.getStringByDate(post.writer.createDateString)}]`
+            }
+            {
+              post.writer.lastEditDateString &&
+                ` | 수정 [${CommonUtil.getStringByDate(post.writer.lastEditDateString)}]`
+            }
           </Typography>
         </Grid>
       </Grid>

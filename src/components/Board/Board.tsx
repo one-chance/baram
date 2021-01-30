@@ -194,7 +194,7 @@ const Board = (props: IProps, {}) => {
       viewCount: post.viewCount,
       commentCount: post.commentList ? post.commentList.length : 0,
       recommendCount: post.recommendUserList ? post.recommendUserList.length : 0,
-      createDateString: CommonUtil.getDateFromString(post.writer.createDateString),
+      createDateString: CommonUtil.getStringByDate(post.writer.createDateString),
     });
   });
 
