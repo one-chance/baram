@@ -131,7 +131,9 @@ export default function Ability() {
     setOption3(0);
 
     const res = await SearchItemByName(name);
-    setNameList(res);
+    const nl = Array<string>();
+    res.forEach(r => nl.push(r.name));
+    setNameList(nl);
   };
 
   // 리스트 통해서 검색
@@ -143,7 +145,9 @@ export default function Ability() {
     setSearchName1("");
 
     const res = await SearchItemByOption(option1, option2, option3);
-    setNameList(res);
+    const nl = Array<string>();
+    res.forEach(r => nl.push(r.name));
+    setNameList(nl);
   };
 
   // 해당 아이템의 스텟 데이터 불러오기

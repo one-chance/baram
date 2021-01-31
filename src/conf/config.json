@@ -3,6 +3,7 @@
   "baseUrlForMainCarousel": "/assets/img/",
   "baseUrlForAdventureImg": "/assets/img/dictionary/adventure/",
   "baseUrlForExpImg": "/assets/img/calculator/",
+  "baseUrlForItemImg": "/assets/img/dictionary/item/",
   "baseUrlForRaidImg": "/assets/img/dictionary/raid/",
   "baseUrlForPetItemImg": "/assets/img/dictionary/petitem/",
   "baseUrlForFonts": "/assets/fonts/",
