@@ -183,7 +183,7 @@ export default function Header() {
             float: "left",
           }}>
           <Button className={classes.btn} onClick={_onMoveToMain}>
-            Subscribe
+            Home
           </Button>
 
           {signInUserId ? (

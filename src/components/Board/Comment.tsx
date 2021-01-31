@@ -18,6 +18,7 @@ import TableRow from "@material-ui/core/TableRow";
 import IPost from "interfaces/Board/IPost";
 import IComment from "interfaces/Board/IComment";
 
+import * as CommonUtil from "utils/CommonUtil";
 import { CreateRecomment, DeleteComment, EditComment, EditRecomment, DeleteRecomment } from "utils/PostUtil";
 
 interface IProps {
@@ -263,7 +264,7 @@ function Comment(props: IProps) {
           <TableCell style={{ width: "15%", padding: "5px 10px" }} component='th' scope='row'>
             {comment.writer.id}
             <br />
-            {comment.writer.lastEditDateString}
+            {CommonUtil.getStringByDate(comment.writer.lastEditDateString)}
           </TableCell>
           <TableCell style={{ width: "80%", padding: "5px 10px" }}>
             {editCommentIdx === comment.idx ? (
@@ -354,7 +355,7 @@ function Comment(props: IProps) {
                   <TableCell style={{ width: "20%" }} component='th' scope='row'>
                     {recomment.writer.id}
                     <br />
-                    {recomment.writer.lastEditDateString}
+                    {CommonUtil.getStringByDate(recomment.writer.lastEditDateString)}
                   </TableCell>
                   <TableCell style={{ width: "70%" }}>
                     {editRecommentIdx === recomment.idx ? (

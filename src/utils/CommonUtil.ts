@@ -9,7 +9,7 @@ export const checkServerError = (res: any) => {
     delToken();
     setTimeout(() => {
       document.location.href = res.redirectUri
-    }, 5000);
+    }, 2000);
   }
 
   return true;
