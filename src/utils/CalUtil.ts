@@ -23,15 +23,14 @@ export const getItemData = async (_id: string) => {
 * 아이템 이름으로 검색하기
 */
 export const SearchItemByName = async (_name: string) => {
-  var itemNames = Array<string>();
+  var itemNames = Array<IItemInfo>();
   await axios.get('/api/cal/searchitem', {
     params: {
       "name": _name
     }
   })
   .then((res) => {
-    var items = res.data.items as Array<IItemInfo>;
-    items.forEach(item => itemNames.push(item.name));
+    itemNames = res.data.items as Array<IItemInfo>;
 
     return true;
   })
@@ -47,7 +46,7 @@ export const SearchItemByName = async (_name: string) => {
 * 아이템 옵션으로 검색하기
 */
 export const SearchItemByOption = async (_op1: number, _op2: number, _op3: number) => {
-  var itemNames = Array<string>();
+  var itemNames = Array<IItemInfo>();
   await axios.get('/api/cal/searchitem', {
     params: {
       "op1": _op1,
@@ -56,8 +55,7 @@ export const SearchItemByOption = async (_op1: number, _op2: number, _op3: numbe
     }
   })
   .then((res) => {
-    var items = res.data.items as Array<IItemInfo>;
-    items.forEach(item => itemNames.push(item.name));
+    itemNames = res.data.items as Array<IItemInfo>;
 
     return true;
   })

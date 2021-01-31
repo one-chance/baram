@@ -6,16 +6,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Chip from "@material-ui/core/Chip";
 
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-
 import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
+import { getBaseUrlForItemImg } from "utils/ConfigUtil";
+import IItemInfo from "interfaces/Calculator/IItemInfo";
 
 const useStyles = makeStyles(theme => ({
   itemChip: {
@@ -50,21 +46,6 @@ const useStyles = makeStyles(theme => ({
       color: "blue",
     },
   },
-
-  table: {
-    maxWidth: "360px",
-    margin: "10px 50px",
-    borderCollapse: "collapse",
-    "& th, td": {
-      border: "1px solid lightgray",
-      textAlign: "center",
-      fontSize: "1rem",
-      padding: "0",
-    },
-    "& th": {
-      fontWeight: "bold",
-    },
-  },
 }));
 
 const Menus = withStyles({
@@ -76,22 +57,28 @@ const Menus = withStyles({
 
 export default function Item() {
   const classes = useStyles();
+  const baseUrlForItemImg = getBaseUrlForItemImg();
 
   const [searchName1, setSearchName1] = useState(""); // 검색할 장비 이름 (이름용)
-  const [searchName2, setSearchName2] = useState(""); // 검색할 장비 이름 (스탯용)
   const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
   const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
   const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
-  const [nameList, setNameList] = useState<string[]>([""]);
+  //const [nameList, setNameList] = useState<string[]>([""]);
+  const [itemList, setItemList] = useState<Array<IItemInfo>>([]); // 검색된 아이템의 정보
 
-  const itemName = nameList.map(item => (
+  const [selectedImg, setSelectedImg] = useState("empty.png"); // 선택된 이미지 이름
+  const [img1, setImg1] = useState("empty.png");
+  const [img2, setImg2] = useState("empty.png");
+  const [img3, setImg3] = useState("empty.png");
+
+  const itemName = itemList.map(item => (
     <Chip
       className={classes.itemChip}
-      label={item}
-      key={item}
+      label={item.name}
+      key={item.name}
       variant='outlined'
       onClick={() => {
-        loadData(item);
+        setSelectedImg(`${item.idx}.png`);
       }}
     />
   ));
@@ -99,7 +86,6 @@ export default function Item() {
   const inputName = (name: string) => {
     if (name === "") {
       setSearchName1("");
-      setNameList([""]);
     } else {
       setSearchName1(name);
     }
@@ -111,8 +97,16 @@ export default function Item() {
     setOption2(0);
     setOption3(0);
 
+    if (name === "") {
+      setItemList([]);
+      setSelectedImg("empty.png");
+      return;
+    }
+
     const res = await SearchItemByName(name);
-    setNameList(res);
+    const temp = Array<IItemInfo>();
+    res.forEach(r => temp.push(r));
+    setItemList(temp);
   };
 
   // 리스트 통해서 검색
@@ -124,18 +118,45 @@ export default function Item() {
     setSearchName1("");
 
     const res = await SearchItemByOption(option1, option2, option3);
-    setNameList(res);
+    const temp = Array<IItemInfo>();
+    res.forEach(r => temp.push(r));
+    setItemList(temp);
   };
 
-  // 해당 아이템의 스텟 데이터 불러오기
-  const loadData = (name: string) => {
-    setSearchName2(name);
-    console.log(searchName2);
+  const saveImage = (name: string, slot: number) => {
+    switch (slot) {
+      case 1:
+        if (name === img1) {
+          setImg1("empty.png");
+          break;
+        } else {
+          setImg1(name);
+          break;
+        }
+
+      case 2:
+        if (name === img2) {
+          setImg2("empty.png");
+          break;
+        } else {
+          setImg2(name);
+          break;
+        }
+
+      case 3:
+        if (name === img3) {
+          setImg3("empty.png");
+          break;
+        } else {
+          setImg3(name);
+          break;
+        }
+    }
   };
 
   return (
     <React.Fragment>
-      <Grid container spacing={3} style={{ margin: "20px 10px", float: "left" }}>
+      <Grid container spacing={3} style={{ margin: "10px", float: "left" }}>
         <Grid item xs={8} style={{ margin: "0 10px", padding: "10px" }}>
           <Container style={{ margin: "5px 0", padding: "0", float: "left" }}>
             <TextField
@@ -246,59 +267,45 @@ export default function Item() {
               textAlign: "center",
               float: "left",
             }}>
-            {nameList[0] === "" ? "검색 결과가 없습니다." : itemName}
+            {itemList.length === 0 ? "검색 결과가 없습니다." : itemName}
           </Container>
-          <TableContainer style={{ margin: "5px 0 ", padding: "0 5px", textAlign: "center", float: "left" }}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: "50%" }}>종류</TableCell>
-                  <TableCell style={{ width: "50%" }}>수치</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>방어도</TableCell>
-                  <TableCell>0</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>명중률</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>방어구관통</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>방어도무시</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>공격력증가</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>마력증강</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>직타저항</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>대인방어</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>전투력증가</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Container style={{ width: "100%", margin: "0", padding: "10px", textAlign: "center", float: "left" }}>
+            <img src={baseUrlForItemImg + img1} alt='아이템' style={{ margin: "10px" }} />
+            <img src={baseUrlForItemImg + img2} alt='아이템' style={{ margin: "10px" }} />
+            <img src={baseUrlForItemImg + img3} alt='아이템' style={{ margin: "10px" }} />
+          </Container>
         </Grid>
-        <Grid item xs={3} style={{ border: "1px solid", padding: "20px" }}>
-          1
+
+        <Grid item xs={3} style={{ margin: "20px 10px", padding: "5px", textAlign: "center" }}>
+          <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
+          <Container style={{ width: "100%", padding: "0" }}>
+            <ButtonGroup color='primary'>
+              <Button
+                variant='outlined'
+                color={img1 === "empty.png" ? "primary" : "secondary"}
+                onClick={() => {
+                  saveImage(selectedImg, 1);
+                }}>
+                슬롯 1
+              </Button>
+              <Button
+                variant='outlined'
+                color={img2 === "empty.png" ? "primary" : "secondary"}
+                onClick={() => {
+                  saveImage(selectedImg, 2);
+                }}>
+                슬롯 2
+              </Button>
+              <Button
+                variant='outlined'
+                color={img3 === "empty.png" ? "primary" : "secondary"}
+                onClick={() => {
+                  saveImage(selectedImg, 3);
+                }}>
+                슬롯 3
+              </Button>
+            </ButtonGroup>
+          </Container>
         </Grid>
       </Grid>
     </React.Fragment>

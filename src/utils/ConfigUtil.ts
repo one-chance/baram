@@ -18,9 +18,14 @@ export const getBaseUrlForExpImg = () => {
   return config.baseUrlForExpImg;
 };
 
+export const getBaseUrlForItemImg = () => {
+  return config.baseUrlForItemImg;
+};
+
 export const getBaseUrlForRaidImg = () => {
   return config.baseUrlForRaidImg;
 };
+
 
 export const getBaseUrlForPetItemImg = () => {
   return config.baseUrlForPetItemImg;
