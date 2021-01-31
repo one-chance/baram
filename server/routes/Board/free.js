@@ -535,7 +535,6 @@ router.get("/find", (req, res) => {
   if (req.query.title) {
     filter = {
       title: { $regex: req.query.title },
-      // title: new RegExp((req.query.title), "i")
     };
   }
   if (req.query.content) {
@@ -550,10 +549,18 @@ router.get("/find", (req, res) => {
   FreeSchema.findByFilter(filter)
     .then(posts => {
       myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
+      // FIXME 테스트 용으로 게시글 개수 늘리기 위한 자가복제. 메인 페이지 최신 게시글 목록 기능 끝나면 나중에 삭제 할 것.
+      posts = [...posts, ...posts, ... posts, ...posts, ...posts, ...posts, ...posts, ...posts];
+
+      // 최신 조회 개수가 존재하면
+      let postList = req.query.latestCount ?
+          posts.slice(0, req.query.latestCount)
+        : posts;
+
       res.status(200).send({
         code: 200,
         message: "게시글 조회에 성공하였습니다.",
-        posts: posts,
+        posts: postList,
       });
 
       return true;

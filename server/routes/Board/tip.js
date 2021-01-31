@@ -552,25 +552,31 @@ router.get('/find', (req, res) => {
   }
 
   TipSchema.findByFilter(filter)
-  .then((posts) => {
-    myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
-    res.status(200).send({
-      code: 200,
-      message: "게시글 조회에 성공하였습니다.",
-      posts: posts
-    });
+    .then((posts) => {
+      myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
+      
+      // 최신 조회 개수가 존재하면
+      let postList = req.query.latestCount ?
+          posts.slice(0, req.query.latestCount)
+        : posts;
 
-    return true;
-  })
-  .catch((e) => {
-    myLogger(`POST LIST FIND ERROR > ${e}`);
-    res.status(200).send({
-      code: 500,
-      message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
-    });
+      res.status(200).send({
+        code: 200,
+        message: "게시글 조회에 성공하였습니다.",
+        posts: postList
+      });
 
-    return false;
-  })
+      return true;
+    })
+    .catch((e) => {
+      myLogger(`POST LIST FIND ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
+      });
+
+      return false;
+    })
 });
 
 
@@ -588,25 +594,25 @@ router.get('/find/:seq', (req, res) => {
   addViewCount(seq);
 
   TipSchema.findOneBySeq(seq)
-  .then((post) => {
-    myLogger(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
-    res.status(200).send({
-      code: 200,
-      message: "게시글 조회에 성공하였습니다.",
-      post: post
-    });
+    .then((post) => {
+      myLogger(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글 조회에 성공하였습니다.",
+        post: post
+      });
 
-    return true;
-  })
-  .catch((e) => {
-    myLogger(`POST FIND ERROR > ${e}`);
-    res.status(200).send({
-      code: 500,
-      message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
-    });
+      return true;
+    })
+    .catch((e) => {
+      myLogger(`POST FIND ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
+      });
 
-    return false;
-  })
+      return false;
+    });
 });
 
 function addViewCount(seq) {

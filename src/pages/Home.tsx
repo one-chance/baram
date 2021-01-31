@@ -1,32 +1,72 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import IPost from 'interfaces/Board/IPost';
 
 import MainCarousel from 'components/MainCarousel';
+import LatestBoardPaper from 'components/Board/LatestBoardPaper';
 
-interface IProps {
+import {getPosts} from 'utils/PostUtil';
 
+const useStyles = makeStyles(theme => ({
+  secondSection: {
+    marginTop: "50px",
+  },
+}));
+
+const VIEW_COUNT = 5;
+
+const getFree = async () => {
+	return await getPosts('free', `latestCount=${VIEW_COUNT}`);
+}
+const getTip = async () => {
+	return await getPosts('tip', `latestCount=${VIEW_COUNT}`);
 }
 
-interface IState {
-    menu: "menu1" | "menu2"
-}
+const Home = () => {
+	const classes = useStyles();
 
-class Home extends Component <IProps, IState>{
+	const [freePosts, setFreePosts] = React.useState<Array<IPost>>([]);
+	const [tipPosts, setTipPosts] = React.useState<Array<IPost>>([]);
 
-	constructor(props: IProps) {
-		super(props);
+	useEffect(() => {
+		getFree()
+			.then((res) => {
+				setFreePosts(res);
+			})
+			.catch((e) => {
 
-		this.state = {
-			menu: "menu1"
-		}
-	}
+			});
 
-	render(){
-		return(
-			<div>
+		getTip()
+			.then((res) => {
+				setTipPosts(res);
+			})
+			.catch((e) => {
+
+			});
+	}, []);
+
+	return(
+		<Grid container>
+			<Grid item xs={12}>
 				<MainCarousel/>
-			</div>
-		);
-	}
+			</Grid>
+			<Grid container item spacing={3}
+				className={classes.secondSection}>
+				<Grid item xs={6}>
+					<LatestBoardPaper
+						category="free"
+						posts={freePosts}/>
+				</Grid>
+				<Grid item xs={6}>
+					<LatestBoardPaper
+						category="tip"
+						posts={tipPosts}/>
+				</Grid>
+			</Grid>
+		</Grid>
+	);
 }
 
 export default Home;
