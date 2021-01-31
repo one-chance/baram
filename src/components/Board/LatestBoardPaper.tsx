@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
+import Link from '@material-ui/core/Link';
 
 import IPost from 'interfaces/Board/IPost';
 import { CategoryType } from 'interfaces/Board/IPost';
@@ -33,7 +34,9 @@ const LatestBoardPaper = (props: IProps) => {
           posts.length > 0 ?
             posts.map((post: IPost) => (
               <div>
-                {post.title} {post.commentList ? ` (+${post.commentList.length})` : ``}
+                <Link href={`/board/${post.category}/${post.seq}`}>
+                  {post.title} {post.commentList ? ` (+${post.commentList.length})` : ``}
+                </Link>
               </div>
             ))
           :
