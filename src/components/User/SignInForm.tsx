@@ -1,4 +1,6 @@
 import React from "react";
+import { useSetRecoilState } from "recoil";
+import { MyAlertState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -19,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInForm() {
   const classes = useStyles();
+  const setMyAlert = useSetRecoilState(MyAlertState);
 
   const [id, setId] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -53,7 +56,14 @@ export default function SignInForm() {
         document.location.href = "/myinfo/changepassword";
       }
       else {
-        document.location.href = "/";
+        setMyAlert({
+          isOpen: true,
+          severity: "success",
+          duration: 1500,
+          message: `환영합니다, ${id} 님!`,
+        });
+        
+        document.location.reload();
       }
     }
   };
@@ -71,7 +81,7 @@ export default function SignInForm() {
               id="id"
               name="id"
               placeholder="아이디를 입력해주세요."
-              autoComplete="id"
+              autoComplete="bachang-id"
               value={id}
               inputRef={refId}
               onChange={(e) => setId(e.target.value)}
@@ -87,7 +97,7 @@ export default function SignInForm() {
               placeholder="비밀번호를 입력해주세요."
               type="password"
               id="password"
-              autoComplete="current-password"
+              autoComplete="bachang-password"
               value={password}
               inputRef={refPassword}
               onChange={(e) => setPassword(e.target.value)}
