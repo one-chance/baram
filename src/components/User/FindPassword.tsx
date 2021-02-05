@@ -167,7 +167,7 @@ export default function FindPassword() {
           <TextField
             variant='outlined'
             error={id !== "" && checkId === false}
-            helperText={id !== "" && checkId === false ? "아이디에 특수문자가 포함되어 있습니다." : ""}
+            helperText={id !== "" && checkId === false ? "아이디에 한글/특수문자가 포함되어 있습니다." : ""}
             autoFocus
             fullWidth
             required

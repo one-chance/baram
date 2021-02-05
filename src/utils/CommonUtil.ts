@@ -9,7 +9,7 @@ export const checkServerError = (res: any) => {
     delToken();
     setTimeout(() => {
       document.location.href = res.redirectUri
-    }, 5000);
+    }, 2000);
   }
 
   return true;
@@ -32,23 +32,18 @@ export const delToken = () => {
 }
 
 export const refreshToken = () => {
-  console.log('Run refreshToken');
-
   const token = getToken();
   const id = getIdFromToken(token);
   const key = getKeyFromToken(token);
   
   if (token){
-    console.log('check token');
     const res = axios.post('/api/common/refresh', {id: id, key: key, token: token})
       .then((res) => {
         if (res.data.code === 200 && res.data.token) { // 토큰 갱신
-          console.log('refreshed token');
           setToken(res.data.token);
           return true;
         }
         else { // 토큰 만료
-          console.log('invalid token');
           delToken();
           document.location.href = '/signin';
 
@@ -56,7 +51,6 @@ export const refreshToken = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
         delToken();
         document.location.href = '/signin';
         
@@ -119,11 +113,19 @@ export const getNowKey = () => {
   return getKeyFromToken(getToken());
 }
 
-export const getDateFromString = (dateString: string | undefined) => {
-  if (!dateString) return "Unknown Date";
+export const getStringByDate = (date: Date | undefined) => {
+  if (!date) return "Unknown Date";
+  
+  const dt = new Date(date);
 
-  const date = dateString.split(' ');
-  return date[0];
+  let d: string = dt.getFullYear().toString();
+  d += dt.getMonth()+1 < 10 ? `.0${dt.getMonth()+1}` : `.${dt.getMonth()+1}`;
+  d += dt.getDate() < 10 ? `.0${dt.getDate()}` : `.${dt.getDate()}`;
+
+  let t: string = dt.getHours() < 10 ? `0${dt.getHours()}` : `${dt.getHours()}`;
+  t += dt.getMinutes() < 10 ? `:0${dt.getMinutes()}` : `:${dt.getMinutes()}`;
+
+  return `${d} ${t}`;
 }
 
 // 이미지 포함여부를 확인하여 있을 경우 S3에 업로드 처리

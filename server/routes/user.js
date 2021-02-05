@@ -102,7 +102,7 @@ router.put('/auth', (req, res) => {
   const accountInfo = {
     server: req.body.server,
     character: req.body.character,
-    authDateString: new Date().toLocaleString()
+    authDateString: new Date()
   };
 
   // Exist Check
@@ -170,7 +170,7 @@ router.put('/info', (req, res) => {
   const id = req.body.id;
   const editedUserInfo = {
     openKakao: req.body.openKakao,
-    editDateString: new Date().toLocaleString()
+    editDateString: new Date()
   }
 
   UserInfoSchema.updateById(id, editedUserInfo)
@@ -270,7 +270,7 @@ router.put('/titleaccount', (req, res) => {
     server: req.body.server,
     character: req.body.character,
   }
-  const editDateString = new Date().toLocaleString();
+  const editDateString = new Date();
   
   UserInfoSchema.updateById(id, {titleAccount: titleAccountInfo, editDateString: editDateString})
     .then((updatedUserInfo) => {
@@ -339,7 +339,7 @@ router.put('/password', (req, res) => {
         password: newPassword.password,
         salt: newPassword.salt,
         isReset: false,
-        editDateString: new Date().toLocaleString()
+        editDateString: new Date()
       };
 
       UserSchema.updateById(id, changePasswordInfo)

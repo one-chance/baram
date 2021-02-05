@@ -23,8 +23,8 @@ router.post("/post", (req, res) => {
     ...req.body.post,
     writer: {
       ...req.body.post.writer,
-      createDateString: new Date().toLocaleString().split(" ├")[0],
-      lastEditDateString: new Date().toLocaleString().split(" ├")[0],
+      createDateString: new Date(),
+      lastEditDateString: new Date(),
     },
   });
 
@@ -80,7 +80,7 @@ router.put("/post", (req, res) => {
     ...req.body.post,
     writer: {
       ...req.body.post.writer,
-      lastEditDateString: new Date().toLocaleString().split(" ├")[0],
+      lastEditDateString: new Date()
     },
   };
 
@@ -164,6 +164,80 @@ router.delete("/post/:seq", (req, res) => {
 });
 
 /*
+ *    NOTE 게시글 추천
+ *    TYPE : POST
+ *    URI : /api/board/free/post/recommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/recommend/:seq", authMiddleware);
+router.post("/post/recommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  FreeSchema.pushRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} RECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글을 추천하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST RECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
+ *    NOTE 게시글 추천해제
+ *    TYPE : POST
+ *    URI : /api/board/free/post/unrecommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/unrecommend/:seq", authMiddleware);
+router.post("/post/unrecommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  FreeSchema.popRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} UNRECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글 추천을 취소하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST UNRECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
  *    NOTE 댓글쓰기
  *    TYPE : POST
  *    URI : /api/board/free/comment
@@ -180,8 +254,8 @@ router.post("/comment", (req, res) => {
   const commentIdx = req.body.commentIdx;
   const comment = Object.assign(req.body.comment, { idx: commentIdx });
 
-  comment.writer.createDateString = new Date().toLocaleString().split(" ├")[0];
-  comment.writer.lastEditDateString = new Date().toLocaleString().split(" ├")[0];
+  comment.writer.createDateString = new Date();
+  comment.writer.lastEditDateString = new Date();
 
   if (!comment.writer.id || !comment.writer.key) {
     myLogger(`[ERROR] : COMMENT CREATED ERROR - NOT FOUND USER INFORMATION`);
@@ -233,7 +307,7 @@ router.use("/comment", authMiddleware);
 router.put("/comment", (req, res) => {
   const post = req.body.post;
   const comment = req.body.comment;
-  comment.writer.lastEditDateString = new Date().toLocaleString().split(" ├")[0];
+  comment.writer.lastEditDateString = new Date();
 
   FreeSchema.updateComment(post.seq, comment)
     .then(post => {
@@ -313,8 +387,8 @@ router.post("/recomment", (req, res) => {
   const recommentIdx = req.body.recommentIdx;
   // const recomment = req.body.recomment;
   const recomment = Object.assign(req.body.recomment, { idx: recommentIdx });
-  recomment.writer.createDateString = new Date().toLocaleString().split(" ├")[0];
-  recomment.writer.lastEditDateString = new Date().toLocaleString().split(" ├")[0];
+  recomment.writer.createDateString = new Date();
+  recomment.writer.lastEditDateString = new Date();
 
   FreeSchema.createRecomment(seq, commentIdx, recomment)
     .then(post => {
@@ -363,7 +437,7 @@ router.put("/recomment", (req, res) => {
   const commentIdx = req.body.commentIdx;
   const comment = req.body.comment;
   const recomment = req.body.recomment;
-  recomment.writer.lastEditDateString = new Date().toLocaleString().split(" ├")[0];
+  recomment.writer.lastEditDateString = new Date();
 
   comment.recommentList.map((rec, idx) => {
     if (rec.idx === recomment.idx) {
@@ -461,7 +535,6 @@ router.get("/find", (req, res) => {
   if (req.query.title) {
     filter = {
       title: { $regex: req.query.title },
-      // title: new RegExp((req.query.title), "i")
     };
   }
   if (req.query.content) {
@@ -476,10 +549,18 @@ router.get("/find", (req, res) => {
   FreeSchema.findByFilter(filter)
     .then(posts => {
       myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
+      // FIXME 테스트 용으로 게시글 개수 늘리기 위한 자가복제. 메인 페이지 최신 게시글 목록 기능 끝나면 나중에 삭제 할 것.
+      posts = [...posts, ...posts, ... posts, ...posts, ...posts, ...posts, ...posts, ...posts];
+
+      // 최신 조회 개수가 존재하면
+      let postList = req.query.latestCount ?
+          posts.slice(0, req.query.latestCount)
+        : posts;
+
       res.status(200).send({
         code: 200,
         message: "게시글 조회에 성공하였습니다.",
-        posts: posts,
+        posts: postList,
       });
 
       return true;

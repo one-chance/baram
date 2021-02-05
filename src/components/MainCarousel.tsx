@@ -1,28 +1,25 @@
-import React from 'react';
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 import Carousel from "react-slick";
-import { getBaseUrlForMainCarousel } from 'utils/ConfigUtil';
+import { getBaseUrlForMainCarousel } from "utils/ConfigUtil";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
-    padding: "5 0",
+    padding: "5px 0",
     width: "100%",
     height: "auto",
-    marginLeft: "auto !important",
-    marginRight: "auto !important",
+    margin: "20px 0",
   },
   gridContainer: {
-    marginTop: "15px",
-    marginRight: "-15px",
-    marginLeft: "-15px",
-    width: "auto"
+    width: "auto",
+    margin: "0",
   },
   cardCarousel: {
     border: "0",
@@ -31,15 +28,14 @@ const useStyles = makeStyles((theme) => ({
     background: "#fff",
     width: "100%",
     maxHeight: "300px",
-    boxShadow:
-      "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
+    boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
     position: "relative",
     display: "flex",
     flexDirection: "column",
     minWidth: "0",
     wordWrap: "break-word",
     transition: "all 300ms linear",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   gridItem: {
     position: "relative",
@@ -51,15 +47,14 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     alignItems: "center",
     verticalAlign: "middle",
-  }
+  },
 }));
 
 function NextArrow(props: any) {
   const { onClick } = props;
   return (
-    <IconButton
-      onClick={onClick}>
-        <ArrowForwardIosIcon/>
+    <IconButton onClick={onClick}>
+      <ArrowForwardIosIcon />
     </IconButton>
   );
 }
@@ -67,9 +62,8 @@ function NextArrow(props: any) {
 function PrevArrow(props: any) {
   const { onClick } = props;
   return (
-    <IconButton
-      onClick={onClick}>
-        <ArrowBackIosIcon/>
+    <IconButton onClick={onClick}>
+      <ArrowBackIosIcon />
     </IconButton>
   );
 }
@@ -86,7 +80,7 @@ export default function MainCarousel() {
     slidesToShow: 1,
     slidesToScroll: 1,
     NextArrow: <NextArrow />,
-    PrevArrow: <PrevArrow />
+    PrevArrow: <PrevArrow />,
   };
 
   const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
@@ -100,31 +94,25 @@ export default function MainCarousel() {
   images.push("bg3.jpg");
 
   return (
-    <Container
-      className={classes.container}>
+    <Container className={classes.container}>
       <Grid container className={classes.gridContainer}>
         <Grid item xs={1} className={classes.btnMove}>
-          <IconButton
-            onClick={() => refCarousel.current?.slickPrev()}>
-              <ArrowBackIosIcon/>
+          <IconButton onClick={() => refCarousel.current?.slickPrev()}>
+            <ArrowBackIosIcon />
           </IconButton>
         </Grid>
         <Grid item xs={10} className={classes.gridItem}>
-            <Carousel ref={refCarousel}
-              {...settings}>
-              {
-                images.map((image, i) => (
-                  <Card className={classes.cardCarousel} key={image}>
-                      <img src={baseUrlForMainCarousel + image} alt={"slide_" + i} className="slick-image" />
-                  </Card>
-                ))
-              }
-            </Carousel>
+          <Carousel ref={refCarousel} {...settings}>
+            {images.map((image, i) => (
+              <Card className={classes.cardCarousel} key={image}>
+                <img src={baseUrlForMainCarousel + image} alt={"slide_" + i} className='slick-image' />
+              </Card>
+            ))}
+          </Carousel>
         </Grid>
         <Grid item xs={1} className={classes.btnMove}>
-          <IconButton
-            onClick={() => refCarousel.current?.slickNext()}>
-              <ArrowForwardIosIcon/>
+          <IconButton onClick={() => refCarousel.current?.slickNext()}>
+            <ArrowForwardIosIcon />
           </IconButton>
         </Grid>
       </Grid>

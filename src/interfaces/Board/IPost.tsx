@@ -18,6 +18,7 @@ interface IPost {
   viewCount?: number,
   commentIdx?: number,
   commentList?: Array<IComment>,
+  recommendUserList?: Array<string>,
   imgs?: Array<string>
 }
 

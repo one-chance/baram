@@ -1,32 +1,85 @@
-import React, {Component} from 'react';
+import React, { useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import IPost from "interfaces/Board/IPost";
+import Button from "@material-ui/core/Button";
+import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
 
-import MainCarousel from 'components/MainCarousel';
+import MainCarousel from "components/MainCarousel";
+import LatestBoardPaper from "components/Board/LatestBoardPaper";
 
-interface IProps {
+import { getPosts } from "utils/PostUtil";
 
-}
+const useStyles = makeStyles(theme => ({
+  secondSection: {
+    width: "80%",
+    margin: "20px 10%",
+    border: "1px solid lightgray",
+    borderRadius: "10px",
+    float: "left",
+  },
+}));
 
-interface IState {
-    menu: "menu1" | "menu2"
-}
+const VIEW_COUNT = 5;
 
-class Home extends Component <IProps, IState>{
+const getFree = async () => {
+  return await getPosts("free", `latestCount=${VIEW_COUNT}`);
+};
+const getTip = async () => {
+  return await getPosts("tip", `latestCount=${VIEW_COUNT}`);
+};
 
-	constructor(props: IProps) {
-		super(props);
+const Home = () => {
+  const classes = useStyles();
 
-		this.state = {
-			menu: "menu1"
-		}
-	}
+  const [freePosts, setFreePosts] = React.useState<Array<IPost>>([]);
+  const [tipPosts, setTipPosts] = React.useState<Array<IPost>>([]);
 
-	render(){
-		return(
-			<div>
-				<MainCarousel/>
-			</div>
-		);
-	}
-}
+  useEffect(() => {
+    getFree()
+      .then(res => {
+        setFreePosts(res);
+      })
+      .catch(e => {});
+
+    getTip()
+      .then(res => {
+        setTipPosts(res);
+      })
+      .catch(e => {});
+  }, []);
+
+  return (
+    <Grid>
+      <Grid item xs={12} style={{ float: "left" }}>
+        <MainCarousel />
+      </Grid>
+
+      <Grid container item spacing={1} className={classes.secondSection}>
+        <Grid item xs={3} style={{ padding: "5px" }}>
+          <LatestBoardPaper category='free' posts={freePosts} />
+        </Grid>
+        <Grid item xs={3} style={{ padding: "5px" }}>
+          <LatestBoardPaper category='tip' posts={tipPosts} />
+        </Grid>
+        <Grid item xs={6} style={{ padding: "5px" }}>
+          <div style={{ margin: "10px", float: "left" }}>
+            <Button variant='outlined'>
+              <PriorityHighIcon />
+            </Button>
+            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공지사항</h5>
+          </div>
+          <div style={{ margin: "10px", float: "left" }}>
+            <Button variant='outlined'>
+              <MailOutlineIcon />
+            </Button>
+            <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
+          </div>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
 
 export default Home;

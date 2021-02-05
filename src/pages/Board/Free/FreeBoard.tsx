@@ -14,7 +14,8 @@ const nowCategory = "free";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "30px",
+    margin: "0 0 15px 0",
+    float: "left",
   },
 }));
 

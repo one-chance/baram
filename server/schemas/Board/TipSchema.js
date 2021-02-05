@@ -5,8 +5,8 @@ autoIncrement.initialize(mongoose.connection);
 const writerSchema = new mongoose.Schema({
   key: { type: Number },
   id: { type: String },
-  createDateString: { type: String, required: false },
-  lastEditDateString: { type: String, required: false }
+  createDateString: { type: Date, required: false },
+  lastEditDateString: { type: Date, required: false }
 });
 
 const commentSchema = new mongoose.Schema({
@@ -29,7 +29,9 @@ const tipSchema = new mongoose.Schema({
   writer: { type: writerSchema, required: false },
   viewCount: { type: Number, required: false, default: 0},
   commentIdx: { type: Number, required: false, default: 0},
-  commentList: [{ type: commentSchema, required: false, unique: false }]
+  commentList: [{ type: commentSchema, required: false, unique: false }],
+  recommendUserList: [{ type: String, required: false }],
+  imgs: [{type: String}]
 });
 
 tipSchema.plugin(autoIncrement.plugin, {
@@ -68,6 +70,32 @@ tipSchema.statics.addViewCount = function (seq) {
   }, { 
     $inc: {viewCount: 1} 
   });
+}
+
+// recommend
+tipSchema.statics.pushRecommendUser = function (seq, userid) {
+  return this.findOneAndUpdate({
+    seq: seq
+  }, { 
+    $push: { 
+      recommendUserList: userid } 
+  }, { 
+    upsert: true, 
+    new: true
+  });
+}
+// unRecommend
+tipSchema.statics.popRecommendUser = function (seq, userid) {
+  return this.findOneAndUpdate({
+    seq: seq,
+  }, {
+    $pull: {
+      recommendUserList: userid
+    }
+  }, {
+    upsert: true, 
+    new: true
+  })
 }
 
 // find all

@@ -7,7 +7,7 @@ const myLogger = require('../../myLogger');
 const TipSchema = require('../../schemas/Board/TipSchema');
 
 /*
-*    글쓰기
+*    NOTE 글쓰기
 *    TYPE : POST
 *    URI : /api/board/tip/post
 *    HEADER: { "token": token }
@@ -25,8 +25,8 @@ router.post('/post', (req, res) => {
     content: req.body.post.content,
     writer: {
       ...req.body.post.writer,
-      createDateString: new Date().toLocaleString(),
-      lastEditDateString: new Date().toLocaleString()
+      createDateString: new Date(),
+      lastEditDateString: new Date()
     }
   });
   
@@ -66,7 +66,7 @@ router.post('/post', (req, res) => {
 });
 
 /*
-*    게시글 수정
+*    NOTE 게시글 수정
 *    TYPE : PUT
 *    URI : /api/board/tip/post
 *    HEADER: { "token": token }
@@ -82,7 +82,7 @@ router.put('/post', (req, res) => {
     ...req.body.post,
     writer: {
       ...req.body.post.writer,
-      lastEditDateString: new Date().toLocaleString()
+      lastEditDateString: new Date()
     }
   };
   
@@ -121,7 +121,7 @@ router.put('/post', (req, res) => {
 });
 
 /*
-*    게시글 삭제
+*    NOTE 게시글 삭제
 *    TYPE : DLELTE
 *    URI : /api/board/tip/post/${seq}
 *    HEADER: { "token": token }
@@ -168,7 +168,81 @@ router.delete('/post/:seq', (req, res) => {
 });
 
 /*
-*    댓글쓰기
+ *    NOTE 게시글 추천
+ *    TYPE : POST
+ *    URI : /api/board/tip/post/recommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/recommend/:seq", authMiddleware);
+router.post("/post/recommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  TipSchema.pushRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} RECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글을 추천하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST RECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
+ *    NOTE 게시글 추천해제
+ *    TYPE : POST
+ *    URI : /api/board/tip/post/unrecommend/
+ *    HEADER: { "token": token }
+ * *    BODY: { "seq", "userid" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.use("/post/unrecommend/:seq", authMiddleware);
+router.post("/post/unrecommend/:seq", (req, res) => {
+  const seq = req.body.seq;
+  const userid = req.body.userid;
+
+  TipSchema.popRecommendUser(seq, userid)
+    .then(() => {
+      myLogger(`[SUCCESS] : POST ${seq} UNRECOMMNED SUCCESS BY ${userid}`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글 추천을 취소하였습니다.",
+      });
+
+      return true;
+    })
+    .catch(e => {
+      myLogger(`POST UNRECOMMEND ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    });
+});
+
+/*
+*    NOTE 댓글쓰기
 *    TYPE : POST
 *    URI : /api/board/tip/comment
 *    HEADER: { "token": token }
@@ -184,8 +258,8 @@ router.post('/comment', (req, res) => {
   const commentIdx = req.body.commentIdx;
   const comment = Object.assign(req.body.comment, {idx: commentIdx});
 
-  comment.writer.createDateString = new Date().toLocaleString();
-  comment.writer.lastEditDateString = new Date().toLocaleString();
+  comment.writer.createDateString = new Date();
+  comment.writer.lastEditDateString = new Date();
 
   if ( !comment.writer.id || !comment.writer.key ) {
     myLogger(`[ERROR] : COMMENT CREATED ERROR - NOT FOUND USER INFORMATION`);
@@ -223,7 +297,7 @@ router.post('/comment', (req, res) => {
 });
 
 /*
-*    댓글수정
+*    NOTE 댓글수정
 *    TYPE : PUT
 *    URI : /api/board/tip/comment
 *    HEADER: { "token": token }
@@ -237,7 +311,7 @@ router.use('/comment', authMiddleware);
 router.put('/comment', (req, res) => {
   const post =  req.body.post;
   const comment = req.body.comment;
-  comment.writer.lastEditDateString = new Date().toLocaleString();
+  comment.writer.lastEditDateString = new Date();
 
   TipSchema.updateComment(post.seq, comment)
   .then((post) => {
@@ -264,7 +338,7 @@ router.put('/comment', (req, res) => {
 });
 
 /*
-*    댓글삭제
+*    NOTE 댓글삭제
 *    TYPE : DELETE
 *    URI : /api/board/tip/comment/:postSeq/:commentIdx
 *    HEADER: { "token": token }
@@ -301,7 +375,7 @@ router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
 });
 
 /*
-*    답글쓰기
+*    NOTE 답글쓰기
 *    TYPE : POST
 *    URI : /api/board/tip/recomment
 *    HEADER: { "token": token }
@@ -317,8 +391,8 @@ router.post('/recomment', (req, res) => {
   const recommentIdx = req.body.recommentIdx;
   // const recomment = req.body.recomment;
   const recomment = Object.assign(req.body.recomment, {idx: recommentIdx});
-  recomment.writer.createDateString = new Date().toLocaleString();
-  recomment.writer.lastEditDateString = new Date().toLocaleString();
+  recomment.writer.createDateString = new Date();
+  recomment.writer.lastEditDateString = new Date();
   
   TipSchema.createRecomment(seq, commentIdx, recomment)
   .then((post) => {
@@ -351,7 +425,7 @@ router.post('/recomment', (req, res) => {
 });
 
 /*
-*    답글수정
+*    NOTE 답글수정
 *    TYPE : PUT
 *    URI : /api/board/tip/recomment
 *    HEADER: { "token": token }
@@ -367,7 +441,7 @@ router.put('/recomment', (req, res) => {
   const commentIdx = req.body.commentIdx;
   const comment = req.body.comment;
   const recomment = req.body.recomment;
-  recomment.writer.lastEditDateString = new Date().toLocaleString();
+  recomment.writer.lastEditDateString = new Date();
 
   comment.recommentList.map((rec, idx) => {
     if (rec.idx === recomment.idx) {
@@ -401,7 +475,7 @@ router.put('/recomment', (req, res) => {
 });
 
 /*
-*    답글삭제
+*    NOTE 답글삭제
 *    TYPE : PUT
 *    URI : /api/board/tip/recomment/:recommentIdx
 *    HEADER: { "token": token }
@@ -451,7 +525,7 @@ router.put('/recomment/:recommentIdx', (req, res) => {
 });
 
 /*
-*    게시글 전체 조회
+*    NOTE 게시글 전체 조회
 *    TYPE : GET
 *    URI : /api/board/tip/find
 *    HEADER: { "token": token }
@@ -478,30 +552,36 @@ router.get('/find', (req, res) => {
   }
 
   TipSchema.findByFilter(filter)
-  .then((posts) => {
-    myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
-    res.status(200).send({
-      code: 200,
-      message: "게시글 조회에 성공하였습니다.",
-      posts: posts
-    });
+    .then((posts) => {
+      myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
+      
+      // 최신 조회 개수가 존재하면
+      let postList = req.query.latestCount ?
+          posts.slice(0, req.query.latestCount)
+        : posts;
 
-    return true;
-  })
-  .catch((e) => {
-    myLogger(`POST LIST FIND ERROR > ${e}`);
-    res.status(200).send({
-      code: 500,
-      message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
-    });
+      res.status(200).send({
+        code: 200,
+        message: "게시글 조회에 성공하였습니다.",
+        posts: postList
+      });
 
-    return false;
-  })
+      return true;
+    })
+    .catch((e) => {
+      myLogger(`POST LIST FIND ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
+      });
+
+      return false;
+    })
 });
 
 
 /*
-*    게시글 조회
+*    NOTE 게시글 조회
 *    TYPE : GET
 *    URI : /api/board/tip/find/:seq
 *    RETURN CODES:
@@ -514,25 +594,25 @@ router.get('/find/:seq', (req, res) => {
   addViewCount(seq);
 
   TipSchema.findOneBySeq(seq)
-  .then((post) => {
-    myLogger(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
-    res.status(200).send({
-      code: 200,
-      message: "게시글 조회에 성공하였습니다.",
-      post: post
-    });
+    .then((post) => {
+      myLogger(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
+      res.status(200).send({
+        code: 200,
+        message: "게시글 조회에 성공하였습니다.",
+        post: post
+      });
 
-    return true;
-  })
-  .catch((e) => {
-    myLogger(`POST FIND ERROR > ${e}`);
-    res.status(200).send({
-      code: 500,
-      message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
-    });
+      return true;
+    })
+    .catch((e) => {
+      myLogger(`POST FIND ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
+      });
 
-    return false;
-  })
+      return false;
+    });
 });
 
 function addViewCount(seq) {

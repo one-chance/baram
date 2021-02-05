@@ -134,7 +134,7 @@ function PostComment(props: IProps) {
 
   return (
     <Container className={classes.root}>
-      <Grid container item xs={12} spacing={2}>
+      <Grid container item xs={12}>
         <Grid container item xs={12}>
           <Grid item xs={11}>
             <TextField

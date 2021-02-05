@@ -1,26 +1,24 @@
-import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState } from "state/index";
 
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 
-import { FindIdByEmail } from 'utils/CommonUtil';
+import { FindIdByEmail } from "utils/CommonUtil";
 
-const useStyles = makeStyles((theme) => ({
-}));
+const useStyles = makeStyles(theme => ({}));
 const duration = 2000;
 
 export default function FindId() {
   const classes = useStyles();
 
   const setMyAlert = useSetRecoilState(MyAlertState);
-  
+
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
   const [checkEmail, setCheckEmail] = useState(false);
@@ -44,7 +42,7 @@ export default function FindId() {
 
   const _onFindId = async () => {
     const res = await FindIdByEmail(email);
-    if (res.result === 'success') {
+    if (res.result === "success") {
       setMyAlert({
         isOpen: true,
         severity: "success",
@@ -53,8 +51,7 @@ export default function FindId() {
       });
 
       setId(res.id);
-    }
-    else {
+    } else {
       setMyAlert({
         isOpen: true,
         severity: "error",
@@ -64,11 +61,11 @@ export default function FindId() {
 
       setId("");
     }
-  }
+  };
 
   return (
     <React.Fragment>
-			<Container component="main" maxWidth="xs">
+      <Container component='main' maxWidth='xs'>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -77,20 +74,20 @@ export default function FindId() {
               variant='outlined'
               required
               name='email'
-              placeholder='가입한 이메일 주소'
               id='email'
               type='email'
+              label='이메일 주소'
               value={email || ""}
               onChange={e => verifyEmail(e.target.value)}
               inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-              style={{ width: "300px", margin: "0 5px" }}
+              style={{ width: "300px", margin: "0 5px", paddingTop: "8px 0" }}
             />
           </Grid>
           <Grid item xs={12}>
             <Button
               variant='contained'
               fullWidth
-              color="primary"
+              color='primary'
               style={{ width: "300px", margin: "0 5px" }}
               disabled={!checkEmail}
               onClick={() => {
@@ -99,17 +96,17 @@ export default function FindId() {
               아이디 찾기
             </Button>
           </Grid>
-          {
-            id &&
-              <Grid item xs={12}>
-                <Typography>
-                  가입한 ID 정보를 찾았습니다.<br/>
-                  <b>{id}</b>
-                </Typography>
-              </Grid>
-          }
-      </Grid>
-			</Container>
+          {id && (
+            <Grid item xs={12}>
+              <Typography>
+                가입한 ID 정보를 찾았습니다.
+                <br />
+                <b>{id}</b>
+              </Typography>
+            </Grid>
+          )}
+        </Grid>
+      </Container>
     </React.Fragment>
   );
 }
