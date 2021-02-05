@@ -76,8 +76,7 @@ export default function SignUp(props: IProps) {
     if (isNewId) {
       // ID 고정
       setIsConfirmId(true);
-    }
-    else {
+    } else {
       if (res.code === 200 && id !== "") {
         setMyAlert({
           isOpen: true,
@@ -110,7 +109,7 @@ export default function SignUp(props: IProps) {
       refId.current.focus();
       return 0;
     }
-    
+
     if (!isVerifiedEmail) {
       setMyAlert({
         isOpen: true,
@@ -225,10 +224,9 @@ export default function SignUp(props: IProps) {
   };
 
   const _onSendEmail = async () => {
-
     // 인증 이메일 전송
     const res = await sendVerifyEmail(email);
-    if (res.result === 'success') {
+    if (res.result === "success") {
       setMyAlert({
         isOpen: true,
         severity: "success",
@@ -237,19 +235,17 @@ export default function SignUp(props: IProps) {
       });
       setEmailCode("");
       refEmailCode.current.focus();
-    }
-    else {
+    } else {
       setMyAlert({
         isOpen: true,
         severity: "error",
         duration: duration,
         message: res.message,
       });
-    }    
-  }
+    }
+  };
   const _onCheckEmail = async () => {
     if (emailCode) {
-
       // 인증번호 확인
       const res = await checkVerifyEmail(email, emailCode);
       if (res) {
@@ -261,8 +257,7 @@ export default function SignUp(props: IProps) {
         });
 
         setIsVerifiedEmail(true);
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
@@ -273,7 +268,7 @@ export default function SignUp(props: IProps) {
         setIsVerifiedEmail(false);
       }
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -285,7 +280,7 @@ export default function SignUp(props: IProps) {
           <TextField
             variant='outlined'
             error={id !== "" && checkId === false}
-            helperText={id !== "" && checkId === false ? "아이디에 특수문자가 포함되어 있습니다." : ""}
+            helperText={id !== "" && checkId === false ? "아이디에 한글/특수문자가 포함되어 있습니다." : ""}
             autoFocus
             required
             id='id'
@@ -377,13 +372,10 @@ export default function SignUp(props: IProps) {
             className={classes.checkButton}
             style={{ width: "90px", height: "40px", margin: "0 5px", padding: "5px" }}
             onClick={() => _onSendEmail()}>
-              {
-                emailCode === undefined ?
-                  "전송" : "재전송"
-              }
+            {emailCode === undefined ? "전송" : "재전송"}
           </Button>
         </Container>
-        { emailCode !== undefined &&
+        {emailCode !== undefined && (
           <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
             <TextField
               error={email !== "" && checkEmail === false}
@@ -407,10 +399,10 @@ export default function SignUp(props: IProps) {
               className={classes.checkButton}
               style={{ width: "90px", height: "40px", margin: "0 5px", padding: "5px" }}
               onClick={() => _onCheckEmail()}>
-                인증
+              인증
             </Button>
           </Container>
-        }
+        )}
         <Grid item xs={12}>
           <Grid item xs={12}>
             <Typography>인증방식 설명</Typography>
@@ -430,9 +422,7 @@ export default function SignUp(props: IProps) {
           />
         </Grid>
         <Grid container justify='flex-end' className={classes.signup}>
-          <Button 
-            variant='contained' color="primary" fullWidth
-            onClick={_onClickSignUp} >
+          <Button variant='contained' color='primary' fullWidth onClick={_onClickSignUp}>
             가입하기
           </Button>
         </Grid>

@@ -29,8 +29,7 @@ let nowCategory: CategoryType;
 const useStyles = makeStyles(theme => ({
   top: {
     textAlign: "right",
-    margin: "5px",
-    paddingTop: "10px",
+    marginBottom: "5px",
     justifyContent: "space-between",
   },
   header: {
@@ -44,9 +43,13 @@ const useStyles = makeStyles(theme => ({
       paddingLeft: "30px",
     },
     "& .MuiDataGrid-footer": {
-      padding: "10px 10px 0 10px",
+      padding: "0 5px",
       margin: "0",
       align: "center",
+    },
+    "& .MuiDataGrid-mainGridContainer": {
+      minHeight: "450px",
+      maxHeight: "450px",
     },
     "& .MuiDataGrid-overlay": {
       margin: "auto",
@@ -130,11 +133,12 @@ function CustomPagination(props: ComponentProps) {
   };
 
   return (
-    <Container>
+    <Container style={{ padding: "0 20px" }}>
       <Bottom category={nowCategory} />
-      <Grid container direction='row' justify='center' style={{ width: "100%", marginBottom: "10px" }}>
+      <Grid container direction='row' justify='center' style={{ width: "100%", marginBottom: "5px" }}>
         <Pagination
           color='primary'
+          shape='rounded'
           page={paginationProps.page}
           count={paginationProps.pageCount}
           showFirstButton={true}
@@ -144,20 +148,29 @@ function CustomPagination(props: ComponentProps) {
       </Grid>
       <MyGridDivider />
       <Grid container spacing={2} direction='row' justify='center' style={{ width: "100%", margin: "5px" }}>
-        <Grid item>
+        <Grid item style={{ padding: "5px" }}>
           <ButtonGroup color='primary'>
-            <Button color={searchFilter === "title" ? "secondary" : "primary"} onClick={() => setSearchFilter(searchFilter === "title" ? "" : "title")}>
+            <Button
+              color={searchFilter === "title" ? "secondary" : "primary"}
+              onClick={() => setSearchFilter(searchFilter === "title" ? "" : "title")}
+              style={{ height: "35px", margin: "0" }}>
               제목
             </Button>
-            <Button color={searchFilter === "content" ? "secondary" : "primary"} onClick={() => setSearchFilter(searchFilter === "content" ? "" : "content")}>
+            <Button
+              color={searchFilter === "content" ? "secondary" : "primary"}
+              onClick={() => setSearchFilter(searchFilter === "content" ? "" : "content")}
+              style={{ height: "35px", margin: "0" }}>
               내용
             </Button>
-            <Button color={searchFilter === "writer" ? "secondary" : "primary"} onClick={() => setSearchFilter(searchFilter === "writer" ? "" : "writer")}>
+            <Button
+              color={searchFilter === "writer" ? "secondary" : "primary"}
+              onClick={() => setSearchFilter(searchFilter === "writer" ? "" : "writer")}
+              style={{ height: "35px", margin: "0" }}>
               작성자
             </Button>
           </ButtonGroup>
         </Grid>
-        <Grid item>
+        <Grid item style={{ padding: "5px" }}>
           <FormControl variant='outlined'>
             <OutlinedInput
               id='post-search-text'
@@ -166,11 +179,12 @@ function CustomPagination(props: ComponentProps) {
               onKeyUp={e => _onEnterSearch(e.keyCode)}
               endAdornment={
                 <InputAdornment position='end'>
-                  <IconButton aria-label='post-search-icon' onClick={search} edge='end'>
-                    <SearchIcon />
+                  <IconButton aria-label='post-search-icon' onClick={search} edge='end' style={{ height: "35px" }}>
+                    <SearchIcon style={{ height: "35px" }} />
                   </IconButton>
                 </InputAdornment>
               }
+              inputProps={{ style: { height: "35px", padding: "10px" } }}
             />
           </FormControl>
         </Grid>
@@ -203,31 +217,32 @@ const Board = (props: IProps, {}) => {
   };
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
-      <Container className={classes.top}>
-        <Typography variant='body2'>{rows.length} 건의 검색 결과가 조회되었습니다.</Typography>
-      </Container>
-      <DataGrid
-        className={classes.datagrid}
-        headerHeight={40} //default 56
-        rowHeight={40} //default 52
-        //autoHeight
-        sortingMode='client'
-        pageSize={10}
-        //rowsPerPageOptions={[10, 25, 50]}
-        paginationMode='client'
-        hideFooterRowCount={true}
-        hideFooterSelectedRowCount={true}
-        columns={cols}
-        rows={rows}
-        onRowClick={param => _onRowClick(param.data.id as number)}
-        components={{
-          header: CustomHeader,
-          noRowsOverlay: CustomNoRowsOverlay,
-          pagination: CustomPagination,
-        }}
-      />
-    </div>
+    <React.Fragment>
+      <div style={{ height: 630, width: "100%", marginBottom: "20px" }}>
+        <Container className={classes.top}>
+          <Typography variant='body2'>{rows.length} 건의 검색 결과가 조회되었습니다.</Typography>
+        </Container>
+        <DataGrid
+          className={classes.datagrid}
+          headerHeight={40} //default 56
+          rowHeight={40} //default 52
+          sortingMode='client'
+          pageSize={10}
+          rowsPerPageOptions={[10, 25, 50]}
+          paginationMode='client'
+          hideFooterRowCount={true}
+          hideFooterSelectedRowCount={true}
+          columns={cols}
+          rows={rows}
+          onRowClick={param => _onRowClick(param.data.id as number)}
+          components={{
+            header: CustomHeader,
+            noRowsOverlay: CustomNoRowsOverlay,
+            pagination: CustomPagination,
+          }}
+        />
+      </div>
+    </React.Fragment>
   );
 };
 
