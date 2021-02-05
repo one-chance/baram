@@ -57,19 +57,25 @@ const Home = () => {
       </Grid>
 
       <Grid container item spacing={1} className={classes.secondSection}>
-        <Grid item xs={3}>
+        <Grid item xs={3} style={{ padding: "5px" }}>
           <LatestBoardPaper category='free' posts={freePosts} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} style={{ padding: "5px" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item xs={6}>
-          <Button variant='outlined'>
-            <PriorityHighIcon />
-          </Button>
-          <Button variant='outlined'>
-            <MailOutlineIcon />
-          </Button>
+        <Grid item xs={6} style={{ padding: "5px" }}>
+          <div style={{ margin: "10px", float: "left" }}>
+            <Button variant='outlined'>
+              <PriorityHighIcon />
+            </Button>
+            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공지사항</h5>
+          </div>
+          <div style={{ margin: "10px", float: "left" }}>
+            <Button variant='outlined'>
+              <MailOutlineIcon />
+            </Button>
+            <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
+          </div>
         </Grid>
       </Grid>
     </Grid>
