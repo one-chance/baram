@@ -36,13 +36,15 @@ const useStyles = makeStyles(theme => ({
   header: {
     padding: "10px",
     paddingLeft: "30px",
+    fontWeight: "bold",
+    lineHeight: "30px",
   },
   datagrid: {
     "& .title": {
       paddingLeft: "30px",
     },
     "& .MuiDataGrid-footer": {
-      padding: "10px",
+      padding: "10px 10px 0 10px",
       margin: "0",
       align: "center",
     },
@@ -74,7 +76,7 @@ function CustomHeader(props: ComponentProps) {
   const classes = useStyles();
 
   return (
-    <Grid container direction='row' justify='space-between' alignItems='center' style={{ marginBottom: "5px" }}>
+    <Grid container direction='row' justify='space-between' alignItems='center'>
       <Typography className={classes.header} variant='h6'>
         {getCategoryName(nowCategory)}
       </Typography>
@@ -83,8 +85,6 @@ function CustomHeader(props: ComponentProps) {
 }
 
 function CustomNoRowsOverlay() {
-  const classes = useStyles();
-
   return (
     <GridOverlay>
       <Typography>게시글이 존재하지 않습니다.</Typography>
@@ -143,7 +143,7 @@ function CustomPagination(props: ComponentProps) {
         />
       </Grid>
       <MyGridDivider />
-      <Grid container spacing={2} direction='row' justify='center' style={{ width: "100%", margin: "10px" }}>
+      <Grid container spacing={2} direction='row' justify='center' style={{ width: "100%", margin: "5px" }}>
         <Grid item>
           <ButtonGroup color='primary'>
             <Button color={searchFilter === "title" ? "secondary" : "primary"} onClick={() => setSearchFilter(searchFilter === "title" ? "" : "title")}>
@@ -209,13 +209,12 @@ const Board = (props: IProps, {}) => {
       </Container>
       <DataGrid
         className={classes.datagrid}
-        headerHeight={46} //default 56
-        rowHeight={42} //default 52
+        headerHeight={40} //default 56
+        rowHeight={40} //default 52
         //autoHeight
         sortingMode='client'
-        pagination
         pageSize={10}
-        rowsPerPageOptions={[10, 25, 50]}
+        //rowsPerPageOptions={[10, 25, 50]}
         paginationMode='client'
         hideFooterRowCount={true}
         hideFooterSelectedRowCount={true}
