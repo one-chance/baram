@@ -22,8 +22,10 @@ mongoose.connection.on("reconnected", function () {
 });
 
 mongoose.connection.on("disconnected", function () {
-  logger.error("[MONGODB DISCONNECTED]");
-  mongoose.connect(process.env.MONGODB_URL, { server: { auto_reconnect: true } });
+  setTimeout(() => {
+    logger.error("[MONGODB DISCONNECTED]");
+    mongoose.connect(process.env.MONGODB_URL, { server: { auto_reconnect: true } });
+  }, 5000);
 });
 
 // FIX FOR (node:8120) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.

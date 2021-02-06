@@ -120,19 +120,21 @@ export const getStringByDate = (date: Date | undefined) => {
   yesterday.setDate(yesterday.getDate()-1); // 하루 전날로 설정
 
   const dt = new Date(date);
-  let d: string = '', t: string = '';
+  let txt = '';
 
-  // 오늘 날짜 이전 일경우에만 연/월/일 표시
+  // 오늘 날짜 이전 일경우에는 연/월/일 표시
   if (dt.getTime() <= yesterday.getTime()) {
-    d = dt.getFullYear().toString();
-    d += dt.getMonth()+1 < 10 ? `.0${dt.getMonth()+1}` : `.${dt.getMonth()+1}`;
-    d += dt.getDate() < 10 ? `.0${dt.getDate()} ` : `.${dt.getDate()} `;
+    txt = dt.getFullYear().toString();
+    txt += dt.getMonth()+1 < 10 ? `.0${dt.getMonth()+1}` : `.${dt.getMonth()+1}`;
+    txt += dt.getDate() < 10 ? `.0${dt.getDate()} ` : `.${dt.getDate()} `;
+  }
+  else {
+    // 오늘 날짜일 경우에는 시/분 표시
+    txt = dt.getHours() < 10 ? `0${dt.getHours()}` : `${dt.getHours()}`;
+    txt += dt.getMinutes() < 10 ? `:0${dt.getMinutes()}` : `:${dt.getMinutes()}`;
   }
 
-  t = dt.getHours() < 10 ? `0${dt.getHours()}` : `${dt.getHours()}`;
-  t += dt.getMinutes() < 10 ? `:0${dt.getMinutes()}` : `:${dt.getMinutes()}`;
-
-  return `${d}${t}`;
+  return `${txt}`;
 }
 
 export const getMMDDByDate = (date: Date | undefined) => {
