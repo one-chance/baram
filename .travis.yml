@@ -1,0 +1,47 @@
+language: node_js
+node_js:
+  - 12
+
+branches:
+  only:
+    - master
+    - travisTest
+
+before_script:
+  - npm install
+  - npm install @material-ui/data-grid@4.0.0-alpha.8
+
+script:
+  - npm test
+
+before_deploy:
+  - rm -rf node_modules
+  - zip -r bachang ./*
+  - mkdir -p deploy
+  - mv bachang.zip deploy/bachang.zip
+
+deploy:
+  skip_cleanup: true
+  - provider: s3
+    access_key_id: $AWS_TRAVIS_ACCESS_KEY
+    secret_access_key: $AWS_TRAVIS_ASECRET_KEY
+
+    bucket: baram-travis
+    region: ap-northeast-2
+    acl: private
+    local_dir: deploy
+    wait_until_deployed : true
+
+  - provider: codedeploy
+    access_key_id: $AWS_TRAVIS_ACCESS_KEY
+    secret_access_key: $AWS_TRAVIS_ASECRET_KEY
+
+    bucket: baram-travis
+    key: bachang.zip
+
+    bundle_type: zip
+    application: bachang
+
+    deployment_group: bachang-group
+    region: ap-northease-2
+    wait-until-deployed: true
