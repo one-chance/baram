@@ -62,7 +62,9 @@ export default function SignInForm() {
           message: `환영합니다, ${id} 님!`,
         });
 
-        document.location.reload();
+        document.location.href.indexOf('/signin') ?
+          document.location.href = "/"
+        : document.location.reload();
       }
     }
   };
