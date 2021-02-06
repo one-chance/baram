@@ -1,12 +1,12 @@
 const jsonwebtoken = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
-const myLogger = require("../myLogger");
+const logger = require('../winston');
 
 const authMiddleware = (req, res, next) => {
   const token = req.headers.token;
 
   if (!token) {
-    myLogger("[ERROR] DO NOT FIND TOKEN INFORMATION IN REQUEST HEADER");
+    logger.info("[FAILED] DO NOT FIND TOKEN INFORMATION IN REQUEST HEADER");
     res.redirect("/api/error/auth");
   }
 
@@ -18,7 +18,7 @@ const authMiddleware = (req, res, next) => {
 
     next();
   } catch (error) {
-    myLogger(`[AUTH ERROR] - [${error.name}] : ${error.message} at ${error.expiredAt}`);
+    logger.info(`[AUTH FAILED] - [${error.name}] : ${error.message} at ${error.expiredAt}`);
 
     res.status(200).send({
       code: 401,

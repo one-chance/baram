@@ -5,24 +5,24 @@ const mongoose = require("mongoose");
 const route = require("./routes/index");
 const PORT = 3001;
 
-const myLogger = require("./myLogger");
+const logger = require('./winston');
 
 mongoose.Promise = global.Promise;
 mongoose
   .connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => {
-    myLogger("[MONGODB CONNECT SUCCESS]");
+    logger.info("[MONGODB CONNECT SUCCESS]");
   })
   .catch(e => {
-    myLogger("[MONGODB CONNECT ERROR] >>>", e);
+    logger.error("[MONGODB CONNECT ERROR] >>>", e);
   });
 
 mongoose.connection.on("reconnected", function () {
-  myLogger("[MONGODB RECONNECTED]");
+  logger.info("[MONGODB RECONNECTED]");
 });
 
 mongoose.connection.on("disconnected", function () {
-  myLogger("[MONGODB DESCONNECTED]");
+  logger.error("[MONGODB DISCONNECTED]");
   mongoose.connect(process.env.MONGODB_URL, { server: { auto_reconnect: true } });
 });
 
@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.listen(PORT, () => {
-  myLogger(`express is running on ${PORT}`);
+  logger.info(`express is running on ${PORT}`);
 });
 
 app.use("/api", route);

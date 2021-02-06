@@ -8,7 +8,7 @@ const AWS = require('aws-sdk');
 AWS.config.update({region: process.env.S3_REGION});
 
 const fs  = require('fs');
-const myLogger = require("../myLogger");
+const logger = require('../winston');
 
 const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
@@ -30,7 +30,7 @@ router.post("/checkid", (req, res) => {
   const id = req.body.id;
   UserSchema.findOneById(id).then(exist => {
     if (exist) {
-      myLogger(`[ERROR] : ${id} IS ALREADY EXIST`);
+      logger.info(`[FAILED] : ${id} IS ALREADY EXIST`);
       res.status(200).send({
         code: 1001,
         message: "이미 사용중인 ID 입니다.",
@@ -82,7 +82,7 @@ router.post("/signup", (req, res) => {
         UserSchema.findOneById(user.id)
         .then(exist => {
           if (exist) {
-            myLogger(`[ERROR] : ${user.id} IS ALREADY EXIST`);
+            logger.info(`[FAILED] : ${user.id} IS ALREADY EXIST`);
             res.status(200).send({
               code: 1001,
               message: "중복된 유저",
@@ -92,7 +92,7 @@ router.post("/signup", (req, res) => {
           } else {
             UserSchema.create(user, (err, user) => {
               if (err) {
-                myLogger(`[ERROR] : ${user.id} CREATED ERROR`);
+                logger.error(`[ERROR] : ${user.id} CREATED ERROR`);
                 res.status(500).send({
                   code: 1002,
                   message: "DB 계정 생성 오류",
@@ -116,7 +116,7 @@ router.post("/signup", (req, res) => {
                 });
 
                 UserInfoSchema.create(userInfo, (err, user) => {
-                  myLogger(`[ERROR] : ${user.key} - ${user.id} INFORMATION CREATED ERROR`);
+                  logger.error(`[ERROR] : ${user.key} - ${user.id} INFORMATION CREATED ERROR`);
                   if (err) {
                     res.status(500).send({
                       code: 1002,
@@ -126,13 +126,12 @@ router.post("/signup", (req, res) => {
                     return false;
                   }
 
-                  myLogger(`[SUCCESS] : ${signupUser.key} - ${signupUser.id} CREATED!!!`);
+                  logger.info(`[SUCCESS] : ${signupUser.key} - ${signupUser.id} CREATED!!!`);
 
                   return true;
                 });
               })
-              .then(isCreated => {
-                myLogger(isCreated);
+              .then(() => {
                 res.status(200).send({
                   code: 200,
                   message: "회원가입이 완료되었습니다.",
@@ -143,7 +142,7 @@ router.post("/signup", (req, res) => {
           }
         })
         .catch(e => {
-          myLogger(`SIGNUP ERROR > ${e}`);
+          logger.error(`SIGNUP ERROR > ${e}`);
 
           res.status(500).send({
             code: 500,
@@ -185,7 +184,7 @@ router.post("/signin", (req, res) => {
           'sha512', 
           (err, key) => {
             if (key.toString('base64') === user.password) {
-              myLogger(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
+              logger.info(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
 
               const token = createToken(user.key, id);
     
@@ -199,7 +198,7 @@ router.post("/signin", (req, res) => {
               return true;
             }
             else {
-              myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
+              logger.info(`[FAILED] : ${id} IS NOT MATCHED PASSWORD`);
               res.status(200).send({
                 code: 1003,
                 message: "일치하지 않는 비밀번호 입니다.",
@@ -209,7 +208,7 @@ router.post("/signin", (req, res) => {
             }
         });
       } else {
-        myLogger(`[ERROR] : ${id} IS NOT EXIST USER`);
+        logger.info(`[FAILED] : ${id} IS NOT EXIST USER`);
         res.status(200).send({
           code: 1001,
           message: "존재하지 않는 사용자입니다.",
@@ -219,7 +218,7 @@ router.post("/signin", (req, res) => {
       }
     })
     .catch(e => {
-      myLogger(`SIGNIN ERROR > ${e}`);
+      logger.error(`SIGNIN ERROR > ${e}`);
 
       res.status(500).send({
         code: 500,
@@ -245,13 +244,13 @@ router.post("/refresh", (req, res) => {
   const decoded = jsonwebtoken.verify(token, process.env.MONGODB_SECRET);
 
   if (decoded) {
-    myLogger(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
+    logger.info(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
     res.status(200).send({
       code: 200,
       token: createToken(key, id),
     });
   } else {
-    myLogger(`[ERROR] : ${id} INVALID ACCESS TOKEN`);
+    logger.info(`[FAILED] : ${id} INVALID ACCESS TOKEN`);
     res.status(200).send({
       code: 401,
       token: null,
@@ -289,7 +288,7 @@ router.post("/upload", (req, res) => {
 
   s3.upload(param, (err, data) => {
     if (data) {
-      console.log(`[SUCCESS] UPLOADDED IMAGE ${fileName}`);
+      logger.info(`[SUCCESS] UPLOADDED IMAGE ${fileName}`);
       const url = `https://${process.env.BUCKET_NAME}.s3.${process.env.S3_REGION}.amazonaws.com/${process.env.RUNTIME_MODE}/${process.env.BUCKET_KEY}/${fileName}`;
       res.status(200).send({
         code: 200,
@@ -297,7 +296,7 @@ router.post("/upload", (req, res) => {
       });
     }
     else{
-      console.log(`[ERROR] IMAGE UPLOAD FAILED : `, err);
+      logger.error(`[ERROR] IMAGE UPLOAD FAILED : `, err);
       res.status(200).send({
         code: 500,
       });
@@ -325,7 +324,7 @@ router.post("/config/imageCount", (req, res) => {
 
         ConfigSchema.updateByMode(process.env.RUNTIME_MODE, config)
           .then(() => {
-            
+            logger.error('[SUCCESS] CHECKED IMAGE COUNT');
             res.status(200).send({
               code: 200,
               newImageCount: newImageCount
@@ -335,8 +334,7 @@ router.post("/config/imageCount", (req, res) => {
       }
     })
     .catch((e) => {
-      console.log('[ERROR] GET CONFIG SERVER ERROR');
-
+      logger.error('[ERROR] CHECK IMAGE COUNT ERROR');
       res.status(500).send({
         code: 500,
       });
@@ -361,7 +359,7 @@ router.put("/email", (req, res) => {
   UserInfoSchema.findOneByEmail(email)
     .then((user) => {
       if(user) {
-        myLogger(`[ERROR] : EXIST USER USED BY ${email}`);
+        logger.info(`[FAILED] : EXIST USER USED BY ${email}`);
 
         res.status(200).send({
           code: 201,
@@ -371,7 +369,7 @@ router.put("/email", (req, res) => {
         return false;
       }
       else {
-        myLogger(`[SUCCESS] : NOT EXIST USER USED BY ${email}`);
+        logger.info(`[SUCCESS] : NOT EXIST USER USED BY ${email}`);
 
         // 서버 메모리에 인증번호 정보 저장
         const date = new Date();
@@ -453,7 +451,7 @@ router.put("/email", (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`USER CHECK BY EMAIL ERROR > ${e}`);
+      logger.error(`USER CHECK BY EMAIL ERROR > ${e}`);
 
       res.status(500).send({
         code: 500,
@@ -482,7 +480,7 @@ router.put("/id/email", (req, res) => {
   UserInfoSchema.findOneByIdAndEmail(id, email)
     .then((user) => {
       if(user) {
-        myLogger(`[SUCCESS] : EXIST USER USED BY ${id} ${email}`);
+        logger.info(`[SUCCESS] : EXIST USER USED BY ${id} ${email}`);
 
         // 서버 메모리에 인증번호 정보 저장
         const date = new Date();
@@ -564,7 +562,7 @@ router.put("/id/email", (req, res) => {
         });
       }
       else {
-        myLogger(`[ERROR] : NOT EXIST USER USED BY ${id} ${email}`);
+        logger.info(`[FAILED] : NOT EXIST USER USED BY ${id} ${email}`);
         res.status(200).send({
           code: 2005,
           message: "해당 사용자 정보를 찾을 수 없습니다. ID와 이메일 주소를 확인해주세요."
@@ -574,7 +572,7 @@ router.put("/id/email", (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`USER CHECK BY EMAIL ERROR > ${e}`);
+      logger.error(`USER CHECK BY EMAIL ERROR > ${e}`);
 
       res.status(500).send({
         code: 500,
@@ -602,20 +600,20 @@ router.post("/email", (req, res) => {
   
   if (verify) {
     if (verify.verifyCode === emailCode) {
-      console.log(`[SUCCESS] VERIFIED EMAIL ${email}`);
+      logger.info(`[SUCCESS] VERIFIED EMAIL ${email}`);
       res.status(200).send({
         code: 200,
       });
     }
     else {
-      console.log(`[ERROR] NOT VERIFIED EMAIL ${email}`);
+      logger.info(`[ERROR] NOT VERIFIED EMAIL ${email}`);
       res.status(200).send({
         code: 201,
       });
     }
   }
   else {
-    console.log(`[ERROR] NOT FOUND VERIFIY EMAIL ${email}`);
+    logger.error(`[ERROR] NOT FOUND VERIFIY EMAIL ${email}`);
     res.status(200).send({
       code: 500,
     });
@@ -639,7 +637,7 @@ router.get('/find', (req, res) => {
   UserInfoSchema.findOneByEmail(email)
     .then((userInfo) => {
       if (userInfo) {
-        myLogger(`[SUCCESS] : FIND USERINFO BY ${email}`);
+        logger.info(`[SUCCESS] : FIND USERINFO BY ${email}`);
         res.status(200).send({
           code: 200,
           message: "사용자 정보를 조회하였습니다.",
@@ -649,7 +647,7 @@ router.get('/find', (req, res) => {
         return true;
       }
       else {
-        myLogger(`[ERROR] : FIND USERINFO ERROR BY ${email}`);
+        logger.info(`[FAILED] : FIND USERINFO ERROR BY ${email}`);
         res.status(200).send({
           code: 2005,
           message: "사용자 정보를 찾을 수 없습니다."
@@ -659,7 +657,7 @@ router.get('/find', (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`INFORMATION FIND ERROR > ${e}`);
+      logger.error(`INFORMATION FIND ERROR > ${e}`);
       res.status(200).send({
         code: 500,
         message: "사용자 정보를 찾는 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -718,7 +716,7 @@ router.put("/reset", (req, res) => {
           UserSchema.updateById(id, changePasswordInfo)
             .then((changedInfo) => {
               if (changedInfo) {
-                myLogger(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
+                logger.info(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
 
                 // 3. 이메일 발송
                 const ses = new AWS.SES({
@@ -793,7 +791,7 @@ router.put("/reset", (req, res) => {
                 return true;
               }
               else {
-                myLogger(`[ERROR] : ${id} CHANGE PASSWORD ERROR`);
+                logger.error(`[ERROR] : ${id} CHANGE PASSWORD ERROR`);
                 res.status(200).send({
                   code: 2007,
                   message: "비밀번호 변경에 실패하였습니다. 잠시 후 다시 시도하여주세요."
@@ -803,7 +801,7 @@ router.put("/reset", (req, res) => {
               }
             })
             .catch((e) => {
-              myLogger(`CHANGE PASSWORD ERROR > ${e}`);
+              logger.error(`CHANGE PASSWORD ERROR > ${e}`);
               res.status(200).send({
                 code: 500,
                 message: "비밀번호 변경 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."

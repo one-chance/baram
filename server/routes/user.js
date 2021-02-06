@@ -4,7 +4,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const crypto = require('crypto');
 
-const myLogger = require('../myLogger');
+const logger = require('../winston');
 
 const UserSchema = require('../schemas/User/UserSchema');
 const UserInfoSchema = require('../schemas/User/UserInfoSchema');
@@ -49,7 +49,7 @@ router.post('/check', (req, res) => {
           
           const $ = cheerio.load(html.data);
           const $txtMessage = $("textarea").text();
-          myLogger(`[SUCCESS] : ${character}%${server} PROFILE MESSAGE : ${$txtMessage}`);
+          logger.info(`[SUCCESS] : ${character}%${server} PROFILE MESSAGE : ${$txtMessage}`);
 
           const regRes = new RegExp(`${id}`).test($txtMessage);
 
@@ -57,14 +57,14 @@ router.post('/check', (req, res) => {
       })
       .then((regRes) => {
         if (regRes) {
-          myLogger(`[SUCCESS] : ${id} - ${character}%${server} CONFIRM`);
+          logger.info(`[SUCCESS] : ${id} - ${character}%${server} CONFIRM`);
           res.status(200).send({
             code: 200,
             message: "바람의 나라 계정 확인에 성공하였습니다."
           });
         }
         else {
-          myLogger(`[ERROR] : ${id} - ${character}%${server} CONFIRM ERROR`);
+          logger.error(`[ERROR] : ${id} - ${character}%${server} CONFIRM ERROR`);
           res.status(200).send({
             code: 2001,
             message: "바람의 나라 계정 확인에 실패하였습니다. 인증 방법을 확인해주세요."
@@ -72,8 +72,7 @@ router.post('/check', (req, res) => {
         }
       })
       .catch((e) => {
-        myLogger("AUTHENTICATION ERROR > ", e);
-        myLogger(`[GET URI] : ${getUri}`);
+        logger.error(`AUTHENTICATION ERROR > [GET URI] : ${getUri}`, e);
         res.status(200).send({
           code: 500,
           message: "바람의 나라 계정 확인 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -109,7 +108,7 @@ router.put('/auth', (req, res) => {
   AccountInfoSchema.checkAccount(accountInfo.server, accountInfo.character)
     .then((exist) => {
       if (exist) {
-        myLogger(`[ERROR] : ${id} AUTHETICATION ERROR`);
+        logger.info(`[FAILED] : ${id} AUTHETICATION ERROR`);
         res.status(200).send({
           code: 2003,
           message: "이미 인증 처리 된 계정 입니다."
@@ -124,7 +123,7 @@ router.put('/auth', (req, res) => {
         UserInfoSchema.pushAccountListById(id, accountInfo)
           .then((updated) => {
             if (updated) {
-              myLogger(`[SUCCESS] : ${id} AUTHETICATION`);
+              logger.info(`[SUCCESS] : ${id} AUTHETICATION`);
               res.status(200).send({
                 code: 200,
                 message: `${accountInfo.server}%${accountInfo.character} 계정 인증에 성공하였습니다.`
@@ -133,7 +132,7 @@ router.put('/auth', (req, res) => {
               return true;
             }
             else {
-              myLogger(`[ERROR] : ${id} AUTHETICATION ERROR`);
+              logger.error(`[ERROR] : ${id} AUTHETICATION ERROR`);
               res.status(200).send({
                 code: 2002,
                 message: `${accountInfo.server}%${accountInfo.character} 계정 등록에 실패하였습니다.`
@@ -145,7 +144,7 @@ router.put('/auth', (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger("AUTHENTICATION ERROR > ", e);
+      logger.error("AUTHENTICATION ERROR > ", e);
       res.status(200).send({
         code: 500,
         message: "바람의 나라 계정 확인 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -176,7 +175,7 @@ router.put('/info', (req, res) => {
   UserInfoSchema.updateById(id, editedUserInfo)
     .then((updatedUserInfo) => {
       if (updatedUserInfo) {
-        myLogger(`[SUCCESS] : ${updatedUserInfo.id} INFORMATION UPDATE`);
+        logger.info(`[SUCCESS] : ${updatedUserInfo.id} INFORMATION UPDATE`);
         res.status(200).send({
           code: 200,
           message: "정보가 수정되었습니다."
@@ -185,7 +184,7 @@ router.put('/info', (req, res) => {
         return true;
       }
       else {
-        myLogger(`[ERROR] : ${updatedUserInfo.id} INFORMATION UPDATE ERROR`);
+        logger.error(`[ERROR] : ${updatedUserInfo.id} INFORMATION UPDATE ERROR`);
         res.status(200).send({
           code: 2004,
           message: "수정 작업 중 오류가 발생하였습니다. 잠시 후 다시 시도하여주세요."
@@ -195,7 +194,7 @@ router.put('/info', (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger("INFORMATION UPDATE ERROR > ", e);
+      logger.error("INFORMATION UPDATE ERROR > ", e);
       res.status(200).send({
         code: 500,
         message: "바람의 나라 계정 확인 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -223,7 +222,7 @@ router.get('/find', (req, res) => {
   UserInfoSchema.findOneById(id)
     .then((userInfo) => {
       if (userInfo) {
-        myLogger(`[SUCCESS] : ${id} INFORMATION FIND`);
+        logger.info(`[SUCCESS] : ${id} INFORMATION FIND`);
         res.status(200).send({
           code: 200,
           message: "사용자 정보를 조회하였습니다.",
@@ -233,7 +232,7 @@ router.get('/find', (req, res) => {
         return true;
       }
       else {
-        myLogger(`[ERROR] : ${id} INFORMATION FIND ERROR`);
+        logger.info(`[FAILED] : ${id} INFORMATION FIND ERROR`);
         res.status(200).send({
           code: 2005,
           message: "사용자 정보를 찾을 수 없습니다."
@@ -243,7 +242,7 @@ router.get('/find', (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`INFORMATION FIND ERROR > ${e}`);
+      logger.error(`INFORMATION FIND ERROR > ${e}`);
       res.status(200).send({
         code: 500,
         message: "사용자 정보를 찾는 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -275,7 +274,7 @@ router.put('/titleaccount', (req, res) => {
   UserInfoSchema.updateById(id, {titleAccount: titleAccountInfo, editDateString: editDateString})
     .then((updatedUserInfo) => {
       if (updatedUserInfo) {
-        myLogger(`[SUCCESS] : ${updatedUserInfo.id} SET TITLE ACCOUNT`);
+        logger.info(`[SUCCESS] : ${updatedUserInfo.id} SET TITLE ACCOUNT`);
         res.status(200).send({
           code: 200,
           message: "대표캐릭터가 변경되었습니다."
@@ -284,7 +283,7 @@ router.put('/titleaccount', (req, res) => {
         return true;
       }
       else {
-        myLogger(`[ERROR] : ${updatedUserInfo.id} SET TITLE ACCOUNT ERROR`);
+        logger.error(`[ERROR] : ${updatedUserInfo.id} SET TITLE ACCOUNT ERROR`);
         res.status(200).send({
           code: 2006,
           message: "대표캐릭터 변경에 실패하였습니다. 잠시 후 다시 시도하여주세요."
@@ -294,7 +293,7 @@ router.put('/titleaccount', (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`SET TITLE ACCOUNT ERROR > ${e}`);
+      logger.error(`SET TITLE ACCOUNT ERROR > ${e}`);
       res.status(200).send({
         code: 500,
         message: "대표캐릭터 설정 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -345,7 +344,7 @@ router.put('/password', (req, res) => {
       UserSchema.updateById(id, changePasswordInfo)
         .then((changedInfo) => {
           if (changedInfo) {
-            myLogger(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
+            logger.info(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
             res.status(200).send({
               code: 200,
               message: "비밀번호가 변경되었습니다. 다시 로그인 해 주세요."
@@ -354,7 +353,7 @@ router.put('/password', (req, res) => {
             return true;
           }
           else {
-            myLogger(`[ERROR] : ${changedInfo.id} CHANGE PASSWORD ERROR`);
+            logger.error(`[ERROR] : ${changedInfo.id} CHANGE PASSWORD ERROR`);
             res.status(200).send({
               code: 2007,
               message: "비밀번호 변경에 실패하였습니다. 잠시 후 다시 시도하여주세요."
@@ -364,7 +363,7 @@ router.put('/password', (req, res) => {
           }
         })
         .catch((e) => {
-          myLogger(`CHANGE PASSWORD ERROR > ${e}`);
+          logger.error(`CHANGE PASSWORD ERROR > ${e}`);
           res.status(200).send({
             code: 500,
             message: "비밀번호 변경 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -398,7 +397,7 @@ router.post('/password', (req, res) => {
         // 1: 입력비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
         crypto.pbkdf2(password, user.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
           if (key.toString('base64') === user.password) {
-            myLogger(`[SUCCESS] : ${id} IS MATCHED PASSWORD`);
+            logger.info(`[SUCCESS] : ${id} IS MATCHED PASSWORD`);
 
             res.status(200).send({
               code: 200,
@@ -408,7 +407,7 @@ router.post('/password', (req, res) => {
             return true;
           }
           else {
-            myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
+            logger.info(`[FAILED] : ${id} IS NOT MATCHED PASSWORD`);
             res.status(200).send({
               code: 1003,
               message: "일치하지 않는 비밀번호 입니다."
@@ -419,7 +418,7 @@ router.post('/password', (req, res) => {
         });
       }
       else {
-        myLogger(`[ERROR] : ${id} IS NOT EXIST USER`);
+        logger.info(`[FAILED] : ${id} IS NOT EXIST USER`);
         res.status(200).send({
           code: 1001,
           message: "존재하지 않는 사용자입니다."
@@ -429,7 +428,7 @@ router.post('/password', (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`PASSWORD CHECK ERROR > ${e}`);
+      logger.error(`PASSWORD CHECK ERROR > ${e}`);
 
       res.status(500).send({
         code: 500,
@@ -451,22 +450,18 @@ router.delete('/info', (req, res) => {
   const id = req.headers.id;
 
   UserSchema.deleteById(id)
-    .then((result) => {
-      myLogger(`${result}`);
-      myLogger(`[SUCCESS] : ${id} WAS DELETED`);
+    .then(() => {
+      logger.info(`[SUCCESS] : ${id} WAS DELETED`);
     })
     .then(UserInfoSchema.deleteById(id))
-    .then((result) => {
-      myLogger(`${result}`);
-      myLogger(`[SUCCESS] : ${id} INFORMATION WAS DELETED`);
+    .then(() => {
+      logger.info(`[SUCCESS] : ${id} INFORMATION WAS DELETED`);
     })
     .then(AccountInfoSchema.deleteById(id))
-    .then((result) => {
-      myLogger(`${result}`);
-      myLogger(`[SUCCESS] : ${id} ACCOUNT INFORMATION WAS DELETED`);
+    .then(() => {
+      logger.info(`[SUCCESS] : ${id} ACCOUNT INFORMATION WAS DELETED`);
     })
     .then(() => {
-
       res.status(200).send({
         code: 200,
         message: "사용자 정보가 정상적으로 삭제되었습니다.",
@@ -475,7 +470,7 @@ router.delete('/info', (req, res) => {
       return true;
     })
     .catch((e) => {
-      myLogger(`DELETE USER ERROR > ${e}`);
+      logger.error(`DELETE USER ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
