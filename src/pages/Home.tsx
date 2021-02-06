@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid lightgray",
     borderRadius: "10px",
     float: "left",
+    backgroundColor: 'white'
   },
 }));
 
