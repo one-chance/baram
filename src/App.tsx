@@ -42,7 +42,7 @@ import Production from "pages/Calculator/Production";
 
 import AuctionAuction from "pages/TesseractOcr";
 
-import { refreshToken } from 'utils/CommonUtil';
+import { refreshToken } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -88,7 +88,6 @@ function App() {
               {/*Common*/}
               <Route exact path='/signup' component={SignUp} />
               <Route exact path='/forget' component={Forget} />
-              <Route exact path='/forget/:mode' component={Forget} />
               <Route exact path='/findid' component={FindId} />
               <Route exact path='/findpw' component={FindPw} />
 

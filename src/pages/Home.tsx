@@ -56,19 +56,19 @@ const Home = () => {
         <MainCarousel />
       </Grid>
 
-      <Grid container item spacing={1} className={classes.secondSection}>
-        <Grid item xs={3} style={{ padding: "5px" }}>
+      <Grid container item spacing={3} className={classes.secondSection}>
+        <Grid item xs={4} style={{ padding: "5px" }}>
           <LatestBoardPaper category='free' posts={freePosts} />
         </Grid>
-        <Grid item xs={3} style={{ padding: "5px" }}>
+        <Grid item xs={4} style={{ padding: "5px" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item xs={6} style={{ padding: "5px" }}>
+        <Grid item xs={4} style={{ padding: "5px" }}>
           <div style={{ margin: "10px", float: "left" }}>
             <Button variant='outlined'>
               <PriorityHighIcon />
             </Button>
-            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공지사항</h5>
+            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공 지</h5>
           </div>
           <div style={{ margin: "10px", float: "left" }}>
             <Button variant='outlined'>

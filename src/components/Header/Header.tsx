@@ -295,12 +295,6 @@ export default function Header() {
                 <li>
                   <a href='/myinfo/view'>회원정보</a>
                 </li>
-                <li>
-                  <a href='/forget/id'>아이디 찾기</a>
-                </li>
-                <li>
-                  <a href='/forget/password'>비밀번호 찾기</a>
-                </li>
               </ul>
             </li>
           </ul>
