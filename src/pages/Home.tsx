@@ -5,6 +5,8 @@ import IPost from "interfaces/Board/IPost";
 import Button from "@material-ui/core/Button";
 import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import HomeIcon from "@material-ui/icons/Home";
 
 import MainCarousel from "components/MainCarousel";
 import LatestBoardPaper from "components/Board/LatestBoardPaper";
@@ -18,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid lightgray",
     borderRadius: "10px",
     float: "left",
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
 }));
 
@@ -64,18 +66,30 @@ const Home = () => {
         <Grid item xs={4} style={{ padding: "5px" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item xs={4} style={{ padding: "5px" }}>
-          <div style={{ margin: "10px", float: "left" }}>
-            <Button variant='outlined'>
+        <Grid item xs={4} style={{ padding: "5px 10px" }}>
+          <div style={{ margin: "8px", float: "left" }}>
+            <Button variant='outlined' style={{ minWidth: "60px" }}>
               <PriorityHighIcon />
             </Button>
             <h5 style={{ textAlign: "center", margin: "5px 0" }}>공 지</h5>
           </div>
-          <div style={{ margin: "10px", float: "left" }}>
-            <Button variant='outlined'>
+          <div style={{ margin: "8px", float: "left" }}>
+            <Button variant='outlined' style={{ minWidth: "60px" }}>
               <MailOutlineIcon />
             </Button>
             <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
+          </div>
+          <div style={{ margin: "8px", float: "left" }}>
+            <Button variant='outlined' style={{ minWidth: "60px" }}>
+              <QuestionAnswerIcon />
+            </Button>
+            <h5 style={{ textAlign: "center", margin: "5px 0" }}>FAQ</h5>
+          </div>
+          <div style={{ margin: "8px", float: "left" }}>
+            <Button variant='outlined' href='http://www.baram.nexon.com' style={{ minWidth: "60px" }}>
+              <HomeIcon />
+            </Button>
+            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공식</h5>
           </div>
         </Grid>
       </Grid>

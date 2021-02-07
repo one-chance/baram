@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState } from "state/index";
 
@@ -6,8 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 
-import {RecommendPost, UnrecommendPost} from 'utils/PostUtil';
-import {getNowId} from "utils/CommonUtil";
+import { RecommendPost, UnrecommendPost } from "utils/PostUtil";
+import { getNowId } from "utils/CommonUtil";
 
 import IPost from "interfaces/Board/IPost";
 import Bottom from "./Bottom";
@@ -48,7 +48,7 @@ function PostContent(props: IProps) {
         });
       }
     }
-  }
+  };
   const onUnrecommendPost = async () => {
     if (post.seq) {
       const res = await UnrecommendPost(post.category, post.seq, getNowId());
@@ -61,19 +61,20 @@ function PostContent(props: IProps) {
         });
       }
     }
-  }
+  };
   return (
     <Container>
       <Grid item xs={12} style={{ padding: "0 15px" }}>
         <div className={classes.BodyContent} dangerouslySetInnerHTML={{ __html: post.content }}></div>
       </Grid>
-      <Bottom 
-        category={post.category} 
+      <Bottom
+        category={post.category}
         seq={post.seq}
         isRecommended={post.recommendUserList ? post.recommendUserList.includes(getNowId()) : false}
         recommendCount={post.recommendUserList ? post.recommendUserList.length : 0}
         onRecommendPost={onRecommendPost}
-        onUnrecommendPost={onUnrecommendPost}/>
+        onUnrecommendPost={onUnrecommendPost}
+      />
     </Container>
   );
 }

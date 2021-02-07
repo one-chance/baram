@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState } from "state/index";
 
@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import { SignInUser } from "utils/UserUtil";
 
@@ -23,11 +24,20 @@ export default function SignInForm() {
   const classes = useStyles();
   const setMyAlert = useSetRecoilState(MyAlertState);
 
-  const [id, setId] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [id, setId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [autoLogIn, setAutoLogIn] = useState<boolean>(false);
 
-  const refId = React.useRef<any>();
-  const refPassword = React.useRef<any>();
+  const refId = useRef<any>();
+  const refPassword = useRef<any>();
+
+  const verifyCheck = () => {
+    if (autoLogIn) {
+      setAutoLogIn(false);
+    } else {
+      setAutoLogIn(true);
+    }
+  };
 
   const _onEnterPassword = (keyCode: number) => {
     if (keyCode === 13) {
@@ -62,9 +72,7 @@ export default function SignInForm() {
           message: `환영합니다, ${id} 님!`,
         });
 
-        document.location.href.indexOf('/signin') ?
-          document.location.href = "/"
-        : document.location.reload();
+        document.location.href.indexOf("/signin") ? (document.location.href = "/") : document.location.reload();
       }
     }
   };
@@ -74,6 +82,10 @@ export default function SignInForm() {
       <Container component='main' maxWidth='xs'>
         <form noValidate className={classes.form}>
           <Container component='div' style={{ margin: "10px 0", float: "left" }}>
+            <div style={{ width: "100%", float: "left" }}>
+              <Checkbox checked={autoLogIn} color='primary' onClick={verifyCheck} style={{ width: "24px", height: "24px" }} />
+              &nbsp;자동 로그인
+            </div>
             <TextField
               variant='outlined'
               required
