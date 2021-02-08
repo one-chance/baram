@@ -67,29 +67,36 @@ const Home = () => {
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
         <Grid item xs={4} style={{ padding: "5px 10px" }}>
-          <div style={{ margin: "8px", float: "left" }}>
-            <Button variant='outlined' style={{ minWidth: "60px" }}>
-              <PriorityHighIcon />
-            </Button>
-            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공 지</h5>
+          <div style={{ width: "100%", height: "55%", float: "left" }}>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' style={{ minWidth: "60px" }}>
+                <PriorityHighIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>공 지</h5>
+            </div>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' style={{ minWidth: "60px" }}>
+                <MailOutlineIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
+            </div>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' style={{ minWidth: "60px" }}>
+                <QuestionAnswerIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>FAQ</h5>
+            </div>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' href='http://www.baram.nexon.com' style={{ minWidth: "60px" }}>
+                <HomeIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>공식</h5>
+            </div>
           </div>
-          <div style={{ margin: "8px", float: "left" }}>
-            <Button variant='outlined' style={{ minWidth: "60px" }}>
-              <MailOutlineIcon />
-            </Button>
-            <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
-          </div>
-          <div style={{ margin: "8px", float: "left" }}>
-            <Button variant='outlined' style={{ minWidth: "60px" }}>
-              <QuestionAnswerIcon />
-            </Button>
-            <h5 style={{ textAlign: "center", margin: "5px 0" }}>FAQ</h5>
-          </div>
-          <div style={{ margin: "8px", float: "left" }}>
-            <Button variant='outlined' href='http://www.baram.nexon.com' style={{ minWidth: "60px" }}>
-              <HomeIcon />
-            </Button>
-            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공식</h5>
+          <div style={{ width: "100%", height: "45%", padding: "8px 16px", float: "left" }}>
+            Today : 123
+            <br />
+            Total : 1234
           </div>
         </Grid>
       </Grid>

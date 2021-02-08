@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useCookies } from "react-cookie";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState } from "state/index";
 
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
@@ -11,22 +11,13 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import { SignInUser } from "utils/UserUtil";
 
-const useStyles = makeStyles(theme => ({
-  form: {
-    marginTop: 0,
-  },
-  signin: {
-    marginTop: 20,
-  },
-}));
-
 export default function SignInForm() {
-  const classes = useStyles();
   const setMyAlert = useSetRecoilState(MyAlertState);
 
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [autoLogIn, setAutoLogIn] = useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["rememberId", "rememberPw"]);
 
   const refId = useRef<any>();
   const refPassword = useRef<any>();
@@ -34,6 +25,8 @@ export default function SignInForm() {
   const verifyCheck = () => {
     if (autoLogIn) {
       setAutoLogIn(false);
+      removeCookie("rememberId");
+      removeCookie("rememberPw");
     } else {
       setAutoLogIn(true);
     }
@@ -75,17 +68,37 @@ export default function SignInForm() {
         document.location.href.indexOf("/signin") ? (document.location.href = "/") : document.location.reload();
       }
     }
+
+    if (autoLogIn && cookies.rememberId === undefined && cookies.rememberPw === undefined) {
+      setCookie("rememberId", id, { maxAge: 2000 });
+      setCookie("rememberPw", password, { maxAge: 2000 });
+    }
   };
+
+  useEffect(() => {
+    if (cookies.rememberId !== undefined && cookies.rememberPw !== undefined) {
+      setId(cookies.rememberId);
+      setPassword(cookies.rememberPw);
+      setAutoLogIn(true);
+    }
+  }, [cookies.rememberId, cookies.rememberPw]);
 
   return (
     <React.Fragment>
       <Container component='main' maxWidth='xs'>
-        <form noValidate className={classes.form}>
+        <form noValidate>
+          <div style={{ width: "100%", float: "left" }}>
+            <Checkbox
+              checked={autoLogIn}
+              color='primary'
+              onChange={() => {
+                verifyCheck();
+              }}
+              style={{ width: "24px", height: "24px" }}
+            />
+            &nbsp;자동 로그인
+          </div>
           <Container component='div' style={{ margin: "10px 0", float: "left" }}>
-            <div style={{ width: "100%", float: "left" }}>
-              <Checkbox checked={autoLogIn} color='primary' onClick={verifyCheck} style={{ width: "24px", height: "24px" }} />
-              &nbsp;자동 로그인
-            </div>
             <TextField
               variant='outlined'
               required
