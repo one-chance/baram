@@ -279,13 +279,13 @@ export default function Header() {
               </ul>
             </li>
             <li className={classes.mainmenu2}>
-              <h3>경매장</h3>
+              <h3>거래소</h3>
               <ul id='testD' className={classes.submenu}>
                 <li>
-                  <a href='/auction/auction'>경매장</a>
+                  <a href='/auction/auction'>거래소</a>
                 </li>
                 <li>
-                  <a href='/cal/power'>장 터</a>
+                  <a href='/cal/power'>장터 게시판</a>
                 </li>
               </ul>
             </li>
@@ -294,12 +294,6 @@ export default function Header() {
               <ul id='testE' className={classes.submenu}>
                 <li>
                   <a href='/myinfo/view'>회원정보</a>
-                </li>
-                <li>
-                  <a href='/forget/id'>아이디 찾기</a>
-                </li>
-                <li>
-                  <a href='/forget/password'>비밀번호 찾기</a>
                 </li>
               </ul>
             </li>

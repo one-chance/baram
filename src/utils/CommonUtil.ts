@@ -113,19 +113,39 @@ export const getNowKey = () => {
   return getKeyFromToken(getToken());
 }
 
-export const getStringByDate = (date: Date | undefined) => {
+export const getStringByDate = (date: Date | undefined, full?: boolean) => {
   if (!date) return "Unknown Date";
   
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1); // 하루 전날로 설정
+
   const dt = new Date(date);
+  let d: string = '', t: string;
 
-  let d: string = dt.getFullYear().toString();
+  d = dt.getFullYear().toString();
   d += dt.getMonth()+1 < 10 ? `.0${dt.getMonth()+1}` : `.${dt.getMonth()+1}`;
-  d += dt.getDate() < 10 ? `.0${dt.getDate()}` : `.${dt.getDate()}`;
-
-  let t: string = dt.getHours() < 10 ? `0${dt.getHours()}` : `${dt.getHours()}`;
+  d += dt.getDate() < 10 ? `.0${dt.getDate()} ` : `.${dt.getDate()} `;
+  
+  t = dt.getHours() < 10 ? `0${dt.getHours()}` : `${dt.getHours()}`;
   t += dt.getMinutes() < 10 ? `:0${dt.getMinutes()}` : `:${dt.getMinutes()}`;
 
-  return `${d} ${t}`;
+  // 전체 표시할 경우 연/월/일 시/분 표시
+  return full ? `${d}${t}` 
+  // 오늘 날짜 이전 일경우에는 연/월/일 표시
+    : dt.getTime() <= yesterday.getTime() ? `${d}`
+  // 오늘 날짜일 경우에는 시/분 표시
+    : `${t}`;
+}
+
+export const getMMDDByDate = (date: Date | undefined) => {
+  if (!date) return "Unknown Date";
+  const dt = new Date(date);
+  let d: string = '';
+
+  d += dt.getMonth()+1 < 10 ? `0${dt.getMonth()+1}` : `${dt.getMonth()+1}`;
+  d += dt.getDate() < 10 ? `.0${dt.getDate()} ` : `.${dt.getDate()} `;
+  
+  return d;
 }
 
 // 이미지 포함여부를 확인하여 있을 경우 S3에 업로드 처리

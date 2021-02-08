@@ -1,33 +1,36 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useCookies } from "react-cookie";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState } from "state/index";
 
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import { SignInUser } from "utils/UserUtil";
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    marginTop: 0,
-  },
-  signin: {
-    marginTop: 20,
-  },
-}));
-
 export default function SignInForm() {
-  const classes = useStyles();
   const setMyAlert = useSetRecoilState(MyAlertState);
 
-  const [id, setId] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [id, setId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [autoLogIn, setAutoLogIn] = useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["rememberId", "rememberPw"]);
 
-  const refId = React.useRef<any>();
-  const refPassword = React.useRef<any>();
+  const refId = useRef<any>();
+  const refPassword = useRef<any>();
+
+  const verifyCheck = () => {
+    if (autoLogIn) {
+      setAutoLogIn(false);
+      removeCookie("rememberId");
+      removeCookie("rememberPw");
+    } else {
+      setAutoLogIn(true);
+    }
+  };
 
   const _onEnterPassword = (keyCode: number) => {
     if (keyCode === 13) {
@@ -54,61 +57,84 @@ export default function SignInForm() {
     if (res) {
       if (res.isReset) {
         document.location.href = "/myinfo/changepassword";
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "success",
           duration: 1500,
           message: `환영합니다, ${id} 님!`,
         });
-        
-        document.location.reload();
+
+        document.location.href.indexOf("/signin") ? (document.location.href = "/") : document.location.reload();
       }
+    }
+
+    if (autoLogIn && cookies.rememberId === undefined && cookies.rememberPw === undefined) {
+      setCookie("rememberId", id, { maxAge: 2000 });
+      setCookie("rememberPw", password, { maxAge: 2000 });
     }
   };
 
+  useEffect(() => {
+    if (cookies.rememberId !== undefined && cookies.rememberPw !== undefined) {
+      setId(cookies.rememberId);
+      setPassword(cookies.rememberPw);
+      setAutoLogIn(true);
+    }
+  }, [cookies.rememberId, cookies.rememberPw]);
+
   return (
     <React.Fragment>
-      <Container component="main" maxWidth="xs">
-        <form noValidate className={classes.form}>
-          <Container component="div" style={{ margin: "10px 0", float: "left" }}>
+      <Container component='main' maxWidth='xs'>
+        <form noValidate>
+          <div style={{ width: "100%", float: "left" }}>
+            <Checkbox
+              checked={autoLogIn}
+              color='primary'
+              onChange={() => {
+                verifyCheck();
+              }}
+              style={{ width: "24px", height: "24px" }}
+            />
+            &nbsp;자동 로그인
+          </div>
+          <Container component='div' style={{ margin: "10px 0", float: "left" }}>
             <TextField
-              variant="outlined"
+              variant='outlined'
               required
               fullWidth
               autoFocus
-              id="id"
-              name="id"
-              placeholder="아이디를 입력해주세요."
-              autoComplete="bachang-id"
+              id='id'
+              name='id'
+              placeholder='아이디를 입력해주세요.'
+              autoComplete='bachang-id'
               value={id}
               inputRef={refId}
-              onChange={(e) => setId(e.target.value)}
+              onChange={e => setId(e.target.value)}
               inputProps={{ style: { height: "40px", padding: "5px 10px" } }}
               style={{ margin: "10px 0", float: "left" }}
             />
             <TextField
-              variant="outlined"
+              variant='outlined'
               required
               fullWidth
-              margin="dense"
-              name="password"
-              placeholder="비밀번호를 입력해주세요."
-              type="password"
-              id="password"
-              autoComplete="bachang-password"
+              margin='dense'
+              name='password'
+              placeholder='비밀번호를 입력해주세요.'
+              type='password'
+              id='password'
+              autoComplete='bachang-password'
               value={password}
               inputRef={refPassword}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyUp={(e) => _onEnterPassword(e.keyCode)}
+              onChange={e => setPassword(e.target.value)}
+              onKeyUp={e => _onEnterPassword(e.keyCode)}
               inputProps={{ style: { height: "40px", padding: "5px 10px" } }}
               style={{ margin: "10px 0", float: "left" }}
             />
             <Button
-              variant="contained"
+              variant='contained'
               fullWidth
-              color="primary"
+              color='primary'
               onClick={_onSignIn}
               style={{
                 height: "50px",
@@ -116,22 +142,15 @@ export default function SignInForm() {
                 margin: "10px 0",
                 textAlign: "center",
                 float: "left",
-              }}
-            >
+              }}>
               로그인
             </Button>
           </Container>
-          <Container component="div" style={{ margin: "10px 0 15px 0", float: "left" }}>
-            <Link href="/forget/id" variant="body2" tabIndex={-1} style={{ float: "left" }}>
-              아이디
+          <Container component='div' style={{ margin: "10px 0 15px 0", float: "left" }}>
+            <Link href='/forget' variant='body2' tabIndex={-1} style={{ outline: "none", float: "left" }}>
+              ID/PW 찾기
             </Link>
-            <Link variant="body2" tabIndex={-1} style={{ float: "left" }}>
-              &nbsp;/&nbsp;
-            </Link>
-            <Link href="/forget/password" variant="body2" tabIndex={-1} style={{ float: "left" }}>
-              비밀번호 찾기
-            </Link>
-            <Link href="/signup" variant="body2" tabIndex={-1} style={{ float: "right" }}>
+            <Link href='/signup' variant='body2' tabIndex={-1} style={{ outline: "none", float: "right" }}>
               회원가입
             </Link>
           </Container>

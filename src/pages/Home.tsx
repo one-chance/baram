@@ -5,6 +5,8 @@ import IPost from "interfaces/Board/IPost";
 import Button from "@material-ui/core/Button";
 import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import HomeIcon from "@material-ui/icons/Home";
 
 import MainCarousel from "components/MainCarousel";
 import LatestBoardPaper from "components/Board/LatestBoardPaper";
@@ -18,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid lightgray",
     borderRadius: "10px",
     float: "left",
+    backgroundColor: "white",
   },
 }));
 
@@ -56,25 +59,44 @@ const Home = () => {
         <MainCarousel />
       </Grid>
 
-      <Grid container item spacing={1} className={classes.secondSection}>
-        <Grid item xs={3} style={{ padding: "5px" }}>
+      <Grid container item spacing={3} className={classes.secondSection}>
+        <Grid item xs={4} style={{ padding: "5px" }}>
           <LatestBoardPaper category='free' posts={freePosts} />
         </Grid>
-        <Grid item xs={3} style={{ padding: "5px" }}>
+        <Grid item xs={4} style={{ padding: "5px" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item xs={6} style={{ padding: "5px" }}>
-          <div style={{ margin: "10px", float: "left" }}>
-            <Button variant='outlined'>
-              <PriorityHighIcon />
-            </Button>
-            <h5 style={{ textAlign: "center", margin: "5px 0" }}>공지사항</h5>
+        <Grid item xs={4} style={{ padding: "5px 10px" }}>
+          <div style={{ width: "100%", height: "55%", float: "left" }}>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' style={{ minWidth: "60px" }}>
+                <PriorityHighIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>공 지</h5>
+            </div>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' style={{ minWidth: "60px" }}>
+                <MailOutlineIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
+            </div>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' style={{ minWidth: "60px" }}>
+                <QuestionAnswerIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>FAQ</h5>
+            </div>
+            <div style={{ margin: "8px", float: "left" }}>
+              <Button variant='outlined' href='http://www.baram.nexon.com' style={{ minWidth: "60px" }}>
+                <HomeIcon />
+              </Button>
+              <h5 style={{ textAlign: "center", margin: "5px 0" }}>공식</h5>
+            </div>
           </div>
-          <div style={{ margin: "10px", float: "left" }}>
-            <Button variant='outlined'>
-              <MailOutlineIcon />
-            </Button>
-            <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
+          <div style={{ width: "100%", height: "45%", padding: "8px 16px", float: "left" }}>
+            Today : 123
+            <br />
+            Total : 1234
           </div>
         </Grid>
       </Grid>

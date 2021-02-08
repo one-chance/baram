@@ -1,5 +1,4 @@
 import axios from 'axios';
-import crypto from 'crypto';
 
 import IUserInfo from 'interfaces/User/IUserInfo';
 import ISignUpUser from 'interfaces/User/ISignUpUser';

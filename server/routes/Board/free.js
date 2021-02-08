@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const authMiddleware = require("../../middleware/auth");
-const myLogger = require("../../myLogger");
+const logger = require('../../winston');
 
 const FreeSchema = require("../../schemas/Board/FreeSchema");
 
@@ -30,7 +30,7 @@ router.post("/post", (req, res) => {
 
   FreeSchema.create(post, (err, post) => {
     if (err) {
-      myLogger(`[ERROR] : ${post.title} CREATED ERROR`);
+      logger.error(`[ERROR] : ${post.title} CREATED ERROR`);
       res.status(200).send({
         code: 3001,
         message: "DB 게시글 생성 오류",
@@ -42,7 +42,7 @@ router.post("/post", (req, res) => {
     return post;
   })
     .then(post => {
-      myLogger(`[SUCCESS] : ${post.title} CREATED SUCCESS`);
+      logger.info(`[SUCCESS] : ${post.title} CREATED SUCCESS`);
       res.status(200).send({
         code: 200,
         message: "게시글이 등록되었습니다.",
@@ -52,7 +52,7 @@ router.post("/post", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`POST CREATE ERROR > ${e}`);
+      logger.error(`POST CREATE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -87,7 +87,7 @@ router.put("/post", (req, res) => {
   FreeSchema.updateBySeq(post.seq, post)
     .then(updatedPost => {
       if (updatedPost) {
-        myLogger(`[SUCCESS] : ${post.title} EDITED SUCCESS`);
+        logger.info(`[SUCCESS] : ${post.title} EDITED SUCCESS`);
         res.status(200).send({
           code: 200,
           message: "게시글이 수정되었습니다.",
@@ -96,7 +96,7 @@ router.put("/post", (req, res) => {
 
         return true;
       } else {
-        myLogger(`[ERROR] : ${post.title} EDIT ERROR`);
+        logger.error(`[ERROR] : ${post.title} EDIT ERROR`);
         res.status(200).send({
           code: 3002,
           message: "DB 게시글 수정 오류",
@@ -106,7 +106,7 @@ router.put("/post", (req, res) => {
       }
     })
     .catch(e => {
-      myLogger(`POST EDIT ERROR > ${e}`);
+      logger.error(`POST EDIT ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -134,7 +134,7 @@ router.delete("/post/:seq", (req, res) => {
   FreeSchema.deleteBySeq(seq)
     .then(deletedCount => {
       if (deletedCount) {
-        myLogger(`[SUCCESS] : POST NUMBER ${seq} DELETED SUCCESS`);
+        logger.info(`[SUCCESS] : POST NUMBER ${seq} DELETED SUCCESS`);
         res.status(200).send({
           code: 200,
           message: "게시글이 삭제되었습니다.",
@@ -142,7 +142,7 @@ router.delete("/post/:seq", (req, res) => {
 
         return true;
       } else {
-        myLogger(`[ERROR] : POST NUMBER ${seq} DELETE ERROR`);
+        logger.error(`[ERROR] : POST NUMBER ${seq} DELETE ERROR`);
         res.status(200).send({
           code: 3003,
           message: "DB 게시글 삭제 오류",
@@ -152,7 +152,7 @@ router.delete("/post/:seq", (req, res) => {
       }
     })
     .catch(e => {
-      myLogger(`POST DELETE ERROR > ${e}`);
+      logger.error(`POST DELETE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -180,7 +180,7 @@ router.post("/post/recommend/:seq", (req, res) => {
 
   FreeSchema.pushRecommendUser(seq, userid)
     .then(() => {
-      myLogger(`[SUCCESS] : POST ${seq} RECOMMNED SUCCESS BY ${userid}`);
+      logger.info(`[SUCCESS] : POST ${seq} RECOMMNED SUCCESS BY ${userid}`);
       res.status(200).send({
         code: 200,
         message: "게시글을 추천하였습니다.",
@@ -189,7 +189,7 @@ router.post("/post/recommend/:seq", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`POST RECOMMEND ERROR > ${e}`);
+      logger.error(`POST RECOMMEND ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -217,7 +217,7 @@ router.post("/post/unrecommend/:seq", (req, res) => {
 
   FreeSchema.popRecommendUser(seq, userid)
     .then(() => {
-      myLogger(`[SUCCESS] : POST ${seq} UNRECOMMNED SUCCESS BY ${userid}`);
+      logger.info(`[SUCCESS] : POST ${seq} UNRECOMMNED SUCCESS BY ${userid}`);
       res.status(200).send({
         code: 200,
         message: "게시글 추천을 취소하였습니다.",
@@ -226,7 +226,7 @@ router.post("/post/unrecommend/:seq", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`POST UNRECOMMEND ERROR > ${e}`);
+      logger.error(`POST UNRECOMMEND ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -258,7 +258,7 @@ router.post("/comment", (req, res) => {
   comment.writer.lastEditDateString = new Date();
 
   if (!comment.writer.id || !comment.writer.key) {
-    myLogger(`[ERROR] : COMMENT CREATED ERROR - NOT FOUND USER INFORMATION`);
+    logger.info(`[FAILED] : COMMENT CREATED ERROR - NOT FOUND USER INFORMATION`);
     res.status(200).send({
       code: 401,
       message: "유효하지 않은 사용자 정보입니다. 로그인 후 다시 작성해주세요.",
@@ -270,7 +270,7 @@ router.post("/comment", (req, res) => {
 
   FreeSchema.createComment(seq, comment)
     .then(post => {
-      myLogger(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
+      logger.info(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
       res.status(200).send({
         code: 200,
         message: "댓글이 등록되었습니다.",
@@ -281,7 +281,7 @@ router.post("/comment", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`COMMENT CREATE ERROR > ${e}`);
+      logger.error(`COMMENT CREATE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -311,7 +311,7 @@ router.put("/comment", (req, res) => {
 
   FreeSchema.updateComment(post.seq, comment)
     .then(post => {
-      myLogger(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
+      logger.info(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
       res.status(200).send({
         code: 200,
         message: "댓글이 수정되었습니다.",
@@ -322,7 +322,7 @@ router.put("/comment", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`COMMENT CREATE ERROR > ${e}`);
+      logger.error(`COMMENT CREATE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -349,7 +349,7 @@ router.delete("/comment/:postSeq/:commentIdx", (req, res) => {
 
   FreeSchema.deleteComment(postSeq, commentIdx)
     .then(post => {
-      myLogger(`[SUCCESS] : COMMENT DELETED SUCCESS`);
+      logger.info(`[SUCCESS] : COMMENT DELETED SUCCESS`);
       res.status(200).send({
         code: 200,
         message: "댓글이 삭제되었습니다.",
@@ -359,7 +359,7 @@ router.delete("/comment/:postSeq/:commentIdx", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`COMMENT CREATE ERROR > ${e}`);
+      logger.error(`COMMENT CREATE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -392,7 +392,7 @@ router.post("/recomment", (req, res) => {
 
   FreeSchema.createRecomment(seq, commentIdx, recomment)
     .then(post => {
-      myLogger(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
+      logger.info(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
 
       const comment = post.commentList.filter(com => {
         return com.idx === commentIdx;
@@ -409,7 +409,7 @@ router.post("/recomment", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`RECOMMENT CREATE ERROR > ${e}`);
+      logger.error(`RECOMMENT CREATE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -447,7 +447,7 @@ router.put("/recomment", (req, res) => {
 
   FreeSchema.updateRecomment(post.seq, commentIdx, comment.recommentList)
     .then(post => {
-      myLogger(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
+      logger.info(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
 
       res.status(200).send({
         code: 200,
@@ -459,7 +459,7 @@ router.put("/recomment", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`RECOMMENT UPDATE ERROR > ${e}`);
+      logger.error(`RECOMMENT UPDATE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -497,7 +497,7 @@ router.put("/recomment/:recommentIdx", (req, res) => {
 
   FreeSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
     .then(post => {
-      myLogger(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
+      logger.info(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
 
       res.status(200).send({
         code: 200,
@@ -509,7 +509,7 @@ router.put("/recomment/:recommentIdx", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`RECOMMENT DELETE ERROR > ${e}`);
+      logger.error(`RECOMMENT DELETE ERROR > ${e}`);
 
       res.status(200).send({
         code: 500,
@@ -548,10 +548,7 @@ router.get("/find", (req, res) => {
 
   FreeSchema.findByFilter(filter)
     .then(posts => {
-      myLogger(`[SUCCESS] : POST LIST FIND SUCCESS`);
-      // FIXME 테스트 용으로 게시글 개수 늘리기 위한 자가복제. 메인 페이지 최신 게시글 목록 기능 끝나면 나중에 삭제 할 것.
-      posts = [...posts, ...posts, ... posts, ...posts, ...posts, ...posts, ...posts, ...posts];
-
+      logger.info(`[SUCCESS] : POST LIST FIND SUCCESS`);
       // 최신 조회 개수가 존재하면
       let postList = req.query.latestCount ?
           posts.slice(0, req.query.latestCount)
@@ -566,7 +563,7 @@ router.get("/find", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`POST LIST FIND ERROR > ${e}`);
+      logger.error(`POST LIST FIND ERROR > ${e}`);
       res.status(200).send({
         code: 500,
         message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.",
@@ -591,7 +588,7 @@ router.get("/find/:seq", (req, res) => {
 
   FreeSchema.findOneBySeq(seq)
     .then(post => {
-      myLogger(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
+      logger.info(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
       res.status(200).send({
         code: 200,
         message: "게시글 조회에 성공하였습니다.",
@@ -601,7 +598,7 @@ router.get("/find/:seq", (req, res) => {
       return true;
     })
     .catch(e => {
-      myLogger(`POST FIND ERROR > ${e}`);
+      logger.error(`POST FIND ERROR > ${e}`);
       res.status(200).send({
         code: 500,
         message: "게시글 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.",
@@ -613,7 +610,7 @@ router.get("/find/:seq", (req, res) => {
 
 function addViewCount(seq) {
   FreeSchema.addViewCount(seq).then(() => {
-    myLogger(`Add ViewCount`);
+    logger.info(`Add ViewCount`);
   });
 }
 module.exports = router;

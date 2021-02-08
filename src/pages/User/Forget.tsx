@@ -1,41 +1,43 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import FindId from "components/User/FindId";
 import FindPassword from "components/User/FindPassword";
 
 const useStyles = makeStyles(theme => ({
-  title: {
-    margin: "10px",
-    textAlign: "center",
+  root: {
+    width: "100%",
+    height: "340px",
+    margin: "100px 0 0 0",
+    float: "left",
+    flexGrow: 1,
+  },
+  item: {
+    minWidth: "350px",
+    padding: "5px",
+    border: "1px solid lightgray",
+    borderRadius: "10px",
   },
 }));
 
-export default function Forget({ match }: any) {
+export default function Forget() {
   const classes = useStyles();
-  const { mode } = match.params;
-
-  const [tab, setTab] = React.useState("id");
-  useEffect(() => {
-    if (mode === "password") setTab(mode);
-  }, []);
 
   return (
     <React.Fragment>
-      <Container style={{ width: "40%", margin: "10px 30%", float: "left" }}>
-        <Typography className={classes.title} variant='subtitle1'>
-          <span onClick={() => setTab("id")}>아이디</span>
-          <span>&nbsp;/&nbsp;</span>
-          <span onClick={() => setTab("password")}>비밀번호 찾기</span>
-        </Typography>
-      </Container>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          {tab === "password" ? <FindPassword /> : <FindId />}
+      <Grid container spacing={2} className={classes.root}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={4} className={classes.item}>
+          <h2 style={{ textAlign: "center", margin: "20px 0" }}>아이디 찾기</h2>
+          <FindId />
         </Grid>
+        <Grid item xs={2}></Grid>
+        <Grid item xs={4} className={classes.item}>
+          <h2 style={{ textAlign: "center", margin: "20px 0" }}>비밀번호 찾기</h2>
+          <FindPassword />
+        </Grid>
+        <Grid item xs={1}></Grid>
       </Grid>
     </React.Fragment>
   );

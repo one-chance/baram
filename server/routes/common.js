@@ -8,7 +8,7 @@ const AWS = require('aws-sdk');
 AWS.config.update({region: process.env.S3_REGION});
 
 const fs  = require('fs');
-const myLogger = require("../myLogger");
+const logger = require('../winston');
 
 const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
@@ -18,7 +18,7 @@ const ConfigSchema = require("../schemas/Common/ConfigSchema");
 const mapVerifyCodeByEmail = new Map();
 
 /*
- *    아이디 중복 검사
+ *    NOTE 아이디 중복 검사
  *    TYPE : POST
  *    URI : /api/common/checkid
  *    PARAM: {"id"}
@@ -30,7 +30,7 @@ router.post("/checkid", (req, res) => {
   const id = req.body.id;
   UserSchema.findOneById(id).then(exist => {
     if (exist) {
-      myLogger(`[ERROR] : ${id} IS ALREADY EXIST`);
+      logger.info(`[FAILED] : ${id} IS ALREADY EXIST`);
       res.status(200).send({
         code: 1001,
         message: "이미 사용중인 ID 입니다.",
@@ -45,7 +45,7 @@ router.post("/checkid", (req, res) => {
 });
 
 /*
- *    사용자 회원가입
+ *    NOTE 사용자 회원가입
  *    TYPE : POST
  *    URI : /api/common/signup
  *    PARAM: { "id": "test", "password": "test", "salt": "salt", "createDateString", "editDateString" }
@@ -70,88 +70,93 @@ router.post("/signup", (req, res) => {
 
     // 비밀번호 암호화
     // 1: 비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
-    crypto.pbkdf2(user.password, user.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
-      user.password = key.toString('base64');
+    crypto.pbkdf2(
+      user.password, 
+      user.salt, 
+      parseInt(process.env.PASSWORD_REPEAT), 
+      parseInt(process.env.PASSWORD_LENGTH), 
+      'sha512', 
+      (err, key) => {
+        user.password = key.toString('base64');
 
-      UserSchema.findOneById(user.id)
-      .then(exist => {
-        if (exist) {
-          myLogger(`[ERROR] : ${user.id} IS ALREADY EXIST`);
-          res.status(200).send({
-            code: 1001,
-            message: "중복된 유저",
-          });
+        UserSchema.findOneById(user.id)
+        .then(exist => {
+          if (exist) {
+            logger.info(`[FAILED] : ${user.id} IS ALREADY EXIST`);
+            res.status(200).send({
+              code: 1001,
+              message: "중복된 유저",
+            });
 
-          return false;
-        } else {
-          UserSchema.create(user, (err, user) => {
-            if (err) {
-              myLogger(`[ERROR] : ${user.id} CREATED ERROR`);
-              res.status(500).send({
-                code: 1002,
-                message: "DB 계정 생성 오류",
-              });
+            return false;
+          } else {
+            UserSchema.create(user, (err, user) => {
+              if (err) {
+                logger.error(`[ERROR] : ${user.id} CREATED ERROR`);
+                res.status(500).send({
+                  code: 1002,
+                  message: "DB 계정 생성 오류",
+                });
 
-              return false;
-            }
+                return false;
+              }
 
-            return user;
-          })
-            .then(signupUser => {
-              const userInfo = new UserInfoSchema({
-                key: signupUser.key,
-                id: signupUser.id,
-                createDateString: user.createDateString,
-                editDateString: user.editDateString,
-                email: email,
-                point: 0,
-                grade: "Level 1",
-                isActive: true,
-              });
+              return user;
+            })
+              .then(signupUser => {
+                const userInfo = new UserInfoSchema({
+                  key: signupUser.key,
+                  id: signupUser.id,
+                  createDateString: user.createDateString,
+                  editDateString: user.editDateString,
+                  email: email,
+                  point: 0,
+                  grade: "Level 1",
+                  isActive: true,
+                });
 
-              UserInfoSchema.create(userInfo, (err, user) => {
-                myLogger(`[ERROR] : ${user.key} - ${user.id} INFORMATION CREATED ERROR`);
-                if (err) {
-                  res.status(500).send({
-                    code: 1002,
-                    message: "DB 사용자 정보 생성 오류",
-                  });
+                UserInfoSchema.create(userInfo, (err, user) => {
+                  logger.error(`[ERROR] : ${user.key} - ${user.id} INFORMATION CREATED ERROR`);
+                  if (err) {
+                    res.status(500).send({
+                      code: 1002,
+                      message: "DB 사용자 정보 생성 오류",
+                    });
 
-                  return false;
-                }
+                    return false;
+                  }
 
-                myLogger(`[SUCCESS] : ${signupUser.key} - ${signupUser.id} CREATED!!!`);
+                  logger.info(`[SUCCESS] : ${signupUser.key} - ${signupUser.id} CREATED!!!`);
+
+                  return true;
+                });
+              })
+              .then(() => {
+                res.status(200).send({
+                  code: 200,
+                  message: "회원가입이 완료되었습니다.",
+                });
 
                 return true;
               });
-            })
-            .then(isCreated => {
-              myLogger(isCreated);
-              res.status(200).send({
-                code: 200,
-                message: "회원가입이 완료되었습니다.",
-              });
+          }
+        })
+        .catch(e => {
+          logger.error(`SIGNUP ERROR > ${e}`);
 
-              return true;
-            });
-        }
-      })
-      .catch(e => {
-        myLogger(`SIGNUP ERROR > ${e}`);
+          res.status(500).send({
+            code: 500,
+            message: "서버 오류가 발생했습니다.",
+          });
 
-        res.status(500).send({
-          code: 500,
-          message: "서버 오류가 발생했습니다.",
+          return false;
         });
-
-        return false;
-      });
     });
   });
 });
 
 /*
- *    사용자 로그인
+ *    NOTE 사용자 로그인
  *    TYPE : POST
  *    URI : /api/common/signin
  *    PARAM: { "id": "test", "password": "test"}
@@ -171,33 +176,39 @@ router.post("/signin", (req, res) => {
 
         // 패스워드 암호화 비교
         // 1: 입력비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
-        crypto.pbkdf2(password, user.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
-          if (key.toString('base64') === user.password) {
-            myLogger(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
+        crypto.pbkdf2(
+          password, 
+          user.salt, 
+          parseInt(process.env.PASSWORD_REPEAT), 
+          parseInt(process.env.PASSWORD_LENGTH), 
+          'sha512', 
+          (err, key) => {
+            if (key.toString('base64') === user.password) {
+              logger.info(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
 
-            const token = createToken(user.key, id);
-  
-            res.status(200).send({
-              code: 200,
-              message: "로그인 하였습니다.",
-              token: token,
-              isReset: user.isReset
-            });
-  
-            return true;
-          }
-          else {
-            myLogger(`[ERROR] : ${id} IS NOT MATCHED PASSWORD`);
-            res.status(200).send({
-              code: 1003,
-              message: "일치하지 않는 비밀번호 입니다.",
-            });
+              const token = createToken(user.key, id);
+    
+              res.status(200).send({
+                code: 200,
+                message: "로그인 하였습니다.",
+                token: token,
+                isReset: user.isReset
+              });
+    
+              return true;
+            }
+            else {
+              logger.info(`[FAILED] : ${id} IS NOT MATCHED PASSWORD`);
+              res.status(200).send({
+                code: 1003,
+                message: "일치하지 않는 비밀번호 입니다.",
+              });
 
-            return false;
-          }
+              return false;
+            }
         });
       } else {
-        myLogger(`[ERROR] : ${id} IS NOT EXIST USER`);
+        logger.info(`[FAILED] : ${id} IS NOT EXIST USER`);
         res.status(200).send({
           code: 1001,
           message: "존재하지 않는 사용자입니다.",
@@ -207,7 +218,7 @@ router.post("/signin", (req, res) => {
       }
     })
     .catch(e => {
-      myLogger(`SIGNIN ERROR > ${e}`);
+      logger.error(`SIGNIN ERROR > ${e}`);
 
       res.status(500).send({
         code: 500,
@@ -217,7 +228,7 @@ router.post("/signin", (req, res) => {
 });
 
 /*
- *    사용자 토큰 정보 갱신
+ *    NOTE 사용자 토큰 정보 갱신
  *    TYPE : POST
  *    URI : /api/common/refresh
  *    PARAM: { "id", "token"}
@@ -233,13 +244,13 @@ router.post("/refresh", (req, res) => {
   const decoded = jsonwebtoken.verify(token, process.env.MONGODB_SECRET);
 
   if (decoded) {
-    myLogger(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
+    logger.info(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
     res.status(200).send({
       code: 200,
       token: createToken(key, id),
     });
   } else {
-    myLogger(`[ERROR] : ${id} INVALID ACCESS TOKEN`);
+    logger.info(`[FAILED] : ${id} INVALID ACCESS TOKEN`);
     res.status(200).send({
       code: 401,
       token: null,
@@ -248,7 +259,7 @@ router.post("/refresh", (req, res) => {
 });
 
 /*
-*    S3 이미지 업로드
+*    NOTE S3 이미지 업로드
 *    TYPE : PUT
 *    URI : /api/common/upload
 *    PARAM: { "fileName", "file"}
@@ -277,7 +288,7 @@ router.post("/upload", (req, res) => {
 
   s3.upload(param, (err, data) => {
     if (data) {
-      console.log(`[SUCCESS] UPLOADDED IMAGE ${fileName}`);
+      logger.info(`[SUCCESS] UPLOADDED IMAGE ${fileName}`);
       const url = `https://${process.env.BUCKET_NAME}.s3.${process.env.S3_REGION}.amazonaws.com/${process.env.RUNTIME_MODE}/${process.env.BUCKET_KEY}/${fileName}`;
       res.status(200).send({
         code: 200,
@@ -285,7 +296,7 @@ router.post("/upload", (req, res) => {
       });
     }
     else{
-      console.log(`[ERROR] IMAGE UPLOAD FAILED : `, err);
+      logger.error(`[ERROR] IMAGE UPLOAD FAILED : `, err);
       res.status(200).send({
         code: 500,
       });
@@ -294,7 +305,7 @@ router.post("/upload", (req, res) => {
 });
 
 /*
-*    S3 이미지 개수 체크
+*    NOTE S3 이미지 개수 체크
 *    TYPE : PUT
 *    URI : /api/common/config/imageCount
 *    ERROR CODES:
@@ -313,7 +324,7 @@ router.post("/config/imageCount", (req, res) => {
 
         ConfigSchema.updateByMode(process.env.RUNTIME_MODE, config)
           .then(() => {
-            
+            logger.error('[SUCCESS] CHECKED IMAGE COUNT');
             res.status(200).send({
               code: 200,
               newImageCount: newImageCount
@@ -323,8 +334,7 @@ router.post("/config/imageCount", (req, res) => {
       }
     })
     .catch((e) => {
-      console.log('[ERROR] GET CONFIG SERVER ERROR');
-
+      logger.error('[ERROR] CHECK IMAGE COUNT ERROR');
       res.status(500).send({
         code: 500,
       });
@@ -334,7 +344,7 @@ router.post("/config/imageCount", (req, res) => {
 });
 
 /*
-*    이메일 주소 인증 메일 발송
+*    NOTE 이메일 주소 인증 메일 발송
 *    TYPE : PUT
 *    URI : /api/common/email
 *    ERROR CODES:
@@ -349,7 +359,7 @@ router.put("/email", (req, res) => {
   UserInfoSchema.findOneByEmail(email)
     .then((user) => {
       if(user) {
-        myLogger(`[ERROR] : EXIST USER USED BY ${email}`);
+        logger.info(`[FAILED] : EXIST USER USED BY ${email}`);
 
         res.status(200).send({
           code: 201,
@@ -359,91 +369,89 @@ router.put("/email", (req, res) => {
         return false;
       }
       else {
-        myLogger(`[SUCCESS] : NOT EXIST USER USED BY ${email}`);
+        logger.info(`[SUCCESS] : NOT EXIST USER USED BY ${email}`);
 
         // 서버 메모리에 인증번호 정보 저장
         const date = new Date();
-        const verifyCode = crypto
-          .createHash("sha512")
-          .update(`${email}${date.toLocaleString()}`)
-          .digest("base64"); // base64, hex, latin1
-
-        mapVerifyCodeByEmail.set(email, {
-          email,
-          verifyCode,
-          date: date
-        });
-        
-        const ses = new AWS.SES({
-          apiVersion: '2010-12-01',
-          accessKeyId: process.env.SES_USER_NAME,
-          secretAccessKey: process.env.SES_SECRET_KEY,
-          region: process.env.S3_REGION
-        });
-
-        const SUBJECT = '바창 커뮤니티 이메일 인증번호 발송';
-        const HTML_BODY = `
-          <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에 오신 것을 환영합니다!
-          아래 인증번호를 복사하시어 이메일 인증 단계를 완료해주시기 바랍니다.
-          <br>
-          <b>${verifyCode}</b>
-          <br>
-          감사합니다.
-        `;
-        
-        var params = {
-          Destination: { /* required */
-            // CcAddresses: [
-            // ],
-            ToAddresses: [
-              email
-            ]
-          },
-          Message: { /* required */
-            Body: { /* required */
-              Html: {
-                Charset: "UTF-8",
-                Data: HTML_BODY
-              },
-            },
-            Subject: {
-              Charset: 'UTF-8',
-              Data: SUBJECT
-            }
-          },
-          Source: process.env.EMAIL_SENDER, /* required */
-          // ReplyToAddresses: [
-          //   /* more items */
-          // ],
-        };
-
-        // Create the promise and SES service object
-        var sendPromise = ses.sendEmail(params).promise();
-
-        // Handle promise's fulfilled/rejected states
-        sendPromise.then(
-          function(data) {
-            console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
-            res.status(200).send({
-              code: 200,
-              message: '발송된 이메일 내용을 확인해주세요.'
-            });
-
-            return true;
-          }).catch(
-            function(err) {
-              console.log(`[ERROR] SEND EMAIL FAILED : `, err);
-              res.status(200).send({
-                code: 500,
-                message: "인증메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.",
-              });
-
-              return false;
+        crypto.randomBytes(8, (err, buf) => {
+          const verifyCode = buf.toString('base64');
+          mapVerifyCodeByEmail.set(email, {
+            email,
+            verifyCode,
+            date: date
           });
+
+          const ses = new AWS.SES({
+            apiVersion: '2010-12-01',
+            accessKeyId: process.env.SES_USER_NAME,
+            secretAccessKey: process.env.SES_SECRET_KEY,
+            region: process.env.S3_REGION
+          });
+  
+          const SUBJECT = '바창 커뮤니티 이메일 인증번호 발송';
+          const HTML_BODY = `
+            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에 오신 것을 환영합니다!<br>
+            아래 인증번호를 복사하시어 이메일 인증 단계를 완료해주시기 바랍니다.<br>
+            <br>
+            <b>${verifyCode}</b>
+            <br><br>
+            감사합니다.
+          `;
+          
+          var params = {
+            Destination: { /* required */
+              // CcAddresses: [
+              // ],
+              ToAddresses: [
+                email
+              ]
+            },
+            Message: { /* required */
+              Body: { /* required */
+                Html: {
+                  Charset: "UTF-8",
+                  Data: HTML_BODY
+                },
+              },
+              Subject: {
+                Charset: 'UTF-8',
+                Data: SUBJECT
+              }
+            },
+            Source: process.env.EMAIL_SENDER, /* required */
+            // ReplyToAddresses: [
+            //   /* more items */
+            // ],
+          };
+  
+          // Create the promise and SES service object
+          var sendPromise = ses.sendEmail(params).promise();
+  
+          // Handle promise's fulfilled/rejected states
+          sendPromise.then(
+            function(data) {
+              console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
+              res.status(200).send({
+                code: 200,
+                message: '발송된 이메일 내용을 확인해주세요.'
+              });
+  
+              return true;
+            }).catch(
+              function(err) {
+                console.log(`[ERROR] SEND EMAIL FAILED : `, err);
+                res.status(200).send({
+                  code: 500,
+                  message: "인증메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.",
+                });
+  
+                return false;
+            });
+        });
       }
     })
     .catch((e) => {
-      myLogger(`USER CHECK BY EMAIL ERROR > ${e}`);
+      logger.error(`USER CHECK BY EMAIL ERROR > ${e}`);
 
       res.status(500).send({
         code: 500,
@@ -455,7 +463,7 @@ router.put("/email", (req, res) => {
 });
 
 /*
-*    아이디로 이메일 주소 인증 메일 발송
+*    NOTE 아이디로 이메일 주소 인증 메일 발송
 *    TYPE : PUT
 *    URI : /api/common/id/email
 *    ERROR CODES:
@@ -472,90 +480,89 @@ router.put("/id/email", (req, res) => {
   UserInfoSchema.findOneByIdAndEmail(id, email)
     .then((user) => {
       if(user) {
-        myLogger(`[SUCCESS] : EXIST USER USED BY ${id} ${email}`);
+        logger.info(`[SUCCESS] : EXIST USER USED BY ${id} ${email}`);
 
         // 서버 메모리에 인증번호 정보 저장
         const date = new Date();
-        const verifyCode = crypto
-          .createHash("sha512")
-          .update(`${email}${date.toLocaleString()}`)
-          .digest("base64"); // base64, hex, latin1
-
-        mapVerifyCodeByEmail.set(email, {
-          email,
-          verifyCode,
-          date: date
-        });
-        
-        const ses = new AWS.SES({
-          apiVersion: '2010-12-01',
-          accessKeyId: process.env.SES_USER_NAME,
-          secretAccessKey: process.env.SES_SECRET_KEY,
-          region: process.env.S3_REGION
-        });
-
-        const SUBJECT = '바창 커뮤니티 이메일 인증번호 발송';
-        const HTML_BODY = `
-          <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에 오신 것을 환영합니다!
-          아래 인증번호를 복사하시어 이메일 인증 단계를 완료해주시기 바랍니다.
-          <br>
-          <b>${verifyCode}</b>
-          <br>
-          감사합니다.
-        `;
-        
-        var params = {
-          Destination: { /* required */
-            // CcAddresses: [
-            // ],
-            ToAddresses: [
-              email
-            ]
-          },
-          Message: { /* required */
-            Body: { /* required */
-              Html: {
-                Charset: "UTF-8",
-                Data: HTML_BODY
-              },
-            },
-            Subject: {
-              Charset: 'UTF-8',
-              Data: SUBJECT
-            }
-          },
-          Source: process.env.EMAIL_SENDER, /* required */
-          // ReplyToAddresses: [
-          //   /* more items */
-          // ],
-        };
-
-        // Create the promise and SES service object
-        var sendPromise = ses.sendEmail(params).promise();
-
-        // Handle promise's fulfilled/rejected states
-        sendPromise.then(
-          function(data) {
-            console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
-            res.status(200).send({
-              code: 200,
-              message: '발송된 이메일 내용을 확인해주세요.'
-            });
-
-            return true;
-          }).catch(
-            function(err) {
-              console.log(`[ERROR] SEND EMAIL FAILED : `, err);
-              res.status(200).send({
-                code: 500,
-                message: "인증메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.",
-              });
-
-              return false;
+        crypto.randomBytes(8, (err, buf) => {
+          const verifyCode = buf.toString('base64');
+          mapVerifyCodeByEmail.set(email, {
+            email,
+            verifyCode,
+            date: date
           });
+          
+          const ses = new AWS.SES({
+            apiVersion: '2010-12-01',
+            accessKeyId: process.env.SES_USER_NAME,
+            secretAccessKey: process.env.SES_SECRET_KEY,
+            region: process.env.S3_REGION
+          });
+  
+          const SUBJECT = '바창 커뮤니티 이메일 인증번호 발송';
+          const HTML_BODY = `
+            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"입니다.<br>
+            아래 인증번호를 복사하시어 이메일 인증 단계를 완료하신 후 신규 비밀번호 전송 단계를 진행해주세요.<br>
+            인증된 이메일로 발송 된 신규 비밀번호를 확인하시어 로그인 하신 뒤, 반드시 비밀번호 변경 단계를 진행해주세요.<br>
+            <br>
+            <b>${verifyCode}</b>
+            <br><br>
+            감사합니다.
+          `;
+          
+          var params = {
+            Destination: { /* required */
+              // CcAddresses: [
+              // ],
+              ToAddresses: [
+                email
+              ]
+            },
+            Message: { /* required */
+              Body: { /* required */
+                Html: {
+                  Charset: "UTF-8",
+                  Data: HTML_BODY
+                },
+              },
+              Subject: {
+                Charset: 'UTF-8',
+                Data: SUBJECT
+              }
+            },
+            Source: process.env.EMAIL_SENDER, /* required */
+            // ReplyToAddresses: [
+            //   /* more items */
+            // ],
+          };
+  
+          // Create the promise and SES service object
+          var sendPromise = ses.sendEmail(params).promise();
+  
+          // Handle promise's fulfilled/rejected states
+          sendPromise.then(
+            function(data) {
+              console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
+              res.status(200).send({
+                code: 200,
+                message: '발송된 이메일 내용을 확인해주세요.'
+              });
+  
+              return true;
+            }).catch(
+              function(err) {
+                console.log(`[ERROR] SEND EMAIL FAILED : `, err);
+                res.status(200).send({
+                  code: 500,
+                  message: "인증메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.",
+                });
+  
+                return false;
+            });
+        });
       }
       else {
-        myLogger(`[ERROR] : NOT EXIST USER USED BY ${id} ${email}`);
+        logger.info(`[FAILED] : NOT EXIST USER USED BY ${id} ${email}`);
         res.status(200).send({
           code: 2005,
           message: "해당 사용자 정보를 찾을 수 없습니다. ID와 이메일 주소를 확인해주세요."
@@ -565,7 +572,7 @@ router.put("/id/email", (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`USER CHECK BY EMAIL ERROR > ${e}`);
+      logger.error(`USER CHECK BY EMAIL ERROR > ${e}`);
 
       res.status(500).send({
         code: 500,
@@ -577,7 +584,7 @@ router.put("/id/email", (req, res) => {
 });
 
 /*
-*    인증메일 코드 인증
+*    NOTE 인증메일 코드 인증
 *    TYPE : POST
 *    URI : /api/common/email
 *    ERROR CODES:
@@ -593,20 +600,20 @@ router.post("/email", (req, res) => {
   
   if (verify) {
     if (verify.verifyCode === emailCode) {
-      console.log(`[SUCCESS] VERIFIED EMAIL ${email}`);
+      logger.info(`[SUCCESS] VERIFIED EMAIL ${email}`);
       res.status(200).send({
         code: 200,
       });
     }
     else {
-      console.log(`[ERROR] NOT VERIFIED EMAIL ${email}`);
+      logger.info(`[ERROR] NOT VERIFIED EMAIL ${email}`);
       res.status(200).send({
         code: 201,
       });
     }
   }
   else {
-    console.log(`[ERROR] NOT FOUND VERIFIY EMAIL ${email}`);
+    logger.error(`[ERROR] NOT FOUND VERIFIY EMAIL ${email}`);
     res.status(200).send({
       code: 500,
     });
@@ -614,7 +621,7 @@ router.post("/email", (req, res) => {
 });
 
 /*
-*    이메일로 사용자 정보조회
+*    NOTE 이메일로 사용자 정보조회
 *    TYPE : GET
 *    URI : /api/common/find
 *    QUERYSTRING: { "email": email }
@@ -630,7 +637,7 @@ router.get('/find', (req, res) => {
   UserInfoSchema.findOneByEmail(email)
     .then((userInfo) => {
       if (userInfo) {
-        myLogger(`[SUCCESS] : FIND USERINFO BY ${email}`);
+        logger.info(`[SUCCESS] : FIND USERINFO BY ${email}`);
         res.status(200).send({
           code: 200,
           message: "사용자 정보를 조회하였습니다.",
@@ -640,7 +647,7 @@ router.get('/find', (req, res) => {
         return true;
       }
       else {
-        myLogger(`[ERROR] : FIND USERINFO ERROR BY ${email}`);
+        logger.info(`[FAILED] : FIND USERINFO ERROR BY ${email}`);
         res.status(200).send({
           code: 2005,
           message: "사용자 정보를 찾을 수 없습니다."
@@ -650,7 +657,7 @@ router.get('/find', (req, res) => {
       }
     })
     .catch((e) => {
-      myLogger(`INFORMATION FIND ERROR > ${e}`);
+      logger.error(`INFORMATION FIND ERROR > ${e}`);
       res.status(200).send({
         code: 500,
         message: "사용자 정보를 찾는 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
@@ -661,7 +668,7 @@ router.get('/find', (req, res) => {
 });
 
 /*   
-*    비밀번호 초기화
+*    NOTE 비밀번호 초기화
 *    TYPE : POST
 *    URI : /api/common/reset
 *    ERROR CODES:
@@ -689,120 +696,126 @@ router.put("/reset", (req, res) => {
 
       // 비밀번호 암호화
       // 1: 비밀번호 / 2: 랜덤값 / 3: 반복횟수 / 4: 비밀번호길이 / 5: 해시 알고리즘
-      crypto.pbkdf2(newPassword.source, newPassword.salt, parseInt(process.env.PASSWORD_REPEAT), parseInt(process.env.PASSWORD_LENGTH), 'sha512', (err, key) => {
-        newPassword.password = key.toString('base64');
+      crypto.pbkdf2(
+        newPassword.source, 
+        newPassword.salt, 
+        parseInt(process.env.PASSWORD_REPEAT), 
+        parseInt(process.env.PASSWORD_LENGTH), 
+        'sha512', 
+        (err, key) => {
+          newPassword.password = key.toString('base64');
 
-        // 2. 사용자 업데이트
-        const changePasswordInfo = {
-          password: newPassword.password,
-          salt: newPassword.salt,
-          isReset: true,
-          editDateString: new Date()
-        };
+          // 2. 사용자 업데이트
+          const changePasswordInfo = {
+            password: newPassword.password,
+            salt: newPassword.salt,
+            isReset: true,
+            editDateString: new Date()
+          };
 
-        UserSchema.updateById(id, changePasswordInfo)
-          .then((changedInfo) => {
-            if (changedInfo) {
-              myLogger(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
+          UserSchema.updateById(id, changePasswordInfo)
+            .then((changedInfo) => {
+              if (changedInfo) {
+                logger.info(`[SUCCESS] : ${changedInfo.id} CHANGE PASSWORD`);
 
-              // 3. 이메일 발송
-              const ses = new AWS.SES({
-                apiVersion: '2010-12-01',
-                accessKeyId: process.env.SES_USER_NAME,
-                secretAccessKey: process.env.SES_SECRET_KEY,
-                region: process.env.S3_REGION
-              });
-
-              const SUBJECT = '바창 커뮤니티 신규 비밀번호 발송';
-              const HTML_BODY = `
-                <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에서 안내 말씀 드립니다.<br>
-                ${id} 의 비밀번호가 다음과 같이 변경되었습니다.<br>
-                ${newPassword.source}<br>
-                로그인 하신 후 신규 비밀번호로 변경해주세요.<br>
-                <br>
-                <a href="/">바로가기</a>
-                <br>
-                감사합니다.
-              `;
-              
-              var params = {
-                Destination: { /* required */
-                  // CcAddresses: [
-                  // ],
-                  ToAddresses: [
-                    email
-                  ]
-                },
-                Message: { /* required */
-                  Body: { /* required */
-                    Html: {
-                      Charset: "UTF-8",
-                      Data: HTML_BODY
-                    },
-                  },
-                  Subject: {
-                    Charset: 'UTF-8',
-                    Data: SUBJECT
-                  }
-                },
-                Source: process.env.EMAIL_SENDER, /* required */
-                // ReplyToAddresses: [
-                //   /* more items */
-                // ],
-              };
-
-              // Create the promise and SES service object
-              var sendPromise = ses.sendEmail(params).promise();
-
-              // Handle promise's fulfilled/rejected states
-              sendPromise.then(
-                function(data) {
-                  console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
-                  res.status(200).send({
-                    code: 200,
-                    message: '신규 비밀번호를 전송하였습니다. 메일을 확인해주세요.'
-                  });
-
-                  return true;
-                }).catch(
-                  function(err) {
-                    console.log(`[ERROR] SEND EMAIL FAILED : `, err);
-                    res.status(200).send({
-                      code: 500,
-                      message: "메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.",
-                    });
-
-                    return false;
+                // 3. 이메일 발송
+                const ses = new AWS.SES({
+                  apiVersion: '2010-12-01',
+                  accessKeyId: process.env.SES_USER_NAME,
+                  secretAccessKey: process.env.SES_SECRET_KEY,
+                  region: process.env.S3_REGION
                 });
 
-              return true;
-            }
-            else {
-              myLogger(`[ERROR] : ${id} CHANGE PASSWORD ERROR`);
+                const SUBJECT = '바창 커뮤니티 신규 비밀번호 발송';
+                const HTML_BODY = `
+                  <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에서 안내 말씀 드립니다.<br>
+                  ${id} 의 비밀번호가 다음과 같이 변경되었습니다.<br>
+                  ${newPassword.source}<br>
+                  로그인 하신 후 신규 비밀번호로 변경해주세요.<br>
+                  <br>
+                  <a href="/">바로가기</a>
+                  <br>
+                  감사합니다.
+                `;
+                
+                var params = {
+                  Destination: { /* required */
+                    // CcAddresses: [
+                    // ],
+                    ToAddresses: [
+                      email
+                    ]
+                  },
+                  Message: { /* required */
+                    Body: { /* required */
+                      Html: {
+                        Charset: "UTF-8",
+                        Data: HTML_BODY
+                      },
+                    },
+                    Subject: {
+                      Charset: 'UTF-8',
+                      Data: SUBJECT
+                    }
+                  },
+                  Source: process.env.EMAIL_SENDER, /* required */
+                  // ReplyToAddresses: [
+                  //   /* more items */
+                  // ],
+                };
+
+                // Create the promise and SES service object
+                var sendPromise = ses.sendEmail(params).promise();
+
+                // Handle promise's fulfilled/rejected states
+                sendPromise.then(
+                  function(data) {
+                    console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
+                    res.status(200).send({
+                      code: 200,
+                      message: '신규 비밀번호를 전송하였습니다. 메일을 확인해주세요.'
+                    });
+
+                    return true;
+                  }).catch(
+                    function(err) {
+                      console.log(`[ERROR] SEND EMAIL FAILED : `, err);
+                      res.status(200).send({
+                        code: 500,
+                        message: "메일 전송에 실패하였습니다. 잠시 후 다시 시도해주세요.",
+                      });
+
+                      return false;
+                  });
+
+                return true;
+              }
+              else {
+                logger.error(`[ERROR] : ${id} CHANGE PASSWORD ERROR`);
+                res.status(200).send({
+                  code: 2007,
+                  message: "비밀번호 변경에 실패하였습니다. 잠시 후 다시 시도하여주세요."
+                });
+
+                return false;
+              }
+            })
+            .catch((e) => {
+              logger.error(`CHANGE PASSWORD ERROR > ${e}`);
               res.status(200).send({
-                code: 2007,
-                message: "비밀번호 변경에 실패하였습니다. 잠시 후 다시 시도하여주세요."
+                code: 500,
+                message: "비밀번호 변경 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
               });
 
               return false;
-            }
-          })
-          .catch((e) => {
-            myLogger(`CHANGE PASSWORD ERROR > ${e}`);
-            res.status(200).send({
-              code: 500,
-              message: "비밀번호 변경 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
             });
-
-            return false;
-          });
-      });
+        });
     });
   });
 });
 
 /*
- *   신규 토큰 생성
+ *   NOTE 신규 토큰 생성
  */
 const createToken = (_key, _id) => {
   // CREATE JSONWEBTOKEN

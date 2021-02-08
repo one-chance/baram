@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const myLogger = require("../myLogger");
+const logger = require('../winston');
 
 const SearchItemSchema = require('../schemas/Cal/SearchItemSchema');
 
@@ -54,7 +54,7 @@ router.get("/item", (req, res) => {
         console.log(itemList);
         */
 
-        myLogger(`[SUCCESS] : `);
+        logger.info(`[SUCCESS] : `);
         res.status(200).send({
           code: 200,
           message: "성공하였습니다.",
@@ -64,7 +64,7 @@ router.get("/item", (req, res) => {
         });
       })
       .catch((e) => {
-        myLogger(`[GET URI] : `, uri);
+        logger.error(`[GET URI] : `, uri);
         res.status(200).send({
           code: 500,
           message: "잠시 후 다시 시도해주세요.",

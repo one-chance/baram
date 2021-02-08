@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
@@ -6,12 +6,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
-import CheckIcon from "@material-ui/icons/Check";
+import Divider from "@material-ui/core/Divider";
 
+import CheckIcon from "@material-ui/icons/Check";
 import RightIcon from "@material-ui/icons/SentimentVerySatisfied";
 import WrongIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
@@ -20,7 +20,7 @@ import { sendVerifyEmail, checkVerifyEmail } from "utils/CommonUtil";
 
 const useStyles = makeStyles({
   title: {
-    margin: "10px",
+    margin: "10px 0 30px 0",
     textAlign: "center",
   },
   form: {
@@ -28,9 +28,6 @@ const useStyles = makeStyles({
   },
   checkButton: {
     alignItems: "center",
-  },
-  signup: {
-    marginTop: 20,
   },
 });
 
@@ -272,7 +269,7 @@ export default function SignUp(props: IProps) {
 
   return (
     <React.Fragment>
-      <Container style={{ width: "40%", margin: "10px 30%", float: "left" }}>
+      <Container style={{ width: "70%", margin: "10px 15%", float: "left" }}>
         <Typography className={classes.title} component='h1' variant='h4'>
           회원가입
         </Typography>
@@ -403,10 +400,9 @@ export default function SignUp(props: IProps) {
             </Button>
           </Container>
         )}
-        <Grid item xs={12}>
-          <Grid item xs={12}>
-            <Typography>인증방식 설명</Typography>
-          </Grid>
+
+        <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
+          <Divider />
           <FormControlLabel
             control={
               <Checkbox
@@ -420,12 +416,13 @@ export default function SignUp(props: IProps) {
             }
             label='내용을 다 읽고 이해하였습니다.'
           />
-        </Grid>
-        <Grid container justify='flex-end' className={classes.signup}>
-          <Button variant='contained' color='primary' fullWidth onClick={_onClickSignUp}>
+          <Divider />
+        </Container>
+        <Container style={{ width: "100%", height: "62px", margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
+          <Button variant='contained' color='primary' onClick={_onClickSignUp} style={{ width: "400px" }}>
             가입하기
           </Button>
-        </Grid>
+        </Container>
       </Container>
     </React.Fragment>
   );
