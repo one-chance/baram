@@ -114,7 +114,7 @@ export default function Equip() {
       {equipSlotList.map((equipSlot: IEquipSlot, idx: number) => {
         if (equipSlot.type === "reinforce") {
           return (
-            <div>
+            <div key={equipSlot.num}>
               <Link
                 style={{
                   width: "60px",

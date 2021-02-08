@@ -40,13 +40,13 @@ function FreeBoard({ location }: any) {
 
   const [posts, setPosts] = React.useState<Array<IPost>>([]);
 
-  useEffect(() => {
-    _onLoad();
-  }, []);
-
   const _onLoad = async () => {
     setPosts(await getPosts(nowCategory, filterUri));
   };
+
+  useEffect(() => {
+    _onLoad();
+  }, []);
 
   return (
     <Container className={classes.root}>

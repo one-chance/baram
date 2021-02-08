@@ -165,7 +165,7 @@ export const checkUploadImage = async (content: any) => {
   if (elImgList) {
     for(let elImg of elImgList) {
       // base64 코드들 추출
-      const base64 = elImg.replace(/<img src=\"data:image\/.*?;base64,/, "").substr(0, elImg.length-1);
+      const base64 = elImg.replace(/<img src="data:image\/.*?;base64,/, "").substr(0, elImg.length-1);
       const base64Data: Buffer = Buffer.from(base64, 'base64');
 
       // 파일번호 채번

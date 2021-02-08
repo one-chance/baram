@@ -87,18 +87,18 @@ export default function SignInForm() {
     <React.Fragment>
       <Container component='main' maxWidth='xs'>
         <form noValidate>
-          <div style={{ width: "100%", float: "left" }}>
-            <Checkbox
-              checked={autoLogIn}
-              color='primary'
-              onChange={() => {
-                verifyCheck();
-              }}
-              style={{ width: "24px", height: "24px" }}
-            />
-            &nbsp;자동 로그인
-          </div>
           <Container component='div' style={{ margin: "10px 0", float: "left" }}>
+            <div style={{ width: "100%", float: "left" }}>
+              <Checkbox
+                checked={autoLogIn}
+                color='primary'
+                onChange={() => {
+                  verifyCheck();
+                }}
+                style={{ width: "24px", height: "24px" }}
+              />
+              &nbsp;자동 로그인
+            </div>
             <TextField
               variant='outlined'
               required

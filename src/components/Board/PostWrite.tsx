@@ -117,30 +117,6 @@ function PostWrite(props: IProps) {
   const [content, setContent] = React.useState("");
   const [post, setPost] = React.useState<IPost>();
 
-  useEffect(() => {
-    init();
-  }, []);
-
-  const init = async () => {
-    if (tab) setCategory(tab);
-
-    if (seq) {
-      const res: IPost | null = await getPost(category, seq);
-      if (res) {
-        if (res.writer.key !== CommonUtil.getNowKey()) {
-          alert("수정 권한이 없습니다.");
-          window.location.href = `/board/${category}/${seq}`;
-
-          return false;
-        }
-
-        setTitle(res.title);
-        setContent(res.content);
-        setPost(res);
-      }
-    }
-  };
-
   const _onCancle = () => {
     setCategory("free");
     setTitle("");
@@ -177,6 +153,29 @@ function PostWrite(props: IProps) {
       }, duration);
     }
   };
+
+  useEffect(() => {
+    const init = async () => {
+      if (tab) setCategory(tab);
+
+      if (seq) {
+        const res: IPost | null = await getPost(category, seq);
+        if (res) {
+          if (res.writer.key !== CommonUtil.getNowKey()) {
+            alert("수정 권한이 없습니다.");
+            window.location.href = `/board/${category}/${seq}`;
+
+            return false;
+          }
+
+          setTitle(res.title);
+          setContent(res.content);
+          setPost(res);
+        }
+      }
+    };
+    init();
+  }, [category, seq, tab]);
 
   return (
     <React.Fragment>

@@ -53,37 +53,37 @@ export default function Animal() {
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
   const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
 
-  const calLevel = () => {
-    if (!level) {
-      setLevelPower(0);
-      setLevelPower2(0);
-
-      return 0;
-    }
-
-    let a: number = Math.floor(level / 100);
-    let b: number = level % 100;
-    let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
-    let res: number = 0;
-
-    if (level.toString().length === 3 && level < 800) {
-      res = a * 3.5 * b + c[a];
-      setLevelPower(Math.round(res));
-      setLevelPower2(res);
-    } else if (level === 99) {
-      res = 649.5;
-      setLevelPower(Math.round(res));
-      setLevelPower2(res);
-    } else if (level.toString().length > 3) {
-      setLevel(0);
-      setLevelPower(0);
-      setLevelPower2(0);
-    }
-  };
-
   useEffect(() => {
+    const calLevel = () => {
+      if (!level) {
+        setLevelPower(0);
+        setLevelPower2(0);
+
+        return 0;
+      }
+
+      let a: number = Math.floor(level / 100);
+      let b: number = level % 100;
+      let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
+      let res: number = 0;
+
+      if (level.toString().length === 3 && level < 800) {
+        res = a * 3.5 * b + c[a];
+        setLevelPower(Math.round(res));
+        setLevelPower2(res);
+      } else if (level === 99) {
+        res = 649.5;
+        setLevelPower(Math.round(res));
+        setLevelPower2(res);
+      } else if (level.toString().length > 3) {
+        setLevel(0);
+        setLevelPower(0);
+        setLevelPower2(0);
+      }
+    };
+
     calLevel();
-  }, [level]);
+  }, [level, setLevel]);
 
   return (
     <React.Fragment>

@@ -69,14 +69,14 @@ function Comment(props: IProps) {
 
   useEffect(() => {
     if (props.comment.recommentList) setRecommentList(props.comment.recommentList);
-  }, []);
+  }, [props.comment.recommentList]);
 
   useEffect(() => {
     setComment({
       ...comment,
       recommentList: recommentList,
     });
-  }, [recommentList]);
+  }, [comment, recommentList]);
 
   const _onSubmitRecomment = async () => {
     setMyBackdrop(true);

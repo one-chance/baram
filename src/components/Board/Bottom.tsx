@@ -40,7 +40,7 @@ const Bottom = (props: IProps) => {
   useEffect(() => {
     setIsReload(isRecommended ? isRecommended : false);
     setRc(recommendCount ? parseInt(recommendCount.toString()) : 0);
-  }, []);
+  }, [isRecommended, recommendCount]);
 
   const handleRecommend = () => {
     if (isReload) {

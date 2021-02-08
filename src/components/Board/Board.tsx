@@ -193,10 +193,9 @@ function CustomPagination(props: ComponentProps) {
   );
 }
 
-const Board = (props: IProps, {}) => {
+const Board = (props: IProps) => {
   const classes = useStyles();
-
-  const { category, posts, page } = props;
+  const { category, posts } = props;
   const rows: RowsProp = [];
   nowCategory = category;
 
