@@ -3,12 +3,13 @@ import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Divider from "@material-ui/core/Divider";
 
+import { getBaseUrlForAuth } from "utils/ConfigUtil";
 import { checkGameUser } from "utils/UserUtil";
 import IUserInfo from "interfaces/User/IUserInfo";
 
@@ -17,11 +18,10 @@ interface IProps {
 }
 
 const useStyles = makeStyles(theme => ({
-  form: {
-    marginTop: 10,
-  },
   text: {
     margin: "auto",
+    paddingLeft: "10px",
+    fontWeight: "bold",
     verticalAlign: "middle",
   },
   backdrop: {
@@ -38,6 +38,7 @@ function AuthAccount(props: IProps) {
 
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
+  const baseUrlForAuth = getBaseUrlForAuth();
 
   const [server, setServer] = React.useState("");
   const [character, setCharacter] = React.useState("");
@@ -88,14 +89,18 @@ function AuthAccount(props: IProps) {
   };
 
   return (
-    <Container>
-      <Typography variant='h6'>캐릭터 인증</Typography>
-      <Grid container spacing={2} className={classes.form}>
+    <React.Fragment>
+      <Typography variant='h4' style={{ margin: "10px 0 30px 0" }}>
+        캐릭터 인증
+      </Typography>
+      <Grid container spacing={2} style={{ margin: "0" }}>
+        <img src={baseUrlForAuth + "auth.png"} alt='예시' style={{ width: "100%" }} />
+        <Divider style={{ width: "100%", height: "3px", margin: "10px 0" }} flexItem />
         <Grid container item xs={12}>
           <Grid item xs={3} className={classes.text}>
             서버
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={6}>
             <TextField
               variant='outlined'
               required
@@ -109,12 +114,13 @@ function AuthAccount(props: IProps) {
               onChange={e => setServer(e.target.value)}
             />
           </Grid>
+          <Grid item xs={3}></Grid>
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={3} className={classes.text}>
             닉네임
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={6}>
             <TextField
               variant='outlined'
               required
@@ -128,14 +134,20 @@ function AuthAccount(props: IProps) {
               onKeyUp={e => _onEnterCharacter(e.keyCode)}
             />
           </Grid>
+          <Grid item xs={3}></Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Button variant='contained' color='primary' fullWidth disabled={isDisabled} onClick={_onAuthRequest}>
-            {isDisabled ? "인증 중입니다." : "인증신청"}
-          </Button>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6}>
+            <Button variant='contained' color='primary' fullWidth disabled={isDisabled} onClick={_onAuthRequest}>
+              {isDisabled ? "인증 중입니다." : "인증신청"}
+            </Button>
+          </Grid>
+          <Grid item xs={3}></Grid>
         </Grid>
+        <Divider style={{ width: "100%", height: "3px", margin: "10px 0" }} flexItem />
       </Grid>
-    </Container>
+    </React.Fragment>
   );
 }
 

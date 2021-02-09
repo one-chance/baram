@@ -1,7 +1,6 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
@@ -12,8 +11,11 @@ interface IProps {
 }
 
 const useStyles = makeStyles(theme => ({
-  form: {
-    marginTop: 10,
+  text: {
+    margin: "auto",
+    paddingLeft: "10px",
+    verticalAlign: "middle",
+    fontWeight: "bold",
   },
 }));
 
@@ -22,11 +24,13 @@ function ViewUserInfo(props: IProps) {
   const userInfo: IUserInfo = props.userInfo;
 
   return (
-    <Container>
-      <Typography variant='h6'>회원정보</Typography>
-      <Grid container spacing={2} className={classes.form}>
+    <React.Fragment>
+      <Typography variant='h4' style={{ margin: "10px 0 30px 0" }}>
+        회원 정보
+      </Typography>
+      <Grid container spacing={2}>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={classes.text}>
             아이디
           </Grid>
           <Grid item xs={9}>
@@ -34,7 +38,7 @@ function ViewUserInfo(props: IProps) {
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={classes.text}>
             이메일
           </Grid>
           <Grid item xs={9}>
@@ -42,7 +46,7 @@ function ViewUserInfo(props: IProps) {
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={classes.text}>
             오픈카톡
           </Grid>
           <Grid item xs={9}>
@@ -50,7 +54,7 @@ function ViewUserInfo(props: IProps) {
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={classes.text}>
             등급
           </Grid>
           <Grid item xs={9}>
@@ -58,7 +62,7 @@ function ViewUserInfo(props: IProps) {
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={classes.text}>
             포인트
           </Grid>
           <Grid item xs={9}>
@@ -66,7 +70,7 @@ function ViewUserInfo(props: IProps) {
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={classes.text}>
             대표 캐릭터
           </Grid>
           <Grid item xs={9}>
@@ -74,23 +78,23 @@ function ViewUserInfo(props: IProps) {
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
-            회원가입일
+          <Grid item xs={3} className={classes.text}>
+            회원 가입일
           </Grid>
           <Grid item xs={9}>
             {userInfo.createDateString}
           </Grid>
         </Grid>
         <Grid container item xs={12}>
-          <Grid item xs={3}>
-            정보수정일
+          <Grid item xs={3} className={classes.text}>
+            정보 수정일
           </Grid>
           <Grid item xs={9}>
             {userInfo.editDateString}
           </Grid>
         </Grid>
       </Grid>
-    </Container>
+    </React.Fragment>
   );
 }
 

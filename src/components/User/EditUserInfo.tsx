@@ -3,7 +3,6 @@ import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -17,13 +16,11 @@ interface IProps {
 }
 
 const useStyles = makeStyles(theme => ({
-  title: {},
-  form: {
-    marginTop: 10,
-  },
   text: {
     margin: "auto",
+    paddingLeft: "10px",
     verticalAlign: "middle",
+    fontWeight: "bold",
   },
 }));
 
@@ -85,11 +82,11 @@ function EditUserInfo(props: IProps) {
   };
 
   return (
-    <Container>
-      <Typography variant='h6' className={classes.title}>
-        정보수정
+    <React.Fragment>
+      <Typography variant='h4' style={{ margin: "10px 0 30px 0" }}>
+        정보 수정
       </Typography>
-      <Grid container spacing={3} className={classes.form}>
+      <Grid container spacing={3}>
         <React.Fragment>
           <Grid container item xs={12}>
             <Grid item xs={3} className={classes.text}>
@@ -109,53 +106,48 @@ function EditUserInfo(props: IProps) {
           </Grid>
           <Grid container item xs={12}>
             <Grid item xs={3} className={classes.text}>
-              오픈카카오톡 주소
+              오픈 카톡
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={6}>
               <TextField
                 variant='outlined'
                 required
                 fullWidth
                 size='small'
                 name='openKakao'
-                label='Open KakaoTalk'
                 id='openKakao'
                 value={openKakao}
                 onChange={e => setOpenKakao(e.target.value)}
               />
             </Grid>
+            <Grid item xs={3}></Grid>
           </Grid>
           <Grid container item xs={12}>
             <Grid item xs={3} className={classes.text}>
-              대표캐릭터 서버
+              대표 캐릭터
             </Grid>
-            <Grid item xs={9}>
-              {server ? server : "대표 설정 된 캐릭터 서버 정보가 없습니다."}
-            </Grid>
-          </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={3} className={classes.text}>
-              대표캐릭터 닉네임
-            </Grid>
-            <Grid item xs={9}>
-              {character ? character : "대표 설정 된 캐릭터 닉네임 정보가 없습니다."}
-            </Grid>
-          </Grid>
-          <Grid container item xs={12} spacing={3}>
             <Grid item xs={6}>
-              <Button variant='contained' color='secondary' fullWidth onClick={_onCancle}>
+              {server && character ? `${character}@${server}` : "대표 캐릭터 정보가 없습니다."}
+            </Grid>
+            <Grid item xs={3}></Grid>
+          </Grid>
+          <Grid container item xs={12} spacing={1}>
+            <Grid item xs={3}></Grid>
+            <Grid item xs={3}>
+              <Button variant='outlined' color='secondary' fullWidth onClick={_onCancle}>
                 취소
               </Button>
             </Grid>
-            <Grid item xs={6}>
-              <Button variant='contained' color='primary' fullWidth onClick={_onSave}>
+            <Grid item xs={3}>
+              <Button variant='outlined' color='primary' fullWidth onClick={_onSave}>
                 저장
               </Button>
             </Grid>
+            <Grid item xs={3}></Grid>
           </Grid>
         </React.Fragment>
       </Grid>
-    </Container>
+    </React.Fragment>
   );
 }
 

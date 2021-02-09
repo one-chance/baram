@@ -10,6 +10,10 @@ export const getBaseUrlForMainCarousel = () => {
   return config.baseUrlForMainCarousel;
 };
 
+export const getBaseUrlForAuth = () => {
+  return config.baseUrlForAuth;
+};
+
 export const getBaseUrlForAdventureImg = () => {
   return config.baseUrlForAdventureImg;
 };
