@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
     float: "left",
   },
   rightSection: {
+    minWidth: "795px",
     padding: "0 0 0 30px",
   },
 }));
@@ -94,8 +95,8 @@ function MyInfo({ match }: any) {
       {isNoSignInUser ? (
         <NoSignInUser />
       ) : (
-        <Container className={classes.root} component='main'>
-          <Grid container>
+        <Container component='main'>
+          <Grid container className={classes.root}>
             <Grid item xs={2}>
               <MenuList style={{ outline: "none" }}>
                 <Menus onClick={_onViewUser}>회원 정보</Menus>

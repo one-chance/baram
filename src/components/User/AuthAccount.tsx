@@ -20,7 +20,6 @@ interface IProps {
 const useStyles = makeStyles(theme => ({
   text: {
     margin: "auto",
-    paddingLeft: "10px",
     fontWeight: "bold",
     verticalAlign: "middle",
   },
@@ -94,13 +93,20 @@ function AuthAccount(props: IProps) {
         캐릭터 인증
       </Typography>
       <Grid container spacing={2} style={{ margin: "0" }}>
-        <img src={baseUrlForAuth + "auth.png"} alt='예시' style={{ width: "100%" }} />
+        <img src={baseUrlForAuth + "auth.png"} alt='예시' style={{ width: "100%", margin: "5px 0" }} />
+        <Typography variant='h6' style={{ margin: "5px 0 0 0" }}>
+          ① 인증할 캐릭터의 호패 한줄 인사말을 바창 아이디로 저장
+        </Typography>
+        <Typography variant='h6' style={{ margin: "00" }}>
+          ② 서버와 캐릭터명을 입력 후 인증 신청
+        </Typography>
         <Divider style={{ width: "100%", height: "3px", margin: "10px 0" }} flexItem />
         <Grid container item xs={12}>
+          <Grid item xs={2}></Grid>
           <Grid item xs={3} className={classes.text}>
             서버
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField
               variant='outlined'
               required
@@ -117,10 +123,11 @@ function AuthAccount(props: IProps) {
           <Grid item xs={3}></Grid>
         </Grid>
         <Grid container item xs={12}>
+          <Grid item xs={2}></Grid>
           <Grid item xs={3} className={classes.text}>
-            닉네임
+            캐릭터명
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField
               variant='outlined'
               required
@@ -137,10 +144,11 @@ function AuthAccount(props: IProps) {
           <Grid item xs={3}></Grid>
         </Grid>
         <Grid container item xs={12}>
+          <Grid item xs={2}></Grid>
           <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Button variant='contained' color='primary' fullWidth disabled={isDisabled} onClick={_onAuthRequest}>
-              {isDisabled ? "인증 중입니다." : "인증신청"}
+              {isDisabled ? "인증 중입니다." : "인증 신청"}
             </Button>
           </Grid>
           <Grid item xs={3}></Grid>

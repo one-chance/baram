@@ -87,13 +87,12 @@ function WithdrawUser(props: IProps) {
           <React.Fragment>
             <Grid item xs={12}>
               <Typography variant='h6' color='error'>
-                주의!
+                주의 사항
               </Typography>
               <Typography variant='body1' gutterBottom>
-                {id} 회원 탈퇴를 진행합니다. <br />
+                {id} 의 탈퇴를 진행합니다. <br />
                 탈퇴 후에도 작성한 글은 지워지지 않습니다. <br />
-                탈퇴한 정보는 보관하지 않으며 따라서 복구할 수 없습니다. <br />
-                비밀번호 입력 후 탈퇴를 진행합니다.
+                탈퇴시 저장된 정보는 폐기되며 복구할 수 없습니다. <br />
               </Typography>
             </Grid>
             <Grid container item xs={12}>
