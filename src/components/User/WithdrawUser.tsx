@@ -16,9 +16,10 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   text: {
-    margin: "auto",
+    margin: "0",
+    lineHeight: "40px",
     paddingLeft: "10px",
-    verticalAlign: "middle",
+    fontSize: "1rem",
   },
 }));
 
@@ -87,12 +88,11 @@ function WithdrawUser(props: IProps) {
           <React.Fragment>
             <Grid item xs={12}>
               <Typography variant='h6' color='error'>
-                주의 사항
+                ※ 주의 사항 ※
               </Typography>
-              <Typography variant='body1' gutterBottom>
-                {id} 의 탈퇴를 진행합니다. <br />
-                탈퇴 후에도 작성한 글은 지워지지 않습니다. <br />
-                탈퇴시 저장된 정보는 폐기되며 복구할 수 없습니다. <br />
+              <Typography variant='body1' color='error' style={{ padding: "10px" }}>
+                탈퇴시 {id}님이 작성한 글은 자동으로 삭제되지 않습니다. <br />
+                탈퇴시 계정 정보는 즉시 폐기되며 따라서 복구할 수 없습니다.
               </Typography>
             </Grid>
             <Grid container item xs={12}>
@@ -120,7 +120,7 @@ function WithdrawUser(props: IProps) {
               <Grid item xs={3}></Grid>
               <Grid item xs={6}>
                 <Button variant='contained' color='secondary' fullWidth onClick={_onWithdraw}>
-                  예, 탈퇴할게요.
+                  예, 탈퇴하겠습니다.
                 </Button>
               </Grid>
               <Grid item xs={3}></Grid>

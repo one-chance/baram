@@ -11,7 +11,7 @@ import IUserInfo from "interfaces/User/IUserInfo";
 
 import NoSignInUser from "components/User/NoSignInUser";
 import ViewUserInfo from "components/User/ViewUserInfo";
-import EditUserInfo from "components/User/EditUserInfo";
+/* import EditUserInfo from "components/User/EditUserInfo"; */
 import AuthAccount from "components/User/AuthAccount";
 import AccountInfo from "components/User/AccountInfo";
 import ChagnePassword from "components/User/ChagnePassword";
@@ -52,10 +52,6 @@ function MyInfo({ match }: any) {
 
   const _onViewUser = () => {
     document.location.href = "/myinfo/view";
-  };
-
-  const _onEditUser = () => {
-    document.location.href = "/myinfo/edit";
   };
 
   const _onAuthUser = () => {
@@ -101,8 +97,6 @@ function MyInfo({ match }: any) {
               <MenuList style={{ outline: "none" }}>
                 <Menus onClick={_onViewUser}>회원 정보</Menus>
                 <Divider variant='middle' />
-                <Menus onClick={_onEditUser}>정보 수정</Menus>
-                <Divider variant='middle' />
                 <Menus onClick={_onAuthUser}>캐릭터 인증</Menus>
                 <Divider variant='middle' />
                 <Menus onClick={_onCharUser}>캐릭터 관리</Menus>
@@ -115,7 +109,7 @@ function MyInfo({ match }: any) {
             <Divider orientation='vertical' flexItem />
             <Grid item xs={9} className={classes.rightSection}>
               {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
-              {mode === "edit" && <EditUserInfo userInfo={userInfo} />}
+              {/*               {mode === "edit" && <EditUserInfo userInfo={userInfo} />} */}
               {mode === "auth" && <AuthAccount userInfo={userInfo} />}
               {mode === "char" && <AccountInfo userInfo={userInfo} />}
               {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}

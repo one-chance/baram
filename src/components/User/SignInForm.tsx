@@ -62,7 +62,7 @@ export default function SignInForm() {
           isOpen: true,
           severity: "success",
           duration: 1500,
-          message: `환영합니다, ${id} 님!`,
+          message: `${id}님 환영합니다!`,
         });
 
         document.location.href.indexOf("/signin") ? (document.location.href = "/") : document.location.reload();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
@@ -9,9 +9,15 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+
 import { getBaseUrlForAuth } from "utils/ConfigUtil";
 import { checkGameUser } from "utils/UserUtil";
 import IUserInfo from "interfaces/User/IUserInfo";
+import { setTitleAccount } from "utils/UserUtil";
 
 interface IProps {
   userInfo: IUserInfo;
@@ -39,9 +45,10 @@ function AuthAccount(props: IProps) {
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const baseUrlForAuth = getBaseUrlForAuth();
 
-  const [server, setServer] = React.useState("");
-  const [character, setCharacter] = React.useState("");
-  const [isDisabled, setIsDisabled] = React.useState(false);
+  const [server, setServer] = useState("");
+  const [character, setCharacter] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [value, setValue] = useState("");
 
   const _clear = () => {
     setServer("");
@@ -87,18 +94,53 @@ function AuthAccount(props: IProps) {
     setIsDisabled(false);
   };
 
+  const _onChangeAccount = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
+
+  const _onSave = async () => {
+    const parseValue = value.split("-");
+
+    const res = await setTitleAccount(userInfo.id, parseValue[0], parseValue[1]);
+
+    if (res.code === 200) {
+      setMyAlert({
+        isOpen: true,
+        severity: "success",
+        duration: duration,
+        message: res.message,
+      });
+    } else {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: res.message,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const titleAccount = userInfo.titleAccount ? `${userInfo.titleAccount.character}@${userInfo.titleAccount.server}` : "";
+    setValue(titleAccount);
+  }, [userInfo.titleAccount]);
+
   return (
     <React.Fragment>
-      <Typography variant='h4' style={{ margin: "10px 0 30px 0" }}>
+      <Typography variant='h4' style={{ margin: "10px 0" }}>
         캐릭터 인증
       </Typography>
       <Grid container spacing={2} style={{ margin: "0" }}>
         <img src={baseUrlForAuth + "auth.png"} alt='예시' style={{ width: "100%", margin: "5px 0" }} />
-        <Typography variant='h6' style={{ margin: "5px 0 0 0" }}>
+        <Typography variant='h6' style={{ width: "100%", margin: "5px 0 0 0" }}>
           ① 인증할 캐릭터의 호패 한줄 인사말을 바창 아이디로 저장
         </Typography>
-        <Typography variant='h6' style={{ margin: "00" }}>
+        <Typography variant='h6' style={{ width: "100%", margin: "0" }}>
           ② 서버와 캐릭터명을 입력 후 인증 신청
+        </Typography>
+        <br />
+        <Typography variant='h6' style={{ width: "100%", margin: "0 0 5px 0" }}>
+          ③ 인증된 캐릭터 중 하나를 대표 캐릭터로 설정
         </Typography>
         <Divider style={{ width: "100%", height: "3px", margin: "10px 0" }} flexItem />
         <Grid container item xs={12}>
@@ -154,6 +196,40 @@ function AuthAccount(props: IProps) {
           <Grid item xs={3}></Grid>
         </Grid>
         <Divider style={{ width: "100%", height: "3px", margin: "10px 0" }} flexItem />
+        <Grid container item xs={12} style={{ margin: "10px 0 0 0", padding: "0" }}>
+          <Grid container item xs={12}>
+            <Typography variant='h5' style={{ lineHeight: "36px", margin: "0" }}>
+              대표 캐릭터
+            </Typography>
+            <Button variant='outlined' color='primary' onClick={_onSave} style={{ margin: "0 20px" }}>
+              설정
+            </Button>
+          </Grid>
+          <Grid container item xs={12} style={{ margin: "10px 0 0 0", padding: "0 5px" }}>
+            {userInfo.accountList && userInfo.accountList.length > 0 ? (
+              <FormControl component='fieldset'>
+                <RadioGroup
+                  aria-label='gender'
+                  name='gender1'
+                  value={value}
+                  onChange={_onChangeAccount}
+                  style={{ display: "flex", flexWrap: "nowrap", flexDirection: "row" }}>
+                  {userInfo.accountList.map((acc, index) => (
+                    <FormControlLabel
+                      value={`${acc.character}@${acc.server}`}
+                      key={index}
+                      control={<Radio style={{ width: "40px", height: "40px" }} />}
+                      label={`${acc.character}@${acc.server}`}
+                      style={{ margin: "0 10px", float: "left" }}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            ) : (
+              <Typography style={{ margin: "0", padding: "0 10px", lineHeight: "40px" }}>인증 된 캐릭터가 없습니다.</Typography>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
     </React.Fragment>
   );

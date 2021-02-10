@@ -77,14 +77,14 @@ function AccountInfo(props: IProps) {
   return (
     <React.Fragment>
       <Grid container direction='row'>
-        <Grid item>
+        <Grid item xs={4}>
           <Typography variant='h4' style={{ margin: "10px 0 30px 0" }}>
-            캐릭터 관리
+            대표 캐릭터
           </Typography>
         </Grid>
-        <Grid item>
-          <Button color='primary' onClick={_onSave}>
-            저장
+        <Grid item xs={8}>
+          <Button variant='outlined' color='primary' onClick={_onSave} style={{ marginTop: "10px" }}>
+            설정
           </Button>
         </Grid>
       </Grid>
@@ -101,7 +101,7 @@ function AccountInfo(props: IProps) {
           </FormControl>
         </Grid>
       ) : (
-        <Typography className={classes.noList}>현재 인증 된 바람의 나라 계정이 없습니다.</Typography>
+        <Typography className={classes.noList}>인증 된 캐릭터가 없습니다.</Typography>
       )}
     </React.Fragment>
   );
