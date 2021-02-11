@@ -43,5 +43,5 @@ deploy:
     application: bachang
 
     deployment_group: bachang-group
-    region: ap-northease-2
+    region: ap-northeast-2
     wait-until-deployed: true
