@@ -45,10 +45,11 @@ function AuthAccount(props: IProps) {
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const baseUrlForAuth = getBaseUrlForAuth();
 
-  const [server, setServer] = useState("");
-  const [character, setCharacter] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [value, setValue] = useState("");
+  const [server, setServer] = useState<string>("");
+  const [character, setCharacter] = useState<string>("");
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [value, setValue] = useState<string>("");
+  const [characterList, setCharacterList] = useState<Array<string>>([]);
 
   const _clear = () => {
     setServer("");
@@ -92,6 +93,12 @@ function AuthAccount(props: IProps) {
     }
 
     setIsDisabled(false);
+
+    /*     let chracterAndServer: string[] = characterList;
+    chracterAndServer.push(`${character}@${server}`);
+    setCharacterList(chracterAndServer); */
+    characterList.push(`${character}@${server}`);
+    setCharacterList(characterList);
   };
 
   const _onChangeAccount = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,8 +106,7 @@ function AuthAccount(props: IProps) {
   };
 
   const _onSave = async () => {
-    const parseValue = value.split("-");
-
+    const parseValue = value.split("@");
     const res = await setTitleAccount(userInfo.id, parseValue[0], parseValue[1]);
 
     if (res.code === 200) {
@@ -123,11 +129,19 @@ function AuthAccount(props: IProps) {
   useEffect(() => {
     const titleAccount = userInfo.titleAccount ? `${userInfo.titleAccount.character}@${userInfo.titleAccount.server}` : "";
     setValue(titleAccount);
-  }, [userInfo.titleAccount]);
+
+    let chracterAndServer: string[] = [];
+    if (userInfo.accountList) {
+      for (let a = 0; a < userInfo.accountList.length; a++) {
+        chracterAndServer[a] = `${userInfo.accountList[a].character}@${userInfo.accountList[a].server}`;
+      }
+    }
+    setCharacterList(chracterAndServer);
+  }, [userInfo]);
 
   return (
     <React.Fragment>
-      <Typography variant='h4' style={{ margin: "10px 0" }}>
+      <Typography variant='h5' style={{ margin: "10px 0" }}>
         캐릭터 인증
       </Typography>
       <Grid container spacing={2} style={{ margin: "0" }}>
@@ -206,20 +220,15 @@ function AuthAccount(props: IProps) {
             </Button>
           </Grid>
           <Grid container item xs={12} style={{ margin: "10px 0 0 0", padding: "0 5px" }}>
-            {userInfo.accountList && userInfo.accountList.length > 0 ? (
+            {characterList && characterList.length > 0 ? (
               <FormControl component='fieldset'>
-                <RadioGroup
-                  aria-label='gender'
-                  name='gender1'
-                  value={value}
-                  onChange={_onChangeAccount}
-                  style={{ display: "flex", flexWrap: "nowrap", flexDirection: "row" }}>
-                  {userInfo.accountList.map((acc, index) => (
+                <RadioGroup value={value} onChange={_onChangeAccount} style={{ display: "flex", flexWrap: "nowrap", flexDirection: "row" }}>
+                  {characterList.map((acc, index) => (
                     <FormControlLabel
-                      value={`${acc.character}@${acc.server}`}
+                      value={acc}
                       key={index}
                       control={<Radio style={{ width: "40px", height: "40px" }} />}
-                      label={`${acc.character}@${acc.server}`}
+                      label={acc}
                       style={{ margin: "0 10px", float: "left" }}
                     />
                   ))}

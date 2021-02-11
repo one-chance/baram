@@ -15,8 +15,7 @@ import { getPosts } from "utils/PostUtil";
 
 const useStyles = makeStyles(theme => ({
   secondSection: {
-    width: "80%",
-    margin: "20px 10%",
+    margin: "20px 0",
     border: "1px solid lightgray",
     borderRadius: "10px",
     float: "left",
@@ -54,12 +53,12 @@ const Home = () => {
   }, []);
 
   return (
-    <Grid>
+    <Grid container>
       <Grid item xs={12} style={{ float: "left" }}>
         <MainCarousel />
       </Grid>
-
-      <Grid container item spacing={3} className={classes.secondSection}>
+      <Grid item xs={1} style={{ float: "left" }}></Grid>
+      <Grid container item xs={10} className={classes.secondSection}>
         <Grid item xs={4} style={{ padding: "5px" }}>
           <LatestBoardPaper category='free' posts={freePosts} />
         </Grid>
@@ -100,6 +99,7 @@ const Home = () => {
           </div>
         </Grid>
       </Grid>
+      <Grid item xs={1} style={{ float: "left" }}></Grid>
     </Grid>
   );
 };

@@ -42,7 +42,7 @@ import Production from "pages/Calculator/Production";
 
 import AuctionAuction from "pages/TesseractOcr";
 
-import { refreshToken, delToken } from "utils/CommonUtil";
+import { refreshToken } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -63,10 +63,6 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
-  if (!refreshToken) {
-    delToken();
-    document.location.href = "/";
-  }
 
   useEffect(() => {
     // NOTE 토큰 자동갱신 실행
