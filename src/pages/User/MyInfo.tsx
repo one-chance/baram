@@ -1,38 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import MenuList from "@material-ui/core/MenuList";
+import MenuItem from "@material-ui/core/MenuItem";
+import Divider from "@material-ui/core/Divider";
 
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
+import { getSignInUserId, getUserInfoById } from "utils/UserUtil";
+import IUserInfo from "interfaces/User/IUserInfo";
 
-import { getSignInUserId, getUserInfoById } from 'utils/UserUtil';
+import NoSignInUser from "components/User/NoSignInUser";
+import ViewUserInfo from "components/User/ViewUserInfo";
+import AuthAccount from "components/User/AuthAccount";
+import ChagnePassword from "components/User/ChagnePassword";
+import WithdrawUser from "components/User/WithdrawUser";
 
-import IUserInfo from 'interfaces/User/IUserInfo';
-
-import LeftMenuList from 'components/User/LeftMenuList';
-
-import NoSignInUser from 'components/User/NoSignInUser';
-import ViewUserInfo from 'components/User/ViewUserInfo';
-import EditUserInfo from 'components/User/EditUserInfo';
-import AuthAccount from 'components/User/AuthAccount';
-import AccountInfo from 'components/User/AccountInfo';
-import ChagnePassword from 'components/User/ChagnePassword';
-import WithdrawUser from 'components/User/WithdrawUser';
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: 20,
-  },
-  leftSection: {
+    width: "90%",
+    margin: "20px 5%",
+    float: "left",
   },
   rightSection: {
-    padding: 10,
+    minWidth: "795px",
+    padding: "0 0 0 30px",
   },
 }));
 
-function MyInfo({match}: any) {
+const Menus = withStyles({
+  root: {
+    "&:hover,:focus,:active": {
+      fontWeight: "bolder",
+    },
+  },
+})(MenuItem);
+
+function MyInfo({ match }: any) {
   const classes = useStyles();
-  const {tab} = match.params;
+  const { tab } = match.params;
   const mode = tab;
 
   const [isNoSignInUser, setIsNoSignInUser] = React.useState(false);
@@ -40,19 +45,34 @@ function MyInfo({match}: any) {
     id: "",
     isActive: false,
     createDateString: "",
-    editDateString: ""
+    editDateString: "",
   });
+
+  const _onViewUser = () => {
+    document.location.href = "/myinfo/view";
+  };
+
+  const _onAuthUser = () => {
+    document.location.href = "/myinfo/auth";
+  };
+
+  const _onChangePassword = () => {
+    document.location.href = "/myinfo/changepassword";
+  };
+
+  const _onWithdraw = () => {
+    document.location.href = "/myinfo/withdraw";
+  };
 
   // NOTE Init User Information
   useEffect(() => {
     const getUserInfo = async () => {
       const id = getSignInUserId();
-      
+
       if (id) {
         const info = await getUserInfoById(id);
         info && setUserInfo(info);
-      }
-      else {
+      } else {
         setIsNoSignInUser(true);
       }
     };
@@ -62,57 +82,34 @@ function MyInfo({match}: any) {
 
   return (
     <React.Fragment>
-      {
-        isNoSignInUser ?
-          <NoSignInUser />
-        :
-        <Container 
-          className={classes.root}
-          component="main" 
-          maxWidth="md">
-            <Grid container>
-              <Grid item xs={2} className={classes.leftSection}>
-                <LeftMenuList />
-              </Grid>
-              <Divider orientation="vertical" flexItem />
-              <Grid item xs={9} className={classes.rightSection}>
-                {
-                  (mode === "view") &&
-                    <ViewUserInfo 
-                      userInfo={userInfo}/>
-                }
-                {
-                  mode === "edit" &&
-                    <EditUserInfo
-                      userInfo={userInfo}/>
-                }
-                {
-                  mode === "auth" &&
-                    <AuthAccount 
-                      userInfo={userInfo}/>
-                }
-                {
-                  mode === "char" &&
-                    <AccountInfo 
-                      userInfo={userInfo}/>
-                }
-                {
-                  mode === "changepassword" &&
-                    <ChagnePassword
-                      id={userInfo.id} />
-                }
-                {
-                  mode === "withdraw" &&
-                    <WithdrawUser
-                      id={userInfo.id} />
-                }
-              </Grid>
+      {isNoSignInUser ? (
+        <NoSignInUser />
+      ) : (
+        <Container component='main'>
+          <Grid container className={classes.root}>
+            <Grid item xs={2}>
+              <MenuList style={{ outline: "none" }}>
+                <Menus onClick={_onViewUser}>회원 정보</Menus>
+                <Divider variant='middle' />
+                <Menus onClick={_onAuthUser}>캐릭터 인증</Menus>
+                <Divider variant='middle' />
+                <Menus onClick={_onChangePassword}>비밀번호 변경</Menus>
+                <Divider variant='middle' />
+                <Menus onClick={_onWithdraw}>회원 탈퇴</Menus>
+              </MenuList>
             </Grid>
+            <Divider orientation='vertical' flexItem />
+            <Grid item xs={9} className={classes.rightSection}>
+              {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
+              {mode === "auth" && <AuthAccount userInfo={userInfo} />}
+              {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
+              {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
+            </Grid>
+          </Grid>
         </Container>
-        
-      }
+      )}
     </React.Fragment>
-  )
+  );
 }
 
 export default MyInfo;

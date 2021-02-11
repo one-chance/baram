@@ -1,6 +1,7 @@
 {
   "sessionUserToken": "SignInUser",
   "baseUrlForMainCarousel": "/assets/img/",
+  "baseUrlForAuth": "/assets/img/",
   "baseUrlForAdventureImg": "/assets/img/dictionary/adventure/",
   "baseUrlForExpImg": "/assets/img/calculator/",
   "baseUrlForItemImg": "/assets/img/dictionary/item/",

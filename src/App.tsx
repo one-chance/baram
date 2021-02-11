@@ -73,7 +73,7 @@ function App() {
       <React.Fragment>
         <header>
           <Container fixed className={classes.header}>
-            <Header />  
+            <Header />
           </Container>
         </header>
         <main>

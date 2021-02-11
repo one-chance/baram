@@ -262,7 +262,7 @@ export const authUser = async (_id: string, _server: string, _character: string)
 /*
 * 대표캐릭터 설정
 */
-export const setTitleAccount = async (_id: string, _server: string, _character: string) => {
+export const setTitleAccount = async (_id: string, _character: string, _server: string) => {
   const r = await axios.put('/api/user/titleaccount', {
     id: _id,
     server: _server,
