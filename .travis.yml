@@ -12,7 +12,7 @@ before_script:
   - npm install @material-ui/data-grid@4.0.0-alpha.8
 
 script:
-  - npm run build
+  - CI=false npm run build
 
 before_deploy:
   - rm -rf node_modules
