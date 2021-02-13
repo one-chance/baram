@@ -47,7 +47,10 @@ export const SignUpUser = async (_id: string, _password: string, _email: string)
 * 사용자 로그인
 */
 export const SignInUser = async (_id: string, _password: string) => {
-  const res = await axios.post('/api/common/signin', {id: _id, password: _password})
+  const res = await axios.post('/api/common/signin', {
+    id: _id, 
+    password: _password
+  })
     .then((res) => {
 
       if (res.data.code === 200) {

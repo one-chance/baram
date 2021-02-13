@@ -13,6 +13,7 @@ const logger = require("../winston");
 const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
 const ConfigSchema = require("../schemas/Common/ConfigSchema");
+const SignInLogSchema = require("../schemas/Log/SignInLogSchema");
 
 // 인증코드 정보를 저장할 객체
 const mapVerifyCodeByEmail = new Map();
@@ -176,6 +177,14 @@ router.post("/signin", (req, res) => {
 
             const token = createToken(user.key, id);
 
+            // signInLog 컬렉션에 로그인 로깅
+            const signInIP = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress; // 로그인 사용자 IP 조회
+            SignInLogSchema.create({
+              userId: id,
+              signInIP: signInIP,
+              signInDate: new Date()
+            });
+            
             res.status(200).send({
               code: 200,
               message: "로그인 하였습니다.",
