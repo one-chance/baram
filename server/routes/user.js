@@ -86,7 +86,7 @@ router.post("/check", (req, res) => {
  *    TYPE : PUT
  *    URI : /api/user/auth
  *    HEADER: { "token": token }
- *    BODY: { "id", "server", "character" "authDateString" }
+ *    BODY: { "id", "server", "character" "authDate" }
  *    RETURN CODES:
  *        200: 인증 성공
  *        2002: 인증 실패
@@ -99,7 +99,7 @@ router.put("/auth", (req, res) => {
   const accountInfo = {
     server: req.body.server,
     character: req.body.character,
-    authDateString: new Date(),
+    authDate: new Date(),
   };
 
   // Exist Check
@@ -154,7 +154,7 @@ router.put("/auth", (req, res) => {
  *    TYPE : PUT
  *    URI : /api/user/info
  *    HEADER: { "token": token }
- *    BODY: { "id", "openKakao", "editDateString"}
+ *    BODY: { "id", "openKakao", "editDate"}
  *    RETURN CODES:
  *        200: 성공
  *        2004: 변경 오류
@@ -164,7 +164,7 @@ router.put("/info", (req, res) => {
   const id = req.body.id;
   const editedUserInfo = {
     openKakao: req.body.openKakao,
-    editDateString: new Date(),
+    editDate: new Date(),
   };
 
   UserInfoSchema.updateById(id, editedUserInfo)
@@ -250,7 +250,7 @@ router.get("/find", (req, res) => {
  *    TYPE : PUT
  *    URI : /api/user/titleaccount
  *    HEADER: { "token": token }
- *    BODY: { "id", "server", "character", "editDateString" }
+ *    BODY: { "id", "server", "character", "editDate" }
  *    RETURN CODES:
  *        200: 성공
  *        2006: 사용자 정보가 존재하지 않음.
@@ -262,9 +262,9 @@ router.put("/titleaccount", (req, res) => {
     server: req.body.server,
     character: req.body.character,
   };
-  const editDateString = new Date();
+  const editDate = new Date();
 
-  UserInfoSchema.updateById(id, { titleAccount: titleAccountInfo, editDateString: editDateString })
+  UserInfoSchema.updateById(id, { titleAccount: titleAccountInfo, editDate: editDate })
     .then(updatedUserInfo => {
       if (updatedUserInfo) {
         logger.info(`[SUCCESS] : ${updatedUserInfo.id} SET TITLE ACCOUNT`);
@@ -300,7 +300,7 @@ router.put("/titleaccount", (req, res) => {
  *    TYPE : PUT
  *    URI : /api/user/password
  *    HEADER: { "token": token }
- *    BODY: { "id", "password", "salt", "editDateString" }
+ *    BODY: { "id", "password", "salt", "editDate" }
  *    RETURN CODES:
  *        200: 성공
  *        2007: 비밀번호 변경 실패
@@ -336,7 +336,7 @@ router.put("/password", (req, res) => {
           password: newPassword.password,
           salt: newPassword.salt,
           isReset: false,
-          editDateString: new Date(),
+          editDate: new Date(),
         };
 
         UserSchema.updateById(id, changePasswordInfo)

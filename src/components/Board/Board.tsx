@@ -72,7 +72,7 @@ const cols: ColDef[] = [
   { field: "viewCount", headerName: "조회수", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "commentCount", headerName: "댓글수", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "recommendCount", headerName: "추천수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "createDateString", headerName: "작성일", type: "date", width: 150, headerAlign: "center", align: "center" },
+  { field: "createDate", headerName: "작성일", type: "date", width: 150, headerAlign: "center", align: "center" },
 ];
 
 function CustomHeader(props: ComponentProps) {
@@ -207,7 +207,7 @@ const Board = (props: IProps) => {
       viewCount: post.viewCount,
       commentCount: post.commentList ? post.commentList.length : 0,
       recommendCount: post.recommendUserList ? post.recommendUserList.length : 0,
-      createDateString: CommonUtil.getStringByDate(post.writer.createDateString),
+      createDate: CommonUtil.getStringByDate(post.writer.createDate),
     });
   });
 

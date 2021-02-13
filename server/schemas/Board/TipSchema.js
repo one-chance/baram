@@ -5,8 +5,8 @@ autoIncrement.initialize(mongoose.connection);
 const writerSchema = new mongoose.Schema({
   key: { type: Number },
   id: { type: String },
-  createDateString: { type: Date, required: false },
-  lastEditDateString: { type: Date, required: false }
+  createDate: { type: Date, required: false },
+  lastEditDate: { type: Date, required: false }
 });
 
 const commentSchema = new mongoose.Schema({

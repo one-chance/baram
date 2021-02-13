@@ -3,6 +3,6 @@ export default interface ISignUpUser {
   password: string,
   email: string,
   salt?: string,
-  createDateString?: string,
-  editDateString?: string
+  createDate?: Date,
+  editDate?: Date
 }

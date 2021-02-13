@@ -8,8 +8,8 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   salt: { type: String, required: true },
   isReset: { type: Boolean, default: false },
-  createDateString: { type: String, required: true },
-  editDateString: { type: String, required: true }
+  createDate: { type: Date, required: true },
+  editDate: { type: Date, required: true }
 }, { timestamps: true });
 UserSchema.plugin(autoIncrement.plugin, {
   model: "user",

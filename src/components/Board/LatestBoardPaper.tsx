@@ -54,7 +54,7 @@ const LatestBoardPaper = (props: IProps) => {
                 <Link href={`/board/${post.category}/${post.seq}`}>
                   {post.title} {post.commentList ? ` (+${post.commentList.length})` : ``}
                 </Link>
-                <span>{getMMDDByDate(post.writer.createDateString)}</span>
+                <span>{getMMDDByDate(post.writer.createDate)}</span>
               </div>
             ))
           ) : (

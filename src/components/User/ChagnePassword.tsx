@@ -151,7 +151,8 @@ function ChagnePassword(props: IProps) {
             <TextField
               variant='outlined'
               error={password !== "" && checkPassword === false}
-              helperText={password !== "" && checkPassword === false ? "숫자/문자/특수문자를 모두 포함해야 합니다." : ""}
+              // 초기화된 비밀번호는 특수문자가 없어서 해당 조건을 만족하게 되지 않으므로 이 필드에서는 helperText 해제
+              // helperText={password !== "" && checkPassword === false ? "숫자/문자/특수문자를 모두 포함해야 합니다." : ""}
               required
               fullWidth
               autoFocus={true}

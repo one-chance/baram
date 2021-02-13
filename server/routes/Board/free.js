@@ -23,8 +23,8 @@ router.post("/post", (req, res) => {
     ...req.body.post,
     writer: {
       ...req.body.post.writer,
-      createDateString: new Date(),
-      lastEditDateString: new Date(),
+      createDate: new Date(),
+      lastEditDate: new Date(),
     },
   });
 
@@ -80,7 +80,7 @@ router.put("/post", (req, res) => {
     ...req.body.post,
     writer: {
       ...req.body.post.writer,
-      lastEditDateString: new Date()
+      lastEditDate: new Date()
     },
   };
 
@@ -254,8 +254,8 @@ router.post("/comment", (req, res) => {
   const commentIdx = req.body.commentIdx;
   const comment = Object.assign(req.body.comment, { idx: commentIdx });
 
-  comment.writer.createDateString = new Date();
-  comment.writer.lastEditDateString = new Date();
+  comment.writer.createDate = new Date();
+  comment.writer.lastEditDate = new Date();
 
   if (!comment.writer.id || !comment.writer.key) {
     logger.info(`[FAILED] : COMMENT CREATED ERROR - NOT FOUND USER INFORMATION`);
@@ -307,7 +307,7 @@ router.use("/comment", authMiddleware);
 router.put("/comment", (req, res) => {
   const post = req.body.post;
   const comment = req.body.comment;
-  comment.writer.lastEditDateString = new Date();
+  comment.writer.lastEditDate = new Date();
 
   FreeSchema.updateComment(post.seq, comment)
     .then(post => {
@@ -387,8 +387,8 @@ router.post("/recomment", (req, res) => {
   const recommentIdx = req.body.recommentIdx;
   // const recomment = req.body.recomment;
   const recomment = Object.assign(req.body.recomment, { idx: recommentIdx });
-  recomment.writer.createDateString = new Date();
-  recomment.writer.lastEditDateString = new Date();
+  recomment.writer.createDate = new Date();
+  recomment.writer.lastEditDate = new Date();
 
   FreeSchema.createRecomment(seq, commentIdx, recomment)
     .then(post => {
@@ -437,7 +437,7 @@ router.put("/recomment", (req, res) => {
   const commentIdx = req.body.commentIdx;
   const comment = req.body.comment;
   const recomment = req.body.recomment;
-  recomment.writer.lastEditDateString = new Date();
+  recomment.writer.lastEditDate = new Date();
 
   comment.recommentList.map((rec, idx) => {
     if (rec.idx === recomment.idx) {
