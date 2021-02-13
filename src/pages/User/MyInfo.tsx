@@ -84,7 +84,7 @@ function MyInfo({ match }: any) {
       {isNoSignInUser ? (
         <NoSignInUser />
       ) : (
-        <Container component='main'>
+        <Container component='main' style={{ minHeight: "600px" }}>
           <Grid container className={classes.root}>
             <Grid item xs={2}>
               <MenuList style={{ outline: "none" }}>

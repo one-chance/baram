@@ -53,7 +53,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Grid container>
+    <Grid container style={{ minHeight: "600px" }}>
       <Grid item xs={12} style={{ float: "left" }}>
         <MainCarousel />
       </Grid>

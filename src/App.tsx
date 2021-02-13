@@ -121,7 +121,7 @@ function App() {
             </BrowserRouter>
           </Container>
 
-          <footer style={{ marginTop: "20px" }}>
+          <footer style={{ width: "100%", marginTop: "20px", float: "left" }}>
             <Container style={{ padding: "0" }}>
               <Footer />
             </Container>
