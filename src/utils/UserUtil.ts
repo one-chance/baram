@@ -314,8 +314,8 @@ const getUserInfoFromJson = (jsonInfo: JSON) => {
     id: "",
     email: "",
     isActive: false,
-    createDateString: "",
-    editDateString: ""
+    createDate: new Date(),
+    editDate: new Date()
   }
 
   return Object.setPrototypeOf(jsonInfo, userInfo);

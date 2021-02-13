@@ -264,7 +264,7 @@ function Comment(props: IProps) {
           <TableCell style={{ width: "15%", padding: "5px 10px" }} component='th' scope='row'>
             {comment.writer.id}
             <br />
-            {CommonUtil.getStringByDate(comment.writer.lastEditDateString)}
+            {CommonUtil.getStringByDate(comment.writer.lastEditDate)}
           </TableCell>
           <TableCell style={{ width: "80%", padding: "5px 10px" }}>
             {editCommentIdx === comment.idx ? (
@@ -355,7 +355,7 @@ function Comment(props: IProps) {
                   <TableCell style={{ width: "20%" }} component='th' scope='row'>
                     {recomment.writer.id}
                     <br />
-                    {CommonUtil.getStringByDate(recomment.writer.lastEditDateString)}
+                    {CommonUtil.getStringByDate(recomment.writer.lastEditDate)}
                   </TableCell>
                   <TableCell style={{ width: "70%" }}>
                     {editRecommentIdx === recomment.idx ? (

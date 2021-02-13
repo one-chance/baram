@@ -48,7 +48,7 @@ router.post("/checkid", (req, res) => {
  *    NOTE 사용자 회원가입
  *    TYPE : POST
  *    URI : /api/common/signup
- *    PARAM: { "id": "test", "password": "test", "salt": "salt", "createDateString", "editDateString" }
+ *    PARAM: { "id": "test", "password": "test", "salt": "salt", "createDate", "editDate" }
  *    ERROR CODES:
  *        200: 성공
  *        1001: 중복 유저
@@ -59,8 +59,8 @@ router.post("/signup", (req, res) => {
   const user = new UserSchema({
     id: req.body.id,
     password: req.body.password,
-    createDateString: new Date(),
-    editDateString: new Date(),
+    createDate: new Date(),
+    editDate: new Date(),
   });
   const email = req.body.email;
 
@@ -102,8 +102,8 @@ router.post("/signup", (req, res) => {
                 const userInfo = new UserInfoSchema({
                   key: signupUser.key,
                   id: signupUser.id,
-                  createDateString: user.createDateString,
-                  editDateString: user.editDateString,
+                  createDate: user.createDate,
+                  editDate: user.editDate,
                   email: email,
                   point: 0,
                   grade: "Level 1",
@@ -690,7 +690,7 @@ router.put("/reset", (req, res) => {
             password: newPassword.password,
             salt: newPassword.salt,
             isReset: true,
-            editDateString: new Date(),
+            editDate: new Date(),
           };
 
           UserSchema.updateById(id, changePasswordInfo)

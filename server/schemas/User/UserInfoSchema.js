@@ -14,14 +14,14 @@ const userInfoSchema = new mongoose.Schema({
     new mongoose.Schema({
       server: { type: String, required: false },
       character: { type: String, required: false },
-      authDateString: { type: String, required: false },
+      authDate: { type: Date, required: false },
     })
   ],
   isAuth: { type: Boolean, required: false },
   point: { type: Number, required: false },
   grade: { type: String, required: false },
-  createDateString: { type: String, required: false },
-  editDateString: { type: String, required: false },
+  createDate: { type: Date, required: false },
+  editDate: { type: Date, required: false },
   isActive: { type: Boolean, required: false },
 });
 

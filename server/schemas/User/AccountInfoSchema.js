@@ -4,7 +4,7 @@ const accountInfoSchema = new mongoose.Schema({
   id: { type: String, require: true},
   server: { type: String, require: true },
   character: { type: String, require: true },
-  authDateString: { type: String, required: false }
+  authDate: { type: Date, required: false }
 });
 
 // Create new todo document

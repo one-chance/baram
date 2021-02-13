@@ -44,8 +44,8 @@ function MyInfo({ match }: any) {
   const [userInfo, setUserInfo] = useState<IUserInfo>({
     id: "",
     isActive: false,
-    createDateString: "",
-    editDateString: "",
+    createDate: new Date(),
+    editDate: new Date(),
   });
 
   const _onViewUser = () => {
@@ -68,7 +68,6 @@ function MyInfo({ match }: any) {
   useEffect(() => {
     const getUserInfo = async () => {
       const id = getSignInUserId();
-
       if (id) {
         const info = await getUserInfoById(id);
         info && setUserInfo(info);

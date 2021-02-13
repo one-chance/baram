@@ -1,7 +1,7 @@
 interface IAccount {
   server: string,
   character: string,
-  authDateString?: string
+  authDate?: string
 }
 
 export default interface IUserInfo {
@@ -11,8 +11,8 @@ export default interface IUserInfo {
   accountList?: Array<IAccount>,
   openKakao?: string,
   isActive: boolean,
-  createDateString: string,
-  editDateString: string,
+  createDate: Date,
+  editDate: Date,
   point?: number,
   grade?: string
 }

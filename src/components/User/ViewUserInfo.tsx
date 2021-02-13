@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import IUserInfo from "interfaces/User/IUserInfo";
 import { setUserInfo } from "utils/UserUtil";
+import { getStringByDate } from 'utils/CommonUtil';
 
 interface IProps {
   userInfo: IUserInfo;
@@ -163,7 +164,7 @@ function ViewUserInfo(props: IProps) {
             회원 가입일
           </Grid>
           <Grid item xs={9}>
-            {userInfo.createDateString}
+            {getStringByDate(userInfo.createDate, true)}
           </Grid>
         </Grid>
         <Grid container item xs={12} style={{ padding: "0 10px" }}>
@@ -171,7 +172,7 @@ function ViewUserInfo(props: IProps) {
             정보 수정일
           </Grid>
           <Grid item xs={9}>
-            {userInfo.editDateString}
+            {getStringByDate(userInfo.editDate, true)}
           </Grid>
         </Grid>
       </Grid>
