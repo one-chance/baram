@@ -15,6 +15,9 @@ script:
   - CI=false npm run build
 
 before_deploy:
+  - chmod 777 exec_deploy.sh
+  - chmod 777 screen.sh
+  - chmod 777 start.sh
   - rm -rf node_modules
   - zip -r bachang ./*
   - mkdir -p deploy
