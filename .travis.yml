@@ -48,3 +48,8 @@ deploy:
     deployment_group: bachang-group
     region: ap-northeast-2
     wait-until-deployed: true
+
+production-deploy:
+  stage: deploy
+  script:
+    - ~/app/deploy/zip/exec_deploy.sh
