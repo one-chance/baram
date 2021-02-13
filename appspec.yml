@@ -2,5 +2,10 @@ version: 0.0
 os : linux
 files :
  - source : /
-   destination: /home/ec2-user/app/deploy/zip/
+   destination : /home/ubuntu/app/deploy/zip/
    overwrite : yes
+
+hooks :
+  AfterInstall :
+    - location : exec_deploy.sh
+      timeout : 180
