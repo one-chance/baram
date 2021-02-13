@@ -6,6 +6,6 @@ files :
    overwrite : yes
 
 hooks :
-  AfterInstall :
+  ApplicationStart :
     - location : exec_deploy.sh
-      timeout : 180
+      timeout : 1000
