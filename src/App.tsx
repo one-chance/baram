@@ -1,29 +1,28 @@
 import React, { useEffect } from "react";
-import "./App.css";
-import { makeStyles } from "@material-ui/core/styles";
-
 import { BrowserRouter, Route } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import "./App.css";
 
 import Container from "@material-ui/core/Container";
 
 import NoAuth from "pages/NoAuth";
-
-import Header from "components/Header/Header";
+import Header from "components/Semantic/Header";
+import Footer from "components/Semantic/Footer";
 import Home from "pages/Home";
 
+// User
 import SignUp from "pages/User/SignUp";
 import Forget from "pages/User/Forget";
-import FindId from "components/User/FindId";
-import FindPw from "components/User/FindPassword";
-
 import MyInfo from "pages/User/MyInfo";
 
+// Board
 import FreeBoard from "pages/Board/Free/FreeBoard";
 import FreePostView from "pages/Board/Free/FreePostView";
 import TipBoard from "pages/Board/Tip/TipBoard";
 import TipPostView from "pages/Board/Tip/TipPostView";
 import Write from "pages/Board/Write";
 
+// Dictionary
 import Adventure from "pages/Dictionary/Adventure";
 import AnimalItem from "pages/Dictionary/AnimalItem";
 import Raid from "pages/Dictionary/Raid";
@@ -32,13 +31,14 @@ import Item from "pages/Dictionary/Item";
 import PetItem from "pages/Dictionary/PetItem";
 import Archeology from "pages/Dictionary/Archeology";
 
-import MyAlert from "elements/Alert/MyAlert";
-import MyBackdrop from "elements/Backdrop/MyBackdrop";
-
+// Calculator
 import Ability from "pages/Calculator/Ability";
 import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
+
+import MyAlert from "elements/Alert/MyAlert";
+import MyBackdrop from "elements/Backdrop/MyBackdrop";
 
 import AuctionAuction from "pages/TesseractOcr";
 
@@ -69,7 +69,7 @@ function App() {
     setInterval(refreshToken, 1000 * 60 * 10);
   }, []);
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' style={{ padding: "0" }}>
       <React.Fragment>
         <header>
           <Container fixed className={classes.header}>
@@ -88,8 +88,6 @@ function App() {
               {/*Common*/}
               <Route exact path='/signup' component={SignUp} />
               <Route exact path='/forget' component={Forget} />
-              <Route exact path='/findid' component={FindId} />
-              <Route exact path='/findpw' component={FindPw} />
 
               {/*Board*/}
               <Route exact path='/board/free' component={FreeBoard} />
@@ -122,6 +120,12 @@ function App() {
               <Route path='/myinfo/:tab' component={MyInfo} />
             </BrowserRouter>
           </Container>
+
+          <footer style={{ marginTop: "20px" }}>
+            <Container style={{ padding: "0" }}>
+              <Footer />
+            </Container>
+          </footer>
         </main>
       </React.Fragment>
       <MyAlert />

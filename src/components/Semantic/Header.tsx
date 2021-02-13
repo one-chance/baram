@@ -15,26 +15,6 @@ import AppBar from "@material-ui/core/AppBar";
 import { getSignInUserId, LogoutUser } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
-  root: {},
-  toolbar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-  },
-  toolbarleft: {
-    textAlign: "left",
-  },
-  toolbarcenter: {
-    textAlign: "center",
-  },
-  toolbarTitle: {
-    flex: 1,
-  },
-  toolbarright: {
-    textAlign: "right",
-  },
-  dialogActions: {
-    justifyContent: "space-between",
-  },
-
   mainmenu: {
     width: "100%",
     height: "60px",
