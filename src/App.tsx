@@ -5,7 +5,7 @@ import "./App.css";
 
 import Container from "@material-ui/core/Container";
 
-import NoAuth from "pages/NoAuth";
+import NoAuth from "pages/User/NoAuth";
 import Header from "components/Semantic/Header";
 import Footer from "components/Semantic/Footer";
 import Home from "pages/Home";

@@ -267,7 +267,14 @@ export default function Item() {
               textAlign: "center",
               float: "left",
             }}>
-            {itemList.length === 0 ? "검색 결과가 없습니다." : itemName}
+            {itemList.length === 0 ? (
+              <span>
+                <br />
+                검색 결과가 없습니다.
+              </span>
+            ) : (
+              itemName
+            )}
           </Container>
           <Container style={{ width: "100%", margin: "0", padding: "10px", textAlign: "center", float: "left" }}>
             <img src={baseUrlForItemImg + img1} alt='아이템' style={{ margin: "10px" }} />

@@ -9,13 +9,14 @@ import Chip from "@material-ui/core/Chip";
 import Divider from "@material-ui/core/Divider";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import ItemList from "conf/itemList.json";
+//import ItemList from "conf/itemList.json";
 import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
 import IItemInfo from "interfaces/Calculator/IItemInfo";
 
@@ -49,6 +50,14 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "5px",
       padding: "0",
     },
+
+    btnDlg: {
+      minWidth: "60px",
+      height: "40px",
+      margin: "0 5px",
+      padding: "5px",
+    },
+
     select: {
       width: "120px",
       height: "40px",
@@ -70,7 +79,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     itemText: {
-      width: "200px",
+      width: "310px",
+      margin: "0 2.5px",
       "& input": {
         height: "36px",
         padding: "2px 10px",
@@ -94,7 +104,6 @@ interface IEquipSlot {
   num: number;
   type: string;
   name: string;
-  // value: string;
   value: number;
 }
 
@@ -113,23 +122,43 @@ export default function Equip() {
   const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]);
 
+  const [dlgItem, setDlgItem] = useState({
+    isOpen: false,
+    title: "0",
+    parts: 1,
+  });
+
+  // 장비 전투력 계산기에서 사용하는 변수들
+  const [equipSlotList, setEquipSlotList] = useState<Array<IEquipSlot>>([
+    { num: 1, type: "neck", name: "목/어깨장식", value: 0 },
+    { num: 2, type: "head", name: "투구", value: 0 },
+    { num: 3, type: "face", name: "얼굴장식", value: 0 },
+    { num: 4, type: "weaphon", name: "무기", value: 0 },
+    { num: 5, type: "armor", name: "갑옷", value: 0 },
+    { num: 6, type: "subWeaphon", name: "방패/보조무기", value: 0 },
+    { num: 7, type: "rightHand", name: "오른손", value: 0 },
+    { num: 8, type: "cloak", name: "망토", value: 0 },
+    { num: 9, type: "leftHand", name: "왼손", value: 0 },
+    { num: 10, type: "sub1", name: "보조1", value: 0 },
+    { num: 11, type: "shoes", name: "신발", value: 0 },
+    { num: 12, type: "sub2", name: "보조2", value: 0 },
+    { num: 13, type: "set", name: "세트옷", value: 0 },
+    { num: 14, type: "accessories", name: "장신구", value: 0 },
+  ]);
+
   const itemName = itemList.map(item => (
     <Chip
       className={classes.itemChip}
       label={item.name}
       key={item.name}
       variant='outlined'
+      color={tempPower !== 0 ? "primary" : "default"}
       onClick={() => {
         setTempPower(item.power);
+        setDlgItem({ ...dlgItem, title: item.name });
       }}
     />
   ));
-
-  const [dlgItem, setDlgItem] = useState({
-    isOpen: false,
-    title: "",
-    parts: 1,
-  });
 
   const inputName = (name: string) => {
     if (name === "") {
@@ -142,7 +171,6 @@ export default function Equip() {
   // 이름 직접 검색
   const searchByName = async (name: string) => {
     setOption1(0);
-    setOption2(0);
     setOption3(0);
 
     if (name === "") {
@@ -170,103 +198,47 @@ export default function Equip() {
     setItemList(temp);
   };
 
-  // 장비 전투력 계산기에서 사용하는 변수들
-  const [equipSlotList, setEquipSlotList] = useState<Array<IEquipSlot>>([
-    { num: 1, type: "neck", name: "목/어깨장식", value: 0 },
-    { num: 2, type: "head", name: "투구", value: 0 },
-    { num: 3, type: "face", name: "얼굴장식", value: 0 },
-    { num: 4, type: "weaphon", name: "무기", value: 0 },
-    { num: 5, type: "armor", name: "갑옷", value: 0 },
-    { num: 6, type: "subWeaphon", name: "방패/보조무기", value: 0 },
-    { num: 7, type: "rightHand", name: "오른손", value: 0 },
-    { num: 8, type: "cloak", name: "망토", value: 0 },
-    { num: 9, type: "leftHand", name: "왼손", value: 0 },
-    { num: 10, type: "sub1", name: "보조1", value: 0 },
-    { num: 11, type: "shoes", name: "신발", value: 0 },
-    { num: 12, type: "sub2", name: "보조2", value: 0 },
-    { num: 13, type: "accessories", name: "장신구", value: 0 },
-    { num: 14, type: "set", name: "세트옷", value: 0 },
-    { num: 15, type: "reinforce", name: "0~11", value: 0 }, // 커스텀 UI 강화
-  ]);
-
   // 장비 총 전투력 계산하는 함수
   const _calTotalPower = () => {
     // 현재 객체 저장
     setEquipSlotList(equipSlotList);
 
     let totalPower: number = 0;
-    equipSlotList.map((equipSlot: IEquipSlot) => {
-      //if (equipSlot.value) {
-      //if (equipSlot.type === "reinforce") totalPower += Number(equipSlot.value) * 200;
-      //else totalPower += Number(searchItemPower(equipSlot.value, equipSlot.num));
-      totalPower += Number(equipSlot.value);
-      //}
-    });
 
-    setItemPower(totalPower);
-  };
-
-  // itemList.json 에서 아이템 전투력 찾는 함수
-  const searchItemPower = (item: String, num: number) => {
-    item = item.replace(/ /g, ""); // 찾는 아이템 명에서 공백제거
-
-    if (item !== "") {
-      for (let i = 0; i < Object.keys(ItemList[num]).length; i++) {
-        if (item === Object.keys(ItemList[num])[i]) return Object.values(ItemList[num])[i];
-      }
+    for (let a = 0; a < equipSlotList.length; a++) {
+      totalPower += equipSlotList[a].value;
     }
-
-    return 0;
+    setItemPower(totalPower);
   };
 
   return (
     <React.Fragment>
       {equipSlotList.map((equipSlot: IEquipSlot, idx: number) => {
-        if (equipSlot.type === "reinforce") {
-          return (
-            <div key={equipSlot.num}>
-              <Link
-                style={{
-                  width: "60px",
-                  height: "45px",
-                  lineHeight: "45px",
-                  margin: "5px",
-                  textAlign: "center",
-                  color: "black",
-                  textDecoration: "none",
-                  float: "left",
-                }}>
-                15. 강화
-              </Link>
-              <TextField
-                className={classes.itemInput}
-                variant='outlined'
-                placeholder={equipSlot.name}
-                onChange={e => {
-                  equipSlotList[idx].value = Number(e.target.value);
-                }}
-                inputProps={{ style: { textAlign: "center" } }}
-                style={{ width: "70px" }}
-              />
-            </div>
-          );
-        } else {
-          return (
-            <TextField
-              key={equipSlot.num}
-              className={classes.itemInput}
-              variant='outlined'
-              onChange={e => {
-                equipSlotList[idx].value = Number(e.target.value);
-              }}
-              placeholder={`${equipSlot.num}. ${equipSlot.name}`}
-            />
-          );
-        }
+        return (
+          <Button
+            variant='outlined'
+            color='primary'
+            key={equipSlot.num}
+            style={{ width: "140px", height: "45px", padding: "0 5px", margin: "5px" }}
+            onClick={() => {
+              setOption2(idx + 1);
+              setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlotList[idx].num });
+              if (equipSlotList[idx].value === 0) {
+                setItemList([]);
+                setsearchName("");
+                setTempPower(0);
+              } else {
+                searchByName(equipSlotList[idx].name);
+                setTempPower(equipSlotList[idx].value);
+              }
+            }}>
+            {`${equipSlotList[idx].num}. ${equipSlotList[idx].name}`}
+          </Button>
+        );
       })}
       <Container
         style={{
-          width: "140px",
+          width: "100%",
           height: "45px",
           padding: "0",
           margin: "5px",
@@ -283,40 +255,19 @@ export default function Equip() {
           }}>
           계산
         </Button>
-        <Button
-          variant='contained'
-          className={classes.btn}
-          color='secondary'
-          onClick={() => {
-            setOpenHelper(true);
-          }}
-          style={{ minWidth: "40px", margin: "2.5px" }}>
-          ?
-        </Button>
       </Container>
-      <Container style={{ width: "100%", height: "45px", padding: "0", margin: "5px", textAlign: "center", float: "left" }}>
-        <Button
-          variant='outlined'
-          color='primary'
-          style={{ width: "140px", height: "45px", padding: "0 5px", margin: "0 5px 0 0" }}
-          onClick={() => {
-            setDlgItem({ ...dlgItem, isOpen: true });
-          }}>
-          1. 목/어깨장식
-        </Button>
-        <Button
-          variant='outlined'
-          color='primary'
-          style={{ width: "140px", height: "45px", padding: "0 5px", margin: "0 0 0 5px" }}
-          onClick={() => {
-            setDlgItem({ ...dlgItem, isOpen: true });
-          }}>
-          2. 투구
-        </Button>
-      </Container>
-      <Link className={classes.powerText} style={{ width: "100%" }}>
-        장비 전투력 : {itemPower}
-      </Link>
+
+      <Link className={classes.powerText}>장비 전투력 : {itemPower}</Link>
+      <Button
+        variant='contained'
+        className={classes.btn}
+        color='secondary'
+        onClick={() => {
+          setOpenHelper(true);
+        }}
+        style={{ minWidth: "40px", margin: "5px" }}>
+        ?
+      </Button>
       <Dialog
         open={openHelper}
         onClose={() => {
@@ -365,13 +316,13 @@ export default function Equip() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ maxWidth: "500px", padding: "10px" }}>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+        <DialogContent style={{ maxWidth: "500px", padding: "10px", margin: "10px 0" }}>
+          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
             <TextField
               className={classes.itemText}
               variant='outlined'
               placeholder='아이템명'
-              value={searchName || ""}
+              value={equipSlotList[dlgItem.parts - 1].value === 0 ? searchName : equipSlotList[dlgItem.parts - 1].name}
               onChange={e => {
                 inputName(e.target.value);
               }}
@@ -379,14 +330,14 @@ export default function Equip() {
             <Button
               variant='contained'
               color='primary'
+              className={classes.btnDlg}
               onClick={e => {
                 searchByName(searchName);
-              }}
-              style={{ height: "40px", marginLeft: "-5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
+              }}>
               검색
             </Button>
           </Container>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
             <Select
               variant='outlined'
               className={classes.select}
@@ -419,9 +370,7 @@ export default function Equip() {
               value={option2}
               disabled={true}
               MenuProps={{ disableScrollLock: true }}
-              onChange={e => {
-                setOption2(Number(e.target.value));
-              }}>
+              style={{ width: "100px" }}>
               <Menus value={0}>부위</Menus>
               <Menus value={1}>목/어깨장식</Menus>
               <Menus value={2}>투구</Menus>
@@ -461,43 +410,78 @@ export default function Equip() {
             <Button
               variant='contained'
               color='primary'
+              className={classes.btnDlg}
               onClick={() => {
                 searchByList();
-              }}
-              style={{ width: "60px", height: "40px", margin: "5px 2.5px", color: "white" }}>
+              }}>
               검색
             </Button>
           </Container>
           <Container
             style={{
-              width: "80%",
+              width: "380px",
               minHeight: "62px",
-              margin: "5px 10%",
+              margin: "2.5px 50px",
               padding: "5px",
               border: "1px solid lightgray",
-              borderRadius: "10px",
+              borderRadius: "5px",
               textAlign: "center",
               float: "left",
             }}>
-            {itemList.length === 0 ? "검색 결과가 없습니다." : itemName}
+            {itemList.length === 0 ? (
+              <span>
+                <br />
+                검색 결과가 없습니다.
+              </span>
+            ) : (
+              itemName
+            )}
           </Container>
-          <Container style={{ width: "100%", margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={reinforce}
-              onChange={e => {
-                setReinforce(Number(e.target.value));
+          <Container style={{ width: "380px", margin: "30px 50px 0 50px", padding: "0", float: "left" }}>
+            <Link style={{ width: "40px", lineHeight: "40px", textDecoration: "none", color: "black", margin: "0", float: "left" }}>강화</Link>
+            <Checkbox
+              color='primary'
+              checked={reinforce === 200}
+              onChange={() => {
+                if (reinforce === 200) {
+                  setReinforce(0);
+                } else {
+                  setReinforce(200);
+                }
               }}
-              style={{ width: "80px", margin: "0 5px" }}>
-              <Menus value={0}>강화</Menus>
-              <Menus value={200}>슬롯1</Menus>
-              <Menus value={400}>슬롯2</Menus>
-            </Select>
-            <Link style={{ width: "120px", lineHeight: "40px", textDecoration: "none", color: "black", margin: "0 10px" }}>
+              style={{ width: "20px", height: "40px", float: "left" }}
+            />
+            <Link style={{ width: "20px", lineHeight: "40px", textDecoration: "none", color: "black", margin: "0", float: "left" }}>+1</Link>
+            <Checkbox
+              color='primary'
+              checked={reinforce === 400}
+              onChange={() => {
+                if (reinforce === 400) {
+                  setReinforce(0);
+                } else {
+                  setReinforce(400);
+                }
+              }}
+              style={{ width: "20px", height: "40px", float: "left" }}
+            />
+            <Link style={{ width: "20px", lineHeight: "40px", textDecoration: "none", color: "black", margin: "0", float: "left" }}>+2</Link>
+            <Link style={{ width: "100px", lineHeight: "40px", textDecoration: "none", color: "black", margin: "0 45px", float: "left" }}>
               전투력 : {tempPower + reinforce || 0}
             </Link>
-            <Button variant='contained' color='secondary' style={{ width: "80px", height: "40px", color: "white", margin: "0 5px" }}>
+            <Button
+              variant='contained'
+              color='secondary'
+              className={classes.btnDlg}
+              onClick={() => {
+                setDlgItem({ ...dlgItem, isOpen: false });
+                equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
+                equipSlotList[dlgItem.parts - 1].value = tempPower + reinforce;
+                //setEquipSlotList(equipSlotList);
+                setReinforce(0);
+                setTempPower(0);
+                _calTotalPower();
+              }}
+              style={{ float: "right" }}>
               적용
             </Button>
           </Container>
