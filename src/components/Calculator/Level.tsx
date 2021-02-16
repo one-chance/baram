@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     btn: {
+      minWidth: "40px",
       height: "40px",
       margin: "5px",
       padding: "0",
@@ -87,7 +88,7 @@ export default function Animal() {
 
   return (
     <React.Fragment>
-      <Container className={classes.smallBox} style={{ margin: "5px 0", textAlign: "center" }}>
+      <Container className={classes.smallBox} style={{ margin: "0", textAlign: "center" }}>
         <TextField
           variant='outlined'
           placeholder='99~799'
@@ -96,7 +97,7 @@ export default function Animal() {
             setLevel(parseInt(e.target.value));
           }}
           inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-          style={{ width: "150px", margin: "5px 0 5px 5px" }}
+          style={{ width: "150px", margin: "5px 0 0 0" }}
         />
         <Button
           variant='contained'
@@ -110,9 +111,7 @@ export default function Animal() {
         </Button>
       </Container>
       <Container className={classes.smallBox}>
-        <Link className={classes.powerText} style={{ width: "100%" }}>
-          레벨 전투력 : {levelPower === levelPower2 ? levelPower : levelPower + "(" + levelPower2 + ")"}
-        </Link>
+        <Link className={classes.powerText}>레벨 전투력 : {levelPower === levelPower2 ? levelPower : levelPower + "(" + levelPower2 + ")"}</Link>
       </Container>
       <Dialog
         open={openHelper}
