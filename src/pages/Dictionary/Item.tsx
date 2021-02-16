@@ -182,9 +182,6 @@ export default function Item() {
               variant='outlined'
               className={classes.select}
               value={option1}
-              MenuProps={{
-                disableScrollLock: true,
-              }}
               onChange={e => {
                 setOption1(Number(e.target.value));
               }}>
@@ -208,7 +205,6 @@ export default function Item() {
               variant='outlined'
               className={classes.select}
               value={option2}
-              MenuProps={{ disableScrollLock: true }}
               onChange={e => {
                 setOption2(Number(e.target.value));
               }}>
@@ -231,7 +227,6 @@ export default function Item() {
               variant='outlined'
               className={classes.select}
               value={option3}
-              MenuProps={{ disableScrollLock: true }}
               onChange={e => {
                 setOption3(Number(e.target.value));
               }}>

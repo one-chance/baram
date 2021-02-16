@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import {useSetRecoilState} from 'recoil';
-import LevelState from 'state/Calculator/LevelState';
+import { useSetRecoilState } from "recoil";
+import LevelState from "state/Calculator/LevelState";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button";
 import Level from "components/Calculator/Level";
 import Equip from "components/Calculator/Equip";
 import Engrave from "components/Calculator/Engrave";
-import Ability from "components/Calculator/Ability";
+import Skill from "components/Calculator/Skill";
 import Gold from "components/Calculator/Gold";
 import Animal from "components/Calculator/Animal";
 import Pet from "components/Calculator/Pet";
@@ -60,20 +60,19 @@ export default function Power() {
   const autoApply = () => {
     setAuto(auto);
     if (auto.split("@").length === 2) {
-      getItemData(auto)
-        .then((res) => {
-          // 레벨 세팅
-          if (!isNaN(res.level)) {
-            setLevel(res.level);
-          }
+      getItemData(auto).then(res => {
+        // 레벨 세팅
+        if (!isNaN(res.level)) {
+          setLevel(res.level);
+        }
 
-          // 아이템 정보 세팅 .item_list
-          /*
+        // 아이템 정보 세팅 .item_list
+        /*
           if (!isNaN(res.item)) {
 
           }
           */
-        });
+      });
     } else {
       alert("에러! 아이디@서버 형식을 확인하세요.");
     }
@@ -92,7 +91,6 @@ export default function Power() {
           alignItems: "center",
           float: "left",
         }}>
-
         {/* LEFT COLUMN */}
         <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
           <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
@@ -159,7 +157,7 @@ export default function Power() {
           </Container>
 
           <Container className={classes.bigBox}>
-            <Ability />
+            <Skill />
           </Container>
         </Grid>
 

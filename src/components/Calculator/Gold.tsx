@@ -151,7 +151,6 @@ export default function Gold() {
           variant='outlined'
           className={classes.select}
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             setGold1(goldVal[Number(e.target.value)]);
             setGold2(0);
@@ -193,7 +192,6 @@ export default function Gold() {
           variant='outlined'
           className={classes.select}
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             setGold3(goldVal[Number(e.target.value)]);
             setGold4(0);
@@ -235,7 +233,6 @@ export default function Gold() {
           variant='outlined'
           className={classes.select}
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             setGold5(goldVal[Number(e.target.value)]);
             setGold6(0);

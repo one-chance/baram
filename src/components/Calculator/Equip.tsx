@@ -16,8 +16,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-//import ItemList from "conf/itemList.json";
-import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
+import { SearchItem } from "../../utils/CalUtil";
 import IItemInfo from "interfaces/Calculator/IItemInfo";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,19 +35,12 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-    btn: {
-      height: "40px",
-      margin: "5px",
-      padding: "0",
-    },
-
     btnDlg: {
       minWidth: "60px",
       height: "40px",
       margin: "0 5px",
       padding: "5px",
     },
-
     select: {
       width: "120px",
       height: "40px",
@@ -68,7 +60,6 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "30px",
       margin: "2.5px",
     },
-
     itemText: {
       width: "310px",
       margin: "0 2.5px",
@@ -81,7 +72,6 @@ const useStyles = makeStyles((theme: Theme) =>
         border: "1px solid",
       },
     },
-
     linkText: {
       lineHeight: "40px",
       color: "black",
@@ -126,30 +116,12 @@ export default function Equip() {
   const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]);
 
-  var menuList1 = [
-    "종류",
-    "용장비",
-    "북방장비",
-    "중국전설",
-    "일본전설",
-    "환웅장비",
-    "백제/황산벌",
-    "전우치/구미호",
-    "타계장비",
-    "흉수계/봉래산",
-    "생산장비",
-    "격전지/전장",
-    "승급장비",
-    "합성노리개",
+  var menuList = [
+    // prettier-ignore
+    [ "종류", "용장비", "북방장비", "중국전설", "일본전설", "환웅장비", "백제/황산벌", "전우치/구미호", "타계장비", "흉수계/봉래산", "생산장비", "격전지/전장", "승급장비", "합성노리개", ],
+    ["부위", "목/어깨장식", "투구", "얼굴장식", "무기", "갑옷", "방패/보조무기", "손", "망토", "보조", "신발", "세트옷", "장신구"],
+    ["직업", "공용", "전사", "도적", "주술사", "도사", "궁사", "천인", "마도사", "영술사", "차사"],
   ];
-
-  const menu1 = menuList1.map((name: string, idx: number) => {
-    return (
-      <Menus value={idx} key={idx}>
-        {name}
-      </Menus>
-    );
-  });
 
   const [dlgItem, setDlgItem] = useState({
     isOpen: false,
@@ -198,7 +170,7 @@ export default function Equip() {
   };
 
   // 이름 직접 검색
-  const searchByName = async (name: string) => {
+  const searchByName = async (name: string, parts: number) => {
     setOption1(0);
     setOption3(0);
 
@@ -207,7 +179,7 @@ export default function Equip() {
       return;
     }
 
-    const res = await SearchItemByName(name);
+    const res = await SearchItem(name, 0, parts, 0);
     const temp = Array<IItemInfo>();
     res.forEach(r => temp.push(r));
     setItemList(temp);
@@ -221,17 +193,45 @@ export default function Equip() {
     }
     setsearchName("");
 
-    const res = await SearchItemByOption(option1, option2, option3);
+    const res = await SearchItem("", option1, option2, option3);
     const temp = Array<IItemInfo>();
     res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
+  // 착용 부위를 고정하는 함수
+  const fixedOption = (num: number) => {
+    if (num + 1 === 9) {
+      setOption2(7);
+    } else if (num + 1 === 10) {
+      setOption2(9);
+    } else if (num + 1 === 11) {
+      setOption2(10);
+    } else if (num + 1 === 12) {
+      setOption2(9);
+    } else if (num + 1 === 13) {
+      setOption2(11);
+    } else if (num + 1 === 14) {
+      setOption2(12);
+    } else {
+      setOption2(num + 1);
+    }
+
+    if (equipSlotList[num].type === equipSlotList[num].name) {
+      setItemList([]);
+      setsearchName("");
+      setTempPower(0);
+      setReinforce(0);
+    } else {
+      searchByName(equipSlotList[num].name, equipSlotList[num].num);
+      setTempPower(equipSlotList[num].power);
+      setReinforce(equipSlotList[num].reinforce);
+    }
+  };
+
   // 장비 총 전투력 계산하는 함수
   const _calTotalPower = () => {
-    // 현재 객체 저장
     setEquipSlotList(equipSlotList);
-
     let totalPower: number = 0;
 
     for (let a = 0; a < equipSlotList.length; a++) {
@@ -255,21 +255,11 @@ export default function Equip() {
             key={equipSlot.num}
             style={{ width: "140px", height: "55px", padding: "0 5px", margin: "5px" }}
             onClick={() => {
-              setOption2(idx + 1);
+              fixedOption(idx);
               setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlotList[idx].num });
-              if (equipSlotList[idx].type === equipSlotList[idx].name) {
-                setItemList([]);
-                setsearchName("");
-                setTempPower(0);
-                setReinforce(0);
-              } else {
-                searchByName(equipSlotList[idx].name);
-                setTempPower(equipSlotList[idx].power);
-                setReinforce(equipSlotList[idx].reinforce);
-              }
             }}>
             <span>
-              {`${equipSlotList[idx].num}. ${equipSlotList[idx].name}`}
+              {equipSlotList[idx].type !== equipSlotList[idx].name ? equipSlotList[idx].name : `${idx + 1}. ${equipSlotList[idx].name}`}
               <br />
               {equipSlotList[idx].type !== equipSlotList[idx].name ? `(${Number(equipSlotList[idx].power + equipSlotList[idx].reinforce)})` : ""}
             </span>
@@ -280,12 +270,11 @@ export default function Equip() {
       <Link className={classes.powerText}>장비 전투력 : {itemPower}</Link>
       <Button
         variant='contained'
-        className={classes.btn}
         color='secondary'
         onClick={() => {
           setOpenHelper(true);
         }}
-        style={{ minWidth: "40px", margin: "5px 0" }}>
+        style={{ minWidth: "40px", height: "40px", padding: "0", margin: "5px" }}>
         ?
       </Button>
       <Dialog
@@ -352,7 +341,7 @@ export default function Equip() {
               color='primary'
               className={classes.btnDlg}
               onClick={e => {
-                searchByName(searchName);
+                searchByName(searchName, dlgItem.parts);
               }}>
               검색
             </Button>
@@ -362,13 +351,21 @@ export default function Equip() {
               variant='outlined'
               className={classes.select}
               value={option1}
-              MenuProps={{
-                disableScrollLock: true,
-              }}
+              /* MenuProps={{ disableScrollLock: true }} */
               onChange={e => {
                 setOption1(Number(e.target.value));
               }}>
-              {menuList1.map((name: string, idx: number) => {
+              {menuList[0].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx}>
+                    {name}
+                  </Menus>
+                );
+              })}
+            </Select>
+
+            <Select variant='outlined' className={classes.select} value={option2} disabled={true} style={{ width: "100px" }}>
+              {menuList[1].map((name: string, idx: number) => {
                 return (
                   <Menus value={idx} key={idx}>
                     {name}
@@ -380,46 +377,20 @@ export default function Equip() {
             <Select
               variant='outlined'
               className={classes.select}
-              value={option2}
-              disabled={true}
-              MenuProps={{ disableScrollLock: true }}
-              style={{ width: "100px" }}>
-              <Menus value={0}>부위</Menus>
-              <Menus value={1}>목/어깨장식</Menus>
-              <Menus value={2}>투구</Menus>
-              <Menus value={3}>얼굴장식</Menus>
-              <Menus value={4}>무기</Menus>
-              <Menus value={5}>갑옷</Menus>
-              <Menus value={6}>방패/보조무기</Menus>
-              <Menus value={7}>손</Menus>
-              <Menus value={8}>망토</Menus>
-              <Menus value={9}>보조</Menus>
-              <Menus value={10}>신발</Menus>
-              <Menus value={11}>장신구</Menus>
-              <Menus value={12}>분신</Menus>
-            </Select>
-
-            <Select
-              variant='outlined'
-              className={classes.select}
               value={option3}
-              MenuProps={{ disableScrollLock: true }}
               onChange={e => {
                 setOption3(Number(e.target.value));
               }}
               style={{ width: "80px" }}>
-              <Menus value={0}>직업</Menus>
-              <Menus value={1}>공용</Menus>
-              <Menus value={2}>전사</Menus>
-              <Menus value={3}>도적</Menus>
-              <Menus value={4}>주술사</Menus>
-              <Menus value={5}>도사</Menus>
-              <Menus value={6}>궁사</Menus>
-              <Menus value={7}>천인</Menus>
-              <Menus value={8}>마도사</Menus>
-              <Menus value={9}>영술사</Menus>
-              <Menus value={10}>차사</Menus>
+              {menuList[2].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx}>
+                    {name}
+                  </Menus>
+                );
+              })}
             </Select>
+
             <Button
               variant='contained'
               color='primary'
@@ -450,8 +421,10 @@ export default function Equip() {
               itemName
             )}
           </Container>
-          <Container style={{ width: "380px", margin: "30px 50px 0 50px", padding: "0", float: "left" }}>
-            <Link style={{ width: "40px", lineHeight: "40px", textDecoration: "none", color: "black", margin: "0", float: "left" }}>강화</Link>
+          <Container style={{ width: "380px", margin: "20px 50px 0 50px", padding: "0", float: "left" }}>
+            <Link className={classes.linkText} style={{ width: "40px" }}>
+              강화
+            </Link>
             <Checkbox
               color='primary'
               disabled={!check1.includes(equipSlotList[dlgItem.parts - 1].num) || itemList.length === 0}
@@ -491,6 +464,7 @@ export default function Equip() {
               variant='contained'
               color='secondary'
               className={classes.btnDlg}
+              style={{ float: "right" }}
               onClick={() => {
                 setDlgItem({ ...dlgItem, isOpen: false });
                 if (itemList.length !== 0) {
@@ -502,8 +476,6 @@ export default function Equip() {
                   equipSlotList[dlgItem.parts - 1].power = 0;
                   equipSlotList[dlgItem.parts - 1].reinforce = 0;
                 }
-                setReinforce(0);
-                setTempPower(0);
                 _calTotalPower();
               }}>
               저장
