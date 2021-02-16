@@ -9,7 +9,7 @@ import Divider from "@material-ui/core/Divider";
 import { getSignInUserId, getUserInfoById } from "utils/UserUtil";
 import IUserInfo from "interfaces/User/IUserInfo";
 
-import NoSignInUser from "components/User/NoSignInUser";
+import NoAuth from "pages/User/NoAuth";
 import ViewUserInfo from "components/User/ViewUserInfo";
 import AuthAccount from "components/User/AuthAccount";
 import ChagnePassword from "components/User/ChagnePassword";
@@ -40,7 +40,7 @@ function MyInfo({ match }: any) {
   const { tab } = match.params;
   const mode = tab;
 
-  const [isNoSignInUser, setIsNoSignInUser] = React.useState(false);
+  const [isNoSignInUser, setIsNoSignInUser] = useState(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>({
     id: "",
     isActive: false,
@@ -82,9 +82,9 @@ function MyInfo({ match }: any) {
   return (
     <React.Fragment>
       {isNoSignInUser ? (
-        <NoSignInUser />
+        <NoAuth />
       ) : (
-        <Container component='main'>
+        <Container component='main' style={{ minHeight: "600px" }}>
           <Grid container className={classes.root}>
             <Grid item xs={2}>
               <MenuList style={{ outline: "none" }}>

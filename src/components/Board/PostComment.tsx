@@ -156,7 +156,7 @@ function PostComment(props: IProps) {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} elevation={0}>
             <Table className={classes.table} aria-label='custom pagination table'>
               {/* <TableHead></TableHead> */}
               <TableBody>

@@ -77,7 +77,7 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
-export default function Animal() {
+export default function Engrave() {
   const classes = useStyles();
 
   const [openHelper, setOpenHelper] = useState<boolean>(false);
@@ -98,7 +98,6 @@ export default function Animal() {
           variant='outlined'
           className={classes.select}
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             setEngrave1(Number(e.target.value));
           }}>
@@ -133,7 +132,6 @@ export default function Animal() {
           variant='outlined'
           className={classes.select}
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             setEngrave3(Number(e.target.value));
           }}>

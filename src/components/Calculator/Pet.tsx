@@ -86,7 +86,7 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
-export default function Animal() {
+export default function Pet() {
   const classes = useStyles();
   const [openHelper, setOpenHelper] = useState<boolean>(false);
   const [petPower, setPetPower] = useState<number>(0); // 환수 전투력
@@ -170,7 +170,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             pets[7] = Number(e.target.value);
           }}>
@@ -196,7 +195,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             pets[8] = Number(e.target.value);
           }}>
@@ -220,7 +218,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             pets[9] = Number(e.target.value);
           }}>
@@ -243,7 +240,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             pets[10] = Number(e.target.value);
           }}>

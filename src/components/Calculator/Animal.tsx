@@ -165,7 +165,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={7}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             animals[2] = Number(e.target.value);
           }}>
@@ -182,7 +181,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={2}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             animals[5] = Number(e.target.value);
           }}>
@@ -198,7 +196,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={7}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             animals[3] = Number(e.target.value);
           }}>
@@ -215,7 +212,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={2}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             animals[6] = Number(e.target.value);
           }}>
@@ -231,7 +227,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={7}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             animals[4] = Number(e.target.value);
           }}>
@@ -248,7 +243,6 @@ export default function Animal() {
           className={classes.select2}
           variant='outlined'
           defaultValue={2}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {
             animals[7] = Number(e.target.value);
           }}>

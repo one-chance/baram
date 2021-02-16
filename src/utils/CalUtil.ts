@@ -68,6 +68,33 @@ export const SearchItemByOption = async (_op1: number, _op2: number, _op3: numbe
 }
 
 /*
+* 아이템 이름, 옵션으로 검색하기
+* _name = "" 이면 쿼리에 들어가지 않음
+* _op = 0 이면 쿼리에 들어가지 않음
+*/
+export const SearchItem = async (_name: string, _op1: number, _op2: number, _op3: number) => {
+  var items = Array<IItemInfo>();
+  await axios.get('/api/cal/searchitem', {
+    params: {
+      "name": _name,
+      "op1": _op1,
+      "op2": _op2,
+      "op3": _op3
+    }
+  })
+  .then((res) => {
+    items = res.data.items as Array<IItemInfo>;
+    return true;
+  })
+  .catch((e) => {
+    alert(e)
+    return false;
+  });
+  
+  return items;
+}
+
+/*
 * 아이템 이름으로 옵션 검색하기
 */
 export const SearchOptionByName = async (_name: string) => {

@@ -77,7 +77,7 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
-export default function Animal() {
+export default function Skill() {
   const classes = useStyles();
 
   const [openHelper, setOpenHelper] = useState<boolean>(false);
@@ -90,7 +90,6 @@ export default function Animal() {
           className={classes.select}
           variant='outlined'
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {}}
           style={{
             width: "120px",
@@ -110,7 +109,6 @@ export default function Animal() {
           className={classes.select}
           variant='outlined'
           defaultValue={0}
-          MenuProps={{ disableScrollLock: true }}
           onChange={e => {}}
           style={{
             width: "160px",
@@ -124,7 +122,7 @@ export default function Animal() {
         </Select>
       </Container>
       <Container style={{ width: "100%", padding: "0", float: "left" }}>
-        <Select variant='outlined' className={classes.select} defaultValue={0} MenuProps={{ disableScrollLock: true }} onChange={e => {}}>
+        <Select variant='outlined' className={classes.select} defaultValue={0} onChange={e => {}}>
           <Menus value={0}>기술능력</Menus>
           <Menus value={1}>무영보법-명중회피</Menus>
           <Menus value={2}>투명-피해증가율</Menus>
@@ -143,8 +141,7 @@ export default function Animal() {
         <TextField variant='outlined' className={classes.selText} placeholder='수치' type='number' onChange={e => {}} />
       </Container>
       <Link className={classes.powerText}>기술능력 전투력 : {skillPower}</Link>
-      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }}
-        onClick={() => setOpenHelper(true)}>
+      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={() => setOpenHelper(true)}>
         ?
       </Button>
       <Dialog
@@ -158,9 +155,7 @@ export default function Animal() {
             <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>기술능력 전투력 TMI</h3>
           </div>
         </DialogTitle>
-        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
-          내용
-        </DialogContent>
+        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>내용</DialogContent>
         <DialogActions>
           <Button
             tabIndex={-1}

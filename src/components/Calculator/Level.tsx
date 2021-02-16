@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     smallBox: {
       width: "100%",
-      height: "50px",
+      height: "45px",
       padding: "0",
       margin: "0",
     },
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     btn: {
+      minWidth: "40px",
       height: "40px",
       margin: "5px",
       padding: "0",
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Animal() {
+export default function Level() {
   const classes = useStyles();
 
   const [openHelper, setOpenHelper] = useState<boolean>(false);
@@ -87,7 +88,7 @@ export default function Animal() {
 
   return (
     <React.Fragment>
-      <Container className={classes.smallBox} style={{ margin: "5px 0", textAlign: "center" }}>
+      <Container className={classes.smallBox} style={{ margin: "0", textAlign: "center" }}>
         <TextField
           variant='outlined'
           placeholder='99~799'
@@ -96,24 +97,19 @@ export default function Animal() {
             setLevel(parseInt(e.target.value));
           }}
           inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-          style={{ width: "150px", margin: "5px 0 5px 5px" }}
+          style={{ width: "150px", margin: "2.5px 0 0 0" }}
         />
-        <Button
-          variant='contained'
-          className={classes.btn}
-          color='secondary'
-          onClick={() => {
-            setOpenHelper(true);
-          }}
-          style={{ minWidth: "40px" }}>
-          ?
-        </Button>
       </Container>
-      <Container className={classes.smallBox}>
-        <Link className={classes.powerText} style={{ width: "100%" }}>
-          레벨 전투력 : {levelPower === levelPower2 ? levelPower : levelPower + "(" + levelPower2 + ")"}
-        </Link>
-      </Container>
+      <Link className={classes.powerText}>레벨 전투력 : {levelPower === levelPower2 ? levelPower : `${levelPower} (${levelPower2})`}</Link>
+      <Button
+        variant='contained'
+        className={classes.btn}
+        color='secondary'
+        onClick={() => {
+          setOpenHelper(true);
+        }}>
+        ?
+      </Button>
       <Dialog
         open={openHelper}
         onClose={() => {
