@@ -105,43 +105,45 @@ export default function Gold() {
   const classes = useStyles();
 
   const [openHelper, setOpenHelper] = useState<boolean>(false);
-  const [gold1, setGold1] = useState<number>(0); // 황돋1 종류
-  const [gold2, setGold2] = useState<number>(0); // 황돋1 수치
-  const [gold3, setGold3] = useState<number>(0); // 황돋2 종류
-  const [gold4, setGold4] = useState<number>(0); // 황돋2 수치
-  const [gold5, setGold5] = useState<number>(0); // 황돋3 종류
-  const [gold6, setGold6] = useState<number>(0); // 황돋3 수치
-  const [gold7, setGold7] = useState<number>(0); // 황돋1 투력
-  const [gold8, setGold8] = useState<number>(0); // 황돋2 투력
-  const [gold9, setGold9] = useState<number>(0); // 황돋3 투력
-  let goldVal: number[] = [0, 3, 0.375, 3.75, 3.75, 3.75, 15, 37.5, 60, 100, 100, 100, 60, 37.5, 30, 30, 30, 30, 30];
+
+  var goldVal: number[] = [0, 3, 0.375, 3.75, 3.75, 3.75, 15, 37.5, 60, 100, 100, 100, 60, 37.5, 30, 30, 30, 30, 30];
+  const [selValue, setSelValue] = useState<Array<number>>([0, 0, 0]); // 황돋1~3 종류
+  const [gold1, setGold1] = useState<number>(0); // 황돋1 수치
+  const [gold2, setGold2] = useState<number>(0); // 황돋2 수치
+  const [gold3, setGold3] = useState<number>(0); // 황돋3 수치
+  const [total, setTotal] = useState<Array<number>>([0, 0, 0]); // 황돋1~3 전투력
+
+  // prettier-ignore
+  var ability = [ "능력치", "체력/마력", "재생력", "방관/마치/공증/마증", "타흡/마흡/피흡", "시향/회향/직타", "힘/민/지", "명중률/타격치", "마법수준향상", "명중회피/방무/방어",
+    "체력/마력(%)", "방무/방어(%)", "힘/민/지(%)","명중회피(%)", "방관/마치/공증/마증(%)", "타흡/마흡/피흡(%)", "시향/회향/직타(%)", "명중률/타격치(%)", "마법수준/재생력(%)", ];
+
+  const abilityList = ability.map((name: string, idx: number) => {
+    return (
+      <Menus value={idx} key={idx}>
+        {name}
+      </Menus>
+    );
+  });
 
   const calGold = (val: number, num: number) => {
     let a: number = Math.abs(val);
 
-    switch (num) {
-      case 1:
-        if (Math.floor(gold1 * a) <= 300) {
-          setGold7(Math.floor(gold1 * a));
-        } else {
-          setGold2(0);
-        }
-        break;
-      case 2:
-        if (Math.floor(gold3 * a) <= 300) {
-          setGold8(Math.floor(gold3 * a));
-        } else {
-          setGold4(0);
-        }
-        break;
-      case 3:
-        if (Math.floor(gold5 * a) <= 300) {
-          setGold9(Math.floor(gold5 * a));
-        } else {
-          setGold6(0);
-        }
-        break;
+    if (Math.floor(selValue[num] * a) <= 300) {
+      total[num] = Math.floor(selValue[num] * a);
+    } else {
+      if (num === 0) {
+        setGold1(0);
+        total[0] = 0;
+      } else if (num === 1) {
+        setGold2(0);
+        total[1] = 0;
+      } else {
+        setGold3(0);
+        total[2] = 0;
+      }
     }
+
+    setTotal(total);
   };
 
   return (
@@ -152,28 +154,34 @@ export default function Gold() {
           className={classes.select}
           defaultValue={0}
           onChange={e => {
-            setGold1(goldVal[Number(e.target.value)]);
+            selValue[0] = goldVal[Number(e.target.value)];
+            setGold1(0);
+          }}>
+          {abilityList}
+        </Select>
+        <TextField
+          variant='outlined'
+          className={classes.selText}
+          value={gold1 || ""}
+          placeholder='수치'
+          type='number'
+          onChange={e => {
+            setGold1(Number(e.target.value));
+            setSelValue(selValue);
+            calGold(Number(e.target.value), 0);
+          }}
+        />
+      </Container>
+      <Container style={{ width: "100%", padding: "0", float: "left" }}>
+        <Select
+          variant='outlined'
+          className={classes.select}
+          defaultValue={0}
+          onChange={e => {
+            selValue[1] = goldVal[Number(e.target.value)];
             setGold2(0);
           }}>
-          <Menus value={0}>능력치</Menus>
-          <Menus value={1}>체력/마력</Menus>
-          <Menus value={2}>재생력</Menus>
-          <Menus value={3}>방관/마치/공증/마증</Menus>
-          <Menus value={4}>타흡/마흡/피흡</Menus>
-          <Menus value={5}>시향/회향/직타</Menus>
-          <Menus value={6}>힘/민/지</Menus>
-          <Menus value={7}>명중률/타격치</Menus>
-          <Menus value={8}>마법수준향상</Menus>
-          <Menus value={9}>명중회피/방무/방어</Menus>
-          <Menus value={10}>체력/마력(%)</Menus>
-          <Menus value={11}>방무/방어(%)</Menus>
-          <Menus value={12}>힘/민/지(%)</Menus>
-          <Menus value={13}>명중회피(%)</Menus>
-          <Menus value={14}>방관/마치/공증/마증(%)</Menus>
-          <Menus value={15}>타흡/마흡/피흡(%)</Menus>
-          <Menus value={16}>시향/회향/직타(%)</Menus>
-          <Menus value={17}>명중률/타격치(%)</Menus>
-          <Menus value={18}>마법수준/재생력(%)</Menus>
+          {abilityList}
         </Select>
         <TextField
           variant='outlined'
@@ -183,6 +191,7 @@ export default function Gold() {
           type='number'
           onChange={e => {
             setGold2(Number(e.target.value));
+            setSelValue(selValue);
             calGold(Number(e.target.value), 1);
           }}
         />
@@ -193,84 +202,33 @@ export default function Gold() {
           className={classes.select}
           defaultValue={0}
           onChange={e => {
-            setGold3(goldVal[Number(e.target.value)]);
-            setGold4(0);
+            selValue[2] = goldVal[Number(e.target.value)];
+            setGold3(0);
           }}>
-          <Menus value={0}>능력치</Menus>
-          <Menus value={1}>체력/마력</Menus>
-          <Menus value={2}>재생력</Menus>
-          <Menus value={3}>방관/마치/공증/마증</Menus>
-          <Menus value={4}>타흡/마흡/피흡</Menus>
-          <Menus value={5}>시향/회향/직타</Menus>
-          <Menus value={6}>힘/민/지</Menus>
-          <Menus value={7}>명중률/타격치</Menus>
-          <Menus value={8}>마법수준향상</Menus>
-          <Menus value={9}>명중회피/방무/방어</Menus>
-          <Menus value={10}>체력/마력(%)</Menus>
-          <Menus value={11}>방무/방어(%)</Menus>
-          <Menus value={12}>힘/민/지(%)</Menus>
-          <Menus value={13}>명중회피(%)</Menus>
-          <Menus value={14}>방관/마치/공증/마증(%)</Menus>
-          <Menus value={15}>타흡/마흡/피흡(%)</Menus>
-          <Menus value={16}>시향/회향/직타(%)</Menus>
-          <Menus value={17}>명중률/타격치(%)</Menus>
-          <Menus value={18}>마법수준/재생력(%)</Menus>
+          {abilityList}
         </Select>
         <TextField
           variant='outlined'
           className={classes.selText}
-          value={gold4 || ""}
+          value={gold3 || ""}
           placeholder='수치'
           type='number'
           onChange={e => {
-            setGold4(Number(e.target.value));
+            setGold3(Number(e.target.value));
+            setSelValue(selValue);
             calGold(Number(e.target.value), 2);
           }}
         />
       </Container>
-      <Container style={{ width: "100%", padding: "0", float: "left" }}>
-        <Select
-          variant='outlined'
-          className={classes.select}
-          defaultValue={0}
-          onChange={e => {
-            setGold5(goldVal[Number(e.target.value)]);
-            setGold6(0);
-          }}>
-          <Menus value={0}>능력치</Menus>
-          <Menus value={1}>체력/마력</Menus>
-          <Menus value={2}>재생력</Menus>
-          <Menus value={3}>방관/마치/공증/마증</Menus>
-          <Menus value={4}>타흡/마흡/피흡</Menus>
-          <Menus value={5}>시향/회향/직타</Menus>
-          <Menus value={6}>힘/민/지</Menus>
-          <Menus value={7}>명중률/타격치</Menus>
-          <Menus value={8}>마법수준향상</Menus>
-          <Menus value={9}>명중회피/방무/방어</Menus>
-          <Menus value={10}>체력/마력(%)</Menus>
-          <Menus value={11}>방무/방어(%)</Menus>
-          <Menus value={12}>힘/민/지(%)</Menus>
-          <Menus value={13}>명중회피(%)</Menus>
-          <Menus value={14}>방관/마치/공증/마증(%)</Menus>
-          <Menus value={15}>타흡/마흡/피흡(%)</Menus>
-          <Menus value={16}>시향/회향/직타(%)</Menus>
-          <Menus value={17}>명중률/타격치(%)</Menus>
-          <Menus value={18}>마법수준/재생력(%)</Menus>
-        </Select>
-        <TextField
-          variant='outlined'
-          className={classes.selText}
-          value={gold6 || ""}
-          placeholder='수치'
-          type='number'
-          onChange={e => {
-            setGold6(Number(e.target.value));
-            calGold(Number(e.target.value), 3);
-          }}
-        />
-      </Container>
-      <Link className={classes.powerText}>황돋 전투력 : {gold7 + gold8 + gold9}</Link>
-      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={() => setOpenHelper(true)}>
+      <Link className={classes.powerText}>황돋 전투력 : {total[0] + total[1] + total[2]}</Link>
+      <Button
+        className={classes.btn}
+        variant='contained'
+        color='secondary'
+        style={{ minWidth: "40px" }}
+        onClick={() => {
+          setOpenHelper(true);
+        }}>
         ?
       </Button>
       <Dialog

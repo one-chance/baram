@@ -68,30 +68,22 @@ export default function CalProduction() {
     prodItem.set(Object.keys(prodList[0])[i], Object.values(prodList[0])[i]);
   }
 
-  const list1 = ["새끼줄", "삼베천", "황저포", "아마천", "모시천", "무명천", "양모천", "비단", "황금비단"];
   // prettier-ignore
-  const list2 = ["삼베실", "화살나무판자", "소나무판자", "은행나뭎나자", "대나무판자", "단풍나무판자", "떡갈나무판자", "반송판자", "금강송판자", "백송판자", "황금송판자", "묵철판자", ];
-  // prettier-ignore
-  const list3 = ["연옥", "황동괴", "청동괴", "황옥", "구리조각", "철괴", "적옥", "강철괴", "강철쇠조각", "청옥", "은괴", "은조각", "백옥", "금괴", "강철조각", "황금조각", "찬란함금괴", ];
-  // prettier-ignore
-  const list4 = ["곡물가루", "독가루", "맹독가루", "수면제", "인삼약제", "해독제", "영지약제", "산인삼약제", "우황청심환", "산양삼약제", "산장뇌삼약제", "천뇌삼약제"];
+  const list = [
+    [],
+    ["새끼줄", "삼베천", "황저포", "아마천", "모시천", "무명천", "양모천", "비단", "황금비단"],
+    [ "삼베실", "화살나무판자", "소나무판자", "은행나뭎나자", "대나무판자", "단풍나무판자", "떡갈나무판자", "반송판자", "금강송판자", "백송판자", "황금송판자", "묵철판자", ],
+    ["연옥", "황동괴", "청동괴", "황옥", "구리조각", "철괴", "적옥", "강철괴", "강철쇠조각", "청옥", "은괴", "은조각", "백옥", "금괴", "강철조각", "황금조각", "찬란함금괴", ],
+    ["곡물가루", "독가루", "맹독가루", "수면제", "인삼약제", "해독제", "영지약제", "산인삼약제", "우황청심환", "산양삼약제", "산장뇌삼약제", "천뇌삼약제"],
+  ];
 
-  const menu1 = list1.map(item => (
+  const menu1 = list[type].map(item => (
     <Menus value={item} key={item}>
       {item}
     </Menus>
   ));
-  const menu2 = list2.map(item => (
-    <Menus value={item} key={item}>
-      {item}
-    </Menus>
-  ));
-  const menu3 = list3.map(item => (
-    <Menus value={item} key={item}>
-      {item}
-    </Menus>
-  ));
-  const menu4 = list4.map(item => (
+
+  const menu2 = list[type2].map(item => (
     <Menus value={item} key={item}>
       {item}
     </Menus>
@@ -121,7 +113,7 @@ export default function CalProduction() {
 
   return (
     <React.Fragment>
-      <Container style={{ width: "80%", height: "100%", margin: "10px 10%", padding: "0", textAlign: "center", float: "left" }}>
+      <Container style={{ width: "80%", height: "100%", minHeight: "540px", margin: "10px 10%", padding: "0", textAlign: "center", float: "left" }}>
         <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
           <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
             <Select
@@ -146,7 +138,7 @@ export default function CalProduction() {
               }}
               style={{ width: "140px" }}>
               <Menus value={0}>품 목</Menus>
-              {type === 1 ? menu1 : type === 2 ? menu2 : type === 3 ? menu3 : type === 4 ? menu4 : null}
+              {menu1}
             </Select>
             <TextField
               className={classes.text}
@@ -214,7 +206,7 @@ export default function CalProduction() {
               }}
               style={{ width: "140px" }}>
               <Menus value={0}>품 목</Menus>
-              {type2 === 1 ? menu1 : type2 === 2 ? menu2 : type2 === 3 ? menu3 : type2 === 4 ? menu4 : null}
+              {menu2}
             </Select>
             <TextField
               className={classes.text}
