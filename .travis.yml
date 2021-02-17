@@ -16,7 +16,6 @@ script:
 
 before_deploy:
   - chmod 777 exec_deploy.sh
-  - chmod 777 screen.sh
   - chmod 777 start.sh
   - rm -rf node_modules
   - zip -r bachang ./*
@@ -48,3 +47,8 @@ deploy:
     deployment_group: bachang-group
     region: ap-northeast-2
     wait-until-deployed: true
+
+production-deploy:
+  stage: deploy
+  script:
+    - ~/app/deploy/zip/exec_deploy.sh

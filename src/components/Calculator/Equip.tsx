@@ -315,7 +315,7 @@ export default function Equip() {
           setDlgItem({ ...dlgItem, isOpen: false });
         }}>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>장비 전투력({equipSlotList[dlgItem.parts - 1].type})</span>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>장비 전투력</span>
           <Button
             onClick={() => {
               setDlgItem({ ...dlgItem, isOpen: false });
@@ -330,7 +330,7 @@ export default function Equip() {
             <TextField
               className={classes.itemText}
               variant='outlined'
-              placeholder='아이템명'
+              placeholder={`(${equipSlotList[dlgItem.parts - 1].type}) 아이템명 `}
               value={searchName}
               onChange={e => {
                 inputName(e.target.value);
@@ -457,7 +457,7 @@ export default function Equip() {
             <Link className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
               +2
             </Link>
-            <Link className={classes.linkText} style={{ width: "100px", margin: "0 30px", fontWeight: "bold" }}>
+            <Link className={classes.linkText} style={{ width: "100px", margin: "0 30px", fontWeight: "bold", fontSize: "1rem" }}>
               전투력 : {itemList.length === 0 ? 0 : tempPower + reinforce}
             </Link>
             <Button
