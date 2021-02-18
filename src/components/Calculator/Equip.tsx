@@ -256,12 +256,12 @@ export default function Equip() {
             style={{ width: "140px", height: "55px", padding: "0 5px", margin: "5px" }}
             onClick={() => {
               fixedOption(idx);
-              setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlotList[idx].num });
+              setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlot.num });
             }}>
             <span>
-              {equipSlotList[idx].type !== equipSlotList[idx].name ? equipSlotList[idx].name : `${idx + 1}. ${equipSlotList[idx].name}`}
+              {equipSlot.type !== equipSlot.name ? equipSlot.name : `${idx + 1}. ${equipSlot.name}`}
               <br />
-              {equipSlotList[idx].type !== equipSlotList[idx].name ? `(${Number(equipSlotList[idx].power + equipSlotList[idx].reinforce)})` : ""}
+              {equipSlot.type !== equipSlot.name ? `(${Number(equipSlot.power + equipSlot.reinforce)})` : ""}
             </span>
           </Button>
         );

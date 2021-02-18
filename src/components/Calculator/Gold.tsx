@@ -101,17 +101,28 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
+interface IGoldSlot {
+  num: number;
+  type: number;
+  power: number;
+}
+
 export default function Gold() {
   const classes = useStyles();
 
   const [openHelper, setOpenHelper] = useState<boolean>(false);
 
-  var goldVal: number[] = [0, 3, 0.375, 3.75, 3.75, 3.75, 15, 37.5, 60, 100, 100, 100, 60, 37.5, 30, 30, 30, 30, 30];
-  const [selValue, setSelValue] = useState<Array<number>>([0, 0, 0]); // 황돋1~3 종류
-  const [gold1, setGold1] = useState<number>(0); // 황돋1 수치
-  const [gold2, setGold2] = useState<number>(0); // 황돋2 수치
-  const [gold3, setGold3] = useState<number>(0); // 황돋3 수치
-  const [total, setTotal] = useState<Array<number>>([0, 0, 0]); // 황돋1~3 전투력
+  // 황돋1~3 종류, 합산 전투력
+  const [goldSlotList, setGoldSlotList] = useState<Array<IGoldSlot>>([
+    { num: 0, type: 0, power: 0 },
+    { num: 1, type: 0, power: 0 },
+    { num: 2, type: 0, power: 0 },
+  ]);
+
+  const [gold1, setGold1] = useState<string>(""); // 황돋1 수치
+  const [gold2, setGold2] = useState<string>(""); // 황돋2 수치
+  const [gold3, setGold3] = useState<string>(""); // 황돋3 수치
+  const [goldPower, setGoldPower] = useState(0); // 최종 전투력
 
   // prettier-ignore
   var ability = [ "능력치", "체력/마력", "재생력", "방관/마치/공증/마증", "타흡/마흡/피흡", "시향/회향/직타", "힘/민/지", "명중률/타격치", "마법수준향상", "명중회피/방무/방어",
@@ -125,102 +136,71 @@ export default function Gold() {
     );
   });
 
-  const calGold = (val: number, num: number) => {
-    let a: number = Math.abs(val);
+  const calGold = (val: string, num: number) => {
+    let a: number = Math.abs((val as unknown) as number);
 
-    if (Math.floor(selValue[num] * a) <= 300) {
-      total[num] = Math.floor(selValue[num] * a);
-    } else {
-      if (num === 0) {
-        setGold1(0);
-        total[0] = 0;
-      } else if (num === 1) {
-        setGold2(0);
-        total[1] = 0;
-      } else {
-        setGold3(0);
-        total[2] = 0;
-      }
+    switch (num) {
+      case 0:
+        setGold1(val);
+        break;
+      case 1:
+        setGold2(val);
+        break;
+      case 2:
+        setGold3(val);
+        break;
     }
 
-    setTotal(total);
+    if (Math.floor(goldSlotList[num].type * a) <= 300) {
+      goldSlotList[num].power = Math.floor(goldSlotList[num].type * a);
+    } else {
+      if (num === 0) {
+        setGold1("");
+      } else if (num === 1) {
+        setGold2("");
+      } else {
+        setGold3("");
+      }
+      goldSlotList[num].power = 0;
+    }
+    setGoldSlotList(goldSlotList);
+    setGoldPower(goldSlotList[0].power + goldSlotList[1].power + goldSlotList[2].power);
+  };
+
+  const changeSelect = (event: React.ChangeEvent<{ value: unknown }>, num: number) => {
+    let goldVal: number[] = [0, 0.003, 0.375, 3.75, 3.75, 3.75, 15, 37.5, 60, 100, 100, 100, 60, 37.5, 30, 30, 30, 30, 30];
+    goldSlotList[num].type = goldVal[event.target.value as number];
   };
 
   return (
     <React.Fragment>
-      <Container style={{ width: "100%", padding: "0", float: "left" }}>
-        <Select
-          variant='outlined'
-          className={classes.select}
-          defaultValue={0}
-          onChange={e => {
-            selValue[0] = goldVal[Number(e.target.value)];
-            setGold1(0);
-          }}>
-          {abilityList}
-        </Select>
-        <TextField
-          variant='outlined'
-          className={classes.selText}
-          value={gold1 || ""}
-          placeholder='수치'
-          type='number'
-          onChange={e => {
-            setGold1(Number(e.target.value));
-            setSelValue(selValue);
-            calGold(Number(e.target.value), 0);
-          }}
-        />
-      </Container>
-      <Container style={{ width: "100%", padding: "0", float: "left" }}>
-        <Select
-          variant='outlined'
-          className={classes.select}
-          defaultValue={0}
-          onChange={e => {
-            selValue[1] = goldVal[Number(e.target.value)];
-            setGold2(0);
-          }}>
-          {abilityList}
-        </Select>
-        <TextField
-          variant='outlined'
-          className={classes.selText}
-          value={gold2 || ""}
-          placeholder='수치'
-          type='number'
-          onChange={e => {
-            setGold2(Number(e.target.value));
-            setSelValue(selValue);
-            calGold(Number(e.target.value), 1);
-          }}
-        />
-      </Container>
-      <Container style={{ width: "100%", padding: "0", float: "left" }}>
-        <Select
-          variant='outlined'
-          className={classes.select}
-          defaultValue={0}
-          onChange={e => {
-            selValue[2] = goldVal[Number(e.target.value)];
-            setGold3(0);
-          }}>
-          {abilityList}
-        </Select>
-        <TextField
-          variant='outlined'
-          className={classes.selText}
-          value={gold3 || ""}
-          placeholder='수치'
-          type='number'
-          onChange={e => {
-            setGold3(Number(e.target.value));
-            setSelValue(selValue);
-            calGold(Number(e.target.value), 2);
-          }}
-        />
-      </Container>
-      <Link className={classes.powerText}>황돋 전투력 : {total[0] + total[1] + total[2]}</Link>
+      {goldSlotList.map((goldSlot: IGoldSlot, idx: number) => {
+        return (
+          <Container key={goldSlot.num} style={{ width: "100%", padding: "0", float: "left" }}>
+            <Select
+              variant='outlined'
+              className={classes.select}
+              defaultValue={0}
+              onChange={e => {
+                changeSelect(e, idx);
+              }}>
+              {abilityList}
+            </Select>
+            <TextField
+              variant='outlined'
+              type='string'
+              className={classes.selText}
+              value={idx === 0 ? gold1 : idx === 1 ? gold2 : idx === 2 ? gold3 : "" || ""}
+              placeholder='수치'
+              onChange={e => {
+                calGold(e.target.value, idx);
+              }}
+            />
+          </Container>
+        );
+      })}
+
+      <Link className={classes.powerText}>황돋 전투력 : {goldPower}</Link>
       <Button
         className={classes.btn}
         variant='contained'
