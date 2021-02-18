@@ -139,16 +139,12 @@ export default function Gold() {
   const calGold = (val: string, num: number) => {
     let a: number = Math.abs((val as unknown) as number);
 
-    switch (num) {
-      case 0:
-        setGold1(val);
-        break;
-      case 1:
-        setGold2(val);
-        break;
-      case 2:
-        setGold3(val);
-        break;
+    if (num === 0) {
+      setGold1(val);
+    } else if (num === 1) {
+      setGold2(val);
+    } else if (num === 2) {
+      setGold3(val);
     }
 
     if (Math.floor(goldSlotList[num].type * a) <= 300) {
@@ -158,7 +154,7 @@ export default function Gold() {
         setGold1("");
       } else if (num === 1) {
         setGold2("");
-      } else {
+      } else if (num === 2) {
         setGold3("");
       }
       goldSlotList[num].power = 0;
@@ -188,7 +184,7 @@ export default function Gold() {
             </Select>
             <TextField
               variant='outlined'
-              type='string'
+              type='number'
               className={classes.selText}
               value={idx === 0 ? gold1 : idx === 1 ? gold2 : idx === 2 ? gold3 : "" || ""}
               placeholder='수치'
@@ -211,6 +207,7 @@ export default function Gold() {
         }}>
         ?
       </Button>
+
       <Dialog
         open={openHelper}
         onClose={() => {
