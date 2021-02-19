@@ -139,12 +139,19 @@ export default function Gold() {
   const calGold = (val: string, num: number) => {
     let a: number = Math.abs((val as unknown) as number);
 
-    if (num === 0) {
-      setGold1(val);
-    } else if (num === 1) {
-      setGold2(val);
-    } else if (num === 2) {
-      setGold3(val);
+    if (goldSlotList[num].type !== 0 && Math.floor(goldSlotList[num].type * a) <= 300) {
+      if (num === 0) setGold1(val);
+      else if (num === 1) setGold2(val);
+      else if (num === 2) setGold3(val);
+      goldSlotList[num].power = Math.floor(goldSlotList[num].type * a);
+    } else {
+      if (num === 0) {
+        setGold1("");
+      } else if (num === 1) {
+        setGold2("");
+      } else if (num === 2) {
+        setGold3("");
+      }
     }
 
     if (Math.floor(goldSlotList[num].type * a) <= 300) {
