@@ -96,7 +96,6 @@ function CustomNoRowsOverlay() {
 }
 
 function CustomPagination(props: any) {
-  console.log(props);
   const { state } = props;
   const { pagination } = state;
   const setMyAlert = useSetRecoilState(MyAlertState);
