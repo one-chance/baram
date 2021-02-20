@@ -8,7 +8,7 @@ let mapVisitor = new Map();
 
 // 방문자 구분은 IP를 기준으로 한다.
 const visitMiddleware = (req, res, next) => {
-  if (req._parsedOriginalUrl.path === '/api/common/session/visitor/clear') {
+  if (req.originalUrl === '/api/common/session/visitor/clear') {
     mapVisitor = new Map();
     logger.info("[SUCCESS] RESET TODAY VISITORS");
   }
