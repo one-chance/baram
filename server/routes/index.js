@@ -7,6 +7,7 @@ const free = require("./Board/free");
 const tip = require("./Board/tip");
 
 const authMiddleware = require("../middleware/auth");
+const visitMiddleware = require("../middleware/visit");
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.use("/*", (req, res, next) => {
   res.setHeader("Cache-Control", "must-revalidate, private");
   next();
 });
+router.use("/*", visitMiddleware);
 
 router.use("/common", common);
 router.use("/error", error);

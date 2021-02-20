@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const nodeCron = require('node-cron');
+const request = require('request');
 require("dotenv").config({ path: "variables.env" });
 const mongoose = require("mongoose");
 const route = require("./routes/index");
@@ -32,6 +34,7 @@ mongoose.connection.on("disconnected", function () {
 mongoose.set("useCreateIndex", true);
 
 const app = express();
+
 // request 데이터 크기 기본 최대 100kb 인 것 수정
 app.use(bodyParser.json({
   limit: "50mb"
@@ -40,6 +43,11 @@ app.use(bodyParser.urlencoded({
   limit:"50mb", 
   extended: false
 }));
+
+nodeCron.schedule('0 0 1 * *', () => { // 매일 자정 방문자 세션 초기화
+  const uri = `${process.env.SERVER_URI}/api/common/session/visitor/clear`;
+  request.delete(uri);
+});
 
 app.listen(PORT, () => {
   logger.info(`express is running on ${PORT}`);
