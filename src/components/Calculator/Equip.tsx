@@ -357,7 +357,7 @@ export default function Equip() {
               }}>
               {menuList[0].map((name: string, idx: number) => {
                 return (
-                  <Menus value={idx} key={idx}>
+                  <Menus value={idx} key={idx} disableGutters={true}>
                     {name}
                   </Menus>
                 );
@@ -367,7 +367,7 @@ export default function Equip() {
             <Select variant='outlined' className={classes.select} value={option2} disabled={true} style={{ width: "100px" }}>
               {menuList[1].map((name: string, idx: number) => {
                 return (
-                  <Menus value={idx} key={idx}>
+                  <Menus value={idx} key={idx} disableGutters={true}>
                     {name}
                   </Menus>
                 );
@@ -384,7 +384,7 @@ export default function Equip() {
               style={{ width: "80px" }}>
               {menuList[2].map((name: string, idx: number) => {
                 return (
-                  <Menus value={idx} key={idx}>
+                  <Menus value={idx} key={idx} disableGutters={true}>
                     {name}
                   </Menus>
                 );

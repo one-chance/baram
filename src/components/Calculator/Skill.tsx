@@ -139,7 +139,7 @@ export default function Skill() {
       </Container>
       <Container style={{ width: "100%", padding: "0", float: "left" }}>
         <Select variant='outlined' className={classes.select} defaultValue={0} onChange={e => {}}>
-          {type === 0 || parts === 0 ? <Menus value={0}>아이템 부위</Menus> : <Menus value={0}>아이템</Menus>}
+          {type === 0 || parts === 0 ? <Menus value={0}>기술능력</Menus> : <Menus value={0}>기술 능력</Menus>}
         </Select>
         <TextField variant='outlined' className={classes.selText} placeholder='수치' type='number' onChange={e => {}} />
       </Container>
