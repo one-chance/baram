@@ -7,7 +7,6 @@ require("dotenv").config({ path: "variables.env" });
 const AWS = require("aws-sdk");
 AWS.config.update({ region: process.env.S3_REGION });
 
-const fs = require("fs");
 const logger = require("../winston");
 
 const UserSchema = require("../schemas/User/UserSchema");
@@ -308,23 +307,14 @@ router.post("/upload", (req, res) => {
  *        500: 실패
  */
 router.post("/config/imageCount", (req, res) => {
-  ConfigSchema.findOne({
-    mode: process.env.RUNTIME_MODE,
-  })
-    .then(config => {
-      if (config) {
-        const newImageCount = config.newImageCount;
-        config.newImageCount += 1;
-
-        ConfigSchema.updateByMode(process.env.RUNTIME_MODE, config).then(() => {
-          logger.info("[SUCCESS] CHECKED IMAGE COUNT");
-          res.status(200).send({
-            code: 200,
-            newImageCount: newImageCount,
-          });
-          return true;
-        });
-      }
+  ConfigSchema.addNewImageCount(process.env.RUNTIME_MODE)
+    .then(() => {
+      logger.info("[SUCCESS] CHECKED IMAGE COUNT");
+      res.status(200).send({
+        code: 200,
+        newImageCount: newImageCount,
+      });
+      return true;
     })
     .catch(e => {
       logger.error("[ERROR] CHECK IMAGE COUNT ERROR");

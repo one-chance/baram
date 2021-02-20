@@ -6,7 +6,6 @@ const signInLogSchema = new mongoose.Schema({
   signInDate: { type: Date, required: false, default: new Date() }
 });
 
-// Create new todo document
 signInLogSchema.statics.create = function (payload) {
   return new this(payload).save();
 };
