@@ -227,7 +227,7 @@ const Board = (props: IProps) => {
           headerHeight={40} //default 56
           rowHeight={40} //default 52
           sortingMode='client'
-          pageSize={2}
+          pageSize={10}
           rowsPerPageOptions={[10, 25, 50]}
           paginationMode='client'
           hideFooterRowCount={true}
