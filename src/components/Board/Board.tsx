@@ -2,7 +2,7 @@ import React from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
 import { makeStyles } from "@material-ui/core/styles";
-import { DataGrid, RowsProp, ComponentProps, ColDef, GridOverlay } from "@material-ui/data-grid";
+import { DataGrid, RowsProp, ColDef, GridOverlay } from "@material-ui/data-grid";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Container from "@material-ui/core/Container";
@@ -75,7 +75,7 @@ const cols: ColDef[] = [
   { field: "createDate", headerName: "작성일", type: "date", width: 150, headerAlign: "center", align: "center" },
 ];
 
-function CustomHeader(props: ComponentProps) {
+function CustomHeader() {
   const classes = useStyles();
 
   return (
@@ -95,8 +95,9 @@ function CustomNoRowsOverlay() {
   );
 }
 
-function CustomPagination(props: ComponentProps) {
-  const { paginationProps } = props;
+function CustomPagination(props: any) {
+  const { state } = props;
+  const { pagination } = state;
   const setMyAlert = useSetRecoilState(MyAlertState);
   const filterValue = useRecoilValue(FilterState);
   const [searchFilter, setSearchFilter] = React.useState<string | undefined>(filterValue.filter);
@@ -139,11 +140,11 @@ function CustomPagination(props: ComponentProps) {
         <Pagination
           color='primary'
           shape='rounded'
-          page={paginationProps.page}
-          count={paginationProps.pageCount}
+          page={pagination.page}
+          count={pagination.pageCount}
           showFirstButton={true}
           showLastButton={true}
-          onChange={(event, value) => paginationProps.setPage(value)}
+          onChange={(event, value) => pagination.setPage(value)}
         />
       </Grid>
       <MyGridDivider />
@@ -233,11 +234,11 @@ const Board = (props: IProps) => {
           hideFooterSelectedRowCount={true}
           columns={cols}
           rows={rows}
-          onRowClick={param => _onRowClick(param.data.id as number)}
+          onRowClick={param => _onRowClick(param.row.id as number)}
           components={{
-            header: CustomHeader,
-            noRowsOverlay: CustomNoRowsOverlay,
-            pagination: CustomPagination,
+            Header: CustomHeader,
+            NoRowsOverlay: CustomNoRowsOverlay,
+            Pagination: CustomPagination,
           }}
         />
       </div>
