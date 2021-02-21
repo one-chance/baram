@@ -10,9 +10,11 @@ export const checkServerError = (res: any) => {
     setTimeout(() => {
       document.location.href = res.redirectUri
     }, 2000);
+
+    return true;
   }
 
-  return true;
+  return false;
 }
 
 export const setToken = (_token: string) => {
