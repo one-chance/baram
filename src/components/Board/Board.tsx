@@ -2,7 +2,7 @@ import React from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
 import { makeStyles } from "@material-ui/core/styles";
-import { DataGrid, RowsProp, ColDef, GridOverlay } from "@material-ui/data-grid";
+import { DataGrid, RowsProp, ColDef, GridOverlay, BaseComponentProps } from "@material-ui/data-grid";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Container from "@material-ui/core/Container";
@@ -95,8 +95,8 @@ function CustomNoRowsOverlay() {
   );
 }
 
-function CustomPagination(props: any) {
-  const { state } = props;
+function CustomPagination(props: BaseComponentProps) {
+  const { state, api } = props;
   const { pagination } = state;
   const setMyAlert = useSetRecoilState(MyAlertState);
   const filterValue = useRecoilValue(FilterState);
@@ -144,7 +144,7 @@ function CustomPagination(props: any) {
           count={pagination.pageCount}
           showFirstButton={true}
           showLastButton={true}
-          onChange={(event, value) => pagination.setPage(value)}
+          onChange={(event, value) => api.current.setPage(value)}
         />
       </Grid>
       <MyGridDivider />
@@ -227,7 +227,7 @@ const Board = (props: IProps) => {
           headerHeight={40} //default 56
           rowHeight={40} //default 52
           sortingMode='client'
-          pageSize={10}
+          pageSize={2}
           rowsPerPageOptions={[10, 25, 50]}
           paginationMode='client'
           hideFooterRowCount={true}
