@@ -13,6 +13,7 @@ const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
 const ConfigSchema = require("../schemas/Common/ConfigSchema");
 const SignInLogSchema = require("../schemas/Log/SignInLogSchema");
+const VisitLogSchema = require("../schemas/Log/VisitLogSchema");
 
 // 인증코드 정보를 저장할 객체
 const mapVerifyCodeByEmail = new Map();
@@ -792,6 +793,67 @@ router.put("/reset", (req, res) => {
       );
     });
   });
+});
+
+/*
+ *    NOTE 방문자 세션 초기화
+ *    TYPE : DELETE
+ *    URI : /api/common/session/visitor
+ *    ERROR CODES:
+ *        200: 실행
+ */
+router.delete('/session/visitor', (req, res) => {
+  if (process.env.SERVER_URI.indexOf(req.hostname)) { // 동일 호스트네임에서 온 요청으로만 초기화
+    mapVisitor = new Map();
+    logger.info("[SUCCESS] RESET TODAY VISITORS");
+  }
+  else
+    logger.error('[ERROR] NOT ACCESSED');
+
+  res.status(200).send();
+});
+
+/*
+ *    NOTE 방문자 수 가져오기
+ *    TYPE : POST
+ *    URI : /api/common/visit/count
+ *    ERROR CODES:
+ *        200: 성공
+ *        2005: 사용자 정보가 존재하지 않음.
+ *        500: 실패
+ */
+router.get('/visit/count', (req, res) => {
+  const visitorData = {
+    today: 0,
+    total: 0
+  }
+
+  VisitLogSchema.getTodayVisitor()
+    .then(todayVisitLog => {
+      visitorData.today = todayVisitLog.visitors.length;
+
+      ConfigSchema.getRuntimeConfig(process.env.RUNTIME_MODE)
+        .then(config => {
+          visitorData.total = config.totalVisitorCount;
+
+          logger.info('[SUCCESS] GET VISITOR COUNT');
+          res.status(200).send({
+            code: 200,
+            visitorData: visitorData
+          });
+
+          return true;
+        });
+    })
+    .catch(e => {
+      logger.error(`GET VISITOR COUNT ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: '방문자 수 정보를 가져오는 데 실패하였습니다.'
+      });
+
+      return false;
+    })
 });
 
 /*

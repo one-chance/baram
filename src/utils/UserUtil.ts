@@ -289,7 +289,7 @@ export const setTitleAccount = async (_id: string, _character: string, _server: 
 }
 
 /*
-* 회원 탈퇴
+* NOTE 회원 탈퇴
 */
 export const WithDrawUser = async (_id: string, _password: string) => {
   const r = await axios.delete('/api/user/info', {

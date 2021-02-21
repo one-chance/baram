@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 nodeCron.schedule('0 0 1 * *', () => { // 매일 자정 방문자 세션 초기화
-  const uri = `${process.env.SERVER_URI}/api/common/session/visitor/clear`;
+  const uri = `${process.env.SERVER_URI}/api/common/session/visitor`;
   request.delete(uri);
 });
 

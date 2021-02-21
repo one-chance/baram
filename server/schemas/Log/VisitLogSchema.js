@@ -30,4 +30,13 @@ visitLogSchema.statics.addVisitor = function (visitor) {
   });
 }
 
+visitLogSchema.statics.getTodayVisitor = function () {
+  const today = new Date();
+  
+  return this.findOne({
+    year: today.getFullYear().toString(),
+    month: (today.getMonth()+1).toString(),
+    day: today.getDate().toString()
+  });
+}
 module.exports = mongoose.model("visitLog", visitLogSchema, "visitLog");
