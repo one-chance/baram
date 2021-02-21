@@ -229,7 +229,7 @@ const Board = (props: IProps) => {
           sortingMode='client'
           pageSize={10}
           rowsPerPageOptions={[10, 25, 50]}
-          paginationMode='client'
+          paginationMode='server'
           hideFooterRowCount={true}
           hideFooterSelectedRowCount={true}
           columns={cols}
