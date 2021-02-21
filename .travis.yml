@@ -9,7 +9,6 @@ branches:
 
 before_script:
   - npm install
-  - npm install @material-ui/data-grid@4.0.0-alpha.8
 
 script:
   - CI=false npm run build
