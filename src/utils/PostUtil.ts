@@ -30,7 +30,7 @@ export const CreatePost = async (_category: CategoryType, _title: string, _conte
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data;
   })
@@ -66,7 +66,7 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost) 
       }
     })
     .then((res) => {
-      CommonUtil.checkServerError(res.data);
+      if (CommonUtil.checkServerError(res.data)) return false;
   
       return res.data;
     })
@@ -92,7 +92,7 @@ export const DeletePost = async (_category: CategoryType, _seq: number) => {
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data;
   })
@@ -116,7 +116,7 @@ export const RecommendPost = async (_category: CategoryType, _seq: number, _user
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data;
   })
@@ -140,7 +140,7 @@ export const UnrecommendPost = async (_category: CategoryType, _seq: number, _us
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data;
   })
@@ -171,7 +171,7 @@ export const CreateComment = async (post: IPost, _comment: string) => {
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data;
   })
@@ -200,7 +200,7 @@ export const EditComment = async (post: IPost, comment: IComment) => {
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
     
     return res.data;
   })
@@ -221,7 +221,7 @@ export const DeleteComment = async (post: IPost, commentIdx: number) => {
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
     
     return res.data;
   })
@@ -258,7 +258,7 @@ export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomme
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
     
     return res.data;
   })
@@ -289,7 +289,7 @@ export const EditRecomment = async (post: IPost, commentIdx: number, comment: IC
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
     
     return res.data;
   })
@@ -314,7 +314,7 @@ export const DeleteRecomment = async (post: IPost, commentIdx: number, comment: 
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
     
     return res.data;
   })

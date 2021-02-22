@@ -88,7 +88,7 @@ export const CheckPassword = async (_id: string, _password: string) => {
       }
     })
     .then((res) => {
-      CommonUtil.checkServerError(res.data);
+      if (CommonUtil.checkServerError(res.data)) return false;
       return res.data.code === 200 ? true : false;
     })
     .catch((e) => {
@@ -133,7 +133,7 @@ export const getUserInfoById = async (_id: string) => {
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data.userInfo;
   });
@@ -162,7 +162,7 @@ export const setUserInfo = async (userInfo: IUserInfo) => {
       }
     })
     .then((res) => {
-      CommonUtil.checkServerError(res.data);
+      if (CommonUtil.checkServerError(res.data)) return false;
 
       return res.data;
     })
@@ -189,7 +189,7 @@ export const setChangePassword = async (_id: string, _changePassword: string) =>
       }
     })
     .then((res) => {
-      CommonUtil.checkServerError(res.data);
+      if (CommonUtil.checkServerError(res.data)) return false;
 
       return res.data;
     })
@@ -217,7 +217,7 @@ export const checkGameUser = async (_id: string, _server: string, _character: st
       }
     })
     .then((res) => {
-      CommonUtil.checkServerError(res.data);
+      if (CommonUtil.checkServerError(res.data)) return false;
 
       if (res.data.code === 200) {
         return authUser(_id, _server, _character);
@@ -251,7 +251,7 @@ export const authUser = async (_id: string, _server: string, _character: string)
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data;
   })
@@ -277,7 +277,7 @@ export const setTitleAccount = async (_id: string, _character: string, _server: 
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
     
     return res.data;
   })
@@ -289,7 +289,7 @@ export const setTitleAccount = async (_id: string, _character: string, _server: 
 }
 
 /*
-* 회원 탈퇴
+* NOTE 회원 탈퇴
 */
 export const WithDrawUser = async (_id: string, _password: string) => {
   const r = await axios.delete('/api/user/info', {
@@ -299,7 +299,7 @@ export const WithDrawUser = async (_id: string, _password: string) => {
     }
   })
   .then((res) => {
-    CommonUtil.checkServerError(res.data);
+    if (CommonUtil.checkServerError(res.data)) return false;
 
     return res.data;
   })

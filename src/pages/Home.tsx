@@ -12,6 +12,7 @@ import MainCarousel from "components/MainCarousel";
 import LatestBoardPaper from "components/Board/LatestBoardPaper";
 
 import { getPosts } from "utils/PostUtil";
+import { getVisitCount } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   secondSection: {
@@ -20,6 +21,28 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px",
     float: "left",
     backgroundColor: "white",
+  },
+  boardItemWrapper: {
+    width: "100%",
+    height: "55%",
+    float: "left",
+  },
+  boardItem: {
+    margin: "8px",
+    float: "left",
+  },
+  boardItemButton: {
+    minWidth: "60px",
+  },
+  boardItemText: {
+    textAlign: "center",
+    margin: "5px 0",
+  },
+  boardVisitCountWrapper: {
+    width: "100%",
+    height: "45%",
+    padding: "8px 16px",
+    float: "left",
   },
 }));
 
@@ -37,6 +60,8 @@ const Home = () => {
 
   const [freePosts, setFreePosts] = React.useState<Array<IPost>>([]);
   const [tipPosts, setTipPosts] = React.useState<Array<IPost>>([]);
+  const [todayVisit, setTodayVisit] = React.useState(0);
+  const [totalVisit, setTotalVisit] = React.useState(0);
 
   useEffect(() => {
     getFree()
@@ -50,6 +75,13 @@ const Home = () => {
         setTipPosts(res);
       })
       .catch(e => {});
+
+    getVisitCount().then(res => {
+      if (res) {
+        setTodayVisit(res.today);
+        setTotalVisit(res.total);
+      }
+    });
   }, []);
 
   return (
@@ -66,36 +98,36 @@ const Home = () => {
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
         <Grid item xs={4} style={{ padding: "5px 10px" }}>
-          <div style={{ width: "100%", height: "55%", float: "left" }}>
-            <div style={{ margin: "8px", float: "left" }}>
-              <Button variant='outlined' style={{ minWidth: "60px" }}>
+          <div className={classes.boardItemWrapper}>
+            <div className={classes.boardItem}>
+              <Button variant='outlined' className={classes.boardItemButton}>
                 <PriorityHighIcon />
               </Button>
-              <h5 style={{ textAlign: "center", margin: "5px 0" }}>공 지</h5>
+              <h5 className={classes.boardItemText}>공 지</h5>
             </div>
-            <div style={{ margin: "8px", float: "left" }}>
-              <Button variant='outlined' style={{ minWidth: "60px" }}>
+            <div className={classes.boardItem}>
+              <Button variant='outlined' className={classes.boardItemButton}>
                 <MailOutlineIcon />
               </Button>
-              <h5 style={{ textAlign: "center", margin: "5px 0" }}>문 의</h5>
+              <h5 className={classes.boardItemText}>문 의</h5>
             </div>
-            <div style={{ margin: "8px", float: "left" }}>
-              <Button variant='outlined' style={{ minWidth: "60px" }}>
+            <div className={classes.boardItem}>
+              <Button variant='outlined' className={classes.boardItemButton}>
                 <QuestionAnswerIcon />
               </Button>
-              <h5 style={{ textAlign: "center", margin: "5px 0" }}>FAQ</h5>
+              <h5 className={classes.boardItemText}>FAQ</h5>
             </div>
-            <div style={{ margin: "8px", float: "left" }}>
-              <Button variant='outlined' href='http://www.baram.nexon.com' style={{ minWidth: "60px" }}>
+            <div className={classes.boardItem}>
+              <Button variant='outlined' href='http://www.baram.nexon.com' className={classes.boardItemButton}>
                 <HomeIcon />
               </Button>
-              <h5 style={{ textAlign: "center", margin: "5px 0" }}>공식</h5>
+              <h5 className={classes.boardItemText}>공식</h5>
             </div>
           </div>
-          <div style={{ width: "100%", height: "45%", padding: "8px 16px", float: "left" }}>
-            Today : 123
+          <div className={classes.boardVisitCountWrapper}>
+            TODAY : {todayVisit}
             <br />
-            Total : 1234
+            TOTAL : {totalVisit}
           </div>
         </Grid>
       </Grid>

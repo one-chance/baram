@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "variables.env" });
 const logger = require('../winston');
+const request = require('request');
 
 const VisitLogSchema = require("../schemas/Log/VisitLogSchema");
 const ConfigSchema = require("../schemas/Common/ConfigSchema");
@@ -8,11 +9,8 @@ let mapVisitor = new Map();
 
 // 방문자 구분은 IP를 기준으로 한다.
 const visitMiddleware = (req, res, next) => {
-  if (req.originalUrl === '/api/common/session/visitor/clear') {
-    mapVisitor = new Map();
-    logger.info("[SUCCESS] RESET TODAY VISITORS");
-  }
-  else {
+
+  if (!process.env.SERVER_URI.indexOf(req.hostname) || (process.env.RUNTIME_MODE === 'dev')) { // 서버에서 보낸 요청은 제외
     // 방문자 정보 확인
     const visitor = {
       ip: req.headers['x-forwarded-for'] ||  req.connection.remoteAddress, // 로그인 사용자 IP 조회
@@ -51,7 +49,6 @@ const visitMiddleware = (req, res, next) => {
       mapVisitor[visitor.ip] = visitor;
     }
   }
-
 
   next();
 };

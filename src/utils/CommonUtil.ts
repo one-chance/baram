@@ -10,9 +10,11 @@ export const checkServerError = (res: any) => {
     setTimeout(() => {
       document.location.href = res.redirectUri
     }, 2000);
+
+    return true;
   }
 
-  return true;
+  return false;
 }
 
 export const setToken = (_token: string) => {
@@ -310,4 +312,23 @@ export const resetPassword = async (id: string, email: string) => {
   });
 
   return res;
+}
+
+// 방문자 수 가져오기
+export const getVisitCount = async () => {
+  const r = await axios.get('/api/common/visit/count')
+  .then((res) => {
+    const { data } = res;
+    if (data.code === 200)
+      return data.visitorData;
+    else
+      return false;
+  })
+  .catch((e) => {
+    console.log("GET VISIT COUNT ERROR > ", e);
+
+    return false;
+  })
+
+  return r;
 }

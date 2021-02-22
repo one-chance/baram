@@ -6,6 +6,11 @@ const configSchema = new mongoose.Schema({
   totalVisitorCount: { type: Number, default: 0 }
 });
 
+// Get RuntimeConfig
+configSchema.statics.getRuntimeConfig = function (mode) {
+  return this.findOne({ mode: mode});
+}
+
 // Change by mode
 configSchema.statics.updateByMode = function (mode, payload) {
   return this.findOneAndUpdate({ mode: mode }, { $set: payload }, { upsert: true, new: true });

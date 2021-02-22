@@ -65,9 +65,10 @@ function App() {
   const classes = useStyles();
 
   useEffect(() => {
-    // NOTE 토큰 자동갱신 실행
+    // 토큰 자동갱신 실행
     setInterval(refreshToken, 1000 * 60 * 10);
   }, []);
+
   return (
     <Container maxWidth='xl' style={{ padding: "0" }}>
       <React.Fragment>
