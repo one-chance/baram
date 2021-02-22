@@ -119,7 +119,7 @@ export default function Equip() {
   var menuList = [
     // prettier-ignore
     [ "종류", "용장비", "북방장비", "중국전설", "일본전설", "환웅장비", "백제/황산벌", "전우치/구미호", "타계장비", "흉수계/봉래산", "생산장비", "격전지/전장", "승급장비", "합성노리개", ],
-    ["부위", "목/어깨장식", "투구", "얼굴장식", "무기", "갑옷", "방패/보조무기", "손", "망토", "보조", "신발", "세트옷", "장신구"],
+    ["부위", "목/어깨장식", "투구", "얼굴장식", "무기", "갑옷", "방패/보조무기", "손", "망토", "보조", "신발", "세트", "장신구"],
     ["직업", "공용", "전사", "도적", "주술사", "도사", "궁사", "천인", "마도사", "영술사", "차사"],
   ];
 
@@ -143,7 +143,7 @@ export default function Equip() {
     { num: 10, type: "보조1", name: "보조1", power: 0, reinforce: 0 },
     { num: 11, type: "신발", name: "신발", power: 0, reinforce: 0 },
     { num: 12, type: "보조2", name: "보조2", power: 0, reinforce: 0 },
-    { num: 13, type: "세트옷", name: "세트옷", power: 0, reinforce: 0 },
+    { num: 13, type: "세트", name: "세트", power: 0, reinforce: 0 },
     { num: 14, type: "장신구", name: "장신구", power: 0, reinforce: 0 },
   ]);
 
@@ -256,12 +256,12 @@ export default function Equip() {
             style={{ width: "140px", height: "55px", padding: "0 5px", margin: "5px" }}
             onClick={() => {
               fixedOption(idx);
-              setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlotList[idx].num });
+              setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlot.num });
             }}>
             <span>
-              {equipSlotList[idx].type !== equipSlotList[idx].name ? equipSlotList[idx].name : `${idx + 1}. ${equipSlotList[idx].name}`}
+              {equipSlot.type !== equipSlot.name ? equipSlot.name : `${idx + 1}. ${equipSlot.name}`}
               <br />
-              {equipSlotList[idx].type !== equipSlotList[idx].name ? `(${Number(equipSlotList[idx].power + equipSlotList[idx].reinforce)})` : ""}
+              {equipSlot.type !== equipSlot.name ? `(${Number(equipSlot.power + equipSlot.reinforce)})` : ""}
             </span>
           </Button>
         );
@@ -357,7 +357,7 @@ export default function Equip() {
               }}>
               {menuList[0].map((name: string, idx: number) => {
                 return (
-                  <Menus value={idx} key={idx}>
+                  <Menus value={idx} key={idx} disableGutters={true}>
                     {name}
                   </Menus>
                 );
@@ -367,7 +367,7 @@ export default function Equip() {
             <Select variant='outlined' className={classes.select} value={option2} disabled={true} style={{ width: "100px" }}>
               {menuList[1].map((name: string, idx: number) => {
                 return (
-                  <Menus value={idx} key={idx}>
+                  <Menus value={idx} key={idx} disableGutters={true}>
                     {name}
                   </Menus>
                 );
@@ -384,7 +384,7 @@ export default function Equip() {
               style={{ width: "80px" }}>
               {menuList[2].map((name: string, idx: number) => {
                 return (
-                  <Menus value={idx} key={idx}>
+                  <Menus value={idx} key={idx} disableGutters={true}>
                     {name}
                   </Menus>
                 );

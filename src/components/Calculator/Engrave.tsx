@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
 import Container from "@material-ui/core/Container";
@@ -80,87 +80,113 @@ const Menus = withStyles({
 export default function Engrave() {
   const classes = useStyles();
 
+  var iteration = [0, 1];
   const [openHelper, setOpenHelper] = useState<boolean>(false);
   const [engravePower, setEngravePower] = useState<number>(0); // 각인 전투력
-  const [engrave1, setEngrave1] = useState<number>(0); // 각인1 종류
-  const [engrave2, setEngrave2] = useState<number>(0); // 각인1 수치
-  const [engrave3, setEngrave3] = useState<number>(0); // 각인2 종류
-  const [engrave4, setEngrave4] = useState<number>(0); // 각인2 수치
+  const [engraveSlot1, setEngraveSlot1] = useState({ num: 0, type: 0, value: "", power: 0 }); // 각인1 종류, 수치, 전투력
+  const [engraveSlot2, setEngraveSlot2] = useState({ num: 0, type: 0, value: "", power: 0 }); // 각인2 종류, 수치, 전투력
 
-  const calEngrave = () => {
-    setEngravePower(engrave1 * engrave2 + engrave3 * engrave4);
+  const calEngrave = (val: string, num: number) => {
+    let eNumber: number, eType: number, eValue: number;
+    num === 0 ? (eNumber = engraveSlot1.num) : (eNumber = engraveSlot2.num);
+    num === 0 ? (eType = engraveSlot1.type) : (eType = engraveSlot2.type);
+
+    if (val === "") {
+      switch (num) {
+        case 0:
+          setEngraveSlot1({ ...engraveSlot1, value: "", power: 0 });
+          break;
+        case 1:
+          setEngraveSlot2({ ...engraveSlot2, value: "", power: 0 });
+          break;
+      }
+      return;
+    }
+
+    if (eNumber === 1) {
+      switch (num) {
+        case 0:
+          setEngraveSlot1({ ...engraveSlot1, value: val, power: Math.floor(eType * Number(val)) });
+          break;
+        case 1:
+          setEngraveSlot2({ ...engraveSlot2, value: val, power: Math.floor(eType * Number(val)) });
+          break;
+      }
+    } else {
+      eValue = parseInt(val);
+      switch (num) {
+        case 0:
+          setEngraveSlot1({ ...engraveSlot1, value: eValue.toString(), power: Math.floor(eType * Math.abs(eValue)) });
+          break;
+        case 1:
+          setEngraveSlot2({ ...engraveSlot2, value: eValue.toString(), power: Math.floor(eType * Math.abs(eValue)) });
+          break;
+      }
+    }
   };
+
+  const changeSelect = (event: React.ChangeEvent<{ value: unknown }>, num: number) => {
+    let eVal: number[] = [0, 11.075, 54.5, 45.5, 11.075, 8.76, 8.64, 8.1, 5.15, 5.15, 4.175, 4.175, 71, 0, 0, 0];
+    let input: number = event.target.value as number;
+
+    switch (num) {
+      case 0:
+        setEngraveSlot1({ num: input, type: eVal[input], value: "", power: 0 });
+        break;
+      case 1:
+        setEngraveSlot2({ num: input, type: eVal[input], value: "", power: 0 });
+        break;
+    }
+  };
+
+  useEffect(() => {
+    setEngravePower(engraveSlot1.power + engraveSlot2.power);
+  }, [engraveSlot1, engraveSlot2]);
 
   return (
     <React.Fragment>
-      <Container style={{ width: "100%", padding: "0", float: "left" }}>
-        <Select
-          variant='outlined'
-          className={classes.select}
-          defaultValue={0}
-          onChange={e => {
-            setEngrave1(Number(e.target.value));
-          }}>
-          <Menus value={0}>능력치</Menus>
-          <Menus value={1}>체력/마력(0.4%)</Menus>
-          <Menus value={2}>체력/마력(0.5%)</Menus>
-          <Menus value={3}>방어구관통</Menus>
-          <Menus value={4}>방어도무시</Menus>
-          <Menus value={5}>마법치명</Menus>
-          <Menus value={6}>공격력증가</Menus>
-          <Menus value={7}>마력증가</Menus>
-          <Menus value={8}>방어도</Menus>
-          <Menus value={9}>직타저항</Menus>
-          <Menus value={10}>시전향상</Menus>
-          <Menus value={11}>피해흡수</Menus>
-          <Menus value={11}>피해흡수무시</Menus>
-          <Menus value={11}>치명타(1%)</Menus>
-        </Select>
-        <TextField
-          variant='outlined'
-          className={classes.selText}
-          placeholder='수치'
-          type='number'
-          value={engrave2 || ""}
-          onChange={e => {
-            setEngrave2(parseInt(e.target.value));
-          }}
-        />
-      </Container>
-      <Container style={{ width: "100%", padding: "0", float: "left" }}>
-        <Select
-          variant='outlined'
-          className={classes.select}
-          defaultValue={0}
-          onChange={e => {
-            setEngrave3(Number(e.target.value));
-          }}>
-          <Menus value={0}>능력치</Menus>
-          <Menus value={1}>체력/마력(0.4%)</Menus>
-          <Menus value={2}>체력/마력(0.5%)</Menus>
-          <Menus value={3}>방어구관통</Menus>
-          <Menus value={4}>방어도무시</Menus>
-          <Menus value={5}>마법치명</Menus>
-          <Menus value={6}>공격력증가</Menus>
-          <Menus value={7}>마력증가</Menus>
-          <Menus value={8}>방어도</Menus>
-          <Menus value={9}>직타저항</Menus>
-          <Menus value={10}>시전향상</Menus>
-          <Menus value={11}>피해흡수</Menus>
-          <Menus value={12}>피해흡수무시</Menus>
-          <Menus value={13}>치명타(1%)</Menus>
-        </Select>
-        <TextField
-          variant='outlined'
-          className={classes.selText}
-          placeholder='수치'
-          type='number'
-          value={engrave4 || ""}
-          onChange={e => {
-            setEngrave4(parseInt(e.target.value));
-          }}
-        />
-      </Container>
+      {iteration.map((idx: number) => {
+        return (
+          <Container key={idx} style={{ width: "100%", padding: "0", float: "left" }}>
+            <Select
+              variant='outlined'
+              className={classes.select}
+              defaultValue={0}
+              onChange={e => {
+                changeSelect(e, idx);
+              }}>
+              <Menus value={0}>능력치</Menus>
+              <Menus value={1}>체력/마력(%)</Menus>
+              <Menus value={2}>방어도</Menus>
+              <Menus value={3}>방어도무시</Menus>
+              <Menus value={4}>시전향상</Menus>
+              <Menus value={5}>방어구관통</Menus>
+              <Menus value={6}>마력증강</Menus>
+              <Menus value={7}>마법치명</Menus>
+              <Menus value={8}>공격력증가</Menus>
+              <Menus value={9}>직타저항</Menus>
+              <Menus value={11}>피해흡수</Menus>
+              <Menus value={12}>피해흡수무시</Menus>
+              <Menus value={13}>치명타</Menus>
+              <Menus value={14}>힘/민/지</Menus>
+              <Menus value={15}>명중회피</Menus>
+              <Menus value={15}>체력/마력</Menus>
+            </Select>
+            <TextField
+              variant='outlined'
+              type='number'
+              className={classes.selText}
+              placeholder='수치'
+              disabled={idx === 0 ? engraveSlot1.num === 0 : engraveSlot2.num === 0}
+              value={idx === 0 ? engraveSlot1.value : engraveSlot2.value}
+              onChange={e => {
+                calEngrave(e.target.value, idx);
+              }}
+            />
+          </Container>
+        );
+      })}
+
       <Link className={classes.powerText}>각인 전투력 : {engravePower}</Link>
       <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={() => setOpenHelper(true)}>
         ?

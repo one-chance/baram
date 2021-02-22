@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
 import Container from "@material-ui/core/Container";
@@ -79,42 +79,41 @@ export default function Animal() {
   const classes = useStyles();
   const [openHelper, setOpenHelper] = useState<boolean>(false);
   const [animalPower, setAnimalPower] = useState<number>(0); // 신수 전투력
-  let animals: number[] = [5, 99, 7, 7, 7, 2, 2, 2]; // 신수 : 등급, 레벨, 무기, 투구, 갑옷, 장갑1, 장갑2, 보주
 
-  const calAnimal = () => {
+  // 신수 정보 : 등급, 레벨, 무기, 갑옷, 손, 손, 보주
+  const [animalInfo, setAnimalInfo] = useState({ grade: 5, level: 99, weaphon: 7, helmet: 7, armor: 7, handL: 2, handR: 2, orb: 2 });
+
+  useEffect(() => {
+    setAnimalInfo(animalInfo);
     setAnimalPower(
-      animals[0] * 400 +
-        animals[1] * 4 +
-        (animals[2] * 50 + 250) +
-        (animals[3] * 50 + 250) +
-        (animals[4] * 50 + 250) +
-        animals[5] * 100 +
-        animals[6] * 100 +
-        animals[7] * 200
+      animalInfo.grade * 400 +
+        animalInfo.level * 4 +
+        (animalInfo.weaphon * 50 + 250) +
+        (animalInfo.helmet * 50 + 250) +
+        (animalInfo.armor * 50 + 250) +
+        animalInfo.handL * 100 +
+        animalInfo.handR * 100 +
+        animalInfo.orb * 200
     );
-  };
+  }, [animalInfo]);
 
   return (
     <React.Fragment>
-      <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
+      <Container style={{ width: "100%", height: "50px", padding: "0 75px", margin: "0" }}>
         <TextField
           variant='outlined'
-          inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
+          inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
           defaultValue={5}
           onChange={e => {
-            let a = parseInt(e.target.value);
-            if (a > 0 && a < 6) {
-              animals[0] = a;
-            }
+            setAnimalInfo({ ...animalInfo, grade: Number(e.target.value) });
           }}
-          style={{ width: "35px", float: "left", margin: "5px 0 5px 10px" }}
+          style={{ width: "35px", float: "left", margin: "5px 0" }}
         />
         <Link
           style={{
             width: "35px",
-            height: "40px",
-            lineHeight: "40px",
-            margin: "5px 0",
+            lineHeight: "35px",
+            margin: "5px 5px 5px 0",
             float: "left",
             textDecoration: "none",
             textAlign: "center",
@@ -124,12 +123,12 @@ export default function Animal() {
         </Link>
         <TextField
           variant='outlined'
-          inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
+          inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
           defaultValue={99}
           onChange={e => {
             let a = parseInt(e.target.value);
             if (a > 0 && a < 99) {
-              animals[1] = a;
+              setAnimalInfo({ ...animalInfo, level: Number(e.target.value) });
             }
           }}
           style={{ width: "35px", float: "left", margin: "5px 0 5px 5px" }}
@@ -137,8 +136,7 @@ export default function Animal() {
         <Link
           style={{
             width: "35px",
-            height: "40px",
-            lineHeight: "40px",
+            lineHeight: "35px",
             margin: "5px 0",
             float: "left",
             textDecoration: "none",
@@ -147,26 +145,15 @@ export default function Animal() {
           }}>
           레벨
         </Link>
-        <Button
-          className={classes.btn}
-          variant='contained'
-          color='primary'
-          onClick={calAnimal}
-          style={{
-            marginRight: "15px",
-            float: "right",
-          }}>
-          계산
-        </Button>
       </Container>
       <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>무기</Link>
+        <Link className={classes.petText}>무 기</Link>
         <Select
           className={classes.select2}
           variant='outlined'
           defaultValue={7}
           onChange={e => {
-            animals[2] = Number(e.target.value);
+            setAnimalInfo({ ...animalInfo, weaphon: Number(e.target.value) });
           }}>
           <Menus value={5}>5성</Menus>
           <Menus value={6}>6성</Menus>
@@ -182,7 +169,7 @@ export default function Animal() {
           variant='outlined'
           defaultValue={2}
           onChange={e => {
-            animals[5] = Number(e.target.value);
+            setAnimalInfo({ ...animalInfo, handL: Number(e.target.value) });
           }}>
           <Menus value={0}>없음</Menus>
           <Menus value={1}>1단</Menus>
@@ -197,7 +184,7 @@ export default function Animal() {
           variant='outlined'
           defaultValue={7}
           onChange={e => {
-            animals[3] = Number(e.target.value);
+            setAnimalInfo({ ...animalInfo, helmet: Number(e.target.value) });
           }}>
           <Menus value={5}>5성</Menus>
           <Menus value={6}>6성</Menus>
@@ -213,7 +200,7 @@ export default function Animal() {
           variant='outlined'
           defaultValue={2}
           onChange={e => {
-            animals[6] = Number(e.target.value);
+            setAnimalInfo({ ...animalInfo, handR: Number(e.target.value) });
           }}>
           <Menus value={0}>없음</Menus>
           <Menus value={1}>1단</Menus>
@@ -228,7 +215,7 @@ export default function Animal() {
           variant='outlined'
           defaultValue={7}
           onChange={e => {
-            animals[4] = Number(e.target.value);
+            setAnimalInfo({ ...animalInfo, armor: Number(e.target.value) });
           }}>
           <Menus value={5}>5성</Menus>
           <Menus value={6}>6성</Menus>
@@ -244,7 +231,7 @@ export default function Animal() {
           variant='outlined'
           defaultValue={2}
           onChange={e => {
-            animals[7] = Number(e.target.value);
+            setAnimalInfo({ ...animalInfo, orb: Number(e.target.value) });
           }}>
           <Menus value={0}>없음</Menus>
           <Menus value={1}>1개</Menus>

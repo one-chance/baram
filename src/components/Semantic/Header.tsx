@@ -27,17 +27,14 @@ const useStyles = makeStyles(theme => ({
   },
 
   mainmenu2: {
-    width: "20%",
+    width: "16vw",
     height: "60px",
     margin: "0",
     float: "left",
     "& h3": {
       lineHeight: "40px",
       margin: "10px 0",
-      textDecoration: "none",
       fontSize: "1.2rem",
-      color: "black",
-      cursor: "default",
     },
   },
 
