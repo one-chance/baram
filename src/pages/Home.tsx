@@ -12,7 +12,7 @@ import MainCarousel from "components/MainCarousel";
 import LatestBoardPaper from "components/Board/LatestBoardPaper";
 
 import { getPosts } from "utils/PostUtil";
-import { getVisitCount } from 'utils/CommonUtil';
+import { getVisitCount } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   secondSection: {
@@ -23,27 +23,27 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "white",
   },
   boardItemWrapper: {
-    width: "100%", 
-    height: "55%", 
-    float: "left"
+    width: "100%",
+    height: "55%",
+    float: "left",
   },
   boardItem: {
-    margin: "8px", 
-    float: "left"
+    margin: "8px",
+    float: "left",
   },
   boardItemButton: {
-    minWidth: "60px"
+    minWidth: "60px",
   },
   boardItemText: {
-    textAlign: "center", 
-    margin: "5px 0"
+    textAlign: "center",
+    margin: "5px 0",
   },
   boardVisitCountWrapper: {
-    width: "100%", 
-    height: "45%", 
-    padding: "8px 16px", 
-    float: "left"
-  }
+    width: "100%",
+    height: "45%",
+    padding: "8px 16px",
+    float: "left",
+  },
 }));
 
 const VIEW_COUNT = 5;
@@ -76,13 +76,12 @@ const Home = () => {
       })
       .catch(e => {});
 
-    getVisitCount()
-      .then(res => {
-        if (res) {
-          setTodayVisit(res.today);
-          setTotalVisit(res.total);
-        }
-      })
+    getVisitCount().then(res => {
+      if (res) {
+        setTodayVisit(res.today);
+        setTotalVisit(res.total);
+      }
+    });
   }, []);
 
   return (
@@ -126,9 +125,9 @@ const Home = () => {
             </div>
           </div>
           <div className={classes.boardVisitCountWrapper}>
-            Today : {todayVisit}
+            TODAY : {todayVisit}
             <br />
-            Total : {totalVisit}
+            TOTAL : {totalVisit}
           </div>
         </Grid>
       </Grid>
