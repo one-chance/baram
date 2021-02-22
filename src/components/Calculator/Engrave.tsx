@@ -103,7 +103,7 @@ export default function Engrave() {
       return;
     }
 
-    if (eNumber === 1 || eNumber === 2) {
+    if (eNumber === 1) {
       switch (num) {
         case 0:
           setEngraveSlot1({ ...engraveSlot1, value: val, power: Math.floor(eType * Number(val)) });
@@ -116,10 +116,10 @@ export default function Engrave() {
       eValue = parseInt(val);
       switch (num) {
         case 0:
-          setEngraveSlot1({ ...engraveSlot1, value: eValue.toString(), power: Math.floor(eType * eValue) });
+          setEngraveSlot1({ ...engraveSlot1, value: eValue.toString(), power: Math.floor(eType * Math.abs(eValue)) });
           break;
         case 1:
-          setEngraveSlot2({ ...engraveSlot2, value: eValue.toString(), power: Math.floor(eType * eValue) });
+          setEngraveSlot2({ ...engraveSlot2, value: eValue.toString(), power: Math.floor(eType * Math.abs(eValue)) });
           break;
       }
     }
