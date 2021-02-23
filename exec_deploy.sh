@@ -4,7 +4,7 @@ cd /home/ubuntu/app/deploy
 cp variables.env ./zip
 cd ./zip
 
-if ! screen -list | grep "bachang"; then
+if screen -list | grep "bachang"; then
         echo "Exit running bachang..."
         screen -SX bachang quit
 fi

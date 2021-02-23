@@ -40,7 +40,7 @@ import Production from "pages/Calculator/Production";
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
 
-import AuctionAuction from "pages/TesseractOcr";
+import AuctionMarket from "pages/Auction/Market/MarketBoard";
 
 import { refreshToken } from "utils/CommonUtil";
 
@@ -115,7 +115,7 @@ function App() {
               <Route path='/dic/archeology' component={Archeology} />
 
               {/*Auction*/}
-              <Route path='/auction/auction' component={AuctionAuction} />
+              <Route path='/auction/market' component={AuctionMarket} />
 
               {/*MyInfo*/}
               <Route path='/myinfo/:tab' component={MyInfo} />
