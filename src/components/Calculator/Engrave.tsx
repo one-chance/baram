@@ -3,6 +3,8 @@ import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/s
 
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
@@ -66,6 +68,11 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "40px",
       margin: "5px",
       padding: "0",
+    },
+
+    dlgText: {
+      fontFamily: "Jua",
+      margin: "10px 0",
     },
   })
 );
@@ -196,18 +203,25 @@ export default function Engrave() {
         onClose={() => {
           setOpenHelper(false);
         }}
-        aria-labelledby='responsive-dialog-title'>
-        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
-          <span style={{ fontFamily: "BMDOHYEON", margin: "0" }}>각인 전투력 TMI</span>
+        maxWidth='lg'>
+        <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>각인 전투력 TMI</Typography>
         </DialogTitle>
-        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>내용</DialogContent>
+        <Divider />
+        <DialogContent style={{ padding: "10px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 일부 잠재능력은 최대 수치가 일반 장비와 다르다.
+          </Typography>
+        </DialogContent>
+        <Divider />
         <DialogActions>
           <Button
             tabIndex={-1}
             color='primary'
             onClick={() => {
               setOpenHelper(false);
-            }}>
+            }}
+            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

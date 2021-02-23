@@ -3,6 +3,8 @@ import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/s
 
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
@@ -66,6 +68,11 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "40px",
       margin: "5px",
       padding: "0",
+    },
+
+    dlgText: {
+      fontFamily: "Jua",
+      margin: "10px 0",
     },
   })
 );
@@ -319,20 +326,25 @@ export default function Skill() {
         onClose={() => {
           setOpenHelper(false);
         }}
-        aria-labelledby='responsive-dialog-title'>
-        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
-          <div>
-            <h3 style={{ fontFamily: "BMDOHYEON", margin: "0" }}>기술능력 전투력 TMI</h3>
-          </div>
+        maxWidth='lg'>
+        <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>기술능력 전투력 TMI</Typography>
         </DialogTitle>
-        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>내용</DialogContent>
+        <Divider />
+        <DialogContent style={{ padding: "10px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 수정 패치 전에 부여된 아이템은 여전히 이탈 옵션을 유지하고 있다.
+          </Typography>
+        </DialogContent>
+        <Divider />
         <DialogActions>
           <Button
             tabIndex={-1}
             color='primary'
             onClick={() => {
               setOpenHelper(false);
-            }}>
+            }}
+            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

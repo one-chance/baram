@@ -3,8 +3,10 @@ import { useRecoilState } from "recoil";
 import LevelState from "state/Calculator/LevelState";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
+import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
+import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 
@@ -42,6 +44,11 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "40px",
       margin: "5px",
       padding: "0",
+    },
+
+    dlgText: {
+      fontFamily: "Jua",
+      margin: "10px 0",
     },
   })
 );
@@ -115,28 +122,46 @@ export default function Level() {
         onClose={() => {
           setOpenHelper(false);
         }}
-        aria-labelledby='responsive-dialog-title'>
-        <DialogTitle id='responsive-dialog-title' style={{ textAlign: "center" }}>
-          <span style={{ fontFamily: "BMDOHYEON", margin: "0" }}>레벨 전투력 TMI</span>
+        maxWidth='lg'>
+        <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>레벨 전투력 TMI</Typography>
         </DialogTitle>
-        <DialogContent style={{ borderTop: "1px solid gray", borderBottom: "1px solid gray", padding: "10px 50px" }}>
-          <h3 style={{ color: "red", fontFamily: "BMJUA" }}>★ 레벨 전투력 = 렙업 전투력 + 승급 전투력 ★</h3>
-          <h3 style={{ fontFamily: "BMJUA" }}>* Lv.99에 최초 전투력이 부여되며 이후 렙업과 승급마다 전투력이 증가한다.</h3>
-          <h4>* 승급퀘를 완료하지 않아도 레벨만 달성하면 승급 전투력이 증가한다.</h4>
-          <h4>* 렙업 전투력 = 3.5 x 승급 차수 | 승급 전투력 = 350 x 승급 차수</h4>
-          <h5>ex) 699 달성시 3.5 x 6 = 21 증가 </h5>
-          <h5>ex) 700 달성시 3.5 x 7 + 350 x 7 = 2474.5 증가 </h5>
-          <h4>* 소수점 첫재 자리까지 계산되지만 상태창에는 반올림한 정수로 표시된다.</h4>
-          <h4>* 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.</h4>
-          <h4>* 8차가 나온다면 Lv.899의 레벨 전투력은 25850일 것이다.</h4>
+        <Divider />
+        <DialogContent style={{ padding: "10px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
+            ★ 레벨전투력 = 렙업 전투력 + 승급 전투력 ★
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * Lv.99에 최초로 부여되며 이후 렙업/승급마다 증가한다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 승급하지 않아도 레벨만 달성하면 승급 전투력이 증가한다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 소수점 첫재 자리까지 계산되지만, s창에는 올림한 정수로 표시된다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * [렙업 전투력 = 3.5 x 승급 차수] [승급 전투력 = 350 x 승급 차수]
+          </Typography>
+          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
+            &nbsp; &nbsp;ex) 699 렙업시 3.5 x 6 = 21 증가
+          </Typography>
+          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
+            &nbsp; &nbsp;ex) 700 렙업시 3.5 x 7 + 350 x 7 = 2474.5 증가
+          </Typography>
         </DialogContent>
+        <Divider />
         <DialogActions>
           <Button
             tabIndex={-1}
             color='primary'
             onClick={() => {
               setOpenHelper(false);
-            }}>
+            }}
+            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

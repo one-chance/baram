@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   mainmenu2: {
-    width: "16vw",
+    width: "20%",
     height: "60px",
     margin: "0",
     float: "left",
