@@ -262,7 +262,7 @@ export default function Header() {
               <h3>거래소</h3>
               <ul id='testD' className={classes.submenu}>
                 <li>
-                  <a href='/auction/auction'>거래소</a>
+                  <a href='/auction/market'>거래소</a>
                 </li>
                 <li>
                   <a href='/cal/power'>장터 게시판</a>
