@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import SignInDialogState from "state/common/SignInDialogState";
 
@@ -84,6 +84,7 @@ export default function Header() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
+  const [test, setTest] = useState(false);
 
   const signInUserId = getSignInUserId();
 
@@ -97,6 +98,14 @@ export default function Header() {
 
   const _onSignInClose = () => {
     setIsSignInOpen(false);
+  };
+
+  const _test = () => {
+    setTest(true);
+
+    setTimeout(() => {
+      setTest(false);
+    }, 2000);
   };
 
   const _onMoveSignUp = () => {
@@ -205,13 +214,19 @@ export default function Header() {
                   <a href='/board/free'>자유 게시판</a>
                 </li>
                 <li>
-                  <a href='/board/free'>스샷 게시판</a>
+                  <a href='#1' onClick={_test}>
+                    스샷 게시판
+                  </a>
                 </li>
                 <li>
-                  <a href='/board/free'>구인 게시판</a>
+                  <a href='#1' onClick={_test}>
+                    구인 게시판
+                  </a>
                 </li>
                 <li>
-                  <a href='/board/free'>직업 게시판</a>
+                  <a href='#1' onClick={_test}>
+                    직업 게시판
+                  </a>
                 </li>
               </ul>
             </li>
@@ -259,10 +274,16 @@ export default function Header() {
               <h3>거래소</h3>
               <ul id='testD' className={classes.submenu}>
                 <li>
-                  <a href='/auction/auction'>거래소</a>
+                  {/* <a href='/auction/auction'>거래소</a> */}
+                  <a href='#1' onClick={_test}>
+                    거래소
+                  </a>
                 </li>
                 <li>
-                  <a href='/cal/power'>장터 게시판</a>
+                  {/* <a href='/cal/power'>장터 게시판</a> */}
+                  <a href='#1' onClick={_test}>
+                    장터 게시판
+                  </a>
                 </li>
               </ul>
             </li>
@@ -277,6 +298,12 @@ export default function Header() {
           </ul>
         </div>
       </AppBar>
+
+      <Dialog open={test}>
+        <DialogContent>
+          <img src='/assets/img/announce.png' alt='announce' />
+        </DialogContent>
+      </Dialog>
 
       <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose} aria-labelledby='responsive-dialog-title'>
         <DialogTitle id='responsive-dialog-title' style={{ padding: "0 5px", textAlign: "center" }}>

@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     dlgText: {
+      height: "30px",
       fontFamily: "Jua",
       margin: "10px 0",
     },
@@ -219,15 +220,27 @@ export default function Gold() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
-          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>황돋 전투력 TMI</Typography>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>황돋 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px 30px" }}>
-          <Typography variant='h5' className={classes.dlgText}>
-            * 모든 종류의 황돋 전투력은 최대값이 200이다.
+        <DialogContent style={{ padding: "20px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
+            ★ 황돋 전투력 = 장비에 감정된 부가 잠재능력들의 전투력 ★
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
-            * 항목별로 소수점까지 계산되지만, 소수점 이하는 버림 처리된다.
+            * 장비당 2~3가지 종류의 잠재능력이 중복 없이 감정된다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 모든 황돋 전투력은 최대값이 300이므로 장비당 최대는 900이다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 능력별 전투력은 소수점까지 계산되지만, 소수점 이하는 버림 한다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 장비 아이템의 부가 잠재능력도 황돋 전투력으로 계산된다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 치장 한벌효과인 모든 능력 증가가 반영된다.
           </Typography>
         </DialogContent>
         <Divider />

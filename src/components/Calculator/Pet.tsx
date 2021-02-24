@@ -80,8 +80,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     dlgText: {
+      height: "30px",
       fontFamily: "Jua",
-      margin: "10px 0",
+      marginBottom: "10px",
     },
   })
 );
@@ -358,24 +359,30 @@ export default function Pet() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
-          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>환수 전투력 TMI</Typography>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>환수 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px 30px" }}>
+        <DialogContent style={{ padding: "20px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
+            ★ 환수 전투력 = 기본 전투력 + 환수 장비 전투력 ★
+          </Typography>
           <Typography variant='h5' className={classes.dlgText}>
             * 기본 전투력 = 200 x 등급 + 2 x 레벨
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
-            * 일부 잠재능력은 최대 수치가 일반 장비와 다르다.
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
+            * 환수 장비의 일부 잠재능력은 최대 수치가 일반 장비와 다르다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 방관/마치 : 50, 마법수준향상 : 3, 명중률 : 4
+          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
+            ex) 방관/마치 : 50, 마법수준향상 : 3, 명중률 : 4
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 일반 장비처럼 강화가 가능하다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 무기, 투구, 갑옷, 성물(손), 신물(방패)
+          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
+            ex) 무기, 투구, 갑옷, 성물(손), 신물(방패)
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.
           </Typography>
         </DialogContent>
         <Divider />

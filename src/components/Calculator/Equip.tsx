@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     dlgText: {
       fontFamily: "Jua",
-      margin: "10px 0",
+      marginBottom: "10px",
     },
   })
 );
@@ -290,30 +290,30 @@ export default function Equip() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
-          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>장비 전투력 TMI</Typography>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>장비 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent
-          style={{
-            padding: "10px 30px",
-          }}>
+        <DialogContent style={{ padding: "20px 30px" }}>
           <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
             ★ 장비 전투력 = 각인, 돋, 기술능력을 제외한 순수한 아이템 전투력 ★
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
+            * 같은 종류의 아이템은 전투력도 같다. (한손/양손무기 차이는 존재)
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
             * 치장 한벌효과인 모든 능력 증가가 반영된다.
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 장비에 부여된 부가 잠재능력은 황금돋보기 전투력으로 계산된다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 마사의귀목, 고대마령의암막/표식, 고대마령의군화(흑/월)
+          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
+            ex) 마사의귀목, 고대마령의암막/표식, 고대마령의군화(흑/월)
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 종류에 상관없이 강화슬롯 1개당 전투력 200이 증가한다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 무기, 투구, 손 (최대 400), 방패/보조무기 (최대 200)
+          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
+            ex) 무기, 투구, 손 (최대 400), 방패/보조무기 (최대 200)
           </Typography>
         </DialogContent>
         <Divider />
