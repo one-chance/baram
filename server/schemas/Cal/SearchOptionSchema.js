@@ -18,4 +18,4 @@ itemOptionSchema.statics.findByFilter = function(filter) {
   return this.find(filter);
 }
 
-module.exports = mongoose.model("ItemSearch", itemOptionSchema, "itemOption");
+module.exports = mongoose.model("ItemOption", itemOptionSchema, "itemOption");

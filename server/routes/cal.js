@@ -5,7 +5,8 @@ const cheerio = require("cheerio");
 
 const logger = require("../winston");
 
-const SearchItemSchema = require("../schemas/Cal/SearchItemSchema");
+const SearchItemSchema = require('../schemas/Cal/SearchItemSchema');
+const SearchOptionSchema = require('../schemas/Cal/SearchOptionSchema');
 
 /*
  *
@@ -126,15 +127,15 @@ router.get("/searchitem", (req, res) => {
  */
 router.get("/searchoption", (req, res) => {
   var filter = {};
-  filter["name"] = req.query.name;
-
-  SearchItemSchema.findByFilter(filter)
-    .then(items => {
-      res.status(200).send({
-        code: 200,
-        message: "아이템 조회에 성공하였습니다.",
-        items: items,
-      });
+  filter['name'] = req.query.name;
+  
+  SearchOptionSchema.findByFilter(filter)
+  .then((items) => {
+    res.status(200).send({
+      code: 200,
+      message: "아이템 조회에 성공하였습니다.",
+      items: items
+    });
 
       return true;
     })
