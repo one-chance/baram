@@ -11,7 +11,7 @@ const NoAuth = () => {
   }, [setIsOpen]);
 
   return (
-    <Typography style={{ width: "100%", minHeight: "550px", textAlign: "center" }} gutterBottom>
+    <Typography style={{ width: "100%", textAlign: "center" }} gutterBottom>
       로그인 정보가 없습니다. 로그인 해주세요.
     </Typography>
   );

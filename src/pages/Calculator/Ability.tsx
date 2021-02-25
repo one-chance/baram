@@ -7,7 +7,6 @@ import Container from "@material-ui/core/Container";
 import Chip from "@material-ui/core/Chip";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -21,23 +20,30 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Divider from "@material-ui/core/Divider";
 
-import { SearchItemByName, SearchItemByOption, SearchOptionByName } from "../../utils/CalUtil";
+import { SearchItem, SearchOptionByName } from "../../utils/CalUtil";
+import IItemInfo from "interfaces/Calculator/IItemInfo";
+import IItemOptionInfo from "interfaces/Calculator/IItemOptionInfo";
 
 const useStyles = makeStyles({
   btn: {
-    height: "36px",
-    textAlign: "center",
-    float: "left",
-    margintLeft: "5px",
+    width: "160px",
+    height: "40px",
+    padding: "5px",
+    margin: "5px",
   },
 
   itemChip: {
     height: "30px",
     margin: "2.5px",
+    borderRadius: "12px",
+    "& .MuiChip-label": {
+      padding: "0 7.5px",
+    },
   },
 
   itemText: {
-    width: "200px",
+    width: "310px",
+    margin: "0 2.5px",
     "& input": {
       height: "36px",
       padding: "2px 10px",
@@ -52,7 +58,7 @@ const useStyles = makeStyles({
     width: "120px",
     height: "40px",
     padding: "1px",
-    margin: "5px",
+    margin: "5px 2.5px",
     color: "blue",
     textAlignLast: "center",
     fontSize: "0.8rem",
@@ -65,18 +71,27 @@ const useStyles = makeStyles({
   },
 
   table: {
-    maxWidth: "360px",
-    margin: "10px 50px",
+    maxWidth: "380px",
     borderCollapse: "collapse",
     "& th, td": {
+      height: "28px",
       border: "1px solid lightgray",
       textAlign: "center",
       fontSize: "1rem",
       padding: "0",
     },
     "& th": {
-      fontWeight: "bold",
+      height: "30px",
+      fontSize: "1rem",
+      fontWeight: "bolder",
     },
+  },
+
+  dlgButton: {
+    minWidth: "60px",
+    height: "40px",
+    margin: "0 5px",
+    padding: "5px",
   },
 });
 
@@ -87,53 +102,108 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
+interface IEquipSlot {
+  num: number;
+  type: string;
+  name: string;
+  power: number;
+}
+
+interface IEquipOption {
+  type: string;
+  option: number;
+}
+
 export default function Ability() {
   const classes = useStyles();
 
-  const [searchName1, setSearchName1] = useState(""); // 검색할 장비 이름 (이름용)
-  const [searchName2, setSearchName2] = useState(""); // 검색할 장비 이름 (스탯용)
+  const [searchName, setSearchName] = useState(""); // 검색할 장비 이름
   const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
   const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
   const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
 
-  const [nameList, setNameList] = useState<string[]>([""]);
-  //const [statusList, setStatusList] = useState<string[]>([]);
-  const itemName = nameList.map(item => (
+  const [itemList, setItemList] = useState<Array<IItemInfo>>([]);
+  const [statusList, setStatusList] = useState<Array<IItemOptionInfo>>([]);
+
+  var menuList = [
+    // prettier-ignore
+    [ "종류", "용장비", "북방장비", "중국전설", "일본전설", "환웅장비", "백제/황산벌", "전우치/구미호", "타계장비", "흉수계/봉래산", "생산장비", "격전지/전장", "승급장비", "합성노리개", ],
+    ["부위", "목/어깨장식", "투구", "얼굴장식", "무기", "갑옷", "방패/보조무기", "손", "망토", "보조", "신발", "세트", "장신구"],
+    ["직업", "공용", "전사", "도적", "주술사", "도사", "궁사", "천인", "마도사", "영술사", "차사"],
+  ];
+
+  const [tableList, setTableList] = useState<Array<IEquipOption>>([
+    { type: "방어도", option: 0 },
+    { type: "명중률", option: 0 },
+    { type: "방어구관통", option: 0 },
+    { type: "방어도무시", option: 0 },
+    { type: "공격력증가", option: 0 },
+    { type: "마력증강", option: 0 },
+    { type: "직타저항", option: 0 },
+    { type: "대인방어", option: 0 },
+    { type: "전투력증가", option: 0 },
+  ]);
+
+  const [equipSlotList, setEquipSlotList] = useState<Array<IEquipSlot>>([
+    { num: 1, type: "목/어깨장식", name: "목/어깨장식", power: 0 },
+    { num: 2, type: "투구", name: "투구", power: 0 },
+    { num: 3, type: "얼굴장식", name: "얼굴장식", power: 0 },
+    { num: 4, type: "무기", name: "무기", power: 0 },
+    { num: 5, type: "갑옷", name: "갑옷", power: 0 },
+    { num: 6, type: "방패/보조무기", name: "방패/보조무기", power: 0 },
+    { num: 7, type: "오른손", name: "오른손", power: 0 },
+    { num: 8, type: "망토", name: "망토", power: 0 },
+    { num: 9, type: "왼손", name: "왼손", power: 0 },
+    { num: 10, type: "보조1", name: "보조1", power: 0 },
+    { num: 11, type: "신발", name: "신발", power: 0 },
+    { num: 12, type: "보조2", name: "보조2", power: 0 },
+    { num: 13, type: "세트", name: "세트", power: 0 },
+    { num: 14, type: "장신구", name: "장신구", power: 0 },
+  ]);
+
+  const [dlgItem, setDlgItem] = useState({
+    isOpen: false,
+    title: "0",
+    parts: 1,
+  });
+
+  const itemName = itemList.map(item => (
     <Chip
       className={classes.itemChip}
-      label={item}
-      key={item}
+      label={item.name}
+      key={item.name}
       variant='outlined'
+      color={dlgItem.title === item.name ? "primary" : "default"}
       onClick={() => {
-        loadData(item);
+        setDlgItem({ ...dlgItem, title: item.name });
+        loadData(item.name);
       }}
     />
   ));
 
-  const [dlgItem, setDlgItem] = useState({
-    isOpen: false,
-    title: "",
-  });
-
   const inputName = (name: string) => {
     if (name === "") {
-      setSearchName1("");
-      setNameList([""]);
+      setSearchName("");
+      setItemList([]);
     } else {
-      setSearchName1(name);
+      setSearchName(name);
     }
   };
 
   // 이름 직접 검색
-  const searchByName = async (name: string) => {
+  const searchByName = async (name: string, parts: number) => {
     setOption1(0);
-    setOption2(0);
     setOption3(0);
 
-    const res = await SearchItemByName(name);
-    const nl = Array<string>();
-    res.forEach(r => nl.push(r.name));
-    setNameList(nl);
+    if (name === "") {
+      setItemList([]);
+      return;
+    }
+
+    const res = await SearchItem(name, 0, parts, 0);
+    const temp = Array<IItemInfo>();
+    res.forEach(r => temp.push(r));
+    setItemList(temp);
   };
 
   // 리스트 통해서 검색
@@ -142,34 +212,67 @@ export default function Ability() {
       alert("세부 옵션을 모두 선택해주세요.");
       return;
     }
-    setSearchName1("");
+    setSearchName("");
 
-    const res = await SearchItemByOption(option1, option2, option3);
-    const nl = Array<string>();
-    res.forEach(r => nl.push(r.name));
-    setNameList(nl);
+    const res = await SearchItem("", option1, option2, option3);
+    const temp = Array<IItemInfo>();
+    res.forEach(r => temp.push(r));
+    setItemList(temp);
+  };
+
+  // 착용 부위를 고정하는 함수
+  const fixedOption = (num: number) => {
+    if (num + 1 === 9) {
+      setOption2(7);
+    } else if (num + 1 === 10) {
+      setOption2(9);
+    } else if (num + 1 === 11) {
+      setOption2(10);
+    } else if (num + 1 === 12) {
+      setOption2(9);
+    } else if (num + 1 === 13) {
+      setOption2(11);
+    } else if (num + 1 === 14) {
+      setOption2(12);
+    } else {
+      setOption2(num + 1);
+    }
+
+    if (equipSlotList[num].type === equipSlotList[num].name) {
+      setItemList([]);
+      setSearchName("");
+    } else {
+      searchByName(equipSlotList[num].name, equipSlotList[num].num);
+    }
   };
 
   // 해당 아이템의 스텟 데이터 불러오기
-  const loadData = (name: string) => {
-    setSearchName2(name);
-    console.log(searchName2);
+  const loadData = async (name: string) => {
+    const res = await SearchOptionByName(name);
+    const temp = Array<IItemOptionInfo>();
+    res.forEach(r => temp.push(r));
+    setStatusList(temp);
   };
 
   return (
     <React.Fragment>
-      <Container style={{ width: "90%", margin: "10px 5%", padding: "0" }}>
-        <Container style={{ width: "100%", border: "1px solid gray", borderRadius: "10px" }}>
-          <h2>123</h2>
-          <Button
-            className={classes.btn}
-            variant='outlined'
-            color='primary'
-            onClick={() => {
-              setDlgItem({ ...dlgItem, isOpen: true });
-            }}>
-            장비
-          </Button>
+      <Container style={{ width: "98%", margin: "10px 1%", padding: "0", float: "left" }}>
+        <Container style={{ width: "100%", border: "1px solid gray", borderRadius: "10px", padding: "5px" }}>
+          {equipSlotList.map((equipSlot: IEquipSlot, idx: number) => {
+            return (
+              <Button
+                variant='outlined'
+                color='primary'
+                key={idx}
+                className={classes.btn}
+                onClick={() => {
+                  fixedOption(idx);
+                  setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlot.num });
+                }}>
+                <span>{equipSlot.type !== equipSlot.name ? equipSlot.name : `${idx + 1}. ${equipSlot.name}`}</span>
+              </Button>
+            );
+          })}
         </Container>
       </Container>
 
@@ -179,7 +282,7 @@ export default function Ability() {
           setDlgItem({ ...dlgItem, isOpen: false });
         }}>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>장비 전투력</span>
+          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>장비 능력치</span>
           <Button
             onClick={() => {
               setDlgItem({ ...dlgItem, isOpen: false });
@@ -189,13 +292,13 @@ export default function Ability() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ maxWidth: "500px", padding: "10px" }}>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+        <DialogContent style={{ width: "500px", maxWidth: "500px", padding: "10px", margin: "0" }}>
+          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
             <TextField
               className={classes.itemText}
               variant='outlined'
-              placeholder='아이템명'
-              value={searchName1 || ""}
+              placeholder={`(${equipSlotList[dlgItem.parts - 1].type}) 아이템명 `}
+              value={searchName}
               onChange={e => {
                 inputName(e.target.value);
               }}
@@ -203,109 +306,90 @@ export default function Ability() {
             <Button
               variant='contained'
               color='primary'
+              className={classes.dlgButton}
               onClick={e => {
-                searchByName(searchName1);
-              }}
-              style={{ height: "40px", marginLeft: "-5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
+                searchByName(searchName, dlgItem.parts);
+              }}>
               검색
             </Button>
           </Container>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
             <Select
               variant='outlined'
               className={classes.select}
               value={option1}
-              MenuProps={{
-                disableScrollLock: true,
-              }}
+              /* MenuProps={{ disableScrollLock: true }} */
               onChange={e => {
                 setOption1(Number(e.target.value));
               }}>
-              <Menus value={0}>종류</Menus>
-              <Menus value={1}>용장비</Menus>
-              <Menus value={2}>북방장비</Menus>
-              <Menus value={3}>중국전설</Menus>
-              <Menus value={4}>일본전설</Menus>
-              <Menus value={5}>환웅장비</Menus>
-              <Menus value={6}>백제/황산벌</Menus>
-              <Menus value={7}>전우치/구미호</Menus>
-              <Menus value={8}>타계장비</Menus>
-              <Menus value={9}>흉수계/봉래산</Menus>
-              <Menus value={10}>생산장비</Menus>
-              <Menus value={11}>격전지/전장</Menus>
-              <Menus value={12}>승급장비</Menus>
-              <Menus value={13}>기타</Menus>
+              {menuList[0].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
             </Select>
 
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={option2}
-              MenuProps={{ disableScrollLock: true }}
-              onChange={e => {
-                setOption2(Number(e.target.value));
-              }}>
-              <Menus value={0}>부위</Menus>
-              <Menus value={1}>목/어깨장식</Menus>
-              <Menus value={2}>투구</Menus>
-              <Menus value={3}>얼굴장식</Menus>
-              <Menus value={4}>무기</Menus>
-              <Menus value={5}>갑옷</Menus>
-              <Menus value={6}>방패/보조무기</Menus>
-              <Menus value={7}>손</Menus>
-              <Menus value={8}>망토</Menus>
-              <Menus value={9}>보조</Menus>
-              <Menus value={10}>신발</Menus>
-              <Menus value={11}>장신구</Menus>
-              <Menus value={12}>분신</Menus>
+            <Select variant='outlined' className={classes.select} value={option2} disabled={true} style={{ width: "100px" }}>
+              {menuList[1].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
             </Select>
 
             <Select
               variant='outlined'
               className={classes.select}
               value={option3}
-              MenuProps={{ disableScrollLock: true }}
               onChange={e => {
                 setOption3(Number(e.target.value));
-              }}>
-              <Menus value={0}>직업</Menus>
-              <Menus value={1}>공용</Menus>
-              <Menus value={2}>전사</Menus>
-              <Menus value={3}>도적</Menus>
-              <Menus value={4}>주술사</Menus>
-              <Menus value={5}>도사</Menus>
-              <Menus value={6}>궁사</Menus>
-              <Menus value={7}>천인</Menus>
-              <Menus value={8}>마도사</Menus>
-              <Menus value={9}>영술사</Menus>
-              <Menus value={10}>차사</Menus>
+              }}
+              style={{ width: "80px" }}>
+              {menuList[2].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
             </Select>
-          </Container>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
+
             <Button
               variant='contained'
               color='primary'
+              className={classes.dlgButton}
               onClick={() => {
                 searchByList();
-              }}
-              style={{ width: "140px", color: "white" }}>
-              <ArrowDownwardIcon />
+              }}>
+              검색
             </Button>
           </Container>
           <Container
             style={{
-              width: "92%",
-              minHeight: "82px",
-              margin: "5px 4%",
+              width: "380px",
+              minHeight: "70px",
+              margin: "2.5px 50px",
               padding: "5px",
               border: "1px solid lightgray",
-              borderRadius: "10px",
+              borderRadius: "5px",
               textAlign: "center",
               float: "left",
             }}>
-            {nameList[0] === "" ? "검색 결과가 없습니다." : itemName}
+            {itemList.length === 0 ? (
+              <span>
+                <br />
+                검색 결과가 없습니다.
+              </span>
+            ) : (
+              itemName
+            )}
           </Container>
-          <TableContainer style={{ margin: "5px 0 ", padding: "0 5px", textAlign: "center", float: "left" }}>
+
+          <TableContainer style={{ margin: "5px 0", padding: "0 50px", textAlign: "center", float: "left" }}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
@@ -314,47 +398,19 @@ export default function Ability() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>방어도</TableCell>
-                  <TableCell>0</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>명중률</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>방어구관통</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>방어도무시</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>공격력증가</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>마력증강</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>직타저항</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>대인방어</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>전투력증가</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
+                {tableList.map((status: IEquipOption, idx: number) => {
+                  return (
+                    <TableRow key={idx}>
+                      <TableCell>{status.type}</TableCell>
+                      <TableCell>{status.option}</TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Button variant='contained' color='primary' style={{ width: "140px", marginLeft: "-12px", color: "white" }}>
+          <Container style={{ width: "100%", margin: "5px 0", padding: "0 50px", textAlign: "center", float: "left" }}>
+            <Button fullWidth variant='contained' color='secondary'>
               적용
             </Button>
           </Container>

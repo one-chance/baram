@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   boardItemWrapper: {
     width: "100%",
-    height: "55%",
+    height: "60%",
     float: "left",
   },
   boardItem: {
@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
   },
   boardVisitCountWrapper: {
     width: "100%",
-    height: "45%",
+    height: "40%",
+    fontWeight: "bold",
     padding: "8px 16px",
     float: "left",
   },
@@ -85,7 +86,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Grid container style={{ minHeight: "600px" }}>
+    <Grid container>
       <Grid item xs={12} style={{ float: "left" }}>
         <MainCarousel />
       </Grid>
@@ -125,7 +126,7 @@ const Home = () => {
             </div>
           </div>
           <div className={classes.boardVisitCountWrapper}>
-            TODAY : {todayVisit}
+            <span style={{ color: "red" }}>TODAY : {todayVisit}</span>
             <br />
             TOTAL : {totalVisit}
           </div>

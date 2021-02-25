@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-    btnDlg: {
+    dlgButton: {
       minWidth: "60px",
       height: "40px",
       margin: "0 5px",
@@ -283,6 +283,7 @@ export default function Equip() {
         style={{ minWidth: "40px", height: "40px", padding: "0", margin: "5px" }}>
         ?
       </Button>
+
       <Dialog
         open={openHelper}
         onClose={() => {
@@ -360,7 +361,7 @@ export default function Equip() {
             <Button
               variant='contained'
               color='primary'
-              className={classes.btnDlg}
+              className={classes.dlgButton}
               onClick={e => {
                 searchByName(searchName, dlgItem.parts);
               }}>
@@ -415,7 +416,7 @@ export default function Equip() {
             <Button
               variant='contained'
               color='primary'
-              className={classes.btnDlg}
+              className={classes.dlgButton}
               onClick={() => {
                 searchByList();
               }}>
@@ -484,7 +485,7 @@ export default function Equip() {
             <Button
               variant='contained'
               color='secondary'
-              className={classes.btnDlg}
+              className={classes.dlgButton}
               style={{ float: "right" }}
               onClick={() => {
                 setDlgItem({ ...dlgItem, isOpen: false });
