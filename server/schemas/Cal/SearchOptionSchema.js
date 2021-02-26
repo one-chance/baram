@@ -14,8 +14,8 @@ const itemOptionSchema = new mongoose.Schema({
   s10: { type: Number },
 });
 
-itemOptionSchema.statics.findByFilter = function(filter) {
-  return this.find(filter);
+itemOptionSchema.statics.findOneByFilter = function(filter) {
+  return this.findOne(filter);
 }
 
 module.exports = mongoose.model("ItemOption", itemOptionSchema, "itemOption");

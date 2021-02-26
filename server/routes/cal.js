@@ -129,7 +129,7 @@ router.get("/searchoption", (req, res) => {
   var filter = {};
   filter['name'] = req.query.name;
   
-  SearchOptionSchema.findByFilter(filter)
+  SearchOptionSchema.findOneByFilter(filter)
   .then((items) => {
     res.status(200).send({
       code: 200,

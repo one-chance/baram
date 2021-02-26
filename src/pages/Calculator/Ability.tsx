@@ -248,10 +248,14 @@ export default function Ability() {
 
   // 해당 아이템의 스텟 데이터 불러오기
   const loadData = async (name: string) => {
-    const res = await SearchOptionByName(name);
-    var temp = Array<IItemOptionInfo>();
-    res.forEach(r => temp.push(r));
+    let res : IItemOptionInfo | null;
+    res = await SearchOptionByName(name);
 
+    var temp = Array<IItemOptionInfo>();
+
+    if(res !== null) {
+      temp.push(res)
+    }
     console.log(temp);
   };
 
