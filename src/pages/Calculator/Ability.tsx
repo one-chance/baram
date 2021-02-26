@@ -26,7 +26,7 @@ import IItemOptionInfo from "interfaces/Calculator/IItemOptionInfo";
 
 const useStyles = makeStyles({
   btn: {
-    width: "160px",
+    width: "150px",
     height: "40px",
     padding: "5px",
     margin: "5px",
@@ -252,12 +252,13 @@ export default function Ability() {
     const temp = Array<IItemOptionInfo>();
     res.forEach(r => temp.push(r));
     setStatusList(temp);
+    console.log(temp);
   };
 
   return (
     <React.Fragment>
       <Container style={{ width: "98%", margin: "10px 1%", padding: "0", float: "left" }}>
-        <Container style={{ width: "100%", border: "1px solid gray", borderRadius: "10px", padding: "5px" }}>
+        <Container style={{ width: "auto", border: "1px solid gray", borderRadius: "10px", padding: "5px" }}>
           {equipSlotList.map((equipSlot: IEquipSlot, idx: number) => {
             return (
               <Button
@@ -269,7 +270,7 @@ export default function Ability() {
                   fixedOption(idx);
                   setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlot.num });
                 }}>
-                <span>{equipSlot.type !== equipSlot.name ? equipSlot.name : `${idx + 1}. ${equipSlot.name}`}</span>
+                {equipSlot.name}
               </Button>
             );
           })}
