@@ -25,6 +25,16 @@ import IItemInfo from "interfaces/Calculator/IItemInfo";
 import IItemOptionInfo from "interfaces/Calculator/IItemOptionInfo";
 
 const useStyles = makeStyles({
+  stat: {
+    width: "60px",
+    margin: "10px",
+    "& input": {
+      height: "40px",
+      padding: "5px",
+      textAlign: "center",
+    },
+  },
+
   btn: {
     width: "150px",
     height: "40px",
@@ -102,16 +112,16 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
+interface IEquipOption {
+  type: string;
+  option: number;
+}
+
 interface IEquipSlot {
   num: number;
   type: string;
   name: string;
-  power: number;
-}
-
-interface IEquipOption {
-  type: string;
-  option: number;
+  status: IEquipOption;
 }
 
 export default function Ability() {
@@ -121,44 +131,34 @@ export default function Ability() {
   const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
   const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
   const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
-
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]);
+
   const [statusList, setStatusList] = useState<Array<IItemOptionInfo>>([]);
 
   var menuList = [
     // prettier-ignore
-    [ "종류", "용장비", "북방장비", "중국전설", "일본전설", "환웅장비", "백제/황산벌", "전우치/구미호", "타계장비", "흉수계/봉래산", "생산장비", "격전지/전장", "승급장비", "합성노리개", ],
+    ["종류", "용장비", "북방장비", "중국전설", "일본전설", "환웅장비", "백제/황산벌", "전우치/구미호", "타계장비", "흉수계/봉래산", "생산장비", "격전지/전장", "승급장비", "합성노리개",],
     ["부위", "목/어깨장식", "투구", "얼굴장식", "무기", "갑옷", "방패/보조무기", "손", "망토", "보조", "신발", "세트", "장신구"],
     ["직업", "공용", "전사", "도적", "주술사", "도사", "궁사", "천인", "마도사", "영술사", "차사"],
   ];
 
-  const [tableList, setTableList] = useState<Array<IEquipOption>>([
-    { type: "방어도", option: 0 },
-    { type: "명중률", option: 0 },
-    { type: "방어구관통", option: 0 },
-    { type: "방어도무시", option: 0 },
-    { type: "공격력증가", option: 0 },
-    { type: "마력증강", option: 0 },
-    { type: "직타저항", option: 0 },
-    { type: "대인방어", option: 0 },
-    { type: "전투력증가", option: 0 },
-  ]);
+  var tableList = ["방어도", "명중률", "방어구관통", "방어도무시", "공격력증가", "마력증강", "직타저항", "대인방어", "전투력증가"];
 
   const [equipSlotList, setEquipSlotList] = useState<Array<IEquipSlot>>([
-    { num: 1, type: "목/어깨장식", name: "목/어깨장식", power: 0 },
-    { num: 2, type: "투구", name: "투구", power: 0 },
-    { num: 3, type: "얼굴장식", name: "얼굴장식", power: 0 },
-    { num: 4, type: "무기", name: "무기", power: 0 },
-    { num: 5, type: "갑옷", name: "갑옷", power: 0 },
-    { num: 6, type: "방패/보조무기", name: "방패/보조무기", power: 0 },
-    { num: 7, type: "오른손", name: "오른손", power: 0 },
-    { num: 8, type: "망토", name: "망토", power: 0 },
-    { num: 9, type: "왼손", name: "왼손", power: 0 },
-    { num: 10, type: "보조1", name: "보조1", power: 0 },
-    { num: 11, type: "신발", name: "신발", power: 0 },
-    { num: 12, type: "보조2", name: "보조2", power: 0 },
-    { num: 13, type: "세트", name: "세트", power: 0 },
-    { num: 14, type: "장신구", name: "장신구", power: 0 },
+    { num: 1, type: "목/어깨장식", name: "목/어깨장식", status: { type: "0", option: 0 } },
+    { num: 2, type: "투구", name: "투구", status: { type: "0", option: 0 } },
+    { num: 3, type: "얼굴장식", name: "얼굴장식", status: { type: "0", option: 0 } },
+    { num: 4, type: "무기", name: "무기", status: { type: "0", option: 0 } },
+    { num: 5, type: "갑옷", name: "갑옷", status: { type: "0", option: 0 } },
+    { num: 6, type: "방패/보조무기", name: "방패/보조무기", status: { type: "0", option: 0 } },
+    { num: 7, type: "오른손", name: "오른손", status: { type: "0", option: 0 } },
+    { num: 8, type: "망토", name: "망토", status: { type: "0", option: 0 } },
+    { num: 9, type: "왼손", name: "왼손", status: { type: "0", option: 0 } },
+    { num: 10, type: "보조1", name: "보조1", status: { type: "0", option: 0 } },
+    { num: 11, type: "신발", name: "신발", status: { type: "0", option: 0 } },
+    { num: 12, type: "보조2", name: "보조2", status: { type: "0", option: 0 } },
+    { num: 13, type: "세트", name: "세트", status: { type: "0", option: 0 } },
+    { num: 14, type: "장신구", name: "장신구", status: { type: "0", option: 0 } },
   ]);
 
   const [dlgItem, setDlgItem] = useState({
@@ -249,21 +249,29 @@ export default function Ability() {
   // 해당 아이템의 스텟 데이터 불러오기
   const loadData = async (name: string) => {
     const res = await SearchOptionByName(name);
-    const temp = Array<IItemOptionInfo>();
+    var temp = Array<IItemOptionInfo>();
     res.forEach(r => temp.push(r));
-    setStatusList(temp);
+
     console.log(temp);
   };
 
   return (
     <React.Fragment>
       <Container style={{ width: "98%", margin: "10px 1%", padding: "0", float: "left" }}>
-        <Container style={{ width: "auto", border: "1px solid gray", borderRadius: "10px", padding: "5px" }}>
+        <Container style={{ width: "auto", border: "1px solid gray", borderRadius: "10px", margin: "10px", padding: "5px", float: "left" }}>
+          <TextField variant='outlined' label='힘' className={classes.stat} />
+          <TextField variant='outlined' label='민첩' className={classes.stat} />
+          <TextField variant='outlined' label='지력' className={classes.stat} />
+          <TextField variant='outlined' label='건강' className={classes.stat} />
+          <TextField variant='outlined' label='지혜' className={classes.stat} />
+        </Container>
+
+        <Container style={{ width: "auto", border: "1px solid gray", borderRadius: "10px", margin: "10px", padding: "5px", float: "left" }}>
           {equipSlotList.map((equipSlot: IEquipSlot, idx: number) => {
             return (
               <Button
                 variant='outlined'
-                color='primary'
+                color={equipSlot.type === equipSlot.name ? "primary" : "secondary"}
                 key={idx}
                 className={classes.btn}
                 onClick={() => {
@@ -399,11 +407,11 @@ export default function Ability() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableList.map((status: IEquipOption, idx: number) => {
+                {tableList.map((status: string, idx: number) => {
                   return (
                     <TableRow key={idx}>
-                      <TableCell>{status.type}</TableCell>
-                      <TableCell>{status.option}</TableCell>
+                      <TableCell>{status}</TableCell>
+                      <TableCell>{idx}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -411,7 +419,19 @@ export default function Ability() {
             </Table>
           </TableContainer>
           <Container style={{ width: "100%", margin: "5px 0", padding: "0 50px", textAlign: "center", float: "left" }}>
-            <Button fullWidth variant='contained' color='secondary'>
+            <Button
+              fullWidth
+              variant='contained'
+              color='secondary'
+              onClick={() => {
+                setDlgItem({ ...dlgItem, isOpen: false });
+                if (itemList.length !== 0) {
+                  equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
+                } else {
+                  equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
+                }
+                setEquipSlotList(equipSlotList);
+              }}>
               적용
             </Button>
           </Container>
