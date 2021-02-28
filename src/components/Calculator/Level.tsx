@@ -47,8 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     dlgText: {
+      height: "30px",
       fontFamily: "Jua",
-      margin: "10px 0",
+      marginBottom: "10px",
     },
   })
 );
@@ -127,9 +128,9 @@ export default function Level() {
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>레벨 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px 30px" }}>
+        <DialogContent style={{ padding: "20px 30px" }}>
           <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
-            ★ 레벨전투력 = 렙업 전투력 + 승급 전투력 ★
+            ★ 레벨 전투력 = 렙업 전투력 + 승급 전투력 ★
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
             * Lv.99에 최초로 부여되며 이후 렙업/승급마다 증가한다.
@@ -138,19 +139,19 @@ export default function Level() {
             * 승급하지 않아도 레벨만 달성하면 승급 전투력이 증가한다.
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
-            * 소수점 첫재 자리까지 계산되지만, s창에는 올림한 정수로 표시된다.
+            * 소수점 첫재 자리까지 계산되지만, s창에는 올림하여 표시한다.
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
             * 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
+          <Typography variant='h5' className={classes.dlgText} style={{ marginBottom: "5px" }}>
             * [렙업 전투력 = 3.5 x 승급 차수] [승급 전투력 = 350 x 승급 차수]
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 699 렙업시 3.5 x 6 = 21 증가
+          <Typography variant='h6' style={{ height: "28px", fontFamily: "Jua", paddingLeft: "20px" }}>
+            ex) 699 렙업시 3.5 x 6 = 21 증가
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 700 렙업시 3.5 x 7 + 350 x 7 = 2474.5 증가
+          <Typography variant='h6' style={{ height: "28px", fontFamily: "Jua", paddingLeft: "20px" }}>
+            ex) 700 렙업시 3.5 x 7 + 350 x 7 = 2474.5 증가
           </Typography>
         </DialogContent>
         <Divider />

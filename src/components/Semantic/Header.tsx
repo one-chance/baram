@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import SignInDialogState from "state/common/SignInDialogState";
 
@@ -24,44 +24,50 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     float: "left",
     backgroundColor: "white",
-  },
 
-  mainmenu2: {
-    width: "20%",
-    height: "60px",
-    margin: "0",
-    float: "left",
-    "& h3": {
-      lineHeight: "40px",
-      margin: "10px 0",
-      fontSize: "1.2rem",
-    },
-  },
-
-  submenu: {
-    display: "none",
-    width: "100%",
-    height: "200px",
-    padding: "5px 0 10px 0",
-    listStyle: "none",
-    backgroundColor: "white",
-    borderBottom: "1px solid darkgray",
     "& li": {
-      width: "100%",
-      height: "30px",
-      overflow: "visible",
-      "& a": {
-        minWidth: "100px",
-        display: "block",
-        lineHeight: "30px",
-        margin: "0 20%",
-        padding: "0",
-        textDecoration: "none",
-        fontSize: "0.9rem",
-        color: "black",
+      width: "20%",
+      height: "60px",
+      margin: "0",
+      float: "left",
+      "& h3": {
+        lineHeight: "40px",
+        margin: "10px 0",
+        fontSize: "1.2rem",
       },
-      "& a:hover": {
-        backgroundColor: "lightgray",
+
+      "& ul": {
+        display: "none",
+        width: "100%",
+        height: "190px",
+        padding: "5px 0",
+        listStyle: "none",
+        backgroundColor: "white",
+        borderBottom: "1px solid darkgray",
+        "& li": {
+          width: "100%",
+          height: "30px",
+          overflow: "visible",
+          "& a": {
+            minWidth: "100px",
+            display: "block",
+            lineHeight: "30px",
+            margin: "0 20%",
+            padding: "0",
+            textDecoration: "none",
+            fontSize: "0.9rem",
+            color: "black",
+          },
+          "& a:hover": {
+            backgroundColor: "lightgray",
+          },
+        },
+      },
+    },
+
+    "&:hover": {
+      "& ul": {
+        display: "block",
       },
     },
   },
@@ -69,6 +75,8 @@ const useStyles = makeStyles(theme => ({
   btn: {
     lineHeight: "30px",
     margin: "15px 0",
+    fontFamily: "Do Hyeon",
+    fontSize: "1.2rem",
     textTransform: "none",
     padding: "0",
     float: "left",
@@ -84,6 +92,7 @@ export default function Header() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
+  const [test, setTest] = useState(false);
 
   const signInUserId = getSignInUserId();
 
@@ -99,6 +108,14 @@ export default function Header() {
     setIsSignInOpen(false);
   };
 
+  const _test = () => {
+    setTest(true);
+
+    setTimeout(() => {
+      setTest(false);
+    }, 2000);
+  };
+
   const _onMoveSignUp = () => {
     document.location.href = "/signup";
   };
@@ -108,36 +125,6 @@ export default function Header() {
 
     _onMoveToMain();
   };
-
-  function opening() {
-    let a = document.getElementById("testA");
-    let b = document.getElementById("testB");
-    let c = document.getElementById("testC");
-    let d = document.getElementById("testD");
-    let e = document.getElementById("testE");
-    if (a !== null && b !== null && c !== null && d !== null && e !== null) {
-      a.style.display = "block";
-      b.style.display = "block";
-      c.style.display = "block";
-      d.style.display = "block";
-      e.style.display = "block";
-    }
-  }
-
-  function closing() {
-    let a = document.getElementById("testA");
-    let b = document.getElementById("testB");
-    let c = document.getElementById("testC");
-    let d = document.getElementById("testD");
-    let e = document.getElementById("testE");
-    if (a !== null && b !== null && c !== null && d !== null && e !== null) {
-      a.style.display = "none";
-      b.style.display = "none";
-      c.style.display = "none";
-      d.style.display = "none";
-      e.style.display = "none";
-    }
-  }
 
   return (
     <React.Fragment>
@@ -194,10 +181,10 @@ export default function Header() {
             borderBottom: "1px solid darkgray",
             float: "left",
           }}>
-          <ul className={classes.mainmenu} onMouseOver={opening} onMouseOut={closing}>
-            <li className={classes.mainmenu2}>
+          <ul className={classes.mainmenu}>
+            <li>
               <h3>게시판</h3>
-              <ul id='testA' className={classes.submenu}>
+              <ul>
                 <li>
                   <a href='/board/tip'>팁 게시판</a>
                 </li>
@@ -205,19 +192,25 @@ export default function Header() {
                   <a href='/board/free'>자유 게시판</a>
                 </li>
                 <li>
-                  <a href='/board/free'>스샷 게시판</a>
+                  <a href='#1' onClick={_test}>
+                    스샷 게시판
+                  </a>
                 </li>
                 <li>
-                  <a href='/board/free'>구인 게시판</a>
+                  <a href='#1' onClick={_test}>
+                    구인 게시판
+                  </a>
                 </li>
                 <li>
-                  <a href='/board/free'>직업 게시판</a>
+                  <a href='#1' onClick={_test}>
+                    직업 게시판
+                  </a>
                 </li>
               </ul>
             </li>
-            <li className={classes.mainmenu2}>
+            <li>
               <h3>계산기</h3>
-              <ul id='testB' className={classes.submenu}>
+              <ul>
                 <li>
                   <a href='/cal/power'>전투력</a>
                 </li>
@@ -232,11 +225,11 @@ export default function Header() {
                 </li>
               </ul>
             </li>
-            <li className={classes.mainmenu2}>
+            <li>
               <h3>도감</h3>
-              <ul id='testC' className={classes.submenu}>
+              <ul>
                 <li>
-                  <a href='/dic/item'>아이템</a>
+                  <a href='/dic/item'>장비 아이템</a>
                 </li>
                 <li>
                   <a href='/dic/petitem'>환수장비</a>
@@ -255,20 +248,26 @@ export default function Header() {
                 </li>
               </ul>
             </li>
-            <li className={classes.mainmenu2}>
+            <li>
               <h3>거래소</h3>
-              <ul id='testD' className={classes.submenu}>
+              <ul>
                 <li>
-                  <a href='/auction/market'>거래소</a>
+                  {/* <a href='/auction/auction'>거래소</a> */}
+                  <a href='#1' onClick={_test}>
+                    거래소
+                  </a>
                 </li>
                 <li>
-                  <a href='/cal/power'>장터 게시판</a>
+                  {/* <a href='/cal/power'>장터 게시판</a> */}
+                  <a href='#1' onClick={_test}>
+                    장터 게시판
+                  </a>
                 </li>
               </ul>
             </li>
-            <li className={classes.mainmenu2}>
+            <li>
               <h3>내정보</h3>
-              <ul id='testE' className={classes.submenu}>
+              <ul>
                 <li>
                   <a href='/myinfo/view'>회원정보</a>
                 </li>
@@ -277,6 +276,12 @@ export default function Header() {
           </ul>
         </div>
       </AppBar>
+
+      <Dialog open={test}>
+        <DialogContent>
+          <img src='/assets/img/announce.png' alt='announce' />
+        </DialogContent>
+      </Dialog>
 
       <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose} aria-labelledby='responsive-dialog-title'>
         <DialogTitle id='responsive-dialog-title' style={{ padding: "0 5px", textAlign: "center" }}>

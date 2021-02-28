@@ -71,8 +71,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     dlgText: {
+      height: "30px",
       fontFamily: "Jua",
-      margin: "10px 0",
+      marginBottom: "10px",
     },
   })
 );
@@ -328,12 +329,27 @@ export default function Skill() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
-          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>기술능력 전투력 TMI</Typography>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>기술능력 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px 30px" }}>
+        <DialogContent style={{ padding: "20px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
+            ★ 기술능력 전투력 = 장비에 부여된 기술능력들의 전투력 ★
+          </Typography>
           <Typography variant='h5' className={classes.dlgText}>
-            * 수정 패치 전에 부여된 아이템은 여전히 이탈 옵션을 유지하고 있다.
+            * 장비당 2~3가지 종류의 기술능력이 중복 없이 부여된다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 기술능력 전투력의 최대값은 대략 200이다. (오차 존재)
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
+            * 패치를 통해 일부 기술능력이 삭제되거나 수치가 조정되었다.
+          </Typography>
+          <Typography variant='h6' className={classes.dlgText} style={{ height: "28px", paddingLeft: "20px" }}>
+            So, 그전에 부여된 아이템은 여전히 이탈 옵션을 유지하고 있다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 치장 한벌효과인 모든 능력 증가가 반영된다.
           </Typography>
         </DialogContent>
         <Divider />

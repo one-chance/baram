@@ -71,8 +71,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     dlgText: {
+      height: "30px",
       fontFamily: "Jua",
-      margin: "10px 0",
+      marginBottom: "10px",
     },
   })
 );
@@ -205,12 +206,21 @@ export default function Engrave() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
-          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>각인 전투력 TMI</Typography>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>각인 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px 30px" }}>
+        <DialogContent style={{ padding: "20px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
+            ★ 각인 전투력 = 장비에 각인된 능력치들의 전투력 ★
+          </Typography>
           <Typography variant='h5' className={classes.dlgText}>
-            * 일부 잠재능력은 최대 수치가 일반 장비와 다르다.
+            * 문양, 앞/뒤에 관계 없이 능력치와 수치에 따라 전투력이 결정된다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 치장 한벌효과인 모든 능력 증가가 반영된다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 과거의 각인들은 전투력이 0이다. (힘/민/지/명중회피/체력/마력)
           </Typography>
         </DialogContent>
         <Divider />

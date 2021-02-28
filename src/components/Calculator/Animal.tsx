@@ -69,8 +69,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     dlgText: {
+      height: "30px",
       fontFamily: "Jua",
-      margin: "10px 0",
+      marginBottom: "10px",
     },
   })
 );
@@ -258,18 +259,24 @@ export default function Animal() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ padding: " 10px", textAlign: "center" }}>
-          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>신수 전투력 TMI</Typography>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>신수 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px 30px" }}>
+        <DialogContent style={{ padding: "20px 30px" }}>
+          <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
+            ★ 신수 전투력 = 기본 전투력 + 신수 장비 전투력 ★
+          </Typography>
           <Typography variant='h5' className={classes.dlgText}>
             * 기본 전투력 = 400 x 등급 + 4 x 레벨
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 등급업도 레벨업으로 취급된다. 99 &gt; 등급업 &gt; 1
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;So, 승급 전투력은 따로 없고 렙업 전투력 x2가 전부
+          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
+            So, 승급 전투력은 따로 없고 렙업 전투력x2
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.
           </Typography>
         </DialogContent>
         <Divider />

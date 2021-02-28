@@ -1,365 +1,281 @@
 import React, { useState } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import Chip from "@material-ui/core/Chip";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import Grid from "@material-ui/core/Grid";
 
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Divider from "@material-ui/core/Divider";
-
-import { SearchItemByName, SearchItemByOption, SearchOptionByName } from "../../utils/CalUtil";
+import CharStat from "components/Calculator/Ability/CharStat";
+import EquipStat from "components/Calculator/Ability/EquipStat";
+import EngraveStat from "components/Calculator/Ability/EngraveStat";
+import GoldStat from "components/Calculator/Ability/GoldStat";
+import AnimalStat from "components/Calculator/Ability/AnimalStat";
+import AwakStat from "components/Calculator/Ability/AwakStat";
+import FamilyStat from "components/Calculator/Ability/FamilyStat";
+import PetStat from "components/Calculator/Ability/PetStat";
 
 const useStyles = makeStyles({
-  btn: {
-    height: "36px",
-    textAlign: "center",
-    float: "left",
-    margintLeft: "5px",
-  },
-
-  itemChip: {
+  title: {
     height: "30px",
-    margin: "2.5px",
+    lineHeight: "30px",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 
-  itemText: {
-    width: "200px",
-    "& input": {
-      height: "36px",
-      padding: "2px 10px",
-      textAlign: "center",
-    },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: "1px solid",
-    },
+  contain: {
+    width: "auto",
+    border: "1px solid gray",
+    borderRadius: "10px",
+    margin: "10px",
+    padding: "5px",
+    float: "left",
   },
 
-  select: {
-    width: "120px",
+  btn: {
+    width: "150px",
     height: "40px",
-    padding: "1px",
+    padding: "5px",
     margin: "5px",
-    color: "blue",
-    textAlignLast: "center",
-    fontSize: "0.8rem",
-    "& .MuiSelect-selectMenu": {
-      padding: "2px 20px 2px 5px",
-      lineHeight: "30px",
-      textAlign: "center",
-      color: "blue",
-    },
-  },
-
-  table: {
-    maxWidth: "360px",
-    margin: "10px 50px",
-    borderCollapse: "collapse",
-    "& th, td": {
-      border: "1px solid lightgray",
-      textAlign: "center",
-      fontSize: "1rem",
-      padding: "0",
-    },
-    "& th": {
-      fontWeight: "bold",
-    },
   },
 });
 
-const Menus = withStyles({
-  root: {
-    fontSize: "0.9rem",
-    justifyContent: "center",
-  },
-})(MenuItem);
-
 export default function Ability() {
   const classes = useStyles();
+  const [statusList, setStatusList] = useState<Array<number>>([0, 0, 0, 0, 0, 0]);
 
-  const [searchName1, setSearchName1] = useState(""); // 검색할 장비 이름 (이름용)
-  const [searchName2, setSearchName2] = useState(""); // 검색할 장비 이름 (스탯용)
-  const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
-  const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
-  const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
-
-  const [nameList, setNameList] = useState<string[]>([""]);
-  //const [statusList, setStatusList] = useState<string[]>([]);
-  const itemName = nameList.map(item => (
-    <Chip
-      className={classes.itemChip}
-      label={item}
-      key={item}
-      variant='outlined'
-      onClick={() => {
-        loadData(item);
-      }}
-    />
-  ));
-
-  const [dlgItem, setDlgItem] = useState({
-    isOpen: false,
-    title: "",
-  });
-
-  const inputName = (name: string) => {
-    if (name === "") {
-      setSearchName1("");
-      setNameList([""]);
-    } else {
-      setSearchName1(name);
-    }
-  };
-
-  // 이름 직접 검색
-  const searchByName = async (name: string) => {
-    setOption1(0);
-    setOption2(0);
-    setOption3(0);
-
-    const res = await SearchItemByName(name);
-    const nl = Array<string>();
-    res.forEach(r => nl.push(r.name));
-    setNameList(nl);
-  };
-
-  // 리스트 통해서 검색
-  const searchByList = async () => {
-    if (option1 === 0 || option2 === 0 || option3 === 0) {
-      alert("세부 옵션을 모두 선택해주세요.");
-      return;
-    }
-    setSearchName1("");
-
-    const res = await SearchItemByOption(option1, option2, option3);
-    const nl = Array<string>();
-    res.forEach(r => nl.push(r.name));
-    setNameList(nl);
-  };
-
-  // 해당 아이템의 스텟 데이터 불러오기
-  const loadData = (name: string) => {
-    setSearchName2(name);
-    console.log(searchName2);
-  };
+  var statType = ["캐릭터 스텟", "일반 장비", "각인 스텟", "돋 스텟", "신수 장비", "신체 각성", "가문력"];
+  var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"];
 
   return (
     <React.Fragment>
-      <Container style={{ width: "90%", margin: "10px 5%", padding: "0" }}>
-        <Container style={{ width: "100%", border: "1px solid gray", borderRadius: "10px" }}>
-          <h2>123</h2>
-          <Button
-            className={classes.btn}
-            variant='outlined'
-            color='primary'
-            onClick={() => {
-              setDlgItem({ ...dlgItem, isOpen: true });
-            }}>
-            장비
-          </Button>
+      <Container style={{ width: "98%", margin: "10px 1%", padding: "0", float: "left" }}>
+        <Container
+          id='charStat'
+          style={{ width: "100%", margin: "10px", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem", float: "left" }}>
+          <span> {`최종 스텟 = { 캐릭터 스텟 + 장비 스텟(장비 + 각인 + 황돋 + 신수) or 신체각성 + 가문력 + 환수 } * %돋 + 한벌효과 +마법 + 시약 + 칭호`}</span>
+          <br />
+          <span> {`※ 일부 능력치는 마법 수치도 %돋에 영향을 받으나 보편적인 상황을 예시로 들었음 ※`}</span>
+        </Container>
+
+        <Grid
+          container
+          spacing={0}
+          id='totalStat'
+          style={{ width: "100%", border: "1px solid gray", borderRadius: "10px", margin: "10px", padding: "10px", float: "left" }}>
+          <Grid container item xs={1} direction='column'>
+            <Grid id='title' item className={classes.title}></Grid>
+            {statList.map((name: string) => {
+              return (
+                <Grid key={name} item className={classes.title}>
+                  {name}
+                </Grid>
+              );
+            })}
+          </Grid>
+          <Grid container item xs={10} direction='column' className={classes.title}>
+            <Grid item>
+              <Grid id='char' item className={classes.title}>
+                캐릭터
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                장비
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                각인
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                황돋
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                신수
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                신체각성
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                가문력
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                환수
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                %돋
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                한벌효과
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                마법
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                시약
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid item>
+              <Grid id='equip' item className={classes.title}>
+                칭호
+              </Grid>
+              {statusList.map((stat: number, idx: number) => {
+                return (
+                  <Grid item key={idx} className={classes.title}>
+                    {stat}
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Grid>
+          <Grid container item xs={1} direction='column'>
+            <Grid id='total' item className={classes.title}>
+              합 계
+            </Grid>
+            {statusList.map((name: number, idx: number) => {
+              return (
+                <Grid key={idx} item className={classes.title}>
+                  {name}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Grid>
+
+        <Container id='charStat' className={classes.contain}>
+          <CharStat />
+        </Container>
+
+        <Container id='equipStat' className={classes.contain}>
+          <EquipStat />
+        </Container>
+
+        <Container id='engraveStat' className={classes.contain}>
+          <EngraveStat />
+        </Container>
+
+        <Container id='goldStat' className={classes.contain}>
+          <GoldStat />
+        </Container>
+
+        <Container id='animalStat' className={classes.contain}>
+          <AnimalStat />
+        </Container>
+
+        <Container id='awakStat' className={classes.contain}>
+          <AwakStat />
+        </Container>
+
+        <Container id='familyStat' className={classes.contain}>
+          <FamilyStat />
+        </Container>
+
+        <Container id='petStat' className={classes.contain}>
+          <PetStat />
         </Container>
       </Container>
-
-      <Dialog
-        open={dlgItem.isOpen}
-        onClose={() => {
-          setDlgItem({ ...dlgItem, isOpen: false });
-        }}>
-        <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>장비 전투력</span>
-          <Button
-            onClick={() => {
-              setDlgItem({ ...dlgItem, isOpen: false });
-            }}
-            style={{ minWidth: 20, fontSize: "1.25rem", padding: "0", position: "absolute", top: 5, right: 10 }}>
-            &#10006;
-          </Button>
-        </DialogTitle>
-        <Divider />
-        <DialogContent style={{ maxWidth: "500px", padding: "10px" }}>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <TextField
-              className={classes.itemText}
-              variant='outlined'
-              placeholder='아이템명'
-              value={searchName1 || ""}
-              onChange={e => {
-                inputName(e.target.value);
-              }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={e => {
-                searchByName(searchName1);
-              }}
-              style={{ height: "40px", marginLeft: "-5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
-              검색
-            </Button>
-          </Container>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={option1}
-              MenuProps={{
-                disableScrollLock: true,
-              }}
-              onChange={e => {
-                setOption1(Number(e.target.value));
-              }}>
-              <Menus value={0}>종류</Menus>
-              <Menus value={1}>용장비</Menus>
-              <Menus value={2}>북방장비</Menus>
-              <Menus value={3}>중국전설</Menus>
-              <Menus value={4}>일본전설</Menus>
-              <Menus value={5}>환웅장비</Menus>
-              <Menus value={6}>백제/황산벌</Menus>
-              <Menus value={7}>전우치/구미호</Menus>
-              <Menus value={8}>타계장비</Menus>
-              <Menus value={9}>흉수계/봉래산</Menus>
-              <Menus value={10}>생산장비</Menus>
-              <Menus value={11}>격전지/전장</Menus>
-              <Menus value={12}>승급장비</Menus>
-              <Menus value={13}>기타</Menus>
-            </Select>
-
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={option2}
-              MenuProps={{ disableScrollLock: true }}
-              onChange={e => {
-                setOption2(Number(e.target.value));
-              }}>
-              <Menus value={0}>부위</Menus>
-              <Menus value={1}>목/어깨장식</Menus>
-              <Menus value={2}>투구</Menus>
-              <Menus value={3}>얼굴장식</Menus>
-              <Menus value={4}>무기</Menus>
-              <Menus value={5}>갑옷</Menus>
-              <Menus value={6}>방패/보조무기</Menus>
-              <Menus value={7}>손</Menus>
-              <Menus value={8}>망토</Menus>
-              <Menus value={9}>보조</Menus>
-              <Menus value={10}>신발</Menus>
-              <Menus value={11}>장신구</Menus>
-              <Menus value={12}>분신</Menus>
-            </Select>
-
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={option3}
-              MenuProps={{ disableScrollLock: true }}
-              onChange={e => {
-                setOption3(Number(e.target.value));
-              }}>
-              <Menus value={0}>직업</Menus>
-              <Menus value={1}>공용</Menus>
-              <Menus value={2}>전사</Menus>
-              <Menus value={3}>도적</Menus>
-              <Menus value={4}>주술사</Menus>
-              <Menus value={5}>도사</Menus>
-              <Menus value={6}>궁사</Menus>
-              <Menus value={7}>천인</Menus>
-              <Menus value={8}>마도사</Menus>
-              <Menus value={9}>영술사</Menus>
-              <Menus value={10}>차사</Menus>
-            </Select>
-          </Container>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => {
-                searchByList();
-              }}
-              style={{ width: "140px", color: "white" }}>
-              <ArrowDownwardIcon />
-            </Button>
-          </Container>
-          <Container
-            style={{
-              width: "92%",
-              minHeight: "82px",
-              margin: "5px 4%",
-              padding: "5px",
-              border: "1px solid lightgray",
-              borderRadius: "10px",
-              textAlign: "center",
-              float: "left",
-            }}>
-            {nameList[0] === "" ? "검색 결과가 없습니다." : itemName}
-          </Container>
-          <TableContainer style={{ margin: "5px 0 ", padding: "0 5px", textAlign: "center", float: "left" }}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: "50%" }}>종류</TableCell>
-                  <TableCell style={{ width: "50%" }}>수치</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>방어도</TableCell>
-                  <TableCell>0</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>명중률</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>방어구관통</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>방어도무시</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>공격력증가</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>마력증강</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>직타저항</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>대인방어</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>전투력증가</TableCell>
-                  <TableCell>1</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Container style={{ margin: "5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Button variant='contained' color='primary' style={{ width: "140px", marginLeft: "-12px", color: "white" }}>
-              적용
-            </Button>
-          </Container>
-        </DialogContent>
-      </Dialog>
     </React.Fragment>
   );
 }

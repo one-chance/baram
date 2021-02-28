@@ -113,7 +113,7 @@ export default function CalProduction() {
 
   return (
     <React.Fragment>
-      <Container style={{ width: "80%", height: "100%", minHeight: "540px", margin: "10px 10%", padding: "0", textAlign: "center", float: "left" }}>
+      <Container style={{ width: "80%", height: "100%", margin: "10px 10%", padding: "0", textAlign: "center", float: "left" }}>
         <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
           <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
             <Select

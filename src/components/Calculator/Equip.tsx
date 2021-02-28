@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-    btnDlg: {
+    dlgButton: {
       minWidth: "60px",
       height: "40px",
       margin: "0 5px",
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     dlgText: {
       fontFamily: "Jua",
-      margin: "10px 0",
+      marginBottom: "10px",
     },
   })
 );
@@ -116,10 +116,8 @@ export default function Equip() {
   const [tempPower, setTempPower] = useState<number>(0);
   const [reinforce, setReinforce] = useState<number>(0);
 
-  const [searchName, setsearchName] = useState(""); // 검색할 장비 이름 (이름용)
-  const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
-  const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
-  const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
+  const [searchName, setsearchName] = useState(""); // 검색할 장비 이름
+  const [options, setOptions] = useState({ op1: 0, op2: 0, op3: 0 }); // 검색할 장비 옵션
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]);
 
   var menuList = [
@@ -177,8 +175,7 @@ export default function Equip() {
 
   // 이름 직접 검색
   const searchByName = async (name: string, parts: number) => {
-    setOption1(0);
-    setOption3(0);
+    setOptions({ ...options, op1: 0, op3: 0 });
 
     if (name === "") {
       setItemList([]);
@@ -193,13 +190,13 @@ export default function Equip() {
 
   // 리스트 통해서 검색
   const searchByList = async () => {
-    if (option1 === 0 || option2 === 0 || option3 === 0) {
+    if (options.op1 === 0 || options.op2 === 0 || options.op3 === 0) {
       alert("세부 옵션을 모두 선택해주세요.");
       return;
     }
     setsearchName("");
 
-    const res = await SearchItem("", option1, option2, option3);
+    const res = await SearchItem("", options.op1, options.op2, options.op3);
     const temp = Array<IItemInfo>();
     res.forEach(r => temp.push(r));
     setItemList(temp);
@@ -208,19 +205,19 @@ export default function Equip() {
   // 착용 부위를 고정하는 함수
   const fixedOption = (num: number) => {
     if (num + 1 === 9) {
-      setOption2(7);
+      setOptions({ ...options, op2: 7 });
     } else if (num + 1 === 10) {
-      setOption2(9);
+      setOptions({ ...options, op2: 9 });
     } else if (num + 1 === 11) {
-      setOption2(10);
+      setOptions({ ...options, op2: 10 });
     } else if (num + 1 === 12) {
-      setOption2(9);
+      setOptions({ ...options, op2: 9 });
     } else if (num + 1 === 13) {
-      setOption2(11);
+      setOptions({ ...options, op2: 11 });
     } else if (num + 1 === 14) {
-      setOption2(12);
+      setOptions({ ...options, op2: 12 });
     } else {
-      setOption2(num + 1);
+      setOptions({ ...options, op2: num + 1 });
     }
 
     if (equipSlotList[num].type === equipSlotList[num].name) {
@@ -247,8 +244,8 @@ export default function Equip() {
   };
 
   useEffect(() => {
-    setOption1(0);
-    setOption3(0);
+    setOptions({ ...options, op1: 0, op3: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dlgItem.isOpen]);
 
   return (
@@ -283,6 +280,7 @@ export default function Equip() {
         style={{ minWidth: "40px", height: "40px", padding: "0", margin: "5px" }}>
         ?
       </Button>
+
       <Dialog
         open={openHelper}
         onClose={() => {
@@ -290,30 +288,30 @@ export default function Equip() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
-          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>장비 전투력 TMI</Typography>
+          <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>장비 전투력 TMI</Typography>
         </DialogTitle>
         <Divider />
-        <DialogContent
-          style={{
-            padding: "10px 30px",
-          }}>
+        <DialogContent style={{ padding: "20px 30px" }}>
           <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
             ★ 장비 전투력 = 각인, 돋, 기술능력을 제외한 순수한 아이템 전투력 ★
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
+            * 같은 종류의 아이템은 전투력도 같다. (한손/양손무기 차이는 존재)
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
             * 치장 한벌효과인 모든 능력 증가가 반영된다.
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 장비에 부여된 부가 잠재능력은 황금돋보기 전투력으로 계산된다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 마사의귀목, 고대마령의암막/표식, 고대마령의군화(흑/월)
+          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
+            ex) 마사의귀목, 고대마령의암막/표식, 고대마령의군화(흑/월)
           </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
+          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 종류에 상관없이 강화슬롯 1개당 전투력 200이 증가한다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
-            &nbsp; &nbsp;ex) 무기, 투구, 손 (최대 400), 방패/보조무기 (최대 200)
+          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
+            ex) 무기, 투구, 손 (최대 400), 방패/보조무기 (최대 200)
           </Typography>
         </DialogContent>
         <Divider />
@@ -360,7 +358,7 @@ export default function Equip() {
             <Button
               variant='contained'
               color='primary'
-              className={classes.btnDlg}
+              className={classes.dlgButton}
               onClick={e => {
                 searchByName(searchName, dlgItem.parts);
               }}>
@@ -371,10 +369,10 @@ export default function Equip() {
             <Select
               variant='outlined'
               className={classes.select}
-              value={option1}
+              value={options.op1}
               /* MenuProps={{ disableScrollLock: true }} */
               onChange={e => {
-                setOption1(Number(e.target.value));
+                setOptions({ ...options, op1: Number(e.target.value) });
               }}>
               {menuList[0].map((name: string, idx: number) => {
                 return (
@@ -385,7 +383,7 @@ export default function Equip() {
               })}
             </Select>
 
-            <Select variant='outlined' className={classes.select} value={option2} disabled={true} style={{ width: "100px" }}>
+            <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px" }}>
               {menuList[1].map((name: string, idx: number) => {
                 return (
                   <Menus value={idx} key={idx} disableGutters={true}>
@@ -398,9 +396,9 @@ export default function Equip() {
             <Select
               variant='outlined'
               className={classes.select}
-              value={option3}
+              value={options.op3}
               onChange={e => {
-                setOption3(Number(e.target.value));
+                setOptions({ ...options, op3: Number(e.target.value) });
               }}
               style={{ width: "80px" }}>
               {menuList[2].map((name: string, idx: number) => {
@@ -415,7 +413,7 @@ export default function Equip() {
             <Button
               variant='contained'
               color='primary'
-              className={classes.btnDlg}
+              className={classes.dlgButton}
               onClick={() => {
                 searchByList();
               }}>
@@ -484,7 +482,7 @@ export default function Equip() {
             <Button
               variant='contained'
               color='secondary'
-              className={classes.btnDlg}
+              className={classes.dlgButton}
               style={{ float: "right" }}
               onClick={() => {
                 setDlgItem({ ...dlgItem, isOpen: false });

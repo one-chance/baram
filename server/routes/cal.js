@@ -3,9 +3,10 @@ const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const logger = require('../winston');
+const logger = require("../winston");
 
 const SearchItemSchema = require('../schemas/Cal/SearchItemSchema');
+const SearchOptionSchema = require('../schemas/Cal/SearchOptionSchema');
 
 /*
  *
@@ -36,13 +37,13 @@ router.get("/item", (req, res) => {
 
     axios
       .get(uri, option)
-      .then((html) => {
+      .then(html => {
         if (html === undefined) throw new Error("NO HTML");
 
-        let itemList = [];
+        //let itemList = [];
 
         const $ = cheerio.load(html.data);
-        console.log($['_equipItem']);
+        console.log($["_equipItem"]);
         const $level = Number($("div.inner ul").children("li.level").find("span.system").text());
         /*
         동적 웹 크롤링이 안되는 이슈로 인하여 아이템 가져오는 부분은 홀딩...
@@ -63,7 +64,7 @@ router.get("/item", (req, res) => {
           // itemList: itemList,
         });
       })
-      .catch((e) => {
+      .catch(e => {
         logger.error(`[GET URI] : `, uri);
         res.status(200).send({
           code: 500,
@@ -90,32 +91,28 @@ router.get("/item", (req, res) => {
  */
 router.get("/searchitem", (req, res) => {
   var filter = {};
-  if(req.query.hasOwnProperty('name') && req.query.name !== "" && req.query.name !== "0")
-    filter['name'] = {$regex: req.query.name + '.*'};
-  if(req.query.hasOwnProperty('op1') && req.query.op1 !== "0")
-    filter['op1'] = req.query.op1;
-  if(req.query.hasOwnProperty('op2') && req.query.op2 !== "0")
-    filter['op2'] = req.query.op2;
-  if(req.query.hasOwnProperty('op3') && req.query.op3 !== "0")
-    filter['op3'] = req.query.op3;
+  if (req.query.hasOwnProperty("name") && req.query.name !== "" && req.query.name !== "0") filter["name"] = { $regex: req.query.name + ".*" };
+  if (req.query.hasOwnProperty("op1") && req.query.op1 !== "0") filter["op1"] = req.query.op1;
+  if (req.query.hasOwnProperty("op2") && req.query.op2 !== "0") filter["op2"] = req.query.op2;
+  if (req.query.hasOwnProperty("op3") && req.query.op3 !== "0") filter["op3"] = req.query.op3;
 
   SearchItemSchema.findByFilter(filter)
-  .then((items) => {
-    res.status(200).send({
-      code: 200,
-      message: "아이템 조회에 성공하였습니다.",
-      items: items
-    });
+    .then(items => {
+      res.status(200).send({
+        code: 200,
+        message: "아이템 조회에 성공하였습니다.",
+        items: items,
+      });
 
-    return true;
-  })
-  .catch((e) => {
-    res.status(200).send({
-      code: 500,
-      message: "아이템 조회 중 오류가 발생하였습니다."
+      return true;
+    })
+    .catch(e => {
+      res.status(200).send({
+        code: 500,
+        message: "아이템 조회 중 오류가 발생하였습니다.",
+      });
+      return false;
     });
-    return false;
-  })
 });
 
 /*
@@ -132,7 +129,7 @@ router.get("/searchoption", (req, res) => {
   var filter = {};
   filter['name'] = req.query.name;
   
-  SearchItemSchema.findByFilter(filter)
+  SearchOptionSchema.findOneByFilter(filter)
   .then((items) => {
     res.status(200).send({
       code: 200,
@@ -140,15 +137,15 @@ router.get("/searchoption", (req, res) => {
       items: items
     });
 
-    return true;
-  })
-  .catch((e) => {
-    res.status(200).send({
-      code: 500,
-      message: "아이템 조회 중 오류가 발생하였습니다."
+      return true;
+    })
+    .catch(e => {
+      res.status(200).send({
+        code: 500,
+        message: "아이템 조회 중 오류가 발생하였습니다.",
+      });
+      return false;
     });
-    return false;
-  })
 });
 
 module.exports = router;
