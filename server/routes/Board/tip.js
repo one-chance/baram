@@ -5,6 +5,7 @@ const authMiddleware = require('../../middleware/auth');
 const logger = require('../../winston');
 
 const TipSchema = require('../../schemas/Board/TipSchema');
+const UserWriteSchema = require("../../schemas/User/UserWriteSchema");
 
 /*
 *    NOTE 글쓰기
