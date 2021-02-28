@@ -8,8 +8,10 @@ interface IComment {
   recommentList?: Array<{
     idx?: number,
     message: string,
-    writer: IWriter
-  }>
+    writer: IWriter,
+    isDeleted?: boolean
+  }>,
+  isDeleted?: boolean
 }
 
 export default IComment;

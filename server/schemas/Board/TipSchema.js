@@ -18,7 +18,9 @@ const commentSchema = new mongoose.Schema({
     idx: { type: Number},
     message: { type: String },
     writer: { type: writerSchema },
-  }]
+    isDeleted: { type: Boolean, default: false }
+  }],
+  isDeleted: { type: Boolean, default: false }
 });
 
 const tipSchema = new mongoose.Schema({
@@ -26,7 +28,7 @@ const tipSchema = new mongoose.Schema({
   category: { type: String, required: true },
   title: { type: String, required: true },
   content: { type: String, required: true },
-  writer: { type: writerSchema, required: false },
+  writer: { type: writerSchema, required: true },
   viewCount: { type: Number, required: false, default: 0},
   commentIdx: { type: Number, required: false, default: 0},
   commentList: [{ type: commentSchema, required: false, unique: false }],
@@ -41,12 +43,12 @@ tipSchema.plugin(autoIncrement.plugin, {
   increment: 1
 });
 
-// create new post
+// NOTE create new post
 tipSchema.statics.create = function (payload) {
   return new this(payload).save();
 }
 
-// update post
+// NOTE update post
 tipSchema.statics.updateBySeq = function (seq, post) {
   return this.findOneAndUpdate({
     seq: seq
@@ -58,12 +60,12 @@ tipSchema.statics.updateBySeq = function (seq, post) {
   });
 }
 
-// delete post
+// NOTE delete post
 tipSchema.statics.deleteBySeq = function (seq, post) {
   return this.deleteOne({seq: seq});
 }
 
-// add viewCount
+// NOTE add viewCount
 tipSchema.statics.addViewCount = function (seq) {
   return this.findOneAndUpdate({
     seq: seq
@@ -72,7 +74,7 @@ tipSchema.statics.addViewCount = function (seq) {
   });
 }
 
-// recommend
+// NOTE recommend
 tipSchema.statics.pushRecommendUser = function (seq, userid) {
   return this.findOneAndUpdate({
     seq: seq
@@ -84,7 +86,7 @@ tipSchema.statics.pushRecommendUser = function (seq, userid) {
     new: true
   });
 }
-// unRecommend
+// NOTE unRecommend
 tipSchema.statics.popRecommendUser = function (seq, userid) {
   return this.findOneAndUpdate({
     seq: seq,
@@ -98,22 +100,22 @@ tipSchema.statics.popRecommendUser = function (seq, userid) {
   })
 }
 
-// find all
+// NOTE find all
 tipSchema.statics.findAll = function () {
   return this.find({});
 }
 
-// find by filter
+// NOTE find by filter
 tipSchema.statics.findByFilter = function (filter) {
   return this.find(filter).sort({seq: -1});
 }
 
-// Get by seq
+// NOTE Get by seq
 tipSchema.statics.findOneBySeq = function (seq) {
   return this.findOne({seq: seq});
 }
 
-// Push Comment
+// NOTE Push Comment
 tipSchema.statics.createComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq
@@ -128,7 +130,7 @@ tipSchema.statics.createComment = function (postSeq, comment) {
   });
 }
 
-// Update Comment
+// NOTE Update Comment
 tipSchema.statics.updateComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq,
@@ -142,23 +144,28 @@ tipSchema.statics.updateComment = function (postSeq, comment) {
   })
 }
 
-// Delete Comment
+// NOTE Delete Comment
 tipSchema.statics.deleteComment = function (postSeq, commentIdx) {
   return this.findOneAndUpdate({
     seq: postSeq,
   }, {
-    $pull: {
-      commentList: {
-        idx: commentIdx
-      }
+    $set: {
+      'commentList.$.message': 'DELETED COMMENT',
+      'commentList.$.isDeleted': true ,
     }
+    // 댓글 완전 삭제 시 사용
+    // $pull: {
+    //   commentList: {
+    //     idx: commentIdx
+    //   }
+    // }
   }, {
     upsert: true, 
     new: true
   })
 }
 
-// Push Recomment
+// NOTE Push Recomment
 tipSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
   return this.findOne({
     seq: postSeq,
@@ -180,7 +187,7 @@ tipSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
   });
 }
 
-// Update Recomment
+// NOTE Update Recomment
 tipSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentList) {
   return this.findOneAndUpdate({
     seq: postSeq,
@@ -195,8 +202,7 @@ tipSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentList
   })
 }
 
-// Delete Recomment
-// tipSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentIdx) {
+// NOTE Delete Recomment
 tipSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentList) {
   return this.findOneAndUpdate({
     seq: postSeq,
@@ -205,13 +211,6 @@ tipSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentList
         idx: commentIdx, } }
   }, {
     'commentList.$.recommentList': recommentList
-    // 'commentList.$.recommentList': {
-    //   $pull: {
-    //     recommentList: {
-    //       idx: recommentIdx
-    //     }
-    //   }
-    // }
   }, {
     upsert: true, 
     new: true

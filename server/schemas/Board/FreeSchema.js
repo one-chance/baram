@@ -18,7 +18,9 @@ const commentSchema = new mongoose.Schema({
     idx: { type: Number},
     message: { type: String },
     writer: { type: writerSchema },
-  }]
+    isDeleted: { type: Boolean, default: false }
+  }],
+  isDeleted: { type: Boolean, default: false }
 });
 
 const freeSchema = new mongoose.Schema({
@@ -41,12 +43,12 @@ freeSchema.plugin(autoIncrement.plugin, {
   increment: 1
 });
 
-// create new post
+// NOTE NOTE create new post
 freeSchema.statics.create = function (payload) {
   return new this(payload).save();
 }
 
-// update post
+// NOTE update post
 freeSchema.statics.updateBySeq = function (seq, post) {
   return this.findOneAndUpdate({
     seq: seq
@@ -58,12 +60,12 @@ freeSchema.statics.updateBySeq = function (seq, post) {
   });
 }
 
-// delete post
+// NOTE delete post
 freeSchema.statics.deleteBySeq = function (seq, post) {
   return this.deleteOne({seq: seq});
 }
 
-// add viewCount
+// NOTE add viewCount
 freeSchema.statics.addViewCount = function (seq) {
   return this.findOneAndUpdate({
     seq: seq
@@ -72,7 +74,7 @@ freeSchema.statics.addViewCount = function (seq) {
   });
 }
 
-// recommend
+// NOTE recommend
 freeSchema.statics.pushRecommendUser = function (seq, userid) {
   return this.findOneAndUpdate({
     seq: seq
@@ -84,7 +86,7 @@ freeSchema.statics.pushRecommendUser = function (seq, userid) {
     new: true
   });
 }
-// unRecommend
+// NOTE unRecommend
 freeSchema.statics.popRecommendUser = function (seq, userid) {
   return this.findOneAndUpdate({
     seq: seq,
@@ -98,22 +100,22 @@ freeSchema.statics.popRecommendUser = function (seq, userid) {
   })
 }
 
-// find all
+// NOTE find all
 freeSchema.statics.findAll = function () {
   return this.find({});
 }
 
-// find by filter
+// NOTE find by filter
 freeSchema.statics.findByFilter = function (filter) {
   return this.find(filter).sort({seq: -1});
 }
 
-// Get by seq
+// NOTE Get by seq
 freeSchema.statics.findOneBySeq = function (seq) {
   return this.findOne({seq: seq});
 }
 
-// Push Comment
+// NOTE Push Comment
 freeSchema.statics.createComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq
@@ -128,7 +130,7 @@ freeSchema.statics.createComment = function (postSeq, comment) {
   });
 }
 
-// Update Comment
+// NOTE Update Comment
 freeSchema.statics.updateComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq,
@@ -142,23 +144,30 @@ freeSchema.statics.updateComment = function (postSeq, comment) {
   })
 }
 
-// Delete Comment
+// NOTE Delete Comment
 freeSchema.statics.deleteComment = function (postSeq, commentIdx) {
   return this.findOneAndUpdate({
     seq: postSeq,
+    commentList: {
+      $elemMatch: { idx: commentIdx } }
   }, {
-    $pull: {
-      commentList: {
-        idx: commentIdx
-      }
+    $set: {
+      'commentList.$.message': 'DELETED COMMENT',
+      'commentList.$.isDeleted': true ,
     }
+    // 댓글 완전 삭제 시 사용
+    // $pull: {
+    //   commentList: {
+    //     idx: commentIdx
+    //   }
+    // }
   }, {
     upsert: true, 
     new: true
   })
 }
 
-// Push Recomment
+// NOTE Push Recomment
 freeSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
   return this.findOne({
     seq: postSeq,
@@ -180,7 +189,7 @@ freeSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
   });
 }
 
-// Update Recomment
+// NOTE Update Recomment
 freeSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentList) {
   return this.findOneAndUpdate({
     seq: postSeq,
@@ -195,8 +204,7 @@ freeSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentLis
   })
 }
 
-// Delete Recomment
-// freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentIdx) {
+// NOTE Delete Recomment
 freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentList) {
   return this.findOneAndUpdate({
     seq: postSeq,
@@ -205,13 +213,6 @@ freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentLis
         idx: commentIdx, } }
   }, {
     'commentList.$.recommentList': recommentList
-    // 'commentList.$.recommentList': {
-    //   $pull: {
-    //     recommentList: {
-    //       idx: recommentIdx
-    //     }
-    //   }
-    // }
   }, {
     upsert: true, 
     new: true

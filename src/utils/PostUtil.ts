@@ -88,7 +88,9 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost) 
 export const DeletePost = async (_category: CategoryType, _seq: number) => {
   const res = await axios.delete(`/api/board/${_category}/post/${_seq}`, {
     headers: {
-      token: CommonUtil.getToken()
+      token: CommonUtil.getToken(),
+      key: CommonUtil.getNowKey(),
+      id: CommonUtil.getNowId()
     }
   })
   .then((res) => {
@@ -158,7 +160,8 @@ export const CreateComment = async (post: IPost, _comment: string) => {
   const comment: IComment = {
     idx: post.commentIdx,
     message: _comment,
-    writer: getWriter()
+    writer: getWriter(),
+    isDeleted: false
   }
 
   const res = await axios.post(`/api/board/${post.category}/comment`, {
@@ -217,7 +220,9 @@ export const EditComment = async (post: IPost, comment: IComment) => {
 export const DeleteComment = async (post: IPost, commentIdx: number) => {
   const res = await axios.delete(`/api/board/${post.category}/comment/${post.seq}/${commentIdx}`, {
     headers: {
-      token: CommonUtil.getToken()
+      token: CommonUtil.getToken(),
+      key: CommonUtil.getNowKey(),
+      id: CommonUtil.getNowId()
     }
   })
   .then((res) => {
@@ -310,7 +315,9 @@ export const DeleteRecomment = async (post: IPost, commentIdx: number, comment: 
     comment: comment
   }, {
     headers: {
-      token: CommonUtil.getToken()
+      token: CommonUtil.getToken(),
+      key: CommonUtil.getNowKey(),
+      id: CommonUtil.getNowId()
     }
   })
   .then((res) => {

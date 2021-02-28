@@ -273,27 +273,36 @@ router.post('/comment', (req, res) => {
   }
 
   TipSchema.createComment(seq, comment)
-  .then((post) => {
-    logger.info(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
-    res.status(200).send({
-      code: 200,
-      message: "댓글이 등록되었습니다.",
-      commentList: post.commentList,
-      commentIdx: post.commentIdx
-    });
-  
-    return true;
-  })
-  .catch((e) => {
-    logger.error(`COMMENT CREATE ERROR > ${e}`);
+    .then(post => {
+      const { key, id } = comment.writer;
+      UserWriteSchema.addComment(key, id, 'free', seq, commentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : ADD USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : ADD USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx}> ${e}`);
+        })
 
-    res.status(200).send({
-      code: 500,
-      message: "서버 오류가 발생했습니다.",
-    });
+      logger.info(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
+      res.status(200).send({
+        code: 200,
+        message: "댓글이 등록되었습니다.",
+        commentList: post.commentList,
+        commentIdx: post.commentIdx,
+      });
 
-    return false;
-  })
+      return true;
+    })
+    .catch((e) => {
+      logger.error(`COMMENT CREATE ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    })
 });
 
 /*
@@ -314,27 +323,27 @@ router.put('/comment', (req, res) => {
   comment.writer.lastEditDate = new Date();
 
   TipSchema.updateComment(post.seq, comment)
-  .then((post) => {
-    logger.info(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
-    res.status(200).send({
-      code: 200,
-      message: "댓글이 수정되었습니다.",
-      commentList: post.commentList,
-      comment: comment
-    });
-  
-    return true;
-  })
-  .catch((e) => {
-    logger.error(`COMMENT CREATE ERROR > ${e}`);
+    .then((post) => {
+      logger.info(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
+      res.status(200).send({
+        code: 200,
+        message: "댓글이 수정되었습니다.",
+        commentList: post.commentList,
+        comment: comment
+      });
+    
+      return true;
+    })
+    .catch((e) => {
+      logger.error(`COMMENT CREATE ERROR > ${e}`);
 
-    res.status(200).send({
-      code: 500,
-      message: "서버 오류가 발생했습니다.",
-    });
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
 
-    return false;
-  })
+      return false;
+    });
 });
 
 /*
@@ -348,30 +357,40 @@ router.put('/comment', (req, res) => {
 *        500: 서버 오류
 */
 router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
-  const postSeq =  req.params.postSeq;
+  const { key, id } = req.headers;
+  const seq = req.params.postSeq;
   const commentIdx = req.params.commentIdx;
 
-  TipSchema.deleteComment(postSeq, commentIdx)
-  .then((post) => {
-    logger.info(`[SUCCESS] : COMMENT DELETED SUCCESS`);
-    res.status(200).send({
-      code: 200,
-      message: "댓글이 삭제되었습니다.",
-      commentList: post.commentList
-    });
-  
-    return true;
-  })
-  .catch((e) => {
-    logger.error(`COMMENT CREATE ERROR > ${e}`);
+  TipSchema.deleteComment(seq, commentIdx)
+    .then(post => {
+      // 사용자 작성 댓글 삭제
+      UserWriteSchema.deleteComment(key, id, 'free', seq, commentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : DELETE USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : DELETE USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx}> ${e}`);
+        })
 
-    res.status(200).send({
-      code: 500,
-      message: "서버 오류가 발생했습니다.",
-    });
+      logger.info(`[SUCCESS] : COMMENT DELETED SUCCESS`);
+      res.status(200).send({
+        code: 200,
+        message: "댓글이 삭제되었습니다.",
+        commentList: post.commentList,
+      });
 
-    return false;
-  })
+      return true;
+    })
+    .catch(e => {
+      logger.error(`COMMENT CREATE ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    })
 });
 
 /*
@@ -386,42 +405,50 @@ router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
 */
 router.use('/recomment', authMiddleware);
 router.post('/recomment', (req, res) => {
-  const seq =  req.body.seq;
+  const seq = req.body.seq;
   const commentIdx = req.body.commentIdx;
   const recommentIdx = req.body.recommentIdx;
-  // const recomment = req.body.recomment;
   const recomment = Object.assign(req.body.recomment, {idx: recommentIdx});
   recomment.writer.createDate = new Date();
   recomment.writer.lastEditDate = new Date();
   
   TipSchema.createRecomment(seq, commentIdx, recomment)
-  .then((post) => {
-    logger.info(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
+    .then(post => {
+      const { key, id } = recomment.writer;
+      UserWriteSchema.addRecomment(key, id, 'free', seq, commentIdx, recommentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : ADD USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : ADD USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
+        })
 
-    const comment = post.commentList.filter((com) => {
-      return com.idx === commentIdx;
-    })[0];
+      logger.info(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
 
-    res.status(200).send({
-      code: 200,
-      message: "답글이 등록되었습니다.",
-      recomment: recomment,
-      commentList: post.commentList,
-      recommentIdx: comment.recommentIdx+1
-    });
-  
-    return true;
-  })
-  .catch((e) => {
-    logger.error(`RECOMMENT CREATE ERROR > ${e}`);
+      const comment = post.commentList.filter(com => {
+        return com.idx === commentIdx;
+      })[0];
 
-    res.status(200).send({
-      code: 500,
-      message: "서버 오류가 발생했습니다.",
-    });
+      res.status(200).send({
+        code: 200,
+        message: "답글이 등록되었습니다.",
+        recomment: recomment,
+        commentList: post.commentList,
+        recommentIdx: comment.recommentIdx + 1,
+      });
 
-    return false;
-  })
+      return true;
+    })
+    .catch(e => {
+      logger.error(`RECOMMENT CREATE ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    })
 });
 
 /*
@@ -437,7 +464,7 @@ router.post('/recomment', (req, res) => {
 */
 router.use('/recomment', authMiddleware);
 router.put('/recomment', (req, res) => {
-  const post =  req.body.post;
+  const post = req.body.post;
   const commentIdx = req.body.commentIdx;
   const comment = req.body.comment;
   const recomment = req.body.recomment;
@@ -450,28 +477,28 @@ router.put('/recomment', (req, res) => {
   });
 
   TipSchema.updateRecomment(post.seq, commentIdx, comment.recommentList)
-  .then((post) => {
-    logger.info(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
+    .then((post) => {
+      logger.info(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
 
-    res.status(200).send({
-      code: 200,
-      message: "답글이 수정되었습니다.",
-      commentList: post.commentList,
-      recommentList: comment.recommentList
-    });
-  
-    return true;
-  })
-  .catch((e) => {
-    logger.error(`RECOMMENT UPDATE ERROR > ${e}`);
+      res.status(200).send({
+        code: 200,
+        message: "답글이 수정되었습니다.",
+        commentList: post.commentList,
+        recommentList: comment.recommentList
+      });
+    
+      return true;
+    })
+    .catch((e) => {
+      logger.error(`RECOMMENT UPDATE ERROR > ${e}`);
 
-    res.status(200).send({
-      code: 500,
-      message: "서버 오류가 발생했습니다.",
-    });
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
 
-    return false;
-  })
+      return false;
+    })
 });
 
 /*
@@ -488,40 +515,52 @@ router.put('/recomment', (req, res) => {
 */
 router.use('/recomment', authMiddleware);
 router.put('/recomment/:recommentIdx', (req, res) => {
+  const { key, id } = req.headers;
+
   const recommentIdx = req.params.recommentIdx;
-  const post =  req.body.post;
+  const post = req.body.post;
   const commentIdx = req.body.commentIdx;
   const comment = req.body.comment;
 
   comment.recommentList.map((recomment, idx) => {
-    if (recomment.idx === Number.parseInt(recommentIdx)) {
-      comment.recommentList.splice(idx, 1);
+    if (recomment.idx === Number(recommentIdx)) {
+      comment.recommentList[idx].message = 'DELETED RECOMMENT';
+      comment.recommentList[idx].isDeleted = true;
     }
-  });
+  })
 
   TipSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
-  .then((post) => {
-    logger.info(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
+    .then(post => {
+      const { seq } = post;
+      UserWriteSchema.deleteRecomment(key, id, 'free', seq, commentIdx, recommentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : DELETE USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : DELETE USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
+        })
 
-    res.status(200).send({
-      code: 200,
-      message: "답글이 삭제되었습니다.",
-      commentList: post.commentList,
-      recommentList: comment.recommentList
-    });
-  
-    return true;
-  })
-  .catch((e) => {
-    logger.error(`RECOMMENT DELETE ERROR > ${e}`);
+      logger.info(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
 
-    res.status(200).send({
-      code: 500,
-      message: "서버 오류가 발생했습니다.",
-    });
+      res.status(200).send({
+        code: 200,
+        message: "답글이 삭제되었습니다.",
+        commentList: post.commentList,
+        recommentList: comment.recommentList,
+      });
 
-    return false;
-  })
+      return true;
+    })
+    .catch(e => {
+      logger.error(`RECOMMENT DELETE ERROR > ${e}`);
+
+      res.status(200).send({
+        code: 500,
+        message: "서버 오류가 발생했습니다.",
+      });
+
+      return false;
+    })
 });
 
 /*
@@ -539,7 +578,6 @@ router.get('/find', (req, res) => {
   if (req.query.title) {
     filter = {
       title: {$regex: req.query.title}
-      // title: new RegExp((req.query.title), "i")
     }
   }
   if (req.query.content) {

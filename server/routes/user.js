@@ -9,9 +9,10 @@ const logger = require("../winston");
 const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
 const AccountInfoSchema = require("../schemas/User/AccountInfoSchema");
+const UserWriteSchema = require("../schemas/User/UserWriteSchema");
 
 /*
- *    사용자 서버, 닉네임 검사
+ *    NOTE 사용자 서버, 닉네임 검사
  *    TYPE : POST
  *    URI : /api/user/check
  *    HEADER: { "token": token }
@@ -82,7 +83,7 @@ router.post("/check", (req, res) => {
 });
 
 /*
- *    사용자 정보 인증
+ *    NOTE 사용자 정보 인증
  *    TYPE : PUT
  *    URI : /api/user/auth
  *    HEADER: { "token": token }
@@ -150,7 +151,7 @@ router.put("/auth", (req, res) => {
 });
 
 /*
- *    사용자 정보수정
+ *    NOTE 사용자 정보수정
  *    TYPE : PUT
  *    URI : /api/user/info
  *    HEADER: { "token": token }
@@ -199,7 +200,7 @@ router.put("/info", (req, res) => {
 });
 
 /*
- *    사용자 정보조회
+ *    NOTE 사용자 정보조회
  *    TYPE : GET
  *    URI : /api/user/find
  *    HEADER: { "token": token }
@@ -246,7 +247,7 @@ router.get("/find", (req, res) => {
 });
 
 /*
- *    대표캐릭터 설정
+ *    NOTE 대표캐릭터 설정
  *    TYPE : PUT
  *    URI : /api/user/titleaccount
  *    HEADER: { "token": token }
@@ -296,7 +297,7 @@ router.put("/titleaccount", (req, res) => {
 });
 
 /*
- *    비밀번호 변경
+ *    NOTE 비밀번호 변경
  *    TYPE : PUT
  *    URI : /api/user/password
  *    HEADER: { "token": token }
@@ -374,7 +375,7 @@ router.put("/password", (req, res) => {
 });
 
 /*
- *    비밀번호 일치 확인
+ *    NOTE 비밀번호 일치 확인
  *    TYPE : POST
  *    URI : /api/user/password
  *    HEADER: { "token": token }
@@ -434,7 +435,7 @@ router.post("/password", (req, res) => {
 });
 
 /*
- *    회원 탈퇴
+ *    NOTE 회원 탈퇴
  *    TYPE : DELETE
  *    URI : /api/user/info
  *    HEADER: { "token": token, "id", "password" }

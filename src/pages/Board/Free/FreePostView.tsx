@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
+import { CommentListState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -15,6 +16,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import PostTitle from "components/Board/PostTitle";
 import PostContent from "components/Board/PostContent";
 import PostComment from "components/Board/PostComment";
+import PostCommentList from "components/Board/PostCommentList";
 
 import IPost from "interfaces/Board/IPost";
 import { getPost, DeletePost } from "utils/PostUtil";
@@ -23,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: "10px",
     width: "100%",
+    marginBottom: '50px'
   },
   editBox: {
     marginTop: "10px",
@@ -37,7 +40,7 @@ const category = "free";
 function FreeBoard({ match }: any) {
   const classes = useStyles();
   const { seq } = match.params;
-
+  const [commentList, setCommentList] = useRecoilState(CommentListState);
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
@@ -47,6 +50,11 @@ function FreeBoard({ match }: any) {
   useEffect(() => {
     _onLoad();
   }, []);
+
+  useEffect(() => {
+    if (post && post.commentList && post.commentList.length > 0)
+      setCommentList(post.commentList);
+  }, [post]);
 
   const _onLoad = async () => {
     const res = await getPost(category, seq);
@@ -108,6 +116,7 @@ function FreeBoard({ match }: any) {
           </Box>
           <PostContent post={post} />
           <PostComment post={post} />
+          <PostCommentList post={post} commentList={commentList} />
           <Dialog open={openConfirm} onClose={_onCloseConfirm} aria-labelledby='alert-dialog-title' aria-describedby='alert-dialog-description'>
             <DialogTitle id='alert-dialog-title'>{"정말 삭제하시겠습니까?"}</DialogTitle>
             <DialogContent>

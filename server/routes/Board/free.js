@@ -5,9 +5,10 @@ const authMiddleware = require("../../middleware/auth");
 const logger = require('../../winston');
 
 const FreeSchema = require("../../schemas/Board/FreeSchema");
+const UserWriteSchema = require("../../schemas/User/UserWriteSchema");
 
 /*
- *    NOTE 글쓰기
+ *    NOTE 게시글 생성
  *    TYPE : POST
  *    URI : /api/board/free/post
  *    HEADER: { "token": token }
@@ -42,6 +43,17 @@ router.post("/post", (req, res) => {
     return post;
   })
     .then(post => {
+      
+      const { key, id } = req.body.post.writer;
+      const { category, seq } = post;
+      UserWriteSchema.addPost(key, id, category, seq)
+        .then(() => {
+          logger.info(`[SUCCESS] : ADD USERWRITE POST : [${key}]${id} - ${category} : ${seq}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : ADD USERWRITE POST ERROR [${key}]${id} - ${category} : ${seq} > ${e}`);
+        })
+        
       logger.info(`[SUCCESS] : ${post.title} CREATED SUCCESS`);
       res.status(200).send({
         code: 200,
@@ -129,11 +141,21 @@ router.put("/post", (req, res) => {
  */
 router.use("/post/:seq", authMiddleware);
 router.delete("/post/:seq", (req, res) => {
+  const { key, id } = req.headers;
   const seq = req.params.seq;
 
   FreeSchema.deleteBySeq(seq)
     .then(deletedCount => {
       if (deletedCount) {
+
+        UserWriteSchema.deletePost(key, id, 'free', seq)
+          .then(() => {
+            logger.info(`[SUCCESS] : DELETE USERWRITE POST [${key}]${id} - : free : ${seq}`);
+          })
+          .catch(e => {
+            logger.error(`[ERROR] : DELETE USERWRITE POST ERROR [${key}]${id} - free : ${seq} > ${e}`);
+          })
+          
         logger.info(`[SUCCESS] : POST NUMBER ${seq} DELETED SUCCESS`);
         res.status(200).send({
           code: 200,
@@ -270,6 +292,15 @@ router.post("/comment", (req, res) => {
 
   FreeSchema.createComment(seq, comment)
     .then(post => {
+      const { key, id } = comment.writer;
+      UserWriteSchema.addComment(key, id, 'free', seq, commentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : ADD USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : ADD USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx}> ${e}`);
+        })
+
       logger.info(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
       res.status(200).send({
         code: 200,
@@ -344,11 +375,21 @@ router.put("/comment", (req, res) => {
  *        500: 서버 오류
  */
 router.delete("/comment/:postSeq/:commentIdx", (req, res) => {
-  const postSeq = req.params.postSeq;
+  const { key, id } = req.headers;
+  const seq = req.params.postSeq;
   const commentIdx = req.params.commentIdx;
 
-  FreeSchema.deleteComment(postSeq, commentIdx)
+  FreeSchema.deleteComment(seq, commentIdx)
     .then(post => {
+      // 사용자 작성 댓글 삭제
+      UserWriteSchema.deleteComment(key, id, 'free', seq, commentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : DELETE USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : DELETE USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx}> ${e}`);
+        })
+
       logger.info(`[SUCCESS] : COMMENT DELETED SUCCESS`);
       res.status(200).send({
         code: 200,
@@ -385,13 +426,21 @@ router.post("/recomment", (req, res) => {
   const seq = req.body.seq;
   const commentIdx = req.body.commentIdx;
   const recommentIdx = req.body.recommentIdx;
-  // const recomment = req.body.recomment;
   const recomment = Object.assign(req.body.recomment, { idx: recommentIdx });
   recomment.writer.createDate = new Date();
   recomment.writer.lastEditDate = new Date();
 
   FreeSchema.createRecomment(seq, commentIdx, recomment)
     .then(post => {
+      const { key, id } = recomment.writer;
+      UserWriteSchema.addRecomment(key, id, 'free', seq, commentIdx, recommentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : ADD USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : ADD USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
+        })
+
       logger.info(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
 
       const comment = post.commentList.filter(com => {
@@ -484,19 +533,31 @@ router.put("/recomment", (req, res) => {
  */
 router.use("/recomment", authMiddleware);
 router.put("/recomment/:recommentIdx", (req, res) => {
+  const { key, id } = req.headers;
+
   const recommentIdx = req.params.recommentIdx;
   const post = req.body.post;
   const commentIdx = req.body.commentIdx;
   const comment = req.body.comment;
 
   comment.recommentList.map((recomment, idx) => {
-    if (recomment.idx === Number.parseInt(recommentIdx)) {
-      comment.recommentList.splice(idx, 1);
+    if (recomment.idx === Number(recommentIdx)) {
+      comment.recommentList[idx].message = 'DELETED RECOMMENT';
+      comment.recommentList[idx].isDeleted = true;
     }
-  });
+  })
 
   FreeSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
     .then(post => {
+      const { seq } = post;
+      UserWriteSchema.deleteRecomment(key, id, 'free', seq, commentIdx, recommentIdx)
+        .then(() => {
+          logger.info(`[SUCCESS] : DELETE USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}`);
+        })
+        .catch(e => {
+          logger.error(`[ERROR] : DELETE USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
+        })
+
       logger.info(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
 
       res.status(200).send({

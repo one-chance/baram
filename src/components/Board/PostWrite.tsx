@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
@@ -108,14 +108,15 @@ function PostWrite(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
-  const refTitle = React.useRef<any>();
+  const refTitle = useRef<any>();
 
-  const [openConfirmCancle, setOpenConfirmCancle] = React.useState(false);
-  const [openPreview, setOpenPreview] = React.useState(false);
-  const [category, setCategory] = React.useState<CategoryType>(tab);
-  const [title, setTitle] = React.useState("");
-  const [content, setContent] = React.useState("");
-  const [post, setPost] = React.useState<IPost>();
+  const [openConfirmCancle, setOpenConfirmCancle] = useState(false);
+  const [openPreview, setOpenPreview] = useState(false);
+  const [category, setCategory] = useState<CategoryType>(tab);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const refContent = useRef();
+  const [post, setPost] = useState<IPost>();
 
   const _onCancle = () => {
     setCategory("free");
