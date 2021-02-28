@@ -116,10 +116,8 @@ export default function Equip() {
   const [tempPower, setTempPower] = useState<number>(0);
   const [reinforce, setReinforce] = useState<number>(0);
 
-  const [searchName, setsearchName] = useState(""); // 검색할 장비 이름 (이름용)
-  const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
-  const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
-  const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
+  const [searchName, setsearchName] = useState(""); // 검색할 장비 이름
+  const [options, setOptions] = useState({ op1: 0, op2: 0, op3: 0 }); // 검색할 장비 옵션
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]);
 
   var menuList = [
@@ -177,8 +175,7 @@ export default function Equip() {
 
   // 이름 직접 검색
   const searchByName = async (name: string, parts: number) => {
-    setOption1(0);
-    setOption3(0);
+    setOptions({ ...options, op1: 0, op3: 0 });
 
     if (name === "") {
       setItemList([]);
@@ -193,13 +190,13 @@ export default function Equip() {
 
   // 리스트 통해서 검색
   const searchByList = async () => {
-    if (option1 === 0 || option2 === 0 || option3 === 0) {
+    if (options.op1 === 0 || options.op2 === 0 || options.op3 === 0) {
       alert("세부 옵션을 모두 선택해주세요.");
       return;
     }
     setsearchName("");
 
-    const res = await SearchItem("", option1, option2, option3);
+    const res = await SearchItem("", options.op1, options.op2, options.op3);
     const temp = Array<IItemInfo>();
     res.forEach(r => temp.push(r));
     setItemList(temp);
@@ -208,19 +205,19 @@ export default function Equip() {
   // 착용 부위를 고정하는 함수
   const fixedOption = (num: number) => {
     if (num + 1 === 9) {
-      setOption2(7);
+      setOptions({ ...options, op2: 7 });
     } else if (num + 1 === 10) {
-      setOption2(9);
+      setOptions({ ...options, op2: 9 });
     } else if (num + 1 === 11) {
-      setOption2(10);
+      setOptions({ ...options, op2: 10 });
     } else if (num + 1 === 12) {
-      setOption2(9);
+      setOptions({ ...options, op2: 9 });
     } else if (num + 1 === 13) {
-      setOption2(11);
+      setOptions({ ...options, op2: 11 });
     } else if (num + 1 === 14) {
-      setOption2(12);
+      setOptions({ ...options, op2: 12 });
     } else {
-      setOption2(num + 1);
+      setOptions({ ...options, op2: num + 1 });
     }
 
     if (equipSlotList[num].type === equipSlotList[num].name) {
@@ -247,8 +244,8 @@ export default function Equip() {
   };
 
   useEffect(() => {
-    setOption1(0);
-    setOption3(0);
+    setOptions({ ...options, op1: 0, op3: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dlgItem.isOpen]);
 
   return (
@@ -372,10 +369,10 @@ export default function Equip() {
             <Select
               variant='outlined'
               className={classes.select}
-              value={option1}
+              value={options.op1}
               /* MenuProps={{ disableScrollLock: true }} */
               onChange={e => {
-                setOption1(Number(e.target.value));
+                setOptions({ ...options, op1: Number(e.target.value) });
               }}>
               {menuList[0].map((name: string, idx: number) => {
                 return (
@@ -386,7 +383,7 @@ export default function Equip() {
               })}
             </Select>
 
-            <Select variant='outlined' className={classes.select} value={option2} disabled={true} style={{ width: "100px" }}>
+            <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px" }}>
               {menuList[1].map((name: string, idx: number) => {
                 return (
                   <Menus value={idx} key={idx} disableGutters={true}>
@@ -399,9 +396,9 @@ export default function Equip() {
             <Select
               variant='outlined'
               className={classes.select}
-              value={option3}
+              value={options.op3}
               onChange={e => {
-                setOption3(Number(e.target.value));
+                setOptions({ ...options, op3: Number(e.target.value) });
               }}
               style={{ width: "80px" }}>
               {menuList[2].map((name: string, idx: number) => {

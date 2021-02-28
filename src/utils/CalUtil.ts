@@ -98,8 +98,7 @@ export const SearchItem = async (_name: string, _op1: number, _op2: number, _op3
 * 아이템 이름으로 옵션 검색하기
 */
 export const SearchOptionByName = async (_name: string) => {
-  var itemOptions : IItemOptionInfo | null;
-  itemOptions = null;
+  var itemOptions: any;
 
   await axios.get('/api/cal/searchoption', {
     params: {
@@ -107,7 +106,7 @@ export const SearchOptionByName = async (_name: string) => {
     }
   })
   .then((res) => {
-    itemOptions = res.data.items as IItemOptionInfo;
+    itemOptions = Object.values(res.data.items);
     return true;
   })
   .catch((e) => {
