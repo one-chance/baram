@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 const useStyles = makeStyles({
   petText: {
     width: "100px",
-    margin: "10px",
+    margin: "5px 10px",
     float: "left",
     "& input": {
       height: "40px",

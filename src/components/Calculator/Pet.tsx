@@ -47,6 +47,17 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
 
+    petText2: {
+      width: "35px",
+      height: "35px",
+      lineHeight: "35px",
+      margin: "5px 5px 5px 0",
+      float: "left",
+      textDecoration: "none",
+      textAlign: "center",
+      color: "black",
+    },
+
     petInput: {
       width: "80px",
       float: "left",
@@ -55,6 +66,26 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "40px",
         padding: "0",
         textAlign: "center",
+      },
+      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+        display: "none",
+      },
+    },
+
+    petInput2: {
+      width: "35px",
+      float: "left",
+      margin: "5px 0",
+      "&:focus, &:hover, &:visited, &:link, &:active": {
+        textDecoration: "none",
+      },
+      "& input": {
+        height: "35px",
+        padding: "0",
+        textAlign: "center",
+      },
+      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+        display: "none",
       },
     },
 
@@ -140,9 +171,9 @@ export default function Pet() {
       <Container style={{ width: "100%", height: "50px", padding: "0 75px", margin: "0" }}>
         <TextField
           variant='outlined'
-          type='tel'
+          type='number'
           value={petInfo.grade}
-          inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
+          className={classes.petInput2}
           onChange={e => {
             if (parseInt(e.target.value) < 1 || parseInt(e.target.value) > 9) {
               setPetInfo({ ...petInfo, grade: "9" });
@@ -150,25 +181,12 @@ export default function Pet() {
               setPetInfo({ ...petInfo, grade: e.target.value });
             }
           }}
-          style={{ width: "35px", float: "left", margin: "5px 0" }}
         />
-        <Link
-          style={{
-            width: "35px",
-            height: "35px",
-            lineHeight: "35px",
-            margin: "5px 5px 5px 0",
-            float: "left",
-            textDecoration: "none",
-            textAlign: "center",
-            color: "black",
-          }}>
-          등급
-        </Link>
+        <Link className={classes.petText2}>등급</Link>
         <TextField
           variant='outlined'
-          type='tel'
-          inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
+          type='number'
+          className={classes.petInput2}
           value={petInfo.level}
           onChange={e => {
             if (parseInt(e.target.value) < 1 || parseInt(e.target.value) > 99) {
@@ -177,32 +195,23 @@ export default function Pet() {
               setPetInfo({ ...petInfo, level: e.target.value });
             }
           }}
-          style={{ width: "35px", float: "left", margin: "5px 0 0 5px" }}
         />
-        <Link
-          style={{
-            width: "35px",
-            lineHeight: "35px",
-            margin: "5px 0",
-            float: "left",
-            textDecoration: "none",
-            textAlign: "center",
-            color: "black",
-          }}>
-          레벨
-        </Link>
+        <Link className={classes.petText2}>레벨</Link>
       </Container>
       <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
         <Link className={classes.petText}>무 기</Link>
         <TextField
           variant='outlined'
-          type='tel'
+          type='number'
           value={petInfo.weaphon === "0" ? "" : petInfo.weaphon}
           className={classes.petInput}
           placeholder='전투력'
           onChange={e => {
             if (e.target.value.length > 4) {
               setPetInfo({ ...petInfo, weaphon: "0" });
+              return;
+            } else if (Number(e.target.value) < 0) {
+              setPetInfo({ ...petInfo, weaphon: e.target.value.split("-")[1] });
               return;
             }
 
@@ -232,13 +241,16 @@ export default function Pet() {
         <Link className={classes.petText}>투 구</Link>
         <TextField
           variant='outlined'
-          type='tel'
+          type='number'
           className={classes.petInput}
           value={petInfo.helmet === "0" ? "" : petInfo.helmet}
           placeholder='전투력'
           onChange={e => {
             if (e.target.value.length > 4) {
               setPetInfo({ ...petInfo, helmet: "0" });
+              return;
+            } else if (Number(e.target.value) < 0) {
+              setPetInfo({ ...petInfo, helmet: e.target.value.split("-")[1] });
               return;
             }
 
@@ -266,13 +278,16 @@ export default function Pet() {
         <Link className={classes.petText}>갑 옷</Link>
         <TextField
           variant='outlined'
-          type='tel'
+          type='number'
           className={classes.petInput}
           value={petInfo.armor === "0" ? "" : petInfo.armor}
           placeholder='전투력'
           onChange={e => {
             if (e.target.value.length > 4) {
               setPetInfo({ ...petInfo, armor: "0" });
+              return;
+            } else if (Number(e.target.value) < 0) {
+              setPetInfo({ ...petInfo, armor: e.target.value.split("-")[1] });
               return;
             }
 
@@ -299,11 +314,19 @@ export default function Pet() {
         <Link className={classes.petText}>성 물</Link>
         <TextField
           variant='outlined'
-          type='tel'
+          type='number'
           className={classes.petInput}
           value={petInfo.handL === "0" ? "" : petInfo.handL}
           placeholder='전투력'
           onChange={e => {
+            if (e.target.value.length > 4) {
+              setPetInfo({ ...petInfo, handL: "0" });
+              return;
+            } else if (Number(e.target.value) < 0) {
+              setPetInfo({ ...petInfo, handL: e.target.value.split("-")[1] });
+              return;
+            }
+
             if (e.target.value === "" || e.target.value === "-") {
               setPetInfo({ ...petInfo, handL: "0" });
             } else {
@@ -330,11 +353,19 @@ export default function Pet() {
         <Link className={classes.petText}>성 물</Link>
         <TextField
           variant='outlined'
-          type='tel'
+          type='number'
           value={petInfo.handR === "0" ? "" : petInfo.handR}
           className={classes.petInput}
           placeholder='전투력'
           onChange={e => {
+            if (e.target.value.length > 4) {
+              setPetInfo({ ...petInfo, handR: "0" });
+              return;
+            } else if (Number(e.target.value) < 0) {
+              setPetInfo({ ...petInfo, handR: e.target.value.split("-")[1] });
+              return;
+            }
+
             if (e.target.value === "" || e.target.value === "-") {
               setPetInfo({ ...petInfo, handR: "0" });
             } else {
@@ -352,6 +383,7 @@ export default function Pet() {
           ?
         </Button>
       </Container>
+
       <Dialog
         open={openHelper}
         onClose={() => {

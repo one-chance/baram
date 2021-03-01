@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import AbilityState from "state/Calculator/Ability/AbilityState";
+import CharState from "state/Calculator/Ability/CharState";
+import EquipState from "state/Calculator/Ability/EquipState";
+import EngraveState from "state/Calculator/Ability/EngraveState";
+import GoldState from "state/Calculator/Ability/GoldState";
+import AnimalState from "state/Calculator/Ability/AnimalState";
+import AwakState from "state/Calculator/Ability/AwakState";
+import FamilyState from "state/Calculator/Ability/FamilyState";
+import PetState from "state/Calculator/Ability/PetState";
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -41,7 +51,15 @@ const useStyles = makeStyles({
 
 export default function Ability() {
   const classes = useStyles();
-  const [statusList, setStatusList] = useState<Array<number>>([0, 0, 0, 0, 0, 0]);
+  const statusList = useRecoilValue(AbilityState);
+  const charStat = useRecoilValue(CharState);
+  const equipStat = useRecoilValue(EquipState);
+  const engraveStat = useRecoilValue(EngraveState);
+  const goldStat = useRecoilValue(GoldState);
+  const animalStat = useRecoilValue(AnimalState);
+  const awakStat = useRecoilValue(AwakState);
+  const familyStat = useRecoilValue(FamilyState);
+  const petStat = useRecoilValue(PetState);
 
   var statType = ["캐릭터 스텟", "일반 장비", "각인 스텟", "돋 스텟", "신수 장비", "신체 각성", "가문력"];
   var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"];
@@ -77,7 +95,7 @@ export default function Ability() {
               <Grid id='char' item className={classes.title}>
                 캐릭터
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {charStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
@@ -89,7 +107,7 @@ export default function Ability() {
               <Grid id='equip' item className={classes.title}>
                 장비
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {equipStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
@@ -101,7 +119,7 @@ export default function Ability() {
               <Grid id='equip' item className={classes.title}>
                 각인
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {engraveStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
@@ -113,7 +131,7 @@ export default function Ability() {
               <Grid id='equip' item className={classes.title}>
                 황돋
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {goldStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
@@ -125,7 +143,7 @@ export default function Ability() {
               <Grid id='equip' item className={classes.title}>
                 신수
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {animalStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
@@ -137,7 +155,7 @@ export default function Ability() {
               <Grid id='equip' item className={classes.title}>
                 신체각성
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {awakStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
@@ -149,7 +167,7 @@ export default function Ability() {
               <Grid id='equip' item className={classes.title}>
                 가문력
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {familyStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
@@ -161,7 +179,7 @@ export default function Ability() {
               <Grid id='equip' item className={classes.title}>
                 환수
               </Grid>
-              {statusList.map((stat: number, idx: number) => {
+              {petStat.map((stat: number, idx: number) => {
                 return (
                   <Grid item key={idx} className={classes.title}>
                     {stat}
