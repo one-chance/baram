@@ -255,14 +255,12 @@ router.post("/post/unrecommend/:seq", (req, res) => {
 */
 router.use('/comment', authMiddleware);
 router.post('/comment', (req, res) => {
-  const seq =  req.body.seq;
-  const commentIdx = req.body.commentIdx;
-  const comment = Object.assign(req.body.comment, {idx: commentIdx});
-
+  const { seq, commentCount, comment } = req.body;
+  comment.idx = commentCount;
   comment.writer.createDate = new Date();
   comment.writer.lastEditDate = new Date();
 
-  if ( !comment.writer.id || !comment.writer.key ) {
+  if (!comment.writer.id || !comment.writer.key) {
     logger.info(`[FAILED] : COMMENT CREATED ERROR - NOT FOUND USER INFORMATION`);
     res.status(200).send({
       code: 401,
@@ -276,12 +274,13 @@ router.post('/comment', (req, res) => {
   TipSchema.createComment(seq, comment)
     .then(post => {
       const { key, id } = comment.writer;
-      UserWriteSchema.addComment(key, id, 'free', seq, commentIdx)
+
+      UserWriteSchema.addComment(key, id, 'tip', seq, commentCount)
         .then(() => {
-          logger.info(`[SUCCESS] : ADD USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentIdx}`);
+          logger.info(`[SUCCESS] : ADD USERWRITE COMMENT : [${key}]${id} - tip : ${seq} : ${commentCount}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : ADD USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx}> ${e}`);
+          logger.error(`[ERROR] : ADD USERWRITE COMMENT ERROR [${key}]${id} - tip : ${seq} : ${commentCount}> ${e}`);
         })
 
       logger.info(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
@@ -289,7 +288,7 @@ router.post('/comment', (req, res) => {
         code: 200,
         message: "댓글이 등록되었습니다.",
         commentList: post.commentList,
-        commentIdx: post.commentIdx,
+        commentCount: commentCount+1,
       });
 
       return true;
@@ -319,23 +318,21 @@ router.post('/comment', (req, res) => {
 */
 router.use('/comment', authMiddleware);
 router.put('/comment', (req, res) => {
-  const post =  req.body.post;
-  const comment = req.body.comment;
+  const { post, comment } = req.body;
   comment.writer.lastEditDate = new Date();
 
   TipSchema.updateComment(post.seq, comment)
-    .then((post) => {
+    .then(post => {
       logger.info(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
       res.status(200).send({
         code: 200,
         message: "댓글이 수정되었습니다.",
-        commentList: post.commentList,
-        comment: comment
+        comment: comment,
       });
     
       return true;
     })
-    .catch((e) => {
+    .catch(e => {
       logger.error(`COMMENT CREATE ERROR > ${e}`);
 
       res.status(200).send({
@@ -365,12 +362,12 @@ router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
   TipSchema.deleteComment(seq, commentIdx)
     .then(post => {
       // 사용자 작성 댓글 삭제
-      UserWriteSchema.deleteComment(key, id, 'free', seq, commentIdx)
+      UserWriteSchema.deleteComment(key, id, 'tip', seq, commentIdx)
         .then(() => {
-          logger.info(`[SUCCESS] : DELETE USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentIdx}`);
+          logger.info(`[SUCCESS] : DELETE USERWRITE COMMENT : [${key}]${id} - tip : ${seq} : ${commentIdx}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : DELETE USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx}> ${e}`);
+          logger.error(`[ERROR] : DELETE USERWRITE COMMENT ERROR [${key}]${id} - tip : ${seq} : ${commentIdx}> ${e}`);
         })
 
       logger.info(`[SUCCESS] : COMMENT DELETED SUCCESS`);
@@ -406,36 +403,29 @@ router.delete('/comment/:postSeq/:commentIdx', (req, res) => {
 */
 router.use('/recomment', authMiddleware);
 router.post('/recomment', (req, res) => {
-  const seq = req.body.seq;
-  const commentIdx = req.body.commentIdx;
-  const recommentIdx = req.body.recommentIdx;
-  const recomment = Object.assign(req.body.recomment, {idx: recommentIdx});
+  const { seq, commentIdx, recommentCount, recomment } = req.body;
+  recomment.idx = recommentCount;
   recomment.writer.createDate = new Date();
   recomment.writer.lastEditDate = new Date();
-  
+
   TipSchema.createRecomment(seq, commentIdx, recomment)
     .then(post => {
       const { key, id } = recomment.writer;
-      UserWriteSchema.addRecomment(key, id, 'free', seq, commentIdx, recommentIdx)
+      UserWriteSchema.addRecomment(key, id, 'tip', seq, commentIdx, recommentCount)
         .then(() => {
-          logger.info(`[SUCCESS] : ADD USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}`);
+          logger.info(`[SUCCESS] : ADD USERWRITE RECOMMENT : [${key}]${id} - tip : ${seq} : ${commentIdx} : ${recommentCount}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : ADD USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
+          logger.error(`[ERROR] : ADD USERWRITE RECOMMENT ERROR [${key}]${id} - tip : ${seq} : ${commentIdx} : ${recommentCount}> ${e}`);
         })
 
       logger.info(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
-
-      const comment = post.commentList.filter(com => {
-        return com.idx === commentIdx;
-      })[0];
 
       res.status(200).send({
         code: 200,
         message: "답글이 등록되었습니다.",
         recomment: recomment,
-        commentList: post.commentList,
-        recommentIdx: comment.recommentIdx + 1,
+        recommentCount: recommentCount+1,
       });
 
       return true;
@@ -465,27 +455,17 @@ router.post('/recomment', (req, res) => {
 */
 router.use('/recomment', authMiddleware);
 router.put('/recomment', (req, res) => {
-  const post = req.body.post;
-  const commentIdx = req.body.commentIdx;
-  const comment = req.body.comment;
-  const recomment = req.body.recomment;
+  const { post, commentIdx, recomment } = req.body;
   recomment.writer.lastEditDate = new Date();
 
-  comment.recommentList.map((rec, idx) => {
-    if (rec.idx === recomment.idx) {
-      Object.assign(comment.recommentList[idx], recomment);
-    }
-  });
-
-  TipSchema.updateRecomment(post.seq, commentIdx, comment.recommentList)
-    .then((post) => {
+  TipSchema.updateRecomment(post.seq, commentIdx, recomment)
+    .then(post => {
       logger.info(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
 
       res.status(200).send({
         code: 200,
         message: "답글이 수정되었습니다.",
-        commentList: post.commentList,
-        recommentList: comment.recommentList
+        recomment: recomment
       });
     
       return true;
@@ -517,28 +497,20 @@ router.put('/recomment', (req, res) => {
 router.use('/recomment', authMiddleware);
 router.put('/recomment/:recommentIdx', (req, res) => {
   const { key, id } = req.headers;
-
   const recommentIdx = req.params.recommentIdx;
-  const post = req.body.post;
-  const commentIdx = req.body.commentIdx;
-  const comment = req.body.comment;
+  const { post, commentIdx, recomment } = req.body;
+  recomment.message = 'DELETED COMMENT';
+  recomment.isDeleted = true;
 
-  comment.recommentList.map((recomment, idx) => {
-    if (recomment.idx === Number(recommentIdx)) {
-      comment.recommentList[idx].message = 'DELETED RECOMMENT';
-      comment.recommentList[idx].isDeleted = true;
-    }
-  })
-
-  TipSchema.deleteRecomment(post.seq, commentIdx, comment.recommentList)
+  TipSchema.deleteRecomment(post.seq, commentIdx, recomment)
     .then(post => {
       const { seq } = post;
-      UserWriteSchema.deleteRecomment(key, id, 'free', seq, commentIdx, recommentIdx)
+      UserWriteSchema.deleteRecomment(key, id, 'tip', seq, commentIdx, recommentIdx)
         .then(() => {
-          logger.info(`[SUCCESS] : DELETE USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}`);
+          logger.info(`[SUCCESS] : DELETE USERWRITE RECOMMENT : [${key}]${id} - tip : ${seq} : ${commentIdx} : ${recommentIdx}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : DELETE USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
+          logger.error(`[ERROR] : DELETE USERWRITE RECOMMENT ERROR [${key}]${id} - tip : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
         })
 
       logger.info(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
@@ -546,8 +518,7 @@ router.put('/recomment/:recommentIdx', (req, res) => {
       res.status(200).send({
         code: 200,
         message: "답글이 삭제되었습니다.",
-        commentList: post.commentList,
-        recommentList: comment.recommentList,
+        recomment: recomment
       });
 
       return true;

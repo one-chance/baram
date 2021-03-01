@@ -125,7 +125,7 @@ const PostCommentList = (props: IProps) => {
             <CommentItem
               key={comment.idx}
               post={post}
-              comment={comment}/>
+              commentItem={comment}/>
           )
         }
       </div>

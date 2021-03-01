@@ -6,6 +6,7 @@ import * as CommonUtil from 'utils/CommonUtil';
 
 import { CategoryType } from 'interfaces/Board/IPost';
 import IComment from 'interfaces/Board/IComment';
+import IRecomment from 'interfaces/Board/IRecomment';
 
 // NOTE 게시글 생성
 export const CreatePost = async (_category: CategoryType, _title: string, _content: string) => {
@@ -13,7 +14,11 @@ export const CreatePost = async (_category: CategoryType, _title: string, _conte
     category: _category,
     title: _title,
     content: _content,
-    writer: getWriter()
+    writer: getWriter(),
+    viewCount: 0,
+    commentCount: 0,
+    commentList: [],
+    recommendUserList: []
   }
 
   const up = await CommonUtil.checkUploadImage(_content);
@@ -156,17 +161,20 @@ export const UnrecommendPost = async (_category: CategoryType, _seq: number, _us
 }
 
 // NOTE 댓글 생성
-export const CreateComment = async (post: IPost, _comment: string) => {
+export const CreateComment = async (post: IPost, _commentMessage: string) => {
+  const { category, seq, commentCount } = post;
   const comment: IComment = {
-    idx: post.commentIdx,
-    message: _comment,
+    idx: commentCount,
+    message: _commentMessage,
     writer: getWriter(),
+    recommentCount: 0,
+    recommentList: [],
     isDeleted: false
   }
 
-  const res = await axios.post(`/api/board/${post.category}/comment`, {
-      seq: post.seq,
-      commentIdx: post.commentIdx,
+  const res = await axios.post(`/api/board/${category}/comment`, {
+      seq: seq,
+      commentCount: commentCount,
       comment: comment
     }, {
     headers: {
@@ -240,22 +248,18 @@ export const DeleteComment = async (post: IPost, commentIdx: number) => {
 }
 
 // NOTE 답글 생성
-export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomment: string, _recommentIdx?: number) => {
-  const comment = post.commentList?.filter((comment) => {
-    return comment.idx === _commentIdx;
-  })[0];
-
-  const recommentIdx = comment ? comment.recommentIdx : 0;
-  const recomment: IComment = {
-    idx: recommentIdx,
-    message: _recomment,
-    writer: getWriter()
+export const CreateRecomment = async (post: IPost, comment: IComment, recommentCount: number, recommentMessage: string,) => {
+  const recomment: IRecomment = {
+    idx: recommentCount,
+    message: recommentMessage,
+    writer: getWriter(),
+    isDeleted: false
   }
   
   const res = await axios.post(`/api/board/${post.category}/recomment`, {
       seq: post.seq,
-      commentIdx: _commentIdx,
-      recommentIdx: _recommentIdx,
+      commentIdx: comment.idx,
+      recommentCount: recommentCount,
       recomment: recomment
     }, {
     headers: {
@@ -277,7 +281,7 @@ export const CreateRecomment = async (post: IPost, _commentIdx: number, _recomme
 }
 
 // NOTE 답글 수정
-export const EditRecomment = async (post: IPost, commentIdx: number, comment: IComment, recomment: IComment) => {
+export const EditRecomment = async (post: IPost, commentIdx: number, recomment: IRecomment) => {
   recomment = {
     ...recomment,
     writer: Object.assign(getWriter(), recomment.writer)
@@ -286,7 +290,6 @@ export const EditRecomment = async (post: IPost, commentIdx: number, comment: IC
   const res = await axios.put(`/api/board/${post.category}/recomment`, {
     post: post,
     commentIdx: commentIdx,
-    comment: comment,
     recomment: recomment
   }, {
     headers: {
@@ -308,11 +311,11 @@ export const EditRecomment = async (post: IPost, commentIdx: number, comment: IC
 }
 
 // NOTE 답글 삭제
-export const DeleteRecomment = async (post: IPost, commentIdx: number, comment: IComment, recommentIdx: number) => {
-  const res = await axios.put(`/api/board/${post.category}/recomment/${recommentIdx}`, {
+export const DeleteRecomment = async (post: IPost, commentIdx: number, recomment: IRecomment) => {
+  const res = await axios.put(`/api/board/${post.category}/recomment/${recomment.idx}`, {
     post: post,
     commentIdx: commentIdx,
-    comment: comment
+    recomment: recomment
   }, {
     headers: {
       token: CommonUtil.getToken(),

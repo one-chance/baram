@@ -86,7 +86,7 @@ function PostComment(props: IProps) {
         setMyBackdrop(false);
         setInputComment("");
         setCommentList(res.commentList);
-        post.commentIdx = res.commentIdx;
+        post.commentCount = res.commentCount;
       } else {
         setMyAlert({
           isOpen: true,
