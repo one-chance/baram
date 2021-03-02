@@ -8,28 +8,27 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles({
   btnAwak: {
     width: "120px",
-    height: "40px",
-    lineHeight: "40px",
+    height: "50px",
+    lineHeight: "50px",
     margin: "5px 10px",
     padding: "0",
     textAlign: "center",
-    float: "left",
   },
 });
 
 export default function AwakStat() {
   const classes = useStyles();
   const [stat, setStat] = useState({ s1: 0, s2: 0, s3: 0, s4: 0, s5: 0, s6: 0 });
-  const setAwakeningStat = useSetRecoilState(AwakState);
+  const setAwakeningState = useSetRecoilState(AwakState);
 
   useEffect(() => {
     const saveStat = () => {
       var temp: number[] = [stat.s1, stat.s2, stat.s3, stat.s4, stat.s5, stat.s6];
-      setAwakeningStat(temp);
+      setAwakeningState(temp);
     };
 
     saveStat();
-  }, [stat, setAwakeningStat]);
+  }, [stat, setAwakeningState]);
 
   // check 변수를 두고 체크시 color 변경
   return (

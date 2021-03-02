@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     margin: "5px 10px",
     "& input": {
       height: "40px",
-      padding: "5px",
+      padding: "5px 0",
       textAlign: "center",
     },
     "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 export default function CharStat() {
   const classes = useStyles();
   const [stat, setStat] = useState({ s1: 0, s2: 0, s3: 0, s4: 0, s5: 0 });
-  const setCharactorStat = useSetRecoilState(CharState);
+  const setCharactorState = useSetRecoilState(CharState);
 
   const inputStat = (val: number, idx: number) => {
     switch (idx) {
@@ -50,10 +50,10 @@ export default function CharStat() {
     const saveStat = (a: number, b: number) => {
       // 방어도, 방어구관통, 방어도무시, 공격력증가, 마법치명, 마력증강
       var temp: number[] = [0, Math.floor(a / 100), Math.floor(a / 250), Math.floor(a / 50), Math.floor(b / 50), 0];
-      setCharactorStat(temp);
+      setCharactorState(temp);
     };
     saveStat(stat.s1 + stat.s2 + stat.s3, stat.s4 + stat.s5);
-  }, [stat, setCharactorStat]);
+  }, [stat, setCharactorState]);
 
   return (
     <React.Fragment>
@@ -127,7 +127,7 @@ export default function CharStat() {
           }
         }}
       />
-      <Button variant='contained' color='secondary' style={{ minWidth: "40px", height: "40px", margin: "10px" }}>
+      <Button variant='contained' color='secondary' style={{ minWidth: "50px", height: "50px", margin: "5px 10px" }}>
         ?
       </Button>
     </React.Fragment>

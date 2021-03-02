@@ -26,10 +26,17 @@ import IItemOptionInfo from "interfaces/Calculator/IItemOptionInfo";
 
 const useStyles = makeStyles({
   btn: {
-    width: "150px",
-    height: "40px",
-    padding: "5px",
+    width: "140px",
+    height: "50px",
+    padding: "0 5px",
     margin: "5px",
+
+    "& .MuiButton-label": {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      display: "block",
+    },
   },
 
   itemChip: {
