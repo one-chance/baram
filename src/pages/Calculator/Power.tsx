@@ -98,7 +98,7 @@ export default function Power() {
               variant='outlined'
               placeholder='아이디@서버'
               onChange={e => {
-                auto = e.target.value; //setAuto(e.target.value);
+                auto = e.target.value;
               }}
               inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
               style={{ width: "175px" }}

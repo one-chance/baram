@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
+import AbilityTable from "components/Calculator/Ability/AbilityTable";
 import CharStat from "components/Calculator/Ability/CharStat";
 import EquipStat from "components/Calculator/Ability/EquipStat";
 import EngraveStat from "components/Calculator/Ability/EngraveStat";
@@ -12,270 +14,146 @@ import AnimalStat from "components/Calculator/Ability/AnimalStat";
 import AwakStat from "components/Calculator/Ability/AwakStat";
 import FamilyStat from "components/Calculator/Ability/FamilyStat";
 import PetStat from "components/Calculator/Ability/PetStat";
+import PairStat from "components/Calculator/Ability/PairStat";
+import SkillStat from "components/Calculator/Ability/SkillStat";
+import PotionStat from "components/Calculator/Ability/PotionStat";
+import TitleStat from "components/Calculator/Ability/TitleStat";
 
 const useStyles = makeStyles({
-  title: {
-    height: "30px",
-    lineHeight: "30px",
-    fontSize: "1rem",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-
   contain: {
     width: "auto",
-    border: "1px solid gray",
+    border: "1px solid",
     borderRadius: "10px",
-    margin: "10px",
+    margin: "0",
     padding: "5px",
     float: "left",
-  },
-
-  btn: {
-    width: "150px",
-    height: "40px",
-    padding: "5px",
-    margin: "5px",
   },
 });
 
 export default function Ability() {
   const classes = useStyles();
-  const [statusList, setStatusList] = useState<Array<number>>([0, 0, 0, 0, 0, 0]);
-
-  var statType = ["캐릭터 스텟", "일반 장비", "각인 스텟", "돋 스텟", "신수 장비", "신체 각성", "가문력"];
-  var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"];
 
   return (
     <React.Fragment>
-      <Container style={{ width: "98%", margin: "10px 1%", padding: "0", float: "left" }}>
-        <Container
-          id='charStat'
-          style={{ width: "100%", margin: "10px", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem", float: "left" }}>
-          <span> {`최종 스텟 = { 캐릭터 스텟 + 장비 스텟(장비 + 각인 + 황돋 + 신수) or 신체각성 + 가문력 + 환수 } * %돋 + 한벌효과 +마법 + 시약 + 칭호`}</span>
-          <br />
-          <span> {`※ 일부 능력치는 마법 수치도 %돋에 영향을 받으나 보편적인 상황을 예시로 들었음 ※`}</span>
-        </Container>
+      <Container style={{ margin: "10px 0", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem", float: "left" }}>
+        <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 가문특성 + 환수시동 } * %돋 + 한벌효과 + 마법 + 물약 + 칭호`}</span>
+        <br />
+        <span> {`※ 방어도는 마법도 %돋에 영향 받음, 각 요소에 품의 효과를 반영하지 않아 오차 발생 가능 (언젠간 수정할 듯) ※`}</span>
+      </Container>
 
-        <Grid
-          container
-          spacing={0}
-          id='totalStat'
-          style={{ width: "100%", border: "1px solid gray", borderRadius: "10px", margin: "10px", padding: "10px", float: "left" }}>
-          <Grid container item xs={1} direction='column'>
-            <Grid id='title' item className={classes.title}></Grid>
-            {statList.map((name: string) => {
-              return (
-                <Grid key={name} item className={classes.title}>
-                  {name}
-                </Grid>
-              );
-            })}
-          </Grid>
-          <Grid container item xs={10} direction='column' className={classes.title}>
-            <Grid item>
-              <Grid id='char' item className={classes.title}>
-                캐릭터
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                장비
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                각인
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                황돋
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                신수
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                신체각성
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                가문력
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                환수
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                %돋
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                한벌효과
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                마법
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                시약
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid item>
-              <Grid id='equip' item className={classes.title}>
-                칭호
-              </Grid>
-              {statusList.map((stat: number, idx: number) => {
-                return (
-                  <Grid item key={idx} className={classes.title}>
-                    {stat}
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Grid>
-          <Grid container item xs={1} direction='column'>
-            <Grid id='total' item className={classes.title}>
-              합 계
-            </Grid>
-            {statusList.map((name: number, idx: number) => {
-              return (
-                <Grid key={idx} item className={classes.title}>
-                  {name}
-                </Grid>
-              );
-            })}
-          </Grid>
+      <Container style={{ margin: "5px 0", padding: "0", float: "left" }}>
+        <AbilityTable />
+      </Container>
+
+      <Grid container direction='column' style={{ margin: "10px 0", padding: "0", float: "left" }}>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            직업 스텟
+          </Typography>
+          <Container id='cahrStat' className={classes.contain}>
+            <CharStat />
+          </Container>
         </Grid>
 
-        <Container id='charStat' className={classes.contain}>
-          <CharStat />
-        </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            일반 장비
+          </Typography>
+          <Container id='equipStat' className={classes.contain} style={{ maxWidth: "1070px" }}>
+            <EquipStat />
+          </Container>
+        </Grid>
 
-        <Container id='equipStat' className={classes.contain}>
-          <EquipStat />
-        </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            각인 수치
+          </Typography>
+          <Container id='equipStat' className={classes.contain}>
+            <EngraveStat />
+          </Container>
+        </Grid>
 
-        <Container id='engraveStat' className={classes.contain}>
-          <EngraveStat />
-        </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            황돋 수치
+          </Typography>
+          <Container id='goldStat' className={classes.contain}>
+            <GoldStat />
+          </Container>
+        </Grid>
 
-        <Container id='goldStat' className={classes.contain}>
-          <GoldStat />
-        </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            신수 장비
+          </Typography>
+          <Container id='animalStat' className={classes.contain}>
+            <AnimalStat />
+          </Container>
+        </Grid>
 
-        <Container id='animalStat' className={classes.contain}>
-          <AnimalStat />
-        </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            신체 각성
+          </Typography>
+          <Container id='awakStat' className={classes.contain}>
+            <AwakStat />
+          </Container>
+        </Grid>
 
-        <Container id='awakStat' className={classes.contain}>
-          <AwakStat />
-        </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            가문 특성
+          </Typography>
+          <Container id='familyStat' className={classes.contain}>
+            <FamilyStat />
+          </Container>
+        </Grid>
 
-        <Container id='familyStat' className={classes.contain}>
-          <FamilyStat />
-        </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            환수 시동
+          </Typography>
+          <Container id='petStat' className={classes.contain}>
+            <PetStat />
+          </Container>
+        </Grid>
 
-        <Container id='petStat' className={classes.contain}>
-          <PetStat />
-        </Container>
-      </Container>
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            한벌 효과
+          </Typography>
+          <Container id='pairStat' className={classes.contain}>
+            <PairStat />
+          </Container>
+        </Grid>
+
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            마법 수치
+          </Typography>
+          <Container id='skillStat' className={classes.contain}>
+            <SkillStat />
+          </Container>
+        </Grid>
+
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            물약 도핑
+          </Typography>
+          <Container id='potionStat' className={classes.contain}>
+            <PotionStat />
+          </Container>
+        </Grid>
+
+        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
+            칭호 효과
+          </Typography>
+          <Container id='titleStat' className={classes.contain}>
+            <TitleStat />
+          </Container>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { useSetRecoilState } from "recoil";
+import EquipState from "state/Calculator/Ability/EquipState";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -26,10 +28,17 @@ import IItemOptionInfo from "interfaces/Calculator/IItemOptionInfo";
 
 const useStyles = makeStyles({
   btn: {
-    width: "150px",
+    width: "140px",
     height: "40px",
-    padding: "5px",
+    padding: "0 5px",
     margin: "5px",
+
+    "& .MuiButton-label": {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      display: "block",
+    },
   },
 
   itemChip: {
@@ -102,27 +111,22 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
-interface IEquipOption {
-  type: string;
-  option: number;
-}
-
 interface IEquipSlot {
   num: number;
   type: string;
   name: string;
-  status: IEquipOption;
+  status: number[];
 }
 
 export default function EquipStat() {
   const classes = useStyles();
 
+  const setEquipState = useSetRecoilState(EquipState);
   const [searchName, setSearchName] = useState(""); // 검색할 장비 이름
   const [options, setOptions] = useState({ op1: 0, op2: 0, op3: 0 }); // 검색할 장비 옵션
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]); // 검색 결과 목록
-
-  const [statusList, setStatusList] = useState<Array<number>>([0, 0, 0, 0, 0, 0]);
-  var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"];
+  const [statusList, setStatusList] = useState<Array<number>>([0, 0, 0, 0, 0, 0]); // 검색된 장비의 옵션
+  var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"]; // 옵션 종류
 
   // prettier-ignore
   var menuList = [
@@ -132,20 +136,20 @@ export default function EquipStat() {
   ];
 
   const [equipSlotList, setEquipSlotList] = useState<Array<IEquipSlot>>([
-    { num: 1, type: "목/어깨장식", name: "목/어깨장식", status: { type: "0", option: 0 } },
-    { num: 2, type: "투구", name: "투구", status: { type: "0", option: 0 } },
-    { num: 3, type: "얼굴장식", name: "얼굴장식", status: { type: "0", option: 0 } },
-    { num: 4, type: "무기", name: "무기", status: { type: "0", option: 0 } },
-    { num: 5, type: "갑옷", name: "갑옷", status: { type: "0", option: 0 } },
-    { num: 6, type: "방패/보조무기", name: "방패/보조무기", status: { type: "0", option: 0 } },
-    { num: 7, type: "오른손", name: "오른손", status: { type: "0", option: 0 } },
-    { num: 8, type: "망토", name: "망토", status: { type: "0", option: 0 } },
-    { num: 9, type: "왼손", name: "왼손", status: { type: "0", option: 0 } },
-    { num: 10, type: "보조1", name: "보조1", status: { type: "0", option: 0 } },
-    { num: 11, type: "신발", name: "신발", status: { type: "0", option: 0 } },
-    { num: 12, type: "보조2", name: "보조2", status: { type: "0", option: 0 } },
-    { num: 13, type: "세트", name: "세트", status: { type: "0", option: 0 } },
-    { num: 14, type: "장신구", name: "장신구", status: { type: "0", option: 0 } },
+    { num: 1, type: "목/어깨장식", name: "목/어깨장식", status: [0, 0, 0, 0, 0, 0] },
+    { num: 2, type: "투구", name: "투구", status: [0, 0, 0, 0, 0, 0] },
+    { num: 3, type: "얼굴장식", name: "얼굴장식", status: [0, 0, 0, 0, 0, 0] },
+    { num: 4, type: "무기", name: "무기", status: [0, 0, 0, 0, 0, 0] },
+    { num: 5, type: "갑옷", name: "갑옷", status: [0, 0, 0, 0, 0, 0] },
+    { num: 6, type: "방패/보조무기", name: "방패/보조무기", status: [0, 0, 0, 0, 0, 0] },
+    { num: 7, type: "오른손", name: "오른손", status: [0, 0, 0, 0, 0, 0] },
+    { num: 8, type: "망토", name: "망토", status: [0, 0, 0, 0, 0, 0] },
+    { num: 9, type: "왼손", name: "왼손", status: [0, 0, 0, 0, 0, 0] },
+    { num: 10, type: "보조1", name: "보조1", status: [0, 0, 0, 0, 0, 0] },
+    { num: 11, type: "신발", name: "신발", status: [0, 0, 0, 0, 0, 0] },
+    { num: 12, type: "보조2", name: "보조2", status: [0, 0, 0, 0, 0, 0] },
+    { num: 13, type: "세트", name: "세트", status: [0, 0, 0, 0, 0, 0] },
+    { num: 14, type: "장신구", name: "장신구", status: [0, 0, 0, 0, 0, 0] },
   ]);
 
   const [dlgItem, setDlgItem] = useState({
@@ -180,8 +184,6 @@ export default function EquipStat() {
   // 이름으로 아이템 검색
   const searchByName = async (name: string, parts: number) => {
     setOptions({ ...options, op1: 0, op3: 0 });
-    //setOption1(0);
-    //setOption3(0);
 
     if (name === "") {
       setItemList([]);
@@ -253,6 +255,15 @@ export default function EquipStat() {
 
   useEffect(() => {
     setOptions({ ...options, op1: 0, op3: 0 });
+    let temp: number[] = [0, 0, 0, 0, 0, 0];
+
+    for (let i = 0; i < 14; i++) {
+      for (let j = 0; j < 6; j++) {
+        temp[j] += equipSlotList[i].status[j];
+      }
+    }
+
+    setEquipState(temp);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dlgItem.isOpen]);
 
@@ -267,6 +278,7 @@ export default function EquipStat() {
             className={classes.btn}
             onClick={() => {
               fixedOption(idx);
+              setStatusList([0, 0, 0, 0, 0, 0]);
               setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlot.num });
             }}>
             {equipSlot.name}
@@ -416,11 +428,11 @@ export default function EquipStat() {
                 setDlgItem({ ...dlgItem, isOpen: false });
                 if (itemList.length !== 0) {
                   equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
+                  equipSlotList[dlgItem.parts - 1].status = statusList;
                 } else {
                   equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
                 }
                 setEquipSlotList(equipSlotList);
-                console.log(statusList);
               }}>
               적용
             </Button>
