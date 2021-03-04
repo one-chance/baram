@@ -8,8 +8,7 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles({
   btnAwak: {
     width: "120px",
-    height: "50px",
-    lineHeight: "50px",
+    height: "40px",
     margin: "5px 10px",
     padding: "0",
     textAlign: "center",

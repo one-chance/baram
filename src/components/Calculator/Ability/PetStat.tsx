@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     textAlignLast: "center",
     "& input": {
       height: "40px",
-      padding: "5px",
+      padding: "0 5px",
       textAlign: "center",
     },
     "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {

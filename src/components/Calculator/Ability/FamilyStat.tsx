@@ -8,12 +8,10 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles({
   btnFamily: {
     width: "120px",
-    height: "50px",
-    lineHeight: "40px",
+    height: "40px",
     margin: "5px 10px",
     padding: "0",
     textAlign: "center",
-    float: "left",
   },
 });
 

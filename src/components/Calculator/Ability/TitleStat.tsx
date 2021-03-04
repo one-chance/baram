@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
-import EngraveState from "state/Calculator/Ability/EngraveState";
+import TitleState from "state/Calculator/Ability/TitleState";
 
 import TextField from "@material-ui/core/TextField";
 
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     textAlignLast: "center",
     "& input": {
       height: "40px",
-      padding: "2.5px 5px",
+      padding: "0 5px",
       textAlign: "center",
     },
     "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
@@ -21,10 +21,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function EngraveStat() {
+export default function TitleStat() {
   const classes = useStyles();
   const [stat, setStat] = useState({ s1: 0, s2: 0, s3: 0, s4: 0, s5: 0, s6: 0 });
-  const setEngraveState = useSetRecoilState(EngraveState);
+  const setTitleState = useSetRecoilState(TitleState);
 
   const inputStat = (val: number, idx: number) => {
     switch (idx) {
@@ -53,18 +53,19 @@ export default function EngraveStat() {
     const saveStat = () => {
       // 방어도, 방어구관통, 방어도무시, 공격력증가, 마법치명, 마력증강
       var temp: number[] = [stat.s1, stat.s2, stat.s3, stat.s4, stat.s5, stat.s6];
-      setEngraveState(temp);
+      setTitleState(temp);
     };
     saveStat();
-  }, [stat, setEngraveState]);
+  }, [stat, setTitleState]);
 
   return (
     <React.Fragment>
       <TextField
         variant='outlined'
         type='number'
-        placeholder='방어도'
+        color='primary'
         className={classes.stat}
+        placeholder='방어도'
         value={stat.s1 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -77,8 +78,9 @@ export default function EngraveStat() {
       <TextField
         variant='outlined'
         type='number'
-        placeholder='방어구관통'
+        color='primary'
         className={classes.stat}
+        placeholder='방어구관통'
         value={stat.s2 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -91,8 +93,9 @@ export default function EngraveStat() {
       <TextField
         variant='outlined'
         type='number'
-        placeholder='방어도무시'
+        color='primary'
         className={classes.stat}
+        placeholder='방어도무시'
         value={stat.s3 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -105,8 +108,9 @@ export default function EngraveStat() {
       <TextField
         variant='outlined'
         type='number'
-        placeholder='공격력증가'
+        color='primary'
         className={classes.stat}
+        placeholder='공격력증가'
         value={stat.s4 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -119,8 +123,9 @@ export default function EngraveStat() {
       <TextField
         variant='outlined'
         type='number'
-        placeholder='마법치명'
+        color='primary'
         className={classes.stat}
+        placeholder='마법치명'
         value={stat.s5 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -133,8 +138,9 @@ export default function EngraveStat() {
       <TextField
         variant='outlined'
         type='number'
-        placeholder='마력증강'
+        color='primary'
         className={classes.stat}
+        placeholder='마력증강'
         value={stat.s6 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {

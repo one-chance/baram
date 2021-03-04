@@ -4,25 +4,35 @@ import { useSetRecoilState } from "recoil";
 import CharState from "state/Calculator/Ability/CharState";
 
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
 
 const useStyles = makeStyles({
   stat: {
-    width: "60px",
+    width: "50px",
     margin: "5px 10px",
     "& input": {
       height: "40px",
-      padding: "5px 0",
+      padding: "0",
       textAlign: "center",
     },
     "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
       display: "none",
     },
   },
+
+  dlgText: {
+    height: "30px",
+    marginBottom: "10px",
+  },
 });
 
 export default function CharStat() {
   const classes = useStyles();
+  const [openHelper, setOpenHelper] = useState<boolean>(false);
   const [stat, setStat] = useState({ s1: 0, s2: 0, s3: 0, s4: 0, s5: 0 });
   const setCharactorState = useSetRecoilState(CharState);
 
@@ -61,7 +71,7 @@ export default function CharStat() {
         variant='outlined'
         type='number'
         className={classes.stat}
-        label='&nbsp; 힘'
+        placeholder='힘'
         value={stat.s1 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -75,7 +85,7 @@ export default function CharStat() {
         variant='outlined'
         type='number'
         className={classes.stat}
-        label='민첩'
+        placeholder='민첩'
         value={stat.s2 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -89,7 +99,7 @@ export default function CharStat() {
         variant='outlined'
         type='number'
         className={classes.stat}
-        label='지력'
+        placeholder='지력'
         value={stat.s3 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -103,7 +113,7 @@ export default function CharStat() {
         variant='outlined'
         type='number'
         className={classes.stat}
-        label='건강'
+        placeholder='건강'
         value={stat.s4 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -117,7 +127,7 @@ export default function CharStat() {
         variant='outlined'
         type='number'
         className={classes.stat}
-        label='지혜'
+        placeholder='지혜'
         value={stat.s5 || ""}
         onChange={e => {
           if (e.target.value === "" || e.target.value === "-") {
@@ -127,9 +137,40 @@ export default function CharStat() {
           }
         }}
       />
-      <Button variant='contained' color='secondary' style={{ minWidth: "50px", height: "50px", margin: "5px 10px" }}>
+      <Button
+        variant='contained'
+        color='secondary'
+        style={{ minWidth: "40px", height: "40px", margin: "5px 10px", boxShadow: "none" }}
+        onClick={() => {
+          setOpenHelper(true);
+        }}>
         ?
       </Button>
+
+      <Dialog
+        open={openHelper}
+        onClose={() => {
+          setOpenHelper(false);
+        }}
+        maxWidth='lg'>
+        <DialogContent style={{ padding: "20px 30px" }}>
+          <Typography variant='h6' className={classes.dlgText}>
+            과거와 다르게 각 능력치별 영향력은 미비하다.
+          </Typography>
+          <Typography variant='h6' className={classes.dlgText}>
+            직업별로 수치는 다르지만 상승하는 능력치는 비슷하다.
+          </Typography>
+          <Typography variant='h6' className={classes.dlgText}>
+            신수변신시 등급과 레벨에 비례하여 힘민지가 추가 상승한다.
+          </Typography>
+          <Typography variant='h6' className={classes.dlgText}>
+            공격력증가=힘민지/50, 방어구관통=힘민지/100, 방어도무시=힘민지/250
+          </Typography>
+          <Typography variant='h6' className={classes.dlgText} style={{ margin: "0" }}>
+            시전향상, 마법치명=건혜/50, 명중회피=건혜/200, 명중률=건혜/250
+          </Typography>
+        </DialogContent>
+      </Dialog>
     </React.Fragment>
   );
 }
