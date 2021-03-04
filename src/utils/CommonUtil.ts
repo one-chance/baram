@@ -67,46 +67,6 @@ export const refreshToken = () => {
   }
 }
 
-/*
-* JWT 구조
-* [HEADER].[PAYLOAD].[VERIFY SIGNATURE]
-*/
-export const getIdFromToken = (token: string | null) => {
-  if (token !== null) {
-    // Get Token
-    const splitToken = token.split(".");
-  
-    // Get Payload Token
-    const payloadToken = splitToken[1];
-  
-    // Decode Base64 and Transfer to JSON
-    const payload = JSON.parse(atob(payloadToken));
-  
-    return payload.id;
-  }
-  else {
-    return null;
-  }
-}
-
-export const getKeyFromToken = (token: string | null) => {
-  if (token !== null) {
-    // Get Token
-    const splitToken = token.split(".");
-  
-    // Get Payload Token
-    const payloadToken = splitToken[1];
-  
-    // Decode Base64 and Transfer to JSON
-    const payload = JSON.parse(atob(payloadToken));
-  
-    return payload.key;
-  }
-  else {
-    return null;
-  }
-}
-
 export const getNowId = () => {
   return getIdFromToken(getToken());
 }
@@ -331,4 +291,45 @@ export const getVisitCount = async () => {
   })
 
   return r;
+}
+
+
+/*
+* JWT 구조
+* [HEADER].[PAYLOAD].[VERIFY SIGNATURE]
+*/
+const getIdFromToken = (token: string | null) => {
+  if (token !== null) {
+    // Get Token
+    const splitToken = token.split(".");
+  
+    // Get Payload Token
+    const payloadToken = splitToken[1];
+  
+    // Decode Base64 and Transfer to JSON
+    const payload = JSON.parse(atob(payloadToken));
+  
+    return payload.id;
+  }
+  else {
+    return null;
+  }
+}
+
+const getKeyFromToken = (token: string | null) => {
+  if (token !== null) {
+    // Get Token
+    const splitToken = token.split(".");
+  
+    // Get Payload Token
+    const payloadToken = splitToken[1];
+  
+    // Decode Base64 and Transfer to JSON
+    const payload = JSON.parse(atob(payloadToken));
+  
+    return payload.key;
+  }
+  else {
+    return null;
+  }
 }

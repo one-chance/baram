@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     padding: "10px",
     paddingLeft: "30px",
     fontWeight: "bold",
-    lineHeight: "30px",
+    lineHeight: "30px"
   },
   datagrid: {
     "& .title": {
@@ -232,6 +232,7 @@ const Board = (props: IProps) => {
           paginationMode='server'
           hideFooterRowCount={true}
           hideFooterSelectedRowCount={true}
+          disableColumnMenu={true}
           columns={cols}
           rows={rows}
           onRowClick={param => _onRowClick(param.row.id as number)}

@@ -15,10 +15,10 @@ interface IPost {
   title: string,
   content: string,
   writer: IWriter,
-  viewCount?: number,
-  commentIdx?: number,
-  commentList?: Array<IComment>,
-  recommendUserList?: Array<string>,
+  viewCount: number,
+  commentCount: number,
+  commentList: Array<IComment>,
+  recommendUserList: Array<string>,
   imgs?: Array<string>
 }
 

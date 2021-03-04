@@ -13,12 +13,14 @@ const commentSchema = new mongoose.Schema({
   idx: { type: Number},
   message: { type: String },
   writer: { type: writerSchema },
-  recommentIdx: { type: Number, default: 0},
+  recommentCount: { type: Number, default: 0},
   recommentList: [{
     idx: { type: Number},
     message: { type: String },
     writer: { type: writerSchema },
-  }]
+    isDeleted: { type: Boolean, default: false }
+  }],
+  isDeleted: { type: Boolean, default: false }
 });
 
 const freeSchema = new mongoose.Schema({
@@ -28,7 +30,7 @@ const freeSchema = new mongoose.Schema({
   content: { type: String, required: true },
   writer: { type: writerSchema, required: true },
   viewCount: { type: Number, required: false, default: 0},
-  commentIdx: { type: Number, required: false, default: 0},
+  commentCount: { type: Number, required: false, default: 0},
   commentList: [{ type: commentSchema, required: false, unique: false }],
   recommendUserList: [{ type: String, required: false }],
   imgs: [{type: String}]
@@ -41,12 +43,12 @@ freeSchema.plugin(autoIncrement.plugin, {
   increment: 1
 });
 
-// create new post
+// NOTE NOTE create new post
 freeSchema.statics.create = function (payload) {
   return new this(payload).save();
 }
 
-// update post
+// NOTE update post
 freeSchema.statics.updateBySeq = function (seq, post) {
   return this.findOneAndUpdate({
     seq: seq
@@ -58,12 +60,12 @@ freeSchema.statics.updateBySeq = function (seq, post) {
   });
 }
 
-// delete post
+// NOTE delete post
 freeSchema.statics.deleteBySeq = function (seq, post) {
   return this.deleteOne({seq: seq});
 }
 
-// add viewCount
+// NOTE add viewCount
 freeSchema.statics.addViewCount = function (seq) {
   return this.findOneAndUpdate({
     seq: seq
@@ -72,7 +74,7 @@ freeSchema.statics.addViewCount = function (seq) {
   });
 }
 
-// recommend
+// NOTE recommend
 freeSchema.statics.pushRecommendUser = function (seq, userid) {
   return this.findOneAndUpdate({
     seq: seq
@@ -84,7 +86,7 @@ freeSchema.statics.pushRecommendUser = function (seq, userid) {
     new: true
   });
 }
-// unRecommend
+// NOTE unRecommend
 freeSchema.statics.popRecommendUser = function (seq, userid) {
   return this.findOneAndUpdate({
     seq: seq,
@@ -98,22 +100,22 @@ freeSchema.statics.popRecommendUser = function (seq, userid) {
   })
 }
 
-// find all
+// NOTE find all
 freeSchema.statics.findAll = function () {
   return this.find({});
 }
 
-// find by filter
+// NOTE find by filter
 freeSchema.statics.findByFilter = function (filter) {
   return this.find(filter).sort({seq: -1});
 }
 
-// Get by seq
+// NOTE Get by seq
 freeSchema.statics.findOneBySeq = function (seq) {
   return this.findOne({seq: seq});
 }
 
-// Push Comment
+// NOTE Push Comment
 freeSchema.statics.createComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq
@@ -128,7 +130,7 @@ freeSchema.statics.createComment = function (postSeq, comment) {
   });
 }
 
-// Update Comment
+// NOTE Update Comment
 freeSchema.statics.updateComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq,
@@ -142,15 +144,16 @@ freeSchema.statics.updateComment = function (postSeq, comment) {
   })
 }
 
-// Delete Comment
+// NOTE Delete Comment
 freeSchema.statics.deleteComment = function (postSeq, commentIdx) {
   return this.findOneAndUpdate({
     seq: postSeq,
+    commentList: {
+      $elemMatch: { idx: commentIdx } }
   }, {
-    $pull: {
-      commentList: {
-        idx: commentIdx
-      }
+    $set: {
+      'commentList.$.message': 'DELETED COMMENT',
+      'commentList.$.isDeleted': true ,
     }
   }, {
     upsert: true, 
@@ -158,7 +161,7 @@ freeSchema.statics.deleteComment = function (postSeq, commentIdx) {
   })
 }
 
-// Push Recomment
+// NOTE Push Recomment
 freeSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
   return this.findOne({
     seq: postSeq,
@@ -172,7 +175,7 @@ freeSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
         return comment.idx === commentIdx;
       }
     })[0];
-    comment.recommentIdx++;
+    comment.recommentCount++;
     comment.recommentList.push(recomment);
     post.commentList[idx] = comment;
 
@@ -180,42 +183,52 @@ freeSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
   });
 }
 
-// Update Recomment
-freeSchema.statics.updateRecomment = function (postSeq, commentIdx, recommentList) {
-  return this.findOneAndUpdate({
+// NOTE Update Recomment
+freeSchema.statics.updateRecomment = function (postSeq, commentIdx, recomment) {
+  return this.findOne({
     seq: postSeq,
     commentList: {
-      $elemMatch: { 
-        idx: commentIdx, } }
-  }, {
-    'commentList.$.recommentList': recommentList
-  }, {
-    upsert: true, 
-    new: true
-  })
+      $elemMatch: { idx: commentIdx, } }
+  }, (err, post) => {
+    post.commentList.forEach((cm, i) => {
+      if (cm.idx === commentIdx) {
+        cm.recommentList.forEach((rcm, j) => {
+          if (rcm.idx === recomment.idx) {
+            post.commentList[i].recommentList[j] = recomment;
+            return true;
+          }
+        });
+
+        return true;
+      }
+    });
+  
+    post.save();
+  });
 }
 
-// Delete Recomment
-// freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentIdx) {
-freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recommentList) {
-  return this.findOneAndUpdate({
+// NOTE Delete Recomment
+freeSchema.statics.deleteRecomment = function (postSeq, commentIdx, recomment) {
+  return this.findOne({
     seq: postSeq,
     commentList: {
-      $elemMatch: { 
-        idx: commentIdx, } }
-  }, {
-    'commentList.$.recommentList': recommentList
-    // 'commentList.$.recommentList': {
-    //   $pull: {
-    //     recommentList: {
-    //       idx: recommentIdx
-    //     }
-    //   }
-    // }
-  }, {
-    upsert: true, 
-    new: true
-  })
+      $elemMatch: { idx: commentIdx, } }
+  }, (err, post) => {
+    post.commentList.forEach((cm, i) => {
+      if (cm.idx === commentIdx) {
+        cm.recommentList.forEach((rcm, j) => {
+          if (rcm.idx === recomment.idx) {
+            post.commentList[i].recommentList[j] = recomment;
+            return true;
+          }
+        });
+
+        return true;
+      }
+    });
+  
+    post.save();
+  });
 }
 
 module.exports = mongoose.model("Free", freeSchema, "freeBoard");
