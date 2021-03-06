@@ -229,7 +229,7 @@ export default function Header() {
               <h3>도감</h3>
               <ul>
                 <li>
-                  <a href='/dic/item'>장비 아이템</a>
+                  <a href='/dic/item'>일반 장비</a>
                 </li>
                 <li>
                   <a href='/dic/petitem'>환수장비</a>
@@ -266,7 +266,7 @@ export default function Header() {
               </ul>
             </li>
             <li>
-              <h3>내정보</h3>
+              <h3>내 정보</h3>
               <ul>
                 <li>
                   <a href='/myinfo/view'>회원정보</a>

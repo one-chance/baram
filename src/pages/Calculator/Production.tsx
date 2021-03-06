@@ -123,7 +123,7 @@ export default function CalProduction() {
               onChange={e => {
                 setType(Number(e.target.value));
               }}>
-              <Menus value={0}>종 류</Menus>
+              <Menus value={0}>채 집</Menus>
               <Menus value={1}>직조술</Menus>
               <Menus value={2}>벌목술</Menus>
               <Menus value={3}>채광술</Menus>

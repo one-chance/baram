@@ -241,7 +241,6 @@ export default function EquipStat() {
   // 선택된 아이템의 스텟 데이터 불러오기
   const loadData = async (name: string) => {
     let res: IItemOptionInfo;
-
     res = await SearchOptionByName(name);
 
     if (res !== null) {
@@ -278,7 +277,7 @@ export default function EquipStat() {
             className={classes.btn}
             onClick={() => {
               fixedOption(idx);
-              setStatusList([0, 0, 0, 0, 0, 0]);
+              setStatusList(equipSlotList[equipSlot.num - 1].status);
               setDlgItem({ ...dlgItem, isOpen: true, parts: equipSlot.num });
             }}>
             {equipSlot.name}
