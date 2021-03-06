@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 
 import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 import NoAuth from "pages/User/NoAuth";
 import Header from "components/Semantic/Header";
@@ -60,6 +61,16 @@ const useStyles = makeStyles(theme => ({
     zIndex: 1,
     marginTop: "132px",
   },
+  footer: {
+    // style={{ width: "100%", marginTop: "20px", float: "left" }}
+    width: '100%',
+    margin: 0,
+    marginTop: '20px',
+    padding: '0',
+    position: 'fixed',
+    left: 0,
+    right: 0,
+  }
 }));
 
 function App() {
@@ -71,15 +82,15 @@ function App() {
   }, []);
 
   return (
-    <Container maxWidth='xl' style={{ padding: "0" }}>
+    <Container>
       <React.Fragment>
         <header>
-          <Container fixed className={classes.header}>
+          <Box className={classes.header}>
             <Header />
-          </Container>
+          </Box>
         </header>
         <main>
-          <Container className={classes.root}>
+          <Box className={classes.root}>
             <BrowserRouter>
               {/*Error Handling*/}
               <Route exact path='/signin' component={NoAuth} />
@@ -121,14 +132,14 @@ function App() {
               {/*MyInfo*/}
               <Route path='/myinfo/:tab' component={MyInfo} />
             </BrowserRouter>
-          </Container>
+          </Box>
 
-          <footer style={{ width: "100%", marginTop: "20px", float: "left" }}>
-            <Container style={{ padding: "0" }}>
-              <Footer />
-            </Container>
-          </footer>
         </main>
+        <footer>
+          <Box className={classes.footer}>
+            <Footer />
+          </Box>
+        </footer>
       </React.Fragment>
       <MyAlert />
       <MyBackdrop />
