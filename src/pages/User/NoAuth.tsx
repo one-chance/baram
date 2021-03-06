@@ -12,7 +12,7 @@ const NoAuth = () => {
 
   return (
     <Typography style={{ width: "100%", textAlign: "center" }} gutterBottom>
-      로그인 정보가 없습니다. 로그인 해주세요.
+      로그인 정보가 없습니다.
     </Typography>
   );
 };

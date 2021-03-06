@@ -59,12 +59,18 @@ export default function Item() {
   const classes = useStyles();
   const baseUrlForItemImg = getBaseUrlForItemImg();
 
-  const [searchName1, setSearchName1] = useState(""); // 검색할 장비 이름 (이름용)
+  const [searchName, setSearchName] = useState(""); // 검색할 장비 이름 (이름용)
   const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
   const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
   const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
-  //const [nameList, setNameList] = useState<string[]>([""]);
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]); // 검색된 아이템의 정보
+
+  var menuList = [
+    // prettier-ignore
+    ["종류", "용장비", "북방장비", "중국전설", "일본전설", "환웅장비", "백제/황산벌", "전우치/구미호", "타계장비", "흉수계/봉래산", "생산장비", "격전지/전장", "승급장비", "합성노리개", ],
+    ["부위", "목/어깨장식", "투구", "얼굴장식", "무기", "갑옷", "방패/보조무기", "손", "망토", "보조", "신발", "세트", "장신구"],
+    ["직업", "공용", "전사", "도적", "주술사", "도사", "궁사", "천인", "마도사", "영술사", "차사"],
+  ];
 
   const [selectedImg, setSelectedImg] = useState("empty.png"); // 선택된 이미지 이름
   const [img1, setImg1] = useState("empty.png");
@@ -85,9 +91,9 @@ export default function Item() {
 
   const inputName = (name: string) => {
     if (name === "") {
-      setSearchName1("");
+      setSearchName("");
     } else {
-      setSearchName1(name);
+      setSearchName(name);
     }
   };
 
@@ -115,7 +121,7 @@ export default function Item() {
       alert("세부 옵션을 모두 선택해주세요.");
       return;
     }
-    setSearchName1("");
+    setSearchName("");
 
     const res = await SearchItemByOption(option1, option2, option3);
     const temp = Array<IItemInfo>();
@@ -156,14 +162,14 @@ export default function Item() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={3} style={{ margin: "10px", float: "left" }}>
-        <Grid item xs={8} style={{ margin: "0 10px", padding: "10px" }}>
+      <Grid container spacing={0} style={{ margin: "10px", float: "left" }}>
+        <Grid item xs={8} style={{ margin: "0", padding: "10px 0" }}>
           <Container style={{ margin: "5px 0", padding: "0", float: "left" }}>
             <TextField
               className={classes.itemText}
               variant='outlined'
               placeholder='아이템명'
-              value={searchName1 || ""}
+              value={searchName || ""}
               onChange={e => {
                 inputName(e.target.value);
               }}
@@ -173,7 +179,7 @@ export default function Item() {
               variant='contained'
               color='primary'
               onClick={e => {
-                searchByName(searchName1);
+                searchByName(searchName);
               }}
               style={{ minWidth: "60px", height: "40px", margin: "5px 100px 5px -5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
               검색
@@ -185,20 +191,13 @@ export default function Item() {
               onChange={e => {
                 setOption1(Number(e.target.value));
               }}>
-              <Menus value={0}>종류</Menus>
-              <Menus value={1}>용장비</Menus>
-              <Menus value={2}>북방장비</Menus>
-              <Menus value={3}>중국전설</Menus>
-              <Menus value={4}>일본전설</Menus>
-              <Menus value={5}>환웅장비</Menus>
-              <Menus value={6}>백제/황산벌</Menus>
-              <Menus value={7}>전우치/구미호</Menus>
-              <Menus value={8}>타계장비</Menus>
-              <Menus value={9}>흉수계/봉래산</Menus>
-              <Menus value={10}>생산장비</Menus>
-              <Menus value={11}>격전지/전장</Menus>
-              <Menus value={12}>승급장비</Menus>
-              <Menus value={13}>기타</Menus>
+              {menuList[0].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
             </Select>
 
             <Select
@@ -208,19 +207,13 @@ export default function Item() {
               onChange={e => {
                 setOption2(Number(e.target.value));
               }}>
-              <Menus value={0}>부위</Menus>
-              <Menus value={1}>목/어깨장식</Menus>
-              <Menus value={2}>투구</Menus>
-              <Menus value={3}>얼굴장식</Menus>
-              <Menus value={4}>무기</Menus>
-              <Menus value={5}>갑옷</Menus>
-              <Menus value={6}>방패/보조무기</Menus>
-              <Menus value={7}>손</Menus>
-              <Menus value={8}>망토</Menus>
-              <Menus value={9}>보조</Menus>
-              <Menus value={10}>신발</Menus>
-              <Menus value={11}>장신구</Menus>
-              <Menus value={12}>분신</Menus>
+              {menuList[1].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
             </Select>
 
             <Select
@@ -230,17 +223,13 @@ export default function Item() {
               onChange={e => {
                 setOption3(Number(e.target.value));
               }}>
-              <Menus value={0}>직업</Menus>
-              <Menus value={1}>공용</Menus>
-              <Menus value={2}>전사</Menus>
-              <Menus value={3}>도적</Menus>
-              <Menus value={4}>주술사</Menus>
-              <Menus value={5}>도사</Menus>
-              <Menus value={6}>궁사</Menus>
-              <Menus value={7}>천인</Menus>
-              <Menus value={8}>마도사</Menus>
-              <Menus value={9}>영술사</Menus>
-              <Menus value={10}>차사</Menus>
+              {menuList[2].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
             </Select>
             <Button
               variant='contained'
@@ -266,19 +255,21 @@ export default function Item() {
               <span>
                 <br />
                 검색 결과가 없습니다.
+                <br />※ 능력치가 같은 장비는 원조의 이름으로 검색해주세요. (손상, 불멸) ※
               </span>
             ) : (
               itemName
             )}
           </Container>
-          <Container style={{ width: "100%", margin: "0", padding: "10px", textAlign: "center", float: "left" }}>
+          <Container style={{ width: "100%", margin: "0", padding: "0", textAlign: "center", float: "left" }}>
             <img src={baseUrlForItemImg + img1} alt='아이템' style={{ margin: "10px" }} />
             <img src={baseUrlForItemImg + img2} alt='아이템' style={{ margin: "10px" }} />
             <img src={baseUrlForItemImg + img3} alt='아이템' style={{ margin: "10px" }} />
           </Container>
         </Grid>
 
-        <Grid item xs={3} style={{ margin: "20px 10px", padding: "5px", textAlign: "center" }}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={3} style={{ margin: "20px 0", padding: "10px 0", textAlign: "center" }}>
           <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
           <Container style={{ width: "100%", padding: "0" }}>
             <ButtonGroup color='primary'>
@@ -288,7 +279,7 @@ export default function Item() {
                 onClick={() => {
                   saveImage(selectedImg, 1);
                 }}>
-                슬롯 1
+                슬롯1
               </Button>
               <Button
                 variant='outlined'
@@ -296,7 +287,7 @@ export default function Item() {
                 onClick={() => {
                   saveImage(selectedImg, 2);
                 }}>
-                슬롯 2
+                슬롯2
               </Button>
               <Button
                 variant='outlined'
@@ -304,7 +295,7 @@ export default function Item() {
                 onClick={() => {
                   saveImage(selectedImg, 3);
                 }}>
-                슬롯 3
+                슬롯3
               </Button>
             </ButtonGroup>
           </Container>

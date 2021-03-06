@@ -407,6 +407,9 @@ export default function Pet() {
           <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
             ex) 방관/마치 : 50, 마법수준향상 : 3, 명중률 : 4
           </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 환수 장비의 잠재능력은 %돋이 존재하지 않는다.
+          </Typography>
           <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 일반 장비처럼 강화가 가능하다.
           </Typography>

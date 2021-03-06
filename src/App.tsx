@@ -55,6 +55,7 @@ const useStyles = makeStyles(theme => ({
     padding: "0",
   },
   root: {
+    width: "100%",
     minHeight: "545px",
     position: "relative",
     zIndex: 1,
