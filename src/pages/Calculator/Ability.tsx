@@ -35,7 +35,7 @@ export default function Ability() {
 
   return (
     <React.Fragment>
-      <Container style={{ margin: "10px 0", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem", float: "left" }}>
+      <Container style={{ margin: "10px 0", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem" }}>
         <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 가문특성 + 환수시동 } * %돋 + 한벌효과 + 마법 + 물약 + 칭호`}</span>
         <br />
         <span> {`※ 방어도는 마법도 %돋에 영향 받음, 각 요소에 품의 효과를 반영하지 않아 오차 발생 가능 (언젠간 수정할 듯) ※`}</span>

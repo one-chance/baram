@@ -1,3 +1,3 @@
 npm install
 
-DANGEROUSLY_DISABLE_HOST_CHECK=true npm start
+HTTPS=true DANGEROUSLY_DISABLE_HOST_CHECK=true npm start

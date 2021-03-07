@@ -52,26 +52,25 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     left: 0,
     right: 0,
-    height: "122px",
+    height: "15vh",
     padding: "0",
   },
   root: {
     width: "100%",
-    minHeight: "545px",
     position: "relative",
     zIndex: 1,
-    marginTop: "132px",
+    marginTop: "15vh",
+    paddingTop: "10px",
+    float: "left",
   },
   footer: {
-    // style={{ width: "100%", marginTop: "20px", float: "left" }}
-    width: '100%',
+    width: "100%",
+    height: "12vh",
     margin: 0,
-    marginTop: '20px',
-    padding: '0',
-    position: 'fixed',
-    left: 0,
-    right: 0,
-  }
+    marginTop: "10px",
+    padding: "0",
+    float: "left",
+  },
 }));
 
 function App() {
@@ -90,7 +89,7 @@ function App() {
             <Header />
           </Box>
         </header>
-        <main>
+        <main style={{ minHeight: "70vh" }}>
           <Box className={classes.root}>
             <BrowserRouter>
               {/*Error Handling*/}
@@ -134,7 +133,6 @@ function App() {
               <Route path='/myinfo/:tab' component={MyInfo} />
             </BrowserRouter>
           </Box>
-
         </main>
         <footer>
           <Box className={classes.footer}>

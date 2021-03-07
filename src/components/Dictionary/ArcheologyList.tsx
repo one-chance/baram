@@ -14,9 +14,7 @@ import IArcheology from "interfaces/Dictionary/IArcheology";
 import { getArcheologyList } from "utils/DictionaryUtil";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: "10px",
-  },
+  root: {},
   table: {
     minWidth: 400,
     width: "100%",

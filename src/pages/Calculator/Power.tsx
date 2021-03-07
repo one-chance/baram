@@ -117,7 +117,6 @@ export default function Power() {
           padding: "0",
           justifyContent: "center",
           alignItems: "center",
-          float: "left",
         }}>
         {/* LEFT COLUMN */}
         <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>

@@ -15,9 +15,32 @@ import AppBar from "@material-ui/core/AppBar";
 import { getSignInUserId, LogoutUser } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    position: "sticky",
+    height: "100%",
+  },
+
+  boxUp: {
+    width: "100%",
+    height: "50%",
+    margin: "0",
+    padding: "0 30px",
+    backgroundColor: "white",
+  },
+
+  boxDown: {
+    width: "100%",
+    height: "50%",
+    margin: "0",
+    padding: "0",
+    backgroundColor: "white",
+    borderTop: "1px solid darkgray",
+    borderBottom: "1px solid darkgray",
+  },
+
   mainmenu: {
     width: "100%",
-    height: "60px",
+    height: "100%",
     padding: "0",
     margin: "0",
     listStyle: "none",
@@ -27,31 +50,31 @@ const useStyles = makeStyles(theme => ({
 
     "& li": {
       width: "20%",
-      height: "60px",
+      height: "100%",
       margin: "0",
       float: "left",
       "& h3": {
-        lineHeight: "40px",
-        margin: "10px 0",
+        lineHeight: "7.5vh",
+        margin: "0",
         fontSize: "1.2rem",
       },
 
       "& ul": {
         display: "none",
         width: "100%",
-        height: "190px",
+        height: "26vh",
         padding: "5px 0",
         listStyle: "none",
         backgroundColor: "white",
         borderBottom: "1px solid darkgray",
         "& li": {
           width: "100%",
-          height: "30px",
+          height: "4vh",
           overflow: "visible",
           "& a": {
             minWidth: "100px",
             display: "block",
-            lineHeight: "30px",
+            lineHeight: "4vh",
             margin: "0 20%",
             padding: "0",
             textDecoration: "none",
@@ -73,7 +96,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   btn: {
-    lineHeight: "30px",
+    lineHeight: "4vh",
     margin: "15px 0",
     fontFamily: "Do Hyeon",
     fontSize: "1.2rem",
@@ -84,6 +107,15 @@ const useStyles = makeStyles(theme => ({
       color: "blue",
       backgroundColor: "transparent",
     },
+  },
+
+  btnClose: {
+    minWidth: 10,
+    fontSize: "1rem",
+    padding: "0",
+    position: "absolute",
+    top: 5,
+    right: 10,
   },
 }));
 
@@ -128,24 +160,8 @@ export default function Header() {
 
   return (
     <React.Fragment>
-      <AppBar
-        color='inherit'
-        elevation={0}
-        style={{
-          minWidth: "600px",
-          position: "sticky",
-          height: "122px",
-        }}>
-        <div
-          id='up'
-          style={{
-            width: "100%",
-            height: "60px",
-            margin: "0",
-            padding: "0 10px",
-            backgroundColor: "white",
-            float: "left",
-          }}>
+      <AppBar color='inherit' elevation={0} className={classes.root}>
+        <div id='up' className={classes.boxUp}>
           <Button className={classes.btn} onClick={_onMoveToMain}>
             Home
           </Button>
@@ -170,17 +186,7 @@ export default function Header() {
             </Container>
           )}
         </div>
-        <div
-          id='down'
-          style={{
-            width: "100%",
-            margin: "0",
-            padding: "0",
-            backgroundColor: "white",
-            borderTop: "1px solid darkgray",
-            borderBottom: "1px solid darkgray",
-            float: "left",
-          }}>
+        <div id='down' className={classes.boxDown}>
           <ul className={classes.mainmenu}>
             <li>
               <h3>게시판</h3>
@@ -285,12 +291,12 @@ export default function Header() {
 
       <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose} aria-labelledby='responsive-dialog-title'>
         <DialogTitle id='responsive-dialog-title' style={{ padding: "0 5px", textAlign: "center" }}>
-          <div>
+          <span>
             <h2 style={{ margin: "20px 0 0 0" }}>로그인</h2>
-            <Button onClick={_onSignInClose} style={{ minWidth: 10, fontSize: "1rem", padding: "0", position: "absolute", top: 5, right: 10 }}>
+            <Button onClick={_onSignInClose} className={classes.btnClose}>
               &#10006;
             </Button>
-          </div>
+          </span>
         </DialogTitle>
         <DialogContent>
           <SignInForm />
