@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 
@@ -37,6 +37,8 @@ import Ability from "pages/Calculator/Ability";
 import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
+
+import NotFound from 'pages/NotFound';
 
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
@@ -92,45 +94,48 @@ function App() {
         <main style={{ minHeight: "70vh" }}>
           <Box className={classes.root}>
             <BrowserRouter>
-              {/*Error Handling*/}
-              <Route exact path='/signin' component={NoAuth} />
+              <Switch>
+                {/*Home*/}
+                <Route exact path='/' component={Home} />
 
-              {/*Home*/}
-              <Route exact path='/' component={Home} />
+                {/*Common*/}
+                <Route exact path='/signup' component={SignUp} />
+                <Route exact path='/forget' component={Forget} />
 
-              {/*Common*/}
-              <Route exact path='/signup' component={SignUp} />
-              <Route exact path='/forget' component={Forget} />
+                {/*Board*/}
+                <Route exact path='/board/free' component={FreeBoard} />
+                <Route exact path='/board/free/:seq' component={FreePostView} />
+                <Route exact path='/board/tip' component={TipBoard} />
+                <Route exact path='/board/tip/:seq' component={TipPostView} />
+                <Route exact path='/board/write' component={Write} />
+                <Route exact path='/board/write/:tab' component={Write} />
+                <Route exact path='/board/write/:tab/:seq' component={Write} />
 
-              {/*Board*/}
-              <Route exact path='/board/free' component={FreeBoard} />
-              <Route exact path='/board/free/:seq' component={FreePostView} />
-              <Route exact path='/board/tip' component={TipBoard} />
-              <Route exact path='/board/tip/:seq' component={TipPostView} />
-              <Route exact path='/board/write' component={Write} />
-              <Route exact path='/board/write/:tab' component={Write} />
-              <Route exact path='/board/write/:tab/:seq' component={Write} />
+                {/*Calculator*/}
+                <Route exact path='/cal/ability' component={Ability} />
+                <Route exact path='/cal/exp' component={Exp} />
+                <Route exact path='/cal/power' component={Power} />
+                <Route exact path='/cal/production' component={Production} />
 
-              {/*Calculator*/}
-              <Route exact path='/cal/ability' component={Ability} />
-              <Route exact path='/cal/exp' component={Exp} />
-              <Route exact path='/cal/power' component={Power} />
-              <Route exact path='/cal/production' component={Production} />
+                {/*Dictionary*/}
+                <Route path='/dic/adventure' component={Adventure} />
+                <Route path='/dic/animalitem' component={AnimalItem} />
+                <Route exact path='/dic/raid' component={Raid} />
+                <Route path='/dic/raid/:key' component={RaidInfo} />
+                <Route path='/dic/item' component={Item} />
+                <Route path='/dic/petitem' component={PetItem} />
+                <Route path='/dic/archeology' component={Archeology} />
 
-              {/*Dictionary*/}
-              <Route path='/dic/adventure' component={Adventure} />
-              <Route path='/dic/animalitem' component={AnimalItem} />
-              <Route exact path='/dic/raid' component={Raid} />
-              <Route path='/dic/raid/:key' component={RaidInfo} />
-              <Route path='/dic/item' component={Item} />
-              <Route path='/dic/petitem' component={PetItem} />
-              <Route path='/dic/archeology' component={Archeology} />
+                {/*Auction*/}
+                <Route path='/auction/market' component={AuctionMarket} />
 
-              {/*Auction*/}
-              <Route path='/auction/market' component={AuctionMarket} />
+                {/*MyInfo*/}
+                <Route path='/myinfo/:tab' component={MyInfo} />
 
-              {/*MyInfo*/}
-              <Route path='/myinfo/:tab' component={MyInfo} />
+                {/*Error Handling*/}
+                <Route exact path='/signin' component={NoAuth} />
+                <Route component={NotFound} />
+              </Switch>
             </BrowserRouter>
           </Box>
         </main>
