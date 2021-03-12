@@ -106,8 +106,8 @@ export default function PetItem() {
   }, [acc]);
 
   return (
-    <React.Fragment>
-      <Grid container spacing={3} style={{ width: "80%", margin: "10px 10%", border: "1px solid", float: "left" }}>
+    <div>
+      <Grid container spacing={3} style={{ width: "80%", margin: "10px 10%", border: "1px solid" }}>
         <Grid item xs={8} style={{ textAlign: "center" }}>
           <FormControl variant='standard' className={classes.selectBox}>
             <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
@@ -344,7 +344,7 @@ export default function PetItem() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} style={{ width: "90%", margin: "10px 5%", padding: "0 5px", textAlign: "center", float: "left" }}>
+      <Grid container spacing={3} style={{ width: "90%", margin: "10px 5%", padding: "0 5px", textAlign: "center" }}>
         <Grid item xs={6} style={{ padding: "0" }}>
           <ButtonGroup color='primary' className={classes.btnGroup}>
             <Button color={img1.src === "centerGod.png" ? "secondary" : "primary"} onClick={() => handleImage(1, 1, img1)}>
@@ -398,6 +398,6 @@ export default function PetItem() {
           <img src={baseUrlForPetItemImg + img2.src} alt='장비2' />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </div>
   );
 }
