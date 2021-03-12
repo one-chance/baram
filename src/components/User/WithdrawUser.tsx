@@ -92,7 +92,7 @@ function WithdrawUser(props: IProps) {
               </Typography>
               <Typography variant='body1' color='error' style={{ padding: "10px" }}>
                 탈퇴시 {id}님이 작성한 글은 자동으로 삭제되지 않습니다. <br />
-                탈퇴시 계정 정보는 즉시 폐기되며 따라서 복구할 수 없습니다.
+                탈퇴시 계정 정보가 폐기되므로 추후 복구할 수 없습니다.
               </Typography>
             </Grid>
             <Grid container item xs={12}>

@@ -42,7 +42,16 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
 
-    bigBox: {
+    btn: {
+      minWidth: "50px",
+      height: "40px",
+      marginLeft: "-5px",
+      padding: "0",
+      borderTopLeftRadius: "0",
+      borderBottomLeftRadius: "0",
+    },
+
+    boxSmall: {
       width: "100%",
       marginBottom: "10px",
       padding: "9px",
@@ -111,15 +120,15 @@ export default function Power() {
       <Grid
         container
         spacing={3}
+        direction='row'
+        alignItems='center'
+        justify='center'
         style={{
-          width: "90%",
-          margin: "0 5%",
+          margin: "0",
           padding: "0",
-          justifyContent: "center",
-          alignItems: "center",
         }}>
         {/* LEFT COLUMN */}
-        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "0 15px" }}>
           <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
             <TextField
               variant='outlined'
@@ -130,33 +139,22 @@ export default function Power() {
               inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
               style={{ width: "175px" }}
             />
-            <Button
-              variant='contained'
-              color='primary'
-              style={{
-                minWidth: "50px",
-                height: "40px",
-                marginLeft: "-5px",
-                padding: "0",
-                borderTopLeftRadius: "0",
-                borderBottomLeftRadius: "0",
-              }}
-              onClick={() => autoApply()}>
+            <Button variant='contained' color='primary' className={classes.btn} onClick={() => autoApply()}>
               적용
             </Button>
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container className={classes.boxSmall}>
             <Level />
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container className={classes.boxSmall}>
             <Equip />
           </Container>
         </Grid>
 
         {/* CENTER COLUMN */}
-        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "0  15px" }}>
           <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
             <TextField
               className={classes.powers}
@@ -206,21 +204,21 @@ export default function Power() {
             <TextField className={classes.powers} variant='outlined' disabled={true} value={Math.floor(plus.p1 + plus.p2 + plus.p3) || "합계"} />
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container className={classes.boxSmall}>
             <Engrave />
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container className={classes.boxSmall}>
             <Gold />
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container className={classes.boxSmall}>
             <Skill />
           </Container>
         </Grid>
 
         {/* RIGHT COLUMN */}
-        <Grid item style={{ width: "320px", padding: "0", margin: "5px 15px" }}>
+        <Grid item style={{ width: "320px", padding: "0", margin: "0  15px" }}>
           <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
             <TextField
               className={classes.powers}
@@ -254,11 +252,11 @@ export default function Power() {
             <TextField className={classes.powers} variant='outlined' disabled={true} value={Math.floor(multiple.m1 * multiple.m2) || "결과"} />
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container className={classes.boxSmall}>
             <Animal />
           </Container>
 
-          <Container className={classes.bigBox}>
+          <Container className={classes.boxSmall}>
             <Pet />
           </Container>
         </Grid>

@@ -17,12 +17,11 @@ import WithdrawUser from "components/User/WithdrawUser";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "90%",
-    margin: "20px 5%",
+    width: "80vw",
+    margin: "20px 0",
     float: "left",
   },
   rightSection: {
-    minWidth: "795px",
     padding: "0 0 0 30px",
   },
 }));
@@ -84,28 +83,26 @@ function MyInfo({ match }: any) {
       {isNoSignInUser ? (
         <NoAuth />
       ) : (
-        <Container component='main'>
-          <Grid container className={classes.root}>
-            <Grid item xs={2}>
-              <MenuList style={{ outline: "none" }}>
-                <Menus onClick={_onViewUser}>회원 정보</Menus>
-                <Divider variant='middle' />
-                <Menus onClick={_onAuthUser}>캐릭터 인증</Menus>
-                <Divider variant='middle' />
-                <Menus onClick={_onChangePassword}>비밀번호 변경</Menus>
-                <Divider variant='middle' />
-                <Menus onClick={_onWithdraw}>회원 탈퇴</Menus>
-              </MenuList>
-            </Grid>
-            <Divider orientation='vertical' flexItem />
-            <Grid item xs={9} className={classes.rightSection}>
-              {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
-              {mode === "auth" && <AuthAccount userInfo={userInfo} />}
-              {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
-              {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
-            </Grid>
+        <Grid container className={classes.root}>
+          <Grid item xs={2}>
+            <MenuList style={{ outline: "none" }}>
+              <Menus onClick={_onViewUser}>회원 정보</Menus>
+              <Divider variant='middle' />
+              <Menus onClick={_onAuthUser}>캐릭터 인증</Menus>
+              <Divider variant='middle' />
+              <Menus onClick={_onChangePassword}>비밀번호 변경</Menus>
+              <Divider variant='middle' />
+              <Menus onClick={_onWithdraw}>회원 탈퇴</Menus>
+            </MenuList>
           </Grid>
-        </Container>
+          <Divider orientation='vertical' flexItem />
+          <Grid item xs={8} className={classes.rightSection}>
+            {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
+            {mode === "auth" && <AuthAccount userInfo={userInfo} />}
+            {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
+            {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
+          </Grid>
+        </Grid>
       )}
     </React.Fragment>
   );

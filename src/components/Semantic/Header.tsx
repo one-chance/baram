@@ -70,16 +70,14 @@ const useStyles = makeStyles(theme => ({
         "& li": {
           width: "100%",
           height: "4vh",
-          overflow: "visible",
           "& a": {
-            minWidth: "100px",
-            display: "block",
             lineHeight: "4vh",
             margin: "0 20%",
             padding: "0",
             textDecoration: "none",
-            fontSize: "0.9rem",
+            fontSize: "1rem",
             color: "black",
+            display: "block",
           },
           "& a:hover": {
             backgroundColor: "lightgray",
@@ -97,7 +95,7 @@ const useStyles = makeStyles(theme => ({
 
   btn: {
     lineHeight: "4vh",
-    margin: "15px 0",
+    margin: "15px 5px",
     fontFamily: "Do Hyeon",
     fontSize: "1.2rem",
     textTransform: "none",
@@ -168,19 +166,19 @@ export default function Header() {
 
           {signInUserId ? (
             <Container style={{ maxWidth: "180px", minWidth: "170px", margin: "0", padding: "0", float: "right" }}>
-              <Button className={classes.btn} onClick={_onLogoutUser} style={{ marginRight: "5px" }}>
+              <Button className={classes.btn} onClick={_onLogoutUser}>
                 로그아웃
               </Button>
-              <Button className={classes.btn} style={{ marginLeft: "5px", color: "blue" }} disabled>
+              <Button className={classes.btn} style={{ color: "blue" }} disabled>
                 {signInUserId}
               </Button>
             </Container>
           ) : (
             <Container style={{ maxWidth: "180px", minWidth: "170px", margin: "0", padding: "0", float: "right" }}>
-              <Button className={classes.btn} onClick={_onSignInOpen} style={{ marginRight: "5px" }}>
+              <Button className={classes.btn} onClick={_onSignInOpen}>
                 로그인
               </Button>
-              <Button className={classes.btn} onClick={_onMoveSignUp} style={{ marginLeft: "5px" }}>
+              <Button className={classes.btn} onClick={_onMoveSignUp}>
                 회원가입
               </Button>
             </Container>
