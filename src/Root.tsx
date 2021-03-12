@@ -18,15 +18,6 @@ export default class Root extends Component<{}, IState> {
 		this.state = {
 				isLoadded: true,
 		}
-
-		/*
-		initFirebase()
-			.then(() => {
-				this.setState({
-					isLoadded: true,
-				});
-			});
-		*/
 	}
 	
 	render() {

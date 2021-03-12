@@ -1,41 +1,42 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
-import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
   footerWrapper: {
     width: "100%",
     padding: "0",
-    borderTop: "1px solid lightgray",
     marginTop: "10px",
   },
   boxWrapper: {
+    display: 'block',
     width: "100%",
-    margin: "10px 0",
-    float: "left",
+    marginTop: '10px',
+    textAlign: 'center'
   },
-  box: {
+  text: {
     margin: "0 5px",
-    float: "left",
   },
 }));
 
-export default function Header() {
+export default function Footer() {
   const classes = useStyles();
 
   return (
-    <Container className={classes.footerWrapper}>
-      <Container className={classes.boxWrapper}>
-        <h4 className={classes.box}>이용약관</h4>
-        <h4 className={classes.box}>|</h4>
-        <h4 className={classes.box}>개인정보처리방침</h4>
-        <h4 className={classes.box}>|</h4>
-        <h4 className={classes.box}>운영정책</h4>
-      </Container>
-      <Container className={classes.boxWrapper}>
-        <h4 className={classes.box}>이메일 : abced@gmail.com</h4>
-      </Container>
-    </Container>
+    <>
+    <Divider />
+    <div className={classes.footerWrapper}>
+      <div className={classes.boxWrapper}>
+        <span className={classes.text}>이용약관</span>
+        <span className={classes.text}>|</span>
+        <span className={classes.text}>개인정보처리방침</span>
+        <span className={classes.text}>|</span>
+        <span className={classes.text}>운영정책</span>
+      </div>
+      <div className={classes.boxWrapper}>
+        <span className={classes.text}>이메일 : abced@gmail.com</span>
+      </div>
+    </div>
+    </>
   );
 }

@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 
 import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
 
 import NoAuth from "pages/User/NoAuth";
 import Header from "components/Semantic/Header";
@@ -55,23 +54,22 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     right: 0,
     height: "15vh",
-    padding: "0",
+    padding: "0"
   },
   root: {
     width: "100%",
+    minHeight: '70vh',
     position: "relative",
     zIndex: 1,
     marginTop: "15vh",
-    paddingTop: "10px",
-    float: "left",
+    paddingTop: "10px"
   },
   footer: {
     width: "100%",
     height: "12vh",
     margin: 0,
     marginTop: "10px",
-    padding: "0",
-    float: "left",
+    padding: "0"
   },
 }));
 
@@ -84,15 +82,15 @@ function App() {
   }, []);
 
   return (
-    <Container>
-      <React.Fragment>
+    <div>
+      <div>
         <header>
-          <Box className={classes.header}>
+          <div className={classes.header}>
             <Header />
-          </Box>
+          </div>
         </header>
-        <main style={{ minHeight: "70vh" }}>
-          <Box className={classes.root}>
+        <main>
+          <Container className={classes.root}>
             <BrowserRouter>
               <Switch>
                 {/*Home*/}
@@ -137,17 +135,17 @@ function App() {
                 <Route component={NotFound} />
               </Switch>
             </BrowserRouter>
-          </Box>
+          </Container>
         </main>
         <footer>
-          <Box className={classes.footer}>
+          <div className={classes.footer}>
             <Footer />
-          </Box>
+          </div>
         </footer>
-      </React.Fragment>
+      </div>
       <MyAlert />
       <MyBackdrop />
-    </Container>
+    </div>
   );
 }
 
