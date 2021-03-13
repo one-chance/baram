@@ -1,6 +1,5 @@
 require("dotenv").config({ path: "variables.env" });
 const logger = require('../winston');
-const request = require('request');
 
 const VisitLogSchema = require("../schemas/Log/VisitLogSchema");
 const ConfigSchema = require("../schemas/Common/ConfigSchema");
