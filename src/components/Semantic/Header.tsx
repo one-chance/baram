@@ -4,6 +4,8 @@ import SignInDialogState from "state/common/SignInDialogState";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -36,59 +38,48 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "white",
     borderTop: "1px solid darkgray",
     borderBottom: "1px solid darkgray",
+    "&:hover": {
+      "& div": {
+        display: "block",
+      },
+    },
+  },
+
+  menuText: {
+    width: "100%",
+    lineHeight: "7.5vh",
+    margin: "0",
+    textAlign: "center",
+    fontSize: "1.2rem",
+    fontWeight: "bold",
   },
 
   mainmenu: {
-    width: "100%",
-    height: "100%",
+    width: "20%",
     padding: "0",
     margin: "0",
-    listStyle: "none",
-    textAlign: "center",
     float: "left",
-    backgroundColor: "white",
 
-    "& li": {
-      width: "20%",
-      height: "100%",
-      margin: "0",
-      float: "left",
-      "& h3": {
-        lineHeight: "7.5vh",
-        margin: "0",
-        fontSize: "1.2rem",
-      },
-
-      "& ul": {
-        display: "none",
-        width: "100%",
-        height: "26vh",
-        padding: "5px 0",
-        listStyle: "none",
-        backgroundColor: "white",
-        borderBottom: "1px solid darkgray",
-        "& li": {
-          width: "100%",
-          height: "4vh",
-          "& a": {
-            lineHeight: "4vh",
-            margin: "0 20%",
-            padding: "0",
-            textDecoration: "none",
-            fontSize: "1rem",
-            color: "black",
-            display: "block",
-          },
-          "& a:hover": {
-            backgroundColor: "lightgray",
-          },
-        },
-      },
-    },
-
-    "&:hover": {
-      "& ul": {
+    "& div": {
+      width: "100%",
+      height: "25vh",
+      padding: "5px 0",
+      listStyle: "none",
+      backgroundColor: "white",
+      borderBottom: "1px solid darkgray",
+      textAlign: "center",
+      display: "none",
+      "& a": {
+        lineHeight: "4vh",
+        margin: "0 20%",
+        padding: "0",
+        textDecoration: "none",
+        fontSize: "1rem",
+        color: "black",
         display: "block",
+      },
+      "& a:hover": {
+        backgroundColor: "lightgray",
       },
     },
   },
@@ -184,101 +175,63 @@ export default function Header() {
             </Container>
           )}
         </div>
-        <div id='down' className={classes.boxDown}>
-          <ul className={classes.mainmenu}>
-            <li>
-              <h3>게시판</h3>
-              <ul>
-                <li>
-                  <a href='/board/tip'>팁 게시판</a>
-                </li>
-                <li>
-                  <a href='/board/free'>자유 게시판</a>
-                </li>
-                <li>
-                  <a href='#1' onClick={_test}>
-                    스샷 게시판
-                  </a>
-                </li>
-                <li>
-                  <a href='#1' onClick={_test}>
-                    구인 게시판
-                  </a>
-                </li>
-                <li>
-                  <a href='#1' onClick={_test}>
-                    직업 게시판
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h3>계산기</h3>
-              <ul>
-                <li>
-                  <a href='/cal/power'>전투력</a>
-                </li>
-                <li>
-                  <a href='/cal/ability'>능력치</a>
-                </li>
-                <li>
-                  <a href='/cal/exp'>경험치</a>
-                </li>
-                <li>
-                  <a href='/cal/production'>생 산</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h3>도감</h3>
-              <ul>
-                <li>
-                  <a href='/dic/item'>일반 장비</a>
-                </li>
-                <li>
-                  <a href='/dic/petitem'>환수장비</a>
-                </li>
-                <li>
-                  <a href='/dic/animalitem'>신수장비</a>
-                </li>
-                <li>
-                  <a href='/dic/raid'>레이드/사냥터</a>
-                </li>
-                <li>
-                  <a href='/dic/adventure'>탐험일지</a>
-                </li>
-                <li>
-                  <a href='/dic/archeology'>고고학</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h3>거래소</h3>
-              <ul>
-                <li>
-                  {/* <a href='/auction/auction'>거래소</a> */}
-                  <a href='#1' onClick={_test}>
-                    거래소
-                  </a>
-                </li>
-                <li>
-                  {/* <a href='/cal/power'>장터 게시판</a> */}
-                  <a href='#1' onClick={_test}>
-                    장터 게시판
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h3>내 정보</h3>
-              <ul>
-                <li>
-                  <a href='/myinfo/view'>회원정보</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        <Grid container id='down' direction='row' className={classes.boxDown}>
+          <Grid item container className={classes.mainmenu}>
+            <Typography className={classes.menuText}>게시판</Typography>
+            <div>
+              <a href='/board/tip'>팁 게시판</a>
+              <a href='/board/free'>자유 게시판</a>
+              <a href='#1' onClick={_test}>
+                스샷 게시판
+              </a>
+              <a href='#1' onClick={_test}>
+                구인 게시판
+              </a>
+              <a href='#1' onClick={_test}>
+                직업 게시판
+              </a>
+            </div>
+          </Grid>
+          <Grid item container className={classes.mainmenu}>
+            <Typography className={classes.menuText}>계산기</Typography>
+            <div>
+              <a href='/cal/power'>전투력</a>
+              <a href='/cal/ability'>능력치</a>
+              <a href='/cal/exp'>경험치</a>
+              <a href='/cal/production'>생 산</a>
+            </div>
+          </Grid>
+          <Grid item container className={classes.mainmenu}>
+            <Typography className={classes.menuText}>도감</Typography>
+            <div>
+              <a href='/dic/item'>일반 장비</a>
+              <a href='/dic/petitem'>환수장비</a>
+              <a href='/dic/animalitem'>신수장비</a>
+              <a href='/dic/raid'>레이드</a>
+              <a href='/dic/adventure'>탐험일지</a>
+              <a href='/dic/archeology'>고고학</a>
+            </div>
+          </Grid>
+          <Grid item container className={classes.mainmenu}>
+            <Typography className={classes.menuText}>거래소</Typography>
+            <div>
+              {/* <a href='/auction/auction'>거래소</a> */}
+              <a href='#1' onClick={_test}>
+                거래소
+              </a>
+              {/* <a href='/cal/power'>장터 게시판</a> */}
+              <a href='#1' onClick={_test}>
+                장터 게시판
+              </a>
+            </div>
+          </Grid>
+          <Grid item container className={classes.mainmenu}>
+            <Typography className={classes.menuText}>내 정보</Typography>
+            <div>
+              <a href='/myinfo/view'>회원정보</a>
+            </div>
+          </Grid>
+        </Grid>
       </AppBar>
 
       <Dialog open={test}>

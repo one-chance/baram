@@ -147,7 +147,7 @@ function AuthAccount(props: IProps) {
       <Grid container spacing={2} style={{ margin: "0" }}>
         <img src={baseUrlForAuth + "auth.png"} alt='예시' style={{ width: "100%", margin: "5px 0" }} />
         <Typography variant='h6' style={{ width: "100%", margin: "5px 0 0 0" }}>
-          ① 인증할 캐릭터의 호패 한줄 인사말을 바창 아이디로 저장
+          ① 인증할 캐릭터의 호패 한줄 인사말을 도톨 아이디로 저장
         </Typography>
         <Typography variant='h6' style={{ width: "100%", margin: "0" }}>
           ② 서버와 캐릭터명을 입력 후 인증 신청
