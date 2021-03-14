@@ -115,7 +115,6 @@ function PostWrite(props: IProps) {
   const [category, setCategory] = useState<CategoryType>(tab);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const refContent = useRef();
   const [post, setPost] = useState<IPost>();
 
   const _onCancle = () => {

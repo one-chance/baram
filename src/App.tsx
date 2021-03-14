@@ -37,7 +37,7 @@ import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
 
-import NotFound from 'pages/NotFound';
+import NotFound from "pages/NotFound";
 
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";

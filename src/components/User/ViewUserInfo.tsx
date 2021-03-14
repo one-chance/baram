@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import IUserInfo from "interfaces/User/IUserInfo";
 import { setUserInfo } from "utils/UserUtil";
-import { getStringByDate } from 'utils/CommonUtil';
+import { getStringByDate } from "utils/CommonUtil";
 
 interface IProps {
   userInfo: IUserInfo;

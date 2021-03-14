@@ -178,13 +178,13 @@ router.post("/signin", (req, res) => {
             const token = createToken(user.key, id);
 
             // signInLog 컬렉션에 로그인 로깅
-            const signInIP = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress; // 로그인 사용자 IP 조회
+            const signInIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress; // 로그인 사용자 IP 조회
             SignInLogSchema.create({
               userId: id,
               signInIP: signInIP,
-              signInDate: new Date()
+              signInDate: new Date(),
             });
-            
+
             res.status(200).send({
               code: 200,
               message: "로그인 하였습니다.",
@@ -370,9 +370,9 @@ router.put("/email", (req, res) => {
             region: process.env.S3_REGION,
           });
 
-          const SUBJECT = "바창 커뮤니티 이메일 인증번호 발송";
+          const SUBJECT = "도톨 커뮤니티 이메일 인증번호 발송";
           const HTML_BODY = `
-            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에 오신 것을 환영합니다!<br>
+            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "도톨"에 오신 것을 환영합니다!<br>
             아래 인증번호를 복사하시어 이메일 인증 단계를 완료해주시기 바랍니다.<br>
             <br>
             <b>${verifyCode}</b>
@@ -481,9 +481,9 @@ router.put("/id/email", (req, res) => {
             region: process.env.S3_REGION,
           });
 
-          const SUBJECT = "바창 커뮤니티 이메일 인증번호 발송";
+          const SUBJECT = "도톨 커뮤니티 이메일 인증번호 발송";
           const HTML_BODY = `
-            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"입니다.<br>
+            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "도톨"입니다.<br>
             아래 인증번호를 복사하시어 이메일 인증 단계를 완료하신 후 신규 비밀번호 전송 단계를 진행해주세요.<br>
             인증된 이메일로 발송 된 신규 비밀번호를 확인하시어 로그인 하신 뒤, 반드시 비밀번호 변경 단계를 진행해주세요.<br>
             <br>
@@ -706,9 +706,9 @@ router.put("/reset", (req, res) => {
                   region: process.env.S3_REGION,
                 });
 
-                const SUBJECT = "바창 커뮤니티 신규 비밀번호 발송";
+                const SUBJECT = "도톨 커뮤니티 신규 비밀번호 발송";
                 const HTML_BODY = `
-                  <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "바창"에서 안내 말씀 드립니다.<br>
+                  <b>안녕하세요!</b> 바람의나라 유저를 위한 커뮤니티, "도톨"에서 안내 말씀 드립니다.<br>
                   ${id} 의 비밀번호가 다음과 같이 변경되었습니다.<br>
                   ${newPassword.source}<br>
                   로그인 하신 후 신규 비밀번호로 변경해주세요.<br>
@@ -802,13 +802,12 @@ router.put("/reset", (req, res) => {
  *    ERROR CODES:
  *        200: 실행
  */
-router.delete('/session/visitor', (req, res) => {
-  if (process.env.SERVER_URI.indexOf(req.hostname)) { // 동일 호스트네임에서 온 요청으로만 초기화
+router.delete("/session/visitor", (req, res) => {
+  if (process.env.SERVER_URI.indexOf(req.hostname)) {
+    // 동일 호스트네임에서 온 요청으로만 초기화
     mapVisitor = new Map();
     logger.info("[SUCCESS] RESET TODAY VISITORS");
-  }
-  else
-    logger.error('[ERROR] NOT ACCESSED');
+  } else logger.error("[ERROR] NOT ACCESSED");
 
   res.status(200).send();
 });
@@ -822,38 +821,37 @@ router.delete('/session/visitor', (req, res) => {
  *        2005: 사용자 정보가 존재하지 않음.
  *        500: 실패
  */
-router.get('/visit/count', (req, res) => {
+router.get("/visit/count", (req, res) => {
   const visitorData = {
     today: 0,
-    total: 0
-  }
+    total: 0,
+  };
 
   VisitLogSchema.getTodayVisitor()
     .then(todayVisitLog => {
       visitorData.today = todayVisitLog.visitors.length;
 
-      ConfigSchema.getRuntimeConfig(process.env.RUNTIME_MODE)
-        .then(config => {
-          visitorData.total = config.totalVisitorCount;
+      ConfigSchema.getRuntimeConfig(process.env.RUNTIME_MODE).then(config => {
+        visitorData.total = config.totalVisitorCount;
 
-          logger.info('[SUCCESS] GET VISITOR COUNT');
-          res.status(200).send({
-            code: 200,
-            visitorData: visitorData
-          });
-
-          return true;
+        logger.info("[SUCCESS] GET VISITOR COUNT");
+        res.status(200).send({
+          code: 200,
+          visitorData: visitorData,
         });
+
+        return true;
+      });
     })
     .catch(e => {
       logger.error(`GET VISITOR COUNT ERROR > ${e}`);
       res.status(200).send({
         code: 500,
-        message: '방문자 수 정보를 가져오는 데 실패하였습니다.'
+        message: "방문자 수 정보를 가져오는 데 실패하였습니다.",
       });
 
       return false;
-    })
+    });
 });
 
 /*

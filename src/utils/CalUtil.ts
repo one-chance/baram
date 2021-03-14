@@ -1,6 +1,7 @@
 import axios from 'axios';
 import IItemInfo from '../interfaces/Calculator/IItemInfo'
-import IItemOptionInfo from '../interfaces/Calculator/IItemOptionInfo'
+/* import IItemOptionInfo from '../interfaces/Calculator/IItemOptionInfo' */
+
 /*
 * 계정 장비 정보 가져오기
 */
