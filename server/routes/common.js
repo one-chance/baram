@@ -8,6 +8,7 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: process.env.S3_REGION });
 
 const logger = require("../winston");
+const visitMiddleware = require('../middleware/visit');
 
 const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
@@ -802,10 +803,9 @@ router.put("/reset", (req, res) => {
  *    ERROR CODES:
  *        200: 실행
  */
-router.delete("/session/visitor", (req, res) => {
-  if (process.env.SERVER_URI.indexOf(req.hostname)) {
-    // 동일 호스트네임에서 온 요청으로만 초기화
-    mapVisitor = new Map();
+router.delete('/session/visitor', (req, res) => {
+  if (process.env.SERVER_URI.indexOf(req.hostname)) { // 동일 호스트네임에서 온 요청으로만 초기화
+    visitMiddleware.mapVisitor = new Map();
     logger.info("[SUCCESS] RESET TODAY VISITORS");
   } else logger.error("[ERROR] NOT ACCESSED");
 
