@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     padding: "10px",
     paddingLeft: "30px",
     fontWeight: "bold",
-    lineHeight: "30px"
+    lineHeight: "30px",
   },
   datagrid: {
     "& .title": {
@@ -219,9 +219,9 @@ const Board = (props: IProps) => {
   return (
     <React.Fragment>
       <div style={{ height: 630, width: "100%", marginBottom: "20px" }}>
-        <Container className={classes.top}>
+        {/*         <Container className={classes.top}>
           <Typography variant='body2'>{rows.length} 건의 검색 결과가 조회되었습니다.</Typography>
-        </Container>
+        </Container> */}
         <DataGrid
           className={classes.datagrid}
           headerHeight={40} //default 56

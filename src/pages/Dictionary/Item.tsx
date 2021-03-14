@@ -162,7 +162,7 @@ export default function Item() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={0} style={{ margin: "10px", float: "left" }}>
+      <Grid container spacing={0} style={{ margin: "10px" }}>
         <Grid item xs={8} style={{ margin: "0", padding: "10px 0" }}>
           <Container style={{ margin: "5px 0", padding: "0", float: "left" }}>
             <TextField

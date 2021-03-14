@@ -54,22 +54,22 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     right: 0,
     height: "15vh",
-    padding: "0"
+    padding: "0",
   },
   root: {
     width: "100%",
-    minHeight: '70vh',
+    minHeight: "80vh",
     position: "relative",
     zIndex: 1,
     marginTop: "15vh",
-    paddingTop: "10px"
+    paddingTop: "10px",
   },
   footer: {
     width: "100%",
     height: "12vh",
     margin: 0,
     marginTop: "10px",
-    padding: "0"
+    padding: "0",
   },
 }));
 

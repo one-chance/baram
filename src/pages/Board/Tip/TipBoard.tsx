@@ -14,7 +14,7 @@ const nowCategory = "tip";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "30px",
+    marginTop: "20px",
   },
 }));
 

@@ -1,15 +1,12 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-import Container from "@material-ui/core/Container";
-
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,13 +20,14 @@ const useStyles = makeStyles((theme: Theme) =>
     tableContainer2: {
       width: "50%",
       minWidth: "400px",
-      margin: "5px 3% 5px 0",
+      margin: "5px 0",
       padding: "5px",
       float: "left",
     },
 
     table: {
       border: "1px solid",
+      flaot: "left",
       "& th, td": {
         height: "4vh",
         border: "none",
@@ -284,8 +282,8 @@ export default function AnimalItem() {
 
   return (
     <React.Fragment>
-      <Container style={{ width: "80%", margin: "10px 10%" }}>
-        <TableContainer className={classes.tableContainer} component={Paper} elevation={0}>
+      <Grid container direction='column' style={{ width: "80%", margin: "10px 10%" }}>
+        <Grid item className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
@@ -318,8 +316,8 @@ export default function AnimalItem() {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
-        <TableContainer className={classes.tableContainer} component={Paper} elevation={0}>
+        </Grid>
+        <Grid item className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
@@ -352,8 +350,8 @@ export default function AnimalItem() {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
-        <TableContainer className={classes.tableContainer} component={Paper} elevation={0}>
+        </Grid>
+        <Grid item className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
@@ -386,131 +384,139 @@ export default function AnimalItem() {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
-        <TableContainer className={classes.tableContainer2} component={Paper} elevation={0}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>손</TableCell>
-                <TableCell>방어도</TableCell>
-                <TableCell>피흡무시</TableCell>
-                <TableCell>힘민지</TableCell>
-                <TableCell>마법수준</TableCell>
-                <TableCell>전투력</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {datas4.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell scope='row'>{row.등급 || 0}</TableCell>
-                  <TableCell>{row.방어도 || 0}</TableCell>
-                  <TableCell>{row.피흡무시 || 0}</TableCell>
-                  <TableCell>{row.힘민지 || 0}</TableCell>
-                  <TableCell>{row.마법수준 || 0}</TableCell>
-                  <TableCell>{row.전투력 || 0}</TableCell>
+        </Grid>
+        <Grid item container direction='row' className={classes.tableContainer}>
+          <Grid item xs={5}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>손</TableCell>
+                  <TableCell>방어도</TableCell>
+                  <TableCell>피흡무시</TableCell>
+                  <TableCell>힘민지</TableCell>
+                  <TableCell>마법수준</TableCell>
+                  <TableCell>전투력</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Container
-          style={{
-            width: "45%",
-            minWidth: "420px",
-            height: "119px",
-            margin: "10px 0",
-            padding: "5px",
-            float: "left",
-          }}>
-          <h4 className={classes.text}>▶ 범위 수치는 최초 감정시 랜덤으로 부여되며 재감정할 수 없다.</h4>
-          <h4 className={classes.text}>▶ 손, 보주 아이템은 사신단 레이드로 얻을 수 있다. (교환불가)</h4>
-          <h4 className={classes.text} style={{ marginBottom: "0" }}>
-            ▶ 손, 보주 아이템은 사행성으로 얻을 수 있다. (교환가능)
-          </h4>
-        </Container>
-        <TableContainer className={classes.tableContainer2} component={Paper} elevation={0}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>보주</TableCell>
-                <TableCell>특성</TableCell>
-                <TableCell>명중회피</TableCell>
-                <TableCell>피흡무시</TableCell>
-                <TableCell>전투력</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {datas5.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell scope='row'>{row.종류 || 0}</TableCell>
-                  <TableCell>{row.특성 || 0}</TableCell>
-                  <TableCell>{row.명중회피 || 0}</TableCell>
-                  <TableCell>{row.피흡무시 || 0}</TableCell>
-                  <TableCell>{row.전투력 || 0}</TableCell>
+              </TableHead>
+              <TableBody>
+                {datas4.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell scope='row'>{row.등급 || 0}</TableCell>
+                    <TableCell>{row.방어도 || 0}</TableCell>
+                    <TableCell>{row.피흡무시 || 0}</TableCell>
+                    <TableCell>{row.힘민지 || 0}</TableCell>
+                    <TableCell>{row.마법수준 || 0}</TableCell>
+                    <TableCell>{row.전투력 || 0}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            style={{
+              height: "129px",
+              margin: "0 20px",
+              padding: "5px",
+              float: "left",
+            }}>
+            <h4 className={classes.text}>▶ 범위 수치는 최초 감정시 랜덤으로 부여되며 재감정할 수 없다.</h4>
+            <h4 className={classes.text}>▶ 손, 보주 아이템은 사신단 레이드로 얻을 수 있다. (교환불가)</h4>
+            <h4 className={classes.text} style={{ marginBottom: "0" }}>
+              ▶ 손, 보주 아이템은 사행성으로 얻을 수 있다. (교환가능)
+            </h4>
+          </Grid>
+        </Grid>
+
+        <Grid item container direction='row' className={classes.tableContainer}>
+          <Grid item xs={5}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>보주</TableCell>
+                  <TableCell>특성</TableCell>
+                  <TableCell>명중회피</TableCell>
+                  <TableCell>피흡무시</TableCell>
+                  <TableCell>전투력</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Container
-          style={{
-            width: "40%",
-            minWidth: "350px",
-            height: "171px",
-            margin: "5px 0",
-            padding: "5px",
-            float: "left",
-          }}>
-          <h4 className={classes.text}>▶ 보주는 신수에 관계없이 착용할 수 있다.</h4>
-          <h4 className={classes.text}>▶ 손, 보주 아이템은 신수계 대장장이에게 파괴할 수 있다.</h4>
-          <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 강화시 손상된다.</h4>
-          <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 교환시 전속된다.</h4>
-        </Container>
-        <TableContainer className={classes.tableContainer2} component={Paper} elevation={0}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>재료</TableCell>
-                <TableCell>2성</TableCell>
-                <TableCell>3성</TableCell>
-                <TableCell>4성</TableCell>
-                <TableCell>5성</TableCell>
-                <TableCell>6성</TableCell>
-                <TableCell>7성</TableCell>
-                <TableCell>8성</TableCell>
-                <TableCell>9성</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {datas6.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell scope='row'>{row.재료 || 0}</TableCell>
-                  <TableCell>{row.이성 || 0}</TableCell>
-                  <TableCell>{row.삼성 || 0}</TableCell>
-                  <TableCell>{row.사성 || 0}</TableCell>
-                  <TableCell>{row.오성 || 0}</TableCell>
-                  <TableCell>{row.육성 || 0}</TableCell>
-                  <TableCell>{row.칠성 || 0}</TableCell>
-                  <TableCell>{row.팔성 || 0}</TableCell>
-                  <TableCell>{row.구성 || 0}</TableCell>
+              </TableHead>
+              <TableBody>
+                {datas5.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell scope='row'>{row.종류 || 0}</TableCell>
+                    <TableCell>{row.특성 || 0}</TableCell>
+                    <TableCell>{row.명중회피 || 0}</TableCell>
+                    <TableCell>{row.피흡무시 || 0}</TableCell>
+                    <TableCell>{row.전투력 || 0}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            style={{
+              height: "161px",
+              margin: "0 20px",
+              padding: "5px",
+              float: "left",
+            }}>
+            <h4 className={classes.text}>▶ 보주는 신수에 관계없이 착용할 수 있다.</h4>
+            <h4 className={classes.text}>▶ 손, 보주 아이템은 신수계 대장장이에게 파괴할 수 있다.</h4>
+            <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 강화시 손상된다.</h4>
+            <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 교환시 전속된다.</h4>
+          </Grid>
+        </Grid>
+
+        <Grid item container direction='row' className={classes.tableContainer}>
+          <Grid item xs={5}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>재료</TableCell>
+                  <TableCell>2성</TableCell>
+                  <TableCell>3성</TableCell>
+                  <TableCell>4성</TableCell>
+                  <TableCell>5성</TableCell>
+                  <TableCell>6성</TableCell>
+                  <TableCell>7성</TableCell>
+                  <TableCell>8성</TableCell>
+                  <TableCell>9성</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Container
-          style={{
-            width: "40%",
-            minWidth: "350px",
-            height: "107px",
-            margin: "5px 0",
-            padding: "5px",
-            float: "left",
-          }}>
-          <h4 className={classes.text}>▶ 10성은 없지만 9성(손상)은 데이터로 존재한다.</h4>
-          <h4 className={classes.text}>▶ 손상 되어도 지를 수 있으나 재료가 2배 필요하다.</h4>
-        </Container>
-      </Container>
+              </TableHead>
+              <TableBody>
+                {datas6.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell scope='row'>{row.재료 || 0}</TableCell>
+                    <TableCell>{row.이성 || 0}</TableCell>
+                    <TableCell>{row.삼성 || 0}</TableCell>
+                    <TableCell>{row.사성 || 0}</TableCell>
+                    <TableCell>{row.오성 || 0}</TableCell>
+                    <TableCell>{row.육성 || 0}</TableCell>
+                    <TableCell>{row.칠성 || 0}</TableCell>
+                    <TableCell>{row.팔성 || 0}</TableCell>
+                    <TableCell>{row.구성 || 0}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            style={{
+              height: "97px",
+              margin: "0 20px",
+              padding: "5px",
+              float: "left",
+            }}>
+            <h4 className={classes.text}>▶ 10성은 없지만 9성(손상)은 데이터로 존재한다.</h4>
+            <h4 className={classes.text}>▶ 손상 되어도 지를 수 있으나 재료가 2배 필요하다.</h4>
+          </Grid>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 }

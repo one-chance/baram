@@ -9,10 +9,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: "10px",
   },
   boxWrapper: {
-    display: 'block',
+    display: "block",
     width: "100%",
-    marginTop: '10px',
-    textAlign: 'center'
+    marginTop: "10px",
+    textAlign: "center",
   },
   text: {
     margin: "0 5px",
@@ -24,19 +24,19 @@ export default function Footer() {
 
   return (
     <>
-    <Divider />
-    <div className={classes.footerWrapper}>
-      <div className={classes.boxWrapper}>
-        <span className={classes.text}>이용약관</span>
-        <span className={classes.text}>|</span>
-        <span className={classes.text}>개인정보처리방침</span>
-        <span className={classes.text}>|</span>
-        <span className={classes.text}>운영정책</span>
+      <Divider />
+      <div className={classes.footerWrapper}>
+        <div className={classes.boxWrapper}>
+          <span className={classes.text}>이용약관</span>
+          <span className={classes.text}>|</span>
+          <span className={classes.text}>개인정보처리방침</span>
+          <span className={classes.text}>|</span>
+          <span className={classes.text}>운영정책</span>
+        </div>
+        <div className={classes.boxWrapper}>
+          <span className={classes.text}>이메일 : abced@gmail.com</span>
+        </div>
       </div>
-      <div className={classes.boxWrapper}>
-        <span className={classes.text}>이메일 : abced@gmail.com</span>
-      </div>
-    </div>
     </>
   );
 }
