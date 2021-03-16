@@ -4,15 +4,14 @@ import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
   footerWrapper: {
-    width: "100%",
+    width: "70%",
     padding: "0",
-    marginTop: "10px",
+    margin: "0 15%",
   },
   boxWrapper: {
     display: "block",
     width: "100%",
     marginTop: "10px",
-    textAlign: "center",
   },
   text: {
     margin: "0 5px",
