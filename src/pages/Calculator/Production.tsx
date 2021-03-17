@@ -47,6 +47,16 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "none",
       },
     },
+    resultBox: {
+      width: "96%",
+      minWidth: "360px",
+      minHeight: "72px",
+      border: "1px solid lightgray",
+      borderRadius: "5px",
+      margin: "5px 2%",
+      padding: "5px",
+      float: "left",
+    },
   })
 );
 
@@ -57,14 +67,15 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
-interface tt {
-  n: string;
-  q: number;
+interface con {
+  type: number;
+  grade: number;
+  name: string;
+  quantity: number;
+  materials: JSX.Element[];
 }
 
 export default function CalProduction() {
-  var itemNames: string[] = [];
-  var itemQuantities: number[] = [];
   var prodItem = new Map();
   for (let i = 0; i < Object.keys(prodList[0]).length; i++) {
     prodItem.set(Object.keys(prodList[0])[i], Object.values(prodList[0])[i]);
@@ -74,11 +85,11 @@ export default function CalProduction() {
   const [menu1, setMenu1] = useState<Array<JSX.Element>>([]); // 채집술
   const [menu2, setMenu2] = useState<Array<JSX.Element>>([]); // 제작술
   const [menu3, setMenu3] = useState<Array<JSX.Element>>([]); // 상태저항
-  const [chips, setChips] = useState<Array<JSX.Element>>([]);
 
-  const [condition, setCondition] = useState({ type: 0, grade: 0, name: "0", quantity: 0, materials: "" });
-  const [condition2, setCondition2] = useState({ type: 0, grade: 0, name: "0", quantity: 0, materials: "" });
-  const [condition3, setCondition3] = useState({ type: 0, grade: 0, name: "0", quantity: 0, materials: "" });
+  const [itemList, setItemList] = useState([[""], [""], [""]]);
+  const [condition, setCondition] = useState<con>({ type: 0, grade: 0, name: "0", quantity: 0, materials: [] });
+  const [condition2, setCondition2] = useState<con>({ type: 0, grade: 0, name: "0", quantity: 0, materials: [] });
+  const [condition3, setCondition3] = useState<con>({ type: 0, grade: 0, name: "0", quantity: 0, materials: [] });
 
   // prettier-ignore
   const list = [
@@ -139,70 +150,50 @@ export default function CalProduction() {
      ["초급마비저항강화부적", "중급마비저항강화부적", "상급마비저항강화부적", "고급마비저항강화부적", "최고마비저항강화부적", "전설마비저항강화부적"], ["초급도발저항강화부적", "중급도발저항강화부적", "상급도발저항강화부적", "고급도발저항강화부적", "최고도발저항강화부적", "전설도발저항강화부적"]]
   ];
 
-  const [itemList, setItemList] = useState<Array<string>>([]);
-
-  const itemName = itemList.map(item => (
-    <Chip
-      className={classes.itemChip}
-      label={item}
-      key={item}
-      variant='outlined'
-      onClick={() => {
-        test(item, 1);
-      }}
-    />
-  ));
-
-  const test = (name: string, quantity: number) => {
-    let temp = name.split(" ")[0];
-    if (prodItem.has(temp)) {
-      for (let i = 0; i < itemList.length; i++) {
-        if (temp === itemList[i].split(" ")[0]) {
-          itemList.splice(i, 1);
-        }
-      }
-
-      for (let j = 0; j < prodItem.get(temp).length; j += 2) {
-        itemList.push(`${prodItem.get(temp)[j]} ${prodItem.get(temp)[j + 1] * quantity}`);
-      }
-      setItemList(itemList);
-
-      let result: JSX.Element[];
-      result = itemList.map((item, idx) => (
-        <Chip
-          className={classes.itemChip}
-          color={prodItem.has(item.split(" ")[0]) ? "primary" : "default"}
-          disabled={!prodItem.has(item.split(" ")[0])}
-          label={item}
-          key={idx}
-          variant='outlined'
-          onClick={() => {
-            setChips(test(item, quantity) as JSX.Element[]);
-          }}
-        />
-      ));
-
-      return result;
-    } else {
-      setItemList(itemList);
-
-      let result: JSX.Element[];
-      result = itemList.map((item, idx) => (
-        <Chip
-          className={classes.itemChip}
-          color={prodItem.has(item.split(" ")[0]) ? "primary" : "default"}
-          disabled={!prodItem.has(item.split(" ")[0])}
-          label={item}
-          key={idx}
-          variant='outlined'
-          onClick={() => {
-            setChips(test(item, quantity) as JSX.Element[]);
-          }}
-        />
-      ));
-
-      return result;
+  const getChips = (name: string, quantity: number, id: number) => {
+    if (prodItem.has(name)) {
+      removeName(name, quantity, id);
+      addName(name, quantity, id);
+      return makeChips(id);
     }
+  };
+
+  // itemList에서 현재 물품 제거
+  const removeName = (name: string, quantity: number, id: number) => {
+    if (itemList[id].length === 0) return;
+    for (let i = 0; i < itemList[id].length; i++) {
+      if (name === itemList[id][i].split(" ")[0] && quantity.toString() === itemList[id][i].split(" ")[1]) {
+        itemList[id].splice(i, 1);
+        break;
+      }
+    }
+  };
+
+  // itemList에 현재 물품의 하위 재료 추가
+  const addName = (name: string, quantity: number, id: number) => {
+    for (let j = 0; j < prodItem.get(name).length; j += 2) {
+      itemList[id].push(`${prodItem.get(name)[j]} ${prodItem.get(name)[j + 1] * quantity}`);
+    }
+    setItemList(itemList);
+  };
+
+  const makeChips = (id: number) => {
+    let result: JSX.Element[] = itemList[id].map((item, idx) => (
+      <Chip
+        className={classes.itemChip}
+        variant='outlined'
+        color={prodItem.has(item.split(" ")[0]) ? "primary" : "default"}
+        disabled={!prodItem.has(item.split(" ")[0])}
+        label={item}
+        key={idx}
+        onClick={() => {
+          if (id === 0) setCondition({ ...condition, materials: getChips(item.split(" ")[0], Number(item.split(" ")[1]), 0) as JSX.Element[] });
+          else if (id === 1) setCondition2({ ...condition2, materials: getChips(item.split(" ")[0], Number(item.split(" ")[1]), 1) as JSX.Element[] });
+          else if (id === 2) setCondition3({ ...condition3, materials: getChips(item.split(" ")[0], Number(item.split(" ")[1]), 2) as JSX.Element[] });
+        }}
+      />
+    ));
+    return result;
   };
 
   const getMenuList = (type: number, grade: number) => {
@@ -217,34 +208,6 @@ export default function CalProduction() {
     }
   };
 
-  const countMaterials = (name: string, quantity: number) => {
-    if (prodItem.has(name)) {
-      for (let i = 0; i < prodItem.get(name).length; i += 2) {
-        countMaterials(prodItem.get(name)[i], prodItem.get(name)[i + 1] * quantity);
-      }
-    } else {
-      saveMaterials(name, quantity);
-    }
-  };
-
-  const saveMaterials = (name: string, quantity: number) => {
-    if (itemNames.includes(name)) {
-      let idx = itemNames.indexOf(name);
-      itemQuantities[idx] += quantity;
-    } else {
-      itemNames.push(name);
-      itemQuantities.push(quantity);
-    }
-  };
-
-  const getMaterials = (front: string[], back: number[]) => {
-    let result = "";
-    for (let i = 0; i < back.length; i++) {
-      result += front[i] + back[i] + " ";
-    }
-    return result;
-  };
-
   return (
     <Container style={{ width: "80%", height: "100%", margin: "10px 10%", padding: "0", textAlign: "center" }}>
       <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
@@ -254,7 +217,8 @@ export default function CalProduction() {
             variant='outlined'
             value={condition.type}
             onChange={e => {
-              setCondition({ type: Number(e.target.value), grade: 0, name: "0", quantity: 0, materials: "" });
+              itemList[0].splice(0, itemList[0].length);
+              setCondition({ type: Number(e.target.value), grade: 0, name: "0", quantity: 0, materials: [] });
             }}>
             <Menus value={0}>종 류</Menus>
             <Menus value={1}>직조술</Menus>
@@ -267,8 +231,9 @@ export default function CalProduction() {
             variant='outlined'
             value={condition.grade}
             onChange={e => {
+              itemList[0].splice(0, itemList[0].length);
               setMenu1(getMenuList(condition.type, Number(e.target.value)) as JSX.Element[]);
-              setCondition({ ...condition, grade: Number(e.target.value), name: "0", quantity: 0, materials: "" });
+              setCondition({ ...condition, grade: Number(e.target.value), name: "0", quantity: 0, materials: [] });
             }}>
             <Menus value={0}>단 계</Menus>
             <Menus value={1}>왕초보</Menus>
@@ -289,10 +254,10 @@ export default function CalProduction() {
             value={condition.name}
             disabled={condition.type === 0 || condition.grade === 0}
             onChange={e => {
-              setCondition({ ...condition, name: String(e.target.value), quantity: 1, materials: "" });
+              setCondition({ ...condition, name: String(e.target.value), quantity: 1, materials: [] });
             }}
             style={{ width: "140px" }}>
-            <Menus value={0}>품 목</Menus>
+            <Menus value='0'>품 목</Menus>
             {menu1}
           </Select>
           <TextField
@@ -313,32 +278,24 @@ export default function CalProduction() {
             variant='contained'
             color='primary'
             onClick={() => {
-              itemNames = [];
-              itemQuantities = [];
               if (condition.name !== "0") {
-                countMaterials(condition.name, condition.quantity);
-                itemList.splice(0, itemList.length);
-                setChips(test(condition.name, condition.quantity) as JSX.Element[]);
-                setCondition({ ...condition, materials: getMaterials(itemNames, itemQuantities) });
+                itemList[0].splice(0, itemList[0].length);
+                setCondition({ ...condition, materials: getChips(condition.name, condition.quantity, 0) as JSX.Element[] });
               }
             }}
             style={{ minWidth: "60px", height: "50px", margin: "5px", padding: "0", float: "left" }}>
             계산
           </Button>
         </Container>
-        <Container
-          style={{
-            width: "96%",
-            minWidth: "360px",
-            minHeight: "72px",
-            border: "1px solid lightgray",
-            borderRadius: "5px",
-            margin: "5px 2%",
-            padding: "5px 10px",
-            float: "left",
-          }}>
-          <h3 style={{ margin: "0", padding: "0", lineHeight: "30px" }}>{condition.materials || "제작 실패시 재료가 소멸될 수 있으므로 여분을 챙기자"}</h3>
-          {chips}
+        <Container className={classes.resultBox}>
+          {condition.materials.length > 1 ? (
+            condition.materials
+          ) : (
+            <span style={{ fontSize: "1rem" }}>
+              <br />
+              제작 실패시 재료가 소멸될 수 있으므로 여분을 준비하자
+            </span>
+          )}
         </Container>
       </Container>
       <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
@@ -348,7 +305,8 @@ export default function CalProduction() {
             variant='outlined'
             value={condition2.type}
             onChange={e => {
-              setCondition2({ type: Number(e.target.value), grade: 0, name: "0", quantity: 0, materials: "" });
+              itemList[1].splice(0, itemList[1].length);
+              setCondition2({ type: Number(e.target.value), grade: 0, name: "0", quantity: 0, materials: [] });
             }}>
             <Menus value={0}>종 류</Menus>
             <Menus value={5}>재봉술</Menus>
@@ -361,8 +319,9 @@ export default function CalProduction() {
             variant='outlined'
             value={condition2.grade}
             onChange={e => {
+              itemList[1].splice(0, itemList[1].length);
               setMenu2(getMenuList(condition2.type, Number(e.target.value)) as JSX.Element[]);
-              setCondition2({ ...condition2, grade: Number(e.target.value), name: "0", quantity: 0, materials: "" });
+              setCondition2({ ...condition2, grade: Number(e.target.value), name: "0", quantity: 0, materials: [] });
             }}>
             <Menus value={0}>단 계</Menus>
             <Menus value={1}>왕초보</Menus>
@@ -383,7 +342,7 @@ export default function CalProduction() {
             value={condition2.name}
             disabled={condition2.type === 0 || condition2.grade === 0}
             onChange={e => {
-              setCondition2({ ...condition2, name: String(e.target.value), quantity: 1, materials: "" });
+              setCondition2({ ...condition2, name: String(e.target.value), quantity: 1, materials: [] });
             }}
             style={{ width: "140px" }}>
             <Menus value='0'>품 목</Menus>
@@ -407,29 +366,22 @@ export default function CalProduction() {
             variant='contained'
             color='primary'
             onClick={() => {
-              itemNames = [];
-              itemQuantities = [];
-              if (condition2.name !== "0") {
-                countMaterials(condition2.name, condition2.quantity);
-                setCondition2({ ...condition2, materials: getMaterials(itemNames, itemQuantities) });
-              }
+              itemList[1].splice(0, itemList[1].length);
+              if (condition2.name !== "0") setCondition2({ ...condition2, materials: getChips(condition2.name, condition2.quantity, 1) as JSX.Element[] });
             }}
             style={{ minWidth: "60px", height: "50px", margin: "5px", padding: "0", float: "left" }}>
             계산
           </Button>
         </Container>
-        <Container
-          style={{
-            width: "96%",
-            minWidth: "360px",
-            minHeight: "72px",
-            border: "1px solid lightgray",
-            borderRadius: "5px",
-            margin: "5px 2%",
-            padding: "5px",
-            float: "left",
-          }}>
-          <h3 style={{ margin: "0", lineHeight: "30px" }}>{condition2.materials || "제작 실패시 재료가 소멸될 수 있으므로 여분을 챙기자"}</h3>
+        <Container className={classes.resultBox}>
+          {condition2.materials.length > 1 ? (
+            condition2.materials
+          ) : (
+            <span style={{ fontSize: "1rem" }}>
+              <br />
+              제작 실패시 재료가 소멸될 수 있으므로 여분을 준비하자
+            </span>
+          )}
         </Container>
       </Container>
 
@@ -440,7 +392,8 @@ export default function CalProduction() {
             variant='outlined'
             value={condition3.type}
             onChange={e => {
-              setCondition3({ type: Number(e.target.value), grade: 0, name: "0", quantity: 0, materials: "" });
+              itemList[2].splice(0, itemList[2].length);
+              setCondition3({ type: Number(e.target.value), grade: 0, name: "0", quantity: 0, materials: [] });
             }}
             style={{ width: "80px" }}>
             <Menus value={0}>종류</Menus>
@@ -452,8 +405,9 @@ export default function CalProduction() {
             variant='outlined'
             value={condition3.grade}
             onChange={e => {
+              itemList[2].splice(0, itemList[2].length);
               setMenu3(getMenuList(condition3.type, Number(e.target.value)) as JSX.Element[]);
-              setCondition3({ ...condition3, grade: Number(e.target.value), name: "0", quantity: 0, materials: "" });
+              setCondition3({ ...condition3, grade: Number(e.target.value), name: "0", quantity: 0, materials: [] });
             }}
             style={{ width: "80px" }}>
             <Menus value={0}>상 태</Menus>
@@ -472,9 +426,7 @@ export default function CalProduction() {
             value={condition3.name}
             disabled={condition3.type === 0 || condition3.grade === 0}
             onChange={e => {
-              itemNames = [];
-              itemQuantities = [];
-              setCondition3({ ...condition3, name: String(e.target.value), quantity: 1, materials: "" });
+              setCondition3({ ...condition3, name: String(e.target.value), quantity: 1, materials: [] });
             }}
             style={{ width: "180px" }}>
             <Menus value='0'>품 목</Menus>
@@ -498,29 +450,23 @@ export default function CalProduction() {
             variant='contained'
             color='primary'
             onClick={() => {
-              /*               itemNames = [];
-              itemQuantities = []; */
-              if (condition3.name !== "0") {
-                countMaterials(condition3.name, condition3.quantity);
-                setCondition3({ ...condition3, materials: getMaterials(itemNames, itemQuantities) });
-              }
+              itemList[2].splice(0, itemList[2].length);
+              setItemList(itemList);
+              if (condition3.name !== "0") setCondition3({ ...condition3, materials: getChips(condition3.name, condition3.quantity, 2) as JSX.Element[] });
             }}
             style={{ minWidth: "60px", height: "50px", margin: "5px", padding: "0", float: "left" }}>
             계산
           </Button>
         </Container>
-        <Container
-          style={{
-            width: "96%",
-            minWidth: "360px",
-            minHeight: "72px",
-            border: "1px solid lightgray",
-            borderRadius: "5px",
-            margin: "5px 2%",
-            padding: "5px",
-            float: "left",
-          }}>
-          <h3 style={{ margin: "0", lineHeight: "30px" }}>{condition3.materials || "제작 실패시 재료가 소멸될 수 있으므로 여분을 챙기자"}</h3>
+        <Container className={classes.resultBox}>
+          {condition3.materials.length > 1 ? (
+            condition3.materials
+          ) : (
+            <span style={{ fontSize: "1rem" }}>
+              <br />
+              제작 실패시 재료가 소멸될 수 있으므로 여분을 준비하자
+            </span>
+          )}
         </Container>
       </Container>
     </Container>
