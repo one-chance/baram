@@ -55,6 +55,13 @@ app.listen(PORT, () => {
 
 app.use("/api", route);
 
+app.use("/health", (req, res) => {
+  res.status(200).send({
+    code: 200,
+    message: 'SUCCESS'
+  });
+});
+
 /*
  * TEST API ZONE START
  */
