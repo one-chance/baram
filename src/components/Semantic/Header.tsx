@@ -113,7 +113,7 @@ export default function Header() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
-  const [test, setTest] = useState(false);
+  const [opener, setOpener] = useState(false);
 
   const signInUserId = getSignInUserId();
 
@@ -129,11 +129,11 @@ export default function Header() {
     setIsSignInOpen(false);
   };
 
-  const _test = () => {
-    setTest(true);
+  const _prepare = () => {
+    setOpener(true);
 
     setTimeout(() => {
-      setTest(false);
+      setOpener(false);
     }, 2000);
   };
 
@@ -178,23 +178,23 @@ export default function Header() {
         <Grid container id='down' direction='row' className={classes.boxDown}>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>게시판</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/board/tip'>팁 게시판</a>
               <a href='/board/free'>자유 게시판</a>
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 스샷 게시판
               </a>
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 구인 게시판
               </a>
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 직업 게시판
               </a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>계산기</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/cal/power'>전투력</a>
               <a href='/cal/ability'>능력치</a>
               <a href='/cal/exp'>경험치</a>
@@ -203,38 +203,39 @@ export default function Header() {
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>도감</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/dic/item'>일반 장비</a>
               <a href='/dic/petitem'>환수장비</a>
               <a href='/dic/animalitem'>신수장비</a>
-              <a href='/dic/raid'>레이드</a>
+              <a href='#1' onClick={_prepare}>
+                레이드
+              </a>
               <a href='/dic/adventure'>탐험일지</a>
               <a href='/dic/archeology'>고고학</a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>거래소</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               {/* <a href='/auction/auction'>거래소</a> */}
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 거래소
               </a>
-              {/* <a href='/cal/power'>장터 게시판</a> */}
-              <a href='#1' onClick={_test}>
-                장터 게시판
+              <a href='#1' onClick={_prepare}>
+                거래 게시판
               </a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>내 정보</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/myinfo/view'>회원정보</a>
             </div>
           </Grid>
         </Grid>
       </AppBar>
 
-      <Dialog open={test}>
+      <Dialog open={opener}>
         <DialogContent>
           <img src='/assets/img/announce.png' alt='announce' />
         </DialogContent>

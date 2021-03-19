@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "2.5px",
       borderRadius: "10px",
       fontSize: "1rem",
+      float: "left",
       "& .MuiChip-label": {
         padding: "0 10px",
       },
@@ -47,14 +48,21 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "none",
       },
     },
+    btn: {
+      minWidth: "60px",
+      height: "50px",
+      margin: "5px",
+      padding: "0",
+      float: "left",
+    },
     resultBox: {
       width: "96%",
       minWidth: "360px",
-      minHeight: "72px",
+      minHeight: "82px",
       border: "1px solid lightgray",
       borderRadius: "5px",
       margin: "5px 2%",
-      padding: "5px",
+      padding: "5px 10px",
       float: "left",
     },
   })
@@ -150,7 +158,7 @@ export default function CalProduction() {
      ["초급마비저항강화부적", "중급마비저항강화부적", "상급마비저항강화부적", "고급마비저항강화부적", "최고마비저항강화부적", "전설마비저항강화부적"], ["초급도발저항강화부적", "중급도발저항강화부적", "상급도발저항강화부적", "고급도발저항강화부적", "최고도발저항강화부적", "전설도발저항강화부적"]]
   ];
 
-  const getChips = (name: string, quantity: number, id: number) => {
+  const getMaterials = (name: string, quantity: number, id: number) => {
     if (prodItem.has(name)) {
       removeName(name, quantity, id);
       addName(name, quantity, id);
@@ -177,6 +185,29 @@ export default function CalProduction() {
     setItemList(itemList);
   };
 
+  // 재료내 중복인 것들 전부 병합
+  const mergeChips = (id: number) => {
+    for (let i = 0; i < itemList[id].length - 1; i++) {
+      mergeName(id);
+    }
+    return makeChips(id);
+  };
+
+  // itemList에 이름이 같은 물품 병합
+  const mergeName = (id: number) => {
+    for (let i = 0; i < itemList[id].length; i++) {
+      for (let j = i + 1; j < itemList[id].length; j++) {
+        if (itemList[id][i].split(" ")[0] === itemList[id][j].split(" ")[0]) {
+          let temp = parseInt(itemList[id][i].split(" ")[1]);
+          let temp2 = parseInt(itemList[id][j].split(" ")[1]);
+          itemList[id][j] = `${itemList[id][j].split(" ")[0]} ${temp + temp2}`;
+          itemList[id].splice(i, 1);
+        }
+      }
+    }
+    setItemList(itemList);
+  };
+
   const makeChips = (id: number) => {
     let result: JSX.Element[] = itemList[id].map((item, idx) => (
       <Chip
@@ -187,9 +218,9 @@ export default function CalProduction() {
         label={item}
         key={idx}
         onClick={() => {
-          if (id === 0) setCondition({ ...condition, materials: getChips(item.split(" ")[0], Number(item.split(" ")[1]), 0) as JSX.Element[] });
-          else if (id === 1) setCondition2({ ...condition2, materials: getChips(item.split(" ")[0], Number(item.split(" ")[1]), 1) as JSX.Element[] });
-          else if (id === 2) setCondition3({ ...condition3, materials: getChips(item.split(" ")[0], Number(item.split(" ")[1]), 2) as JSX.Element[] });
+          if (id === 0) setCondition({ ...condition, materials: getMaterials(item.split(" ")[0], Number(item.split(" ")[1]), 0) as JSX.Element[] });
+          else if (id === 1) setCondition2({ ...condition2, materials: getMaterials(item.split(" ")[0], Number(item.split(" ")[1]), 1) as JSX.Element[] });
+          else if (id === 2) setCondition3({ ...condition3, materials: getMaterials(item.split(" ")[0], Number(item.split(" ")[1]), 2) as JSX.Element[] });
         }}
       />
     ));
@@ -277,14 +308,23 @@ export default function CalProduction() {
           <Button
             variant='contained'
             color='primary'
+            className={classes.btn}
             onClick={() => {
               if (condition.name !== "0") {
                 itemList[0].splice(0, itemList[0].length);
-                setCondition({ ...condition, materials: getChips(condition.name, condition.quantity, 0) as JSX.Element[] });
+                setCondition({ ...condition, materials: getMaterials(condition.name, condition.quantity, 0) as JSX.Element[] });
               }
-            }}
-            style={{ minWidth: "60px", height: "50px", margin: "5px", padding: "0", float: "left" }}>
-            계산
+            }}>
+            재료
+          </Button>
+          <Button
+            variant='contained'
+            color='primary'
+            className={classes.btn}
+            onClick={() => {
+              setCondition({ ...condition, materials: mergeChips(0) });
+            }}>
+            합산
           </Button>
         </Container>
         <Container className={classes.resultBox}>
@@ -365,12 +405,21 @@ export default function CalProduction() {
           <Button
             variant='contained'
             color='primary'
+            className={classes.btn}
             onClick={() => {
               itemList[1].splice(0, itemList[1].length);
-              if (condition2.name !== "0") setCondition2({ ...condition2, materials: getChips(condition2.name, condition2.quantity, 1) as JSX.Element[] });
-            }}
-            style={{ minWidth: "60px", height: "50px", margin: "5px", padding: "0", float: "left" }}>
-            계산
+              if (condition2.name !== "0") setCondition2({ ...condition2, materials: getMaterials(condition2.name, condition2.quantity, 1) as JSX.Element[] });
+            }}>
+            재료
+          </Button>
+          <Button
+            variant='contained'
+            color='primary'
+            className={classes.btn}
+            onClick={() => {
+              setCondition2({ ...condition2, materials: mergeChips(1) });
+            }}>
+            합산
           </Button>
         </Container>
         <Container className={classes.resultBox}>
@@ -449,13 +498,22 @@ export default function CalProduction() {
           <Button
             variant='contained'
             color='primary'
+            className={classes.btn}
             onClick={() => {
               itemList[2].splice(0, itemList[2].length);
               setItemList(itemList);
-              if (condition3.name !== "0") setCondition3({ ...condition3, materials: getChips(condition3.name, condition3.quantity, 2) as JSX.Element[] });
-            }}
-            style={{ minWidth: "60px", height: "50px", margin: "5px", padding: "0", float: "left" }}>
-            계산
+              if (condition3.name !== "0") setCondition3({ ...condition3, materials: getMaterials(condition3.name, condition3.quantity, 2) as JSX.Element[] });
+            }}>
+            재료
+          </Button>
+          <Button
+            variant='contained'
+            color='primary'
+            className={classes.btn}
+            onClick={() => {
+              setCondition3({ ...condition3, materials: mergeChips(2) });
+            }}>
+            합산
           </Button>
         </Container>
         <Container className={classes.resultBox}>
