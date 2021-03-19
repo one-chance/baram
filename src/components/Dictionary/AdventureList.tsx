@@ -64,7 +64,6 @@ export default function AdventureList() {
   const classes = useStyles();
 
   const adventureList = getAdventureList();
-
   const baseUrlForAdventureImg = getBaseUrlForAdventureImg();
 
   const [dlgMonster, setDlgMonster] = useState({
@@ -364,15 +363,9 @@ export default function AdventureList() {
         </DialogTitle>
         <Divider />
         <DialogContent style={{ padding: "10px" }}>
-          <Table className={classes.table} aria-label={`archeologyList-Table`}>
-            <TableBody>
-              {dlgRewardImg.rewardImgList.map((rewardImg: IRewardImg) => (
-                <StyledTableRow key={rewardImg.idx}>
-                  <img src={baseUrlForAdventureImg + rewardImg.img} alt='사진' />
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
+          {dlgRewardImg.rewardImgList.map((rewardImg: IRewardImg) => (
+            <img src={baseUrlForAdventureImg + rewardImg.img} key={rewardImg.idx} alt='보상' />
+          ))}
         </DialogContent>
       </Dialog>
     </React.Fragment>
