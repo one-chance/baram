@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -17,6 +17,19 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    box: {
+      width: "40px",
+      margin: "5px",
+      float: "left",
+      "& input": {
+        height: "40px",
+        padding: "0",
+        textAlign: "center",
+      },
+      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+        display: "none",
+      },
+    },
     select2: {
       width: "80px",
       height: "40px",
@@ -33,7 +46,6 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "blue",
       },
     },
-
     petText: {
       width: "50px",
       height: "40px",
@@ -46,9 +58,8 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-
     powerText: {
-      width: "80%",
+      width: "240px",
       height: "40px",
       lineHeight: "40px",
       margin: "5px 0",
@@ -61,13 +72,12 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-
     btn: {
       height: "40px",
       margin: "5px",
       padding: "0",
+      float: "left",
     },
-
     dlgText: {
       height: "30px",
       fontFamily: "Jua",
@@ -91,75 +101,73 @@ export default function Animal() {
   // 신수 정보 : 등급, 레벨, 무기, 갑옷, 손, 손, 보주
   const [animalInfo, setAnimalInfo] = useState({ grade: 5, level: 99, weaphon: 7, helmet: 7, armor: 7, handL: 2, handR: 2, orb: 2 });
 
+  const switchDlg = () => {
+    if (openHelper === true) {
+      setOpenHelper(false);
+    } else {
+      setOpenHelper(true);
+    }
+  };
+
   useEffect(() => {
     setAnimalInfo(animalInfo);
-    setAnimalPower(
-      animalInfo.grade * 400 +
-        animalInfo.level * 4 +
-        (animalInfo.weaphon * 50 + 250) +
-        (animalInfo.helmet * 50 + 250) +
-        (animalInfo.armor * 50 + 250) +
-        animalInfo.handL * 100 +
-        animalInfo.handR * 100 +
-        animalInfo.orb * 200
-    );
+    if (animalInfo.grade === 0 || animalInfo.level === 0) {
+      setAnimalPower(0);
+    } else {
+      setAnimalPower(
+        animalInfo.grade * 400 +
+          animalInfo.level * 4 +
+          (animalInfo.weaphon * 50 + 250) +
+          (animalInfo.helmet * 50 + 250) +
+          (animalInfo.armor * 50 + 250) +
+          animalInfo.handL * 100 +
+          animalInfo.handR * 100 +
+          animalInfo.orb * 200
+      );
+    }
   }, [animalInfo]);
 
   return (
     <React.Fragment>
-      <Container style={{ width: "100%", height: "50px", padding: "0 75px", margin: "0" }}>
+      <Grid item container justify='center' style={{ padding: "0", margin: "0" }}>
         <TextField
           variant='outlined'
-          inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
-          defaultValue={5}
+          className={classes.box}
+          value={animalInfo.grade || ""}
           onChange={e => {
-            setAnimalInfo({ ...animalInfo, grade: Number(e.target.value) });
+            if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 6) {
+              setAnimalInfo({ ...animalInfo, grade: Number(e.target.value) });
+            } else {
+              setAnimalInfo({ ...animalInfo, grade: 0 });
+            }
           }}
-          style={{ width: "35px", float: "left", margin: "5px 0" }}
         />
-        <Link
-          style={{
-            width: "35px",
-            lineHeight: "35px",
-            margin: "5px 5px 5px 0",
-            float: "left",
-            textDecoration: "none",
-            textAlign: "center",
-            color: "black",
-          }}>
+        <Link className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
           등급
         </Link>
         <TextField
           variant='outlined'
-          inputProps={{ style: { height: "35px", padding: "0", textAlign: "center" } }}
-          defaultValue={99}
+          type='number'
+          className={classes.box}
+          value={animalInfo.level || ""}
           onChange={e => {
-            let a = parseInt(e.target.value);
-            if (a > 0 && a < 99) {
-              setAnimalInfo({ ...animalInfo, level: Number(e.target.value) });
+            if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 100) {
+              setAnimalInfo({ ...animalInfo, level: parseInt(e.target.value) });
+            } else {
+              setAnimalInfo({ ...animalInfo, level: 0 });
             }
           }}
-          style={{ width: "35px", float: "left", margin: "5px 0 5px 5px" }}
         />
-        <Link
-          style={{
-            width: "35px",
-            lineHeight: "35px",
-            margin: "5px 0",
-            float: "left",
-            textDecoration: "none",
-            textAlign: "center",
-            color: "black",
-          }}>
+        <Link className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
           레벨
         </Link>
-      </Container>
-      <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
+      </Grid>
+      <Grid item style={{ padding: "0", margin: "0" }}>
         <Link className={classes.petText}>무 기</Link>
         <Select
           className={classes.select2}
           variant='outlined'
-          defaultValue={7}
+          value={animalInfo.weaphon}
           onChange={e => {
             setAnimalInfo({ ...animalInfo, weaphon: Number(e.target.value) });
           }}>
@@ -175,7 +183,7 @@ export default function Animal() {
         <Select
           className={classes.select2}
           variant='outlined'
-          defaultValue={2}
+          value={animalInfo.handL}
           onChange={e => {
             setAnimalInfo({ ...animalInfo, handL: Number(e.target.value) });
           }}>
@@ -184,13 +192,13 @@ export default function Animal() {
           <Menus value={2}>2단</Menus>
           <Menus value={3}>3단</Menus>
         </Select>
-      </Container>
-      <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
+      </Grid>
+      <Grid item style={{ padding: "0", margin: "0" }}>
         <Link className={classes.petText}>투구</Link>
         <Select
           className={classes.select2}
           variant='outlined'
-          defaultValue={7}
+          value={animalInfo.helmet}
           onChange={e => {
             setAnimalInfo({ ...animalInfo, helmet: Number(e.target.value) });
           }}>
@@ -206,7 +214,7 @@ export default function Animal() {
         <Select
           className={classes.select2}
           variant='outlined'
-          defaultValue={2}
+          value={animalInfo.handR}
           onChange={e => {
             setAnimalInfo({ ...animalInfo, handR: Number(e.target.value) });
           }}>
@@ -215,13 +223,13 @@ export default function Animal() {
           <Menus value={2}>2단</Menus>
           <Menus value={3}>3단</Menus>
         </Select>
-      </Container>
-      <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
+      </Grid>
+      <Grid item style={{ padding: "0", margin: "0" }}>
         <Link className={classes.petText}>갑옷</Link>
         <Select
           className={classes.select2}
           variant='outlined'
-          defaultValue={7}
+          value={animalInfo.armor}
           onChange={e => {
             setAnimalInfo({ ...animalInfo, armor: Number(e.target.value) });
           }}>
@@ -237,7 +245,7 @@ export default function Animal() {
         <Select
           className={classes.select2}
           variant='outlined'
-          defaultValue={2}
+          value={animalInfo.orb}
           onChange={e => {
             setAnimalInfo({ ...animalInfo, orb: Number(e.target.value) });
           }}>
@@ -245,19 +253,15 @@ export default function Animal() {
           <Menus value={1}>1개</Menus>
           <Menus value={2}>2개</Menus>
         </Select>
-      </Container>
-      <Container style={{ width: "100%", height: "50px", padding: "0", margin: "0" }}>
+      </Grid>
+      <Grid item style={{ padding: "0", margin: "0" }}>
         <Link className={classes.powerText}>신수 전투력 : {animalPower}</Link>
-        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px", margin: "5px 0" }} onClick={() => setOpenHelper(true)}>
+        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px", margin: "5px 0" }} onClick={switchDlg}>
           ?
         </Button>
-      </Container>
-      <Dialog
-        open={openHelper}
-        onClose={() => {
-          setOpenHelper(false);
-        }}
-        maxWidth='lg'>
+      </Grid>
+
+      <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
         <DialogTitle style={{ padding: " 10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>신수 전투력 TMI</Typography>
         </DialogTitle>
@@ -281,13 +285,7 @@ export default function Animal() {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button
-            tabIndex={-1}
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

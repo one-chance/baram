@@ -4,7 +4,6 @@ import LevelState from "state/Calculator/LevelState";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -52,12 +51,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     boxSmall: {
-      width: "100%",
       marginBottom: "10px",
       padding: "9px",
       border: "1px solid gray",
       borderRadius: "10px",
-      float: "left",
     },
 
     select: {
@@ -117,19 +114,10 @@ export default function Power() {
 
   return (
     <React.Fragment>
-      <Grid
-        container
-        spacing={3}
-        direction='row'
-        alignItems='center'
-        justify='center'
-        style={{
-          margin: "0",
-          padding: "0",
-        }}>
+      <Grid container spacing={3} direction='row' alignItems='center' justify='center' style={{ margin: "0", padding: "0" }}>
         {/* LEFT COLUMN */}
-        <Grid item style={{ width: "320px", padding: "0", margin: "0 15px" }}>
-          <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
+        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0 15px" }}>
+          <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>
             <TextField
               variant='outlined'
               placeholder='아이디@서버'
@@ -139,23 +127,23 @@ export default function Power() {
               inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
               style={{ width: "175px" }}
             />
-            <Button variant='contained' color='primary' className={classes.btn} onClick={() => autoApply()}>
+            <Button variant='contained' color='primary' className={classes.btn} onClick={autoApply}>
               적용
             </Button>
-          </Container>
+          </Grid>
 
-          <Container className={classes.boxSmall}>
+          <Grid item className={classes.boxSmall}>
             <Level />
-          </Container>
+          </Grid>
 
-          <Container className={classes.boxSmall}>
+          <Grid item className={classes.boxSmall}>
             <Equip />
-          </Container>
+          </Grid>
         </Grid>
 
         {/* CENTER COLUMN */}
-        <Grid item style={{ width: "320px", padding: "0", margin: "0  15px" }}>
-          <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
+        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0  15px" }}>
+          <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>
             <TextField
               className={classes.powers}
               variant='outlined'
@@ -163,10 +151,10 @@ export default function Power() {
               placeholder='전투력'
               value={plus.p1 || ""}
               onChange={e => {
-                if (e.target.value === "" || e.target.value === "-") {
-                  setPlus({ ...plus, p1: 0 });
+                if (parseInt(e.target.value) > 0) {
+                  setPlus({ ...plus, p1: parseInt(e.target.value) });
                 } else {
-                  setPlus({ ...plus, p1: Number(e.target.value) });
+                  setPlus({ ...plus, p1: 0 });
                 }
               }}
             />
@@ -178,10 +166,10 @@ export default function Power() {
               placeholder='전투력'
               value={plus.p2 || ""}
               onChange={e => {
-                if (e.target.value === "" || e.target.value === "-") {
-                  setPlus({ ...plus, p2: 0 });
+                if (parseInt(e.target.value) > 0) {
+                  setPlus({ ...plus, p2: parseInt(e.target.value) });
                 } else {
-                  setPlus({ ...plus, p2: Number(e.target.value) });
+                  setPlus({ ...plus, p2: 0 });
                 }
               }}
             />
@@ -193,33 +181,33 @@ export default function Power() {
               placeholder='전투력'
               value={plus.p3 || ""}
               onChange={e => {
-                if (e.target.value === "" || e.target.value === "-") {
-                  setPlus({ ...plus, p3: 0 });
+                if (parseInt(e.target.value) > 0) {
+                  setPlus({ ...plus, p3: parseInt(e.target.value) });
                 } else {
-                  setPlus({ ...plus, p3: Number(e.target.value) });
+                  setPlus({ ...plus, p3: 0 });
                 }
               }}
             />
             <Link className={classes.plus}>=</Link>
             <TextField className={classes.powers} variant='outlined' disabled={true} value={Math.floor(plus.p1 + plus.p2 + plus.p3) || "합계"} />
-          </Container>
+          </Grid>
 
-          <Container className={classes.boxSmall}>
+          <Grid item className={classes.boxSmall}>
             <Engrave />
-          </Container>
+          </Grid>
 
-          <Container className={classes.boxSmall}>
+          <Grid item className={classes.boxSmall}>
             <Gold />
-          </Container>
+          </Grid>
 
-          <Container className={classes.boxSmall}>
+          <Grid item className={classes.boxSmall}>
             <Skill />
-          </Container>
+          </Grid>
         </Grid>
 
         {/* RIGHT COLUMN */}
-        <Grid item style={{ width: "320px", padding: "0", margin: "0  15px" }}>
-          <Container style={{ padding: "0", margin: "15px 0", textAlign: "center", float: "left" }}>
+        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0  15px" }}>
+          <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>
             <TextField
               className={classes.powers}
               variant='outlined'
@@ -227,10 +215,10 @@ export default function Power() {
               placeholder='전투력'
               value={multiple.m1 || ""}
               onChange={e => {
-                if (e.target.value === "" || e.target.value === "-") {
-                  setMultiple({ ...multiple, m1: 0 });
+                if (parseInt(e.target.value) > 0) {
+                  setMultiple({ ...multiple, m1: parseInt(e.target.value) });
                 } else {
-                  setMultiple({ ...multiple, m1: Number(e.target.value) });
+                  setMultiple({ ...multiple, m1: 0 });
                 }
               }}
             />
@@ -239,7 +227,6 @@ export default function Power() {
               variant='outlined'
               value={multiple.m2}
               className={classes.select}
-              MenuProps={{ disableScrollLock: true }}
               onChange={e => {
                 setMultiple({ ...multiple, m2: Number(e.target.value) });
               }}>
@@ -250,15 +237,15 @@ export default function Power() {
             </Select>
             <Link className={classes.plus}>=</Link>
             <TextField className={classes.powers} variant='outlined' disabled={true} value={Math.floor(multiple.m1 * multiple.m2) || "결과"} />
-          </Container>
+          </Grid>
 
-          <Container className={classes.boxSmall}>
+          <Grid item className={classes.boxSmall}>
             <Animal />
-          </Container>
+          </Grid>
 
-          <Container className={classes.boxSmall}>
+          <Grid item className={classes.boxSmall}>
             <Pet />
-          </Container>
+          </Grid>
         </Grid>
       </Grid>
     </React.Fragment>

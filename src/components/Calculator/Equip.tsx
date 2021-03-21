@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
+import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -23,7 +24,7 @@ import IItemInfo from "interfaces/Calculator/IItemInfo";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     powerText: {
-      width: "80%",
+      width: "240px",
       height: "40px",
       lineHeight: "40px",
       margin: "5px 0",
@@ -243,6 +244,14 @@ export default function Equip() {
     setItemPower(totalPower);
   };
 
+  const switchDlg = () => {
+    if (openHelper === true) {
+      setOpenHelper(false);
+    } else {
+      setOpenHelper(true);
+    }
+  };
+
   useEffect(() => {
     setOptions({ ...options, op1: 0, op3: 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -270,23 +279,18 @@ export default function Equip() {
         );
       })}
 
-      <Link className={classes.powerText}>장비 전투력 : {itemPower}</Link>
-      <Button
-        variant='contained'
-        color='secondary'
-        onClick={() => {
-          setOpenHelper(true);
-        }}
-        style={{ minWidth: "40px", height: "40px", padding: "0", margin: "5px" }}>
-        ?
-      </Button>
+      <Grid item style={{ width: "100%", padding: "0", margin: "0" }}>
+        <Link className={classes.powerText}>장비 전투력 : {itemPower}</Link>
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={switchDlg}
+          style={{ minWidth: "40px", height: "40px", padding: "0", margin: "5px", float: "left" }}>
+          ?
+        </Button>
+      </Grid>
 
-      <Dialog
-        open={openHelper}
-        onClose={() => {
-          setOpenHelper(false);
-        }}
-        maxWidth='lg'>
+      <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>장비 전투력 TMI</Typography>
         </DialogTitle>
@@ -316,13 +320,7 @@ export default function Equip() {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button
-            tabIndex={-1}
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

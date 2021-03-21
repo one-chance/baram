@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "blue",
       },
     },
-
     selText: {
       width: "80px",
       margin: "5px",
@@ -48,9 +47,8 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "blue",
       },
     },
-
     powerText: {
-      width: "80%",
+      width: "240px",
       height: "40px",
       lineHeight: "40px",
       margin: "5px 0",
@@ -63,13 +61,12 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-
     btn: {
       height: "40px",
       margin: "5px",
       padding: "0",
+      flaot: "left",
     },
-
     dlgText: {
       height: "30px",
       fontFamily: "Jua",
@@ -138,11 +135,19 @@ export default function Gold() {
     setGoldSlotList([...goldSlotList]);
   };
 
+  const switchDlg = () => {
+    if (openHelper === true) {
+      setOpenHelper(false);
+    } else {
+      setOpenHelper(true);
+    }
+  };
+
   return (
     <React.Fragment>
       {goldSlotList.map((gold: goldSlot, idx: number) => {
         return (
-          <Container key={idx} style={{ width: "100%", padding: "0", float: "left" }}>
+          <Grid item key={idx} style={{ padding: "0", float: "left" }}>
             <Select
               variant='outlined'
               className={classes.select}
@@ -167,28 +172,18 @@ export default function Gold() {
                 }
               }}
             />
-          </Container>
+          </Grid>
         );
       })}
 
-      <Link className={classes.powerText}>황돋 전투력 : {goldSlotList[0].power + goldSlotList[1].power + goldSlotList[2].power}</Link>
-      <Button
-        className={classes.btn}
-        variant='contained'
-        color='secondary'
-        style={{ minWidth: "40px" }}
-        onClick={() => {
-          setOpenHelper(true);
-        }}>
-        ?
-      </Button>
+      <Grid item style={{ width: "100%", padding: "0", float: "left" }}>
+        <Link className={classes.powerText}>황돋 전투력 : {goldSlotList[0].power + goldSlotList[1].power + goldSlotList[2].power}</Link>
+        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={switchDlg}>
+          ?
+        </Button>
+      </Grid>
 
-      <Dialog
-        open={openHelper}
-        onClose={() => {
-          setOpenHelper(false);
-        }}
-        maxWidth='lg'>
+      <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>황돋 전투력 TMI</Typography>
         </DialogTitle>
@@ -215,13 +210,7 @@ export default function Gold() {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button
-            tabIndex={-1}
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

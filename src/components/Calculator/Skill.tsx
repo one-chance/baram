@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "40px",
       margin: "5px",
       padding: "0",
+      float: "left",
     },
 
     dlgText: {
@@ -238,6 +239,14 @@ export default function Skill() {
     [0, 50, 50, 10, 300, 30, 100],
   ];
 
+  const switchDlg = () => {
+    if (openHelper === true) {
+      setOpenHelper(false);
+    } else {
+      setOpenHelper(true);
+    }
+  };
+
   useEffect(() => {
     setName(5 * type + parts + 1);
   }, [type, parts]);
@@ -254,7 +263,7 @@ export default function Skill() {
 
   return (
     <React.Fragment>
-      <Container style={{ width: "100%", padding: "0", margin: "0", float: "left" }}>
+      <Grid item style={{ padding: "0", float: "left" }}>
         <Select
           className={classes.select}
           variant='outlined'
@@ -293,8 +302,8 @@ export default function Skill() {
           <Menus value={3}>갑옷</Menus>
           <Menus value={4}>망토</Menus>
         </Select>
-      </Container>
-      <Container style={{ width: "100%", padding: "0", float: "left" }}>
+      </Grid>
+      <Grid item style={{ padding: "0", float: "left" }}>
         <Select
           variant='outlined'
           className={classes.select}
@@ -317,17 +326,15 @@ export default function Skill() {
             setSInput(Number(e.target.value));
           }}
         />
-      </Container>
-      <Link className={classes.powerText}>기술능력 전투력 : {skillPower}</Link>
-      <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={() => setOpenHelper(true)}>
-        ?
-      </Button>
-      <Dialog
-        open={openHelper}
-        onClose={() => {
-          setOpenHelper(false);
-        }}
-        maxWidth='lg'>
+      </Grid>
+      <Grid item style={{ width: "100%", padding: "0", float: "left" }}>
+        <Link className={classes.powerText}>기술능력 전투력 : {skillPower}</Link>
+        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={switchDlg}>
+          ?
+        </Button>
+      </Grid>
+
+      <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>기술능력 전투력 TMI</Typography>
         </DialogTitle>
@@ -354,13 +361,7 @@ export default function Skill() {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button
-            tabIndex={-1}
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

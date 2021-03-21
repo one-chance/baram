@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
@@ -20,12 +19,18 @@ import PotionStat from "components/Calculator/Ability/PotionStat";
 import TitleStat from "components/Calculator/Ability/TitleStat";
 
 const useStyles = makeStyles({
-  contain: {
+  box: {
     width: "auto",
     border: "1px solid",
     borderRadius: "10px",
     margin: "0",
     padding: "5px",
+    float: "left",
+  },
+  title: {
+    width: "100px",
+    margin: "0",
+    fontWeight: "bold",
     float: "left",
   },
 });
@@ -35,123 +40,125 @@ export default function Ability() {
 
   return (
     <React.Fragment>
-      <Container style={{ margin: "10px 0", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem" }}>
-        <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 가문특성 + 환수시동 } * %돋 + 한벌효과 + 마법 + 물약 + 칭호`}</span>
-        <br />
-        <span> {`※ 방어도는 마법도 %돋에 영향 받음, 각 요소에 품의 효과를 반영하지 않아 오차 발생 가능 (언젠간 수정할 듯) ※`}</span>
-      </Container>
+      <Grid container direction='column' style={{ padding: "0", margin: "0" }}>
+        <div style={{ margin: "10px 0", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem" }}>
+          <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 가문특성 + 환수시동 } * %돋 + 한벌효과 + 마법 + 물약 + 칭호`}</span>
+          <br />
+          <span> {`※ 방어도는 마법도 %돋에 영향 받음, 공식에 품의 효과를 반영하지 않아 오차가 존재함 (언젠간 수정할 듯) ※`}</span>
+        </div>
 
-      <Container style={{ margin: "5px 0", padding: "0", float: "left" }}>
-        <AbilityTable />
-      </Container>
-
-      <Grid container direction='column' style={{ margin: "10px 0", padding: "0", float: "left" }}>
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            직업 스텟
-          </Typography>
-          <Container id='cahrStat' className={classes.contain}>
-            <CharStat />
-          </Container>
+        <Grid item style={{ margin: "5px 0", padding: "0" }}>
+          <AbilityTable />
         </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            일반 장비
-          </Typography>
-          <Container id='equipStat' className={classes.contain} style={{ maxWidth: "1070px" }}>
-            <EquipStat />
-          </Container>
-        </Grid>
+        <Grid container direction='column' style={{ margin: "10px 0", padding: "0" }}>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              직업 스텟
+            </Typography>
+            <div id='cahrStat' className={classes.box}>
+              <CharStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            각인 수치
-          </Typography>
-          <Container id='equipStat' className={classes.contain}>
-            <EngraveStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              일반 장비
+            </Typography>
+            <div id='equipStat' className={classes.box} style={{ maxWidth: "1070px" }}>
+              <EquipStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            황돋 수치
-          </Typography>
-          <Container id='goldStat' className={classes.contain}>
-            <GoldStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              각인 수치
+            </Typography>
+            <div id='equipStat' className={classes.box}>
+              <EngraveStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            신수 장비
-          </Typography>
-          <Container id='animalStat' className={classes.contain}>
-            <AnimalStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              황돋 수치
+            </Typography>
+            <div id='goldStat' className={classes.box}>
+              <GoldStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            신체 각성
-          </Typography>
-          <Container id='awakStat' className={classes.contain}>
-            <AwakStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              신수 장비
+            </Typography>
+            <div id='animalStat' className={classes.box}>
+              <AnimalStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            가문 특성
-          </Typography>
-          <Container id='familyStat' className={classes.contain}>
-            <FamilyStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              신체 각성
+            </Typography>
+            <div id='awakStat' className={classes.box}>
+              <AwakStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            환수 시동
-          </Typography>
-          <Container id='petStat' className={classes.contain}>
-            <PetStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              가문 특성
+            </Typography>
+            <div id='familyStat' className={classes.box}>
+              <FamilyStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            한벌 효과
-          </Typography>
-          <Container id='pairStat' className={classes.contain}>
-            <PairStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              환수 시동
+            </Typography>
+            <div id='petStat' className={classes.box}>
+              <PetStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            마법 수치
-          </Typography>
-          <Container id='skillStat' className={classes.contain}>
-            <SkillStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              한벌 효과
+            </Typography>
+            <div id='pairStat' className={classes.box}>
+              <PairStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            물약 도핑
-          </Typography>
-          <Container id='potionStat' className={classes.contain}>
-            <PotionStat />
-          </Container>
-        </Grid>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              마법 수치
+            </Typography>
+            <div id='skillStat' className={classes.box}>
+              <SkillStat />
+            </div>
+          </Grid>
 
-        <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-          <Typography variant='h6' style={{ width: "100px", margin: "0", fontWeight: "bold" }}>
-            칭호 효과
-          </Typography>
-          <Container id='titleStat' className={classes.contain}>
-            <TitleStat />
-          </Container>
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              물약 도핑
+            </Typography>
+            <div id='potionStat' className={classes.box}>
+              <PotionStat />
+            </div>
+          </Grid>
+
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              칭호 효과
+            </Typography>
+            <div id='titleStat' className={classes.box}>
+              <TitleStat />
+            </div>
+          </Grid>
         </Grid>
       </Grid>
     </React.Fragment>
