@@ -12,9 +12,9 @@ const useStyles = makeStyles(theme => ({
     display: "block",
     width: "100%",
     marginTop: "10px",
-  },
-  text: {
-    margin: "0 5px",
+    "& span, a": {
+      margin: "0 5px",
+    },
   },
 }));
 
@@ -26,14 +26,16 @@ export default function Footer() {
       <Divider />
       <div className={classes.footerWrapper}>
         <div className={classes.boxWrapper}>
-          <span className={classes.text}>이용약관</span>
-          <span className={classes.text}>|</span>
-          <span className={classes.text}>개인정보처리방침</span>
-          <span className={classes.text}>|</span>
-          <span className={classes.text}>운영정책</span>
+          <span>이용약관</span>
+          <span>|</span>
+          <a href='/privacy' style={{ textDecoration: "none", color: "black" }}>
+            개인정보처리방침
+          </a>
+          <span>|</span>
+          <span>운영정책</span>
         </div>
         <div className={classes.boxWrapper}>
-          <span className={classes.text}>이메일 : abced@gmail.com</span>
+          <span>이메일 : abced@gmail.com</span>
         </div>
       </div>
     </>

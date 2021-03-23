@@ -8,7 +8,7 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: process.env.S3_REGION });
 
 const logger = require("../winston");
-const visitMiddleware = require('../middleware/visit');
+const visitMiddleware = require("../middleware/visit");
 
 const UserSchema = require("../schemas/User/UserSchema");
 const UserInfoSchema = require("../schemas/User/UserInfoSchema");
@@ -371,14 +371,15 @@ router.put("/email", (req, res) => {
             region: process.env.S3_REGION,
           });
 
-          const SUBJECT = "도톨 커뮤니티 이메일 인증번호 발송";
+          const SUBJECT = "[도톨] 이메일 인증번호 안내";
           const HTML_BODY = `
-            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "도톨"에 오신 것을 환영합니다!<br>
-            아래 인증번호를 복사하시어 이메일 인증 단계를 완료해주시기 바랍니다.<br>
+            안녕하세요.<br>
+            바람의나라 유저를 위한 커뮤니티 <b>도톨</b>입니다.<br>
+            아래 인증번호를 통해 이메일 인증을 완료해주시기 바랍니다.<br>
+            감사합니다.
             <br>
             <b>${verifyCode}</b>
-            <br><br>
-            감사합니다.
+            <br>
           `;
 
           var params = {
@@ -482,11 +483,12 @@ router.put("/id/email", (req, res) => {
             region: process.env.S3_REGION,
           });
 
-          const SUBJECT = "도톨 커뮤니티 이메일 인증번호 발송";
+          const SUBJECT = "[도톨] 비밀번호 찾기 안내";
           const HTML_BODY = `
-            <b>안녕하세요!</b> 바람의 나라 게이머들 위한 커뮤니티, "도톨"입니다.<br>
-            아래 인증번호를 복사하시어 이메일 인증 단계를 완료하신 후 신규 비밀번호 전송 단계를 진행해주세요.<br>
-            인증된 이메일로 발송 된 신규 비밀번호를 확인하시어 로그인 하신 뒤, 반드시 비밀번호 변경 단계를 진행해주세요.<br>
+            안녕하세요.<br>
+            바람의나라 유저를 위한 커뮤니티 <b>도톨</b>입니다.<br>
+            아래 인증번호를 통해 인증을 완료하시면 임시 비밀번호가 발급됩니다.<br>
+            임시 비밀번호로 로그인 하고 반드시 비밀번호 변경 단계를 진행해주세요.<br>
             <br>
             <b>${verifyCode}</b>
             <br><br>
@@ -707,16 +709,15 @@ router.put("/reset", (req, res) => {
                   region: process.env.S3_REGION,
                 });
 
-                const SUBJECT = "도톨 커뮤니티 신규 비밀번호 발송";
+                const SUBJECT = "[도톨] 신규 비밀번호 안내";
                 const HTML_BODY = `
-                  <b>안녕하세요!</b> 바람의나라 유저를 위한 커뮤니티, "도톨"에서 안내 말씀 드립니다.<br>
-                  ${id} 의 비밀번호가 다음과 같이 변경되었습니다.<br>
+                  안녕하세요.
+                  바람의나라 유저를 위한 커뮤니티, <b>도톨</b>입니다.<br>
+                  <b>${id}</b>의 임시 비밀번호가 아래와 같이 발급되었습니다.<br>
                   ${newPassword.source}<br>
-                  로그인 하신 후 신규 비밀번호로 변경해주세요.<br>
-                  <br>
-                  <a href="/">바로가기</a>
-                  <br>
-                  감사합니다.
+                  로그인 후 비밀번호를 변경해주세요.<br>
+                  감사합니다.<br><br>
+                  <a href="/">로그인 바로가기</a>                  
                 `;
 
                 var params = {
@@ -803,8 +804,9 @@ router.put("/reset", (req, res) => {
  *    ERROR CODES:
  *        200: 실행
  */
-router.delete('/session/visitor', (req, res) => {
-  if (process.env.SERVER_URI.indexOf(req.hostname)) { // 동일 호스트네임에서 온 요청으로만 초기화
+router.delete("/session/visitor", (req, res) => {
+  if (process.env.SERVER_URI.indexOf(req.hostname)) {
+    // 동일 호스트네임에서 온 요청으로만 초기화
     visitMiddleware.mapVisitor = new Map();
     logger.info("[SUCCESS] RESET TODAY VISITORS");
   } else logger.error("[ERROR] NOT ACCESSED");
