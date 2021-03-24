@@ -5,7 +5,7 @@ import { MyAlertState } from "state/index";
 
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -85,10 +85,10 @@ export default function SignInForm() {
 
   return (
     <React.Fragment>
-      <Container component='main' maxWidth='xs'>
-        <form noValidate>
-          <Container component='div' style={{ margin: "10px 0", float: "left" }}>
-            <div style={{ width: "100%", float: "left" }}>
+      <form>
+        <Grid container direction='column' justify='center' style={{ padding: "10px 20px ", margin: "0" }}>
+          <Grid item style={{ maxWidth: "360px", margin: "0" }}>
+            <React.Fragment>
               <Checkbox
                 checked={autoLogIn}
                 color='primary'
@@ -98,7 +98,7 @@ export default function SignInForm() {
                 style={{ width: "24px", height: "24px" }}
               />
               &nbsp;자동 로그인
-            </div>
+            </React.Fragment>
             <TextField
               variant='outlined'
               required
@@ -112,8 +112,9 @@ export default function SignInForm() {
               inputRef={refId}
               onChange={e => setId(e.target.value)}
               inputProps={{ style: { height: "40px", padding: "5px 10px" } }}
-              style={{ margin: "10px 0", float: "left" }}
+              style={{ margin: "10px 0" }}
             />
+
             <TextField
               variant='outlined'
               required
@@ -129,8 +130,9 @@ export default function SignInForm() {
               onChange={e => setPassword(e.target.value)}
               onKeyUp={e => _onEnterPassword(e.keyCode)}
               inputProps={{ style: { height: "40px", padding: "5px 10px" } }}
-              style={{ margin: "10px 0", float: "left" }}
+              style={{ margin: "10px 0" }}
             />
+
             <Button
               variant='contained'
               fullWidth
@@ -141,21 +143,20 @@ export default function SignInForm() {
                 padding: "0 10px",
                 margin: "10px 0",
                 textAlign: "center",
-                float: "left",
               }}>
               로그인
             </Button>
-          </Container>
-          <Container component='div' style={{ margin: "10px 0 15px 0", float: "left" }}>
-            <Link href='/forget' variant='body2' tabIndex={-1} style={{ outline: "none", float: "left" }}>
+          </Grid>
+          <Grid item style={{ maxWidth: "360px", margin: "10px 0", padding: "0 5px" }}>
+            <Link href='/forget' variant='body2' style={{ outline: "none", float: "left" }}>
               ID/PW 찾기
             </Link>
-            <Link href='/signup' variant='body2' tabIndex={-1} style={{ outline: "none", float: "right" }}>
+            <Link href='/signup' variant='body2' style={{ outline: "none", float: "right" }}>
               회원가입
             </Link>
-          </Container>
-        </form>
-      </Container>
+          </Grid>
+        </Grid>
+      </form>
     </React.Fragment>
   );
 }

@@ -203,7 +203,7 @@ export const setChangePassword = async (_id: string, _changePassword: string) =>
 }
 
 /*
-* 바람의 나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
+* 바람의나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
 */
 export const checkGameUser = async (_id: string, _server: string, _character: string) => {
   const r = await axios.post('/api/user/check', {

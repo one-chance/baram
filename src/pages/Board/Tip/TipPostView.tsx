@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
 
@@ -38,9 +38,8 @@ const category = "tip";
 
 function TipBoard({ match }: any) {
   const classes = useStyles();
-  // const { category, seq } = match.params;
   const { seq } = match.params;
-  const [commentList, setCommentList] = useRecoilState(CommentListState);
+  const commentList = useRecoilValue(CommentListState);
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 

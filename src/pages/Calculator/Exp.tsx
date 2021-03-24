@@ -127,7 +127,7 @@ export default function Exp() {
 
   const fillTable = (lev: number) => {
     let num: number = lev - 700;
-    const r: Array<IExp> = [];
+    let r: Array<IExp> = [];
 
     for (var c = num; c < num + 3; c++) {
       r.push(temp[c]);
@@ -140,36 +140,31 @@ export default function Exp() {
 
   const numToText = (num: number) => {
     let len: string = num.toString();
-    let text: string = "0";
 
     if (len.length > 15) {
       setMyExp({ ...myExp, num: 0 });
       return 0;
     } else if (len.length > 12 && len.length < 15) {
-      text = `${len.substr(0, len.length - 12)}경 ${len.substr(len.length - 12, 4)}조 ${len.substr(len.length - 8, 4)}억 ${len.substr(len.length - 4, 4)}만`;
+      return `${len.substr(0, len.length - 12)}경 ${len.substr(len.length - 12, 4)}조 ${len.substr(len.length - 8, 4)}억 ${len.substr(len.length - 4, 4)}만`;
     } else if (len.length > 8 && len.length < 13) {
-      text = `${len.substr(0, len.length - 8)}조 ${len.substr(len.length - 8, 4)}억 ${len.substr(len.length - 4, 4)}만`;
+      return `${len.substr(0, len.length - 8)}조 ${len.substr(len.length - 8, 4)}억 ${len.substr(len.length - 4, 4)}만`;
     } else if (len.length < 9 && len.length > 4) {
-      text = `${len.substr(0, len.length - 4)}억 ${len.substr(len.length - 4, 4)}만`;
+      return `${len.substr(0, len.length - 4)}억 ${len.substr(len.length - 4, 4)}만`;
     } else if (len.length < 5 && len.length > 0) {
-      text = `${num}만`;
+      return `${num}만`;
     }
-
-    return text;
   };
 
   const textToNum = (text: string) => {
-    let b: string[] = text.split(" "); // needExp
-    let num: number = 0;
+    let str: string[] = text.split(" "); // needExp
+    let temp: string = "";
 
-    if (b.length === 3) {
-      let c = b[0] + b[1] + b[2];
-      num = parseInt(c.substr(0, c.length - 11) + c.substr(c.length - 10, 4) + c.substr(c.length - 5, 4));
-      return num;
-    } else if (b.length === 2) {
-      let c = b[0] + b[1];
-      num = parseInt(c.substr(0, c.length - 6) + c.substr(c.length - 5, 4));
-      return num;
+    if (str.length === 3) {
+      temp = str[0] + str[1] + str[2];
+      return parseInt(temp.substr(0, temp.length - 11) + temp.substr(temp.length - 10, 4) + temp.substr(temp.length - 5, 4));
+    } else if (str.length === 2) {
+      temp = str[0] + str[1];
+      return parseInt(temp.substr(0, temp.length - 6) + temp.substr(temp.length - 5, 4));
     } else {
       return 0;
     }
@@ -180,13 +175,17 @@ export default function Exp() {
     let getNeedExp: number = textToNum(e2); // needExp
     let res: number = Math.floor(getMyExp / getNeedExp);
 
+    if (getNeedExp === 0 || getMyExp === 0 || isNaN(getMyExp)) {
+      return 0;
+    }
+
     if (res >= maxHp) {
-      setIncreasedHp(maxHp);
+      return maxHp;
     } else if (res === 0) {
       setMyExp({ num: 0, str: "0" });
-      setIncreasedHp(0);
+      return 0;
     } else {
-      setIncreasedHp(res);
+      return res;
     }
   };
 
@@ -194,9 +193,7 @@ export default function Exp() {
     let getHp: number = n1; // hp
     let getNeedExp: number = textToNum(n2); // needExp (만 단위)
     let res: number = Math.floor(getHp * getNeedExp);
-    let text: string = numToText(res).toString();
-
-    setRequiredExp(text);
+    return numToText(res);
   };
 
   useEffect(() => {
@@ -275,7 +272,7 @@ export default function Exp() {
             value={myExp.num || ""}
             onChange={e => {
               if (e.target.value.length < 14 && needExp !== "0") {
-                setMyExp({ num: parseInt(e.target.value), str: numToText(parseInt(e.target.value)).toString() });
+                setMyExp({ num: parseInt(e.target.value), str: numToText(parseInt(e.target.value)) as string });
                 setIncreasedHp(0);
               } else {
                 setMyExp({ num: 0, str: "보유 경험치" });
@@ -287,9 +284,7 @@ export default function Exp() {
             variant='contained'
             color='primary'
             onClick={e => {
-              if (needExp !== "0" && myExp.num !== 0 && !isNaN(myExp.num)) {
-                calculateExp(myExp.num, needExp);
-              }
+              setIncreasedHp(calculateExp(myExp.num, needExp) as number);
             }}>
             변환
           </Button>
@@ -321,9 +316,7 @@ export default function Exp() {
             variant='contained'
             color='primary'
             onClick={e => {
-              if (needExp !== "0" && hp !== 0) {
-                calculateHp(hp, needExp);
-              }
+              setRequiredExp(calculateHp(hp, needExp) as string);
             }}>
             변환
           </Button>

@@ -19,16 +19,9 @@ const useStyles = makeStyles(theme => ({
     minWidth: 400,
     width: "100%",
   },
-  searchContainer: {
-    padding: theme.spacing(0.1),
-  },
   tableContainer: {
-    marginTop: "20px",
+    marginTop: "10px",
     marginBottom: "20px",
-  },
-  shortImage: {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
   },
 }));
 
@@ -36,12 +29,6 @@ const StyledTableRow = withStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: "#efebe9",
-      // '&:nth-of-type(odd)': {
-      //   backgroundColor: "#efebe9",
-      // },
-      // '&:hover': {
-      //   backgroundColor: "#8d6e63",
-      // }
     },
   })
 )(TableRow);

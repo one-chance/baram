@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "blue",
       },
     },
-
     selText: {
       width: "80px",
       margin: "5px",
@@ -48,9 +47,8 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "blue",
       },
     },
-
     powerText: {
-      width: "80%",
+      width: "240px",
       height: "40px",
       lineHeight: "40px",
       margin: "5px 0",
@@ -63,13 +61,12 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-
     btn: {
       height: "40px",
       margin: "5px",
       padding: "0",
+      flaot: "left",
     },
-
     dlgText: {
       height: "30px",
       fontFamily: "Jua",
@@ -85,17 +82,23 @@ const Menus = withStyles({
   },
 })(MenuItem);
 
+interface goldSlot {
+  num: number;
+  type: number;
+  value: number;
+  power: number;
+}
+
 export default function Gold() {
   const classes = useStyles();
-
   const [openHelper, setOpenHelper] = useState<boolean>(false);
 
-  const [goldSlot1, setGoldSlot1] = useState({ num: 0, type: 0, value: "", power: 0 }); // 황돋1 종류, 기준값, 수치, 전투력
-  const [goldSlot2, setGoldSlot2] = useState({ num: 0, type: 0, value: "", power: 0 }); // 황돋2 종류, 기준값, 수치, 전투력
-  const [goldSlot3, setGoldSlot3] = useState({ num: 0, type: 0, value: "", power: 0 }); // 황돋3 종류, 기준값, 수치, 전투력
-  const [goldPower, setGoldPower] = useState(0); // 합산 황돋 전투력
-
-  var iteration: number[] = [0, 1, 2]; // iteration for rendering
+  // 황돋 종류, 기준값, 수치, 전투력
+  const [goldSlotList, setGoldSlotList] = useState<Array<goldSlot>>([
+    { num: 0, type: 0, value: 0, power: 0 },
+    { num: 0, type: 0, value: 0, power: 0 },
+    { num: 0, type: 0, value: 0, power: 0 },
+  ]);
 
   // prettier-ignore
   var ability = [ "능력치", "체력/마력", "재생력", "방관/마치/공증/마증", "타흡/마흡/피흡", "시향/회향/직타", "힘/민/지", "명중률/타격치", "마법수준향상", "명중회피/방무/방어",
@@ -109,74 +112,42 @@ export default function Gold() {
     );
   });
 
-  const calGold = (val: string, num: number) => {
-    let gNumber: number, gType: number; // gNumber : 황돋 종류, gType : 황돋 종류별 기준값
-    num === 0 ? (gNumber = goldSlot1.num) : num === 1 ? (gNumber = goldSlot2.num) : (gNumber = goldSlot3.num);
-    num === 0 ? (gType = goldSlot1.type) : num === 1 ? (gType = goldSlot2.type) : (gType = goldSlot3.type);
-
-    let tempValue: number = Math.abs(Number(val));
-    let gValue: number = 0;
-
-    if (gNumber > 9) {
-      gValue = tempValue * 100;
-    } else {
-      val = parseInt(val).toString();
-      gValue = tempValue;
-    }
-
-    if (Math.floor(gType * gValue) <= 300) {
-      switch (num) {
-        case 0:
-          setGoldSlot1({ ...goldSlot1, value: val, power: Math.floor(gType * gValue) });
-          break;
-        case 1:
-          setGoldSlot2({ ...goldSlot2, value: val, power: Math.floor(gType * gValue) });
-          break;
-        case 2:
-          setGoldSlot3({ ...goldSlot3, value: val, power: Math.floor(gType * gValue) });
-          break;
-      }
-    } else {
-      switch (num) {
-        case 0:
-          setGoldSlot1({ ...goldSlot1, value: "", power: 0 });
-          break;
-        case 1:
-          setGoldSlot2({ ...goldSlot2, value: "", power: 0 });
-          break;
-        case 2:
-          setGoldSlot3({ ...goldSlot3, value: "", power: 0 });
-          break;
-      }
-    }
-  };
-
-  useEffect(() => {
-    setGoldPower(goldSlot1.power + goldSlot2.power + goldSlot3.power);
-  }, [goldSlot1, goldSlot2, goldSlot3, goldPower]);
-
-  const changeSelect = (event: React.ChangeEvent<{ value: unknown }>, num: number) => {
+  const changeSelect = (event: React.ChangeEvent<{ value: unknown }>, id: number) => {
     let goldVal: number[] = [0, 0.003, 0.375, 3.75, 3.75, 3.75, 15, 37.5, 60, 100, 1, 1, 0.6, 0.375, 0.3, 0.3, 0.3, 0.3, 0.3];
     let input: number = event.target.value as number;
 
-    switch (num) {
-      case 0:
-        setGoldSlot1({ num: input, type: goldVal[input], value: "", power: 0 });
-        break;
-      case 1:
-        setGoldSlot2({ num: input, type: goldVal[input], value: "", power: 0 });
-        break;
-      case 2:
-        setGoldSlot3({ num: input, type: goldVal[input], value: "", power: 0 });
-        break;
+    goldSlotList[id] = { num: input, type: goldVal[input], value: 0, power: 0 };
+    setGoldSlotList([...goldSlotList]);
+  };
+
+  const calGold = (val: number, id: number) => {
+    let gNumber: number = goldSlotList[id].num; // gNumber : 황돋 종류,
+    let gType: number = goldSlotList[id].type; // gType : 황돋 종류별 기준값
+    let gValue: number = 0;
+
+    gNumber > 9 ? (gValue = Math.abs(val) * 100) : (gValue = Math.abs(val));
+
+    if (Math.floor(gType * gValue) <= 300) {
+      goldSlotList[id] = { ...goldSlotList[id], value: Math.abs(val), power: Math.floor(gType * gValue) };
+    } else {
+      goldSlotList[id] = { ...goldSlotList[id], value: 0, power: 0 };
+    }
+    setGoldSlotList([...goldSlotList]);
+  };
+
+  const switchDlg = () => {
+    if (openHelper === true) {
+      setOpenHelper(false);
+    } else {
+      setOpenHelper(true);
     }
   };
 
   return (
     <React.Fragment>
-      {iteration.map((idx: number) => {
+      {goldSlotList.map((gold: goldSlot, idx: number) => {
         return (
-          <Container key={idx} style={{ width: "100%", padding: "0", float: "left" }}>
+          <Grid item key={idx} style={{ padding: "0", float: "left" }}>
             <Select
               variant='outlined'
               className={classes.select}
@@ -190,35 +161,29 @@ export default function Gold() {
               variant='outlined'
               type='number'
               className={classes.selText}
-              disabled={idx === 0 ? goldSlot1.num === 0 : idx === 1 ? goldSlot2.num === 0 : goldSlot3.num === 0}
-              value={idx === 0 ? goldSlot1.value : idx === 1 ? goldSlot2.value : goldSlot3.value}
+              disabled={gold.num === 0}
+              value={gold.value || ""}
               placeholder='수치'
               onChange={e => {
-                calGold(e.target.value, idx);
+                if (gold.num < 10) {
+                  calGold(Math.floor(Number(e.target.value)), idx);
+                } else {
+                  calGold(Number(e.target.value), idx);
+                }
               }}
             />
-          </Container>
+          </Grid>
         );
       })}
 
-      <Link className={classes.powerText}>황돋 전투력 : {goldPower}</Link>
-      <Button
-        className={classes.btn}
-        variant='contained'
-        color='secondary'
-        style={{ minWidth: "40px" }}
-        onClick={() => {
-          setOpenHelper(true);
-        }}>
-        ?
-      </Button>
+      <Grid item style={{ width: "100%", padding: "0", float: "left" }}>
+        <Link className={classes.powerText}>황돋 전투력 : {goldSlotList[0].power + goldSlotList[1].power + goldSlotList[2].power}</Link>
+        <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={switchDlg}>
+          ?
+        </Button>
+      </Grid>
 
-      <Dialog
-        open={openHelper}
-        onClose={() => {
-          setOpenHelper(false);
-        }}
-        maxWidth='lg'>
+      <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>황돋 전투력 TMI</Typography>
         </DialogTitle>
@@ -245,13 +210,7 @@ export default function Gold() {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button
-            tabIndex={-1}
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

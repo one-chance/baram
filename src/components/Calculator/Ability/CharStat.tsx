@@ -24,6 +24,13 @@ const useStyles = makeStyles({
     },
   },
 
+  btnQuestion: {
+    minWidth: "40px",
+    height: "40px",
+    margin: "5px 10px",
+    boxShadow: "none",
+  },
+
   dlgText: {
     height: "30px",
     marginBottom: "10px",
@@ -53,6 +60,14 @@ export default function CharStat() {
       case 5:
         setStat({ ...stat, s5: Math.abs(val) });
         break;
+    }
+  };
+
+  const switchDlg = () => {
+    if (openHelper === false) {
+      setOpenHelper(true);
+    } else {
+      setOpenHelper(false);
     }
   };
 
@@ -137,22 +152,11 @@ export default function CharStat() {
           }
         }}
       />
-      <Button
-        variant='contained'
-        color='secondary'
-        style={{ minWidth: "40px", height: "40px", margin: "5px 10px", boxShadow: "none" }}
-        onClick={() => {
-          setOpenHelper(true);
-        }}>
+      <Button variant='contained' color='secondary' className={classes.btnQuestion} onClick={switchDlg}>
         ?
       </Button>
 
-      <Dialog
-        open={openHelper}
-        onClose={() => {
-          setOpenHelper(false);
-        }}
-        maxWidth='lg'>
+      <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
         <DialogContent style={{ padding: "20px 30px" }}>
           <Typography variant='h6' className={classes.dlgText}>
             과거와 다르게 각 능력치별 영향력은 미비하다.

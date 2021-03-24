@@ -4,7 +4,7 @@ import LevelState from "state/Calculator/LevelState";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
@@ -17,15 +17,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    smallBox: {
-      width: "100%",
-      height: "45px",
-      padding: "0",
-      margin: "0",
-    },
-
     powerText: {
-      width: "80%",
+      width: "240px",
       height: "40px",
       lineHeight: "40px",
       margin: "5px 0",
@@ -62,6 +55,14 @@ export default function Level() {
   const [levelPower, setLevelPower] = useState<number>(0); // 레벨 전투력 (표기)
   const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
 
+  const switchDlg = () => {
+    if (openHelper === true) {
+      setOpenHelper(false);
+    } else {
+      setOpenHelper(true);
+    }
+  };
+
   useEffect(() => {
     const calLevel = () => {
       if (!level) {
@@ -96,7 +97,7 @@ export default function Level() {
 
   return (
     <React.Fragment>
-      <Container className={classes.smallBox} style={{ margin: "0", textAlign: "center" }}>
+      <Grid item container justify='center' style={{ padding: "0", margin: "0" }}>
         <TextField
           variant='outlined'
           placeholder='99~799'
@@ -105,25 +106,17 @@ export default function Level() {
             setLevel(parseInt(e.target.value));
           }}
           inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-          style={{ width: "150px", margin: "2.5px 0 0 0" }}
+          style={{ width: "150px", margin: "2.5px 0" }}
         />
-      </Container>
-      <Link className={classes.powerText}>레벨 전투력 : {levelPower === levelPower2 ? levelPower : `${levelPower} (${levelPower2})`}</Link>
-      <Button
-        variant='contained'
-        className={classes.btn}
-        color='secondary'
-        onClick={() => {
-          setOpenHelper(true);
-        }}>
-        ?
-      </Button>
-      <Dialog
-        open={openHelper}
-        onClose={() => {
-          setOpenHelper(false);
-        }}
-        maxWidth='lg'>
+      </Grid>
+      <Grid item style={{ padding: "0", margin: "0" }}>
+        <Link className={classes.powerText}>레벨 전투력 : {levelPower === levelPower2 ? levelPower : `${levelPower} (${levelPower2})`}</Link>
+        <Button variant='contained' className={classes.btn} color='secondary' onClick={switchDlg}>
+          ?
+        </Button>
+      </Grid>
+
+      <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>레벨 전투력 TMI</Typography>
         </DialogTitle>
@@ -156,13 +149,7 @@ export default function Level() {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button
-            tabIndex={-1}
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

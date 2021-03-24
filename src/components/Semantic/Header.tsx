@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     position: "sticky",
     height: "100%",
   },
-
   boxUp: {
     width: "100%",
     height: "50%",
@@ -29,7 +28,6 @@ const useStyles = makeStyles(theme => ({
     padding: "0 30px",
     backgroundColor: "white",
   },
-
   boxDown: {
     width: "100%",
     height: "50%",
@@ -44,7 +42,6 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-
   menuText: {
     width: "100%",
     lineHeight: "7.5vh",
@@ -53,7 +50,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.2rem",
     fontWeight: "bold",
   },
-
   mainmenu: {
     width: "20%",
     padding: "0",
@@ -83,7 +79,6 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-
   btn: {
     lineHeight: "4vh",
     margin: "15px 5px",
@@ -97,7 +92,6 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "transparent",
     },
   },
-
   btnClose: {
     minWidth: 10,
     fontSize: "1rem",
@@ -111,9 +105,9 @@ const useStyles = makeStyles(theme => ({
 export default function Header() {
   const classes = useStyles();
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
-  const [test, setTest] = useState(false);
+  const [opener, setOpener] = useState(false);
 
   const signInUserId = getSignInUserId();
 
@@ -129,11 +123,11 @@ export default function Header() {
     setIsSignInOpen(false);
   };
 
-  const _test = () => {
-    setTest(true);
+  const _prepare = () => {
+    setOpener(true);
 
     setTimeout(() => {
-      setTest(false);
+      setOpener(false);
     }, 2000);
   };
 
@@ -178,23 +172,23 @@ export default function Header() {
         <Grid container id='down' direction='row' className={classes.boxDown}>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>게시판</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/board/tip'>팁 게시판</a>
               <a href='/board/free'>자유 게시판</a>
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 스샷 게시판
               </a>
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 구인 게시판
               </a>
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 직업 게시판
               </a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>계산기</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/cal/power'>전투력</a>
               <a href='/cal/ability'>능력치</a>
               <a href='/cal/exp'>경험치</a>
@@ -203,45 +197,46 @@ export default function Header() {
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>도감</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/dic/item'>일반 장비</a>
               <a href='/dic/petitem'>환수장비</a>
               <a href='/dic/animalitem'>신수장비</a>
-              <a href='/dic/raid'>레이드</a>
+              <a href='#1' onClick={_prepare}>
+                레이드
+              </a>
               <a href='/dic/adventure'>탐험일지</a>
               <a href='/dic/archeology'>고고학</a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>거래소</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               {/* <a href='/auction/auction'>거래소</a> */}
-              <a href='#1' onClick={_test}>
+              <a href='#1' onClick={_prepare}>
                 거래소
               </a>
-              {/* <a href='/cal/power'>장터 게시판</a> */}
-              <a href='#1' onClick={_test}>
-                장터 게시판
+              <a href='#1' onClick={_prepare}>
+                거래 게시판
               </a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>내 정보</Typography>
-            <div>
+            <div style={{ marginTop: "-1px" }}>
               <a href='/myinfo/view'>회원정보</a>
             </div>
           </Grid>
         </Grid>
       </AppBar>
 
-      <Dialog open={test}>
+      <Dialog open={opener}>
         <DialogContent>
           <img src='/assets/img/announce.png' alt='announce' />
         </DialogContent>
       </Dialog>
 
-      <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose} aria-labelledby='responsive-dialog-title'>
-        <DialogTitle id='responsive-dialog-title' style={{ padding: "0 5px", textAlign: "center" }}>
+      <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose}>
+        <DialogTitle style={{ padding: "0 5px", textAlign: "center" }}>
           <span>
             <h2 style={{ margin: "20px 0 0 0" }}>로그인</h2>
             <Button onClick={_onSignInClose} className={classes.btnClose}>
@@ -249,7 +244,7 @@ export default function Header() {
             </Button>
           </span>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ padding: "10px 40px" }}>
           <SignInForm />
         </DialogContent>
       </Dialog>

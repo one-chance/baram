@@ -38,6 +38,7 @@ import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
 
 import NotFound from "pages/NotFound";
+import Privacy from "components/Privacy";
 
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
@@ -116,19 +117,22 @@ function App() {
                 <Route exact path='/cal/production' component={Production} />
 
                 {/*Dictionary*/}
-                <Route path='/dic/adventure' component={Adventure} />
-                <Route path='/dic/animalitem' component={AnimalItem} />
+                <Route exact path='/dic/adventure' component={Adventure} />
+                <Route exact path='/dic/animalitem' component={AnimalItem} />
                 <Route exact path='/dic/raid' component={Raid} />
                 <Route path='/dic/raid/:key' component={RaidInfo} />
-                <Route path='/dic/item' component={Item} />
-                <Route path='/dic/petitem' component={PetItem} />
-                <Route path='/dic/archeology' component={Archeology} />
+                <Route exact path='/dic/item' component={Item} />
+                <Route exact path='/dic/petitem' component={PetItem} />
+                <Route exact path='/dic/archeology' component={Archeology} />
 
                 {/*Auction*/}
                 <Route path='/auction/market' component={AuctionMarket} />
 
                 {/*MyInfo*/}
                 <Route path='/myinfo/:tab' component={MyInfo} />
+
+                {/*Privacy Announcement*/}
+                <Route exact path='/privacy' component={Privacy} />
 
                 {/*Error Handling*/}
                 <Route exact path='/signin' component={NoAuth} />

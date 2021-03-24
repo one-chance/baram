@@ -106,9 +106,9 @@ export default function PetItem() {
   }, [acc]);
 
   return (
-    <div>
-      <Grid container spacing={3} style={{ width: "80%", margin: "10px 10%", border: "1px solid" }}>
-        <Grid item xs={8} style={{ textAlign: "center" }}>
+    <Grid container alignItems='center' justify='center' style={{ width: "100%", margin: "10px 0", padding: "0" }}>
+      <Grid container spacing={3} style={{ width: "950px", margin: "10px 0", border: "1px solid" }}>
+        <Grid item xs={8} style={{ padding: "10px 5px", textAlign: "center" }}>
           <FormControl variant='standard' className={classes.selectBox}>
             <InputLabel id='select-standard' style={{ paddingLeft: "20px", color: "black" }}>
               환수
@@ -338,14 +338,14 @@ export default function PetItem() {
             }}
           />
         </Grid>
-        <Grid item xs={4} style={{ textAlign: "center" }}>
+        <Grid item xs={4} style={{ padding: "10px 5px", textAlign: "center" }}>
           <h4 style={{ margin: "15px 0", color: "gray" }}>* 모든 명중률은 최대치(강화석o)로 반영 *</h4>
           <h1 style={{ margin: "10px 0" }}>명중률 +{accuracy}</h1>
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} style={{ width: "90%", margin: "10px 5%", padding: "0 5px", textAlign: "center" }}>
-        <Grid item xs={6} style={{ padding: "0" }}>
+      <Grid container spacing={3} alignItems='center' justify='center' style={{ margin: "10px 0", padding: "0 5px" }}>
+        <Grid item style={{ width: "508px", margin: "0 10px", padding: "0" }}>
           <ButtonGroup color='primary' className={classes.btnGroup}>
             <Button color={img1.src === "centerGod.png" ? "secondary" : "primary"} onClick={() => handleImage(1, 1, img1)}>
               황룡
@@ -371,7 +371,7 @@ export default function PetItem() {
           </ButtonGroup>
           <img src={baseUrlForPetItemImg + img1.src} alt='장비1' />
         </Grid>
-        <Grid item xs={6} style={{ padding: "0" }}>
+        <Grid style={{ width: "508px", margin: "0 10px", padding: "0" }}>
           <ButtonGroup color='primary' className={classes.btnGroup}>
             <Button color={img2.src === "centerGod.png" ? "secondary" : "primary"} onClick={() => handleImage(2, 1, img2)}>
               황룡
@@ -398,6 +398,6 @@ export default function PetItem() {
           <img src={baseUrlForPetItemImg + img2.src} alt='장비2' />
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }
