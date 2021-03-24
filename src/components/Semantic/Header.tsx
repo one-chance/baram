@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     position: "sticky",
     height: "100%",
   },
-
   boxUp: {
     width: "100%",
     height: "50%",
@@ -29,7 +28,6 @@ const useStyles = makeStyles(theme => ({
     padding: "0 30px",
     backgroundColor: "white",
   },
-
   boxDown: {
     width: "100%",
     height: "50%",
@@ -44,7 +42,6 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-
   menuText: {
     width: "100%",
     lineHeight: "7.5vh",
@@ -53,7 +50,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.2rem",
     fontWeight: "bold",
   },
-
   mainmenu: {
     width: "20%",
     padding: "0",
@@ -83,7 +79,6 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-
   btn: {
     lineHeight: "4vh",
     margin: "15px 5px",
@@ -97,7 +92,6 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "transparent",
     },
   },
-
   btnClose: {
     minWidth: 10,
     fontSize: "1rem",
@@ -111,7 +105,7 @@ const useStyles = makeStyles(theme => ({
 export default function Header() {
   const classes = useStyles();
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
   const [opener, setOpener] = useState(false);
 
@@ -241,8 +235,8 @@ export default function Header() {
         </DialogContent>
       </Dialog>
 
-      <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose} aria-labelledby='responsive-dialog-title'>
-        <DialogTitle id='responsive-dialog-title' style={{ padding: "0 5px", textAlign: "center" }}>
+      <Dialog fullScreen={fullScreen} open={isSignInOpen} onClose={_onSignInClose}>
+        <DialogTitle style={{ padding: "0 5px", textAlign: "center" }}>
           <span>
             <h2 style={{ margin: "20px 0 0 0" }}>로그인</h2>
             <Button onClick={_onSignInClose} className={classes.btnClose}>
@@ -250,7 +244,7 @@ export default function Header() {
             </Button>
           </span>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ padding: "10px 40px" }}>
           <SignInForm />
         </DialogContent>
       </Dialog>
