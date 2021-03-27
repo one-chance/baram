@@ -145,11 +145,7 @@ export default function Engrave() {
   };
 
   const switchDlg = () => {
-    if (openHelper === true) {
-      setOpenHelper(false);
-    } else {
-      setOpenHelper(true);
-    }
+    setOpenHelper(!openHelper);
   };
 
   return (

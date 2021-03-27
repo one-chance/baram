@@ -95,20 +95,10 @@ export default function SignUp() {
     const res = await CheckExistUser(id);
 
     if (res.code === 200 && id !== "") {
-      setMyAlert({
-        isOpen: true,
-        severity: "success",
-        duration: duration,
-        message: res.message,
-      });
+      alertSuccess(res.message);
       setIsNewId(true);
     } else if (id !== "") {
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: res.message,
-      });
+      alertError(res.message);
       setIsNewId(false);
       refId.current.focus();
     }
@@ -116,67 +106,59 @@ export default function SignUp() {
 
   const _onClickSignUp = async () => {
     if (!isNewId) {
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: "아이디 중복검사를 진행해야 합니다.",
-      });
+      alertError("아이디 중복검사를 진행해야 합니다.");
       refId.current.focus();
       return 0;
     }
 
     if (password.length < 8 || password !== passwordConfirm || checkPassword === false) {
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: "비밀번호가 올바르게 설정되지 않았습니다.",
-      });
+      alertError("비밀번호가 올바르게 설정되지 않았습니다.");
       return 0;
     }
 
     if (!isVerifiedEmail) {
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: "이메일 인증을 완료해야 합니다.",
-      });
+      alertError("이메일 인증을 완료해야 합니다.");
       return 0;
     }
 
     if (!agreePrivacy || !agreeService) {
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: "모든 약관에 동의 후 진행 가능합니다.",
-      });
+      alertError("모든 약관에 동의해야 합니다.");
       return 0;
     }
 
     setMyBackdrop(true);
     const res = await SignUpUser(id, password, email);
+
     if (res.code === 200) {
       // Successed Authentication
+      alertSuccess(res.message);
+      setTimeout(() => (document.location.href = "/signin"), duration);
+    } else {
+      // Failed Authentication
+      alertError(res.message);
+      setTimeout(() => setMyBackdrop(false), duration);
+    }
+  };
+
+  const alertSuccess = (sentence: string) => {
+    if (sentence !== "") {
       setMyAlert({
         isOpen: true,
         severity: "success",
         duration: duration,
-        message: res.message,
+        message: sentence,
       });
-      setTimeout(() => (document.location.href = "/signin"), duration);
-    } else {
-      // Failed Authentication
+    }
+  };
+
+  const alertError = (sentence: string) => {
+    if (sentence !== "") {
       setMyAlert({
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: res.message,
+        message: sentence,
       });
-
-      setTimeout(() => setMyBackdrop(false), duration);
     }
   };
 
@@ -240,44 +222,23 @@ export default function SignUp() {
     // 인증 이메일 전송
     const res = await sendVerifyEmail(email);
     if (res.result === "success") {
-      setMyAlert({
-        isOpen: true,
-        severity: "success",
-        duration: duration,
-        message: res.message,
-      });
+      alertSuccess(res.message);
       setEmailCode("");
       refEmailCode.current.focus();
     } else {
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: res.message,
-      });
+      alertError(res.message);
     }
   };
+
   const _onCheckEmail = async () => {
     if (emailCode) {
       // 인증번호 확인
       const res = await checkVerifyEmail(email, emailCode);
       if (res) {
-        setMyAlert({
-          isOpen: true,
-          severity: "success",
-          duration: duration,
-          message: `인증번호 확인에 성공하였습니다.`,
-        });
-
+        alertSuccess("인증번호 확인에 성공하였습니다.");
         setIsVerifiedEmail(true);
       } else {
-        setMyAlert({
-          isOpen: true,
-          severity: "error",
-          duration: duration,
-          message: `인증번호 확인에 실패하였습니다.`,
-        });
-
+        alertError("인증번호 확인에 실패하였습니다.");
         setIsVerifiedEmail(false);
       }
     }

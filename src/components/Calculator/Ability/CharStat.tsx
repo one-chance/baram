@@ -64,11 +64,7 @@ export default function CharStat() {
   };
 
   const switchDlg = () => {
-    if (openHelper === false) {
-      setOpenHelper(true);
-    } else {
-      setOpenHelper(false);
-    }
+    setOpenHelper(!openHelper);
   };
 
   useEffect(() => {

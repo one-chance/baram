@@ -102,11 +102,7 @@ export default function Animal() {
   const [animalInfo, setAnimalInfo] = useState({ grade: 5, level: 99, weaphon: 7, helmet: 7, armor: 7, handL: 2, handR: 2, orb: 2 });
 
   const switchDlg = () => {
-    if (openHelper === true) {
-      setOpenHelper(false);
-    } else {
-      setOpenHelper(true);
-    }
+    setOpenHelper(!openHelper);
   };
 
   useEffect(() => {
