@@ -38,7 +38,8 @@ import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
 
 import NotFound from "pages/NotFound";
-import Privacy from "components/Privacy";
+import PrivacyPolicy from "components/PrivacyPolicy";
+import TermsOfService from "components/TermsOfService";
 
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
@@ -131,8 +132,9 @@ function App() {
                 {/*MyInfo*/}
                 <Route path='/myinfo/:tab' component={MyInfo} />
 
-                {/*Privacy Announcement*/}
-                <Route exact path='/privacy' component={Privacy} />
+                {/*Policy*/}
+                <Route exact path='/privacypolicy' component={PrivacyPolicy} />
+                <Route exact path='/termsofservice' component={TermsOfService} />
 
                 {/*Error Handling*/}
                 <Route exact path='/signin' component={NoAuth} />

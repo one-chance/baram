@@ -17,7 +17,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import CheckIcon from "@material-ui/icons/Check";
 import RightIcon from "@material-ui/icons/SentimentVerySatisfied";
 import WrongIcon from "@material-ui/icons/SentimentVeryDissatisfied";
-import Privacy from "components/Privacy";
+import Privacy from "components/PrivacyPolicy";
+import Terms from "components/TermsOfService";
 
 import { CheckExistUser, SignUpUser } from "utils/UserUtil";
 import { sendVerifyEmail, checkVerifyEmail } from "utils/CommonUtil";
@@ -74,46 +75,42 @@ export default function SignUp() {
   const [id, setId] = useState("");
   const refId = React.useRef<any>();
   const [isNewId, setIsNewId] = useState(false);
-  const [isConfirmId, setIsConfirmId] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState<string | undefined>(undefined); //메일 전송 전 > undefined
   const refEmailCode = React.useRef<any>();
   const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
+  const [agreeService, setAgreeService] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
 
   const [checkId, setCheckId] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
   const [checkEmail, setCheckEmail] = useState(false);
 
-  const [openHelper, setOpenHelper] = useState(false);
+  const [openService, setOpenService] = useState(false);
+  const [openPrivacy, setOpenPrivacy] = useState(false);
 
   const _onCheckExist = async () => {
     const res = await CheckExistUser(id);
 
-    if (isNewId) {
-      // ID 고정
-      setIsConfirmId(true);
-    } else {
-      if (res.code === 200 && id !== "") {
-        setMyAlert({
-          isOpen: true,
-          severity: "success",
-          duration: duration,
-          message: res.message,
-        });
-        setIsNewId(true);
-      } else if (id !== "") {
-        setMyAlert({
-          isOpen: true,
-          severity: "error",
-          duration: duration,
-          message: res.message,
-        });
-        setIsNewId(false);
-        refId.current.focus();
-      }
+    if (res.code === 200 && id !== "") {
+      setMyAlert({
+        isOpen: true,
+        severity: "success",
+        duration: duration,
+        message: res.message,
+      });
+      setIsNewId(true);
+    } else if (id !== "") {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: res.message,
+      });
+      setIsNewId(false);
+      refId.current.focus();
     }
   };
 
@@ -123,9 +120,19 @@ export default function SignUp() {
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: "ID 중복확인 후 진행 가능합니다.",
+        message: "아이디 중복검사를 진행해야 합니다.",
       });
       refId.current.focus();
+      return 0;
+    }
+
+    if (password.length < 8 || password !== passwordConfirm || checkPassword === false) {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: "비밀번호가 올바르게 설정되지 않았습니다.",
+      });
       return 0;
     }
 
@@ -134,17 +141,17 @@ export default function SignUp() {
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: "이메일 인증 완료 후 진행 가능합니다.",
+        message: "이메일 인증을 완료해야 합니다.",
       });
       return 0;
     }
 
-    if (!agreePrivacy) {
+    if (!agreePrivacy || !agreeService) {
       setMyAlert({
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: "동의 후 진행 가능합니다.",
+        message: "모든 약관에 동의 후 진행 가능합니다.",
       });
       return 0;
     }
@@ -175,6 +182,7 @@ export default function SignUp() {
 
   const verifyId = (input: string) => {
     var pattern = /[0-9a-zA-Z]/; // 숫자+문자
+    setIsNewId(false);
     setCheckId(true);
     setId(input);
 
@@ -191,7 +199,7 @@ export default function SignUp() {
   const verifyPassword = (input: string) => {
     var pattern1 = /[0-9]/; // 숫자
     var pattern2 = /[a-zA-Z]/; // 문자
-    var pattern3 = /[`~!@#$%^&*()_+|<>?:{},./ ]/; // 특수문자
+    var pattern3 = /[`~!@#$%^&*()_+|<>?:{},./]/; // 특수문자
     var pa1 = false;
     var pa2 = false;
     var pa3 = false;
@@ -201,10 +209,10 @@ export default function SignUp() {
       setCheckPassword(true);
       return;
     }
-
+    setCheckPassword(true);
     setPassword(input);
 
-    for (let i = 0; i < input.length && i !== 0; i++) {
+    for (let i = 0; i < input.length; i++) {
       let letters = input.charAt(i);
       if (pattern1.test(letters)) pa1 = true;
       if (pattern2.test(letters)) pa2 = true;
@@ -278,8 +286,8 @@ export default function SignUp() {
   return (
     <React.Fragment>
       <form>
-        <Grid container direction='column' justify='center' style={{ padding: "0", margin: "10px 0" }}>
-          <Typography style={{ margin: "10px 0 40px 0", textAlign: "center", fontSize: "2rem" }}>회원가입</Typography>
+        <Grid container direction='column' justify='center' style={{ padding: "0", margin: "20px 0" }}>
+          <Typography style={{ margin: "0 0 40px 0", textAlign: "center", fontSize: "2rem" }}>회원가입</Typography>
           <Grid item container justify='center' style={{ minHeight: "62px", margin: "5px 0" }}>
             <Typography className={classes.text}>아이디</Typography>
             <TextField
@@ -293,21 +301,19 @@ export default function SignUp() {
               autoComplete='off'
               inputRef={refId}
               value={id || ""}
-              disabled={isConfirmId}
               onChange={e => {
                 verifyId(e.target.value);
               }}
               className={classes.contents}
             />
             <Button
-              variant={isNewId ? "contained" : "outlined"}
+              variant='outlined'
               color='primary'
-              disabled={checkId === false || id.length < 6 || isConfirmId}
               className={classes.btnCheck}
               startIcon={isNewId ? <CheckIcon /> : ""}
               onClick={_onCheckExist}
               style={{ marginBottom: "22px" }}>
-              {isNewId ? "완료" : "중복확인"}
+              {isNewId ? "통과" : "중복확인"}
             </Button>
             <Typography className={classes.text2}>영문자, 숫자만 사용 가능</Typography>
           </Grid>
@@ -422,20 +428,20 @@ export default function SignUp() {
             </Typography>
             <Button
               variant='outlined'
-              color={agreePrivacy ? "primary" : "secondary"}
-              startIcon={agreePrivacy ? <CheckIcon /> : ""}
+              color={agreeService ? "primary" : "default"}
+              startIcon={agreeService ? <CheckIcon /> : ""}
               onClick={() => {
-                setOpenHelper(true);
+                setOpenService(true);
               }}
               style={{ minWidth: "180px", height: "40px", padding: "5px 0", marginRight: "20px" }}>
               서비스 이용약관
             </Button>
             <Button
               variant='outlined'
-              color={agreePrivacy ? "primary" : "secondary"}
+              color={agreePrivacy ? "primary" : "default"}
               startIcon={agreePrivacy ? <CheckIcon /> : ""}
               onClick={() => {
-                setOpenHelper(true);
+                setOpenPrivacy(true);
               }}
               style={{ minWidth: "180px", height: "40px", padding: "5px 0", marginLeft: "20px" }}>
               개인정보처리방침
@@ -460,9 +466,35 @@ export default function SignUp() {
       </form>
 
       <Dialog
-        open={openHelper}
+        open={openService}
         onClose={() => {
-          setOpenHelper(false);
+          setOpenService(false);
+        }}
+        maxWidth='lg'>
+        <DialogContent style={{ padding: "10px" }}>
+          <Terms />
+          <Divider />
+          <FormControlLabel
+            control={
+              <Checkbox
+                color='primary'
+                checked={agreeService}
+                onChange={() => {
+                  setAgreeService(!agreeService);
+                  setOpenService(false);
+                }}
+              />
+            }
+            label='서비스 이용약관에 동의합니다.'
+            style={{ margin: "10px 30px", textAlign: "center", fontWeight: "bold" }}
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openPrivacy}
+        onClose={() => {
+          setOpenPrivacy(false);
         }}
         maxWidth='lg'>
         <DialogContent style={{ padding: "10px" }}>
@@ -471,12 +503,11 @@ export default function SignUp() {
           <FormControlLabel
             control={
               <Checkbox
-                value='allowExtraEmails'
                 color='primary'
                 checked={agreePrivacy}
                 onChange={() => {
                   setAgreePrivacy(!agreePrivacy);
-                  setOpenHelper(false);
+                  setOpenPrivacy(false);
                 }}
               />
             }
