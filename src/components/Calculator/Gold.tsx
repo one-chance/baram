@@ -136,11 +136,7 @@ export default function Gold() {
   };
 
   const switchDlg = () => {
-    if (openHelper === true) {
-      setOpenHelper(false);
-    } else {
-      setOpenHelper(true);
-    }
+    setOpenHelper(!openHelper);
   };
 
   return (

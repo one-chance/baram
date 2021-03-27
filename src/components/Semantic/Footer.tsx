@@ -4,9 +4,9 @@ import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
   footerWrapper: {
-    width: "70%",
+    width: "70vw",
     padding: "0",
-    margin: "0 15%",
+    margin: "0 15vw",
   },
   boxWrapper: {
     display: "block",
@@ -26,16 +26,18 @@ export default function Footer() {
       <Divider />
       <div className={classes.footerWrapper}>
         <div className={classes.boxWrapper}>
-          <span>이용약관</span>
+          <a href='/termsofservice' style={{ textDecoration: "none", color: "black" }}>
+            이용약관
+          </a>
           <span>|</span>
-          <a href='/privacy' style={{ textDecoration: "none", color: "black" }}>
+          <a href='/privacypolicy' style={{ textDecoration: "none", color: "black" }}>
             개인정보처리방침
           </a>
           <span>|</span>
           <span>운영정책</span>
         </div>
         <div className={classes.boxWrapper}>
-          <span>이메일 : abced@gmail.com</span>
+          <span>E-mail : admin@dotols.com</span>
         </div>
       </div>
     </>

@@ -56,11 +56,7 @@ export default function Level() {
   const [levelPower2, setLevelPower2] = useState<number>(0); // 레벨 전투력 (실제)
 
   const switchDlg = () => {
-    if (openHelper === true) {
-      setOpenHelper(false);
-    } else {
-      setOpenHelper(true);
-    }
+    setOpenHelper(!openHelper);
   };
 
   useEffect(() => {
