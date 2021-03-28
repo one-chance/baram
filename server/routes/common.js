@@ -373,13 +373,15 @@ router.put("/email", (req, res) => {
 
           const SUBJECT = "[도톨] 이메일 인증번호 안내";
           const HTML_BODY = `
+            <div style={{padding: "10px", border:"1px solid"}}>
             안녕하세요.<br>
             바람의나라 유저를 위한 커뮤니티 <b>도톨</b>입니다.<br>
-            아래 인증번호를 통해 이메일 인증을 완료해주시기 바랍니다.<br>
+            아래 인증번호를 통해 이메일 인증을 완료해주세요.<br>
+            <br>
+            인증번호 : &nbsp; &nbsp; <b>${verifyCode}</b>
+            <br>
             감사합니다.
-            <br>
-            <b>${verifyCode}</b>
-            <br>
+            </div>
           `;
 
           var params = {
@@ -831,10 +833,14 @@ router.get("/visit/count", (req, res) => {
 
   VisitLogSchema.getTodayVisitor()
     .then(todayVisitLog => {
-      visitorData.today = todayVisitLog.visitors.length;
+      if (todayVisitLog && todayVisitLog.visitors) {
+        visitorData.today = todayVisitLog.visitors.length;
+      }
 
       ConfigSchema.getRuntimeConfig(process.env.RUNTIME_MODE).then(config => {
-        visitorData.total = config.totalVisitorCount;
+        if (config && config.totalVisitorCount) {
+          visitorData.total = config.totalVisitorCount;
+        }
 
         logger.info("[SUCCESS] GET VISITOR COUNT");
         res.status(200).send({

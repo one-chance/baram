@@ -107,7 +107,7 @@ export default function SignInForm() {
               id='id'
               name='id'
               placeholder='아이디를 입력해주세요.'
-              autoComplete='bachang-id'
+              autoComplete='dotols-id'
               value={id}
               inputRef={refId}
               onChange={e => setId(e.target.value)}
@@ -124,7 +124,7 @@ export default function SignInForm() {
               placeholder='비밀번호를 입력해주세요.'
               type='password'
               id='password'
-              autoComplete='bachang-password'
+              autoComplete='dotols-password'
               value={password}
               inputRef={refPassword}
               onChange={e => setPassword(e.target.value)}
