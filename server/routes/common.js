@@ -831,10 +831,14 @@ router.get("/visit/count", (req, res) => {
 
   VisitLogSchema.getTodayVisitor()
     .then(todayVisitLog => {
-      visitorData.today = todayVisitLog.visitors.length;
+      if (todayVisitLog && todayVisitLog.visitors) {
+        visitorData.today = todayVisitLog.visitors.length;
+      }
 
       ConfigSchema.getRuntimeConfig(process.env.RUNTIME_MODE).then(config => {
-        visitorData.total = config.totalVisitorCount;
+        if (config && config.totalVisitorCount) {
+          visitorData.total = config.totalVisitorCount;
+        }
 
         logger.info("[SUCCESS] GET VISITOR COUNT");
         res.status(200).send({

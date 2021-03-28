@@ -2,7 +2,7 @@
   "name": "project-bachang",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:3001",
+  "proxy": "http://15.164.219.62:3001",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.20",
@@ -58,7 +58,7 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel start:**",
-    "start:client": "react-scripts start",
+    "start:client": "PORT=80 react-scripts start",
     "start:server": "cross-env NODE_ENV=production node ./server/server.js",
     "development": "npm-run-all --parallel development:**",
     "development:client": "react-scripts start",
