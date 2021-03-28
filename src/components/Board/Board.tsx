@@ -200,7 +200,7 @@ const Board = (props: IProps) => {
   const rows: RowsProp = [];
   nowCategory = category;
 
-  posts.map(post => {
+  posts.forEach(post => {
     rows.push({
       id: post.seq ? post.seq : -1,
       title: post.title,

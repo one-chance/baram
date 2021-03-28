@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
+import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -240,7 +241,7 @@ export default function CalProduction() {
   };
 
   return (
-    <Container style={{ width: "80%", height: "100%", margin: "10px 10%", padding: "0", textAlign: "center" }}>
+    <Grid container justify='center' style={{ margin: "10px 0", padding: "0", textAlign: "center" }}>
       <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
         <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
           <Select
@@ -527,6 +528,6 @@ export default function CalProduction() {
           )}
         </Container>
       </Container>
-    </Container>
+    </Grid>
   );
 }

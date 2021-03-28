@@ -16,19 +16,20 @@ import { getVisitCount } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   secondSection: {
-    margin: "20px 0",
+    minHeight: "160px",
+    margin: "20px 0 10px 0",
     border: "1px solid lightgray",
     borderRadius: "10px",
-    float: "left",
     backgroundColor: "white",
   },
   boardItemWrapper: {
     width: "100%",
-    height: "60%",
     float: "left",
   },
   boardItem: {
-    margin: "8px",
+    margin: "10px",
+    padding: "0",
+    fontWeight: "bold",
     float: "left",
   },
   boardItemButton: {
@@ -86,53 +87,49 @@ const Home = () => {
   }, []);
 
   return (
-    <Grid container>
-      <Grid item xs={12} style={{ float: "left" }}>
+    <Grid container justify='center' style={{ margin: "10px 0" }}>
+      <Grid item xs={12}>
         <MainCarousel />
       </Grid>
-      <Grid item xs={1} style={{ float: "left" }}></Grid>
-      <Grid container item xs={10} className={classes.secondSection}>
-        <Grid item xs={4} style={{ padding: "5px" }}>
+      <Grid item container justify='space-between' xs={10} className={classes.secondSection}>
+        <Grid item style={{ width: "320px", margin: "0 auto" }}>
           <LatestBoardPaper category='free' posts={freePosts} />
         </Grid>
-        <Grid item xs={4} style={{ padding: "5px" }}>
+        <Grid item style={{ width: "320px", margin: "0 auto" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item xs={4} style={{ padding: "5px 10px" }}>
-          <div className={classes.boardItemWrapper}>
-            <div className={classes.boardItem}>
-              <Button variant='outlined' className={classes.boardItemButton}>
-                <PriorityHighIcon />
-              </Button>
-              <h5 className={classes.boardItemText}>공 지</h5>
-            </div>
-            <div className={classes.boardItem}>
-              <Button variant='outlined' className={classes.boardItemButton}>
-                <MailOutlineIcon />
-              </Button>
-              <h5 className={classes.boardItemText}>문 의</h5>
-            </div>
-            <div className={classes.boardItem}>
-              <Button variant='outlined' className={classes.boardItemButton}>
-                <QuestionAnswerIcon />
-              </Button>
-              <h5 className={classes.boardItemText}>FAQ</h5>
-            </div>
-            <div className={classes.boardItem}>
-              <Button variant='outlined' href='http://www.baram.nexon.com' className={classes.boardItemButton}>
-                <HomeIcon />
-              </Button>
-              <h5 className={classes.boardItemText}>공식</h5>
-            </div>
-          </div>
-          <div className={classes.boardVisitCountWrapper}>
+        <Grid item container style={{ width: "320px", margin: "0 auto" }}>
+          <Grid item className={classes.boardItem}>
+            <Button variant='outlined' className={classes.boardItemButton}>
+              <PriorityHighIcon />
+            </Button>
+            <h5 className={classes.boardItemText}>공 지</h5>
+          </Grid>
+          <Grid item className={classes.boardItem}>
+            <Button variant='outlined' className={classes.boardItemButton}>
+              <MailOutlineIcon />
+            </Button>
+            <h5 className={classes.boardItemText}>문 의</h5>
+          </Grid>
+          <Grid item className={classes.boardItem}>
+            <Button variant='outlined' className={classes.boardItemButton}>
+              <QuestionAnswerIcon />
+            </Button>
+            <h5 className={classes.boardItemText}>FAQ</h5>
+          </Grid>
+          <Grid item className={classes.boardItem}>
+            <Button variant='outlined' href='http://www.baram.nexon.com' className={classes.boardItemButton}>
+              <HomeIcon />
+            </Button>
+            <h5 className={classes.boardItemText}>공식</h5>
+          </Grid>
+          <Grid item className={classes.boardItem}>
             <span style={{ color: "red" }}>TODAY : {todayVisit}</span>
             <br />
             TOTAL : {totalVisit}
-          </div>
+          </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={1} style={{ float: "left" }}></Grid>
     </Grid>
   );
 };
