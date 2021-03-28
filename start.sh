@@ -1,2 +1,2 @@
-npm install
+yarn
 npm start
