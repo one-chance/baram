@@ -373,15 +373,13 @@ router.put("/email", (req, res) => {
 
           const SUBJECT = "[도톨] 이메일 인증번호 안내";
           const HTML_BODY = `
-            <div style={{padding: "10px", border:"1px solid"}}>
             안녕하세요.<br>
             바람의나라 유저를 위한 커뮤니티 <b>도톨</b>입니다.<br>
             아래 인증번호를 통해 이메일 인증을 완료해주세요.<br>
             <br>
-            인증번호 : &nbsp; &nbsp; <b>${verifyCode}</b>
-            <br>
+            인증번호 : &nbsp; &nbsp;<b>${verifyCode}</b>
+            <br><br>
             감사합니다.
-            </div>
           `;
 
           var params = {
@@ -489,10 +487,10 @@ router.put("/id/email", (req, res) => {
           const HTML_BODY = `
             안녕하세요.<br>
             바람의나라 유저를 위한 커뮤니티 <b>도톨</b>입니다.<br>
-            아래 인증번호를 통해 인증을 완료하시면 임시 비밀번호가 발급됩니다.<br>
-            임시 비밀번호로 로그인 하고 반드시 비밀번호 변경 단계를 진행해주세요.<br>
+            아래 인증번호로 인증을 완료하시면 임시 비밀번호가 발급됩니다.<br>
+            로그인 후 비밀번호를 반드시 변경해주세요.<br>
             <br>
-            <b>${verifyCode}</b>
+            인증번호 : &nbsp; &nbsp;<b>${verifyCode}</b>
             <br><br>
             감사합니다.
           `;
@@ -715,11 +713,12 @@ router.put("/reset", (req, res) => {
                 const HTML_BODY = `
                   안녕하세요.
                   바람의나라 유저를 위한 커뮤니티, <b>도톨</b>입니다.<br>
-                  <b>${id}</b>의 임시 비밀번호가 아래와 같이 발급되었습니다.<br>
-                  ${newPassword.source}<br>
-                  로그인 후 비밀번호를 변경해주세요.<br>
-                  감사합니다.<br><br>
-                  <a href="/">로그인 바로가기</a>                  
+                  <b>${id}</b>님의 임시 비밀번호가 발급되었습니다.<br>
+                  로그인 후 비밀번호를 반드시 변경해주세요.<br>
+                  임시 비밀번호 : &nbsp; &nbsp;${newPassword.source}<br>
+                  <br><br>
+                  감사합니다.<br>
+                  <a href="https://www.dotols.com/signin">로그인 바로가기</a>                  
                 `;
 
                 var params = {
