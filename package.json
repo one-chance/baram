@@ -58,7 +58,7 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel start:**",
-    "start:client": "PORT=80 react-scripts start",
+    "start:client": "PORT=80 HTTPS=true DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",
     "start:server": "cross-env NODE_ENV=production node ./server/server.js",
     "development": "npm-run-all --parallel development:**",
     "development:client": "react-scripts start",
