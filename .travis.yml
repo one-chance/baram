@@ -12,18 +12,7 @@ before_script:
 script:
   - CI=false npm run build
 
-deploy:
-  - provider: codedeploy
-    access_key_id: $AWS_TRAVIS_ACCESS_KEY
-    secret_access_key: $AWS_TRAVIS_ASECRET_KEY
-
-    application: bachang
-    deployment_group: dotols-group
-    region: ap-northeast-2
-
-    wait-until-deployed: true
-
 production-deploy:
   stage: deploy
   script:
-    script: bash /home/ec2-user/dotols/deploy/deploy.sh
+    - /home/ec2-user/dotols/deploy/deploy.sh
