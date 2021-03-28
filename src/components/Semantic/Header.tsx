@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import SignInDialogState from "state/common/SignInDialogState";
-
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -25,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "50%",
     margin: "0",
-    padding: "0 30px",
+    padding: "0 1.5vw",
     backgroundColor: "white",
   },
   boxDown: {
@@ -80,11 +79,12 @@ const useStyles = makeStyles(theme => ({
     },
   },
   btn: {
+    minWidth: "80px",
     lineHeight: "4vh",
-    margin: "15px 5px",
     fontFamily: "Do Hyeon",
     fontSize: "1.2rem",
     textTransform: "none",
+    margin: "0",
     padding: "0",
     float: "left",
     "&:hover, &:active, &:focus": {
@@ -144,31 +144,31 @@ export default function Header() {
   return (
     <React.Fragment>
       <AppBar color='inherit' elevation={0} className={classes.root}>
-        <div id='up' className={classes.boxUp}>
+        <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
           <Button className={classes.btn} onClick={_onMoveToMain}>
             Home
           </Button>
 
           {signInUserId ? (
-            <Container style={{ maxWidth: "180px", minWidth: "170px", margin: "0", padding: "0", float: "right" }}>
+            <Grid item style={{ margin: "0", padding: "0" }}>
               <Button className={classes.btn} onClick={_onLogoutUser}>
                 로그아웃
               </Button>
               <Button className={classes.btn} style={{ color: "blue" }} disabled>
                 {signInUserId}
               </Button>
-            </Container>
+            </Grid>
           ) : (
-            <Container style={{ maxWidth: "180px", minWidth: "170px", margin: "0", padding: "0", float: "right" }}>
+            <Grid item style={{ margin: "0", padding: "0" }}>
               <Button className={classes.btn} onClick={_onSignInOpen}>
                 로그인
               </Button>
               <Button className={classes.btn} onClick={_onMoveSignUp}>
                 회원가입
               </Button>
-            </Container>
+            </Grid>
           )}
-        </div>
+        </Grid>
         <Grid container id='down' direction='row' className={classes.boxDown}>
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>게시판</Typography>

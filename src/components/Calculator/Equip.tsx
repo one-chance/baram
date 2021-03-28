@@ -245,11 +245,7 @@ export default function Equip() {
   };
 
   const switchDlg = () => {
-    if (openHelper === true) {
-      setOpenHelper(false);
-    } else {
-      setOpenHelper(true);
-    }
+    setOpenHelper(!openHelper);
   };
 
   useEffect(() => {

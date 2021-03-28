@@ -127,11 +127,7 @@ export default function Pet() {
   });
 
   const switchDlg = () => {
-    if (openHelper === true) {
-      setOpenHelper(false);
-    } else {
-      setOpenHelper(true);
-    }
+    setOpenHelper(!openHelper);
   };
 
   useEffect(() => {
@@ -351,13 +347,10 @@ export default function Pet() {
             * 기본 전투력 = 200 x 등급 + 2 x 레벨
           </Typography>
           <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
-            * 환수 장비의 일부 잠재능력은 최대 수치가 일반 장비와 다르다.
+            * 잠재능력에 %돋이 없고 최대 수치가 일반 장비와 다르다.
           </Typography>
           <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
             ex) 방관/마치 : 50, 마법수준향상 : 3, 명중률 : 4
-          </Typography>
-          <Typography variant='h5' className={classes.dlgText}>
-            * 환수 장비의 잠재능력은 %돋이 존재하지 않는다.
           </Typography>
           <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
             * 일반 장비처럼 강화가 가능하다.

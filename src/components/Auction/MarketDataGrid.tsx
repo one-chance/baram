@@ -4,7 +4,7 @@ import { DataGrid, RowsProp, ColDef, GridOverlay } from "@material-ui/data-grid"
 
 import IMarketItem from "interfaces/Auction/IMarketItem";
 
-const useStyles = makeStyles(theme => ({    
+const useStyles = makeStyles(theme => ({
   datagrid: {
     "& .title": {
       paddingLeft: "30px",
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     "& .MuiDataGrid-overlay": {
       margin: "auto",
     },
-	},
+  },
 }));
 
 interface IProps {
@@ -41,28 +41,22 @@ const cols: ColDef[] = [
 
 const MarketDataGrid = (props: IProps) => {
   const classes = useStyles();
-  const rows: RowsProp = [];
+  const rows: RowsProp = [] as RowsProp;
 
-  props.posts.map(post => {
+  props.posts.forEach(post => {
     rows.push({
-      id: post.seq? post.seq : -1,
+      id: post.seq ? post.seq : -1,
       item: post.item,
       price: post.price,
       writer: post.writer,
-      remainDate: post.remainDate
+      remainDate: post.remainDate,
     });
   });
 
   return (
     <React.Fragment>
       <div style={{ height: 630, width: "100%", marginBottom: "20px" }}>
-        <DataGrid 
-          className={classes.datagrid}
-
-          pageSize={10}
-          columns={cols}
-          rows={rows}
-        />
+        <DataGrid className={classes.datagrid} pageSize={10} columns={cols} rows={rows} />
       </div>
     </React.Fragment>
   );

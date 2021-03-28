@@ -418,7 +418,7 @@ router.put("/email", (req, res) => {
               console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
               res.status(200).send({
                 code: 200,
-                message: "발송된 이메일 내용을 확인해주세요.",
+                message: "발송된 이메일을 확인해주세요.",
               });
 
               return true;
@@ -531,7 +531,7 @@ router.put("/id/email", (req, res) => {
               console.log(`[SUCCESS] SEND EMAIL ${data.MessageId}`);
               res.status(200).send({
                 code: 200,
-                message: "발송된 이메일 내용을 확인해주세요.",
+                message: "발송된 이메일을 확인해주세요.",
               });
 
               return true;
