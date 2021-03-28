@@ -1,2 +1,2 @@
 yarn
-npm start
+npm run start
