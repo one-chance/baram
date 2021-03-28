@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     width: "100%",
-    minHeight: "80vh",
+    minHeight: "70vh",
     position: "relative",
     zIndex: 1,
     marginTop: "15vh",
