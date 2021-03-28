@@ -1,6 +1,6 @@
 {
-  "name": "project-bachang",
-  "version": "0.1.0",
+  "name": "dotols",
+  "version": "1.0.0",
   "private": true,
   "proxy": "http://15.164.219.62:3001",
   "dependencies": {
