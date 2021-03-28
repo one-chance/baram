@@ -5,7 +5,6 @@ node_js:
 branches:
   only:
     - master
-    - travisTest
 
 before_script:
   - npm install
@@ -13,41 +12,7 @@ before_script:
 script:
   - CI=false npm run build
 
-before_deploy:
-  - chmod 777 exec_deploy.sh
-  - chmod 777 start.sh
-  - rm -rf node_modules
-  - zip -r bachang ./*
-  - mkdir -p deploy
-  - mv bachang.zip deploy/bachang.zip
-
-deploy:
-  - provider: s3
-    access_key_id: $AWS_TRAVIS_ACCESS_KEY
-    secret_access_key: $AWS_TRAVIS_ASECRET_KEY
-
-    bucket: baram-travis
-    region: ap-northeast-2
-    skip_cleanup: true
-    acl: private
-    local_dir: deploy
-    wait_until_deployed : true
-
-  - provider: codedeploy
-    access_key_id: $AWS_TRAVIS_ACCESS_KEY
-    secret_access_key: $AWS_TRAVIS_ASECRET_KEY
-
-    bucket: baram-travis
-    key: bachang.zip
-
-    bundle_type: zip
-    application: bachang
-
-    deployment_group: bachang-group
-    region: ap-northeast-2
-    wait-until-deployed: true
-
 production-deploy:
   stage: deploy
   script:
-    - ~/app/deploy/zip/exec_deploy.sh
+    - ~/dotols/deploy/deploy.sh
