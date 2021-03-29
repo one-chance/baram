@@ -1,13 +1,11 @@
 #!/bin/bash
 
-cd /home/ubuntu/app/deploy
-cp variables.env ./zip
-cd ./zip
+cd /home/ec2-user/dotols/deploy/baram
 
-if screen -list | grep "bachang"; then
-        echo "Exit running bachang..."
-        screen -SX bachang quit
+if screen -list | grep "dotols"; then
+        echo "Exit running dotols..."
+        screen -SX dotols quit
 fi
 
-echo "Start bachang..."
-screen -dmS bachang ./start.sh
+echo "Start dotols..."
+screen -dmS dotols ./start.sh

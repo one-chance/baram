@@ -1,3 +1,2 @@
-npm install
-
-HTTPS=true DANGEROUSLY_DISABLE_HOST_CHECK=true npm start
+yarn
+npm run start
