@@ -109,8 +109,8 @@ interface IEquipSlot {
 export default function Equip() {
   const classes = useStyles();
 
-  var check1 = [2, 4, 5, 6];
-  var check2 = [2, 4, 5];
+  var check1 = [2, 4, 5, 6, 7, 9];
+  var check2 = [2, 4, 5, 7, 9];
   const [openHelper, setOpenHelper] = useState<boolean>(false);
   const [itemPower, setItemPower] = useState<number>(0); // 장비 전투력
 
@@ -183,7 +183,24 @@ export default function Equip() {
       return;
     }
 
-    const res = await SearchItem(name, 0, parts, 0);
+    let parts2 = 0;
+    if (parts === 9) {
+      parts2 = 7;
+    } else if (parts === 10) {
+      parts2 = 9;
+    } else if (parts === 11) {
+      parts2 = 10;
+    } else if (parts === 12) {
+      parts2 = 9;
+    } else if (parts === 13) {
+      parts2 = 11;
+    } else if (parts === 14) {
+      parts2 = 12;
+    } else {
+      parts2 = parts;
+    }
+
+    const res = await SearchItem(name, 0, parts2, 0);
     const temp = Array<IItemInfo>();
     res.forEach(r => temp.push(r));
     setItemList(temp);
@@ -205,6 +222,7 @@ export default function Equip() {
 
   // 착용 부위를 고정하는 함수
   const fixedOption = (num: number) => {
+    console.log(num);
     if (num + 1 === 9) {
       setOptions({ ...options, op2: 7 });
     } else if (num + 1 === 10) {

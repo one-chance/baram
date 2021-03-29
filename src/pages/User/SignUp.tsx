@@ -270,6 +270,7 @@ export default function SignUp() {
             <Button
               variant='outlined'
               color='primary'
+              disabled={id.length < 6 || checkId === false}
               className={classes.btnCheck}
               startIcon={isNewId ? <CheckIcon /> : ""}
               onClick={_onCheckExist}
