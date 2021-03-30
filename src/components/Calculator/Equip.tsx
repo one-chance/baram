@@ -441,6 +441,7 @@ export default function Equip() {
               item
               style={{
                 width: `(100%-20px)`,
+                maxWidth: "390px",
                 minHeight: "62px",
                 margin: "10px 5px",
                 padding: "0",
