@@ -118,7 +118,7 @@ const Home = () => {
             <h5 className={classes.boardItemText}>FAQ</h5>
           </Grid>
           <Grid item className={classes.boardItem}>
-            <Button variant='outlined' href='http://www.baram.nexon.com' className={classes.boardItemButton}>
+            <Button variant='outlined' href='http://www.baram.nexon.com' target='_blank' className={classes.boardItemButton}>
               <HomeIcon />
             </Button>
             <h5 className={classes.boardItemText}>공식</h5>

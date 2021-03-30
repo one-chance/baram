@@ -11,12 +11,12 @@ import EngraveStat from "components/Calculator/Ability/EngraveStat";
 import GoldStat from "components/Calculator/Ability/GoldStat";
 import AnimalStat from "components/Calculator/Ability/AnimalStat";
 import AwakStat from "components/Calculator/Ability/AwakStat";
-import FamilyStat from "components/Calculator/Ability/FamilyStat";
 import PetStat from "components/Calculator/Ability/PetStat";
 import PairStat from "components/Calculator/Ability/PairStat";
 import SkillStat from "components/Calculator/Ability/SkillStat";
 import PotionStat from "components/Calculator/Ability/PotionStat";
 import TitleStat from "components/Calculator/Ability/TitleStat";
+import FamilyStat from "components/Calculator/Ability/FamilyStat";
 
 const useStyles = makeStyles({
   box: {
@@ -42,7 +42,7 @@ export default function Ability() {
     <React.Fragment>
       <Grid container direction='column' style={{ padding: "0", margin: "0" }}>
         <div style={{ margin: "10px 0", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem" }}>
-          <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 가문특성 + 환수시동 } * %돋 + 한벌효과 + 마법 + 물약 + 칭호`}</span>
+          <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 환수시동 } * %돋 + 한벌효과 + 마법 + 물약 + 칭호 + 가문특성`}</span>
           <br />
           <span> {`※ 방어도는 마법도 %돋에 영향 받음, 공식에 품의 효과를 반영하지 않아 오차가 존재함 (언젠간 수정할 듯) ※`}</span>
         </div>
@@ -108,15 +108,6 @@ export default function Ability() {
 
           <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
             <Typography variant='h6' className={classes.title}>
-              가문 특성
-            </Typography>
-            <div id='familyStat' className={classes.box}>
-              <FamilyStat />
-            </div>
-          </Grid>
-
-          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-            <Typography variant='h6' className={classes.title}>
               환수 시동
             </Typography>
             <div id='petStat' className={classes.box}>
@@ -157,6 +148,15 @@ export default function Ability() {
             </Typography>
             <div id='titleStat' className={classes.box}>
               <TitleStat />
+            </div>
+          </Grid>
+
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
+              가문 특성
+            </Typography>
+            <div id='familyStat' className={classes.box}>
+              <FamilyStat />
             </div>
           </Grid>
         </Grid>

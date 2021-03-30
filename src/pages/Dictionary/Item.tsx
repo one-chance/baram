@@ -39,6 +39,7 @@ const useStyles = makeStyles(theme => ({
     color: "blue",
     textAlignLast: "center",
     fontSize: "0.8rem",
+    float: "left",
     "& .MuiSelect-selectMenu": {
       padding: "2px 20px 2px 5px",
       lineHeight: "30px",
@@ -111,7 +112,7 @@ export default function Item() {
 
     const res = await SearchItemByName(name);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
@@ -125,7 +126,7 @@ export default function Item() {
 
     const res = await SearchItemByOption(option1, option2, option3);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
@@ -163,84 +164,96 @@ export default function Item() {
   return (
     <React.Fragment>
       <Grid container spacing={0} style={{ margin: "10px" }}>
-        <Grid item xs={8} style={{ margin: "0", padding: "10px 0" }}>
-          <Container style={{ margin: "5px 0", padding: "0", float: "left" }}>
-            <TextField
-              className={classes.itemText}
-              variant='outlined'
-              placeholder='아이템명'
-              value={searchName || ""}
-              onChange={e => {
-                inputName(e.target.value);
-              }}
-              style={{ margin: "5px 0" }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={e => {
-                searchByName(searchName);
-              }}
-              style={{ minWidth: "60px", height: "40px", margin: "5px 100px 5px -5px", borderBottomLeftRadius: "0", borderTopLeftRadius: "0" }}>
-              검색
-            </Button>
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={option1}
-              onChange={e => {
-                setOption1(Number(e.target.value));
-              }}>
-              {menuList[0].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
+        <Grid item container xs={8} style={{ margin: "0", padding: "10px 0" }}>
+          <Grid item container justify='space-between' style={{ margin: "5px 0", padding: "0", float: "left" }}>
+            <div>
+              <TextField
+                className={classes.itemText}
+                variant='outlined'
+                placeholder='아이템명'
+                value={searchName || ""}
+                onChange={e => {
+                  inputName(e.target.value);
+                }}
+                style={{ margin: "5px 0", float: "left" }}
+              />
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={e => {
+                  searchByName(searchName);
+                }}
+                style={{
+                  minWidth: "60px",
+                  height: "40px",
+                  margin: "5px 0 5px -5px",
+                  boxShadow: "none",
+                  borderBottomLeftRadius: "0",
+                  borderTopLeftRadius: "0",
+                  float: "left",
+                }}>
+                검색
+              </Button>
+            </div>
+            <div>
+              <Select
+                variant='outlined'
+                className={classes.select}
+                value={option1}
+                onChange={e => {
+                  setOption1(Number(e.target.value));
+                }}>
+                {menuList[0].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
 
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={option2}
-              onChange={e => {
-                setOption2(Number(e.target.value));
-              }}>
-              {menuList[1].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
+              <Select
+                variant='outlined'
+                className={classes.select}
+                value={option2}
+                onChange={e => {
+                  setOption2(Number(e.target.value));
+                }}>
+                {menuList[1].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
 
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={option3}
-              onChange={e => {
-                setOption3(Number(e.target.value));
-              }}>
-              {menuList[2].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => {
-                searchByList();
-              }}
-              style={{ minWidth: "60px", height: "40px", margin: "5px" }}>
-              검색
-            </Button>
-          </Container>
+              <Select
+                variant='outlined'
+                className={classes.select}
+                value={option3}
+                onChange={e => {
+                  setOption3(Number(e.target.value));
+                }}>
+                {menuList[2].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={() => {
+                  searchByList();
+                }}
+                style={{ minWidth: "60px", height: "40px", margin: "5px", boxShadow: "none", float: "left" }}>
+                검색
+              </Button>
+            </div>
+          </Grid>
           <Container
             style={{
               minHeight: "82px",

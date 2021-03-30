@@ -46,6 +46,7 @@ function FreeBoard({ location }: any) {
 
   useEffect(() => {
     _onLoad();
+    // eslint-disable-next-line
   }, []);
 
   return (
