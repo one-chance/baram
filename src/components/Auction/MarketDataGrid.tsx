@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { DataGrid, RowsProp, ColDef, GridOverlay } from "@material-ui/data-grid";
+import { DataGrid, RowsProp, ColDef } from "@material-ui/data-grid";
 
 import IMarketItem from "interfaces/Auction/IMarketItem";
 

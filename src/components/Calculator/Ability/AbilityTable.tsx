@@ -8,12 +8,12 @@ import GoldState1 from "state/Calculator/Ability/GoldState1";
 import GoldState2 from "state/Calculator/Ability/GoldState2";
 import AnimalState from "state/Calculator/Ability/AnimalState";
 import AwakState from "state/Calculator/Ability/AwakState";
-import FamilyState from "state/Calculator/Ability/FamilyState";
 import PetState from "state/Calculator/Ability/PetState";
 import PairState from "state/Calculator/Ability/PairState";
 import SkillState from "state/Calculator/Ability/SkillState";
 import PotionState from "state/Calculator/Ability/PotionState";
 import TitleState from "state/Calculator/Ability/TitleState";
+import FamilyState from "state/Calculator/Ability/FamilyState";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -37,12 +37,12 @@ export default function AbilityTable() {
   const goldState2 = useRecoilValue(GoldState2);
   const animalState = useRecoilValue(AnimalState);
   const awakState = useRecoilValue(AwakState);
-  const familyState = useRecoilValue(FamilyState);
   const petState = useRecoilValue(PetState);
   const pairState = useRecoilValue(PairState);
   const skillState = useRecoilValue(SkillState);
   const potionState = useRecoilValue(PotionState);
   const titleState = useRecoilValue(TitleState);
+  const familyState = useRecoilValue(FamilyState);
   const [totalState, setTotalState] = useState([0, 0, 0, 0, 0, 0]); // 최종 합산 스텟
   var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"]; // 스텟 종류
 
@@ -54,9 +54,9 @@ export default function AbilityTable() {
         let a: number = charState[idx];
         let b: number = equipState[idx] + engraveState[idx] + goldState1[idx] + animalState[idx];
         let c: number = awakState[idx];
-        let d: number = familyState[idx] + petState[idx];
+        let d: number = petState[idx];
         let e: number = goldState2[idx];
-        let f: number = pairState[idx] + skillState[idx] + potionState[idx] + titleState[idx];
+        let f: number = pairState[idx] + skillState[idx] + potionState[idx] + titleState[idx] + familyState[idx];
 
         if (b > c) {
           total[idx] = Math.floor((a + b + d) * (1 + e / 100)) + f;
@@ -77,11 +77,11 @@ export default function AbilityTable() {
     animalState,
     awakState,
     petState,
-    familyState,
     pairState,
     skillState,
     potionState,
     titleState,
+    familyState,
   ]);
 
   return (
@@ -158,16 +158,6 @@ export default function AbilityTable() {
           })}
         </Grid>
         <Grid item>
-          <Typography className={classes.title}>가문특성</Typography>
-          {familyState.map((stat: number, idx: number) => {
-            return (
-              <Typography key={idx} className={classes.title}>
-                {stat}
-              </Typography>
-            );
-          })}
-        </Grid>
-        <Grid item>
           <Typography className={classes.title}>환수 시동</Typography>
           {petState.map((stat: number, idx: number) => {
             return (
@@ -220,6 +210,16 @@ export default function AbilityTable() {
         <Grid item>
           <Typography className={classes.title}>칭호</Typography>
           {titleState.map((stat: number, idx: number) => {
+            return (
+              <Typography key={idx} className={classes.title}>
+                {stat}
+              </Typography>
+            );
+          })}
+        </Grid>
+        <Grid item>
+          <Typography className={classes.title}>가문특성</Typography>
+          {familyState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
                 {stat}

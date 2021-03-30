@@ -46,10 +46,6 @@ function TipBoard({ match }: any) {
   const [openConfirm, setOpenConfirm] = React.useState(false);
   const [post, setPost] = React.useState<IPost>();
 
-  useEffect(() => {
-    _onLoad();
-  }, []);
-
   const _onLoad = async () => {
     const res = await getPost(category, seq);
     if (res) setPost(res);
@@ -98,6 +94,11 @@ function TipBoard({ match }: any) {
     setOpenConfirm(false);
     delPost();
   };
+
+  useEffect(() => {
+    _onLoad();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Container className={classes.root}>

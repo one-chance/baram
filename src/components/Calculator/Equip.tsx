@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
@@ -12,6 +11,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -21,75 +21,73 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { SearchItem } from "../../utils/CalUtil";
 import IItemInfo from "interfaces/Calculator/IItemInfo";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    powerText: {
-      width: "240px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      color: "black",
-      fontSize: "1rem",
-      fontWeight: "bold",
+const useStyles = makeStyles(theme => ({
+  powerText: {
+    width: "240px",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    color: "black",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    float: "left",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      textDecoration: "none",
+    },
+  },
+  dlgButton: {
+    minWidth: "60px",
+    height: "40px",
+    margin: "0 5px",
+    padding: "5px",
+  },
+  select: {
+    width: "120px",
+    height: "40px",
+    padding: "1px",
+    margin: "5px",
+    color: "blue",
+    textAlignLast: "center",
+    fontSize: "0.8rem",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
       textAlign: "center",
-      float: "left",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
-    },
-    dlgButton: {
-      minWidth: "60px",
-      height: "40px",
-      margin: "0 5px",
-      padding: "5px",
-    },
-    select: {
-      width: "120px",
-      height: "40px",
-      padding: "1px",
-      margin: "5px 2.5px",
       color: "blue",
-      textAlignLast: "center",
-      fontSize: "0.8rem",
-      "& .MuiSelect-selectMenu": {
-        padding: "2px 20px 2px 5px",
-        lineHeight: "30px",
-        textAlign: "center",
-        color: "blue",
-      },
     },
-    itemChip: {
-      height: "30px",
-      margin: "2.5px",
+  },
+  itemChip: {
+    height: "30px",
+    margin: "2.5px",
+  },
+  itemText: {
+    margin: "0 5px",
+    flaot: "left",
+    "& input": {
+      height: "40px",
+      padding: "0 10px",
+      textAlign: "center",
     },
-    itemText: {
-      width: "310px",
-      margin: "0 2.5px",
-      "& input": {
-        height: "36px",
-        padding: "2px 10px",
-        textAlign: "center",
-      },
-      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        border: "1px solid",
-      },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      border: "1px solid",
     },
-    linkText: {
-      lineHeight: "40px",
-      color: "black",
-      margin: "0",
-      float: "left",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
+  },
+  linkText: {
+    lineHeight: "40px",
+    color: "black",
+    margin: "0",
+    float: "left",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      textDecoration: "none",
     },
+  },
 
-    dlgText: {
-      fontFamily: "Jua",
-      marginBottom: "10px",
-    },
-  })
-);
+  dlgText: {
+    fontFamily: "Jua",
+    marginBottom: "10px",
+  },
+}));
 
 const Menus = withStyles({
   root: {
@@ -108,6 +106,8 @@ interface IEquipSlot {
 
 export default function Equip() {
   const classes = useStyles();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   var check1 = [2, 4, 5, 6, 7, 9];
   var check2 = [2, 4, 5, 7, 9];
@@ -202,7 +202,7 @@ export default function Equip() {
 
     const res = await SearchItem(name, 0, parts2, 0);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
@@ -216,7 +216,7 @@ export default function Equip() {
 
     const res = await SearchItem("", options.op1, options.op2, options.op3);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
@@ -341,6 +341,7 @@ export default function Equip() {
       </Dialog>
 
       <Dialog
+        fullScreen={fullScreen}
         open={dlgItem.isOpen}
         onClose={() => {
           setDlgItem({ ...dlgItem, isOpen: false });
@@ -356,162 +357,171 @@ export default function Equip() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ maxWidth: "500px", padding: "10px", margin: "10px 0" }}>
-          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <TextField
-              className={classes.itemText}
-              variant='outlined'
-              placeholder={`(${equipSlotList[dlgItem.parts - 1].type}) 아이템명 `}
-              value={searchName}
-              onChange={e => {
-                inputName(e.target.value);
-              }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              className={classes.dlgButton}
-              onClick={e => {
-                searchByName(searchName, dlgItem.parts);
-              }}>
-              검색
-            </Button>
-          </Container>
-          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={options.op1}
-              /* MenuProps={{ disableScrollLock: true }} */
-              onChange={e => {
-                setOptions({ ...options, op1: Number(e.target.value) });
-              }}>
-              {menuList[0].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
+        <DialogContent style={{ padding: "10px", margin: "5px 10px" }}>
+          <Grid container direction='column' justify='center' style={{ padding: "0" }}>
+            <Grid item container style={{ maxWidth: "400px", margin: "5px 0", padding: "0" }}>
+              <TextField
+                className={classes.itemText}
+                variant='outlined'
+                placeholder={`(${equipSlotList[dlgItem.parts - 1].type}) 아이템명 `}
+                value={searchName}
+                onChange={e => {
+                  inputName(e.target.value);
+                }}
+                style={{ width: `calc(100% - 80px)`, maxWidth: "320px" }}
+              />
+              <Button
+                variant='contained'
+                color='primary'
+                className={classes.dlgButton}
+                onClick={e => {
+                  searchByName(searchName, dlgItem.parts);
+                }}
+                style={{ width: "20%", maxWidth: "60px", float: "left" }}>
+                검색
+              </Button>
+            </Grid>
+            <Grid item container justify='center' style={{ maxWidth: "400px", margin: "0", padding: "0" }}>
+              <Select
+                variant='outlined'
+                className={classes.select}
+                value={options.op1}
+                /* MenuProps={{ disableScrollLock: true }} */
+                onChange={e => {
+                  setOptions({ ...options, op1: Number(e.target.value) });
+                }}>
+                {menuList[0].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
 
-            <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px" }}>
-              {menuList[1].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
+              <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px" }}>
+                {menuList[1].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
 
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={options.op3}
-              onChange={e => {
-                setOptions({ ...options, op3: Number(e.target.value) });
-              }}
-              style={{ width: "80px" }}>
-              {menuList[2].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
+              <Select
+                variant='outlined'
+                className={classes.select}
+                value={options.op3}
+                onChange={e => {
+                  setOptions({ ...options, op3: Number(e.target.value) });
+                }}
+                style={{ width: "80px" }}>
+                {menuList[2].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
 
-            <Button
-              variant='contained'
-              color='primary'
-              className={classes.dlgButton}
-              onClick={() => {
-                searchByList();
+              <Button
+                variant='contained'
+                color='primary'
+                className={classes.dlgButton}
+                style={{ margin: "5px" }}
+                onClick={() => {
+                  searchByList();
+                }}>
+                검색
+              </Button>
+            </Grid>
+            <Grid
+              item
+              style={{
+                width: `(100%-20px)`,
+                minHeight: "62px",
+                margin: "10px 5px",
+                padding: "0",
+                border: "1px solid lightgray",
+                borderRadius: "5px",
+                textAlign: "center",
               }}>
-              검색
-            </Button>
-          </Container>
-          <Container
-            style={{
-              width: "380px",
-              minHeight: "62px",
-              margin: "2.5px 50px",
-              padding: "5px",
-              border: "1px solid lightgray",
-              borderRadius: "5px",
-              textAlign: "center",
-              float: "left",
-            }}>
-            {itemList.length === 0 ? (
-              <span>
-                <br />
-                검색 결과가 없습니다.
-              </span>
-            ) : (
-              itemName
-            )}
-          </Container>
-          <Container style={{ width: "380px", margin: "20px 50px 0 50px", padding: "0", float: "left" }}>
-            <Link className={classes.linkText} style={{ width: "40px" }}>
-              강화
-            </Link>
-            <Checkbox
-              color='primary'
-              disabled={!check1.includes(equipSlotList[dlgItem.parts - 1].num) || itemList.length === 0}
-              checked={reinforce === 200}
-              onChange={() => {
-                if (reinforce === 200) {
-                  setReinforce(0);
-                } else {
-                  setReinforce(200);
-                }
-              }}
-              style={{ width: "20px", height: "40px", float: "left" }}
-            />
-            <Link className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
-              +1
-            </Link>
-            <Checkbox
-              color='primary'
-              disabled={!check2.includes(equipSlotList[dlgItem.parts - 1].num) || itemList.length === 0}
-              checked={reinforce === 400}
-              onChange={() => {
-                if (reinforce === 400) {
-                  setReinforce(0);
-                } else {
-                  setReinforce(400);
-                }
-              }}
-              style={{ width: "20px", height: "40px", float: "left" }}
-            />
-            <Link className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
-              +2
-            </Link>
-            <Link className={classes.linkText} style={{ width: "100px", margin: "0 30px", fontWeight: "bold", fontSize: "1rem" }}>
-              전투력 : {itemList.length === 0 ? 0 : tempPower + reinforce}
-            </Link>
-            <Button
-              variant='contained'
-              color='secondary'
-              className={classes.dlgButton}
-              style={{ float: "right" }}
-              onClick={() => {
-                setDlgItem({ ...dlgItem, isOpen: false });
-                if (itemList.length !== 0) {
-                  equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
-                  equipSlotList[dlgItem.parts - 1].power = tempPower;
-                  equipSlotList[dlgItem.parts - 1].reinforce = reinforce;
-                } else {
-                  equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
-                  equipSlotList[dlgItem.parts - 1].power = 0;
-                  equipSlotList[dlgItem.parts - 1].reinforce = 0;
-                }
-                _calTotalPower();
-              }}>
-              저장
-            </Button>
-          </Container>
+              {itemList.length === 0 ? (
+                <span>
+                  <br />
+                  검색 결과가 없습니다.
+                </span>
+              ) : (
+                itemName
+              )}
+            </Grid>
+            <Grid item container justify='space-between' style={{ maxWidth: "400px", margin: "5px 0", padding: "0" }}>
+              <div>
+                <Link className={classes.linkText} style={{ margin: "0 2.5px" }}>
+                  강화
+                </Link>
+                <Checkbox
+                  color='primary'
+                  disabled={!check1.includes(equipSlotList[dlgItem.parts - 1].num) || itemList.length === 0}
+                  checked={reinforce === 200}
+                  onChange={() => {
+                    if (reinforce === 200) {
+                      setReinforce(0);
+                    } else {
+                      setReinforce(200);
+                    }
+                  }}
+                  style={{ width: "20px", height: "40px", float: "left" }}
+                />
+                <Link className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
+                  +1
+                </Link>
+                <Checkbox
+                  color='primary'
+                  disabled={!check2.includes(equipSlotList[dlgItem.parts - 1].num) || itemList.length === 0}
+                  checked={reinforce === 400}
+                  onChange={() => {
+                    if (reinforce === 400) {
+                      setReinforce(0);
+                    } else {
+                      setReinforce(400);
+                    }
+                  }}
+                  style={{ width: "20px", height: "40px", float: "left" }}
+                />
+                <Link className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
+                  +2
+                </Link>
+                <Link className={classes.linkText} style={{ width: "100px", marginLeft: "20px", fontWeight: "bold", fontSize: "1rem" }}>
+                  전투력 : {itemList.length === 0 ? 0 : tempPower + reinforce}
+                </Link>
+              </div>
+              <div>
+                <Button
+                  variant='contained'
+                  color='secondary'
+                  className={classes.dlgButton}
+                  style={{ margin: "0 5px", float: "right" }}
+                  onClick={() => {
+                    setDlgItem({ ...dlgItem, isOpen: false });
+                    if (itemList.length !== 0) {
+                      equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
+                      equipSlotList[dlgItem.parts - 1].power = tempPower;
+                      equipSlotList[dlgItem.parts - 1].reinforce = reinforce;
+                    } else {
+                      equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
+                      equipSlotList[dlgItem.parts - 1].power = 0;
+                      equipSlotList[dlgItem.parts - 1].reinforce = 0;
+                    }
+                    _calTotalPower();
+                  }}>
+                  저장
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
         </DialogContent>
       </Dialog>
     </React.Fragment>

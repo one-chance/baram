@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: "10px",
     width: "100%",
-    marginBottom: '50px'
+    marginBottom: "50px",
   },
   editBox: {
     marginTop: "10px",
@@ -49,11 +49,12 @@ function FreeBoard({ match }: any) {
 
   useEffect(() => {
     _onLoad();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (post && post.commentList && post.commentList.length > 0)
-      setCommentList(post.commentList);
+    if (post && post.commentList && post.commentList.length > 0) setCommentList(post.commentList);
+    // eslint-disable-next-line
   }, [post]);
 
   const _onLoad = async () => {

@@ -41,6 +41,7 @@ function TipBoard({ location }: any) {
 
   useEffect(() => {
     _onLoad();
+    // eslint-disable-next-line
   }, []);
 
   const _onLoad = async () => {

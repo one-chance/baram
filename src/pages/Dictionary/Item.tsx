@@ -112,7 +112,7 @@ export default function Item() {
 
     const res = await SearchItemByName(name);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
@@ -126,7 +126,7 @@ export default function Item() {
 
     const res = await SearchItemByOption(option1, option2, option3);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
