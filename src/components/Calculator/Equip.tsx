@@ -222,7 +222,6 @@ export default function Equip() {
 
   // 착용 부위를 고정하는 함수
   const fixedOption = (num: number) => {
-    console.log(num);
     if (num + 1 === 9) {
       setOptions({ ...options, op2: 7 });
     } else if (num + 1 === 10) {
