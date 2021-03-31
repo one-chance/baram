@@ -546,7 +546,7 @@ router.put('/recomment/:recommentIdx', (req, res) => {
 *        500: 서버 오류
 */
 router.get('/find', (req, res) => {
-  filter = {};
+  let filter = {};
   if (req.query.title) {
     filter = {
       title: {$regex: req.query.title}

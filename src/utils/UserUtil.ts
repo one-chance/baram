@@ -6,7 +6,7 @@ import ISignUpUser from 'interfaces/User/ISignUpUser';
 import * as CommonUtil from 'utils/CommonUtil';
 
 /*
-* 중복 유저 있는 지 체크
+* NOTE 중복 유저 있는 지 체크
 */
 export const CheckExistUser = async (_id: string) => {
   const res = await axios.post('/api/common/checkid', {id: _id})
@@ -21,7 +21,7 @@ export const CheckExistUser = async (_id: string) => {
 }
 
 /*
-* 사용자 회원가입
+* NOTE 사용자 회원가입
 */
 export const SignUpUser = async (_id: string, _password: string, _email: string) => {
 
@@ -44,7 +44,7 @@ export const SignUpUser = async (_id: string, _password: string, _email: string)
 }
 
 /*
-* 사용자 로그인
+* NOTE 사용자 로그인
 */
 export const SignInUser = async (_id: string, _password: string) => {
   const res = await axios.post('/api/common/signin', {
@@ -75,7 +75,7 @@ export const SignInUser = async (_id: string, _password: string) => {
 }
 
 /*
-* 사용자 비밀번호 확인
+* NOTE 사용자 비밀번호 확인
 */
 export const CheckPassword = async (_id: string, _password: string) => {
   const r = await axios.post('/api/user/password', {
@@ -101,27 +101,27 @@ export const CheckPassword = async (_id: string, _password: string) => {
 }
 
 /*
-* 사용자 로그아웃
+* NOTE 사용자 로그아웃
 */
 export const LogoutUser = () => {
   CommonUtil.delToken();
 }
 
 /*
-* 로그인 한 사용자 ID 가져오기
+* NOTE 로그인 한 사용자 ID 가져오기
 */
 export const getSignInUserId = () => {
   return CommonUtil.getNowId();
 }
 /*
-* 로그인 한 사용자 KEY 가져오기
+* NOTE 로그인 한 사용자 KEY 가져오기
 */
 export const getSignInUserKey = () => {
   return CommonUtil.getNowKey();
 }
 
 /*
-* 사용자 ID로 사용자 정보 가져오기
+* NOTE 사용자 ID로 사용자 정보 가져오기
 */
 export const getUserInfoById = async (_id: string) => {
   const info = await axios.get('/api/user/find', {
@@ -149,7 +149,7 @@ export const getUserInfoById = async (_id: string) => {
 }
 
 /*
-* 사용자 정보 수정하기
+* NOTE 사용자 정보 수정하기
 */
 export const setUserInfo = async (userInfo: IUserInfo) => {
   const r = await axios.put('/api/user/info', {
@@ -176,7 +176,7 @@ export const setUserInfo = async (userInfo: IUserInfo) => {
 }
 
 /*
-* 사용자 비밀번호 수정
+* NOTE 사용자 비밀번호 수정
 */
 export const setChangePassword = async (_id: string, _changePassword: string) => {
   const r = await axios.put('/api/user/password', {
@@ -203,7 +203,7 @@ export const setChangePassword = async (_id: string, _changePassword: string) =>
 }
 
 /*
-* 바람의나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
+* NOTE 바람의나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
 */
 export const checkGameUser = async (_id: string, _server: string, _character: string) => {
   const r = await axios.post('/api/user/check', {
@@ -237,7 +237,7 @@ export const checkGameUser = async (_id: string, _server: string, _character: st
 }
 
 /*
-* 사용자 인증 DB 처리
+* NOTE 사용자 인증 DB 처리
 */
 export const authUser = async (_id: string, _server: string, _character: string) => {
   const r = await axios.put('/api/user/auth', {
@@ -263,7 +263,7 @@ export const authUser = async (_id: string, _server: string, _character: string)
 }
 
 /*
-* 대표캐릭터 설정
+* NOTE 대표캐릭터 설정
 */
 export const setTitleAccount = async (_id: string, _character: string, _server: string) => {
   const r = await axios.put('/api/user/titleaccount', {

@@ -9,7 +9,7 @@ let mapVisitor = new Map();
 // 방문자 구분은 IP를 기준으로 한다.
 const visitMiddleware = (req, res, next) => {
 
-  if (!process.env.SERVER_URI.indexOf(req.hostname) || (process.env.RUNTIME_MODE === 'dev')) { // 서버에서 보낸 요청은 제외
+  if (process.env.RUNTIME_MODE === 'prod') { // 서버에서 보낸 요청은 제외
     // 방문자 정보 확인
     const visitor = {
       ip: req.headers['x-forwarded-for'] ||  req.connection.remoteAddress, // 로그인 사용자 IP 조회
