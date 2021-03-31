@@ -200,10 +200,19 @@ export default function Equip() {
       parts2 = parts;
     }
 
-    const res = await SearchItem(name, 0, parts2, 0);
+    let realName = convertName(name);
+    const res = await SearchItem(realName, 0, parts2, 0);
     const temp = Array<IItemInfo>();
     if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
+  };
+
+  const convertName = (str: string) => {
+    if (str.split("(").length > 1 || str.split("[").length > 1) {
+      return str.replace("(", "\\(").replace(")", "\\)").replace("[", "\\[").replace("]", "\\]");
+    } else {
+      return str;
+    }
   };
 
   // 리스트 통해서 검색
