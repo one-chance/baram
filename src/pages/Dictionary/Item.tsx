@@ -177,46 +177,9 @@ export default function Item() {
 
   return (
     <React.Fragment>
-      <Grid container justify='center' style={{ margin: "10px 0", padding: "0" }}>
-        <Grid
-          item
-          container
-          alignItems='center'
-          direction='column'
-          style={{ minWidth: "203px", maxWidth: "220px", margin: "10px", padding: "0", textAlign: "center" }}>
-          <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
-          <ButtonGroup color='primary' style={{ height: "40px", margin: "10px 0" }}>
-            <Button
-              variant='outlined'
-              color={img1 === "empty.png" ? "primary" : "secondary"}
-              style={{ width: "60px", padding: "0 10px" }}
-              onClick={() => {
-                saveImage(selectedImg, 1);
-              }}>
-              슬롯1
-            </Button>
-            <Button
-              variant='outlined'
-              color={img2 === "empty.png" ? "primary" : "secondary"}
-              style={{ width: "60px", padding: "0 10px" }}
-              onClick={() => {
-                saveImage(selectedImg, 2);
-              }}>
-              슬롯2
-            </Button>
-            <Button
-              variant='outlined'
-              color={img3 === "empty.png" ? "primary" : "secondary"}
-              style={{ width: "60px", padding: "0 10px" }}
-              onClick={() => {
-                saveImage(selectedImg, 3);
-              }}>
-              슬롯3
-            </Button>
-          </ButtonGroup>
-        </Grid>
+      <Grid container justify='center' style={{ minWidth: "500px", margin: "10px 0", padding: "0" }}>
         <Grid item container xs={8} style={{ margin: "0 10px", padding: "0" }}>
-          <Grid item container justify='space-between' style={{ margin: "5px 0", padding: "0", float: "left" }}>
+          <Grid item container justify='space-between' style={{ margin: "5px 0", padding: "0" }}>
             <div>
               <TextField
                 className={classes.itemText}
@@ -304,7 +267,6 @@ export default function Item() {
               border: "1px solid lightgray",
               borderRadius: "10px",
               textAlign: "center",
-              float: "left",
             }}>
             {itemList.length === 0 ? (
               <span>
@@ -321,6 +283,38 @@ export default function Item() {
             <img src={baseUrlForItemImg + img2} alt='아이템' style={{ margin: "10px" }} />
             <img src={baseUrlForItemImg + img3} alt='아이템' style={{ margin: "10px" }} />
           </Container>
+        </Grid>
+        <Grid item container xs={3} alignItems='center' direction='column' style={{ margin: "10px", padding: "0", textAlign: "center" }}>
+          <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
+          <ButtonGroup color='primary' style={{ height: "40px", margin: "10px 0" }}>
+            <Button
+              variant='outlined'
+              color={img1 === "empty.png" ? "primary" : "secondary"}
+              style={{ width: "60px", padding: "0 10px" }}
+              onClick={() => {
+                saveImage(selectedImg, 1);
+              }}>
+              슬롯1
+            </Button>
+            <Button
+              variant='outlined'
+              color={img2 === "empty.png" ? "primary" : "secondary"}
+              style={{ width: "60px", padding: "0 10px" }}
+              onClick={() => {
+                saveImage(selectedImg, 2);
+              }}>
+              슬롯2
+            </Button>
+            <Button
+              variant='outlined'
+              color={img3 === "empty.png" ? "primary" : "secondary"}
+              style={{ width: "60px", padding: "0 10px" }}
+              onClick={() => {
+                saveImage(selectedImg, 3);
+              }}>
+              슬롯3
+            </Button>
+          </ButtonGroup>
         </Grid>
       </Grid>
     </React.Fragment>
