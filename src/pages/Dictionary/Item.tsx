@@ -20,7 +20,11 @@ const useStyles = makeStyles(theme => ({
   },
 
   itemText: {
-    width: "200px",
+    width: "12.5vw",
+    minWidth: "150px",
+    maxWidth: "200px",
+    margin: "5px 2.5px",
+    float: "left",
     "& input": {
       height: "36px",
       padding: "2px 10px",
@@ -46,6 +50,16 @@ const useStyles = makeStyles(theme => ({
       textAlign: "center",
       color: "blue",
     },
+  },
+
+  btn: {
+    minWidth: "60px",
+    maxWidth: "60px",
+    height: "40px",
+    margin: "5px 2.5px",
+    padding: "0",
+    boxShadow: "none",
+    float: "left",
   },
 }));
 
@@ -163,8 +177,45 @@ export default function Item() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={0} style={{ margin: "10px" }}>
-        <Grid item container xs={8} style={{ margin: "0", padding: "10px 0" }}>
+      <Grid container justify='center' style={{ margin: "10px 0", padding: "0" }}>
+        <Grid
+          item
+          container
+          alignItems='center'
+          direction='column'
+          style={{ minWidth: "203px", maxWidth: "220px", margin: "10px", padding: "0", textAlign: "center" }}>
+          <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
+          <ButtonGroup color='primary' style={{ height: "40px", margin: "10px 0" }}>
+            <Button
+              variant='outlined'
+              color={img1 === "empty.png" ? "primary" : "secondary"}
+              style={{ width: "60px", padding: "0 10px" }}
+              onClick={() => {
+                saveImage(selectedImg, 1);
+              }}>
+              슬롯1
+            </Button>
+            <Button
+              variant='outlined'
+              color={img2 === "empty.png" ? "primary" : "secondary"}
+              style={{ width: "60px", padding: "0 10px" }}
+              onClick={() => {
+                saveImage(selectedImg, 2);
+              }}>
+              슬롯2
+            </Button>
+            <Button
+              variant='outlined'
+              color={img3 === "empty.png" ? "primary" : "secondary"}
+              style={{ width: "60px", padding: "0 10px" }}
+              onClick={() => {
+                saveImage(selectedImg, 3);
+              }}>
+              슬롯3
+            </Button>
+          </ButtonGroup>
+        </Grid>
+        <Grid item container xs={8} style={{ margin: "0 10px", padding: "0" }}>
           <Grid item container justify='space-between' style={{ margin: "5px 0", padding: "0", float: "left" }}>
             <div>
               <TextField
@@ -175,22 +226,13 @@ export default function Item() {
                 onChange={e => {
                   inputName(e.target.value);
                 }}
-                style={{ margin: "5px 0", float: "left" }}
               />
               <Button
+                className={classes.btn}
                 variant='contained'
                 color='primary'
                 onClick={e => {
                   searchByName(searchName);
-                }}
-                style={{
-                  minWidth: "60px",
-                  height: "40px",
-                  margin: "5px 0 5px -5px",
-                  boxShadow: "none",
-                  borderBottomLeftRadius: "0",
-                  borderTopLeftRadius: "0",
-                  float: "left",
                 }}>
                 검색
               </Button>
@@ -244,12 +286,12 @@ export default function Item() {
                 })}
               </Select>
               <Button
+                className={classes.btn}
                 variant='contained'
                 color='primary'
                 onClick={() => {
                   searchByList();
-                }}
-                style={{ minWidth: "60px", height: "40px", margin: "5px", boxShadow: "none", float: "left" }}>
+                }}>
                 검색
               </Button>
             </div>
@@ -258,7 +300,7 @@ export default function Item() {
             style={{
               minHeight: "82px",
               margin: "5px 0",
-              padding: "5px",
+              padding: "5px 10px",
               border: "1px solid lightgray",
               borderRadius: "10px",
               textAlign: "center",
@@ -278,39 +320,6 @@ export default function Item() {
             <img src={baseUrlForItemImg + img1} alt='아이템' style={{ margin: "10px" }} />
             <img src={baseUrlForItemImg + img2} alt='아이템' style={{ margin: "10px" }} />
             <img src={baseUrlForItemImg + img3} alt='아이템' style={{ margin: "10px" }} />
-          </Container>
-        </Grid>
-
-        <Grid item xs={1}></Grid>
-        <Grid item xs={3} style={{ margin: "20px 0", padding: "10px 0", textAlign: "center" }}>
-          <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
-          <Container style={{ width: "100%", padding: "0" }}>
-            <ButtonGroup color='primary'>
-              <Button
-                variant='outlined'
-                color={img1 === "empty.png" ? "primary" : "secondary"}
-                onClick={() => {
-                  saveImage(selectedImg, 1);
-                }}>
-                슬롯1
-              </Button>
-              <Button
-                variant='outlined'
-                color={img2 === "empty.png" ? "primary" : "secondary"}
-                onClick={() => {
-                  saveImage(selectedImg, 2);
-                }}>
-                슬롯2
-              </Button>
-              <Button
-                variant='outlined'
-                color={img3 === "empty.png" ? "primary" : "secondary"}
-                onClick={() => {
-                  saveImage(selectedImg, 3);
-                }}>
-                슬롯3
-              </Button>
-            </ButtonGroup>
           </Container>
         </Grid>
       </Grid>
