@@ -37,8 +37,8 @@ const useStyles = makeStyles({
     },
   },
   inExp: {
-    width: "225px",
-    margin: "0 5px",
+    width: "200px",
+    margin: "0",
     float: "left",
     "& input": {
       height: "35px",
@@ -50,9 +50,9 @@ const useStyles = makeStyles({
     },
   },
   text: {
-    width: "225px",
-    lineHeight: "35px",
-    margin: "0 5px",
+    width: "200px",
+    lineHeight: "30px",
+    margin: "0",
     textAlign: "center",
     color: "black",
     fontSize: "1rem",
@@ -60,16 +60,19 @@ const useStyles = makeStyles({
     float: "left",
   },
   btn: {
+    minWidth: "60px",
+    maxWidth: "60px",
     height: "35px",
     textAlign: "center",
     float: "left",
-    margin: "0 5px",
+    margin: "0",
+    padding: "0",
     boxShadow: "none",
   },
   title: {
-    width: "225px",
+    width: "200px",
     lineHeight: "35px",
-    margin: "0 5px",
+    margin: "0",
     textAlign: "center",
     fontSize: "1rem",
     fontWeight: "bold",
@@ -94,7 +97,7 @@ const useStyles = makeStyles({
   },
   box: {
     margin: "10px 0",
-    padding: "10px 25px",
+    padding: "10px 0",
     border: "1px solid",
     float: "left",
   },
@@ -202,10 +205,10 @@ export default function Exp() {
   }, []);
 
   return (
-    <>
-      <Grid container style={{ width: "40vw", padding: "0 20px", float: "left" }}>
+    <Grid container style={{ margin: "10px 0", padding: "0" }}>
+      <Grid item container direction='column' style={{ minWidth: "500px", maxWidth: "620px", margin: "0 5px", padding: "0", float: "left" }}>
         <Container className={classes.box} style={{ border: "none", padding: "0" }}>
-          <Typography className={classes.title} style={{ fontSize: "1.25rem", margin: "0" }}>
+          <Typography style={{ width: "225px", lineHeight: "35px", fontSize: "1.25rem", fontWeight: "bold", textAlign: "center", float: "left" }}>
             경험치 계산기 for 격수
           </Typography>
           <Button
@@ -258,70 +261,75 @@ export default function Exp() {
             </TableBody>
           </Table>
         </Container>
-        <Container className={classes.box}>
-          <Typography className={classes.text}>{isNaN(myExp.num) || myExp.num === 0 ? "보유 경험치" : myExp.str}</Typography>
-          <Typography className={classes.title} style={{ width: "64px", margin: "0 5px" }}>
-            ▶
-          </Typography>
-          <Typography className={classes.text}>체력 상승량</Typography>
+        <Grid item container direction='row' alignItems='flex-end' justify='center' className={classes.box}>
+          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+            <Typography className={classes.text}>{isNaN(myExp.num) || myExp.num === 0 ? "보유 경험치" : myExp.str}</Typography>
+            <TextField
+              className={classes.inExp}
+              placeholder='1만 ~ 경험치 최대량'
+              variant='outlined'
+              value={myExp.num || ""}
+              onChange={e => {
+                if (e.target.value.length < 14 && needExp !== "0") {
+                  setMyExp({ num: parseInt(e.target.value), str: numToText(parseInt(e.target.value)) as string });
+                  setIncreasedHp(0);
+                } else {
+                  setMyExp({ num: 0, str: "보유 경험치" });
+                }
+              }}
+            />
+          </Grid>
+          <Grid item style={{ margin: "5px", padding: "0" }}>
+            <Button
+              className={classes.btn}
+              variant='contained'
+              color='primary'
+              onClick={e => {
+                setIncreasedHp(calculateExp(myExp.num, needExp) as number);
+              }}>
+              변환
+            </Button>
+          </Grid>
+          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+            <Typography className={classes.text}>체력 상승량</Typography>
+            <TextField variant='outlined' value={increasedHp} className={classes.inExp} disabled={true} />
+          </Grid>
+        </Grid>
 
-          <TextField
-            className={classes.inExp}
-            placeholder='1만 ~ 경험치 최대량'
-            variant='outlined'
-            value={myExp.num || ""}
-            onChange={e => {
-              if (e.target.value.length < 14 && needExp !== "0") {
-                setMyExp({ num: parseInt(e.target.value), str: numToText(parseInt(e.target.value)) as string });
-                setIncreasedHp(0);
-              } else {
-                setMyExp({ num: 0, str: "보유 경험치" });
-              }
-            }}
-          />
-          <Button
-            className={classes.btn}
-            variant='contained'
-            color='primary'
-            onClick={e => {
-              setIncreasedHp(calculateExp(myExp.num, needExp) as number);
-            }}>
-            변환
-          </Button>
-          <TextField variant='outlined' value={increasedHp} className={classes.inExp} disabled={true} />
-        </Container>
-        <Container className={classes.box}>
-          <Typography className={classes.text}>목표 체력량</Typography>
-          <Typography className={classes.title} style={{ width: "64px", margin: "0 5px" }}>
-            ▶
-          </Typography>
-          <Typography className={classes.text}>필요 경험치</Typography>
-
-          <TextField
-            className={classes.inExp}
-            type='number'
-            placeholder='1 ~ 최대 체력'
-            variant='outlined'
-            value={hp || ""}
-            onChange={e => {
-              if (parseInt(e.target.value) <= maxHp && parseInt(e.target.value) > 0) {
-                setHp(parseInt(e.target.value));
-              } else {
-                setHp(0);
-              }
-            }}
-          />
-          <Button
-            className={classes.btn}
-            variant='contained'
-            color='primary'
-            onClick={e => {
-              setRequiredExp(calculateHp(hp, needExp) as string);
-            }}>
-            변환
-          </Button>
-          <TextField variant='outlined' className={classes.inExp} value={requiredExp} disabled={true} />
-        </Container>
+        <Grid item container direction='row' alignItems='flex-end' justify='center' className={classes.box}>
+          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+            <Typography className={classes.text}>목표 체력량</Typography>
+            <TextField
+              className={classes.inExp}
+              type='number'
+              placeholder='1 ~ 최대 체력'
+              variant='outlined'
+              value={hp || ""}
+              onChange={e => {
+                if (parseInt(e.target.value) <= maxHp && parseInt(e.target.value) > 0) {
+                  setHp(parseInt(e.target.value));
+                } else {
+                  setHp(0);
+                }
+              }}
+            />
+          </Grid>
+          <Grid item style={{ margin: "5px", padding: "0" }}>
+            <Button
+              className={classes.btn}
+              variant='contained'
+              color='primary'
+              onClick={e => {
+                setRequiredExp(calculateHp(hp, needExp) as string);
+              }}>
+              변환
+            </Button>
+          </Grid>
+          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+            <Typography className={classes.text}>필요 경험치</Typography>
+            <TextField variant='outlined' className={classes.inExp} value={requiredExp} disabled={true} />
+          </Grid>
+        </Grid>
         <Container className={classes.box} style={{ border: "none", textAlign: "center" }}>
           <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)}>
             격수용 마력별 필요경험치표
@@ -352,6 +360,6 @@ export default function Exp() {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Grid>
   );
 }

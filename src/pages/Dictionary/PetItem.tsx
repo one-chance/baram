@@ -339,13 +339,13 @@ export default function PetItem() {
           />
         </Grid>
         <Grid item xs={4} style={{ padding: "10px 5px", textAlign: "center" }}>
-          <h4 style={{ margin: "15px 0", color: "gray" }}>* 모든 명중률은 최대치(강화석o)로 반영 *</h4>
+          <h4 style={{ margin: "15px 0", color: "gray" }}>* 각 명중률은 강화석 반영된 최대치 *</h4>
           <h1 style={{ margin: "10px 0" }}>명중률 +{accuracy}</h1>
         </Grid>
       </Grid>
 
       <Grid container spacing={3} alignItems='center' justify='center' style={{ margin: "10px 0", padding: "0 5px" }}>
-        <Grid item style={{ width: "508px", margin: "0 10px", padding: "0" }}>
+        <Grid item style={{ maxWidth: "508px", margin: "0 10px", padding: "0" }}>
           <ButtonGroup color='primary' className={classes.btnGroup}>
             <Button color={img1.src === "centerGod.png" ? "secondary" : "primary"} onClick={() => handleImage(1, 1, img1)}>
               황룡
@@ -371,7 +371,7 @@ export default function PetItem() {
           </ButtonGroup>
           <img src={baseUrlForPetItemImg + img1.src} alt='장비1' />
         </Grid>
-        <Grid style={{ width: "508px", margin: "0 10px", padding: "0" }}>
+        <Grid item style={{ width: "508px", margin: "0 10px", padding: "0" }}>
           <ButtonGroup color='primary' className={classes.btnGroup}>
             <Button color={img2.src === "centerGod.png" ? "secondary" : "primary"} onClick={() => handleImage(2, 1, img2)}>
               황룡

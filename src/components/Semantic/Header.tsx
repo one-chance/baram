@@ -198,7 +198,7 @@ export default function Header() {
           <Grid item container className={classes.mainmenu}>
             <Typography className={classes.menuText}>도감</Typography>
             <div style={{ marginTop: "-1px" }}>
-              <a href='/dic/item'>일반 장비</a>
+              <a href='/dic/item'>일반장비</a>
               <a href='/dic/petitem'>환수장비</a>
               <a href='/dic/animalitem'>신수장비</a>
               <a href='#1' onClick={_prepare}>

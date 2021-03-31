@@ -3,7 +3,7 @@
     "idx": 1,
     "itemName": "이민족의편지",
     "location": "산적굴",
-    "use": "산적굴 X-9굴에서 사용",
+    "use": "9굴에서 사용 후 망퉁산 처치",
     "rewardList": [
       {
         "count": 1,
@@ -603,7 +603,7 @@
     "idx": 51,
     "itemName": "뱀머리빗",
     "location": "환상의섬",
-    "use": "체력이 닳은 독사여왕에게 사용",
+    "use": "독사여왕에게 사용",
     "rewardList": [
       {
         "count": 1,

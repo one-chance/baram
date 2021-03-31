@@ -98,88 +98,91 @@ export default function AdventureList() {
 
   return (
     <React.Fragment>
-      {adventureList.map((adventure: IAdventure) => (
-        <Grid item key={adventure.idx} style={{ width: "45%", margin: "10px 2%", padding: "10px", border: "1px solid gray", borderRadius: "10px" }}>
-          <h2 style={{ width: "100%", margin: "0", textAlign: "center" }}>{adventure.name}</h2>
-          <Container style={{ width: "100%", padding: "0", textAlign: "center" }}>
-            {adventure.monsterList && (
-              <Button
-                className={classes.btn}
-                variant='outlined'
-                color='primary'
-                onClick={() => {
-                  setDlgMonster({
-                    isOpen: true,
-                    title: `${adventure.name}`,
-                    monsterList: adventure.monsterList,
-                  });
-                }}>
-                괴수
-              </Button>
-            )}
-            {adventure.stuffList && (
-              <Button
-                className={classes.btn}
-                variant='outlined'
-                color='primary'
-                onClick={() => {
-                  setDlgStuff({
-                    isOpen: true,
-                    title: `${adventure.name}`,
-                    stuffList: adventure.stuffList,
-                  });
-                }}>
-                물품
-              </Button>
-            )}
-            {adventure.missionList && (
-              <Button
-                className={classes.btn}
-                variant='outlined'
-                color='primary'
-                onClick={() => {
-                  setDlgMission({
-                    isOpen: true,
-                    title: `${adventure.name}`,
-                    missionList: adventure.missionList,
-                  });
-                }}>
-                임무
-              </Button>
-            )}
-            {adventure.placeList && (
-              <Button
-                className={classes.btn}
-                variant='outlined'
-                color='primary'
-                onClick={() => {
-                  setDlgPlace({
-                    isOpen: true,
-                    title: `${adventure.name}`,
-                    placeList: adventure.placeList,
-                  });
-                }}>
-                탐방
-              </Button>
-            )}
-            {adventure.rewardImgList && (
-              <Button
-                className={classes.btn}
-                variant='outlined'
-                color='primary'
-                onClick={() => {
-                  setDlgRewardImg({
-                    isOpen: true,
-                    title: `${adventure.name}`,
-                    rewardImgList: adventure.rewardImgList,
-                  });
-                }}>
-                보상
-              </Button>
-            )}
-          </Container>
-        </Grid>
-      ))}
+      <Grid container justify='center' style={{ padding: "0" }}>
+        {adventureList.map((adventure: IAdventure) => (
+          <Grid item key={adventure.idx} style={{ width: "35vw", margin: "10px 2vw", padding: "5px", border: "1px solid gray", borderRadius: "10px" }}>
+            <h2 style={{ width: "100%", margin: "0", textAlign: "center" }}>{adventure.name}</h2>
+            <Container style={{ width: "100%", padding: "0", textAlign: "center" }}>
+              {adventure.monsterList && (
+                <Button
+                  className={classes.btn}
+                  variant='outlined'
+                  color='primary'
+                  onClick={() => {
+                    setDlgMonster({
+                      isOpen: true,
+                      title: `${adventure.name}`,
+                      monsterList: adventure.monsterList,
+                    });
+                  }}>
+                  괴수
+                </Button>
+              )}
+              {adventure.stuffList && (
+                <Button
+                  className={classes.btn}
+                  variant='outlined'
+                  color='primary'
+                  onClick={() => {
+                    setDlgStuff({
+                      isOpen: true,
+                      title: `${adventure.name}`,
+                      stuffList: adventure.stuffList,
+                    });
+                  }}>
+                  물품
+                </Button>
+              )}
+              {adventure.missionList && (
+                <Button
+                  className={classes.btn}
+                  variant='outlined'
+                  color='primary'
+                  onClick={() => {
+                    setDlgMission({
+                      isOpen: true,
+                      title: `${adventure.name}`,
+                      missionList: adventure.missionList,
+                    });
+                  }}>
+                  임무
+                </Button>
+              )}
+              {adventure.placeList && (
+                <Button
+                  className={classes.btn}
+                  variant='outlined'
+                  color='primary'
+                  onClick={() => {
+                    setDlgPlace({
+                      isOpen: true,
+                      title: `${adventure.name}`,
+                      placeList: adventure.placeList,
+                    });
+                  }}>
+                  탐방
+                </Button>
+              )}
+              {adventure.rewardImgList && (
+                <Button
+                  className={classes.btn}
+                  variant='outlined'
+                  color='primary'
+                  onClick={() => {
+                    setDlgRewardImg({
+                      isOpen: true,
+                      title: `${adventure.name}`,
+                      rewardImgList: adventure.rewardImgList,
+                    });
+                  }}>
+                  보상
+                </Button>
+              )}
+            </Container>
+          </Grid>
+        ))}
+        <Grid item style={{ width: "35vw", margin: "10px 2vw", padding: "5px" }}></Grid>
+      </Grid>
 
       {/* NOTE 이중 열 자리 맞추기 */}
       <Grid item style={{ width: "45%", margin: "10px 2%", padding: "10px" }}></Grid>
