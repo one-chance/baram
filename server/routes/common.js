@@ -310,7 +310,8 @@ router.post("/upload", (req, res) => {
  */
 router.post("/config/imageCount", (req, res) => {
   ConfigSchema.addNewImageCount(process.env.RUNTIME_MODE)
-    .then(() => {
+    .then((conf) => {
+      const { newImageCount } = conf;
       logger.info("[SUCCESS] CHECKED IMAGE COUNT");
       res.status(200).send({
         code: 200,
