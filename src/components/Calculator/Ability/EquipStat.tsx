@@ -190,10 +190,19 @@ export default function EquipStat() {
       return;
     }
 
-    const res = await SearchItem(name, 0, parts, 0);
+    let realName = convertName(name);
+    const res = await SearchItem(realName, 0, parts, 0);
     const temp = Array<IItemInfo>();
     res.forEach(r => temp.push(r));
     setItemList(temp);
+  };
+
+  const convertName = (str: string) => {
+    if (str.split("(").length > 1 || str.split("[").length > 1) {
+      return str.replace("(", "\\(").replace(")", "\\)").replace("[", "\\[").replace("]", "\\]");
+    } else {
+      return str;
+    }
   };
 
   // 옵션 리스트로 아이템 검색

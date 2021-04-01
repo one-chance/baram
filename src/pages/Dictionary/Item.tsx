@@ -75,9 +75,7 @@ export default function Item() {
   const baseUrlForItemImg = getBaseUrlForItemImg();
 
   const [searchName, setSearchName] = useState(""); // 검색할 장비 이름 (이름용)
-  const [option1, setOption1] = useState(0); // 검색할 장비 옵션1
-  const [option2, setOption2] = useState(0); // 검색할 장비 옵션2
-  const [option3, setOption3] = useState(0); // 검색할 장비 옵션3
+  const [options, setOptions] = useState({ op1: 0, op2: 0, op3: 0 }); // 검색할 장비 옵션 1~3
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]); // 검색된 아이템의 정보
 
   var menuList = [
@@ -114,9 +112,7 @@ export default function Item() {
 
   // 이름 직접 검색
   const searchByName = async (name: string) => {
-    setOption1(0);
-    setOption2(0);
-    setOption3(0);
+    setOptions({ op1: 0, op2: 0, op3: 0 });
 
     if (name === "") {
       setItemList([]);
@@ -124,21 +120,30 @@ export default function Item() {
       return;
     }
 
-    const res = await SearchItemByName(name);
+    let realName = convertName(name);
+    const res = await SearchItemByName(realName);
     const temp = Array<IItemInfo>();
     if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
+  const convertName = (str: string) => {
+    if (str.split("(").length > 1 || str.split("[").length > 1) {
+      return str.replace("(", "\\(").replace(")", "\\)").replace("[", "\\[").replace("]", "\\]");
+    } else {
+      return str;
+    }
+  };
+
   // 리스트 통해서 검색
   const searchByList = async () => {
-    if (option1 === 0 || option2 === 0 || option3 === 0) {
+    if (options.op1 === 0 || options.op2 === 0 || options.op3 === 0) {
       alert("세부 옵션을 모두 선택해주세요.");
       return;
     }
     setSearchName("");
 
-    const res = await SearchItemByOption(option1, option2, option3);
+    const res = await SearchItemByOption(options.op1, options.op2, options.op3);
     const temp = Array<IItemInfo>();
     if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
@@ -204,9 +209,9 @@ export default function Item() {
               <Select
                 variant='outlined'
                 className={classes.select}
-                value={option1}
+                value={options.op1}
                 onChange={e => {
-                  setOption1(Number(e.target.value));
+                  setOptions({ ...options, op1: Number(e.target.value) });
                 }}>
                 {menuList[0].map((name: string, idx: number) => {
                   return (
@@ -220,9 +225,9 @@ export default function Item() {
               <Select
                 variant='outlined'
                 className={classes.select}
-                value={option2}
+                value={options.op2}
                 onChange={e => {
-                  setOption2(Number(e.target.value));
+                  setOptions({ ...options, op2: Number(e.target.value) });
                 }}>
                 {menuList[1].map((name: string, idx: number) => {
                   return (
@@ -236,9 +241,9 @@ export default function Item() {
               <Select
                 variant='outlined'
                 className={classes.select}
-                value={option3}
+                value={options.op3}
                 onChange={e => {
-                  setOption3(Number(e.target.value));
+                  setOptions({ ...options, op3: Number(e.target.value) });
                 }}>
                 {menuList[2].map((name: string, idx: number) => {
                   return (
