@@ -16,17 +16,13 @@ import WithdrawUser from "components/User/WithdrawUser";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "80vw",
-    margin: "20px 0",
-    float: "left",
-  },
-  rightSection: {
-    padding: "0 0 0 30px",
+    margin: "10px 0",
   },
 }));
 
 const Menus = withStyles({
   root: {
+    padding: "5px 10px",
     "&:hover,:focus,:active": {
       fontWeight: "bolder",
     },
@@ -83,19 +79,19 @@ function MyInfo({ match }: any) {
         <NoAuth />
       ) : (
         <Grid container className={classes.root}>
-          <Grid item xs={2}>
+          <Grid item>
             <MenuList style={{ outline: "none" }}>
               <Menus onClick={_onViewUser}>회원 정보</Menus>
-              <Divider variant='middle' />
+              <Divider />
               <Menus onClick={_onAuthUser}>캐릭터 인증</Menus>
-              <Divider variant='middle' />
+              <Divider />
               <Menus onClick={_onChangePassword}>비밀번호 변경</Menus>
-              <Divider variant='middle' />
+              <Divider />
               <Menus onClick={_onWithdraw}>회원 탈퇴</Menus>
             </MenuList>
           </Grid>
-          <Divider orientation='vertical' flexItem />
-          <Grid item xs={8} className={classes.rightSection}>
+          <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "4px" }} />
+          <Grid item xs={8} style={{ marginLeft: "1vw" }}>
             {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
             {mode === "auth" && <AuthAccount userInfo={userInfo} />}
             {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}

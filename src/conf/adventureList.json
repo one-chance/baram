@@ -6,193 +6,193 @@
       {
         "idx": 0,
         "name": "검랑",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/폭염도절벽"
       },
       {
         "idx": 1,
         "name": "낭아독사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "가릉도/폭염도유적"
       },
       {
         "idx": 2,
         "name": "독사여왕",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "가릉도/폭염도유적"
       },
       {
         "idx": 3,
         "name": "딱총파리",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도-가릉도해변"
       },
       {
         "idx": 4,
         "name": "마비가시말미잘",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도-가릉도해변"
       },
       {
         "idx": 5,
         "name": "병사지주",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/가릉도폐허동굴"
       },
       {
         "idx": 6,
         "name": "상점가포악중성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도복합상점"
       },
       {
         "idx": 7,
         "name": "상점가포악초성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도복합상점"
       },
       {
         "idx": 8,
         "name": "상점가흉폭중성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도복합상점"
       },
       {
         "idx": 9,
         "name": "상점가흉폭초성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도복합상점"
       },
       {
         "idx": 10,
         "name": "수렵벌",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도-가릉도해변"
       },
       {
         "idx": 11,
         "name": "시녀지주",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/가릉도폐허동굴"
       },
       {
         "idx": 12,
         "name": "식인종전사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/가릉도열대림"
       },
       {
         "idx": 13,
         "name": "식인종추장",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "고균도/가릉도열대림"
       },
       {
         "idx": 14,
         "name": "식인족추장후계자",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/가릉도열대림"
       },
       {
         "idx": 15,
         "name": "열대독사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "가릉도/폭염도유적"
       },
       {
         "idx": 16,
         "name": "원랑",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/폭염도절벽"
       },
       {
         "idx": 17,
         "name": "절벽거북",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도복합상점"
       },
       {
         "idx": 18,
         "name": "절벽중성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/폭염도절벽"
       },
       {
         "idx": 19,
         "name": "절벽초성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도/폭염도절벽"
       },
       {
         "idx": 20,
         "name": "종성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "난파선"
       },
       {
         "idx": 21,
         "name": "중성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "난파선"
       },
       {
         "idx": 22,
         "name": "진여왕지주",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "고균도/가릉도폐허동굴"
       },
       {
         "idx": 23,
         "name": "진인랑",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "고균도/폭염도절벽"
       },
       {
         "idx": 24,
         "name": "철갑거북",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "고균도-가릉도해변"
       },
       {
         "idx": 25,
         "name": "초성인성초",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "난파선"
       },
       {
         "idx": 26,
         "name": "폭염룡",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "폭염도화산굴"
       },
       {
         "idx": 27,
         "name": "폭염왕",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "폭염도화산굴"
       },
       {
         "idx": 28,
         "name": "폭염익룡",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "폭염도화산굴"
       },
       {
         "idx": 29,
         "name": "해적갑판장의망령",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "난파선"
       },
       {
         "idx": 30,
         "name": "해적선원의망령",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "난파선"
       },
       {
         "idx": 31,
         "name": "해적선장의망령",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "난파선"
       }
     ],
@@ -396,253 +396,253 @@
       {
         "idx": 0,
         "name": "거대북살모사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "녹명봉"
       },
       {
         "idx": 1,
         "name": "공역자룡",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "백두산천지"
       },
       {
         "idx": 2,
         "name": "극독살모사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백두봉"
       },
       {
         "idx": 3,
         "name": "금요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "금요의동굴"
       },
       {
         "idx": 4,
         "name": "기룡",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "천문봉"
       },
       {
         "idx": 5,
         "name": "날쌘이리",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "청석봉"
       },
       {
         "idx": 6,
         "name": "목요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "목요의동굴"
       },
       {
         "idx": 7,
         "name": "묘두괴응",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백두봉"
       },
       {
         "idx": 8,
         "name": "백담비",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "대각봉"
       },
       {
         "idx": 9,
         "name": "백두산노루",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "소연지봉"
       },
       {
         "idx": 10,
         "name": "백두산이리왕",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "청석봉"
       },
       {
         "idx": 11,
         "name": "백두요괴거목",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "대연지봉"
       },
       {
         "idx": 12,
         "name": "백두요괴목",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "대연지봉"
       },
       {
         "idx": 13,
         "name": "백두요괴백목",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "대연지봉"
       },
       {
         "idx": 14,
         "name": "백두요괴웅",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "천문봉"
       },
       {
         "idx": 15,
         "name": "백두자표범",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백운봉"
       },
       {
         "idx": 16,
         "name": "백두패자웅",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "천문봉"
       },
       {
         "idx": 17,
         "name": "백두표범",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백운봉"
       },
       {
         "idx": 18,
         "name": "백두황자웅",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "천문봉"
       },
       {
         "idx": 19,
         "name": "북살모사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "녹명봉"
       },
       {
         "idx": 20,
         "name": "북올빼미",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "망천후"
       },
       {
         "idx": 21,
         "name": "사향노루",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "소연지봉"
       },
       {
         "idx": 22,
         "name": "속역자룡",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "백두산천지"
       },
       {
         "idx": 23,
         "name": "수요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "수요의동굴"
       },
       {
         "idx": 24,
         "name": "암흑룡인",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "백두산천지"
       },
       {
         "idx": 25,
         "name": "요괴수목",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백두폭포"
       },
       {
         "idx": 26,
         "name": "월요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "월요의동굴"
       },
       {
         "idx": 27,
         "name": "이리",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "청석봉"
       },
       {
         "idx": 28,
         "name": "인면노루",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "소연지봉"
       },
       {
         "idx": 29,
         "name": "일요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "일요의동굴"
       },
       {
         "idx": 30,
         "name": "적원앙괴",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "망천후"
       },
       {
         "idx": 31,
         "name": "적파수웅",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백두폭포"
       },
       {
         "idx": 32,
         "name": "조역자룡",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백두산천지"
       },
       {
         "idx": 33,
         "name": "청살모사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "녹명봉"
       },
       {
         "idx": 34,
         "name": "청원앙괴",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "망천후"
       },
       {
         "idx": 35,
         "name": "토요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "토요의동굴"
       },
       {
         "idx": 36,
         "name": "팔요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "팔요의동굴"
       },
       {
         "idx": 37,
         "name": "화요의정",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "화요의동굴"
       },
       {
         "idx": 38,
         "name": "황담비",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "대각봉"
       },
       {
         "idx": 39,
         "name": "흉면노루",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "백두봉"
       },
       {
         "idx": 40,
         "name": "흑담비",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "대각봉"
       },
       {
         "idx": 41,
         "name": "흑올빼미",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "망천후"
       }
     ],
@@ -858,361 +858,361 @@
       {
         "idx": 0,
         "name": "게력사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "게장군굴"
       },
       {
         "idx": 1,
         "name": "게장군",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "게장군굴"
       },
       {
         "idx": 2,
         "name": "고양인어",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "인어장군굴"
       },
       {
         "idx": 3,
         "name": "꼬리해마",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "해마장군굴"
       },
       {
         "idx": 4,
         "name": "날수괴",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "청의태자동굴"
       },
       {
         "idx": 5,
         "name": "대발문어",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "문어장군굴"
       },
       {
         "idx": 6,
         "name": "문어장군",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "문어장군굴"
       },
       {
         "idx": 7,
         "name": "복수리",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "복어장군굴"
       },
       {
         "idx": 8,
         "name": "복순이",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "복어장군굴"
       },
       {
         "idx": 9,
         "name": "복어장군",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "복어장군굴"
       },
       {
         "idx": 10,
         "name": "복홍",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "복어장군굴"
       },
       {
         "idx": 11,
         "name": "사산게",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "게장군굴"
       },
       {
         "idx": 12,
         "name": "상어장군",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "상어장군굴"
       },
       {
         "idx": 13,
         "name": "상어장수",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "상어장군굴"
       },
       {
         "idx": 14,
         "name": "새끼게",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "게장군굴"
       },
       {
         "idx": 15,
         "name": "세발문어",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "문어장군굴"
       },
       {
         "idx": 16,
         "name": "쌍칼상어",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "상어장군굴"
       },
       {
         "idx": 17,
         "name": "아귀장군",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "이계-알수없는장소"
       },
       {
         "idx": 18,
         "name": "외칼이상어",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "상어장군굴"
       },
       {
         "idx": 19,
         "name": "이계-거북장군",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "이계-거북장군굴"
       },
       {
         "idx": 20,
         "name": "이계-게력사",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-게장군굴"
       },
       {
         "idx": 21,
         "name": "이계-게장군",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "이계-게장군굴"
       },
       {
         "idx": 22,
         "name": "이계-고양인어",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-인어장군굴"
       },
       {
         "idx": 23,
         "name": "이계-꼬리해마",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-해마장군굴"
       },
       {
         "idx": 24,
         "name": "이계-대발문어",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-문어장군굴"
       },
       {
         "idx": 25,
         "name": "이계-문어장군",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "이계-문어장군굴"
       },
       {
         "idx": 26,
         "name": "이계-복수리",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-복어장군굴"
       },
       {
         "idx": 27,
         "name": "이계-복순이",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-복어장군굴"
       },
       {
         "idx": 28,
         "name": "이계-복어장군",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "이계-복어장군굴"
       },
       {
         "idx": 29,
         "name": "이계-복홍",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-복어장군굴"
       },
       {
         "idx": 30,
         "name": "이계-부기부기",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-거북장군굴"
       },
       {
         "idx": 31,
         "name": "이계-사산게",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-게장군굴"
       },
       {
         "idx": 32,
         "name": "이계-상어장군",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "이계-상어장군굴"
       },
       {
         "idx": 33,
         "name": "이계-새끼게",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-게장군굴"
       },
       {
         "idx": 34,
         "name": "이계-세발문어",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-문어장군굴"
       },
       {
         "idx": 35,
         "name": "이계-쌍칼상어",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-상어장군굴"
       },
       {
         "idx": 36,
         "name": "이걔-이쁘니인어",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-인어장군굴"
       },
       {
         "idx": 37,
         "name": "이계-인어장군",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "이계-인어장군굴"
       },
       {
         "idx": 38,
         "name": "이계-장간문어",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-문어장군굴"
       },
       {
         "idx": 39,
         "name": "이계-쥐방울해마",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "이계-해마장군굴"
       },
       {
         "idx": 40,
         "name": "이계-차력게",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-게장군굴"
       },
       {
         "idx": 41,
         "name": "이계-파산게",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "이계-게장군굴"
       },
       {
         "idx": 42,
         "name": "이계-해마병사",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-해마장군굴"
       },
       {
         "idx": 43,
         "name": "이계-해마장군",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "이계-해마장군굴"
       },
       {
         "idx": 44,
         "name": "이계-해파리부하",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-해파리장군굴"
       },
       {
         "idx": 45,
         "name": "이계-해파리수하",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "이계-해파리장군굴"
       },
       {
         "idx": 46,
         "name": "이걔-해파리장군",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "이계-해파리장군굴"
       },
       {
         "idx": 47,
         "name": "이쁘니인어",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "인어장군굴"
       },
       {
         "idx": 48,
         "name": "인어장군",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "인어장군굴"
       },
       {
         "idx": 49,
         "name": "장간문어",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "문어장군굴"
       },
       {
         "idx": 50,
         "name": "쥐방울해마",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "해마장군굴"
       },
       {
         "idx": 51,
         "name": "차력게",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "게장군굴"
       },
       {
         "idx": 52,
         "name": "청의태자",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "청의태자동굴"
       },
       {
         "idx": 53,
         "name": "청의태자비",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "이계-심해깊은곳"
       },
       {
         "idx": 54,
         "name": "파산게",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "게장군굴"
       },
       {
         "idx": 55,
         "name": "해마병사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "해마장군굴"
       },
       {
         "idx": 56,
         "name": "해마장군",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "해마장군굴"
       },
       {
         "idx": 57,
         "name": "해파리부하",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "해파리장군굴"
       },
       {
         "idx": 58,
         "name": "해파리수하",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "해파리장군굴"
       },
       {
         "idx": 59,
         "name": "해파리장군",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "해파리장군굴"
       }
     ],
@@ -1476,313 +1476,313 @@
       {
         "idx": 0,
         "name": "구양성기마병",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "구양성(인던)"
       },
       {
         "idx": 1,
         "name": "구양성대장",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "구양성(인던)"
       },
       {
         "idx": 2,
         "name": "구양성병사",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "구양성진입로"
       },
       {
         "idx": 3,
         "name": "굶주린유목민",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "야만족소굴"
       },
       {
         "idx": 4,
         "name": "기요마사",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "관미성해안가"
       },
       {
         "idx": 5,
         "name": "낙랑도사포로",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "한성지하감옥"
       },
       {
         "idx": 6,
         "name": "낙랑암살자포로",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "한성지하감옥"
       },
       {
         "idx": 7,
         "name": "낙랑전사포로",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "한성지하감옥"
       },
       {
         "idx": 8,
         "name": "날렵한와산성병사",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "와산성(인던)"
       },
       {
         "idx": 9,
         "name": "동예산적",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "동예산적굴진입로"
       },
       {
         "idx": 10,
         "name": "동예산적대장",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "동예산적소굴(인던)"
       },
       {
         "idx": 11,
         "name": "마한기마병",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "낭산산성(인던)"
       },
       {
         "idx": 12,
         "name": "마한대장",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "낭산산성(인던)"
       },
       {
         "idx": 13,
         "name": "마한병사",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "마한집결지"
       },
       {
         "idx": 14,
         "name": "마한산적",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "마한산적굴진입로"
       },
       {
         "idx": 15,
         "name": "마한산적대장",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "마한산적소굴(인던)"
       },
       {
         "idx": 16,
         "name": "말갈기마병",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "칠중하(인던)"
       },
       {
         "idx": 17,
         "name": "말갈배",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "칠중하(인던)"
       },
       {
         "idx": 18,
         "name": "말갈산적",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "말갈산적굴진입로"
       },
       {
         "idx": 19,
         "name": "말갈산적대장",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "말갈산적소굴(인던)"
       },
       {
         "idx": 20,
         "name": "말갈전투병",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "칠중하진입로"
       },
       {
         "idx": 21,
         "name": "말갈주둔병",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "말갈주둔지(인던)"
       },
       {
         "idx": 22,
         "name": "말갈진지대장",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "말갈주둔지(인던)"
       },
       {
         "idx": 23,
         "name": "말갈칠중하대장",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "칠중하(인던)"
       },
       {
         "idx": 24,
         "name": "말갈침투병",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "말갈족진지"
       },
       {
         "idx": 25,
         "name": "백제반란군",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "철광산"
       },
       {
         "idx": 26,
         "name": "백제반란군'첨",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "철광산(인던)"
       },
       {
         "idx": 27,
         "name": "백제벌",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "벌던전"
       },
       {
         "idx": 28,
         "name": "오골계",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "가축사육장"
       },
       {
         "idx": 29,
         "name": "와산성기마병",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "와산성(인던)"
       },
       {
         "idx": 30,
         "name": "와산성대장",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "와산성(인던)"
       },
       {
         "idx": 31,
         "name": "와산성병사",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "와산성진입로"
       },
       {
         "idx": 32,
         "name": "용맹한구양성병사",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "구양성(인던)"
       },
       {
         "idx": 33,
         "name": "자명랑",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "한성지하감옥"
       },
       {
         "idx": 34,
         "name": "잔인한동예산적",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "동예산적소굴(인던)"
       },
       {
         "idx": 35,
         "name": "잔인한마한산적",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "마한산적소굴(인던)"
       },
       {
         "idx": 36,
         "name": "잔인한말갈산적",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "말갈산적소굴(인던)"
       },
       {
         "idx": 37,
         "name": "중국함선궁병",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "관미성선착장"
       },
       {
         "idx": 38,
         "name": "중국함선돌격병",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "관미성선착장"
       },
       {
         "idx": 39,
         "name": "중국함선소대장",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "관미성선착장"
       },
       {
         "idx": 40,
         "name": "침략선궁사",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "관미성해안가"
       },
       {
         "idx": 41,
         "name": "침략선사무라이",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "관미성해안가"
       },
       {
         "idx": 42,
         "name": "침략선행동대장",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "관미성해안가"
       },
       {
         "idx": 43,
         "name": "포악한멧돼지",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "동물의숲"
       },
       {
         "idx": 44,
         "name": "해상왕 장벽거",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "관미성선착장"
       },
       {
         "idx": 45,
         "name": "험악한백제반란군",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "철광산(인던)"
       },
       {
         "idx": 46,
         "name": "흉악범",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "한성지하감옥"
       },
       {
         "idx": 47,
         "name": "흑'매조련사",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "지하회랑"
       },
       {
         "idx": 48,
         "name": "흑'석화",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "지하회랑깊은곳2"
       },
       {
         "idx": 49,
         "name": "흑'은둔자",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "지하회랑"
       },
       {
         "idx": 50,
         "name": "흑'활잡이",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "지하회랑"
       },
       {
         "idx": 51,
         "name": "흑치상지",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "지하회랑깊은곳1"
       }
     ],
@@ -2070,217 +2070,217 @@
       {
         "idx": 0,
         "name": "거대뱀",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "독사지옥 7-5"
       },
       {
         "idx": 1,
         "name": "거해귀",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "거해지옥 1~5"
       },
       {
         "idx": 2,
         "name": "검수귀",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "검수지옥 1~5"
       },
       {
         "idx": 3,
         "name": "광포해진마히샤",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "발설지옥 6~8"
       },
       {
         "idx": 4,
         "name": "기르티무카",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "검수지옥 1~5"
       },
       {
         "idx": 5,
         "name": "나찰",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "나찰의야영지 1~5"
       },
       {
         "idx": 6,
         "name": "도산귀",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "도산지옥 6~8"
       },
       {
         "idx": 7,
         "name": "도척",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "화탕지옥 1~5"
       },
       {
         "idx": 8,
         "name": "도척수하",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "화탕지옥 1~5"
       },
       {
         "idx": 9,
         "name": "독사귀",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "독사지옥 1~7"
       },
       {
         "idx": 10,
         "name": "락샤량고",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "나찰의야영지 1~5"
       },
       {
         "idx": 11,
         "name": "락샤샤",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "거해지옥 6~7"
       },
       {
         "idx": 12,
         "name": "락시링고",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "나찰의야영지 1~5"
       },
       {
         "idx": 13,
         "name": "링시시",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "거해지옥 6~7"
       },
       {
         "idx": 14,
         "name": "마루트스",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "전쟁터-후방 1~5"
       },
       {
         "idx": 15,
         "name": "바람귀",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "철상지옥 1~5"
       },
       {
         "idx": 16,
         "name": "바리",
-        "score": "8 16 24 32 40",
+        "score": "8N",
         "location": "흑암지옥지하 1~5"
       },
       {
         "idx": 17,
         "name": "바리수하",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "흑암지옥지하 1~5"
       },
       {
         "idx": 18,
         "name": "바유",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "철상지옥 1~5"
       },
       {
         "idx": 19,
         "name": "발설귀",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "발설지옥 6~8"
       },
       {
         "idx": 20,
         "name": "불의귀",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "한빙비밀통로 1~5"
       },
       {
         "idx": 21,
         "name": "샹샹",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "샹샹의동굴"
       },
       {
         "idx": 22,
         "name": "샹샹의수하",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "샹샹의동굴"
       },
       {
         "idx": 23,
         "name": "아난타",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "독사지옥 1~5"
       },
       {
         "idx": 24,
         "name": "아수라",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "전쟁터-전방 1~4"
       },
       {
         "idx": 25,
         "name": "아수라수하",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "전쟁터-전방 1~4"
       },
       {
         "idx": 26,
         "name": "지옥독사",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "독사지옥 1~7"
       },
       {
         "idx": 27,
         "name": "지옥아귀",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑암지옥 1~7"
       },
       {
         "idx": 28,
         "name": "진마혼귀",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "환혼도산지옥 1~5"
       },
       {
         "idx": 29,
         "name": "철상귀",
-        "score": "3 6 9 12 15",
+        "score": "3N",
         "location": "철상지옥 1~5"
       },
       {
         "idx": 30,
         "name": "폭풍귀",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "전쟁터-후방 1~8"
       },
       {
         "idx": 31,
         "name": "풍도귀",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "풍도지옥 1~6"
       },
       {
         "idx": 32,
         "name": "한빙귀",
-        "score": "2 4 6 8 10",
+        "score": "2N",
         "location": "한빙지옥 1~7"
       },
       {
         "idx": 33,
         "name": "화탕귀",
-        "score": "1 2 3 4 5",
+        "score": "1N",
         "location": "화탕지옥 1~6"
       },
       {
         "idx": 34,
         "name": "환혼귀",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "환혼발설지옥 1~5"
       },
       {
         "idx": 35,
         "name": "흑암귀",
-        "score": "4 8 12 16 20",
+        "score": "4N",
         "location": "흑암지옥 1~7"
       }
     ],
@@ -2520,127 +2520,127 @@
       {
         "idx": 0,
         "name": "광산박쥐",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "화룡장(레이드)"
       },
       {
         "idx": 1,
         "name": "물의정령",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "수룡장(레이드)"
       },
       {
         "idx": 2,
         "name": "불개",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "화룡장(레이드)"
       },
       {
         "idx": 3,
         "name": "불멸의화염거인",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "오래된폐광8"
       },
       {
         "idx": 4,
         "name": "성흑룡살수",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 5,
         "name": "성흑룡술사",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 6,
         "name": "성흑룡투암",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 7,
         "name": "수룡장",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "수룡장(레이드)"
       },
       {
         "idx": 8,
         "name": "신전의수호자",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 9,
         "name": "진흑룡살수",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 10,
         "name": "진흑룡술사",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 11,
         "name": "진흑룡투암",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 12,
         "name": "해신룡",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "수룡장(레이드)"
       },
       {
         "idx": 13,
         "name": "화룡장",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "화룡장(레이드)"
       },
       {
         "idx": 14,
         "name": "화염거인",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "화룡장(레이드)"
       },
       {
         "idx": 15,
         "name": "화염도마뱀",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "화룡장(레이드)"
       },
       {
         "idx": 16,
         "name": "흑룡살수",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 17,
         "name": "흑룡술사",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 18,
         "name": "흑룡왕",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 19,
         "name": "흑룡장",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "흑룡장(레이드)"
       },
       {
         "idx": 20,
         "name": "흑룡투암",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "흑룡장(레이드)"
       }
     ],
@@ -2802,205 +2802,205 @@
       {
         "idx": 0,
         "name": "[시련]대각양",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]물안개협곡"
       },
       {
         "idx": 1,
         "name": "[시련]독마숭숭이",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]오염된초원"
       },
       {
         "idx": 2,
         "name": "[시련]만독수라왕",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]오염된초원"
       },
       {
         "idx": 3,
         "name": "[시련]모래상어",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]메마른고원"
       },
       {
         "idx": 4,
         "name": "[시련]사마",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]물안개협곡"
       },
       {
         "idx": 5,
         "name": "[시련]사악한화마검귀",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]진홍의대지"
       },
       {
         "idx": 6,
         "name": "[시련]사충",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]메마른고원"
       },
       {
         "idx": 7,
         "name": "[시련]아랑",
-        "score": "12 24 36 48 60",
+        "score": "12N",
         "location": "[시련]물안개협곡"
       },
       {
         "idx": 8,
         "name": "[시련]악치",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]물안개협곡"
       },
       {
         "idx": 9,
         "name": "[시련]적혈광마",
-        "score": "12 24 36 48 60",
+        "score": "12N",
         "location": "[시련]진홍의대지"
       },
       {
         "idx": 10,
         "name": "[시련]큰턱모래망치",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]메마른고원"
       },
       {
         "idx": 11,
         "name": "[시련]혈마화",
-        "score": "12 24 36 48 60",
+        "score": "12N",
         "location": "[시련]메마른고원"
       },
       {
         "idx": 12,
         "name": "[시련]화마검귀",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]진홍의대지"
       },
       {
         "idx": 13,
         "name": "[시련]화마대신",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]진홍의대지"
       },
       {
         "idx": 14,
         "name": "[시련]화마장군",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]진홍의대지"
       },
       {
         "idx": 15,
         "name": "[시련]흑마독사",
-        "score": "6 12 18 24 30",
+        "score": "6N",
         "location": "[시련]오염된초원"
       },
       {
         "idx": 16,
         "name": "[시련]흑치명",
-        "score": "12 24 36 48 60",
+        "score": "12N",
         "location": "[시련]오염된초원"
       },
       {
         "idx": 17,
         "name": "대각양",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "물안개협곡"
       },
       {
         "idx": 18,
         "name": "독마숭숭이",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "오염된초원"
       },
       {
         "idx": 19,
         "name": "만독수라왕",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "오염된초원"
       },
       {
         "idx": 20,
         "name": "맹독의궁기",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "[분쟁] 궁기지역"
       },
       {
         "idx": 21,
         "name": "모래상어",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "메마른고원"
       },
       {
         "idx": 22,
         "name": "모래의도올",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "[분쟁] 도올지역"
       },
       {
         "idx": 23,
         "name": "번개의도철",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "[분쟁] 도철지역"
       },
       {
         "idx": 24,
         "name": "사마",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "물안개협곡"
       },
       {
         "idx": 25,
         "name": "사악한화마검귀",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "진홍의대지"
       },
       {
         "idx": 26,
         "name": "사충",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "메마른고원"
       },
       {
         "idx": 27,
         "name": "악치",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "물안개협곡"
       },
       {
         "idx": 28,
         "name": "큰턱모래망치",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "메마른고원"
       },
       {
         "idx": 29,
         "name": "화마검귀",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "진홍의대지"
       },
       {
         "idx": 30,
         "name": "화마대신",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "진홍의대지"
       },
       {
         "idx": 31,
         "name": "화마장군",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "진홍의대지"
       },
       {
         "idx": 32,
         "name": "흑마독사",
-        "score": "5 10 15 20 25",
+        "score": "5N",
         "location": "진홍의대지"
       },
       {
         "idx": 33,
         "name": "흑염의혼돈",
-        "score": "10 20 30 40 50",
+        "score": "10N",
         "location": "[분쟁] 혼돈지역"
       }
     ],

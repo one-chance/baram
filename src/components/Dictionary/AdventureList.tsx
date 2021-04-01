@@ -20,20 +20,22 @@ import Divider from "@material-ui/core/Divider";
 import { getAdventureList } from "utils/DictionaryUtil";
 import { IAdventure, IMonster, IStuff, IMission, IPlace, IRewardImg } from "interfaces/Dictionary/IAdventure";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    btn: {
-      margin: "10px",
-    },
-    table: {
-      minWidth: 400,
-      width: "100%",
-    },
-    searchContainer: {
-      padding: theme.spacing(0.1),
-    },
-  })
-);
+const useStyles = makeStyles(theme => ({
+  btn: {
+    minWidth: "60px",
+    height: "40px",
+    margin: "10px",
+    padding: "0",
+  },
+  box: {
+    width: "35vw",
+    minWidth: "300px",
+    margin: "10px 2vw",
+    padding: "5px",
+    border: "1px solid gray",
+    borderRadius: "10px",
+  },
+}));
 
 const StyledTableRow = withStyles((theme: Theme) =>
   createStyles({
@@ -48,14 +50,15 @@ const StyledTableCell = withStyles((theme: Theme) =>
     head: {
       backgroundColor: "#004e66",
       color: theme.palette.common.white,
-      padding: "10px",
-      fontSize: 20,
+      padding: "10px 5px",
+      fontSize: "1rem",
       fontWeight: "bolder",
+      textAlign: "center",
     },
     body: {
-      fontSize: 18,
-      //fontWeight: "bolder",
-      padding: "10px",
+      fontSize: "1rem",
+      padding: "10px 5px",
+      textAlign: "center",
     },
   })
 )(TableCell);
@@ -100,7 +103,7 @@ export default function AdventureList() {
     <React.Fragment>
       <Grid container justify='center' style={{ padding: "0" }}>
         {adventureList.map((adventure: IAdventure) => (
-          <Grid item key={adventure.idx} style={{ width: "35vw", margin: "10px 2vw", padding: "5px", border: "1px solid gray", borderRadius: "10px" }}>
+          <Grid item className={classes.box} key={adventure.idx}>
             <h2 style={{ width: "100%", margin: "0", textAlign: "center" }}>{adventure.name}</h2>
             <Container style={{ width: "100%", padding: "0", textAlign: "center" }}>
               {adventure.monsterList && (
@@ -184,9 +187,6 @@ export default function AdventureList() {
         <Grid item style={{ width: "35vw", margin: "10px 2vw", padding: "5px" }}></Grid>
       </Grid>
 
-      {/* NOTE 이중 열 자리 맞추기 */}
-      <Grid item style={{ width: "45%", margin: "10px 2%", padding: "10px" }}></Grid>
-
       {/* NOTE 괴수 다이얼로그 */}
       <Dialog
         open={dlgMonster.isOpen}
@@ -195,7 +195,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgMonster.title}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", margin: "0" }}>{dlgMonster.title}</span>
           <Button
             onClick={() => {
               setDlgMonster({ ...dlgMonster, isOpen: false });
@@ -205,21 +205,21 @@ export default function AdventureList() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px" }}>
-          <Table className={classes.table} aria-label={`archeologyList-Table`}>
+        <DialogContent style={{ padding: "5px" }}>
+          <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell align='center'>괴수</StyledTableCell>
-                <StyledTableCell align='center'>점수</StyledTableCell>
-                <StyledTableCell align='center'>주요 등장위치</StyledTableCell>
+                <StyledTableCell>괴수</StyledTableCell>
+                <StyledTableCell>점수</StyledTableCell>
+                <StyledTableCell>주요 등장위치</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dlgMonster.monsterList.map((monster: IMonster) => (
                 <StyledTableRow key={monster.idx}>
-                  <StyledTableCell align='center'>{monster.name}</StyledTableCell>
-                  <StyledTableCell align='center'>{monster.score}</StyledTableCell>
-                  <StyledTableCell align='center'>{monster.location}</StyledTableCell>
+                  <StyledTableCell>{monster.name}</StyledTableCell>
+                  <StyledTableCell>{monster.score}</StyledTableCell>
+                  <StyledTableCell>{monster.location}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -235,7 +235,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgStuff.title}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", margin: "0" }}>{dlgStuff.title}</span>
           <Button
             onClick={() => {
               setDlgStuff({ ...dlgStuff, isOpen: false });
@@ -245,21 +245,21 @@ export default function AdventureList() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px" }}>
-          <Table className={classes.table} aria-label={`archeologyList-Table`}>
+        <DialogContent style={{ padding: "5px" }}>
+          <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell align='center'>물품</StyledTableCell>
-                <StyledTableCell align='center'>점수</StyledTableCell>
-                <StyledTableCell align='center'>획득방법</StyledTableCell>
+                <StyledTableCell>물품</StyledTableCell>
+                <StyledTableCell>점수</StyledTableCell>
+                <StyledTableCell>획득방법</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dlgStuff.stuffList.map((stuff: IStuff) => (
                 <StyledTableRow key={stuff.idx}>
-                  <StyledTableCell align='center'>{stuff.name}</StyledTableCell>
-                  <StyledTableCell align='center'>{stuff.score}</StyledTableCell>
-                  <StyledTableCell align='center'>{stuff.obtain}</StyledTableCell>
+                  <StyledTableCell>{stuff.name}</StyledTableCell>
+                  <StyledTableCell>{stuff.score}</StyledTableCell>
+                  <StyledTableCell>{stuff.obtain}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -275,7 +275,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgMission.title}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", margin: "0" }}>{dlgMission.title}</span>
           <Button
             onClick={() => {
               setDlgMission({ ...dlgMission, isOpen: false });
@@ -285,21 +285,21 @@ export default function AdventureList() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px" }}>
-          <Table className={classes.table} aria-label={`archeologyList-Table`}>
+        <DialogContent style={{ padding: "5px" }}>
+          <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell align='center'>임무</StyledTableCell>
-                <StyledTableCell align='center'>점수</StyledTableCell>
-                <StyledTableCell align='center'>시작 NPC</StyledTableCell>
+                <StyledTableCell>임무</StyledTableCell>
+                <StyledTableCell>점수</StyledTableCell>
+                <StyledTableCell>시작 NPC</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dlgMission.missionList.map((mission: IMission) => (
                 <StyledTableRow key={mission.idx}>
-                  <StyledTableCell align='center'>{mission.name}</StyledTableCell>
-                  <StyledTableCell align='center'>{mission.score}</StyledTableCell>
-                  <StyledTableCell align='center'>{mission.npc}</StyledTableCell>
+                  <StyledTableCell>{mission.name}</StyledTableCell>
+                  <StyledTableCell>{mission.score}</StyledTableCell>
+                  <StyledTableCell>{mission.npc}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -315,7 +315,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgPlace.title}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", margin: "0" }}>{dlgPlace.title}</span>
           <Button
             onClick={() => {
               setDlgPlace({ ...dlgPlace, isOpen: false });
@@ -325,21 +325,21 @@ export default function AdventureList() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px" }}>
-          <Table className={classes.table} aria-label={`archeologyList-Table`}>
+        <DialogContent style={{ padding: "5px" }}>
+          <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell align='center'>탐방</StyledTableCell>
-                <StyledTableCell align='center'>점수</StyledTableCell>
-                <StyledTableCell align='center'>상세위치</StyledTableCell>
+                <StyledTableCell>탐방</StyledTableCell>
+                <StyledTableCell>점수</StyledTableCell>
+                <StyledTableCell>상세위치</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dlgPlace.placeList.map((place: IPlace) => (
                 <StyledTableRow key={place.idx}>
-                  <StyledTableCell align='center'>{place.name}</StyledTableCell>
-                  <StyledTableCell align='center'>{place.score}</StyledTableCell>
-                  <StyledTableCell align='center'>{place.location}</StyledTableCell>
+                  <StyledTableCell>{place.name}</StyledTableCell>
+                  <StyledTableCell>{place.score}</StyledTableCell>
+                  <StyledTableCell>{place.location}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -355,7 +355,7 @@ export default function AdventureList() {
         }}
         maxWidth='lg'>
         <DialogTitle style={{ textAlign: "center", padding: "10px" }}>
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold", margin: "0" }}>{dlgRewardImg.title}</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "bold", margin: "0" }}>{dlgRewardImg.title}</span>
           <Button
             onClick={() => {
               setDlgRewardImg({ ...dlgRewardImg, isOpen: false });
@@ -365,7 +365,7 @@ export default function AdventureList() {
           </Button>
         </DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px" }}>
+        <DialogContent style={{ padding: "5px" }}>
           {dlgRewardImg.rewardImgList.map((rewardImg: IRewardImg) => (
             <img src={baseUrlForAdventureImg + rewardImg.img} key={rewardImg.idx} alt='보상' />
           ))}
