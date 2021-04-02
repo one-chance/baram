@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     padding: "0",
   },
   input: {
-    minWidth: "140px",
+    minWidth: "160px",
+    maxWidth: "320px",
     "& input": {
       height: "40px",
       padding: "0 10px",
@@ -148,68 +149,64 @@ function ChagnePassword(props: IProps) {
 
   return (
     <React.Fragment>
-      <Grid container direction='column' style={{ margin: "10px 0", padding: "0" }}>
+      <Grid container direction='column' style={{ minWidth: "360px", margin: "10px 0", padding: "0" }}>
         <Typography variant='h4' style={{ marginBottom: "30px" }}>
           비밀번호 변경
         </Typography>
 
-        <Grid container item xs={12} alignItems='center' style={{ margin: "10px 0", padding: "0 10px" }}>
+        <Grid container item justify='center' style={{ margin: "10px 0", padding: "0 10px" }}>
           <Typography className={classes.text}>기존 비밀번호</Typography>
-          <Grid item xs={6} style={{ padding: "0" }}>
-            <TextField
-              variant='outlined'
-              className={classes.input}
-              error={password !== "" && checkPassword === false}
-              required
-              fullWidth
-              autoFocus={true}
-              type='password'
-              value={password}
-              onChange={e => verifyPassword(e.target.value)}
-            />
-          </Grid>
+
+          <TextField
+            variant='outlined'
+            className={classes.input}
+            error={password !== "" && checkPassword === false}
+            required
+            fullWidth
+            autoFocus={true}
+            type='password'
+            value={password}
+            onChange={e => verifyPassword(e.target.value)}
+          />
         </Grid>
-        <Grid container item xs={12} alignItems='center' style={{ margin: "10px 0", padding: "0 10px" }}>
+        <Grid container item justify='center' style={{ margin: "10px 0", padding: "0 10px" }}>
           <Typography className={classes.text}>신규 비밀번호</Typography>
-          <Grid item xs={6}>
-            <TextField
-              variant='outlined'
-              className={classes.input}
-              error={chgPassword !== "" && checkChgPassword === false}
-              helperText={chgPassword !== "" && checkChgPassword === false ? "숫자/문자/특수문자를 모두 포함해야 합니다." : ""}
-              required
-              fullWidth
-              type='password'
-              value={chgPassword}
-              onChange={e => verifyChangePassword(e.target.value)}
-            />
-          </Grid>
+
+          <TextField
+            variant='outlined'
+            className={classes.input}
+            error={chgPassword !== "" && checkChgPassword === false}
+            helperText={chgPassword !== "" && checkChgPassword === false ? "숫자/문자/특수문자를 모두 포함해야 합니다." : ""}
+            required
+            fullWidth
+            type='password'
+            value={chgPassword}
+            onChange={e => verifyChangePassword(e.target.value)}
+          />
         </Grid>
-        <Grid container item xs={12} alignItems='center' style={{ margin: "10px 0", padding: "0 10px" }}>
+        <Grid container item justify='center' style={{ margin: "10px 0", padding: "0 10px" }}>
           <Typography className={classes.text}>신규 비밀번호 확인</Typography>
-          <Grid item xs={6}>
-            <TextField
-              className={classes.input}
-              error={chgPasswordConfirm !== "" && chgPassword !== chgPasswordConfirm}
-              helperText={chgPasswordConfirm !== "" && chgPassword !== chgPasswordConfirm ? "비밀번호가 일치하지 않습니다." : ""}
-              variant='outlined'
-              required
-              fullWidth
-              type='password'
-              value={chgPasswordConfirm}
-              onChange={e => ssetChgPasswordConfirm(e.target.value)}
-              onKeyUp={e => _onEnterPassword(e.keyCode)}
-            />
-          </Grid>
+
+          <TextField
+            className={classes.input}
+            error={chgPasswordConfirm !== "" && chgPassword !== chgPasswordConfirm}
+            helperText={chgPasswordConfirm !== "" && chgPassword !== chgPasswordConfirm ? "비밀번호가 일치하지 않습니다." : ""}
+            variant='outlined'
+            required
+            fullWidth
+            type='password'
+            value={chgPasswordConfirm}
+            onChange={e => ssetChgPasswordConfirm(e.target.value)}
+            onKeyUp={e => _onEnterPassword(e.keyCode)}
+          />
         </Grid>
-        <Grid container item xs={12} alignItems='center' style={{ margin: "30px 0 10px 0", padding: "0 10px" }}>
+        <Grid container item justify='center' style={{ margin: "30px 0 10px 0", padding: "0 10px" }}>
           <Typography className={classes.text} style={{ height: "40px" }}></Typography>
-          <Grid item xs={6}>
-            <Button variant='contained' color='primary' fullWidth onClick={_onSave} style={{ height: "40px" }}>
-              변경
-            </Button>
-          </Grid>
+          <Button variant='contained' color='primary' fullWidth onClick={_onSave} style={{ minWidth: "160px", maxWidth: "320px", height: "40px" }}>
+            변경
+          </Button>
         </Grid>
+        <Grid item style={{ height: "50px" }}></Grid>
       </Grid>
     </React.Fragment>
   );

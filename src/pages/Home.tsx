@@ -98,7 +98,7 @@ const Home = () => {
         <Grid item style={{ width: "320px", margin: "0 auto" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item container style={{ width: "320px", margin: "0 auto" }}>
+        <Grid item container justify='center' style={{ width: "320px", margin: "0 auto" }}>
           <Grid item className={classes.boardItem}>
             <Button variant='outlined' className={classes.boardItemButton}>
               <PriorityHighIcon />

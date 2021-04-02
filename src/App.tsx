@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     zIndex: 1,
     marginTop: "15vh",
-    padding: "10px",
+    padding: "10px 0.75vw",
   },
   footer: {
     width: "100%",
