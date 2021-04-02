@@ -19,6 +19,7 @@ interface IProps {
 const useStyles = makeStyles(theme => ({
   text: {
     width: "90px",
+    lineHeight: "40px",
     margin: "0 5px",
     fontWeight: "bolder",
   },
@@ -29,7 +30,16 @@ const useStyles = makeStyles(theme => ({
     padding: "0",
   },
   box: {
-    width: `calc(100% - 100px)`,
+    width: `calc(100% - 110px)`,
+    margin: "0 5px",
+  },
+  input: {
+    width: `calc(100% - 210px)`,
+    margin: "0 5px",
+    "& input": {
+      height: "40px",
+      padding: "0 10px",
+    },
   },
 }));
 
@@ -79,39 +89,31 @@ function ViewUserInfo(props: IProps) {
   return (
     <React.Fragment>
       <Grid container direction='column' style={{ minWidth: "480px", margin: "10px 0", padding: "0" }}>
-        <Grid item style={{ padding: "0" }}>
-          <Typography variant='h4' style={{ marginBottom: "30px" }}>
-            회원 정보
-          </Typography>
-        </Grid>
+        <Typography variant='h4' style={{ marginBottom: "30px" }}>
+          회원 정보
+        </Typography>
 
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            아이디
-          </Grid>
-          <Grid item className={classes.box}>
+          <Typography className={classes.text}>아이디</Typography>
+          <Grid item xs={6} className={classes.box}>
             {userInfo.id}
           </Grid>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            이메일
-          </Grid>
-          <Grid item className={classes.box}>
+          <Typography className={classes.text}>이메일</Typography>
+          <Grid item xs={6} className={classes.box}>
             {userInfo.email}
           </Grid>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            오픈카톡
-          </Grid>
-          <Grid item xs={6} style={{ minWidth: `calc(100%-200px)` }}>
+          <Typography className={classes.text}>오픈카톡</Typography>
+          <Grid item xs={6}>
             {isEdit ? (
               <TextField
+                className={classes.input}
                 variant='outlined'
                 required
                 fullWidth
-                size='small'
                 name='openKakao'
                 id='openKakao'
                 value={openKakao}
@@ -136,51 +138,37 @@ function ViewUserInfo(props: IProps) {
               수정
             </Button>
           )}
-          <Grid item xs={1}></Grid>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            등급
-          </Grid>
-          <Grid item xs={9}>
+          <Typography className={classes.text}>등급</Typography>
+          <Grid item xs={6} className={classes.box}>
             {userInfo.grade}
           </Grid>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            포인트
-          </Grid>
-          <Grid item xs={9}>
+          <Typography className={classes.text}>포인트</Typography>
+          <Grid item xs={6} className={classes.box}>
             {userInfo.point}
           </Grid>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            대표 캐릭터
-          </Grid>
-          <Grid item xs={6}>
+          <Typography className={classes.text}>대표 캐릭터</Typography>
+          <Grid item xs={6} style={{ maxWidth: `calc(100%-210px)` }}>
             {userInfo.titleAccount ? `${userInfo.titleAccount.character}@${userInfo.titleAccount.server}` : ""}
           </Grid>
-          <Grid item xs={2} style={{ paddingLeft: "5px" }}>
-            <Button variant='outlined' color='secondary' className={classes.btn} fullWidth href='/myinfo/auth'>
-              변경
-            </Button>
-          </Grid>
-          <Grid item xs={1}></Grid>
+          <Button variant='outlined' color='secondary' className={classes.btn} fullWidth href='/myinfo/auth'>
+            변경
+          </Button>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            회원 가입일
-          </Grid>
-          <Grid item xs={9}>
+          <Typography className={classes.text}>회원 가입일</Typography>
+          <Grid item xs={6} className={classes.box}>
             {getStringByDate(userInfo.createDate, true)}
           </Grid>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 5px" }}>
-          <Grid item className={classes.text}>
-            정보 수정일
-          </Grid>
-          <Grid item xs={9}>
+          <Typography className={classes.text}>정보 수정일</Typography>
+          <Grid item xs={6} className={classes.box}>
             {getStringByDate(userInfo.editDate, true)}
           </Grid>
         </Grid>

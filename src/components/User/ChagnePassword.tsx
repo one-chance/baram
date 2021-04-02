@@ -149,7 +149,7 @@ function ChagnePassword(props: IProps) {
 
   return (
     <React.Fragment>
-      <Grid container direction='column' style={{ minWidth: "360px", margin: "10px 0", padding: "0" }}>
+      <Grid container direction='column' style={{ margin: "10px 0", padding: "0" }}>
         <Typography variant='h4' style={{ marginBottom: "30px" }}>
           비밀번호 변경
         </Typography>
