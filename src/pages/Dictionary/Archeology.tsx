@@ -1,16 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import Container from '@material-ui/core/Container';
+import Grid from "@material-ui/core/Grid";
 
-import ArcheologyList from 'components/Dictionary/ArcheologyList';
+import ArcheologyList from "components/Dictionary/ArcheologyList";
 
 function Archeology() {
-  
   return (
     <React.Fragment>
-      <Container maxWidth="lg">
+      <Grid container alignItems='center' justify='center' style={{ margin: "10px 0", padding: "0" }}>
         <ArcheologyList />
-      </Container>
+      </Grid>
     </React.Fragment>
   );
 }

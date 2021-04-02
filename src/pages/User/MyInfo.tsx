@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import MenuList from "@material-ui/core/MenuList";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import { getSignInUserId, getUserInfoById } from "utils/UserUtil";
 import IUserInfo from "interfaces/User/IUserInfo";
@@ -31,6 +31,9 @@ const Menus = withStyles({
 
 function MyInfo({ match }: any) {
   const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
   const { tab } = match.params;
   const mode = tab;
 
@@ -79,24 +82,57 @@ function MyInfo({ match }: any) {
         <NoAuth />
       ) : (
         <Grid container className={classes.root}>
-          <Grid item>
-            <MenuList style={{ outline: "none" }}>
-              <Menus onClick={_onViewUser}>회원 정보</Menus>
-              <Divider />
-              <Menus onClick={_onAuthUser}>캐릭터 인증</Menus>
-              <Divider />
-              <Menus onClick={_onChangePassword}>비밀번호 변경</Menus>
-              <Divider />
-              <Menus onClick={_onWithdraw}>회원 탈퇴</Menus>
-            </MenuList>
-          </Grid>
-          <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "4px" }} />
-          <Grid item xs={8} style={{ marginLeft: "1vw" }}>
-            {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
-            {mode === "auth" && <AuthAccount userInfo={userInfo} />}
-            {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
-            {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
-          </Grid>
+          {!smallScreen ? (
+            <React.Fragment>
+              <Grid item>
+                <Menus onClick={_onViewUser}>회원 정보</Menus>
+                <Divider />
+                <Menus onClick={_onAuthUser}>캐릭터 인증</Menus>
+                <Divider />
+                <Menus onClick={_onChangePassword}>비밀번호 변경</Menus>
+                <Divider />
+                <Menus onClick={_onWithdraw}>회원 탈퇴</Menus>
+              </Grid>
+              <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "4px" }} />
+              <Grid item xs={8} style={{ marginLeft: "1vw" }}>
+                {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
+                {mode === "auth" && <AuthAccount userInfo={userInfo} />}
+                {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
+                {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
+              </Grid>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Grid
+                item
+                container
+                direction='row'
+                justify='space-around'
+                style={{ minWidth: "380px", margin: "0", borderTop: "2px solid lightgray", borderBottom: "2px solid lightgray" }}>
+                <Menus onClick={_onViewUser} style={{ padding: "5px", float: "left" }}>
+                  회원 정보
+                </Menus>
+                <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0" }} />
+                <Menus onClick={_onAuthUser} style={{ padding: "5px", float: "left" }}>
+                  캐릭터 인증
+                </Menus>
+                <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0" }} />
+                <Menus onClick={_onChangePassword} style={{ padding: "5px", float: "left" }}>
+                  비밀번호 변경
+                </Menus>
+                <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0" }} />
+                <Menus onClick={_onWithdraw} style={{ padding: "5px", float: "left" }}>
+                  회원 탈퇴
+                </Menus>
+              </Grid>
+              <Grid item container style={{ margin: "10px 5px" }}>
+                {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
+                {mode === "auth" && <AuthAccount userInfo={userInfo} />}
+                {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
+                {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
+              </Grid>
+            </React.Fragment>
+          )}
         </Grid>
       )}
     </React.Fragment>

@@ -4,24 +4,18 @@ import { makeStyles, withStyles, createStyles, Theme } from "@material-ui/core/s
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 import IArcheology from "interfaces/Dictionary/IArcheology";
 
 import { getArcheologyList } from "utils/DictionaryUtil";
 
 const useStyles = makeStyles(theme => ({
-  root: {},
-  table: {
-    minWidth: 400,
-    width: "100%",
-  },
   tableContainer: {
-    marginTop: "10px",
-    marginBottom: "20px",
+    margin: "0",
+    padding: "0",
   },
 }));
 
@@ -40,28 +34,31 @@ const StyledTableCell = withStyles((theme: Theme) =>
       color: theme.palette.common.white,
       fontSize: 16,
       fontWeight: "bolder",
+      textAlign: "center",
+      padding: "10px",
     },
     body: {
       fontSize: 16,
+      textAlign: "center",
+      padding: "10px",
     },
   })
 )(TableCell);
 
 function ArcheologyList() {
   const classes = useStyles();
-
   const archeologyList: Array<IArcheology> = getArcheologyList();
 
   return (
-    <TableContainer component={Paper} elevation={0} className={classes.tableContainer}>
-      <Table className={classes.table} aria-label={`archeologyList-Table`}>
+    <Grid container className={classes.tableContainer}>
+      <Table aria-label={`archeologyList-Table`}>
         <TableHead>
           <TableRow>
-            <StyledTableCell align='center'>아이템명</StyledTableCell>
-            <StyledTableCell align='center'>위치</StyledTableCell>
-            <StyledTableCell align='center'>사용방법</StyledTableCell>
-            <StyledTableCell align='center'>수량</StyledTableCell>
-            <StyledTableCell align='center'>보상</StyledTableCell>
+            <StyledTableCell>아이템명</StyledTableCell>
+            <StyledTableCell>위치</StyledTableCell>
+            <StyledTableCell>사용방법</StyledTableCell>
+            <StyledTableCell>수량</StyledTableCell>
+            <StyledTableCell>보상</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -72,20 +69,14 @@ function ArcheologyList() {
               return (
                 <React.Fragment key={archeology.idx}>
                   <StyledTableRow>
-                    <StyledTableCell align='center' rowSpan={rewardCount + 1}>
-                      {archeology.itemName}
-                    </StyledTableCell>
-                    <StyledTableCell align='center' rowSpan={rewardCount + 1}>
-                      {archeology.location}
-                    </StyledTableCell>
-                    <StyledTableCell align='center' rowSpan={rewardCount + 1}>
-                      {archeology.use}
-                    </StyledTableCell>
+                    <StyledTableCell rowSpan={rewardCount + 1}>{archeology.itemName}</StyledTableCell>
+                    <StyledTableCell rowSpan={rewardCount + 1}>{archeology.location}</StyledTableCell>
+                    <StyledTableCell rowSpan={rewardCount + 1}>{archeology.use}</StyledTableCell>
                   </StyledTableRow>
                   {archeology.rewardList.map((reward, idx) => (
                     <StyledTableRow key={idx}>
-                      <StyledTableCell align='center'>{reward.count}</StyledTableCell>
-                      <StyledTableCell align='center'>{reward.name}</StyledTableCell>
+                      <StyledTableCell>{reward.count}</StyledTableCell>
+                      <StyledTableCell>{reward.name}</StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </React.Fragment>
@@ -94,11 +85,11 @@ function ArcheologyList() {
               return (
                 <React.Fragment key={archeology.idx}>
                   <StyledTableRow>
-                    <StyledTableCell align='center'>{archeology.itemName}</StyledTableCell>
-                    <StyledTableCell align='center'>{archeology.location}</StyledTableCell>
-                    <StyledTableCell align='center'>{archeology.use}</StyledTableCell>
-                    <StyledTableCell align='center'>{archeology.rewardList[0].count}</StyledTableCell>
-                    <StyledTableCell align='center'>{archeology.rewardList[0].name}</StyledTableCell>
+                    <StyledTableCell>{archeology.itemName}</StyledTableCell>
+                    <StyledTableCell>{archeology.location}</StyledTableCell>
+                    <StyledTableCell>{archeology.use}</StyledTableCell>
+                    <StyledTableCell>{archeology.rewardList[0].count}</StyledTableCell>
+                    <StyledTableCell>{archeology.rewardList[0].name}</StyledTableCell>
                   </StyledTableRow>
                 </React.Fragment>
               );
@@ -106,7 +97,7 @@ function ArcheologyList() {
           })}
         </TableBody>
       </Table>
-    </TableContainer>
+    </Grid>
   );
 }
 

@@ -16,10 +16,27 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   text: {
-    margin: "0",
+    minWidth: "120px",
+    maxWidth: "160px",
     lineHeight: "40px",
-    paddingLeft: "10px",
-    fontSize: "1rem",
+    margin: "0 10px",
+    padding: "0",
+    fontWeight: "bolder",
+  },
+  input: {
+    minWidth: "240px",
+    maxWidth: "320px",
+    margin: "0 10px",
+    "& input": {
+      height: "40px",
+      padding: "0 10px",
+    },
+  },
+  btn: {
+    minWidth: "240px",
+    maxWidth: "320px",
+    height: "40px",
+    margin: "0 10px",
   },
 }));
 
@@ -80,53 +97,40 @@ function WithdrawUser(props: IProps) {
 
   return (
     <React.Fragment>
-      <Typography variant='h4' style={{ margin: "10px 0 30px 0" }}>
-        회원 탈퇴
-      </Typography>
-      <Grid container spacing={3}>
-        {id && (
-          <React.Fragment>
-            <Grid item xs={12}>
-              <Typography variant='h6' color='error'>
-                ※ 주의 사항 ※
-              </Typography>
-              <Typography variant='body1' color='error' style={{ padding: "10px" }}>
-                탈퇴시 {id}님이 작성한 글은 자동으로 삭제되지 않습니다. <br />
-                탈퇴시 계정 정보가 폐기되므로 추후 복구할 수 없습니다.
-              </Typography>
-            </Grid>
-            <Grid container item xs={12}>
-              <Grid item xs={3} className={classes.text}>
-                비밀번호 확인
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  variant='outlined'
-                  required
-                  fullWidth
-                  autoFocus={true}
-                  size='small'
-                  name='password'
-                  id='password'
-                  type='password'
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  onKeyUp={e => _onEnterPassword(e.keyCode)}
-                />
-              </Grid>
-              <Grid item xs={3}></Grid>
-            </Grid>
-            <Grid container item xs={12}>
-              <Grid item xs={3}></Grid>
-              <Grid item xs={6}>
-                <Button variant='contained' color='secondary' fullWidth onClick={_onWithdraw}>
-                  예, 탈퇴하겠습니다.
-                </Button>
-              </Grid>
-              <Grid item xs={3}></Grid>
-            </Grid>
-          </React.Fragment>
-        )}
+      <Grid container direction='column' style={{ margin: "10px 0", padding: "0" }}>
+        <Typography variant='h4' style={{ marginBottom: "30px" }}>
+          회원 탈퇴
+        </Typography>
+
+        <Typography variant='h6' color='error'>
+          ※ 주의 사항 ※
+        </Typography>
+        <Typography variant='body1' color='error' style={{ margin: "10px" }}>
+          탈퇴시 {id}님이 작성한 글은 자동으로 삭제되지 않습니다. <br />
+          탈퇴시 계정 정보가 즉시 삭제되므로 복구할 수 없습니다.
+        </Typography>
+        <Grid item style={{ height: "50px" }}></Grid>
+        <Grid container item style={{ margin: "10px 0" }}>
+          <Typography className={classes.text}>비밀번호 확인</Typography>
+          <TextField
+            className={classes.input}
+            variant='outlined'
+            required
+            fullWidth
+            autoFocus={true}
+            type='password'
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            onKeyUp={e => _onEnterPassword(e.keyCode)}
+          />
+        </Grid>
+        <Grid container style={{ margin: "10px 0" }}>
+          <Typography className={classes.text}></Typography>
+          <Button variant='contained' color='secondary' fullWidth onClick={_onWithdraw} className={classes.btn}>
+            예, 탈퇴하겠습니다.
+          </Button>
+        </Grid>
+        <Grid item style={{ height: "50px" }}></Grid>
       </Grid>
     </React.Fragment>
   );
