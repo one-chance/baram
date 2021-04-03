@@ -18,25 +18,28 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   text: {
-    width: "90px",
+    width: "70px",
     lineHeight: "40px",
-    margin: "0",
+    marginRight: "5px",
+    fontSize: "0.8rem",
     fontWeight: "bolder",
   },
   btn: {
-    minWidth: "60px",
+    minWidth: "50px",
     height: "36px",
     margin: "2px 0",
     padding: "0",
   },
   box: {
-    width: `calc(100% - 110px)`,
+    width: "225px",
     lineHeight: "40px",
-    margin: "0 5px",
+    fontSize: "0.8rem",
+    marginLeft: "5px",
   },
   input: {
-    width: "290px",
+    width: "225px",
     margin: "0 5px",
+    fontSize: "0.8rem",
     "& input": {
       height: "40px",
       padding: "0 10px",
@@ -89,20 +92,20 @@ function ViewUserInfo(props: IProps) {
 
   return (
     <React.Fragment>
-      <Grid container direction='column' style={{ margin: "10px 0", padding: "0" }}>
-        <Typography variant='h4' style={{ marginBottom: "30px" }}>
+      <Grid container direction='column' style={{ width: "100%", margin: "10px 0", padding: "0" }}>
+        <Typography variant='h4' style={{ marginBottom: "2f0px" }}>
           회원 정보
         </Typography>
 
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>아이디</Typography>
           <span className={classes.box}>{userInfo.id}</span>
         </Grid>
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>이메일</Typography>
           <span className={classes.box}>{userInfo.email}</span>
         </Grid>
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>오픈카톡</Typography>
           {isEdit ? (
             <React.Fragment>
@@ -121,7 +124,7 @@ function ViewUserInfo(props: IProps) {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <span style={{ width: "290px", lineHeight: "40px", margin: "0 5px" }}>{userInfo.openKakao}</span>
+              <span style={{ width: "225px", fontSize: "0.8rem", lineHeight: "40px", marginLeft: "5px" }}>{userInfo.openKakao}</span>
               <Button
                 variant='outlined'
                 color='secondary'
@@ -134,28 +137,28 @@ function ViewUserInfo(props: IProps) {
             </React.Fragment>
           )}
         </Grid>
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>등급</Typography>
           <span className={classes.box}>{userInfo.grade}</span>
         </Grid>
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>포인트</Typography>
           <span className={classes.box}>{userInfo.point}</span>
         </Grid>
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>대표 캐릭터</Typography>
-          <span style={{ width: "290px", margin: "0 5px" }}>
+          <span style={{ width: "225px", marginLeft: "5px", fontSize: "0.8rem" }}>
             {userInfo.titleAccount ? `${userInfo.titleAccount.character}@${userInfo.titleAccount.server}` : "　"}
           </span>
           <Button variant='outlined' color='secondary' className={classes.btn} href='/myinfo/auth'>
             변경
           </Button>
         </Grid>
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>회원 가입일</Typography>
           <span className={classes.box}>{getStringByDate(userInfo.createDate, true)}</span>
         </Grid>
-        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
+        <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 2.5px" }}>
           <Typography className={classes.text}>정보 수정일</Typography>
           <span className={classes.box}>{getStringByDate(userInfo.editDate, true)}</span>
         </Grid>

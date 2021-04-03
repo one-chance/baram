@@ -127,7 +127,7 @@ export default function Engrave() {
   });
 
   const changeSelect = (event: React.ChangeEvent<{ value: unknown }>, id: number) => {
-    let eVal: number[] = [0, 11.1, 54.5, 45.5, 11.1, 8.76, 8.64, 8.3, 5.15, 5.15, 4.175, 4.175, 71, 0, 0, 0];
+    let eVal: number[] = [0, 11.1, 54.6, 45.4, 11.1, 8.76, 8.76, 8.3, 5.15, 5.15, 4.175, 4.175, 71, 0, 0, 0];
     let input: number = event.target.value as number;
     engraveSlotList[id] = { num: input, type: eVal[input], value: 0, power: 0 };
     setEngraveSlotList([...engraveSlotList]);

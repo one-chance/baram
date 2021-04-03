@@ -10,6 +10,7 @@ import IUserInfo from "interfaces/User/IUserInfo";
 
 import NoAuth from "pages/User/NoAuth";
 import ViewUserInfo from "components/User/ViewUserInfo";
+import ViewUserInfoSmall from "components/User/ViewUserInfoSmall";
 import AuthAccount from "components/User/AuthAccount";
 import ChagnePassword from "components/User/ChagnePassword";
 import WithdrawUser from "components/User/WithdrawUser";
@@ -126,7 +127,7 @@ function MyInfo({ match }: any) {
                 </Menus>
               </Grid>
               <Grid item container style={{ margin: "10px 5px" }}>
-                {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
+                {mode === "view" && <ViewUserInfoSmall userInfo={userInfo} />}
                 {mode === "auth" && <AuthAccount userInfo={userInfo} />}
                 {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
                 {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
