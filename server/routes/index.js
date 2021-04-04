@@ -5,6 +5,7 @@ const user = require("./user");
 const cal = require("./cal");
 const free = require("./Board/free");
 const tip = require("./Board/tip");
+const trade = require("./Board/trade");
 const market = require("./Auction/market");
 
 const authMiddleware = require("../middleware/auth");
@@ -27,6 +28,7 @@ router.use("/user", user);
 
 router.use("/board/free", free);
 router.use("/board/tip", tip);
+router.use("/board/trade", trade);
 
 router.use("/auction/market", market);
 

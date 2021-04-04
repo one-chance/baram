@@ -20,6 +20,8 @@ import FreeBoard from "pages/Board/Free/FreeBoard";
 import FreePostView from "pages/Board/Free/FreePostView";
 import TipBoard from "pages/Board/Tip/TipBoard";
 import TipPostView from "pages/Board/Tip/TipPostView";
+import TradeBoard from "pages/Board/Trade/TradeBoard";
+import TradePostView from "pages/Board/Trade/TradePostView";
 import Write from "pages/Board/Write";
 
 // Dictionary
@@ -107,6 +109,8 @@ function App() {
                 <Route exact path='/board/free/:seq' component={FreePostView} />
                 <Route exact path='/board/tip' component={TipBoard} />
                 <Route exact path='/board/tip/:seq' component={TipPostView} />
+                <Route exact path='/board/trade' component={TradeBoard} />
+                <Route exact path='/board/trade/:seq' component={TradePostView} />
                 <Route exact path='/board/write' component={Write} />
                 <Route exact path='/board/write/:tab' component={Write} />
                 <Route exact path='/board/write/:tab/:seq' component={Write} />

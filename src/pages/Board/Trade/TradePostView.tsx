@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
 
@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: "10px",
     width: "100%",
+    marginBottom: "50px",
   },
   editBox: {
     marginTop: "10px",
@@ -34,17 +35,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const duration = 2000;
-const category = "tip";
+const category = "trade";
 
-function TipPostView({ match }: any) {
+function TradeBoardView({ match }: any) {
   const classes = useStyles();
   const { seq } = match.params;
-  const commentList = useRecoilValue(CommentListState);
+  const [commentList, setCommentList] = useRecoilState(CommentListState);
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
   const [openConfirm, setOpenConfirm] = React.useState(false);
   const [post, setPost] = React.useState<IPost>();
+
+  useEffect(() => {
+    _onLoad();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (post && post.commentList && post.commentList.length > 0) setCommentList(post.commentList);
+    // eslint-disable-next-line
+  }, [post]);
 
   const _onLoad = async () => {
     const res = await getPost(category, seq);
@@ -95,11 +106,6 @@ function TipPostView({ match }: any) {
     delPost();
   };
 
-  useEffect(() => {
-    _onLoad();
-    // eslint-disable-next-line
-  }, []);
-
   return (
     <Container className={classes.root}>
       {post ? (
@@ -134,4 +140,4 @@ function TipPostView({ match }: any) {
   );
 }
 
-export default TipPostView;
+export default TradeBoardView;

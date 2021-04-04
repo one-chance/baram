@@ -1,5 +1,6 @@
 import IWriter from 'interfaces/Common/IWriter';
 import IComment from 'interfaces/Board/IComment';
+import { ServerType } from 'interfaces/Common/IServer';
 
 export type CategoryType =
   | "tip"
@@ -7,11 +8,13 @@ export type CategoryType =
   | "screenshot"
   | "server"
   | "offer"
-  | "job";
+  | "job"
+  | "trade";
 
 interface IPost {
   seq?: number,
   category: CategoryType,
+  server?: ServerType,
   title: string,
   content: string,
   writer: IWriter,
