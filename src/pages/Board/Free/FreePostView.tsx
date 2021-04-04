@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 const duration = 2000;
 const category = "free";
 
-function FreeBoard({ match }: any) {
+function FreePostView({ match }: any) {
   const classes = useStyles();
   const { seq } = match.params;
   const [commentList, setCommentList] = useRecoilState(CommentListState);
@@ -140,4 +140,4 @@ function FreeBoard({ match }: any) {
   );
 }
 
-export default FreeBoard;
+export default FreePostView;

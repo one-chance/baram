@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { getSessionNameUserToken } from 'utils/ConfigUtil';
+import IServer from 'interfaces/Common/IServer';
 
 export const checkServerError = (res: any) => {
   
@@ -116,7 +117,6 @@ export const getMMDDByDate = (date: Date | undefined) => {
 // 2. 서버 위치에 업로드
 // 3. 업로드 된 경로로 img src 경로 변경
 // 4. 서버 저장
-
 export const checkUploadImage = async (content: any) => {
 
   const imgs: Array<string> = [];
@@ -293,6 +293,18 @@ export const getVisitCount = async () => {
   return r;
 }
 
+export const getServerList = () => {
+  const serverList: Array<IServer> = [
+    { key: 'yeon', name: '연'},
+    { key: 'hodong', name: '호동'},
+    { key: 'haja', name: '하자'},
+    { key: 'yuri', name: '유리'},
+    { key: 'muhyul', name: '무휼'},
+    { key: 'jin', name: '진'},
+  ];
+
+  return serverList;
+}
 
 /*
 * JWT 구조
