@@ -42,9 +42,8 @@ export default function Ability() {
     <React.Fragment>
       <Grid container direction='column' style={{ padding: "0", margin: "0" }}>
         <div style={{ margin: "10px 0", padding: "5px", color: "blue", textAlign: "center", fontSize: "1.2rem" }}>
-          <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 환수시동 } * %돋 + 한벌효과 + 마법 + 물약 + 칭호 + 가문특성`}</span>
-          <br />
-          <span> {`※ 방어도는 마법도 %돋에 영향 받음, 공식에 품의 효과를 반영하지 않아 오차가 존재함 (언젠간 수정할 듯) ※`}</span>
+          <span>{`최종 능력치 = { 직업 스텟 + 장비 스텟(템+ 각인 + 황돋 + 신수) or 신체각성 + 환수시동 } * %돋 + 한벌효과 + 칭호 + ( 마법 + 물약 + 가문특성 )`}</span>
+          <span>{`최종 능력치 = (A + B or B' +  C ) x D + E`}</span>
         </div>
 
         <Grid item style={{ margin: "5px 0", padding: "0" }}>
@@ -126,6 +125,15 @@ export default function Ability() {
 
           <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
             <Typography variant='h6' className={classes.title}>
+              칭호 효과
+            </Typography>
+            <div id='titleStat' className={classes.box}>
+              <TitleStat />
+            </div>
+          </Grid>
+
+          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
+            <Typography variant='h6' className={classes.title}>
               마법 수치
             </Typography>
             <div id='skillStat' className={classes.box}>
@@ -139,15 +147,6 @@ export default function Ability() {
             </Typography>
             <div id='potionStat' className={classes.box}>
               <PotionStat />
-            </div>
-          </Grid>
-
-          <Grid item container direction='row' alignItems='center' style={{ margin: "10px 0", padding: "0" }}>
-            <Typography variant='h6' className={classes.title}>
-              칭호 효과
-            </Typography>
-            <div id='titleStat' className={classes.box}>
-              <TitleStat />
             </div>
           </Grid>
 

@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import "./App.css";
 
 import Container from "@material-ui/core/Container";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import NoAuth from "pages/User/NoAuth";
 import Header from "components/Semantic/Header";
 import Footer from "components/Semantic/Footer";
+import Navigation from "components/Semantic/Navigation";
 import Home from "pages/Home";
 
 // User
@@ -60,12 +62,28 @@ const useStyles = makeStyles(theme => ({
     height: "15vh",
     padding: "0",
   },
+  header2: {
+    zIndex: 10,
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: "60px",
+    padding: "0",
+  },
   root: {
     width: "100%",
     minHeight: "70vh",
     position: "relative",
     zIndex: 1,
     marginTop: "15vh",
+    padding: "10px 0.75vw",
+  },
+  root2: {
+    width: "100%",
+    position: "relative",
+    zIndex: 1,
+    marginTop: "30px",
     padding: "10px 0.75vw",
   },
   footer: {
@@ -79,6 +97,8 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   useEffect(() => {
     // 토큰 자동갱신 실행
@@ -89,12 +109,19 @@ function App() {
     <div>
       <div>
         <header>
-          <div className={classes.header}>
-            <Header />
-          </div>
+          {smallScreen ? (
+            <div className={classes.header2}>
+              <Navigation />
+            </div>
+          ) : (
+            <div className={classes.header}>
+              <Header />
+            </div>
+          )}
         </header>
         <main>
-          <Container className={classes.root}>
+          <nav>123</nav>
+          <Container className={smallScreen ? classes.root2 : classes.root}>
             <BrowserRouter>
               <Switch>
                 {/*Home*/}

@@ -148,7 +148,7 @@ export default function Header() {
           <Button className={classes.btn} onClick={_onMoveToMain}>
             Home
           </Button>
-
+          <Typography style={{ fontFamily: "Jua", fontSize: "2rem" }}>ㄷㅌ</Typography>
           {signInUserId ? (
             <Grid item style={{ margin: "0", padding: "0" }}>
               <Button className={classes.btn} onClick={_onLogoutUser}>

@@ -6,20 +6,20 @@ import AnimalState from "state/Calculator/Ability/AnimalState";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 
 const useStyles = makeStyles({
   stat: {
-    width: "60px",
-    margin: "5px 0",
+    width: "100px",
+    margin: "5px 10px",
     textAlignLast: "center",
     "& input": {
       height: "40px",
       padding: "0",
       textAlign: "center",
+      fontSize: "1rem",
     },
     "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
       display: "none",
@@ -129,11 +129,10 @@ export default function AnimalStat() {
 
   return (
     <React.Fragment>
-      <Link style={{ lineHeight: "40px", margin: "5px 10px", textDecoration: "none", color: "black", fontSize: "1rem" }}>무기</Link>
       <TextField
         variant='outlined'
         type='number'
-        placeholder='등급'
+        placeholder='무기 등급'
         className={classes.stat}
         value={stat.s1 || ""}
         onChange={e => {
@@ -144,11 +143,10 @@ export default function AnimalStat() {
           }
         }}
       />
-      <Link style={{ lineHeight: "40px", margin: "5px 10px", textDecoration: "none", color: "black", fontSize: "1rem" }}>투구</Link>
       <TextField
         variant='outlined'
         type='number'
-        placeholder='등급'
+        placeholder='투구 등급'
         value={stat.s2 || ""}
         className={classes.stat}
         onChange={e => {
@@ -159,11 +157,10 @@ export default function AnimalStat() {
           }
         }}
       />
-      <Link style={{ lineHeight: "40px", margin: "5px 10px", textDecoration: "none", color: "black", fontSize: "1rem" }}>갑옷</Link>
       <TextField
         variant='outlined'
         type='number'
-        placeholder='등급'
+        placeholder='갑옷 등급'
         value={stat.s3 || ""}
         className={classes.stat}
         onChange={e => {
@@ -174,25 +171,24 @@ export default function AnimalStat() {
           }
         }}
       />
-      <Link style={{ lineHeight: "40px", margin: "5px 10px", textDecoration: "none", color: "black", fontSize: "1rem" }}>장갑</Link>
       <TextField
         variant='outlined'
         type='number'
-        placeholder='개수'
+        placeholder='장갑 개수'
         value={stat.s4 || ""}
         className={classes.stat}
         onChange={e => {
-          if (e.target.value === "" || e.target.value === "-") {
-            inputStat(0, 4);
-          } else {
+          if (Number(e.target.value) === 1 || Number(e.target.value) === 2) {
             inputStat(Number(e.target.value), 4);
+          } else {
+            inputStat(0, 4);
           }
         }}
       />
       <Button
         variant='contained'
         color='secondary'
-        style={{ minWidth: "40px", height: "40px", margin: "5px 10px 5px 15px", boxShadow: "none" }}
+        style={{ minWidth: "40px", height: "40px", margin: "5px 10px", boxShadow: "none" }}
         onClick={() => {
           setOpenHelper(true);
         }}>
