@@ -6,4 +6,3 @@ export default interface IItemInfo {
   op3: number,
   power: number,
 }
-  

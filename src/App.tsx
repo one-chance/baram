@@ -44,7 +44,9 @@ import TermsOfService from "components/TermsOfService";
 import MyAlert from "elements/Alert/MyAlert";
 import MyBackdrop from "elements/Backdrop/MyBackdrop";
 
+// Auction
 import AuctionMarket from "pages/Auction/Market/MarketBoard";
+import AuctionMarketWrite from "pages/Auction/Market/MarketBoardWrite";
 
 import { refreshToken } from "utils/CommonUtil";
 
@@ -128,6 +130,7 @@ function App() {
 
                 {/*Auction*/}
                 <Route path='/auction/market' component={AuctionMarket} />
+                <Route path='/auction/write' component={AuctionMarketWrite} />
 
                 {/*MyInfo*/}
                 <Route path='/myinfo/:tab' component={MyInfo} />

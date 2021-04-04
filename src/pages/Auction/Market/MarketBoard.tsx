@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import IMarketItem from "interfaces/Auction/IMarketItem";
+import IMarketContent from "interfaces/Auction/IMarketContent";
 import MarketDataGrid from "components/Auction/MarketDataGrid";
 import {getMarketItemsDummy} from "utils/AuctionUtil";
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 function MarketBoard() {
   const classes = useStyles();
-  const [posts, setPosts] = React.useState<Array<IMarketItem>>([]);
+  const [posts, setPosts] = React.useState<Array<IMarketContent>>([]);
 
   const _onLoad = async () => {
     setPosts(await getMarketItemsDummy());
