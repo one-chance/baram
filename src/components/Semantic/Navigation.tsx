@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   btn: {
     minWidth: "70px",
     lineHeight: "40px",
-    backgroundColor: "transparent",
+    textTransform: "none",
     fontFamily: "Do Hyeon",
     fontSize: "1.2rem",
     margin: "0",
@@ -133,25 +133,25 @@ export default function Header() {
   const menuList = (anchor: Anchor) => (
     <div role='presentation' onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       {signInUserId ? (
-        <div style={{ height: "40px", backgroundColor: "white", margin: "0", padding: "0" }}>
+        <Grid container justify='space-around' style={{ height: "40px", backgroundColor: "white", margin: "0", padding: "0" }}>
+          <Button className={classes.btn} style={{ fontSize: "1rem", color: "blue" }} disabled>
+            {signInUserId}
+          </Button>
+          <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0", float: "left" }} />
           <Button className={classes.btn} onClick={_onLogoutUser}>
             로그아웃
           </Button>
-          <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0 4px", float: "left" }} />
-          <Button className={classes.btn} style={{ color: "blue" }} disabled>
-            {signInUserId}
-          </Button>
-        </div>
+        </Grid>
       ) : (
-        <div style={{ height: "40px", backgroundColor: "white", margin: "0", padding: "0" }}>
+        <Grid container justify='space-around' style={{ height: "40px", backgroundColor: "white", margin: "0", padding: "0" }}>
           <Button className={classes.btn} onClick={_onSignInOpen}>
             로그인
           </Button>
-          <Divider orientation='vertical' style={{ width: "2px", margin: "0 4px", float: "left" }} />
+          <Divider orientation='vertical' style={{ width: "2px", margin: "0", float: "left" }} />
           <Button className={classes.btn} onClick={_onMoveSignUp}>
             회원가입
           </Button>
-        </div>
+        </Grid>
       )}
 
       <div className={classes.text}>
