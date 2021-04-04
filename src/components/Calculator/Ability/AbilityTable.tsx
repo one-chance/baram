@@ -39,9 +39,9 @@ export default function AbilityTable() {
   const awakState = useRecoilValue(AwakState);
   const petState = useRecoilValue(PetState);
   const pairState = useRecoilValue(PairState);
+  const titleState = useRecoilValue(TitleState);
   const skillState = useRecoilValue(SkillState);
   const potionState = useRecoilValue(PotionState);
-  const titleState = useRecoilValue(TitleState);
   const familyState = useRecoilValue(FamilyState);
   const [totalState, setTotalState] = useState([0, 0, 0, 0, 0, 0]); // 최종 합산 스텟
   var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"]; // 스텟 종류
@@ -85,20 +85,22 @@ export default function AbilityTable() {
   ]);
 
   return (
-    <Grid container spacing={0} style={{ border: "1px solid gray", borderRadius: "10px", margin: "0", padding: "5px" }}>
-      <Grid container item xs={1} direction='column'>
-        <Typography className={classes.title}></Typography>
-        {statList.map((name: string) => {
-          return (
-            <Typography key={name} className={classes.title}>
-              {name}
-            </Typography>
-          );
-        })}
-      </Grid>
-      <Grid container item xs={10} direction='column' className={classes.title}>
-        <Grid item>
-          <Typography className={classes.title}> 직업 스텟 </Typography>
+    <>
+      <div style={{ border: "1px solid gray", borderRadius: "10px", margin: "0 5px", padding: "5px", float: "left" }}>
+        <div style={{ width: "100px", float: "left" }}>
+          <Typography className={classes.title}></Typography>
+          {statList.map((name: string) => {
+            return (
+              <Typography key={name} className={classes.title}>
+                {name}
+              </Typography>
+            );
+          })}
+        </div>
+      </div>
+      <div style={{ border: "1px solid gray", borderRadius: "10px", margin: "0 5px", padding: "5px", float: "left" }}>
+        <div style={{ width: "100px", float: "left" }}>
+          <Typography className={classes.title}>직업 스텟</Typography>
           {charState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
@@ -106,120 +108,206 @@ export default function AbilityTable() {
               </Typography>
             );
           })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>아이템</Typography>
-          {equipState.map((stat: number, idx: number) => {
+        </div>
+      </div>
+      <div style={{ border: "1px solid gray", borderRadius: "10px", margin: "0 5px", padding: "5px", float: "left" }}>
+        <div style={{ width: "100px", float: "left" }}>
+          <Typography className={classes.title}>일반 장비</Typography>
+          {charState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
                 {stat}
               </Typography>
             );
           })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>각인</Typography>
-          {engraveState.map((stat: number, idx: number) => {
+        </div>
+        <div style={{ width: "100px", float: "left" }}>
+          <Typography className={classes.title}>각인 수치</Typography>
+          {charState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
                 {stat}
               </Typography>
             );
           })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>황돋</Typography>
-          {goldState1.map((stat: number, idx: number) => {
+        </div>
+        <div style={{ width: "100px", float: "left" }}>
+          <Typography className={classes.title}>황돋 장비</Typography>
+          {charState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
                 {stat}
               </Typography>
             );
           })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>신수</Typography>
-          {animalState.map((stat: number, idx: number) => {
+        </div>
+        <div style={{ width: "100px", float: "left" }}>
+          <Typography className={classes.title}>신수 장비</Typography>
+          {charState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
                 {stat}
               </Typography>
             );
           })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>신체각성</Typography>
-          {awakState.map((stat: number, idx: number) => {
+        </div>
+        <div style={{ width: "100px", float: "left" }}>
+          <Typography className={classes.title}>장비 합계</Typography>
+          {charState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
                 {stat}
               </Typography>
             );
           })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>환수 시동</Typography>
-          {petState.map((stat: number, idx: number) => {
+        </div>
+      </div>
+      <Grid container spacing={0} style={{ border: "1px solid gray", borderRadius: "10px", margin: "0", padding: "5px" }}>
+        <Grid container item xs={1} direction='column'>
+          <Typography className={classes.title}></Typography>
+          {statList.map((name: string) => {
             return (
-              <Typography key={idx} className={classes.title}>
-                {stat}
+              <Typography key={name} className={classes.title}>
+                {name}
               </Typography>
             );
           })}
         </Grid>
-        <Grid item>
-          <Typography className={classes.title}>%돋</Typography>
-          {goldState2.map((stat: number, idx: number) => {
-            return (
-              <Typography key={idx} className={classes.title}>
-                {stat}
-              </Typography>
-            );
-          })}
+        <Grid container item xs={10} direction='column' className={classes.title}>
+          <Grid item>
+            <Typography className={classes.title}> 직업 스텟 </Typography>
+            {charState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>아이템</Typography>
+            {equipState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>각인</Typography>
+            {engraveState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>황돋</Typography>
+            {goldState1.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>신수</Typography>
+            {animalState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>신체각성</Typography>
+            {awakState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>환수 시동</Typography>
+            {petState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>%돋</Typography>
+            {goldState2.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>한벌 효과</Typography>
+            {pairState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>칭호</Typography>
+            {titleState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>마법</Typography>
+            {skillState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>물약</Typography>
+            {potionState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <Typography className={classes.title}>가문특성</Typography>
+            {familyState.map((stat: number, idx: number) => {
+              return (
+                <Typography key={idx} className={classes.title}>
+                  {stat}
+                </Typography>
+              );
+            })}
+          </Grid>
         </Grid>
-        <Grid item>
-          <Typography className={classes.title}>한벌 효과</Typography>
-          {pairState.map((stat: number, idx: number) => {
-            return (
-              <Typography key={idx} className={classes.title}>
-                {stat}
-              </Typography>
-            );
-          })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>마법</Typography>
-          {skillState.map((stat: number, idx: number) => {
-            return (
-              <Typography key={idx} className={classes.title}>
-                {stat}
-              </Typography>
-            );
-          })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>물약</Typography>
-          {potionState.map((stat: number, idx: number) => {
-            return (
-              <Typography key={idx} className={classes.title}>
-                {stat}
-              </Typography>
-            );
-          })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>칭호</Typography>
-          {titleState.map((stat: number, idx: number) => {
-            return (
-              <Typography key={idx} className={classes.title}>
-                {stat}
-              </Typography>
-            );
-          })}
-        </Grid>
-        <Grid item>
-          <Typography className={classes.title}>가문특성</Typography>
-          {familyState.map((stat: number, idx: number) => {
+        <Grid container item xs={1} direction='column'>
+          <Typography className={classes.title}>합 계</Typography>
+          {totalState.map((stat: number, idx: number) => {
             return (
               <Typography key={idx} className={classes.title}>
                 {stat}
@@ -228,16 +316,6 @@ export default function AbilityTable() {
           })}
         </Grid>
       </Grid>
-      <Grid container item xs={1} direction='column'>
-        <Typography className={classes.title}>합 계</Typography>
-        {totalState.map((stat: number, idx: number) => {
-          return (
-            <Typography key={idx} className={classes.title}>
-              {stat}
-            </Typography>
-          );
-        })}
-      </Grid>
-    </Grid>
+    </>
   );
 }
