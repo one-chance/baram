@@ -7,7 +7,8 @@ export type CategoryType =
   | "screenshot"
   | "server"
   | "offer"
-  | "job";
+  | "job"
+  | "trade";
 
 interface IPost {
   seq?: number,

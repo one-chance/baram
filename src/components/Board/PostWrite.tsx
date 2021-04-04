@@ -189,6 +189,7 @@ function PostWrite(props: IProps) {
               <Menus value={"server"}>서버게시판</Menus>
               <Menus value={"offer"}>구인게시판</Menus>
               <Menus value={"job"}>직업게시판</Menus>
+              <Menus value={"trade"}>거래게시판</Menus>
             </Select>
           </Grid>
           <Grid item xs={4}></Grid>

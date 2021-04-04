@@ -339,10 +339,8 @@ export const DeleteRecomment = async (post: IPost, commentIdx: number, recomment
 
 // NOTE 게시글 리스트 조회
 export const getPosts = async (_category: CategoryType, _filterUri?: string) => {
-
   let posts: Array<IPost> = [];
 
-  // await axios.get(`/api/board/free/find?${filter}`)
   await axios.get(`/api/board/${_category}/find?${_filterUri}`)
     .then((res) => {
       if (res.data.code === 200) {
@@ -397,6 +395,8 @@ export const getCategoryName = (_category: CategoryType) => {
       return "구인구직게시판";
     case "job":
       return "직업게시판";
+    case "trade":
+      return "거래게시판";
     default:
       break;
   }
