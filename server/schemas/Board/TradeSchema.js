@@ -33,7 +33,8 @@ const tradeSchema = new mongoose.Schema({
   commentCount: { type: Number, required: false, default: 0},
   commentList: [{ type: commentSchema, required: false, unique: false }],
   recommendUserList: [{ type: String, required: false }],
-  imgs: [{type: String}]
+  imgs: [{type: String}],
+  server: { type: String, required: false }
 });
 
 tradeSchema.plugin(autoIncrement.plugin, {

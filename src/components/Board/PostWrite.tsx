@@ -23,6 +23,8 @@ import { CategoryType } from "interfaces/Board/IPost";
 import { CreatePost, EditPost, getPost } from "utils/PostUtil";
 
 import * as CommonUtil from "utils/CommonUtil";
+import IServer from "interfaces/Common/IServer";
+import { getServerList } from 'utils/CommonUtil';
 
 interface IProps {
   tab: CategoryType;
@@ -117,6 +119,35 @@ function PostWrite(props: IProps) {
   const [content, setContent] = useState("");
   const [post, setPost] = useState<IPost>();
 
+  const [server, setServer] = useState<IServer>();
+  const serverList = getServerList();
+  useEffect(() => {
+    const init = async () => {
+      if (tab) 
+        setCategory(tab);
+
+      if (tab === 'trade')
+        setServer(serverList[0]);
+
+      if (seq) {
+        const res: IPost | null = await getPost(category, seq);
+        if (res) {
+          if (res.writer.key !== CommonUtil.getNowKey()) {
+            alert("수정 권한이 없습니다.");
+            window.location.href = `/board/${category}/${seq}`;
+
+            return false;
+          }
+
+          setTitle(res.title);
+          setContent(res.content);
+          setPost(res);
+        }
+      }
+    };
+    init();
+  }, [category, seq, tab]);
+
   const _onCancle = () => {
     setCategory("free");
     setTitle("");
@@ -129,7 +160,11 @@ function PostWrite(props: IProps) {
   const _onWrite = async () => {
     setMyBackdrop(true);
 
-    const res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
+    let res: any;
+    if (server)
+      res = seq ? await EditPost(title, content, post, server.key) : await CreatePost(category, title, content, server.key);
+    else
+      res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
 
     if (res.code === 200) {
       setMyAlert({
@@ -154,29 +189,6 @@ function PostWrite(props: IProps) {
     }
   };
 
-  useEffect(() => {
-    const init = async () => {
-      if (tab) setCategory(tab);
-
-      if (seq) {
-        const res: IPost | null = await getPost(category, seq);
-        if (res) {
-          if (res.writer.key !== CommonUtil.getNowKey()) {
-            alert("수정 권한이 없습니다.");
-            window.location.href = `/board/${category}/${seq}`;
-
-            return false;
-          }
-
-          setTitle(res.title);
-          setContent(res.content);
-          setPost(res);
-        }
-      }
-    };
-    init();
-  }, [category, seq, tab]);
-
   return (
     <React.Fragment>
       <Container className={classes.root}>
@@ -192,7 +204,17 @@ function PostWrite(props: IProps) {
               <Menus value={"trade"}>거래게시판</Menus>
             </Select>
           </Grid>
-          <Grid item xs={4}></Grid>
+          { category === 'trade' ?
+            <Grid item xs={4}>
+              <Select variant='outlined' id='server' value={server ? server.key : ''} className={classes.selector}>
+                { serverList.map((sv) => 
+                  <Menus value={sv.key} onClick={() => setServer(sv)}>{sv.name}</Menus>
+                )}
+              </Select>
+            </Grid>
+            :
+            <Grid item xs={4}></Grid>
+          }
           <Grid item xs={5} style={{ textAlign: "right" }}>
             <Button
               variant='contained'

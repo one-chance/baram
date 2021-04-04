@@ -5,12 +5,13 @@ import { getSignInUserKey, getSignInUserId } from 'utils/UserUtil';
 import * as CommonUtil from 'utils/CommonUtil';
 
 import { CategoryType } from 'interfaces/Board/IPost';
+import { ServerType } from 'interfaces/Common/IServer';
 import IComment from 'interfaces/Board/IComment';
 import IRecomment from 'interfaces/Board/IRecomment';
 
 // NOTE 게시글 생성
-export const CreatePost = async (_category: CategoryType, _title: string, _content: string) => {
-  const post: IPost = {
+export const CreatePost = async (_category: CategoryType, _title: string, _content: string, _server?: ServerType) => {
+  let post: IPost = {
     category: _category,
     title: _title,
     content: _content,
@@ -18,7 +19,8 @@ export const CreatePost = async (_category: CategoryType, _title: string, _conte
     viewCount: 0,
     commentCount: 0,
     commentList: [],
-    recommendUserList: []
+    recommendUserList: [],
+    server: _server
   }
 
   const up = await CommonUtil.checkUploadImage(_content);
@@ -49,12 +51,13 @@ export const CreatePost = async (_category: CategoryType, _title: string, _conte
 }
 
 // NOTE 게시글 수정
-export const EditPost = async (_title: string, _content: string, _post?: IPost) => {
+export const EditPost = async (_title: string, _content: string, _post?: IPost, _server?: ServerType) => {
   if (_post) {
     const post: IPost = {
       ..._post,
       title: _title,
-      content: _content
+      content: _content,
+      server: _server
     }
   
     const up = await CommonUtil.checkUploadImage(_content);

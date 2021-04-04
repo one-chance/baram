@@ -577,6 +577,11 @@ router.get("/find", (req, res) => {
   if (req.query.writer) {
     filter["writer.id"] = { $regex: req.query.writer };
   }
+  if (req.query.server) {
+    filter = {
+      server: { $regex: req.query.server}
+    }
+  }
 
   TradeSchema.findByFilter(filter)
     .then(posts => {
