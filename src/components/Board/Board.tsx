@@ -87,10 +87,10 @@ const cols: ColDef[] = [
 ];
 
 const cols2: ColDef[] = [
-  { field: "title", headerName: "제목", type: "string", width: 250, sortable: false, headerAlign: "center" },
+  { field: "title", headerName: "제목", type: "string", width: 230, sortable: false, headerAlign: "center" },
   { field: "viewCount", headerName: "조회수", type: "number", width: 70, headerAlign: "center", align: "center" },
-  { field: "writer", headerName: "작성자", type: "string", width: 70, sortable: false, headerAlign: "center", align: "center" },
-  { field: "createDate", headerName: "작성일", type: "date", width: 120, headerAlign: "center", align: "center" },
+  { field: "writer", headerName: "작성자", type: "string", width: 90, sortable: false, headerAlign: "center", align: "center" },
+  { field: "createDate", headerName: "작성일", type: "date", width: 90, headerAlign: "center", align: "center" },
 ];
 
 function CustomHeader() {
