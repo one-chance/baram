@@ -247,7 +247,7 @@ export default function SignUp() {
   return (
     <React.Fragment>
       <form>
-        <Grid container direction='column' justify='center' style={{ padding: "0", margin: "20px 0" }}>
+        <Grid container direction='column' justify='center' style={{ maxWidth: "800px", padding: "0", margin: "20px auto" }}>
           <Typography style={{ margin: "0 0 40px 0", textAlign: "center", fontSize: "2rem" }}>회원가입</Typography>
           <Grid item container justify='center' style={{ minHeight: "62px", margin: "5px 0" }}>
             <Typography className={classes.text}>아이디</Typography>
@@ -384,8 +384,8 @@ export default function SignUp() {
           </Grid>
 
           <Divider style={{ width: "70%", margin: "10px 15%" }} />
-          <Grid item container justify='center' style={{ margin: "10px 0" }}>
-            <Typography className={classes.text} style={{ marginBottom: "0" }}>
+          <Grid item container justify='center' style={{ margin: "5px 0" }}>
+            <Typography className={classes.text} style={{ margin: "7.5px 20px 7.5px 0" }}>
               약관 동의
             </Typography>
             <Button
@@ -395,7 +395,7 @@ export default function SignUp() {
               onClick={() => {
                 setOpenService(true);
               }}
-              style={{ minWidth: "180px", height: "40px", padding: "5px 0", marginRight: "20px" }}>
+              style={{ minWidth: "180px", height: "40px", padding: "5px 0", margin: "5px 20px 5px 0" }}>
               서비스 이용약관
             </Button>
             <Button
@@ -405,22 +405,22 @@ export default function SignUp() {
               onClick={() => {
                 setOpenPrivacy(true);
               }}
-              style={{ minWidth: "180px", height: "40px", padding: "5px 0", marginLeft: "20px" }}>
+              style={{ minWidth: "180px", height: "40px", padding: "5px 0", margin: "5px 0 5px 20px" }}>
               개인정보처리방침
             </Button>
-            <Typography className={classes.text2} style={{ width: "150px", marginBottom: "0" }}></Typography>
+            <Typography className={classes.text2} style={{ width: "150px", margin: "7.5px 0 7.5px 20px" }}></Typography>
           </Grid>
           <Divider style={{ width: "70%", margin: "10px 15%" }} />
 
-          <Grid item container justify='center' style={{ margin: "20px 0" }}>
-            <Button variant='outlined' color='default' href='/' style={{ width: "300px", height: "50px", fontSize: "1.2rem", margin: "0 10px" }}>
+          <Grid item container justify='center' style={{ margin: "10px 0" }}>
+            <Button variant='outlined' color='default' href='/' style={{ width: "300px", height: "50px", fontSize: "1.2rem", margin: "5px 10px" }}>
               취소
             </Button>
             <Button
               variant='contained'
               color='primary'
               onClick={_onClickSignUp}
-              style={{ width: "300px", height: "50px", fontSize: "1.2rem", margin: "0 10px" }}>
+              style={{ width: "300px", height: "50px", fontSize: "1.2rem", margin: "5px 10px" }}>
               가입하기
             </Button>
           </Grid>

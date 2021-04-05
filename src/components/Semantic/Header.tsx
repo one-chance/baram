@@ -215,9 +215,7 @@ export default function Header() {
               <a href='#1' onClick={_prepare}>
                 거래소
               </a>
-              <a href='/board/trade'>
-                거래 게시판
-              </a>
+              <a href='/board/trade'>거래 게시판</a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>

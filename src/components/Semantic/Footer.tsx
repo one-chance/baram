@@ -1,12 +1,18 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles(theme => ({
   footerWrapper: {
     width: "70vw",
     padding: "0",
     margin: "0 15vw",
+  },
+  footerWrapper2: {
+    width: "90vw",
+    padding: "0",
+    margin: "0 5vw",
   },
   boxWrapper: {
     display: "block",
@@ -20,11 +26,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function Footer() {
   const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <>
       <Divider />
-      <div className={classes.footerWrapper}>
+      <div className={smallScreen ? classes.footerWrapper2 : classes.footerWrapper}>
         <div className={classes.boxWrapper}>
           <a href='/termsofservice' style={{ textDecoration: "none", color: "black" }}>
             이용약관

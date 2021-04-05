@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     left: 0,
     right: 0,
-    height: "15vh",
+    height: "120px",
     padding: "0",
   },
   header2: {

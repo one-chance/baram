@@ -1,7 +1,7 @@
 import React from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { DataGrid, RowsProp, ColDef, GridOverlay, BaseComponentProps } from "@material-ui/data-grid";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
@@ -13,6 +13,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import IconButton from "@material-ui/core/IconButton";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import SearchIcon from "@material-ui/icons/Search";
 
 import MyGridDivider from "elements/Grid/MyGridDivider";
@@ -38,12 +39,19 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bold",
     lineHeight: "30px",
   },
+  box: {
+    width: "1010px",
+    height: "630px",
+  },
+  box2: {
+    height: "560px",
+  },
   datagrid: {
     "& .title": {
       paddingLeft: "30px",
     },
     "& .MuiDataGrid-footer": {
-      padding: "0 5px",
+      padding: "0",
       margin: "0",
       align: "center",
     },
@@ -53,6 +61,9 @@ const useStyles = makeStyles(theme => ({
     },
     "& .MuiDataGrid-overlay": {
       margin: "auto",
+    },
+    "& .MuiDataGrid-colCell, .MuiDataGrid-cell": {
+      padding: "0 10px",
     },
   },
 }));
@@ -66,13 +77,20 @@ interface IProps {
 }
 
 const cols: ColDef[] = [
-  { field: "id", headerName: "번호", type: "number", headerAlign: "center", align: "center" },
-  { field: "title", headerName: "제목", type: "string", width: 480, sortable: false, headerClassName: "title", cellClassName: "title" },
-  { field: "writer", headerName: "작성자", type: "string", width: 150, sortable: false, headerAlign: "center", align: "center" },
+  { field: "id", headerName: "번호", type: "number", width: 80, headerAlign: "center", align: "center" },
+  { field: "title", headerName: "제목", type: "string", width: 420, sortable: false, headerAlign: "center" },
+  { field: "writer", headerName: "작성자", type: "string", width: 140, sortable: false, headerAlign: "center", align: "center" },
   { field: "viewCount", headerName: "조회수", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "commentCount", headerName: "댓글수", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "recommendCount", headerName: "추천수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "createDate", headerName: "작성일", type: "date", width: 150, headerAlign: "center", align: "center" },
+  { field: "createDate", headerName: "작성일", type: "date", width: 120, headerAlign: "center", align: "center" },
+];
+
+const cols2: ColDef[] = [
+  { field: "title", headerName: "제목", type: "string", width: 250, sortable: false, headerAlign: "center" },
+  { field: "viewCount", headerName: "조회수", type: "number", width: 70, headerAlign: "center", align: "center" },
+  { field: "writer", headerName: "작성자", type: "string", width: 70, sortable: false, headerAlign: "center", align: "center" },
+  { field: "createDate", headerName: "작성일", type: "date", width: 120, headerAlign: "center", align: "center" },
 ];
 
 function CustomHeader() {
@@ -134,9 +152,9 @@ function CustomPagination(props: BaseComponentProps) {
   };
 
   return (
-    <Container style={{ padding: "0 20px" }}>
+    <Container style={{ margin: "0", padding: "0" }}>
       <Bottom category={nowCategory} />
-      <Grid container direction='row' justify='center' style={{ width: "100%", marginBottom: "5px" }}>
+      <Grid container direction='row' justify='center' style={{ width: "100%", height: "30px", marginBottom: "5px" }}>
         <Pagination
           color='primary'
           shape='rounded'
@@ -148,8 +166,8 @@ function CustomPagination(props: BaseComponentProps) {
         />
       </Grid>
       <MyGridDivider />
-      <Grid container spacing={2} direction='row' justify='center' style={{ width: "100%", margin: "5px" }}>
-        <Grid item style={{ padding: "5px" }}>
+      <Grid container spacing={2} direction='row' justify='center' style={{ width: "100%", margin: "5px 0" }}>
+        <Grid item style={{ padding: "0", margin: "2.5px 10px" }}>
           <ButtonGroup color='primary'>
             <Button
               color={searchFilter === "title" ? "secondary" : "primary"}
@@ -171,7 +189,7 @@ function CustomPagination(props: BaseComponentProps) {
             </Button>
           </ButtonGroup>
         </Grid>
-        <Grid item style={{ padding: "5px" }}>
+        <Grid item style={{ padding: "0", margin: "2.5px 10px" }}>
           <FormControl variant='outlined'>
             <OutlinedInput
               id='post-search-text'
@@ -180,12 +198,12 @@ function CustomPagination(props: BaseComponentProps) {
               onKeyUp={e => _onEnterSearch(e.keyCode)}
               endAdornment={
                 <InputAdornment position='end'>
-                  <IconButton aria-label='post-search-icon' onClick={search} edge='end' style={{ height: "35px" }}>
+                  <IconButton aria-label='post-search-icon' onClick={search} edge='end' style={{ height: "35px", padding: "5px" }}>
                     <SearchIcon style={{ height: "35px" }} />
                   </IconButton>
                 </InputAdornment>
               }
-              inputProps={{ style: { height: "35px", padding: "10px" } }}
+              inputProps={{ style: { height: "35px", padding: "5px 10px" } }}
             />
           </FormControl>
         </Grid>
@@ -196,6 +214,8 @@ function CustomPagination(props: BaseComponentProps) {
 
 const Board = (props: IProps) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const { category, posts } = props;
   const rows: RowsProp = [];
   nowCategory = category;
@@ -218,14 +238,14 @@ const Board = (props: IProps) => {
 
   return (
     <React.Fragment>
-      <div style={{ height: 630, width: "100%", marginBottom: "20px" }}>
+      <Grid container justify='center' className={smallScreen ? classes.box2 : classes.box}>
         {/*         <Container className={classes.top}>
           <Typography variant='body2'>{rows.length} 건의 검색 결과가 조회되었습니다.</Typography>
         </Container> */}
         <DataGrid
           className={classes.datagrid}
-          headerHeight={40} //default 56
-          rowHeight={40} //default 52
+          headerHeight={smallScreen ? 30 : 40} //default 56
+          rowHeight={smallScreen ? 30 : 40} //default 52
           sortingMode='client'
           pageSize={10}
           rowsPerPageOptions={[10, 25, 50]}
@@ -233,7 +253,7 @@ const Board = (props: IProps) => {
           hideFooterRowCount={true}
           hideFooterSelectedRowCount={true}
           disableColumnMenu={true}
-          columns={cols}
+          columns={smallScreen ? cols2 : cols}
           rows={rows}
           onRowClick={param => _onRowClick(param.row.id as number)}
           components={{
@@ -242,7 +262,7 @@ const Board = (props: IProps) => {
             Pagination: CustomPagination,
           }}
         />
-      </div>
+      </Grid>
     </React.Fragment>
   );
 };
