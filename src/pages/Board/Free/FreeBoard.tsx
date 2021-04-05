@@ -3,7 +3,7 @@ import { useSetRecoilState } from "recoil";
 import { FilterState } from "state/index";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 
 import IPost from "interfaces/Board/IPost";
 import { getPosts } from "utils/PostUtil";
@@ -14,7 +14,9 @@ const nowCategory = "free";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: "0 0 15px 0",
+    width: "auto",
+    margin: "10px 0",
+    padding: "0",
   },
 }));
 
@@ -49,9 +51,9 @@ function FreeBoard({ location }: any) {
   }, []);
 
   return (
-    <Container className={classes.root}>
+    <Grid container justify='center' className={classes.root}>
       <Board category={nowCategory} posts={posts} page={2} />
-    </Container>
+    </Grid>
   );
 }
 

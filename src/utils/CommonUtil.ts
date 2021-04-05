@@ -86,6 +86,7 @@ export const getStringByDate = (date: Date | undefined, full?: boolean) => {
   let d: string = '', t: string;
 
   d = dt.getFullYear().toString();
+  d = d.substring(d.length - 2, d.length);
   d += dt.getMonth()+1 < 10 ? `.0${dt.getMonth()+1}` : `.${dt.getMonth()+1}`;
   d += dt.getDate() < 10 ? `.0${dt.getDate()} ` : `.${dt.getDate()} `;
   
