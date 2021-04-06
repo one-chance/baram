@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   buttonWrapper: {
     width: "100%",
     padding: "0 20px",
-    marginTop: "5px",
+    marginBottom: "5px",
     justifyContent: "space-between",
   },
   buttonWrapperOne: {

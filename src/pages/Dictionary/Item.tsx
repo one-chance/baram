@@ -291,7 +291,7 @@ export default function Item() {
         </Grid>
         <Grid item container xs={3} alignItems='center' direction='column' style={{ margin: "10px", padding: "0", textAlign: "center" }}>
           <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
-          <ButtonGroup color='primary' style={{ height: "40px", margin: "10px 0" }}>
+          <ButtonGroup color='default' style={{ height: "40px", margin: "10px 0" }}>
             <Button
               variant='outlined'
               color={img1 === "empty.png" ? "primary" : "secondary"}

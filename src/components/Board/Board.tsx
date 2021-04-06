@@ -88,8 +88,8 @@ const cols: ColDef[] = [
 
 const cols2: ColDef[] = [
   { field: "title", headerName: "제목", type: "string", width: 230, sortable: false, headerAlign: "center" },
-  { field: "viewCount", headerName: "조회수", type: "number", width: 70, headerAlign: "center", align: "center" },
   { field: "writer", headerName: "작성자", type: "string", width: 90, sortable: false, headerAlign: "center", align: "center" },
+  { field: "viewCount", headerName: "조회수", type: "number", width: 70, headerAlign: "center", align: "center" },
   { field: "createDate", headerName: "작성일", type: "date", width: 90, headerAlign: "center", align: "center" },
 ];
 
@@ -168,7 +168,7 @@ function CustomPagination(props: BaseComponentProps) {
       <MyGridDivider />
       <Grid container spacing={2} direction='row' justify='center' style={{ width: "100%", margin: "5px 0" }}>
         <Grid item style={{ padding: "0", margin: "2.5px 10px" }}>
-          <ButtonGroup color='primary'>
+          <ButtonGroup color='default'>
             <Button
               color={searchFilter === "title" ? "secondary" : "primary"}
               onClick={() => setSearchFilter(searchFilter === "title" ? "" : "title")}

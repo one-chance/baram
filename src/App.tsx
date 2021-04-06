@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: "70vh",
     position: "relative",
     zIndex: 1,
-    marginTop: "15vh",
+    marginTop: "100px",
     padding: "10px 0.75vw",
   },
   root2: {

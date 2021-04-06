@@ -12,6 +12,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import SignInForm from "components/User/SignInForm";
 
+import HomeIcon from "@material-ui/icons/Home";
 import AppBar from "@material-ui/core/AppBar";
 import { getSignInUserId, LogoutUser } from "utils/UserUtil";
 
@@ -80,7 +81,7 @@ const useStyles = makeStyles(theme => ({
   },
   btn: {
     minWidth: "80px",
-    lineHeight: "4vh",
+    lineHeight: "30px",
     fontFamily: "Do Hyeon",
     fontSize: "1.2rem",
     textTransform: "none",
@@ -145,8 +146,8 @@ export default function Header() {
     <React.Fragment>
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
-          <Button className={classes.btn} onClick={_onMoveToMain}>
-            Home
+          <Button onClick={_onMoveToMain} href='/' style={{ minWidth: "40px", padding: "2px" }}>
+            <HomeIcon style={{ width: "36px", height: "36px" }} />
           </Button>
           <Typography style={{ fontFamily: "Jua", fontSize: "2rem" }}>ㄷㅌ</Typography>
           {signInUserId ? (

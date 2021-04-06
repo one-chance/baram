@@ -346,7 +346,7 @@ export default function PetItem() {
 
       <Grid container spacing={3} alignItems='center' justify='center' style={{ margin: "10px 0", padding: "0 5px" }}>
         <Grid item style={{ maxWidth: "508px", margin: "0 10px", padding: "0" }}>
-          <ButtonGroup color='primary' className={classes.btnGroup}>
+          <ButtonGroup color='default' className={classes.btnGroup}>
             <Button color={img1.src === "centerGod.png" ? "secondary" : "primary"} onClick={() => handleImage(1, 1, img1)}>
               황룡
             </Button>
@@ -372,7 +372,7 @@ export default function PetItem() {
           <img src={baseUrlForPetItemImg + img1.src} alt='장비1' />
         </Grid>
         <Grid item style={{ width: "508px", margin: "0 10px", padding: "0" }}>
-          <ButtonGroup color='primary' className={classes.btnGroup}>
+          <ButtonGroup color='default' className={classes.btnGroup}>
             <Button color={img2.src === "centerGod.png" ? "secondary" : "primary"} onClick={() => handleImage(2, 1, img2)}>
               황룡
             </Button>
