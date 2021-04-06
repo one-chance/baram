@@ -26,15 +26,14 @@ const useStyles = makeStyles(theme => ({
     padding: "0 5px",
     justifyContent: "space-between",
     "& a": {
-      width: "240px",
+      width: "200px",
       display: "inline-block",
       overflow: "hidden",
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
     },
     "& span": {
-      width: "45px",
-      display: "inline-block",
+      width: "40px",
     },
   },
 }));
