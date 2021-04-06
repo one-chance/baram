@@ -46,10 +46,12 @@ function TradeBoard({ location }: any) {
 
   useEffect(() => {
     setServer(serverList[0]);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (server) _onServerLoad();
+    // eslint-disable-next-line
   }, [server]);
 
   const _onServerLoad = async () => {
