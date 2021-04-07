@@ -114,9 +114,9 @@ export default function Power() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={3} direction='row' alignItems='center' justify='center' style={{ margin: "0", padding: "0" }}>
+      <Grid container spacing={3} direction='row' alignItems='center' justify='space-around' style={{ width: "auto", margin: "0", padding: "0" }}>
         {/* LEFT COLUMN */}
-        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0 15px" }}>
+        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0 5px" }}>
           <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>
             <TextField
               variant='outlined'
@@ -142,7 +142,7 @@ export default function Power() {
         </Grid>
 
         {/* CENTER COLUMN */}
-        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0  15px" }}>
+        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0  5px" }}>
           <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>
             <TextField
               className={classes.powers}
@@ -206,7 +206,7 @@ export default function Power() {
         </Grid>
 
         {/* RIGHT COLUMN */}
-        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0  15px" }}>
+        <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0  5px" }}>
           <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>
             <TextField
               className={classes.powers}

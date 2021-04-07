@@ -28,11 +28,11 @@ import IItemOptionInfo from "interfaces/Calculator/IItemOptionInfo";
 
 const useStyles = makeStyles({
   btn: {
-    width: "140px",
+    width: "120px",
     height: "40px",
     padding: "0 5px",
     margin: "5px",
-
+    float: "left",
     "& .MuiButton-label": {
       overflow: "hidden",
       textOverflow: "ellipsis",
