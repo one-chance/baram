@@ -29,7 +29,6 @@ export default function AwakStat() {
     saveStat();
   }, [stat, setAwakeningState]);
 
-  // check 변수를 두고 체크시 color 변경
   return (
     <React.Fragment>
       <Button

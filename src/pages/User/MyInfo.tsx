@@ -15,11 +15,18 @@ import AuthAccount from "components/User/AuthAccount";
 import ChagnePassword from "components/User/ChagnePassword";
 import WithdrawUser from "components/User/WithdrawUser";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     margin: "10px 0",
   },
-}));
+  box: {
+    margin: "10px 5px",
+  },
+  box2: {
+    width: "66%",
+    margin: "10px 5px",
+  },
+});
 
 const Menus = withStyles({
   root: {
@@ -95,12 +102,6 @@ function MyInfo({ match }: any) {
                 <Menus onClick={_onWithdraw}>회원 탈퇴</Menus>
               </Grid>
               <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "4px" }} />
-              <Grid item xs={8} style={{ marginLeft: "1vw" }}>
-                {mode === "view" && <ViewUserInfo userInfo={userInfo} />}
-                {mode === "auth" && <AuthAccount userInfo={userInfo} />}
-                {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
-                {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
-              </Grid>
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -126,14 +127,15 @@ function MyInfo({ match }: any) {
                   회원 탈퇴
                 </Menus>
               </Grid>
-              <Grid item container style={{ margin: "10px 5px" }}>
-                {mode === "view" && <ViewUserInfoSmall userInfo={userInfo} />}
-                {mode === "auth" && <AuthAccount userInfo={userInfo} />}
-                {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
-                {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
-              </Grid>
             </React.Fragment>
           )}
+          <Grid item container className={smallScreen ? classes.box : classes.box2}>
+            {mode === "view" && smallScreen && <ViewUserInfoSmall userInfo={userInfo} />}
+            {mode === "view" && !smallScreen && <ViewUserInfo userInfo={userInfo} />}
+            {mode === "auth" && <AuthAccount userInfo={userInfo} />}
+            {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
+            {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
+          </Grid>
         </Grid>
       )}
     </React.Fragment>

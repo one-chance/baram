@@ -4,7 +4,7 @@ import SignInDialogState from "state/common/SignInDialogState";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+//import NotificationsIcon from "@material-ui/icons/Notifications";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -207,9 +207,7 @@ export default function Header() {
           거래소
         </a>
         <Divider />
-        <a href='#1' onClick={_prepare}>
-          거래 게시판
-        </a>
+        <a href='/board/trade'>거래 게시판</a>
         <Divider />
       </div>
       <div className={classes.text}>
@@ -225,22 +223,21 @@ export default function Header() {
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
           <div>
-            {(["left"] as Anchor[]).map(anchor => (
-              <React.Fragment key={anchor}>
-                <Button onClick={toggleDrawer(anchor, true)} style={{ padding: "5px" }}>
-                  <MenuIcon />
-                </Button>
-                <Drawer anchor={anchor} open={state} onClose={toggleDrawer(anchor, false)}>
-                  {menuList(anchor)}
-                </Drawer>
-              </React.Fragment>
-            ))}
+            <Button onClick={toggleDrawer("left", true)} style={{ padding: "5px" }}>
+              <MenuIcon />
+            </Button>
+            <Drawer anchor={"left"} open={state} onClose={toggleDrawer("left", false)}>
+              {menuList("left")}
+            </Drawer>
           </div>
 
-          <Typography style={{ fontFamily: "Jua", fontSize: "2rem" }}>ㄷㅌ</Typography>
+          <Button style={{ fontFamily: "Jua", fontSize: "2rem", padding: "0" }} href='/'>
+            ㄷㅌ
+          </Button>
 
-          <Button style={{ padding: "5px" }}>
-            <NotificationsIcon />
+          <Button style={{ padding: "0", textTransform: "none" }}>
+            {/* <NotificationsIcon /> */}
+            v1.0.3
           </Button>
         </Grid>
 
