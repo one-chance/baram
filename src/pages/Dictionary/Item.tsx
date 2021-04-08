@@ -18,11 +18,8 @@ const useStyles = makeStyles(theme => ({
     height: "30px",
     margin: "2.5px",
   },
-
   itemText: {
-    width: "12.5vw",
-    minWidth: "150px",
-    maxWidth: "200px",
+    width: "200px",
     margin: "5px 2.5px",
     float: "left",
     "& input": {
@@ -34,7 +31,6 @@ const useStyles = makeStyles(theme => ({
       border: "1px solid",
     },
   },
-
   select: {
     width: "120px",
     height: "40px",
@@ -51,10 +47,8 @@ const useStyles = makeStyles(theme => ({
       color: "blue",
     },
   },
-
   btn: {
     minWidth: "60px",
-    maxWidth: "60px",
     height: "40px",
     margin: "5px 2.5px",
     padding: "0",

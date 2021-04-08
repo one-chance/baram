@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
@@ -23,12 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     select: {
-      width: "100px",
+      width: "90px",
       height: "50px",
       padding: "0",
       margin: "5px",
       textAlignLast: "center",
-      float: "left",
       "& .MuiSelect-selectMenu": {
         padding: "2px 20px 2px 5px",
         lineHeight: "30px",
@@ -57,14 +55,11 @@ const useStyles = makeStyles((theme: Theme) =>
       float: "left",
     },
     resultBox: {
-      width: "96%",
-      minWidth: "360px",
       minHeight: "82px",
       border: "1px solid lightgray",
       borderRadius: "5px",
-      margin: "5px 2%",
+      margin: "5px",
       padding: "5px 10px",
-      float: "left",
     },
   })
 );
@@ -72,6 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Menus = withStyles({
   root: {
     fontSize: "0.9rem",
+    padding: "6px 0",
     justifyContent: "center",
   },
 })(MenuItem);
@@ -232,7 +228,7 @@ export default function CalProduction() {
     let temp: JSX.Element[] = [];
     if (type !== 0 && grade !== 0) {
       temp = list[type][grade].map(item => (
-        <Menus value={item} key={item} disableGutters={true}>
+        <Menus value={item} key={item}>
           {item}
         </Menus>
       ));
@@ -241,9 +237,9 @@ export default function CalProduction() {
   };
 
   return (
-    <Grid container justify='center' style={{ margin: "10px 0", padding: "0", textAlign: "center" }}>
-      <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
-        <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
+    <Grid container justify='center' direction='column' style={{ margin: "0", padding: "0", textAlign: "center" }}>
+      <Grid container style={{ margin: "10px 0", padding: "0" }}>
+        <Grid container style={{ margin: "5px 8px", padding: "0" }}>
           <Select
             className={classes.select}
             variant='outlined'
@@ -327,20 +323,20 @@ export default function CalProduction() {
             }}>
             합산
           </Button>
-        </Container>
-        <Container className={classes.resultBox}>
+        </Grid>
+        <Grid container justify='center' className={classes.resultBox}>
           {condition.materials.length > 1 ? (
             condition.materials
           ) : (
             <span style={{ fontSize: "1rem" }}>
               <br />
-              제작 실패시 재료가 소멸될 수 있으므로 여분을 준비하자
+              제작 실패시 재료가 소멸될 수 있으니 여분을 준비하자
             </span>
           )}
-        </Container>
-      </Container>
-      <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
-        <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
+        </Grid>
+      </Grid>
+      <Grid container style={{ margin: "10px 0", padding: "0" }}>
+        <Grid container style={{ margin: "5px 8px", padding: "0" }}>
           <Select
             className={classes.select}
             variant='outlined'
@@ -422,21 +418,21 @@ export default function CalProduction() {
             }}>
             합산
           </Button>
-        </Container>
-        <Container className={classes.resultBox}>
+        </Grid>
+        <Grid container justify='center' className={classes.resultBox}>
           {condition2.materials.length > 1 ? (
             condition2.materials
           ) : (
             <span style={{ fontSize: "1rem" }}>
               <br />
-              제작 실패시 재료가 소멸될 수 있으므로 여분을 준비하자
+              제작 실패시 재료가 소멸될 수 있으니 여분을 준비하자
             </span>
           )}
-        </Container>
-      </Container>
+        </Grid>
+      </Grid>
 
-      <Container style={{ margin: "10px 0", padding: "0", float: "left" }}>
-        <Container style={{ width: "96%", minWidth: "400px", margin: "5px 2%", padding: "0", float: "left" }}>
+      <Grid container style={{ margin: "10px 0", padding: "0" }}>
+        <Grid container style={{ margin: "5px 8px", padding: "0" }}>
           <Select
             className={classes.select}
             variant='outlined'
@@ -516,18 +512,18 @@ export default function CalProduction() {
             }}>
             합산
           </Button>
-        </Container>
-        <Container className={classes.resultBox}>
+        </Grid>
+        <Grid container justify='center' className={classes.resultBox}>
           {condition3.materials.length > 1 ? (
             condition3.materials
           ) : (
             <span style={{ fontSize: "1rem" }}>
               <br />
-              제작 실패시 재료가 소멸될 수 있으므로 여분을 준비하자
+              제작 실패시 재료가 소멸될 수 있으니 여분을 준비하자
             </span>
           )}
-        </Container>
-      </Container>
+        </Grid>
+      </Grid>
     </Grid>
   );
 }

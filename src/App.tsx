@@ -14,6 +14,7 @@ import Home from "pages/Home";
 
 // User
 import SignUp from "pages/User/SignUp";
+import SignUpSmall from "pages/User/SignUpSmall";
 import Forget from "pages/User/Forget";
 import MyInfo from "pages/User/MyInfo";
 
@@ -32,6 +33,7 @@ import AnimalItem from "pages/Dictionary/AnimalItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 import Item from "pages/Dictionary/Item";
+import ItemSmall from "pages/Dictionary/ItemSmall";
 import PetItem from "pages/Dictionary/PetItem";
 import Archeology from "pages/Dictionary/Archeology";
 
@@ -76,14 +78,14 @@ const useStyles = makeStyles(theme => ({
     minHeight: "70vh",
     position: "relative",
     zIndex: 1,
-    marginTop: "100px",
-    padding: "10px 0.75vw",
+    marginTop: "120px",
+    padding: "10px",
   },
   root2: {
     width: "100%",
     position: "relative",
     zIndex: 1,
-    marginTop: "30px",
+    marginTop: "60px",
     padding: "10px 2.5px",
   },
   footer: {
@@ -120,7 +122,6 @@ function App() {
           )}
         </header>
         <main>
-          <nav>123</nav>
           <Container className={smallScreen ? classes.root2 : classes.root}>
             <BrowserRouter>
               <Switch>
@@ -128,7 +129,7 @@ function App() {
                 <Route exact path='/' component={Home} />
 
                 {/*Common*/}
-                <Route exact path='/signup' component={SignUp} />
+                {smallScreen ? <Route exact path='/signup' component={SignUpSmall} /> : <Route exact path='/signup' component={SignUp} />}
                 <Route exact path='/forget' component={Forget} />
 
                 {/*Board*/}
@@ -153,6 +154,7 @@ function App() {
                 <Route exact path='/dic/animalitem' component={AnimalItem} />
                 <Route exact path='/dic/raid' component={Raid} />
                 <Route path='/dic/raid/:key' component={RaidInfo} />
+                {smallScreen ? <Route exact path='/dic/item' component={ItemSmall} /> : <Route exact path='/dic/item' component={Item} />}
                 <Route exact path='/dic/item' component={Item} />
                 <Route exact path='/dic/petitem' component={PetItem} />
                 <Route exact path='/dic/archeology' component={Archeology} />
