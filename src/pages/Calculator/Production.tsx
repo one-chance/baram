@@ -239,7 +239,7 @@ export default function CalProduction() {
   return (
     <Grid container justify='center' direction='column' style={{ margin: "0", padding: "0", textAlign: "center" }}>
       <Grid container style={{ margin: "10px 0", padding: "0" }}>
-        <Grid container style={{ margin: "5px 8px", padding: "0" }}>
+        <Grid container style={{ margin: "5px 0", padding: "0" }}>
           <Select
             className={classes.select}
             variant='outlined'
@@ -330,13 +330,13 @@ export default function CalProduction() {
           ) : (
             <span style={{ fontSize: "1rem" }}>
               <br />
-              제작 실패시 재료가 소멸될 수 있으니 여분을 준비하자
+              실패시 재료가 소멸될 수 있으니 여분을 준비하자
             </span>
           )}
         </Grid>
       </Grid>
       <Grid container style={{ margin: "10px 0", padding: "0" }}>
-        <Grid container style={{ margin: "5px 8px", padding: "0" }}>
+        <Grid container style={{ margin: "5px 0", padding: "0" }}>
           <Select
             className={classes.select}
             variant='outlined'
@@ -425,14 +425,14 @@ export default function CalProduction() {
           ) : (
             <span style={{ fontSize: "1rem" }}>
               <br />
-              제작 실패시 재료가 소멸될 수 있으니 여분을 준비하자
+              실패시 재료가 소멸될 수 있으니 여분을 준비하자
             </span>
           )}
         </Grid>
       </Grid>
 
       <Grid container style={{ margin: "10px 0", padding: "0" }}>
-        <Grid container style={{ margin: "5px 8px", padding: "0" }}>
+        <Grid container style={{ margin: "5px 0", padding: "0" }}>
           <Select
             className={classes.select}
             variant='outlined'
@@ -519,7 +519,7 @@ export default function CalProduction() {
           ) : (
             <span style={{ fontSize: "1rem" }}>
               <br />
-              제작 실패시 재료가 소멸될 수 있으니 여분을 준비하자
+              실패시 재료가 소멸될 수 있으니 여분을 준비하자
             </span>
           )}
         </Grid>
