@@ -441,7 +441,7 @@ export default function CalProduction() {
               itemList[2].splice(0, itemList[2].length);
               setCondition3({ type: Number(e.target.value), grade: 0, name: "0", quantity: 0, materials: [] });
             }}
-            style={{ width: "80px" }}>
+            style={{ width: "75px" }}>
             <Menus value={0}>종류</Menus>
             <Menus value={9}>환약</Menus>
             <Menus value={10}>부적</Menus>
@@ -455,7 +455,7 @@ export default function CalProduction() {
               setMenu3(getMenuList(condition3.type, Number(e.target.value)) as JSX.Element[]);
               setCondition3({ ...condition3, grade: Number(e.target.value), name: "0", quantity: 0, materials: [] });
             }}
-            style={{ width: "80px" }}>
+            style={{ width: "75px" }}>
             <Menus value={0}>상 태</Menus>
             <Menus value={1}>기 절</Menus>
             <Menus value={2}>침 묵</Menus>
@@ -474,7 +474,7 @@ export default function CalProduction() {
             onChange={e => {
               setCondition3({ ...condition3, name: String(e.target.value), quantity: 1, materials: [] });
             }}
-            style={{ width: "180px" }}>
+            style={{ width: "170px" }}>
             <Menus value='0'>품 목</Menus>
             {menu3}
           </Select>
