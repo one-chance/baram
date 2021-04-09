@@ -17,12 +17,12 @@ import { getVisitCount } from "utils/CommonUtil";
 const useStyles = makeStyles(theme => ({
   secondSection: {
     minHeight: "160px",
-    margin: "20px 0 10px 0",
+    margin: "10px 0",
     border: "1px solid lightgray",
     borderRadius: "10px",
-    backgroundColor: "white",
   },
   boardItem: {
+    height: "60px",
     margin: "10px",
     padding: "0",
     fontWeight: "bold",
@@ -32,14 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
   boardItemText: {
     textAlign: "center",
-    margin: "5px 0",
-  },
-  boardVisitCountWrapper: {
-    width: "100%",
-    height: "40%",
-    fontWeight: "bold",
-    padding: "8px 16px",
-    float: "left",
+    margin: "5px 0 0 0",
   },
 }));
 
@@ -86,14 +79,14 @@ const Home = () => {
       <Grid item xs={12}>
         <MainCarousel />
       </Grid>
-      <Grid item container justify='space-between' xs={10} className={classes.secondSection}>
-        <Grid item style={{ width: "320px", margin: "0 auto" }}>
+      <Grid item container justify='space-around' xs={10} className={classes.secondSection}>
+        <Grid item style={{ width: "320px", margin: "0", padding: "0" }}>
           <LatestBoardPaper category='free' posts={freePosts} />
         </Grid>
-        <Grid item style={{ width: "320px", margin: "0 auto" }}>
+        <Grid item style={{ width: "320px", margin: "0", padding: "0" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item container justify='center' style={{ width: "320px", margin: "0 auto" }}>
+        <Grid item container justify='center' style={{ width: "320px", height: "160px", margin: "0", padding: "0" }}>
           <Grid item className={classes.boardItem}>
             <Button variant='outlined' className={classes.boardItemButton}>
               <PriorityHighIcon />

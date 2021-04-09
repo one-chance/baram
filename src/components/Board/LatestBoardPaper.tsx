@@ -14,10 +14,9 @@ import { getMMDDByDate } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: "10px",
-  },
-  linkListWrapper: {
-    marginTop: "10px",
+    height: "150px",
+    margin: "5px",
+    padding: "5px",
   },
   linkItem: {
     display: "flex",
@@ -49,14 +48,14 @@ const LatestBoardPaper = (props: IProps) => {
 
   return (
     <Paper elevation={0} className={classes.paper}>
-      <div style={{ fontSize: "1rem", fontWeight: "bold", margin: "2.5px 0 2.5px 5px" }}>
+      <div style={{ fontSize: "1rem", fontWeight: "bold", margin: "0 5px" }}>
         {PostUtil.getCategoryName(category)}
         <Button href={`/board/${category}`} style={{ minWidth: "22px", height: "22px", padding: "0", float: "right" }}>
           <AddIcon style={{ width: "20px", height: "20px" }} />
         </Button>
       </div>
       <Divider style={{ height: "2px", margin: "5px 0" }} />
-      <div className={classes.linkListWrapper}>
+      <div style={{ marginTop: "10px" }}>
         {posts ? (
           posts.length > 0 ? (
             posts.map((post: IPost) => (
