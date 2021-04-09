@@ -4,7 +4,6 @@ import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -18,8 +17,8 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "40px",
-    padding: 0
+    margin: "30px 0 5px 0",
+    padding: 0,
   },
   input: {
     backgroundColor: "#ffffff",
@@ -27,33 +26,6 @@ const useStyles = makeStyles(theme => ({
   },
   inputButton: {
     height: "100%",
-  },
-  footer: {
-    marginTop: "50px",
-    textAlign: "center",
-  },
-  table: {
-    minWidth: 500,
-    padding: "20px",
-    backgroundColor: "#ffffff",
-    "& .MuiTablePagination-root": {
-      textAlign: "center",
-      align: "center",
-      margin: "auto",
-    },
-  },
-  commentRow: {
-    backgroundColor: "#f1f3f8",
-  },
-  recommentRow: {
-    backgroundColor: "#d6e0f0",
-  },
-  commentButton: {
-    spacing: "5",
-  },
-  tableButton: {
-    flexShrink: 0,
-    width: "auto",
   },
 }));
 
@@ -103,30 +75,26 @@ function PostComment(props: IProps) {
   };
 
   return (
-    <Container className={classes.root}>
-      <Grid container item xs={12}>
-        <Grid container item xs={12}>
-          <Grid item xs={11}>
-            <TextField
-              variant='outlined'
-              id='input-comment'
-              className={classes.input}
-              multiline
-              fullWidth
-              rows={4}
-              placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
-              value={inputComment}
-              onChange={e => setInputComment(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={1}>
-            <Button className={classes.inputButton} fullWidth variant='outlined' color='primary' onClick={() => _onSubmitComment()}>
-              등록
-            </Button>
-          </Grid>
-        </Grid>
+    <Grid container justify='center' className={classes.root}>
+      <Grid item xs={11}>
+        <TextField
+          variant='outlined'
+          id='input-comment'
+          className={classes.input}
+          multiline
+          fullWidth
+          rows={4}
+          placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
+          value={inputComment}
+          onChange={e => setInputComment(e.target.value)}
+        />
       </Grid>
-    </Container>
+      <Grid item xs={1}>
+        <Button className={classes.inputButton} fullWidth variant='outlined' color='primary' onClick={() => _onSubmitComment()}>
+          등록
+        </Button>
+      </Grid>
+    </Grid>
   );
 }
 
