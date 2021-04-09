@@ -231,9 +231,7 @@ export default function Header() {
             </Drawer>
           </div>
 
-          <Button style={{ fontFamily: "Jua", fontSize: "2rem", padding: "0" }} href='/'>
-            ㄷㅌ
-          </Button>
+          <img src='/assets/img/title.png' alt='title' />
 
           <Button style={{ padding: "0", textTransform: "none" }}>
             {/* <NotificationsIcon /> */}

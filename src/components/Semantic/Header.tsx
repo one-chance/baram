@@ -149,7 +149,9 @@ export default function Header() {
           <Button onClick={_onMoveToMain} href='/' style={{ minWidth: "40px", padding: "2px" }}>
             <HomeIcon style={{ width: "36px", height: "36px" }} />
           </Button>
-          <Typography style={{ fontFamily: "Jua", fontSize: "2rem" }}>ㄷㅌ</Typography>
+
+          <img src='/assets/img/title.png' alt='title' />
+
           {signInUserId ? (
             <Grid item style={{ margin: "0", padding: "0" }}>
               <Button className={classes.btn} onClick={_onLogoutUser}>

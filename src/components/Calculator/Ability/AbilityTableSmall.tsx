@@ -35,21 +35,22 @@ const useStyles = makeStyles({
     fontWeight: "bold",
     textAlign: "center",
   },
-  row: {
-    width: "712px",
-    height: "100px",
+  column: {
+    width: "252px",
     border: "1px solid gray",
     borderRadius: "10px",
     margin: "10px",
     padding: "5px",
+    textAlign: "center",
     float: "left",
     "& div": {
+      width: "100px",
       padding: "0",
       float: "left",
       "& p": {
         width: "100px",
-        height: "30px",
-        lineHeight: "30px",
+        height: "28px",
+        lineHeight: "28px",
         fontSize: "1rem",
         fontWeight: "bold",
         textAlign: "center",
@@ -139,14 +140,14 @@ export default function AbilityTable() {
 
   return (
     <>
-      <Grid container direction='row' alignItems='center' justify='center' className={classes.row}>
-        <Grid container direction='row'>
+      <Grid container direction='row' alignItems='center' justify='center' className={classes.column}>
+        <Grid container direction='column'>
           <Typography style={{ color: "blue" }}>능력치</Typography>
           {statList.map((name: string) => {
             return <Typography key={name}>{name}</Typography>;
           })}
         </Grid>
-        <Grid container direction='row'>
+        <Grid container direction='column'>
           <Typography style={{ color: "blue" }}>합 계</Typography>
           {totalState.map((stat: number, idx: number) => {
             return <Typography key={idx}>{stat}</Typography>;
@@ -158,7 +159,6 @@ export default function AbilityTable() {
         <Button variant='outlined' color='primary' className={classes.btn} onClick={() => setOpenHelper(true)}>
           능력치 계산 공식
         </Button>
-        <br />
         <Button variant='outlined' color='primary' className={classes.btn} onClick={() => setOpenHelper2(true)}>
           항목별 세부 수치
         </Button>

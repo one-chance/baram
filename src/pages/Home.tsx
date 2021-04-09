@@ -22,15 +22,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px",
     backgroundColor: "white",
   },
-  boardItemWrapper: {
-    width: "100%",
-    float: "left",
-  },
   boardItem: {
     margin: "10px",
     padding: "0",
     fontWeight: "bold",
-    float: "left",
   },
   boardItemButton: {
     minWidth: "60px",

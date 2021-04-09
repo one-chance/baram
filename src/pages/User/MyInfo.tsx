@@ -24,7 +24,8 @@ const useStyles = makeStyles({
   },
   box2: {
     width: "66%",
-    margin: "10px 5px",
+    margin: "10px",
+    paddingLeft: "30px",
   },
 });
 

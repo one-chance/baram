@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,15 +10,9 @@ import Carousel from "react-slick";
 import { getBaseUrlForMainCarousel } from "utils/ConfigUtil";
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    padding: "5px 0",
-    width: "100%",
-    height: "auto",
-    margin: "20px 0",
-  },
   gridContainer: {
     width: "auto",
-    margin: "0",
+    marginBottom: "25px",
   },
   cardCarousel: {
     border: "0",
@@ -32,7 +25,6 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     display: "flex",
     flexDirection: "column",
-    minWidth: "0",
     wordWrap: "break-word",
     transition: "all 300ms linear",
     overflow: "hidden",
@@ -84,17 +76,13 @@ export default function MainCarousel() {
   };
 
   const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
+  const images = ["bg1.jpg", "bg2.jpg", "bg3.jpg"];
 
   //creating the ref
   const refCarousel: React.RefObject<Carousel> = React.createRef();
 
-  const images = [];
-  images.push("bg1.jpg");
-  images.push("bg2.jpg");
-  images.push("bg3.jpg");
-
   return (
-    <Container className={classes.container}>
+    <React.Fragment>
       <Grid container className={classes.gridContainer}>
         <Grid item xs={1} className={classes.btnMove}>
           <IconButton onClick={() => refCarousel.current?.slickPrev()}>
@@ -116,6 +104,6 @@ export default function MainCarousel() {
           </IconButton>
         </Grid>
       </Grid>
-    </Container>
+    </React.Fragment>
   );
 }

@@ -387,19 +387,19 @@ export const getPost = async (_category: CategoryType, _seq: number) => {
 export const getCategoryName = (_category: CategoryType) => {
   switch (_category) {
     case "tip":
-      return "팁게시판";
+      return "팁 게시판";
     case "free":
-      return "자유게시판";
+      return "자유 게시판";
     case "screenshot":
-      return "스크린샷게시판";
+      return "스크린 게시판";
     case "server":
-      return "서버게시판";
+      return "서버 게시판";
     case "offer":
-      return "구인구직게시판";
+      return "구인구직 게시판";
     case "job":
-      return "직업게시판";
+      return "직업 게시판";
     case "trade":
-      return "거래게시판";
+      return "거래 게시판";
     default:
       break;
   }
