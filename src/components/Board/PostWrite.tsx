@@ -33,11 +33,12 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxHeight: "650px",
+    maxHeight: "660px",
     margin: "10px 0",
   },
   selector: {
     width: "150px",
+    margin: "0 5px",
     "& .MuiSelect-selectMenu": {
       padding: "2px 20px 2px 5px",
       lineHeight: "36px",
@@ -198,8 +199,8 @@ function PostWrite(props: IProps) {
   return (
     <React.Fragment>
       <Grid container direction='row' justify='center' className={classes.root}>
-        <Grid container spacing={1} justify='flex-start' style={{ minWidth: "850px", margin: "5px 0" }}>
-          <Grid item xs={3} style={{ padding: "0" }}>
+        <Grid container justify='space-between' style={{ minWidth: "850px", margin: "5px 0" }}>
+          <div style={{ padding: "0" }}>
             <Select variant='outlined' id='category' value={category} className={classes.selector} disabled={true}>
               <Menus value={"tip"}>팁게시판</Menus>
               <Menus value={"free"}>자유게시판</Menus>
@@ -209,9 +210,8 @@ function PostWrite(props: IProps) {
               <Menus value={"job"}>직업게시판</Menus>
               <Menus value={"trade"}>거래게시판</Menus>
             </Select>
-          </Grid>
-          {category === "trade" ? (
-            <Grid item xs={4} style={{ padding: "0" }}>
+
+            {category === "trade" ? (
               <Select variant='outlined' id='server' value={server ? server.key : ""} className={classes.selector} style={{ width: "100px" }}>
                 {serverList.map(sv => (
                   <Menus value={sv.key} onClick={() => setServer(sv)}>
@@ -219,11 +219,11 @@ function PostWrite(props: IProps) {
                   </Menus>
                 ))}
               </Select>
-            </Grid>
-          ) : (
-            <Grid item xs={4} style={{ padding: "0" }}></Grid>
-          )}
-          <Grid item xs={5} style={{ textAlign: "right", padding: "0" }}>
+            ) : (
+              ""
+            )}
+          </div>
+          <div style={{ padding: "0" }}>
             <Button
               variant='contained'
               color='secondary'
@@ -242,7 +242,7 @@ function PostWrite(props: IProps) {
             <Button variant='contained' color='primary' onClick={_onWrite} style={{ width: "100px", margin: "0 5px", height: "40px", boxShadow: "none" }}>
               작성
             </Button>
-          </Grid>
+          </div>
         </Grid>
         <Grid container style={{ height: "auto", padding: "0", margin: "5px 0" }}>
           <TextField
