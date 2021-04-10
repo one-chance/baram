@@ -116,8 +116,8 @@ const PostCommentList = (props: IProps) => {
       {nowCommentList.length > 0 && (
         <>
           <div>
-            {nowCommentList.map(comment => (
-              <CommentItem key={comment.idx} post={post} commentItem={comment} />
+            {nowCommentList.map((comment, idx) => (
+              <CommentItem key={idx} post={post} commentItem={comment} />
             ))}
           </div>
           <div className={classes.pagination}>
