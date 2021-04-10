@@ -158,8 +158,8 @@ function CustomPagination(props: BaseComponentProps) {
         <Pagination
           color='primary'
           shape='rounded'
-          page={pagination.page}
-          count={pagination.pageCount}
+          page={pagination.page ? pagination.page : 1}
+          count={pagination.pageCount-1}
           showFirstButton={true}
           showLastButton={true}
           onChange={(event, value) => api.current.setPage(value)}
@@ -249,7 +249,7 @@ const Board = (props: IProps) => {
           sortingMode='client'
           pageSize={10}
           rowsPerPageOptions={[10, 25, 50]}
-          paginationMode='server'
+          paginationMode='client'
           hideFooterRowCount={true}
           hideFooterSelectedRowCount={true}
           disableColumnMenu={true}
