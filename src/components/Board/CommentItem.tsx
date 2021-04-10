@@ -38,27 +38,26 @@ const useStyles = makeStyles(() => ({
     padding: "0px 10px",
   },
   writerWrapper: {
-    width: "130px",
-    marginTop: "20px",
-    marginBottom: "20px",
+    width: "auto",
+    margin: "5px",
   },
-  editNotice: {
-    color: "grey",
-    fontSize: "8px",
-    marginLeft: "3px",
+  textBox: {
+    alignItems: "center",
+    float: "left",
+    "& p": {
+      width: "auto",
+      fontSize: "0.8rem",
+      margin: "2.5px 5px",
+      float: "left",
+    },
   },
   messageWrapper: {
-    marginTop: "20px",
-    marginBottom: "20px",
-    marginLeft: "30px",
+    margin: "5px 10px 20px 10px",
     width: "auto",
     flexGrow: 1,
   },
   buttonWrapper: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "80px",
+    width: "auto",
     height: "auto",
   },
   inputText: {
@@ -67,8 +66,9 @@ const useStyles = makeStyles(() => ({
     margin: "5px",
   },
   deleteCommentMessage: {
+    width: "100%",
     fontStyle: "italic",
-    textDecoration: "underline",
+    textAlign: "center",
   },
 }));
 
@@ -208,17 +208,63 @@ const CommentItem = (props: IProps) => {
     <>
       {comment !== undefined && (
         <>
-          <Grid container direction='row' className={classes.commentWrapper}>
-            <Grid item className={classes.writerWrapper}>
-              {comment.writer.id}
-              <span className={classes.editNotice}>
-                {comment.isDeleted ? "(삭제됨)" : comment.writer.createDate !== comment.writer.lastEditDate && "(편집됨)"}
-              </span>
-              <br />
-              {CommonUtil.getStringByDate(comment.writer.lastEditDate, true)}
+          <Grid container direction='column' className={classes.commentWrapper}>
+            <Grid container justify='space-between' className={classes.writerWrapper}>
+              <div>
+                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>{comment.writer.id}</Typography>
+
+                <div className={classes.textBox}>
+                  <Typography>{CommonUtil.getStringByDate(comment.writer.lastEditDate, true)}</Typography>
+                  <Typography style={{ color: "grey" }}>
+                    {comment.isDeleted ? "(삭제됨)" : comment.writer.createDate !== comment.writer.lastEditDate && "(편집됨)"}
+                  </Typography>
+                </div>
+              </div>
+
+              <Grid item container justify='flex-end' className={classes.buttonWrapper}>
+                {!comment.isDeleted && (
+                  <>
+                    {editCommentIdx === comment.idx ? (
+                      <Grid container direction='row' className={classes.buttonWrapper} style={{ paddingRight: "10px" }}>
+                        <Button onClick={() => _onEditComment()} style={{ minWidth: "40px", padding: "0", float: "left" }}>
+                          완료
+                        </Button>
+                        <Button onClick={() => setEditCommentIdx(undefined)} style={{ minWidth: "40px", padding: "0", float: "left" }}>
+                          취소
+                        </Button>
+                      </Grid>
+                    ) : (
+                      <Grid container direction='row' className={classes.buttonWrapper}>
+                        <Button onClick={() => setRecommentIdx(comment.idx)} style={{ minWidth: "40px", fontSize: "0.8rem", padding: "0", float: "left" }}>
+                          답글
+                        </Button>
+
+                        {comment.writer.key === CommonUtil.getNowKey() && (
+                          <>
+                            <Button
+                              style={{ minWidth: "40px", padding: "0", float: "left" }}
+                              onClick={() => {
+                                setRecommentIdx(undefined);
+                                setEditCommentMessage(comment.message);
+                                setEditCommentIdx(comment.idx);
+                              }}>
+                              수정
+                            </Button>
+
+                            <Button onClick={() => _onDeleteComment(comment.idx)} style={{ minWidth: "40px", padding: "0", float: "left" }}>
+                              삭제
+                            </Button>
+                          </>
+                        )}
+                      </Grid>
+                    )}
+                  </>
+                )}
+              </Grid>
             </Grid>
+
             {editCommentIdx === comment.idx ? (
-              <Grid item className={classes.messageWrapper}>
+              <Grid container className={classes.messageWrapper}>
                 <TextField
                   id='edit-comment'
                   variant='outlined'
@@ -232,59 +278,22 @@ const CommentItem = (props: IProps) => {
                 />
               </Grid>
             ) : (
-              <Grid item className={classes.messageWrapper}>
+              <Grid container className={classes.messageWrapper}>
                 <Typography className={comment.isDeleted ? classes.deleteCommentMessage : ""}>
                   {comment.isDeleted ? "삭제된 댓글입니다." : comment.message}
                 </Typography>
               </Grid>
             )}
-            <Grid item className={classes.buttonWrapper}>
-              {!comment.isDeleted && (
-                <>
-                  {editCommentIdx === comment.idx ? (
-                    <Grid container direction='column' className={classes.buttonWrapper}>
-                      <Grid item>
-                        <Button onClick={() => _onEditComment()}>완료</Button>
-                      </Grid>
-                      <Grid item>
-                        <Button onClick={() => setEditCommentIdx(undefined)}>취소</Button>
-                      </Grid>
-                    </Grid>
-                  ) : (
-                    <Grid container direction='column' className={classes.buttonWrapper}>
-                      <Grid item>
-                        <Button onClick={() => setRecommentIdx(comment.idx)}>답글</Button>
-                      </Grid>
-                      {comment.writer.key === CommonUtil.getNowKey() && (
-                        <>
-                          <Grid item>
-                            <Button
-                              onClick={() => {
-                                setRecommentIdx(undefined);
-                                setEditCommentMessage(comment.message);
-                                setEditCommentIdx(comment.idx);
-                              }}>
-                              수정
-                            </Button>
-                          </Grid>
-                          <Grid item>
-                            <Button onClick={() => _onDeleteComment(comment.idx)}>삭제</Button>
-                          </Grid>
-                        </>
-                      )}
-                    </Grid>
-                  )}
-                </>
-              )}
-            </Grid>
+
             <MyGridDivider />
           </Grid>
+
           <Grid container direction='row' className={classes.recommentWrapper}>
             {recommentIdx !== undefined && (
               <>
                 <Grid item className={classes.writerWrapper}>
                   <Typography variant='subtitle1'>
-                    <SubdirectoryArrowRightIcon /> 답글 달기
+                    <SubdirectoryArrowRightIcon />
                   </Typography>
                 </Grid>
                 <Grid item className={classes.messageWrapper}>
@@ -300,13 +309,13 @@ const CommentItem = (props: IProps) => {
                     onChange={e => setInputRecommentMessage(e.target.value)}
                   />
                 </Grid>
-                <Grid container direction='column' className={classes.buttonWrapper}>
-                  <Grid item>
-                    <Button onClick={() => _onSubmitRecomment()}>등록</Button>
-                  </Grid>
-                  <Grid item>
-                    <Button onClick={() => setRecommentIdx(undefined)}>취소</Button>
-                  </Grid>
+                <Grid container alignItems='center' direction='column' className={classes.buttonWrapper} style={{ padding: "15px 0" }}>
+                  <Button onClick={() => _onSubmitRecomment()} style={{ padding: "5px" }}>
+                    등록
+                  </Button>
+                  <Button onClick={() => setRecommentIdx(undefined)} style={{ padding: "5px" }}>
+                    취소
+                  </Button>
                 </Grid>
                 <MyGridDivider />
               </>

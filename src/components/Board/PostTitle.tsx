@@ -3,7 +3,6 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { CommentListState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -29,8 +28,7 @@ const useStyles = makeStyles(theme => ({
     lineHeight: "30px",
   },
   form: {
-    margin: "20px 0 0 0",
-    float: "left",
+    marginTop: "10px",
   },
   middleText: {
     margin: "auto",
@@ -86,10 +84,10 @@ function PostTitle(props: IProps) {
   }, [commentList]);
 
   return (
-    <Container>
+    <>
       <Grid container item xs={12} spacing={1} className={classes.form}>
         <Grid item xs={8}>
-          <Typography variant='h6' className={classes.title} style={{ color: "gray", margin: "0 5px", float: "left" }}>
+          <Typography variant='h6' className={classes.title} style={{ color: "gray", margin: "0 10px", float: "left" }}>
             [{categoryName}]
           </Typography>
           <Typography variant='h5' style={{ float: "left" }}>
@@ -120,18 +118,12 @@ function PostTitle(props: IProps) {
             복사
           </Button>
           <Typography variant='h6' style={{ margin: "2px 10px", fontSize: "0.8rem", float: "right" }}>
-            {
-              post.writer.createDate &&
-                `작성 [${CommonUtil.getStringByDate(post.writer.createDate, true)}]`
-            }
-            {
-              post.writer.lastEditDate &&
-                ` | 수정 [${CommonUtil.getStringByDate(post.writer.lastEditDate, true)}]`
-            }
+            {post.writer.createDate && `작성일 : ${CommonUtil.getStringByDate(post.writer.createDate, true)}`}
+            {post.writer.lastEditDate && ` / 수정일 : ${CommonUtil.getStringByDate(post.writer.lastEditDate, true)}`}
           </Typography>
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 }
 

@@ -17,15 +17,14 @@ interface IProps {
 }
 
 const useStyles = makeStyles(theme => ({
-  footer: {
-    marginTop: "50px",
-    textAlign: "center",
-  },
   BodyContent: {
     "& img": {
       display: "block",
       maxWidth: "100%",
       height: "auto",
+    },
+    "& p": {
+      margin: "5px 0",
     },
   },
 }));
@@ -63,10 +62,11 @@ function PostContent(props: IProps) {
     }
   };
   return (
-    <Container>
-      <Grid item xs={12} style={{ minHeight: "300px", padding: "0 15px" }}>
+    <Container style={{ padding: "0" }}>
+      <Grid item xs={12} style={{ minHeight: "300px", padding: "0 15px", marginBottom: "30px" }}>
         <div className={classes.BodyContent} dangerouslySetInnerHTML={{ __html: post.content }}></div>
       </Grid>
+
       <Bottom
         category={post.category}
         seq={post.seq}

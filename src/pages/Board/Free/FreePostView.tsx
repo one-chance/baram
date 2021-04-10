@@ -5,7 +5,7 @@ import { CommentListState } from "state/index";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -24,13 +24,9 @@ import { getPost, DeletePost } from "utils/PostUtil";
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: "10px",
-    width: "100%",
-    marginBottom: "50px",
   },
   editBox: {
-    marginTop: "10px",
-    marginRight: "30px",
-    textAlign: "right",
+    padding: "0 10px",
   },
 }));
 
@@ -107,36 +103,43 @@ function FreePostView({ match }: any) {
   };
 
   return (
-    <Container className={classes.root}>
-      {post ? (
-        <Container>
-          <PostTitle post={post} />
-          <Box className={classes.editBox}>
-            <Button onClick={_onEdit}>수정</Button>
-            <Button onClick={_onOpenConfirm}>삭제</Button>
-          </Box>
-          <PostContent post={post} />
-          <PostComment post={post} />
-          <PostCommentList post={post} commentList={commentList} />
-          <Dialog open={openConfirm} onClose={_onCloseConfirm} aria-labelledby='alert-dialog-title' aria-describedby='alert-dialog-description'>
-            <DialogTitle id='alert-dialog-title'>{"정말 삭제하시겠습니까?"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id='alert-dialog-description'>삭제한 게시글은 되돌릴 수 없습니다.</DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={_onCloseConfirm} color='primary'>
-                취소
+    <React.Fragment>
+      <Grid container justify='center' className={classes.root}>
+        {post ? (
+          <Container style={{ border: "1px solid lightgray", padding: "0 20px" }}>
+            <PostTitle post={post} />
+            <Grid container justify='flex-end' className={classes.editBox}>
+              <Button onClick={_onEdit} style={{ padding: "3px" }}>
+                수정
               </Button>
-              <Button onClick={_onAgreeConfirm} color='primary'>
-                확인
+              <Button onClick={_onOpenConfirm} style={{ padding: "3px" }}>
+                삭제
               </Button>
-            </DialogActions>
-          </Dialog>
-        </Container>
-      ) : (
-        <Container>게시글 내용을 불러오고 있습니다.</Container>
-      )}
-    </Container>
+            </Grid>
+            <PostContent post={post} />
+            <PostComment post={post} />
+            <PostCommentList post={post} commentList={commentList} />
+          </Container>
+        ) : (
+          <Container>게시글 내용을 불러오고 있습니다.</Container>
+        )}
+      </Grid>
+
+      <Dialog open={openConfirm} onClose={_onCloseConfirm} aria-labelledby='alert-dialog-title' aria-describedby='alert-dialog-description'>
+        <DialogTitle id='alert-dialog-title'>{"정말 삭제하시겠습니까?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>삭제한 게시글은 되돌릴 수 없습니다.</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={_onCloseConfirm} color='primary'>
+            취소
+          </Button>
+          <Button onClick={_onAgreeConfirm} color='primary'>
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
   );
 }
 

@@ -6,11 +6,11 @@ import { MyAlertState, MyBackdropState } from "state/index";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import Divider from "@material-ui/core/Divider";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -24,7 +24,7 @@ import { CreatePost, EditPost, getPost } from "utils/PostUtil";
 
 import * as CommonUtil from "utils/CommonUtil";
 import IServer from "interfaces/Common/IServer";
-import { getServerList } from 'utils/CommonUtil';
+import { getServerList } from "utils/CommonUtil";
 
 interface IProps {
   tab: CategoryType;
@@ -33,15 +33,24 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "20px",
-    float: "left",
+    maxHeight: "660px",
+    margin: "10px 0",
   },
   selector: {
-    minWidth: "150px",
+    width: "150px",
+    margin: "0 5px",
     "& .MuiSelect-selectMenu": {
       padding: "2px 20px 2px 5px",
       lineHeight: "36px",
       textAlign: "center",
+    },
+  },
+  box: {
+    margin: "5px 0",
+    height: "550px",
+    "& div": {
+      width: "100%",
+      maxHeight: "500px",
     },
   },
 }));
@@ -50,6 +59,7 @@ const Menus = withStyles({
   root: {
     fontSize: "0.9rem",
     justifyContent: "center",
+    padding: "6px 0",
   },
 })(MenuItem);
 
@@ -121,13 +131,12 @@ function PostWrite(props: IProps) {
 
   const [server, setServer] = useState<IServer>();
   const serverList = getServerList();
+
   useEffect(() => {
     const init = async () => {
-      if (tab) 
-        setCategory(tab);
+      if (tab) setCategory(tab);
 
-      if (tab === 'trade')
-        setServer(serverList[0]);
+      if (tab === "trade") setServer(serverList[0]);
 
       if (seq) {
         const res: IPost | null = await getPost(category, seq);
@@ -161,10 +170,8 @@ function PostWrite(props: IProps) {
     setMyBackdrop(true);
 
     let res: any;
-    if (server)
-      res = seq ? await EditPost(title, content, post, server.key) : await CreatePost(category, title, content, server.key);
-    else
-      res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
+    if (server) res = seq ? await EditPost(title, content, post, server.key) : await CreatePost(category, title, content, server.key);
+    else res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
 
     if (res.code === 200) {
       setMyAlert({
@@ -191,9 +198,9 @@ function PostWrite(props: IProps) {
 
   return (
     <React.Fragment>
-      <Container className={classes.root}>
-        <Grid container spacing={1} justify='flex-start' style={{ minWidth: "850px" }}>
-          <Grid item xs={3}>
+      <Grid container direction='row' justify='center' className={classes.root}>
+        <Grid container justify='space-between' style={{ minWidth: "850px", margin: "5px 0" }}>
+          <div style={{ padding: "0" }}>
             <Select variant='outlined' id='category' value={category} className={classes.selector} disabled={true}>
               <Menus value={"tip"}>팁게시판</Menus>
               <Menus value={"free"}>자유게시판</Menus>
@@ -203,19 +210,20 @@ function PostWrite(props: IProps) {
               <Menus value={"job"}>직업게시판</Menus>
               <Menus value={"trade"}>거래게시판</Menus>
             </Select>
-          </Grid>
-          { category === 'trade' ?
-            <Grid item xs={4}>
-              <Select variant='outlined' id='server' value={server ? server.key : ''} className={classes.selector}>
-                { serverList.map((sv) => 
-                  <Menus value={sv.key} onClick={() => setServer(sv)}>{sv.name}</Menus>
-                )}
+
+            {category === "trade" ? (
+              <Select variant='outlined' id='server' value={server ? server.key : ""} className={classes.selector} style={{ width: "100px" }}>
+                {serverList.map(sv => (
+                  <Menus value={sv.key} onClick={() => setServer(sv)}>
+                    {sv.name}
+                  </Menus>
+                ))}
               </Select>
-            </Grid>
-            :
-            <Grid item xs={4}></Grid>
-          }
-          <Grid item xs={5} style={{ textAlign: "right" }}>
+            ) : (
+              ""
+            )}
+          </div>
+          <div style={{ padding: "0" }}>
             <Button
               variant='contained'
               color='secondary'
@@ -234,41 +242,42 @@ function PostWrite(props: IProps) {
             <Button variant='contained' color='primary' onClick={_onWrite} style={{ width: "100px", margin: "0 5px", height: "40px", boxShadow: "none" }}>
               작성
             </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant='outlined'
-              required
-              fullWidth
-              autoFocus
-              margin='dense'
-              id='title'
-              placeholder='게시글의 제목을 입력하세요.'
-              value={title}
-              inputRef={refTitle}
-              inputProps={{ style: { padding: "2.5px 10px", height: "35px", lineHeight: "35px", fontSize: "1rem" } }}
-              onChange={e => {
-                setTitle(e.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <div className='editor'>
-              <ReactQuill
-                value={content}
-                theme='snow'
-                modules={modules}
-                formats={formats}
-                style={{ height: "400px" }}
-                placeholder='작성할 내용을 입력하세요.'
-                onChange={e => {
-                  setContent(e);
-                }}
-              />
-            </div>
-          </Grid>
+          </div>
         </Grid>
-      </Container>
+        <Grid container style={{ height: "auto", padding: "0", margin: "5px 0" }}>
+          <TextField
+            variant='outlined'
+            required
+            fullWidth
+            autoFocus
+            id='title'
+            placeholder='게시글의 제목을 입력하세요.'
+            value={title}
+            inputRef={refTitle}
+            inputProps={{ style: { padding: "0 10px", height: "40px", lineHeight: "40px", fontSize: "1rem" } }}
+            style={{ margin: "2.5px 0" }}
+            onChange={e => {
+              if (e.target.value.length < 25) {
+                setTitle(e.target.value);
+              }
+            }}
+          />
+        </Grid>
+        <Grid container className={classes.box}>
+          <ReactQuill
+            value={content}
+            theme='snow'
+            modules={modules}
+            formats={formats}
+            style={{ maxHeight: "550px" }}
+            placeholder='작성할 내용을 입력하세요.'
+            onChange={e => {
+              setContent(e);
+            }}
+          />
+        </Grid>
+      </Grid>
+
       <Dialog open={openConfirmCancle}>
         <DialogContent style={{ padding: "20px" }}>게시글 작성을 취소하시겠습니까?</DialogContent>
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
@@ -284,10 +293,12 @@ function PostWrite(props: IProps) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={openPreview} fullWidth>
-        <DialogTitle style={{ textAlign: "center" }}>{title}</DialogTitle>
+      <Dialog open={openPreview} maxWidth='lg'>
+        <DialogTitle style={{ fontWeight: "bold", textAlign: "center" }}>{title}</DialogTitle>
+        <Divider />
         <DialogContent style={{ padding: "10px" }} dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
-        <DialogActions style={{ padding: "10px" }} disableSpacing={true}>
+        <Divider />
+        <DialogActions style={{ padding: "0" }} disableSpacing={true}>
           <Button
             onClick={() => {
               setOpenPreview(false);
