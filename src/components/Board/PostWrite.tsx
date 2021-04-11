@@ -18,10 +18,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
 import IPost from "interfaces/Board/IPost";
-
 import { CategoryType } from "interfaces/Board/IPost";
 import { CreatePost, EditPost, getPost } from "utils/PostUtil";
-
 import * as CommonUtil from "utils/CommonUtil";
 import IServer from "interfaces/Common/IServer";
 import { getServerList } from "utils/CommonUtil";

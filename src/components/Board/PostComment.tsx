@@ -21,11 +21,19 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
   },
   input: {
+    width: `calc(100% - 70px)`,
     backgroundColor: "#ffffff",
     border: "2px",
+
+    "& .MuiOutlinedInput-multiline": {
+      padding: "15px",
+    },
   },
   inputButton: {
+    minWidth: "60px",
+    marginLeft: "10px",
     height: "100%",
+    padding: "0",
   },
 }));
 
@@ -75,26 +83,24 @@ function PostComment(props: IProps) {
   };
 
   return (
-    <Grid container justify='center' className={classes.root}>
-      <Grid item xs={11}>
+    <>
+      <Grid container justify='center' direction='row' className={classes.root}>
         <TextField
           variant='outlined'
           id='input-comment'
           className={classes.input}
           multiline
-          fullWidth
           rows={4}
           placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
           value={inputComment}
           onChange={e => setInputComment(e.target.value)}
         />
-      </Grid>
-      <Grid item xs={1}>
-        <Button className={classes.inputButton} fullWidth variant='outlined' color='primary' onClick={() => _onSubmitComment()}>
+
+        <Button className={classes.inputButton} variant='outlined' color='primary' onClick={() => _onSubmitComment()}>
           등록
         </Button>
       </Grid>
-    </Grid>
+    </>
   );
 }
 

@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { CommentListState } from "state/index";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import CreateIcon from "@material-ui/icons/Create";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import MessageIcon from "@material-ui/icons/Message";
 
-import { MyAlertState } from "state/index";
-
 import IPost from "interfaces/Board/IPost";
 import * as CommonUtil from "utils/CommonUtil";
-
+import { MyAlertState } from "state/index";
 import { getCategoryName } from "utils/PostUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
@@ -43,8 +42,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function PostTitle(props: IProps) {
-  const classes = useStyles();
   const post: IPost = props.post;
+  const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const categoryName = getCategoryName(post.category);
   const [count, setCount] = useState(0);
@@ -85,39 +86,47 @@ function PostTitle(props: IProps) {
 
   return (
     <>
-      <Grid container item xs={12} spacing={1} className={classes.form}>
-        <Grid item xs={8}>
-          <Typography variant='h6' className={classes.title} style={{ color: "gray", margin: "0 10px", float: "left" }}>
-            [{categoryName}]
-          </Typography>
-          <Typography variant='h5' style={{ float: "left" }}>
-            {post.title}
-          </Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
-            {post.writer.id}
-          </Typography>
-        </Grid>
-        <Grid item xs={1}>
-          <VisibilityIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
-          <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
-            {post.viewCount}
-          </Typography>
-        </Grid>
-        <Grid item xs={1}>
-          <MessageIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
-          <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
-            {count}
-          </Typography>
+      <Grid container direction='column' className={classes.form}>
+        <Grid container direction={smallScreen ? "column" : "row"} style={{ margin: "5px 0" }}>
+          <Grid item xs={smallScreen ? 12 : 8}>
+            <Typography variant='h6' className={classes.title} style={{ color: "gray", margin: "0 10px", float: "left" }}>
+              [{categoryName}]
+            </Typography>
+            <Typography variant='h5' style={{ float: "left" }}>
+              {post.title}
+            </Typography>
+          </Grid>
+          <Grid item container justify={smallScreen ? "space-between" : "space-around"} xs={smallScreen ? 12 : 4}>
+            <div>
+              <CreateIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
+              <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
+                {post.writer.id}
+              </Typography>
+            </div>
+            <div>
+              <VisibilityIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
+              <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
+                {post.viewCount}
+              </Typography>
+            </div>
+            <div>
+              <MessageIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
+              <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
+                {count}
+              </Typography>
+            </div>
+          </Grid>
         </Grid>
         <MyGridDivider />
-        <Grid item xs={12} style={{ color: "darkgray", padding: "0 10px", margin: "2px 0" }}>
-          {window.location.href}
-          <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl}>
-            복사
-          </Button>
-          <Typography variant='h6' style={{ margin: "2px 10px", fontSize: "0.8rem", float: "right" }}>
+
+        <Grid container alignItems='center' justify='space-between' style={{ width: "100%", color: "darkgray", padding: "0 10px", margin: "5px 0" }}>
+          <div>
+            {window.location.href}
+            <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl}>
+              복사
+            </Button>
+          </div>
+          <Typography variant='h6' style={{ margin: "2px 0", fontSize: "0.8rem" }}>
             {post.writer.createDate && `작성일 : ${CommonUtil.getStringByDate(post.writer.createDate, true)}`}
             {post.writer.lastEditDate && ` / 수정일 : ${CommonUtil.getStringByDate(post.writer.lastEditDate, true)}`}
           </Typography>

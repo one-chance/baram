@@ -106,7 +106,7 @@ function TradeBoardView({ match }: any) {
     <React.Fragment>
       <Grid container justify='center' className={classes.root}>
         {post ? (
-          <Container style={{ border: "1px solid lightgray", padding: "0 20px" }}>
+          <Grid container direction='column' style={{ border: "1px solid lightgray", padding: "0 20px" }}>
             <PostTitle post={post} />
             <Grid container justify='flex-end' className={classes.editBox}>
               <Button onClick={_onEdit}>수정</Button>
@@ -115,7 +115,7 @@ function TradeBoardView({ match }: any) {
             <PostContent post={post} />
             <PostComment post={post} />
             <PostCommentList post={post} commentList={commentList} />
-          </Container>
+          </Grid>
         ) : (
           <Container>게시글 내용을 불러오고 있습니다.</Container>
         )}

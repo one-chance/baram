@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import SignInDialogState from "state/common/SignInDialogState";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import SignInForm from "components/User/SignInForm";
 
 import { CategoryType } from "interfaces/Board/IPost";
 import * as CommonUtil from "utils/CommonUtil";
@@ -49,11 +45,11 @@ const useStyles = makeStyles(theme => ({
 
 const Bottom = (props: IProps) => {
   const classes = useStyles();
-  const { category, seq, isRecommended, recommendCount, onRecommendPost, onUnrecommendPost } = props;
+  const setIsSignInOpen = useSetRecoilState(SignInDialogState);
 
+  const { category, seq, isRecommended, recommendCount, onRecommendPost, onUnrecommendPost } = props;
   const [isReload, setIsReload] = useState(false);
   const [rc, setRc] = useState(0);
-  const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
 
   const handleRecommend = () => {
     if (isReload) {
@@ -65,14 +61,6 @@ const Bottom = (props: IProps) => {
       setIsReload(true);
       setRc(rc > -1 ? rc + 1 : 0);
     }
-  };
-
-  const _onSignInOpen = () => {
-    setIsSignInOpen(true);
-  };
-
-  const _onSignInClose = () => {
-    setIsSignInOpen(false);
   };
 
   useEffect(() => {
@@ -111,7 +99,7 @@ const Bottom = (props: IProps) => {
                 if (CommonUtil.getToken()) {
                   handleRecommend();
                 } else {
-                  _onSignInOpen();
+                  setIsSignInOpen(true);
                 }
               }}
               startIcon={<ThumbUpIcon />}
@@ -128,27 +116,13 @@ const Bottom = (props: IProps) => {
             if (CommonUtil.getToken()) {
               document.location.href = `/board/write/${category}`;
             } else {
-              _onSignInOpen();
+              setIsSignInOpen(true);
             }
           }}
           style={{ height: "35px" }}>
           글쓰기
         </Button>
       </Grid>
-
-      <Dialog open={isSignInOpen} onClose={_onSignInClose}>
-        <DialogTitle style={{ padding: "0 5px", textAlign: "center" }}>
-          <span>
-            <h2 style={{ margin: "20px 0 0 0" }}>로그인</h2>
-            <Button onClick={_onSignInClose} className={classes.btnClose}>
-              &#10006;
-            </Button>
-          </span>
-        </DialogTitle>
-        <DialogContent style={{ padding: "10px 40px" }}>
-          <SignInForm />
-        </DialogContent>
-      </Dialog>
     </>
   );
 };

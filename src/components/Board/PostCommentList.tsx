@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
@@ -17,16 +18,13 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "30px",
+    marginTop: "20px",
   },
   pageSet: {
-    display: "flex",
-    justifyContent: "space-around",
     alignItems: "center",
-    width: "250px",
-
+    width: "200px",
     "& button": {
-      width: "auto",
+      minWidth: "36px",
       height: "100%",
       border: "0 none",
       boxShadow: "none",
@@ -120,66 +118,57 @@ const PostCommentList = (props: IProps) => {
               <CommentItem key={idx} post={post} commentItem={comment} />
             ))}
           </div>
+
           <div className={classes.pagination}>
             {PAGE_SET < pageList[pageList.length - 1] ? (
               <div>
-                <span onClick={() => onHandleFirstPageSet()}>
-                  <IconButton aria-label='comment-first-page' size='medium'>
-                    <FirstPageIcon fontSize='inherit' />
-                  </IconButton>
-                </span>
-                <span onClick={() => onHandlePrevPageSet()}>
-                  <IconButton aria-label='comment-prev-page' size='medium'>
-                    <ChevronLeftIcon fontSize='inherit' />
-                  </IconButton>
-                </span>
+                <IconButton aria-label='comment-first-page' size='medium' onClick={() => onHandleFirstPageSet()} style={{ padding: "6px" }}>
+                  <FirstPageIcon fontSize='inherit' />
+                </IconButton>
+
+                <IconButton aria-label='comment-prev-page' size='medium' onClick={() => onHandlePrevPageSet()} style={{ padding: "6px" }}>
+                  <ChevronLeftIcon fontSize='inherit' />
+                </IconButton>
               </div>
             ) : (
               <div>
-                <span>
-                  <IconButton aria-label='comment-first-page' size='medium'>
-                    <FirstPageIcon fontSize='inherit' color='disabled' />
-                  </IconButton>
-                </span>
-                <span>
-                  <IconButton aria-label='comment-prev-page' size='medium'>
-                    <ChevronLeftIcon fontSize='inherit' color='disabled' />
-                  </IconButton>
-                </span>
+                12
+                <IconButton aria-label='comment-first-page' size='medium' style={{ padding: "6px" }}>
+                  <FirstPageIcon fontSize='inherit' color='disabled' />
+                </IconButton>
+                <IconButton aria-label='comment-prev-page' size='medium' style={{ padding: "6px" }}>
+                  <ChevronLeftIcon fontSize='inherit' color='disabled' />
+                </IconButton>
               </div>
             )}
-            <span className={classes.pageSet}>
+
+            <Grid container justify='center' className={classes.pageSet}>
               {pageList.map(page => (
                 <Button key={`btn-comment-page-${page}`} className={nowPage === page ? classes.current : ""} onClick={() => onHandlePage(page)}>
                   {page}
                 </Button>
               ))}
-            </span>
+            </Grid>
+
             {pageList[pageList.length - 1] !== lastPage ? (
               <div>
-                <span onClick={() => onHandleNextPageSet()}>
-                  <IconButton aria-label='comment-next-page' size='medium'>
-                    <ChevronRightIcon fontSize='inherit' />
-                  </IconButton>
-                </span>
-                <span onClick={() => onHandleLastPageSet()}>
-                  <IconButton aria-label='comment-last-page' size='medium'>
-                    <LastPageIcon fontSize='inherit' />
-                  </IconButton>
-                </span>
+                <IconButton aria-label='comment-next-page' size='medium' onClick={() => onHandleNextPageSet()} style={{ padding: "6px" }}>
+                  <ChevronRightIcon fontSize='inherit' />
+                </IconButton>
+
+                <IconButton aria-label='comment-last-page' size='medium' onClick={() => onHandleLastPageSet()} style={{ padding: "6px" }}>
+                  <LastPageIcon fontSize='inherit' />
+                </IconButton>
               </div>
             ) : (
               <div>
-                <span>
-                  <IconButton aria-label='comment-next-page' size='medium'>
-                    <ChevronRightIcon fontSize='inherit' color='disabled' />
-                  </IconButton>
-                </span>
-                <span>
-                  <IconButton aria-label='comment-last-page' size='medium'>
-                    <LastPageIcon fontSize='inherit' color='disabled' />
-                  </IconButton>
-                </span>
+                34
+                <IconButton aria-label='comment-next-page' size='medium' style={{ padding: "6px" }}>
+                  <ChevronRightIcon fontSize='inherit' color='disabled' />
+                </IconButton>
+                <IconButton aria-label='comment-last-page' size='medium' style={{ padding: "6px" }}>
+                  <LastPageIcon fontSize='inherit' color='disabled' />
+                </IconButton>
               </div>
             )}
           </div>

@@ -101,7 +101,7 @@ const useStyles = makeStyles(theme => ({
 function App() {
   const classes = useStyles();
   const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     // 토큰 자동갱신 실행

@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
+import SignInDialogState from "state/common/SignInDialogState";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -64,11 +65,22 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#ffffff",
     border: "2px",
     margin: "5px",
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "0",
+    },
+    "& .MuiOutlinedInput-multiline": {
+      padding: "15px",
+    },
   },
   deleteCommentMessage: {
     width: "100%",
     fontStyle: "italic",
     textAlign: "center",
+  },
+  btn: {
+    minWidth: "40px",
+    padding: "0",
+    float: "left",
   },
 }));
 
@@ -80,6 +92,7 @@ const CommentItem = (props: IProps) => {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const setCommentList = useSetRecoilState(CommentListState);
+  const setIsSignInOpen = useSetRecoilState(SignInDialogState);
 
   const [comment, setComment] = useState<IComment>();
   const [editCommentMessage, setEditCommentMessage] = useState("");
@@ -89,18 +102,6 @@ const CommentItem = (props: IProps) => {
   const [recommentIdx, setRecommentIdx] = useState<number | undefined>(undefined); // 답글 달 대상이 될 댓글 인덱스 값
   const [inputRecommentMessage, setInputRecommentMessage] = useState("");
   const [recommentList, setRecommentList] = useState<Array<IRecomment>>([]);
-
-  useEffect(() => {
-    setComment(commentItem);
-  }, [commentItem]);
-
-  useEffect(() => {
-    if (comment !== undefined) {
-      if (comment.recommentList && comment.recommentList.length > 0) setRecommentList(comment.recommentList);
-
-      setRecommentCount(comment.recommentCount);
-    }
-  }, [comment]);
 
   const _onSubmitRecomment = async () => {
     setMyBackdrop(true);
@@ -204,6 +205,18 @@ const CommentItem = (props: IProps) => {
     }
   };
 
+  useEffect(() => {
+    setComment(commentItem);
+  }, [commentItem]);
+
+  useEffect(() => {
+    if (comment !== undefined) {
+      if (comment.recommentList && comment.recommentList.length > 0) setRecommentList(comment.recommentList);
+
+      setRecommentCount(comment.recommentCount);
+    }
+  }, [comment]);
+
   return (
     <>
       {comment !== undefined && (
@@ -226,23 +239,31 @@ const CommentItem = (props: IProps) => {
                   <>
                     {editCommentIdx === comment.idx ? (
                       <Grid container direction='row' className={classes.buttonWrapper} style={{ paddingRight: "10px" }}>
-                        <Button onClick={() => _onEditComment()} style={{ minWidth: "40px", padding: "0", float: "left" }}>
+                        <Button className={classes.btn} onClick={() => _onEditComment()}>
                           완료
                         </Button>
-                        <Button onClick={() => setEditCommentIdx(undefined)} style={{ minWidth: "40px", padding: "0", float: "left" }}>
+                        <Button className={classes.btn} onClick={() => setEditCommentIdx(undefined)}>
                           취소
                         </Button>
                       </Grid>
                     ) : (
                       <Grid container direction='row' className={classes.buttonWrapper}>
-                        <Button onClick={() => setRecommentIdx(comment.idx)} style={{ minWidth: "40px", fontSize: "0.8rem", padding: "0", float: "left" }}>
+                        <Button
+                          className={classes.btn}
+                          onClick={() => {
+                            if (CommonUtil.getNowKey()) {
+                              setRecommentIdx(comment.idx);
+                            } else {
+                              setIsSignInOpen(true);
+                            }
+                          }}>
                           답글
                         </Button>
 
                         {comment.writer.key === CommonUtil.getNowKey() && (
                           <>
                             <Button
-                              style={{ minWidth: "40px", padding: "0", float: "left" }}
+                              className={classes.btn}
                               onClick={() => {
                                 setRecommentIdx(undefined);
                                 setEditCommentMessage(comment.message);
@@ -251,7 +272,7 @@ const CommentItem = (props: IProps) => {
                               수정
                             </Button>
 
-                            <Button onClick={() => _onDeleteComment(comment.idx)} style={{ minWidth: "40px", padding: "0", float: "left" }}>
+                            <Button className={classes.btn} onClick={() => _onDeleteComment(comment.idx)}>
                               삭제
                             </Button>
                           </>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
@@ -12,55 +12,67 @@ import IPost from "interfaces/Board/IPost";
 import IComment from "interfaces/Board/IComment";
 import IRecomment from "interfaces/Board/IRecomment";
 import * as CommonUtil from "utils/CommonUtil";
-import MyGridDivider from 'elements/Grid/MyGridDivider';
+import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { EditRecomment, DeleteRecomment } from "utils/PostUtil";
 
 interface IProps {
-  post: IPost,
-  comment: IComment,
-  recommentItem: IRecomment
+  post: IPost;
+  comment: IComment;
+  recommentItem: IRecomment;
 }
 
 const useStyles = makeStyles(() => ({
   recommentWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
     backgroundColor: "#d6e0f0",
-    padding: '0px 10px',
+    padding: "0 20px",
   },
   writerWrapper: {
-    width: '130px',
-    marginTop: '20px',
-    marginBottom: '20px'
+    width: "auto",
+    margin: "5px",
+  },
+  textBox: {
+    alignItems: "center",
+    float: "left",
+    "& p": {
+      width: "auto",
+      fontSize: "0.8rem",
+      margin: "2.5px 5px",
+      float: "left",
+    },
   },
   messageWrapper: {
-    marginTop: '20px',
-    marginBottom: '20px',
-    marginLeft: '30px',
-    width: 'auto',
-    flexGrow: 1
+    margin: "5px 10px 20px 10px",
+    width: "auto",
+    flexGrow: 1,
   },
   buttonWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '80px',
-    height: 'auto'
+    width: "auto",
+    height: "auto",
   },
   inputText: {
     backgroundColor: "#ffffff",
     border: "2px",
-    margin: '5px'
-  },
-  editNotice: {
-    color: 'grey',
-    fontSize: '8px',
-    marginLeft: '3px'
+    margin: "5px",
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "0",
+    },
+    "& .MuiOutlinedInput-multiline": {
+      padding: "15px",
+    },
   },
   deleteCommentMessage: {
-    fontStyle: 'italic',
-    textDecoration: 'underline'
-  }
+    width: "100%",
+    fontStyle: "italic",
+    textAlign: "center",
+  },
+  btn: {
+    minWidth: "40px",
+    padding: "0",
+    float: "left",
+  },
 }));
 
 const duration = 2000;
@@ -149,22 +161,61 @@ const RecommentItem = (props: IProps) => {
 
   return (
     <>
-    {
-      recomment !== undefined &&
-      <>
-      <Grid container direction='row' className={classes.recommentWrapper}>
-        <Grid item className={classes.writerWrapper}>
-            {recomment.writer.id}
-            <span className={classes.editNotice}>
-              { recomment.isDeleted ? '(삭제됨)'
-              : recomment.writer.createDate !== recomment.writer.lastEditDate && '(편집됨)'}
-            </span>
-            <br />
-            {CommonUtil.getStringByDate(recomment.writer.lastEditDate, true)}
-          </Grid>
-          {
-            editRecommentIdx === recomment.idx ?
-              <Grid item className={classes.messageWrapper}>
+      {recomment !== undefined && (
+        <>
+          <Grid container direction='column' className={classes.recommentWrapper}>
+            <Grid container justify='space-between' className={classes.writerWrapper}>
+              <div>
+                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>{recomment.writer.id}</Typography>
+
+                <div className={classes.textBox}>
+                  <Typography>{CommonUtil.getStringByDate(recomment.writer.lastEditDate, true)}</Typography>
+                  <Typography style={{ color: "grey" }}>
+                    {recomment.isDeleted ? "(삭제됨)" : recomment.writer.createDate !== recomment.writer.lastEditDate && "(편집됨)"}
+                  </Typography>
+                </div>
+              </div>
+
+              <Grid item container justify='flex-end' className={classes.buttonWrapper}>
+                {!recomment.isDeleted && (
+                  <>
+                    {editRecommentIdx === recomment.idx ? (
+                      <Grid container direction='row' className={classes.buttonWrapper}>
+                        <Button className={classes.btn} onClick={() => _onEditRecomment()}>
+                          완료
+                        </Button>
+
+                        <Button className={classes.btn} onClick={() => setEditRecommentIdx(undefined)}>
+                          취소
+                        </Button>
+                      </Grid>
+                    ) : (
+                      <Grid container direction='row' className={classes.buttonWrapper}>
+                        {recomment.writer.key === CommonUtil.getNowKey() && (
+                          <>
+                            <Button
+                              className={classes.btn}
+                              onClick={() => {
+                                setEditRecommentMessage(recomment.message);
+                                setEditRecommentIdx(recomment.idx);
+                              }}>
+                              수정
+                            </Button>
+
+                            <Button className={classes.btn} onClick={() => _onDeleteRecomment()}>
+                              삭제
+                            </Button>
+                          </>
+                        )}
+                      </Grid>
+                    )}
+                  </>
+                )}
+              </Grid>
+            </Grid>
+
+            {editRecommentIdx === recomment.idx ? (
+              <Grid container className={classes.messageWrapper}>
                 <TextField
                   id='edit-comment'
                   variant='outlined'
@@ -177,57 +228,19 @@ const RecommentItem = (props: IProps) => {
                   onChange={e => setEditRecommentMessage(e.target.value)}
                 />
               </Grid>
-            :
-              <Grid item className={classes.messageWrapper}>
-                <Typography className={recomment.isDeleted ? classes.deleteCommentMessage : ''}>
-                  { recomment.isDeleted ? '삭제된 답글입니다.' : recomment.message}
+            ) : (
+              <Grid container className={classes.messageWrapper}>
+                <Typography className={recomment.isDeleted ? classes.deleteCommentMessage : ""}>
+                  {recomment.isDeleted ? "삭제된 답글입니다." : recomment.message}
                 </Typography>
               </Grid>
-          }
-          <Grid item className={classes.buttonWrapper}>
-            {
-              !recomment.isDeleted &&
-              <>
-                {editRecommentIdx === recomment.idx ?
-                  <Grid container direction='column' className={classes.buttonWrapper}>
-                    <Grid item>
-                      <Button onClick={() => _onEditRecomment()}>완료</Button>
-                    </Grid>
-                    <Grid item>
-                      <Button onClick={() => setEditRecommentIdx(undefined)}>취소</Button>
-                    </Grid>
-                  </Grid>
-                :
-                  <Grid container direction='column' className={classes.buttonWrapper}>
-                    {
-                      recomment.writer.key === CommonUtil.getNowKey() &&
-                      <>
-                        <Grid item>
-                          <Button onClick={() => {
-                            setEditRecommentMessage(recomment.message);
-                            setEditRecommentIdx(recomment.idx);
-                          }}>
-                            수정
-                          </Button>
-                        </Grid>
-                        <Grid item>
-                          <Button onClick={() => _onDeleteRecomment()}>
-                            삭제
-                          </Button>
-                        </Grid>
-                      </>
-                    }
-                  </Grid>
-                }
-              </>
-            }
+            )}
+            <MyGridDivider />
           </Grid>
-          <MyGridDivider/>
-        </Grid>
-      </>
-    }
+        </>
+      )}
     </>
   );
-}
+};
 
 export default RecommentItem;
