@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
+import ServerState from "state/Board/ServerState";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -117,6 +118,8 @@ function PostWrite(props: IProps) {
 
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
+  var serverName = useRecoilValue(ServerState);
+  console.log(serverName);
 
   const refTitle = useRef<any>();
 
@@ -200,19 +203,25 @@ function PostWrite(props: IProps) {
         <Grid container justify='space-between' style={{ minWidth: "850px", margin: "5px 0" }}>
           <div style={{ padding: "0" }}>
             <Select variant='outlined' id='category' value={category} className={classes.selector} disabled={true}>
-              <Menus value={"tip"}>팁게시판</Menus>
-              <Menus value={"free"}>자유게시판</Menus>
-              <Menus value={"screenshot"}>스크린샷게시판</Menus>
-              <Menus value={"server"}>서버게시판</Menus>
-              <Menus value={"offer"}>구인게시판</Menus>
-              <Menus value={"job"}>직업게시판</Menus>
-              <Menus value={"trade"}>거래게시판</Menus>
+              <Menus value={"tip"}>팁 게시판</Menus>
+              <Menus value={"free"}>자유 게시판</Menus>
+              <Menus value={"screenshot"}>스샷 게시판</Menus>
+              <Menus value={"server"}>서버 게시판</Menus>
+              <Menus value={"offer"}>구인 게시판</Menus>
+              <Menus value={"job"}>직업 게시판</Menus>
+              <Menus value={"trade"}>거래 게시판</Menus>
             </Select>
 
             {category === "trade" ? (
-              <Select variant='outlined' id='server' value={server ? server.key : ""} className={classes.selector} style={{ width: "100px" }}>
+              <Select
+                variant='outlined'
+                id='server'
+                defaultValue={serverName}
+                /* value={server ? server.key : ""} */
+                className={classes.selector}
+                style={{ width: "100px" }}>
                 {serverList.map(sv => (
-                  <Menus value={sv.key} onClick={() => setServer(sv)}>
+                  <Menus key={sv.key} value={sv.key} onClick={() => setServer(sv)}>
                     {sv.name}
                   </Menus>
                 ))}

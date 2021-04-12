@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import ServerState from "state/Board/ServerState";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -39,10 +41,12 @@ function TradeBoard({ location }: any) {
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
+  const serverList = getServerList();
   const [posts, setPosts] = React.useState<Array<IPost>>([]);
   const [server, setServer] = useState<IServer>();
 
-  const serverList = getServerList();
+  const setServerState = useSetRecoilState(ServerState);
+  const test = useRecoilValue(ServerState);
 
   useEffect(() => {
     setServer(serverList[0]);
@@ -51,6 +55,7 @@ function TradeBoard({ location }: any) {
 
   useEffect(() => {
     if (server) _onServerLoad();
+    setServerState("haja");
     // eslint-disable-next-line
   }, [server]);
 
@@ -74,7 +79,10 @@ function TradeBoard({ location }: any) {
                 variant='outlined'
                 className={classes.server}
                 color={server && sv.key === server.key ? "secondary" : "primary"}
-                onClick={() => setServer(sv)}>
+                onClick={() => {
+                  setServerState(sv.key);
+                  setServer(sv);
+                }}>
                 {sv.name}
               </Button>
             ))}
@@ -87,7 +95,11 @@ function TradeBoard({ location }: any) {
                 className={classes.server}
                 variant='outlined'
                 color={server && sv.key === server.key ? "secondary" : "primary"}
-                onClick={() => setServer(sv)}
+                onClick={() => {
+                  setServerState(sv.key);
+                  console.log(test);
+                  setServer(sv);
+                }}
                 style={{ margin: "0 20px" }}>
                 {sv.name}
               </Button>
