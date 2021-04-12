@@ -67,48 +67,34 @@ const modules = {
     container: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
       [{ size: [] }],
+      [{ color: ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-      // ['link', 'image', 'video']
       ["link", "image"],
     ],
-    // container:  [['bold', 'italic', 'underline', 'blockquote'],
-    // [{'list': 'ordered'}, {'list': 'bullet'}],
-    // ['formula','link', 'image'],
-    // ['clean']],
-    // handlers: { 'image' : handleImage }
   },
-  // imageUpload: {
-  //   url: "image server url", // server url
-  //   method: "POST", // change query method, default 'POST'
-  //   name : 'images', // 아래 설정으로 image upload form의 key 값을 변경할 수 있다.
-  //   headers: {
-  //     Authorization: `Bearer tokenValue`,
-  //     'X-Total-Count': 0,
-  //   },
-  //   callbackOK: (serverResponse: any, next: any) => { // 성공하면 리턴되는 함수
-  //       next(serverResponse);
-  //   },
-  //   callbackKO: (serverError: any) => { // 실패하면 리턴되는 함수
-  //     console.log(serverError);
-  //       // alert(serverError);
-  //   },
-  //   // optional
-  //   // add callback when a image have been chosen
-  //   checkBeforeSend: (file: any, next: any) => {
-  //       console.log(file);
-  //       next(file); // go back to component and send to the server
-  //   }
-  // },
   clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
     matchVisual: false,
   },
-  // imageDrop: true, // imageDrop 등록
-  // imageResize: {} // imageResize 등록
 };
 
-const formats = ["header", "font", "size", "bold", "italic", "underline", "strike", "blockquote", "list", "bullet", "indent", "link", "image", "video"];
+const formats = [
+  "header",
+  "font",
+  "size",
+  "color",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];
 
 const duration = 3000;
 
@@ -119,7 +105,6 @@ function PostWrite(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   var serverName = useRecoilValue(ServerState);
-  console.log(serverName);
 
   const refTitle = useRef<any>();
 
