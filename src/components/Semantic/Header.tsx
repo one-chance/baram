@@ -112,10 +112,6 @@ export default function Header() {
 
   const signInUserId = getSignInUserId();
 
-  const _onMoveToMain = () => {
-    document.location.href = "/";
-  };
-
   const _onSignInOpen = () => {
     setIsSignInOpen(true);
   };
@@ -138,15 +134,14 @@ export default function Header() {
 
   const _onLogoutUser = () => {
     LogoutUser();
-
-    _onMoveToMain();
+    document.location.reload();
   };
 
   return (
     <React.Fragment>
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
-          <Button onClick={_onMoveToMain} href='/' style={{ minWidth: "40px", padding: "2px" }}>
+          <Button href='/' style={{ minWidth: "40px", padding: "2px" }}>
             <HomeIcon style={{ width: "36px", height: "36px" }} />
           </Button>
 

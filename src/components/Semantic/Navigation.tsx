@@ -87,14 +87,9 @@ export default function Header() {
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
   const [opener, setOpener] = useState(false);
-
   const [state, setState] = useState(false);
 
   const signInUserId = getSignInUserId();
-
-  const _onMoveToMain = () => {
-    document.location.href = "/";
-  };
 
   const _onSignInOpen = () => {
     setIsSignInOpen(true);
@@ -118,8 +113,7 @@ export default function Header() {
 
   const _onLogoutUser = () => {
     LogoutUser();
-
-    _onMoveToMain();
+    document.location.reload();
   };
 
   const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {

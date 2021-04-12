@@ -66,6 +66,14 @@ const useStyles = makeStyles(theme => ({
       padding: "0 10px",
     },
   },
+  pageBox: {
+    width: "100%",
+    height: "30px",
+    marginBottom: "10px",
+    "& button": {
+      padding: "0",
+    },
+  },
 }));
 
 interface IProps {
@@ -114,6 +122,7 @@ function CustomNoRowsOverlay() {
 }
 
 function CustomPagination(props: BaseComponentProps) {
+  const classes = useStyles();
   const { state, api } = props;
   const { pagination } = state;
   const setMyAlert = useSetRecoilState(MyAlertState);
@@ -154,12 +163,12 @@ function CustomPagination(props: BaseComponentProps) {
   return (
     <Container style={{ margin: "0", padding: "0" }}>
       <Bottom category={nowCategory} />
-      <Grid container direction='row' justify='center' style={{ width: "100%", height: "30px", marginBottom: "5px" }}>
+      <Grid container direction='row' justify='center' className={classes.pageBox}>
         <Pagination
           color='primary'
           shape='rounded'
           page={pagination.page ? pagination.page : 1}
-          count={pagination.pageCount-1}
+          count={pagination.pageCount}
           showFirstButton={true}
           showLastButton={true}
           onChange={(event, value) => api.current.setPage(value)}
