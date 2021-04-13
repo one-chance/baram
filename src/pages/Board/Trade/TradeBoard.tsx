@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ServerState from "state/Board/ServerState";
 
@@ -42,11 +42,9 @@ function TradeBoard({ location }: any) {
   const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const serverList = getServerList();
-  const [posts, setPosts] = React.useState<Array<IPost>>([]);
+  const [posts, setPosts] = useState<Array<IPost>>([]);
   const [server, setServer] = useState<IServer>();
-
   const setServerState = useSetRecoilState(ServerState);
-  const test = useRecoilValue(ServerState);
 
   useEffect(() => {
     setServer(serverList[0]);
@@ -55,7 +53,6 @@ function TradeBoard({ location }: any) {
 
   useEffect(() => {
     if (server) _onServerLoad();
-    setServerState("haja");
     // eslint-disable-next-line
   }, [server]);
 
@@ -73,14 +70,14 @@ function TradeBoard({ location }: any) {
       <Grid container item direction='row' justify='center' className={classes.serverWrapper}>
         {smallScreen ? (
           <ButtonGroup color='default'>
-            {serverList.map(sv => (
+            {serverList.map((sv, idx) => (
               <Button
                 key={sv.key}
                 variant='outlined'
                 className={classes.server}
                 color={server && sv.key === server.key ? "secondary" : "primary"}
                 onClick={() => {
-                  setServerState(sv.key);
+                  setServerState(idx);
                   setServer(sv);
                 }}>
                 {sv.name}
@@ -89,15 +86,14 @@ function TradeBoard({ location }: any) {
           </ButtonGroup>
         ) : (
           <div style={{ marginBottom: "10px" }}>
-            {serverList.map(sv => (
+            {serverList.map((sv, idx) => (
               <Button
                 key={sv.key}
                 className={classes.server}
                 variant='outlined'
                 color={server && sv.key === server.key ? "secondary" : "primary"}
                 onClick={() => {
-                  setServerState(sv.key);
-                  console.log(test);
+                  setServerState(idx);
                   setServer(sv);
                 }}
                 style={{ margin: "0 20px" }}>

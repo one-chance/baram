@@ -1,8 +1,11 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
-const ServerState = atom<string>({
+const { persistAtom } = recoilPersist();
+const ServerState = atom<number>({
   key: "ServerState",
-  default: "서버",
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export default ServerState;

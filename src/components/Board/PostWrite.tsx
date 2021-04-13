@@ -105,6 +105,7 @@ function PostWrite(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   var serverName = useRecoilValue(ServerState);
+  console.log(serverName);
 
   const refTitle = useRef<any>();
 
@@ -122,7 +123,7 @@ function PostWrite(props: IProps) {
     const init = async () => {
       if (tab) setCategory(tab);
 
-      if (tab === "trade") setServer(serverList[0]);
+      if (tab === "trade") setServer(serverList[serverName]);
 
       if (seq) {
         const res: IPost | null = await getPost(category, seq);
@@ -166,7 +167,7 @@ function PostWrite(props: IProps) {
         duration: duration,
         message: res.message,
       });
-
+      localStorage.removeItem("recoil-persist");
       setTimeout(() => (document.location.href = `/board/${category}/${res.seq}`), duration);
     } else {
       setMyAlert({
@@ -198,13 +199,7 @@ function PostWrite(props: IProps) {
             </Select>
 
             {category === "trade" ? (
-              <Select
-                variant='outlined'
-                id='server'
-                defaultValue={serverName}
-                /* value={server ? server.key : ""} */
-                className={classes.selector}
-                style={{ width: "100px" }}>
+              <Select variant='outlined' id='server' className={classes.selector} style={{ width: "100px" }} value={server ? server.key : ""}>
                 {serverList.map(sv => (
                   <Menus key={sv.key} value={sv.key} onClick={() => setServer(sv)}>
                     {sv.name}
@@ -285,6 +280,7 @@ function PostWrite(props: IProps) {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Dialog open={openPreview} maxWidth='lg'>
         <DialogTitle style={{ fontWeight: "bold", textAlign: "center" }}>{title}</DialogTitle>
         <Divider />
