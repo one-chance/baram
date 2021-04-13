@@ -132,7 +132,7 @@ export default function SignUp() {
     if (res.code === 200) {
       // Successed Authentication
       alertSuccess(res.message);
-      setTimeout(() => (document.location.href = "/signin"), duration);
+      document.location.href = "/";
     } else {
       // Failed Authentication
       alertError(res.message);
