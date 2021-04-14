@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
@@ -10,8 +10,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import Typography from "@material-ui/core/Typography";
 
 import PostTitle from "components/Board/PostTitle";
 import PostContent from "components/Board/PostContent";
@@ -20,6 +19,7 @@ import PostCommentList from "components/Board/PostCommentList";
 
 import IPost from "interfaces/Board/IPost";
 import { getPost, DeletePost } from "utils/PostUtil";
+import { getSignInUserId } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,8 +40,10 @@ function FreePostView({ match }: any) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
-  const [openConfirm, setOpenConfirm] = React.useState(false);
-  const [post, setPost] = React.useState<IPost>();
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [post, setPost] = useState<IPost>();
+  const [writer, setWriter] = useState("");
+  const signInUserId = getSignInUserId();
 
   useEffect(() => {
     _onLoad();
@@ -55,11 +57,18 @@ function FreePostView({ match }: any) {
 
   const _onLoad = async () => {
     const res = await getPost(category, seq);
-    if (res) setPost(res);
+    if (res) {
+      setPost(res);
+      setWriter(res.writer.id);
+    }
   };
 
   const _onEdit = () => {
-    document.location.href = `/board/write/${category}/${seq}`;
+    if (writer === signInUserId) {
+      document.location.href = `/board/write/${category}/${seq}`;
+    } else {
+      alert("권한이 없습니다.");
+    }
   };
 
   const delPost = async () => {
@@ -90,7 +99,8 @@ function FreePostView({ match }: any) {
   };
 
   const _onOpenConfirm = () => {
-    setOpenConfirm(true);
+    if (writer !== signInUserId) alert("권한이 없습니다.");
+    else setOpenConfirm(true);
   };
 
   const _onCloseConfirm = () => {
@@ -125,16 +135,17 @@ function FreePostView({ match }: any) {
         )}
       </Grid>
 
-      <Dialog open={openConfirm} onClose={_onCloseConfirm} aria-labelledby='alert-dialog-title' aria-describedby='alert-dialog-description'>
-        <DialogTitle id='alert-dialog-title'>{"정말 삭제하시겠습니까?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>삭제한 게시글은 되돌릴 수 없습니다.</DialogContentText>
+      <Dialog open={openConfirm} onClose={_onCloseConfirm}>
+        <DialogContent style={{ padding: "20px 40px 30px 40px" }}>
+          <Typography variant='h6' style={{ fontWeight: "bold" }}>
+            게시물을 삭제하시겠습니까?
+          </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={_onCloseConfirm} color='primary'>
-            취소
+        <DialogActions style={{ padding: "0" }}>
+          <Button onClick={_onCloseConfirm} color='primary' style={{ fontWeight: "bold" }}>
+            돌아가기
           </Button>
-          <Button onClick={_onAgreeConfirm} color='primary'>
+          <Button onClick={_onAgreeConfirm} color='primary' style={{ fontWeight: "bold" }}>
             확인
           </Button>
         </DialogActions>
