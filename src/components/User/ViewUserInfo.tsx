@@ -38,7 +38,8 @@ const useStyles = makeStyles(theme => ({
     width: "290px",
     margin: "0 5px",
     "& input": {
-      height: "40px",
+      fontSize: "0.9rem",
+      height: "36px",
       padding: "0 10px",
     },
   },
@@ -52,16 +53,21 @@ function ViewUserInfo(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
+  const userInfo: IUserInfo = props.userInfo;
   const [openKakao, setOpenKakao] = useState<string>("");
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
-  const userInfo: IUserInfo = props.userInfo;
 
   const _onSave = async () => {
     setMyBackdrop(true);
 
     const editUserInfo: IUserInfo = Object.assign(userInfo);
-    editUserInfo.openKakao = openKakao;
+    if (openKakao.split("https://open.kakao.com/o/").length > 1 || openKakao === "") {
+      editUserInfo.openKakao = openKakao;
+    } else {
+      alert("올바른 오픈카톡 형식이 아닙니다.");
+      setMyBackdrop(false);
+      return;
+    }
 
     const res = await setUserInfo(editUserInfo);
 
@@ -128,6 +134,7 @@ function ViewUserInfo(props: IProps) {
                 className={classes.btn}
                 onClick={() => {
                   setIsEdit(true);
+                  setOpenKakao(userInfo.openKakao as string);
                 }}>
                 수정
               </Button>

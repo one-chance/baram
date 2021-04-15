@@ -25,6 +25,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: "10px",
   },
+  postBox: {
+    minWidth: "580px",
+    maxWidth: "960px",
+    border: "1px solid lightgray",
+    padding: "0 20px",
+  },
   editBox: {
     padding: "0 10px",
   },
@@ -114,9 +120,9 @@ function FreePostView({ match }: any) {
 
   return (
     <React.Fragment>
-      <Grid container className={classes.root}>
+      <Grid container justify='center' className={classes.root}>
         {post ? (
-          <Grid container direction='column' style={{ minWidth: "580px", border: "1px solid lightgray", padding: "0 20px" }}>
+          <Grid container direction='column' className={classes.postBox}>
             <PostTitle post={post} />
             <Grid container justify='flex-end' className={classes.editBox}>
               <Button onClick={_onEdit} style={{ padding: "3px" }}>
@@ -131,7 +137,7 @@ function FreePostView({ match }: any) {
             <PostCommentList post={post} commentList={commentList} />
           </Grid>
         ) : (
-          <Container>게시글 내용을 불러오고 있습니다.</Container>
+          <Container style={{ maxWidth: "960px" }}>게시글 내용을 불러오고 있습니다.</Container>
         )}
       </Grid>
 
