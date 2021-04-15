@@ -54,6 +54,8 @@ const Home = () => {
   const [totalVisit, setTotalVisit] = React.useState(0);
 
   useEffect(() => {
+    localStorage.removeItem("recoil-persist");
+
     getFree()
       .then(res => {
         setFreePosts(res);

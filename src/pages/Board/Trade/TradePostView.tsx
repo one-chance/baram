@@ -25,6 +25,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: "10px",
   },
+  postBox: {
+    minWidth: "580px",
+    maxWidth: "960px",
+    border: "1px solid lightgray",
+    padding: "0 20px",
+  },
   editBox: {
     padding: "0 10px",
   },
@@ -116,7 +122,7 @@ function TradeBoardView({ match }: any) {
     <React.Fragment>
       <Grid container justify='center' className={classes.root}>
         {post ? (
-          <Grid container direction='column' style={{ border: "1px solid lightgray", padding: "0 20px" }}>
+          <Grid container direction='column' className={classes.postBox}>
             <PostTitle post={post} />
             <Grid container justify='flex-end' className={classes.editBox}>
               <Button onClick={_onEdit}>수정</Button>
