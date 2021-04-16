@@ -1,6 +1,6 @@
 {
   "name": "dotols",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "private": true,
   "proxy": "http://3.36.177.106:3001",
   "dependencies": {
@@ -51,7 +51,6 @@
     "recoil": "^0.1.2",
     "recoil-persist": "^2.5.0",
     "request": "^2.88.2",
-    "tesseract.js": "^2.1.4",
     "ts-node": "^9.1.1",
     "typescript": "^3.9.6",
     "winston": "^3.3.3",
