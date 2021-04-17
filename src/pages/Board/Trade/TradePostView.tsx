@@ -23,11 +23,10 @@ import { getSignInUserId } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "10px",
+    margin: "10px auto",
+    width: "960px",
   },
   postBox: {
-    minWidth: "580px",
-    maxWidth: "960px",
     border: "1px solid lightgray",
     padding: "0 20px",
   },

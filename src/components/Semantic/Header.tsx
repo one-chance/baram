@@ -141,9 +141,11 @@ export default function Header() {
     <React.Fragment>
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
-          <Button href='/' style={{ minWidth: "40px", padding: "2px" }}>
-            <HomeIcon style={{ width: "36px", height: "36px" }} />
-          </Button>
+          <div style={{ width: "160px" }}>
+            <Button href='/' style={{ minWidth: "40px", padding: "2px" }}>
+              <HomeIcon style={{ width: "36px", height: "36px" }} />
+            </Button>
+          </div>
 
           <img src='/assets/img/title.png' alt='title' />
 

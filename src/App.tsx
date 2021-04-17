@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     height: "120px",
     padding: "0",
   },
-  header2: {
+  navagation: {
     zIndex: 10,
     position: "fixed",
     top: 0,
@@ -104,7 +104,10 @@ function App() {
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
+    localStorage.removeItem("recoil-persist");
+
     // 토큰 자동갱신 실행
+    refreshToken();
     setInterval(refreshToken, 1000 * 60 * 10);
   }, []);
 
@@ -113,7 +116,7 @@ function App() {
       <div>
         <header>
           {smallScreen ? (
-            <div className={classes.header2}>
+            <div className={classes.navagation}>
               <Navigation />
             </div>
           ) : (
