@@ -78,7 +78,7 @@ const Bottom = (props: IProps) => {
 
   const handlePostWrite = () => {
     if (signInUser) {
-      if (2 < Number(signInUser.grade)) {
+      if (1 < Number(signInUser.grade)) {
         document.location.href = `/board/write/${category}`;
       }
       else {
