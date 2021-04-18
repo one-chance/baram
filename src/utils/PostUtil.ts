@@ -94,11 +94,13 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost, 
 
 // NOTE 게시글 삭제
 export const DeletePost = async (_category: CategoryType, _seq: number) => {
+  const signInUser = CommonUtil.getNowUser();
+
   const res = await axios.delete(`/api/board/${_category}/post/${_seq}`, {
     headers: {
       token: CommonUtil.getToken(),
-      key: CommonUtil.getNowKey(),
-      id: CommonUtil.getNowId()
+      key: signInUser.key,
+      id: signInUser.id
     }
   })
   .then((res) => {
@@ -229,11 +231,13 @@ export const EditComment = async (post: IPost, comment: IComment) => {
 
 // NOTE 댓글 삭제
 export const DeleteComment = async (post: IPost, commentIdx: number) => {
+  const signInUser = CommonUtil.getNowUser();
+
   const res = await axios.delete(`/api/board/${post.category}/comment/${post.seq}/${commentIdx}`, {
     headers: {
       token: CommonUtil.getToken(),
-      key: CommonUtil.getNowKey(),
-      id: CommonUtil.getNowId()
+      key: signInUser.key,
+      id: signInUser.id
     }
   })
   .then((res) => {
@@ -315,6 +319,8 @@ export const EditRecomment = async (post: IPost, commentIdx: number, recomment: 
 
 // NOTE 답글 삭제
 export const DeleteRecomment = async (post: IPost, commentIdx: number, recomment: IRecomment) => {
+  const signInUser = CommonUtil.getNowUser();
+
   const res = await axios.put(`/api/board/${post.category}/recomment/${recomment.idx}`, {
     post: post,
     commentIdx: commentIdx,
@@ -322,8 +328,8 @@ export const DeleteRecomment = async (post: IPost, commentIdx: number, recomment
   }, {
     headers: {
       token: CommonUtil.getToken(),
-      key: CommonUtil.getNowKey(),
-      id: CommonUtil.getNowId()
+      key: signInUser.key,
+      id: signInUser.id
     }
   })
   .then((res) => {

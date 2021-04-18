@@ -176,24 +176,27 @@ router.post("/signin", (req, res) => {
           if (key.toString("base64") === user.password) {
             logger.info(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
 
-            const token = createToken(user.key, id);
-
-            // signInLog 컬렉션에 로그인 로깅
-            const signInIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress; // 로그인 사용자 IP 조회
-            SignInLogSchema.create({
-              userId: id,
-              signInIP: signInIP,
-              signInDate: new Date(),
-            });
-
-            res.status(200).send({
-              code: 200,
-              message: "로그인 하였습니다.",
-              token: token,
-              isReset: user.isReset,
-            });
-
-            return true;
+            UserInfoSchema.findOneById(id)
+              .then(userInfo => {
+                const token = createToken(user.id, user.key, userInfo);
+    
+                // signInLog 컬렉션에 로그인 로깅
+                const signInIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress; // 로그인 사용자 IP 조회
+                SignInLogSchema.create({
+                  userId: id,
+                  signInIP: signInIP,
+                  signInDate: new Date(),
+                });
+    
+                res.status(200).send({
+                  code: 200,
+                  message: "로그인 하였습니다.",
+                  token: token,
+                  isReset: user.isReset,
+                });
+    
+                return true;
+              })
           } else {
             logger.info(`[FAILED] : ${id} IS NOT MATCHED PASSWORD`);
             res.status(200).send({
@@ -234,17 +237,17 @@ router.post("/signin", (req, res) => {
  *        401: 유효하지 않은 토큰
  */
 router.post("/refresh", (req, res) => {
-  const token = req.body.token;
-  const id = req.body.id;
-  const key = req.body.key;
-
+  const { token, id, key, grade } = req.body;
   const decoded = jsonwebtoken.verify(token, process.env.MONGODB_SECRET);
+  const userInfo = {
+    grade
+  }
 
   if (decoded) {
     logger.info(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
     res.status(200).send({
       code: 200,
-      token: createToken(key, id),
+      token: createToken(id, key, userInfo),
     });
   } else {
     logger.info(`[FAILED] : ${id} INVALID ACCESS TOKEN`);
@@ -865,12 +868,13 @@ router.get("/visit/count", (req, res) => {
 /*
  *   NOTE 신규 토큰 생성
  */
-const createToken = (_key, _id) => {
+const createToken = (id, key, userInfo) => {
   // CREATE JSONWEBTOKEN
   const token = jsonwebtoken.sign(
     {
-      key: _key,
-      id: _id,
+      id,
+      key,
+      grade: userInfo.grade
     },
     process.env.MONGODB_SECRET,
     {

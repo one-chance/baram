@@ -46,10 +46,10 @@ export const SignUpUser = async (_id: string, _password: string, _email: string)
 /*
 * NOTE 사용자 로그인
 */
-export const SignInUser = async (_id: string, _password: string) => {
+export const SignInUser = async (id: string, password: string) => {
   const res = await axios.post('/api/common/signin', {
-    id: _id, 
-    password: _password
+    id,
+    password
   })
     .then((res) => {
 
@@ -111,13 +111,24 @@ export const LogoutUser = () => {
 * NOTE 로그인 한 사용자 ID 가져오기
 */
 export const getSignInUserId = () => {
-  return CommonUtil.getNowId();
+  const signInUser = CommonUtil.getNowUser();
+  return signInUser ? signInUser.id : '';
 }
+
 /*
 * NOTE 로그인 한 사용자 KEY 가져오기
 */
 export const getSignInUserKey = () => {
-  return CommonUtil.getNowKey();
+  const signInUser = CommonUtil.getNowUser();
+  return signInUser ? signInUser.key : '';
+}
+
+/*
+* NOTE 로그인 한 사용자정보 가져오기
+*/
+export const getNowUserInfo = () => {
+  const signInUser = CommonUtil.getNowUser();
+  return signInUser ? signInUser : '';
 }
 
 /*

@@ -143,7 +143,7 @@ function ViewUserInfo(props: IProps) {
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
           <Typography className={classes.text}>등급</Typography>
-          <span className={classes.box}>{userInfo.grade}</span>
+          <span className={classes.box}>Level {userInfo.grade}</span>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
           <Typography className={classes.text}>포인트</Typography>

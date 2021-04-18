@@ -18,6 +18,7 @@ import * as CommonUtil from "utils/CommonUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { CreateRecomment, DeleteComment, EditComment } from "utils/PostUtil";
+import { getSignInUserKey } from "utils/UserUtil";
 import RecommentItem from "components/Board/RecommentItem";
 
 interface IProps {
@@ -251,7 +252,7 @@ const CommentItem = (props: IProps) => {
                         <Button
                           className={classes.btn}
                           onClick={() => {
-                            if (CommonUtil.getNowKey()) {
+                            if (getSignInUserKey()) {
                               setRecommentIdx(comment.idx);
                             } else {
                               setIsSignInOpen(true);
@@ -260,7 +261,7 @@ const CommentItem = (props: IProps) => {
                           답글
                         </Button>
 
-                        {comment.writer.key === CommonUtil.getNowKey() && (
+                        {comment.writer.key === getSignInUserKey() && (
                           <>
                             <Button
                               className={classes.btn}

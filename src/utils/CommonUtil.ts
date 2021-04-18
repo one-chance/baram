@@ -36,11 +36,13 @@ export const delToken = () => {
 
 export const refreshToken = () => {
   const token = getToken();
-  const id = getIdFromToken(token);
-  const key = getKeyFromToken(token);
+  const signInUser = getSignInUserFromToken(token);
   
   if (token){
-    const res = axios.post('/api/common/refresh', {id: id, key: key, token: token})
+    const res = axios.post('/api/common/refresh', {
+      ...signInUser,
+      token
+    })
       .then((res) => {
         if (res.data.code === 200 && res.data.token) { // 토큰 갱신
           setToken(res.data.token);
@@ -68,12 +70,8 @@ export const refreshToken = () => {
   }
 }
 
-export const getNowId = () => {
-  return getIdFromToken(getToken());
-}
-
-export const getNowKey = () => {
-  return getKeyFromToken(getToken());
+export const getNowUser = () => {
+  return getSignInUserFromToken(getToken());
 }
 
 export const getStringByDate = (date: Date | undefined, full?: boolean) => {
@@ -311,7 +309,7 @@ export const getServerList = () => {
 * JWT 구조
 * [HEADER].[PAYLOAD].[VERIFY SIGNATURE]
 */
-const getIdFromToken = (token: string | null) => {
+const getSignInUserFromToken = (token: string | null) => {
   if (token !== null) {
     // Get Token
     const splitToken = token.split(".");
@@ -322,25 +320,7 @@ const getIdFromToken = (token: string | null) => {
     // Decode Base64 and Transfer to JSON
     const payload = JSON.parse(atob(payloadToken));
   
-    return payload.id;
-  }
-  else {
-    return null;
-  }
-}
-
-const getKeyFromToken = (token: string | null) => {
-  if (token !== null) {
-    // Get Token
-    const splitToken = token.split(".");
-  
-    // Get Payload Token
-    const payloadToken = splitToken[1];
-  
-    // Decode Base64 and Transfer to JSON
-    const payload = JSON.parse(atob(payloadToken));
-  
-    return payload.key;
+    return payload;
   }
   else {
     return null;

@@ -15,6 +15,7 @@ import * as CommonUtil from "utils/CommonUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { EditRecomment, DeleteRecomment } from "utils/PostUtil";
+import { getSignInUserKey } from "utils/UserUtil";
 
 interface IProps {
   post: IPost;
@@ -191,7 +192,7 @@ const RecommentItem = (props: IProps) => {
                       </Grid>
                     ) : (
                       <Grid container direction='row' className={classes.buttonWrapper}>
-                        {recomment.writer.key === CommonUtil.getNowKey() && (
+                        {recomment.writer.key === getSignInUserKey() && (
                           <>
                             <Button
                               className={classes.btn}
