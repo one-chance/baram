@@ -2,7 +2,7 @@ import React from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { DataGrid, RowsProp, ColDef, GridOverlay, BaseComponentProps } from "@material-ui/data-grid";
+import { DataGrid, GridRowsProp, GridColDef, GridOverlay, useGridSlotComponentProps } from "@material-ui/data-grid";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Container from "@material-ui/core/Container";
@@ -84,7 +84,7 @@ interface IProps {
   keyword?: string;
 }
 
-const cols: ColDef[] = [
+const cols: GridColDef[] = [
   { field: "id", headerName: "번호", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "title", headerName: "제목", type: "string", width: 420, sortable: false, headerAlign: "center" },
   { field: "writer", headerName: "작성자", type: "string", width: 140, sortable: false, headerAlign: "center", align: "center" },
@@ -94,7 +94,7 @@ const cols: ColDef[] = [
   { field: "createDate", headerName: "작성일", type: "date", width: 120, headerAlign: "center", align: "center" },
 ];
 
-const cols2: ColDef[] = [
+const cols2: GridColDef[] = [
   { field: "title", headerName: "제목", type: "string", width: 230, sortable: false, headerAlign: "center" },
   { field: "writer", headerName: "작성자", type: "string", width: 90, sortable: false, headerAlign: "center", align: "center" },
   { field: "viewCount", headerName: "조회수", type: "number", width: 70, headerAlign: "center", align: "center" },
@@ -121,9 +121,9 @@ function CustomNoRowsOverlay() {
   );
 }
 
-function CustomPagination(props: BaseComponentProps) {
+function CustomPagination() {
   const classes = useStyles();
-  const { state, api } = props;
+  const { state, apiRef } = useGridSlotComponentProps();
   const { pagination } = state;
   const setMyAlert = useSetRecoilState(MyAlertState);
   const filterValue = useRecoilValue(FilterState);
@@ -167,11 +167,11 @@ function CustomPagination(props: BaseComponentProps) {
         <Pagination
           color='primary'
           shape='rounded'
-          page={pagination.page ? pagination.page : 1}
           count={pagination.pageCount}
+          page={pagination.page+1}
           showFirstButton={true}
           showLastButton={true}
-          onChange={(event, value) => api.current.setPage(value)}
+          onChange={(event, value) => apiRef.current.setPage(value-1)}
         />
       </Grid>
       <MyGridDivider />
@@ -226,7 +226,7 @@ const Board = (props: IProps) => {
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const { category, posts } = props;
-  const rows: RowsProp = [];
+  const rows: GridRowsProp = [];
   nowCategory = category;
 
   posts.forEach(post => {
@@ -257,8 +257,7 @@ const Board = (props: IProps) => {
           rowHeight={smallScreen ? 30 : 40} //default 52
           sortingMode='client'
           pageSize={10}
-          rowsPerPageOptions={[10, 25, 50]}
-          paginationMode='client'
+          // paginationMode='client'
           hideFooterRowCount={true}
           hideFooterSelectedRowCount={true}
           disableColumnMenu={true}
