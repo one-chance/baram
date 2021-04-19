@@ -21,22 +21,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 
 import IExp from "interfaces/Calculator/IExp";
 import expTable from "conf/expTable.json";
+import expTable2 from "conf/expTable2.json";
 
 const useStyles = makeStyles({
-  inLevel: {
-    width: "140px",
-    margin: "0 5px",
-    float: "right",
-    "& input": {
-      height: "35px",
-      padding: "0 5px",
-      textAlign: "center",
-    },
-    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-      display: "none",
-    },
-  },
-  inExp: {
+  input: {
     width: "200px",
     margin: "0",
     float: "left",
@@ -61,22 +49,12 @@ const useStyles = makeStyles({
   },
   btn: {
     minWidth: "60px",
-    maxWidth: "60px",
     height: "35px",
     textAlign: "center",
     float: "left",
     margin: "0",
     padding: "0",
     boxShadow: "none",
-  },
-  title: {
-    width: "200px",
-    lineHeight: "35px",
-    margin: "0",
-    textAlign: "center",
-    fontSize: "1rem",
-    fontWeight: "bold",
-    float: "left",
   },
   table: {
     border: "1px solid",
@@ -99,7 +77,6 @@ const useStyles = makeStyles({
     margin: "10px 0",
     padding: "10px 0",
     border: "1px solid",
-    float: "left",
   },
   boxTable: {
     margin: "10px 0",
@@ -110,7 +87,7 @@ const useStyles = makeStyles({
 export default function Exp() {
   const classes = useStyles();
   const baseUrlForExpImg = getBaseUrlForExpImg();
-
+  const [toggle, setToggle] = useState(true);
   const [openHelper, setOpenHelper] = useState<boolean>(false);
 
   const [level, setLevel] = useState<number>(0);
@@ -123,9 +100,9 @@ export default function Exp() {
 
   const [temp, setTemp] = useState<Array<IExp>>([]); // exp.json 전체를 저장하는 배열
   const [datas, setDatas] = useState<Array<IExp>>([
-    { 순수체력: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
-    { 순수체력: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
-    { 순수체력: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+    { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+    { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+    { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
   ]); // 레벨에 맞는 json 값만 저장하는 배열
 
   const fillTable = (lev: number) => {
@@ -168,6 +145,9 @@ export default function Exp() {
     } else if (str.length === 2) {
       temp = str[0] + str[1];
       return parseInt(temp.substr(0, temp.length - 6) + temp.substr(temp.length - 5, 4));
+    } else if (str.length === 1) {
+      temp = text;
+      return parseInt(temp.substr(0, temp.length)) * 10000;
     } else {
       return 0;
     }
@@ -199,142 +179,175 @@ export default function Exp() {
     return numToText(res);
   };
 
+  const switchToggle = () => {
+    setToggle(!toggle);
+    setDatas([
+      { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+      { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+      { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
+    ]);
+    setLevel(0);
+    if (toggle) {
+      setTemp(expTable2);
+    } else {
+      setTemp(expTable);
+    }
+  };
+
   useEffect(() => {
     setTemp(expTable);
     // eslint-disable-next-line
   }, []);
 
   return (
-    <Grid container style={{ margin: "10px 0", padding: "0" }}>
-      <Grid item container direction='column' style={{ minWidth: "500px", maxWidth: "620px", margin: "0 5px", padding: "0", float: "left" }}>
-        <Container className={classes.box} style={{ border: "none", padding: "0" }}>
-          <Typography style={{ width: "225px", lineHeight: "35px", fontSize: "1.25rem", fontWeight: "bold", textAlign: "center", float: "left" }}>
-            경험치 계산기 for 격수
-          </Typography>
-          <Button
-            className={classes.btn}
-            variant='outlined'
-            color='primary'
-            style={{ float: "right" }}
-            onClick={() => {
-              if (level >= 700 && level < 799) fillTable(level);
-              else setLevel(0);
-            }}>
-            설정
-          </Button>
+    <>
+      <Grid container style={{ margin: "10px 0", padding: "0" }}>
+        <Grid item container direction='column' style={{ minWidth: "500px", maxWidth: "620px", margin: "0 5px", padding: "0", float: "left" }}>
+          <Grid container justify='space-between' className={classes.box} style={{ border: "none", padding: "0" }}>
+            <div>
+              <Typography style={{ width: "160px", lineHeight: "35px", fontSize: "1.25rem", fontWeight: "bold", textAlign: "center", float: "left" }}>
+                경험치 계산기 for
+              </Typography>
+              <Button
+                className={classes.btn}
+                variant='outlined'
+                color={toggle ? "primary" : "secondary"}
+                style={{ minWidth: "80px", margin: "0 10px", fontSize: "1.25rem", fontWeight: "bold" }}
+                onClick={switchToggle}>
+                {toggle ? "격수" : "비격수"}
+              </Button>
+            </div>
+            <div>
+              <TextField
+                className={classes.input}
+                type='number'
+                placeholder='레벨 (700~798)'
+                variant='outlined'
+                value={level || ""}
+                style={{ width: "140px", margin: "0 5px" }}
+                onChange={e => {
+                  setLevel(parseInt(e.target.value));
+                }}
+              />
+              <Button
+                className={classes.btn}
+                variant='outlined'
+                color='primary'
+                onClick={() => {
+                  if (level >= 700 && level < 799) fillTable(level);
+                  else setLevel(0);
+                }}>
+                설정
+              </Button>
+            </div>
+          </Grid>
 
-          <TextField
-            className={classes.inLevel}
-            type='number'
-            placeholder='레벨 (700~798)'
-            variant='outlined'
-            value={level || ""}
-            onChange={e => {
-              setLevel(parseInt(e.target.value));
-            }}
-          />
-        </Container>
-
-        <Container className={classes.boxTable}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>순수 체력</TableCell>
-                <TableCell>레벨</TableCell>
-                <TableCell>최소</TableCell>
-                <TableCell>필요 경험치</TableCell>
-                <TableCell>최대</TableCell>
-                <TableCell>필요 경험치</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {datas.map((row, index) => (
-                <TableRow key={index} selected={index === 1}>
-                  <TableCell scope='row'>{row.순수체력 || 0}</TableCell>
-                  <TableCell>{row.레벨 || 0}</TableCell>
-                  <TableCell>{row.최소 || 0}</TableCell>
-                  <TableCell>{row.필요경험치1 || 0}</TableCell>
-                  <TableCell>{row.최대 || 0}</TableCell>
-                  <TableCell>{row.필요경험치2 || 0}</TableCell>
+          <Container className={classes.boxTable}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>{toggle ? "순수 체력" : "순수 마력"}</TableCell>
+                  <TableCell>레벨</TableCell>
+                  <TableCell>최소</TableCell>
+                  <TableCell>필요 경험치</TableCell>
+                  <TableCell>최대</TableCell>
+                  <TableCell>필요 경험치</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Container>
-        <Grid item container direction='row' alignItems='flex-end' justify='center' className={classes.box}>
-          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
-            <Typography className={classes.text}>{isNaN(myExp.num) || myExp.num === 0 ? "보유 경험치" : myExp.str}</Typography>
-            <TextField
-              className={classes.inExp}
-              placeholder='1만 ~ 경험치 최대량'
-              variant='outlined'
-              value={myExp.num || ""}
-              onChange={e => {
-                if (e.target.value.length < 14 && needExp !== "0") {
-                  setMyExp({ num: parseInt(e.target.value), str: numToText(parseInt(e.target.value)) as string });
-                  setIncreasedHp(0);
-                } else {
-                  setMyExp({ num: 0, str: "보유 경험치" });
-                }
-              }}
-            />
-          </Grid>
-          <Grid item style={{ margin: "5px", padding: "0" }}>
-            <Button
-              className={classes.btn}
-              variant='contained'
-              color='primary'
-              onClick={e => {
-                setIncreasedHp(calculateExp(myExp.num, needExp) as number);
-              }}>
-              변환
-            </Button>
-          </Grid>
-          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
-            <Typography className={classes.text}>체력 상승량</Typography>
-            <TextField variant='outlined' value={increasedHp} className={classes.inExp} disabled={true} />
-          </Grid>
-        </Grid>
+              </TableHead>
+              <TableBody>
+                {datas.map((row, index) => (
+                  <TableRow key={index} selected={index === 1}>
+                    <TableCell scope='row'>{row.순수 || 0}</TableCell>
+                    <TableCell>{row.레벨 || 0}</TableCell>
+                    <TableCell>{row.최소 || 0}</TableCell>
+                    <TableCell>{row.필요경험치1 || 0}</TableCell>
+                    <TableCell>{row.최대 || 0}</TableCell>
+                    <TableCell>{row.필요경험치2 || 0}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Container>
 
-        <Grid item container direction='row' alignItems='flex-end' justify='center' className={classes.box}>
-          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
-            <Typography className={classes.text}>목표 체력량</Typography>
-            <TextField
-              className={classes.inExp}
-              type='number'
-              placeholder='1 ~ 최대 체력'
-              variant='outlined'
-              value={hp || ""}
-              onChange={e => {
-                if (parseInt(e.target.value) <= maxHp && parseInt(e.target.value) > 0) {
-                  setHp(parseInt(e.target.value));
-                } else {
-                  setHp(0);
-                }
-              }}
-            />
+          <Grid item container direction='row' alignItems='flex-end' justify='center' className={classes.box}>
+            <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+              <Typography className={classes.text}>{isNaN(myExp.num) || myExp.num === 0 ? "보유 경험치" : myExp.str}</Typography>
+              <TextField
+                className={classes.input}
+                placeholder='1만 ~ 경험치 최대량'
+                variant='outlined'
+                value={myExp.num || ""}
+                onChange={e => {
+                  if (e.target.value.length < 14 && needExp !== "0") {
+                    setMyExp({ num: parseInt(e.target.value), str: numToText(parseInt(e.target.value)) as string });
+                    setIncreasedHp(0);
+                  } else {
+                    setMyExp({ num: 0, str: "보유 경험치" });
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item style={{ margin: "5px", padding: "0" }}>
+              <Button
+                className={classes.btn}
+                variant='contained'
+                color='primary'
+                onClick={e => {
+                  setIncreasedHp(calculateExp(myExp.num, needExp) as number);
+                }}>
+                변환
+              </Button>
+            </Grid>
+            <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+              <Typography className={classes.text}>{toggle ? "체력 상승량" : "마력 상승량"}</Typography>
+              <TextField variant='outlined' value={increasedHp} className={classes.input} disabled={true} />
+            </Grid>
           </Grid>
-          <Grid item style={{ margin: "5px", padding: "0" }}>
-            <Button
-              className={classes.btn}
-              variant='contained'
-              color='primary'
-              onClick={e => {
-                setRequiredExp(calculateHp(hp, needExp) as string);
-              }}>
-              변환
+
+          <Grid item container direction='row' alignItems='flex-end' justify='center' className={classes.box}>
+            <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+              <Typography className={classes.text}>{toggle ? "목표 체력량" : "목표 마력량"}</Typography>
+              <TextField
+                className={classes.input}
+                type='number'
+                placeholder={toggle ? "1 ~ 최대 체력" : "1 ~ 최대 마력"}
+                variant='outlined'
+                value={hp || ""}
+                onChange={e => {
+                  if (parseInt(e.target.value) <= maxHp && parseInt(e.target.value) > 0) {
+                    setHp(parseInt(e.target.value));
+                  } else {
+                    setHp(0);
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item style={{ margin: "5px", padding: "0" }}>
+              <Button
+                className={classes.btn}
+                variant='contained'
+                color='primary'
+                onClick={e => {
+                  setRequiredExp(calculateHp(hp, needExp) as string);
+                }}>
+                변환
+              </Button>
+            </Grid>
+            <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
+              <Typography className={classes.text}>필요 경험치</Typography>
+              <TextField variant='outlined' className={classes.input} value={requiredExp} disabled={true} />
+            </Grid>
+          </Grid>
+
+          <Grid container justify='center' style={{ width: "auto", margin: "10px", border: "none", textAlign: "center" }}>
+            <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)} style={{ height: "35px", margin: "0 10px" }}>
+              격수용 마력별 필요경험치표
             </Button>
-          </Grid>
-          <Grid item style={{ maxWidth: "210px", padding: "5px" }}>
-            <Typography className={classes.text}>필요 경험치</Typography>
-            <TextField variant='outlined' className={classes.inExp} value={requiredExp} disabled={true} />
+            {/*             <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)} style={{ height: "35px", margin: "0 10px" }}>
+              비격수용 체력별 필요경험치표
+            </Button> */}
           </Grid>
         </Grid>
-        <Container className={classes.box} style={{ border: "none", textAlign: "center" }}>
-          <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)}>
-            격수용 마력별 필요경험치표
-          </Button>
-        </Container>
       </Grid>
 
       <Dialog
@@ -360,6 +373,6 @@ export default function Exp() {
           </Button>
         </DialogActions>
       </Dialog>
-    </Grid>
+    </>
   );
 }

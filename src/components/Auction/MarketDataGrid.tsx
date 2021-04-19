@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { DataGrid, RowsProp, ColDef } from "@material-ui/data-grid";
+import { DataGrid, GridRowsProp, GridColDef } from "@material-ui/data-grid";
 
 import IMarketItem from "interfaces/Auction/IMarketItem";
 
@@ -31,7 +31,7 @@ interface IProps {
   keyword?: string;
 }
 
-const cols: ColDef[] = [
+const cols: GridColDef[] = [
   { field: "id", headerName: "번호", type: "number", headerAlign: "center", align: "center" },
   { field: "item", headerName: "아이템", type: "string", width: 400, headerClassName: "title", cellClassName: "title" },
   { field: "price", headerName: "가격", type: "number", width: 150, headerAlign: "center", align: "center" },
@@ -41,7 +41,7 @@ const cols: ColDef[] = [
 
 const MarketDataGrid = (props: IProps) => {
   const classes = useStyles();
-  const rows: RowsProp = [] as RowsProp;
+  const rows: GridRowsProp = [] as GridRowsProp;
 
   props.posts.forEach(post => {
     rows.push({
