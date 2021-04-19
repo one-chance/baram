@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { getBaseUrlForExpImg } from "utils/ConfigUtil";
 
@@ -7,7 +7,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
 
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -83,18 +82,6 @@ const useStyles = makeStyles({
     margin: "10px 0",
     padding: "5px 0",
   },
-  timeText: {
-    width: "80px",
-    margin: "5px",
-    "& input": {
-      height: "35px",
-      padding: "0 5px",
-      textAlign: "center",
-    },
-    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-      display: "none",
-    },
-  },
 });
 
 export default function Exp() {
@@ -117,14 +104,6 @@ export default function Exp() {
     { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
     { 순수: 0, 레벨: 0, 최소: 0, 필요경험치1: "0", 최대: 0, 필요경험치2: "0" },
   ]); // 레벨에 맞는 json 값만 저장하는 배열
-
-  const [test, setTest] = useState<Array<JSX.Element>>([]);
-  const [type2, setType2] = useState([0]);
-  const box = useRef<any>();
-
-  const aa = (a: string) => {
-    box.current.style.width = `${a}px`;
-  };
 
   const fillTable = (lev: number) => {
     let num: number = lev - 700;
@@ -215,35 +194,8 @@ export default function Exp() {
     }
   };
 
-  const makeTextField = (arr: number[]) => {
-    let result: JSX.Element[] = arr.map((val, idx) => {
-      return (
-        <div key={idx} style={{ margin: "0 5px", float: "left" }}>
-          <TextField className={classes.timeText} type='number' placeholder='경험치(%)' variant='outlined' style={{ margin: "0 5px" }} />
-          <TextField
-            className={classes.timeText}
-            type='number'
-            placeholder='시간(분)'
-            variant='outlined'
-            onChange={e => {
-              if (e.target.value === "") {
-                aa("0");
-              } else {
-                aa(e.target.value);
-              }
-            }}
-            style={{ margin: "0 5px" }}
-          />
-        </div>
-      );
-    });
-
-    return result;
-  };
-
   useEffect(() => {
     setTemp(expTable);
-    setTest(makeTextField(type2) as JSX.Element[]);
     // eslint-disable-next-line
   }, []);
 
@@ -394,34 +346,6 @@ export default function Exp() {
             {/*             <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)} style={{ height: "35px", margin: "0 10px" }}>
               비격수용 체력별 필요경험치표
             </Button> */}
-          </Grid>
-        </Grid>
-
-        <Grid item container direction='row' xs={5}>
-          <Grid item style={{ height: "auto" }}>
-            {test}
-            <Button
-              color='primary'
-              onClick={() => {
-                type2.push(0);
-                setTest(makeTextField(type2) as JSX.Element[]);
-              }}
-              style={{ margin: "0 2.5px", padding: "0", minWidth: "35px", height: "35px", fontSize: "1rem" }}>
-              추가
-            </Button>
-            <Button
-              color='primary'
-              onClick={() => {
-                setType2([0]);
-                setTest(makeTextField([0]) as JSX.Element[]);
-              }}
-              style={{ margin: "0 2.5px", padding: "0", minWidth: "35px", height: "35px", fontSize: "1rem" }}>
-              삭제
-            </Button>
-          </Grid>
-
-          <Grid item style={{ height: "auto" }}>
-            <Divider ref={box} style={{ width: "10px", height: "15px", margin: "10px 0" }} />
           </Grid>
         </Grid>
       </Grid>
