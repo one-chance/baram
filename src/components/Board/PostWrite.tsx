@@ -135,7 +135,6 @@ function PostWrite(props: IProps) {
         duration: duration,
         message: res.message,
       });
-      localStorage.removeItem("recoil-persist");
       setTimeout(() => (document.location.href = `/board/${category}/${res.seq}`), duration);
     } else {
       setMyAlert({
@@ -167,6 +166,9 @@ function PostWrite(props: IProps) {
       }
     };
     init();
+    return () => {
+      localStorage.removeItem("recoil-persist");
+    };
     // eslint-disable-next-line
   }, []);
 

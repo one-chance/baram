@@ -104,8 +104,6 @@ function App() {
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
-    localStorage.removeItem("recoil-persist");
-
     // 토큰 자동갱신 실행
     refreshToken();
     setInterval(refreshToken, 1000 * 60 * 10);
