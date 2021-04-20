@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "800px",
       border: "1px solid",
       "& th, td": {
-        height: "4vh",
+        height: "32px",
         border: "none",
         fontSize: "1rem",
         padding: "2px",
@@ -101,7 +101,7 @@ export default function AnimalItem() {
 
   return (
     <React.Fragment>
-      <Grid container direction='column' alignItems='center' justify='center' style={{ width: "100%", margin: "10px 0 20px 0" }}>
+      <Grid container direction='column' alignItems='center' justify='center' style={{ margin: "10px auto" }}>
         <Grid item className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
