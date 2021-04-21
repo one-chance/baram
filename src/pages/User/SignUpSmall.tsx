@@ -423,14 +423,18 @@ export default function SignUp() {
           <Divider style={{ width: "96%", margin: "10px 2%" }} />
 
           <Grid item container justify='center' style={{ margin: "10px 0" }}>
-            <Button variant='outlined' color='default' href='/' style={{ width: "300px", height: "50px", fontSize: "1.2rem", margin: "5px 10px" }}>
+            <Button
+              variant='outlined'
+              color='default'
+              href='/'
+              style={{ width: "300px", height: "40px", fontSize: "1.2rem", margin: "5px 10px", padding: "0" }}>
               취소
             </Button>
             <Button
               variant='contained'
               color='primary'
               onClick={_onClickSignUp}
-              style={{ width: "300px", height: "50px", fontSize: "1.2rem", margin: "5px 10px" }}>
+              style={{ width: "300px", height: "40px", fontSize: "1.2rem", margin: "5px 10px", padding: "0" }}>
               가입하기
             </Button>
           </Grid>
