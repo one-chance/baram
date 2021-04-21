@@ -1,7 +1,5 @@
 import React from "react";
-
 import Grid from "@material-ui/core/Grid";
-
 import ArcheologyList from "components/Dictionary/ArcheologyList";
 
 function Archeology() {
