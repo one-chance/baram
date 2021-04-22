@@ -44,7 +44,7 @@ const useStyles = makeStyles({
 export default function Ability() {
   const classes = useStyles();
   const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <React.Fragment>
