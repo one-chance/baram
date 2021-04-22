@@ -61,7 +61,7 @@ const useStyles = makeStyles({
     borderCollapse: "collapse",
     float: "left",
     "& th, td": {
-      height: "4vh",
+      height: "32px",
       border: "none",
       fontSize: "1rem",
       padding: "2px",

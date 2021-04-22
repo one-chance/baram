@@ -39,7 +39,6 @@ import Archeology from "pages/Dictionary/Archeology";
 
 // Calculator
 import Ability from "pages/Calculator/Ability";
-import AbilitySmall from "pages/Calculator/AbilitySmall";
 import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
@@ -146,7 +145,6 @@ function App() {
                 <Route exact path='/board/write/:tab/:seq' component={Write} />
 
                 {/*Calculator*/}
-                {smallScreen ? <Route exact path='/cal/ability' component={AbilitySmall} /> : <Route exact path='/cal/ability' component={Ability} />}
                 <Route exact path='/cal/ability' component={Ability} />
                 <Route exact path='/cal/exp' component={Exp} />
                 <Route exact path='/cal/power' component={Power} />

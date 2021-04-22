@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { makeStyles, withStyles, createStyles, Theme } from "@material-ui/core/styles";
 
 import Table from "@material-ui/core/Table";
@@ -7,25 +7,42 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
+import SearchIcon from "@material-ui/icons/Search";
 import IArcheology from "interfaces/Dictionary/IArcheology";
-
 import { getArcheologyList } from "utils/DictionaryUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   tableContainer: {
     margin: "0",
     padding: "0",
   },
-}));
-
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      backgroundColor: "#efebe9",
+  input: {
+    width: "165px",
+    "& input": {
+      height: "40px",
+      padding: "0 5px",
+      textAlign: "center",
     },
-  })
-)(TableRow);
+  },
+  btn: {
+    minWidth: "40px",
+    height: "40px",
+    marginLeft: "-5px",
+    padding: "0",
+    boxShadow: "none",
+    borderTopLeftRadius: "0",
+    borderBottomLeftRadius: "0",
+  },
+});
+
+const StyledTableRow = withStyles({
+  root: {
+    backgroundColor: "#efebe9",
+  },
+})(TableRow);
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -48,9 +65,33 @@ const StyledTableCell = withStyles((theme: Theme) =>
 function ArcheologyList() {
   const classes = useStyles();
   const archeologyList: Array<IArcheology> = getArcheologyList();
+  const [search, setSearch] = useState("");
+  const ref = useRef<any>([]);
+
+  const moveToItem = () => {
+    for (let i = 1; i < ref.current.length; i++) {
+      if (search === ref.current[i].innerText) {
+        window.scrollTo({ top: ref.current[i].getBoundingClientRect().top - 140, behavior: "smooth" });
+        return;
+      }
+    }
+  };
 
   return (
     <Grid container className={classes.tableContainer}>
+      <div style={{ marginBottom: "10px" }}>
+        <TextField
+          variant='outlined'
+          placeholder='아이템명'
+          className={classes.input}
+          onChange={e => {
+            setSearch(e.target.value);
+          }}
+        />
+        <Button variant='contained' color='primary' className={classes.btn} onClick={moveToItem}>
+          <SearchIcon />
+        </Button>
+      </div>
       <Table aria-label={`archeologyList-Table`}>
         <TableHead>
           <TableRow>
@@ -69,7 +110,9 @@ function ArcheologyList() {
               return (
                 <React.Fragment key={archeology.idx}>
                   <StyledTableRow>
-                    <StyledTableCell rowSpan={rewardCount + 1}>{archeology.itemName}</StyledTableCell>
+                    <StyledTableCell ref={e => (ref.current[archeology.idx] = e)} rowSpan={rewardCount + 1}>
+                      {archeology.itemName}
+                    </StyledTableCell>
                     <StyledTableCell rowSpan={rewardCount + 1}>{archeology.location}</StyledTableCell>
                     <StyledTableCell rowSpan={rewardCount + 1}>{archeology.use}</StyledTableCell>
                   </StyledTableRow>
@@ -85,7 +128,7 @@ function ArcheologyList() {
               return (
                 <React.Fragment key={archeology.idx}>
                   <StyledTableRow>
-                    <StyledTableCell>{archeology.itemName}</StyledTableCell>
+                    <StyledTableCell ref={e => (ref.current[archeology.idx] = e)}>{archeology.itemName}</StyledTableCell>
                     <StyledTableCell>{archeology.location}</StyledTableCell>
                     <StyledTableCell>{archeology.use}</StyledTableCell>
                     <StyledTableCell>{archeology.rewardList[0].count}</StyledTableCell>

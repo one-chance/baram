@@ -28,11 +28,6 @@ import { getCategoryName } from "utils/PostUtil";
 let nowCategory: CategoryType;
 
 const useStyles = makeStyles(theme => ({
-  top: {
-    textAlign: "right",
-    marginBottom: "5px",
-    justifyContent: "space-between",
-  },
   header: {
     padding: "10px",
     paddingLeft: "30px",
@@ -168,10 +163,10 @@ function CustomPagination() {
           color='primary'
           shape='rounded'
           count={pagination.pageCount}
-          page={pagination.page+1}
+          page={pagination.page + 1}
           showFirstButton={true}
           showLastButton={true}
-          onChange={(event, value) => apiRef.current.setPage(value-1)}
+          onChange={(event, value) => apiRef.current.setPage(value - 1)}
         />
       </Grid>
       <MyGridDivider />
@@ -248,9 +243,6 @@ const Board = (props: IProps) => {
   return (
     <React.Fragment>
       <Grid container justify='center' className={smallScreen ? classes.box2 : classes.box}>
-        {/*         <Container className={classes.top}>
-          <Typography variant='body2'>{rows.length} 건의 검색 결과가 조회되었습니다.</Typography>
-        </Container> */}
         <DataGrid
           className={classes.datagrid}
           headerHeight={smallScreen ? 30 : 40} //default 56
