@@ -34,7 +34,7 @@ export default function ClothStat() {
     <React.Fragment>
       <Button
         variant='outlined'
-        color={!click.s1 ? "primary" : "secondary"}
+        color='primary'
         className={classes.btnCloth}
         onClick={() => {
           if (!click.s1) {

@@ -4,7 +4,7 @@ import SignInDialogState from "state/common/SignInDialogState";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import MenuIcon from "@material-ui/icons/Menu";
-//import NotificationsIcon from "@material-ui/icons/Notifications";
+import HomeIcon from "@material-ui/icons/Home";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -227,9 +227,8 @@ export default function Header() {
 
           <img src='/assets/img/title.png' alt='title' />
 
-          <Button style={{ padding: "0", textTransform: "none" }}>
-            {/* <NotificationsIcon /> */}
-            v1.0.3
+          <Button href='/' style={{ padding: "0", textTransform: "none" }}>
+            <HomeIcon />
           </Button>
         </Grid>
 

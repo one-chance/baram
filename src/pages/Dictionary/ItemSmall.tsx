@@ -237,10 +237,7 @@ export default function Item() {
         </Grid>
         <Grid container justify='center' style={{ margin: "5px 0", padding: "0" }}>
           <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
-          <Typography style={{ margin: "10px 5px", padding: "0", textAlign: "center" }}>
-            비교 기능은 모바일 환경에서
-            <br /> 제공되지 않습니다.
-          </Typography>
+          <Typography style={{ margin: "20px 5px", padding: "0", textAlign: "center" }}>비교 기능은 PC환경에서만 제공됩니다.</Typography>
         </Grid>
       </Grid>
     </React.Fragment>

@@ -1,8 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import AbilityTable from "components/Calculator/Ability/AbilityTable";
 import CharStat from "components/Calculator/Ability/CharStat";
@@ -42,133 +43,141 @@ const useStyles = makeStyles({
 
 export default function Ability() {
   const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <React.Fragment>
-      <Grid container direction='column' style={{ padding: "0", margin: "0" }}>
-        <Grid container alignItems='center' justify='center' style={{ margin: "5px 0", padding: "0" }}>
-          <AbilityTable />
+      {smallScreen ? (
+        <Grid container alignItems='center' justify='center' style={{ width: "100%", height: "75vh" }}>
+          <Typography>PC 환경에서만 제공되는 기능입니다.</Typography>
         </Grid>
-
-        <Grid container direction='column' className={classes.boxBig}>
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              직업 스텟
-            </Typography>
-            <div id='cahrStat' className={classes.boxSmall}>
-              <CharStat />
-            </div>
+      ) : (
+        <Grid container direction='column' style={{ padding: "0", margin: "0" }}>
+          <Grid container alignItems='center' justify='center' style={{ margin: "5px 0", padding: "0" }}>
+            <AbilityTable />
           </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              일반 장비
-            </Typography>
-            <Grid container justify='center' id='equipStat' className={classes.boxSmall} style={{ maxWidth: "930px" }}>
-              <EquipStat />
+          <Grid container direction='column' className={classes.boxBig}>
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                직업 스텟
+              </Typography>
+              <div id='cahrStat' className={classes.boxSmall}>
+                <CharStat />
+              </div>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              각인 수치
-            </Typography>
-            <Grid container justify='center' id='equipStat' className={classes.boxSmall}>
-              <EngraveStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                일반 장비
+              </Typography>
+              <Grid container justify='center' id='equipStat' className={classes.boxSmall} style={{ maxWidth: "930px" }}>
+                <EquipStat />
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              황돋 수치
-            </Typography>
-            <div id='goldStat' className={classes.boxSmall}>
-              <GoldStat />
-            </div>
-          </Grid>
-
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              신수 장비
-            </Typography>
-            <div id='animalStat' className={classes.boxSmall}>
-              <AnimalStat />
-            </div>
-          </Grid>
-
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              신체 각성
-            </Typography>
-            <Grid container justify='center' id='awakStat' className={classes.boxSmall}>
-              <AwakStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                각인 수치
+              </Typography>
+              <Grid container justify='center' id='equipStat' className={classes.boxSmall}>
+                <EngraveStat />
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              환수 시동
-            </Typography>
-            <Grid container justify='center' id='petStat' className={classes.boxSmall}>
-              <PetStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                황돋 수치
+              </Typography>
+              <div id='goldStat' className={classes.boxSmall}>
+                <GoldStat />
+              </div>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              한벌 효과
-            </Typography>
-            <Grid container justify='center' id='pairStat' className={classes.boxSmall}>
-              <PairStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                신수 장비
+              </Typography>
+              <div id='animalStat' className={classes.boxSmall}>
+                <AnimalStat />
+              </div>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              칭호 효과
-            </Typography>
-            <Grid container justify='center' id='titleStat' className={classes.boxSmall}>
-              <TitleStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                신체 각성
+              </Typography>
+              <Grid container justify='center' id='awakStat' className={classes.boxSmall}>
+                <AwakStat />
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              품의 효과
-            </Typography>
-            <Grid container justify='center' id='clothStat' className={classes.boxSmall}>
-              <ClothStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                환수 시동
+              </Typography>
+              <Grid container justify='center' id='petStat' className={classes.boxSmall}>
+                <PetStat />
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              마법 수치
-            </Typography>
-            <Grid container justify='center' id='skillStat' className={classes.boxSmall}>
-              <SkillStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                한벌 효과
+              </Typography>
+              <Grid container justify='center' id='pairStat' className={classes.boxSmall}>
+                <PairStat />
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              물약 도핑
-            </Typography>
-            <Grid container justify='center' id='potionStat' className={classes.boxSmall}>
-              <PotionStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                칭호 효과
+              </Typography>
+              <Grid container justify='center' id='titleStat' className={classes.boxSmall}>
+                <TitleStat />
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
-            <Typography variant='h6' className={classes.title}>
-              가문 특성
-            </Typography>
-            <Grid container justify='center' id='familyStat' className={classes.boxSmall}>
-              <FamilyStat />
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                품의 효과
+              </Typography>
+              <Grid container justify='center' id='clothStat' className={classes.boxSmall}>
+                <ClothStat />
+              </Grid>
+            </Grid>
+
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                마법 수치
+              </Typography>
+              <Grid container justify='center' id='skillStat' className={classes.boxSmall}>
+                <SkillStat />
+              </Grid>
+            </Grid>
+
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                물약 도핑
+              </Typography>
+              <Grid container justify='center' id='potionStat' className={classes.boxSmall}>
+                <PotionStat />
+              </Grid>
+            </Grid>
+
+            <Grid item container direction='row' alignItems='center' className={classes.boxBig}>
+              <Typography variant='h6' className={classes.title}>
+                가문 특성
+              </Typography>
+              <Grid container justify='center' id='familyStat' className={classes.boxSmall}>
+                <FamilyStat />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
     </React.Fragment>
   );
 }
