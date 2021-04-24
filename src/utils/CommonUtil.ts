@@ -71,6 +71,43 @@ export const refreshToken = () => {
   }
 }
 
+export const changeTitleAccountToken = (titleAccount: IAccount) => {
+  const token = getToken();
+  const signInUser = getSignInUserFromToken(token);
+
+  if (token){
+    const res = axios.post('/api/common/refresh', {
+      ...signInUser,
+      titleAccount,
+      token
+    })
+      .then((res) => {
+        if (res.data.code === 200 && res.data.token) { // 토큰 갱신
+          setToken(res.data.token);
+          return true;
+        }
+        else { // 토큰 만료
+          delToken();
+          document.location.href = '/signin';
+
+          return false;
+        }
+      })
+      .catch((e) => {
+        delToken();
+        document.location.href = '/signin';
+        
+        return false;
+      });
+    
+    return res;
+  }
+  else {
+    console.log('empty token');
+    return false;
+  }
+}
+
 export const getNowUser = () => {
   return getSignInUserFromToken(getToken());
 }

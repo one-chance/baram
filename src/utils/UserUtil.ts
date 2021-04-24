@@ -276,11 +276,11 @@ export const authUser = async (_id: string, _server: string, _character: string)
 /*
 * NOTE 대표캐릭터 설정
 */
-export const setTitleAccount = async (_id: string, _character: string, _server: string) => {
+export const setTitleAccount = async (id: string, character: string, server: string) => {
   const r = await axios.put('/api/user/titleaccount', {
-    id: _id,
-    server: _server,
-    character: _character
+    id,
+    server,
+    character 
   },
   {
     headers: {
@@ -289,6 +289,11 @@ export const setTitleAccount = async (_id: string, _character: string, _server: 
   })
   .then((res) => {
     if (CommonUtil.checkServerError(res.data)) return false;
+
+    CommonUtil.changeTitleAccountToken({
+      server,
+      character 
+    });
     
     return res.data;
   })
