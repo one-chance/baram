@@ -14,7 +14,7 @@ import SubdirectoryArrowRightIcon from "@material-ui/icons/SubdirectoryArrowRigh
 import IPost from "interfaces/Board/IPost";
 import IComment from "interfaces/Board/IComment";
 import IRecomment from "interfaces/Board/IRecomment";
-import * as CommonUtil from "utils/CommonUtil";
+import { getStringByDate, getTitleAccountString } from "utils/CommonUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { CreateRecomment, DeleteComment, EditComment } from "utils/PostUtil";
@@ -225,10 +225,13 @@ const CommentItem = (props: IProps) => {
           <Grid container direction='column' className={classes.commentWrapper}>
             <Grid container justify='space-between' className={classes.writerWrapper}>
               <div>
-                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>{comment.writer.id}</Typography>
+                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>
+                  {/* {comment.writer.id} */}
+                  { getTitleAccountString(comment.writer.titleAccount) }
+                </Typography>
 
                 <div className={classes.textBox}>
-                  <Typography>{CommonUtil.getStringByDate(comment.writer.lastEditDate, true)}</Typography>
+                  <Typography>{getStringByDate(comment.writer.lastEditDate, true)}</Typography>
                   <Typography style={{ color: "grey" }}>
                     {comment.isDeleted ? "(삭제됨)" : comment.writer.createDate !== comment.writer.lastEditDate && "(편집됨)"}
                   </Typography>
