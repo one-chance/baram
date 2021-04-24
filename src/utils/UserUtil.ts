@@ -216,11 +216,11 @@ export const setChangePassword = async (_id: string, _changePassword: string) =>
 /*
 * NOTE 바람의나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
 */
-export const checkGameUser = async (_id: string, _server: string, _character: string) => {
+export const checkGameUser = async (key: number, id: string, server: string, character: string) => {
   const r = await axios.post('/api/user/check', {
-      id: _id,
-      server: _server,
-      character: _character
+      id,
+      server,
+      character,
     }, 
     {
       headers: {
@@ -231,7 +231,7 @@ export const checkGameUser = async (_id: string, _server: string, _character: st
       if (CommonUtil.checkServerError(res.data)) return false;
 
       if (res.data.code === 200) {
-        return authUser(_id, _server, _character);
+        return authUser(key, id, server, character);
       }
       else {
         return res.data;
@@ -250,11 +250,12 @@ export const checkGameUser = async (_id: string, _server: string, _character: st
 /*
 * NOTE 사용자 인증 DB 처리
 */
-export const authUser = async (_id: string, _server: string, _character: string) => {
+export const authUser = async (key: number, id: string, server: string, character: string) => {
   const r = await axios.put('/api/user/auth', {
-    id: _id,
-    server: _server,
-    character: _character
+    key,
+    id,
+    server,
+    character,
   }, 
   {
     headers: {
@@ -330,6 +331,7 @@ export const WithDrawUser = async (_id: string, _password: string) => {
 
 const getUserInfoFromJson = (jsonInfo: JSON) => {
   const userInfo: IUserInfo = {
+    key: 0,
     id: "",
     email: "",
     isActive: false,

@@ -47,12 +47,7 @@ function MyInfo({ match }: any) {
   const mode = tab;
 
   const [isNoSignInUser, setIsNoSignInUser] = useState(false);
-  const [userInfo, setUserInfo] = useState<IUserInfo>({
-    id: "",
-    isActive: false,
-    createDate: new Date(),
-    editDate: new Date(),
-  });
+  const [userInfo, setUserInfo] = useState<IUserInfo>();
 
   const _onViewUser = () => {
     document.location.href = "/myinfo/view";
@@ -130,13 +125,15 @@ function MyInfo({ match }: any) {
               </Grid>
             </React.Fragment>
           )}
-          <Grid item container className={smallScreen ? classes.box : classes.box2}>
-            {mode === "view" && smallScreen && <ViewUserInfoSmall userInfo={userInfo} />}
-            {mode === "view" && !smallScreen && <ViewUserInfo userInfo={userInfo} />}
-            {mode === "auth" && <AuthAccount userInfo={userInfo} />}
-            {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
-            {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
-          </Grid>
+          { userInfo &&
+              <Grid item container className={smallScreen ? classes.box : classes.box2}>
+                {mode === "view" && smallScreen && <ViewUserInfoSmall userInfo={userInfo} />}
+                {mode === "view" && !smallScreen && <ViewUserInfo userInfo={userInfo} />}
+                {mode === "auth" && <AuthAccount userInfo={userInfo} />}
+                {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
+                {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
+              </Grid>
+          }
         </Grid>
       )}
     </React.Fragment>

@@ -62,14 +62,6 @@ function AuthAccount(props: IProps) {
   const [value, setValue] = useState<string>("");
   const [characterList, setCharacterList] = useState<Array<string>>([]);
 
-  const _clear = () => {
-    setServer("");
-    setCharacter("");
-    setIsDisabled(false);
-
-    setMyBackdrop(false);
-  };
-
   const _onEnterCharacter = (keyCode: number) => {
     if (keyCode === 13) {
       _onAuthRequest();
@@ -80,17 +72,24 @@ function AuthAccount(props: IProps) {
     setMyBackdrop(true);
     setIsDisabled(true);
 
-    const res = await checkGameUser(userInfo.id, server, character);
+    const res = await checkGameUser(userInfo.key, userInfo.id, server, character);
 
     if (res.code === 200) {
       // Successed Authentication
+
+      if (characterList.length < 1) {
+        setTitleAccount(userInfo.id, character, server);
+      }
+
       setMyAlert({
         isOpen: true,
         severity: "success",
         duration: duration,
         message: res.message,
       });
-      setTimeout(() => _clear(), duration);
+      
+      setTimeout(() => window.location.reload(), duration);
+
     } else {
       // Failed Authentication
       setMyAlert({
@@ -104,21 +103,14 @@ function AuthAccount(props: IProps) {
     }
 
     setIsDisabled(false);
-
-    /*     let chracterAndServer: string[] = characterList;
-    chracterAndServer.push(`${character}@${server}`);
-    setCharacterList(chracterAndServer); */
-    characterList.push(`${character}@${server}`);
-    setCharacterList(characterList);
   };
 
   const _onChangeAccount = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
 
-  const _onSave = async () => {
-    const parseValue = value.split("@");
-    const res = await setTitleAccount(userInfo.id, parseValue[0], parseValue[1]);
+  const _onSetTitleAccount = async (_character: string, _server: string) => {
+    const res = await setTitleAccount(userInfo.id, _character, _server);
 
     if (res.code === 200) {
       setMyAlert({
@@ -135,6 +127,11 @@ function AuthAccount(props: IProps) {
         message: res.message,
       });
     }
+  }
+
+  const _onSave = async () => {
+    const parseValue = value.split("@");
+    _onSetTitleAccount(parseValue[0], parseValue[1]);
   };
 
   useEffect(() => {
