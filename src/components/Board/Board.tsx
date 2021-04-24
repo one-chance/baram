@@ -2,7 +2,7 @@ import React from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { DataGrid, GridRowsProp, GridColDef, GridOverlay, useGridSlotComponentProps } from "@material-ui/data-grid";
+import { DataGrid, GridRowsProp, GridColDef, GridOverlay, useGridSlotComponentProps, GridPageChangeParams } from "@material-ui/data-grid";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Container from "@material-ui/core/Container";
@@ -74,9 +74,11 @@ const useStyles = makeStyles(theme => ({
 interface IProps {
   category: CategoryType;
   posts: Array<IPost>;
+  rowCount?: number;
   page?: number;
   filter?: string;
   keyword?: string;
+  onPageChange?: (params: GridPageChangeParams) => void;
 }
 
 const cols: GridColDef[] = [
@@ -125,6 +127,9 @@ function CustomPagination() {
   const [searchFilter, setSearchFilter] = React.useState<string | undefined>(filterValue.filter);
   const [searchValue, setSearchValue] = React.useState<string | undefined>(filterValue.keyword);
 
+  const _onChangePage = (event : React.ChangeEvent<unknown>, value : number) => {
+    apiRef.current.setPage(value - 1)
+  }
   const _onChangeSearch = (value: string) => {
     setSearchValue(value);
   };
@@ -152,7 +157,11 @@ function CustomPagination() {
 
       return 0;
     }
-    document.location.href = `/board/${nowCategory}?${searchFilter}=${searchValue}`;
+
+    let uri = `/board/`;
+
+    uri += `${nowCategory}?${searchFilter}=${searchValue}`;
+    document.location.href = uri;
   };
 
   return (
@@ -166,7 +175,7 @@ function CustomPagination() {
           page={pagination.page + 1}
           showFirstButton={true}
           showLastButton={true}
-          onChange={(event, value) => apiRef.current.setPage(value - 1)}
+          onChange={(event, value) => _onChangePage(event, value)}
         />
       </Grid>
       <MyGridDivider />
@@ -220,7 +229,7 @@ const Board = (props: IProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
-  const { category, posts } = props;
+  const { category, posts, rowCount, onPageChange } = props;
   const rows: GridRowsProp = [];
   nowCategory = category;
 
@@ -240,6 +249,11 @@ const Board = (props: IProps) => {
     document.location.href = `/board/${nowCategory}/${id}`;
   };
 
+  const _onPageChanged = (params: GridPageChangeParams) => {
+    if(onPageChange !== undefined)
+      onPageChange(params);
+  }
+
   return (
     <React.Fragment>
       <Grid container justify='center' className={smallScreen ? classes.box2 : classes.box}>
@@ -249,12 +263,14 @@ const Board = (props: IProps) => {
           rowHeight={smallScreen ? 30 : 40} //default 52
           sortingMode='client'
           pageSize={10}
-          // paginationMode='client'
+          paginationMode='server'
+          onPageChange={_onPageChanged}
           hideFooterRowCount={true}
           hideFooterSelectedRowCount={true}
           disableColumnMenu={true}
           columns={smallScreen ? cols2 : cols}
           rows={rows}
+          rowCount={rowCount? rowCount : rows.length}
           onRowClick={param => _onRowClick(param.row.id as number)}
           components={{
             Header: CustomHeader,

@@ -3,10 +3,11 @@ import { useSetRecoilState } from "recoil";
 import { FilterState } from "state/index";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
+import { GridPageChangeParams } from "@material-ui/data-grid";
 import Grid from "@material-ui/core/Grid";
 
 import IPost from "interfaces/Board/IPost";
-import { getPosts } from "utils/PostUtil";
+import { getPosts, getPostCount } from "utils/PostUtil";
 
 import Board from "components/Board/Board";
 
@@ -24,6 +25,8 @@ function FreeBoard({ location }: any) {
   const classes = useStyles();
   const query = queryString.parse(location.search);
   const setFilter = useSetRecoilState(FilterState);
+  const [rowCount, setRowCount] = React.useState<number>(0); 
+
   let filterUri: string;
   let filter;
   let keyword;
@@ -42,8 +45,13 @@ function FreeBoard({ location }: any) {
   const [posts, setPosts] = React.useState<Array<IPost>>([]);
 
   const _onLoad = async () => {
-    setPosts(await getPosts(nowCategory, filterUri));
+    setRowCount(await getPostCount(nowCategory, filterUri));
+    setPosts(await getPosts(nowCategory, filterUri, 0, 10));
   };
+
+  const _onPageChanged = async(params: GridPageChangeParams) => {
+    setPosts(await getPosts(nowCategory, filterUri, params.page, params.pageSize));
+  }
 
   useEffect(() => {
     _onLoad();
@@ -52,7 +60,7 @@ function FreeBoard({ location }: any) {
 
   return (
     <Grid container justify='center' className={classes.root}>
-      <Board category={nowCategory} posts={posts} page={2} />
+      <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged}/>
     </Grid>
   );
 }

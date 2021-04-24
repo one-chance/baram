@@ -105,8 +105,16 @@ freeSchema.statics.findAll = function () {
   return this.find({});
 }
 
+// NOTE find count by filter
+freeSchema.statics.findCountByFilter = function (filter) {
+  return this.count(filter);
+}
+
 // NOTE find by filter
-freeSchema.statics.findByFilter = function (filter) {
+freeSchema.statics.findByFilter = function (filter, page, pageSize) {
+  if(page !== -1 && pageSize !== -1) {
+    return this.find(filter).sort({seq: -1}).skip(pageSize*page).limit(pageSize);
+  }
   return this.find(filter).sort({seq: -1});
 }
 
