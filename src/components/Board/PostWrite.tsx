@@ -125,8 +125,15 @@ function PostWrite(props: IProps) {
     setMyBackdrop(true);
 
     let res: any;
-    if (server) res = seq ? await EditPost(title, content, post, server.key) : await CreatePost(category, title, content, server.key);
-    else res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
+    if (server) {
+      res = seq ? 
+        await EditPost(title, content, post, server.key) 
+        : await CreatePost(category, title, content, server.key);
+    } else { 
+      res = seq ? 
+        await EditPost(title, content, post) 
+        : await CreatePost(category, title, content);
+    }
 
     if (res.code === 200) {
       setMyAlert({

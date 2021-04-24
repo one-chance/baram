@@ -237,10 +237,11 @@ router.post("/signin", (req, res) => {
  *        401: 유효하지 않은 토큰
  */
 router.post("/refresh", (req, res) => {
-  const { token, id, key, grade } = req.body;
+  const { token, id, key, grade, titleAccount } = req.body;
   const decoded = jsonwebtoken.verify(token, process.env.MONGODB_SECRET);
   const userInfo = {
-    grade
+    grade,
+    titleAccount
   }
 
   if (decoded) {
@@ -874,7 +875,8 @@ const createToken = (id, key, userInfo) => {
     {
       id,
       key,
-      grade: userInfo.grade
+      grade: userInfo.grade,
+      titleAccount: userInfo.titleAccount
     },
     process.env.MONGODB_SECRET,
     {

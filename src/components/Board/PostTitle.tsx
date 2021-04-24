@@ -100,7 +100,7 @@ function PostTitle(props: IProps) {
             <div>
               <CreateIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
               <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
-                {post.writer.id}
+                { CommonUtil.getTitleAccountString(post.writer.titleAccount) }
               </Typography>
             </div>
             <div>

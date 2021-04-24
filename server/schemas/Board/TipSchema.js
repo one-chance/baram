@@ -5,6 +5,10 @@ autoIncrement.initialize(mongoose.connection);
 const writerSchema = new mongoose.Schema({
   key: { type: Number },
   id: { type: String },
+  titleAccount: {
+    server: { type: String, required: false },
+    character: { type: String, required: false }
+  },
   createDate: { type: Date, required: false },
   lastEditDate: { type: Date, required: false }
 });

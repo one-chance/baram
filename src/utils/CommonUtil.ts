@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { getSessionNameUserToken } from 'utils/ConfigUtil';
 import IServer from 'interfaces/Common/IServer';
+import IAccount from 'interfaces/User/IAccount';
 
 export const checkServerError = (res: any) => {
   
@@ -108,6 +109,10 @@ export const getMMDDByDate = (date: Date | undefined) => {
   d += dt.getDate() < 10 ? `.0${dt.getDate()} ` : `.${dt.getDate()} `;
   
   return d;
+}
+
+export const getTitleAccountString = (titleAccount?: IAccount) => {
+  return titleAccount ? `${titleAccount.character}@${titleAccount.server}` : "Unknown Account";
 }
 
 // 이미지 포함여부를 확인하여 있을 경우 S3에 업로드 처리

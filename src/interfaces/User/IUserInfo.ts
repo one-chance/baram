@@ -1,8 +1,4 @@
-interface IAccount {
-  server: string,
-  character: string,
-  authDate?: string
-}
+import IAccount from 'interfaces/User/IAccount';
 
 export default interface IUserInfo {
   id: string,
