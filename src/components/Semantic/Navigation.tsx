@@ -108,7 +108,7 @@ export default function Header() {
   };
 
   const _onMoveSignUp = () => {
-    document.location.href = "/signup";
+    document.location.href = "/signupM";
   };
 
   const _onLogoutUser = () => {
@@ -171,7 +171,7 @@ export default function Header() {
         <Typography variant='h6'>계산기</Typography>
         <a href='/cal/power'>전투력</a>
         <Divider />
-        <a href='/cal/ability'>능력치</a>
+        <a href='/cal/abilityM'>능력치</a>
         <Divider />
         <a href='/cal/exp'>경험치</a>
         <Divider />
@@ -180,7 +180,7 @@ export default function Header() {
       </div>
       <div className={classes.text}>
         <Typography variant='h6'>도감</Typography>
-        <a href='/dic/item'>일반장비</a>
+        <a href='/dic/itemM'>일반장비</a>
         <Divider />
         <a href='/dic/petitem'>환수장비</a>
         <Divider />

@@ -60,43 +60,41 @@ export default function FindId() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={2} style={{ height: "250px", textAlign: "center" }}>
-        <Grid item xs={12}>
-          <TextField
-            error={email !== "" && checkEmail === false}
-            helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
-            variant='outlined'
-            required
-            name='email'
-            id='email'
-            type='email'
-            label='이메일 주소'
-            value={email || ""}
-            onChange={e => verifyEmail(e.target.value)}
-            inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-            style={{ width: "300px", margin: "2px 5px 10px 5px", paddingTop: "8px" }}
-          />
-          <Button
-            variant='contained'
-            fullWidth
-            color='primary'
-            style={{ width: "300px", height: "40px", margin: "10px 5px" }}
-            disabled={!checkEmail}
-            onClick={() => {
-              _onFindId();
-            }}>
-            아이디 찾기
-          </Button>
-          {id && (
-            <div style={{ marginTop: "30px" }}>
-              <Typography>
-                해당 이메일로 가입된 아이디는
-                <br />
-                <b>{id}</b> 입니다.
-              </Typography>
-            </div>
-          )}
-        </Grid>
+      <Grid item style={{ height: "250px", textAlign: "center", padding: "0" }}>
+        <TextField
+          error={email !== "" && checkEmail === false}
+          helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
+          variant='outlined'
+          required
+          name='email'
+          id='email'
+          type='email'
+          label='이메일 주소'
+          value={email || ""}
+          onChange={e => verifyEmail(e.target.value)}
+          inputProps={{ style: { height: "40px", padding: "0 10px" } }}
+          style={{ width: "280px", margin: "2px 5px 10px 5px", paddingTop: "8px" }}
+        />
+        <Button
+          variant='contained'
+          fullWidth
+          color='primary'
+          style={{ width: "280px", height: "40px", margin: "10px 5px" }}
+          disabled={!checkEmail}
+          onClick={() => {
+            _onFindId();
+          }}>
+          아이디 찾기
+        </Button>
+        {id && (
+          <div style={{ marginTop: "30px" }}>
+            <Typography>
+              해당 이메일로 가입된 아이디는
+              <br />
+              <b>{id}</b> 입니다.
+            </Typography>
+          </div>
+        )}
       </Grid>
     </React.Fragment>
   );
