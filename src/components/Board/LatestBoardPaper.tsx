@@ -14,7 +14,7 @@ import { getMMDDByDate } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    height: "150px",
+    height: "160px",
     margin: "5px",
     padding: "5px",
   },
