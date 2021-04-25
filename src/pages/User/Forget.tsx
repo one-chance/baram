@@ -7,15 +7,15 @@ import FindPassword from "components/User/FindPassword";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
-    height: "340px",
-    margin: "100px 0 0 0",
-    float: "left",
-    flexGrow: 1,
+    width: "auto",
+    minHeight: "65vh",
+    margin: "0 auto",
   },
   item: {
-    minWidth: "350px",
-    padding: "5px",
+    width: "350px",
+    height: "350px",
+    margin: "10px",
+    padding: "0",
     border: "1px solid lightgray",
     borderRadius: "10px",
   },
@@ -26,18 +26,16 @@ export default function Forget() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={2} className={classes.root}>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={4} className={classes.item}>
-          <h2 style={{ textAlign: "center", margin: "20px 0" }}>아이디 찾기</h2>
+      <Grid container alignItems='center' justify='space-around' className={classes.root}>
+        <Grid container alignItems='center' className={classes.item}>
+          <h2 style={{ width: "100%", textAlign: "center", margin: "20px 0" }}>아이디 찾기</h2>
           <FindId />
         </Grid>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={4} className={classes.item}>
-          <h2 style={{ textAlign: "center", margin: "20px 0" }}>비밀번호 찾기</h2>
+
+        <Grid container alignItems='center' className={classes.item}>
+          <h2 style={{ width: "100%", textAlign: "center", margin: "20px 0" }}>비밀번호 찾기</h2>
           <FindPassword />
         </Grid>
-        <Grid item xs={1}></Grid>
       </Grid>
     </React.Fragment>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
@@ -14,9 +14,10 @@ import { getMMDDByDate } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    height: "150px",
+    width: "auto",
+    height: "160px",
     margin: "5px",
-    padding: "5px",
+    padding: "0",
   },
   linkItem: {
     display: "flex",
@@ -47,15 +48,15 @@ const LatestBoardPaper = (props: IProps) => {
   const { category, posts } = props;
 
   return (
-    <Paper elevation={0} className={classes.paper}>
-      <div style={{ fontSize: "1rem", fontWeight: "bold", margin: "0 5px" }}>
+    <Grid container direction='column' className={classes.paper}>
+      <Grid container justify='space-between' style={{ fontSize: "1rem", fontWeight: "bold", margin: "0 5px" }}>
         {PostUtil.getCategoryName(category)}
         <Button href={`/board/${category}`} style={{ minWidth: "22px", height: "22px", padding: "0", float: "right" }}>
           <AddIcon style={{ width: "20px", height: "20px" }} />
         </Button>
-      </div>
-      <Divider style={{ height: "2px", margin: "5px 0" }} />
-      <div style={{ marginTop: "10px" }}>
+      </Grid>
+      <Divider style={{ width: "100%", height: "2px", margin: "4px 0" }} />
+      <Grid container justify='space-between'>
         {posts ? (
           posts.length > 0 ? (
             posts.map((post: IPost) => (
@@ -72,8 +73,8 @@ const LatestBoardPaper = (props: IProps) => {
         ) : (
           <div>최신 게시글을 확인하는 중입니다.</div>
         )}
-      </div>
-    </Paper>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -340,10 +340,40 @@ export const DeleteRecomment = async (post: IPost, commentIdx: number, recomment
   return res;
 }
 
-// NOTE 게시글 리스트 조회
-export const getPosts = async (_category: CategoryType, _filterUri?: string) => {
-  let posts: Array<IPost> = [];
+// NOTE 게시글 COUNT 조회
+export const getPostCount = async (_category: CategoryType, _filterUri?: string) => {
+  let count = 0;
+  
+  await axios.get(`/api/board/${_category}/count?${_filterUri}`)
+    .then((res) => {
+      if (res.data.code === 200) {
+        if(res.data.count)
+          count = Number(res.data.count);
+      }
+      return true;
+    })
+    .catch((e) => {
+      console.log(`FIND COUNT ERROR > ${e}`);
 
+      return false;
+    });
+    return count;
+}
+
+// NOTE 게시글 리스트 조회
+export const getPosts = async (_category: CategoryType, _filterUri?: string, _page?: number, _pageSize?: number) => {
+  let posts: Array<IPost> = [];
+  let pageQuery = ``;
+  if(_page !== undefined && _pageSize !== undefined) {
+    pageQuery += `page=` + _page;
+    pageQuery += `&pageSize=` + _pageSize;
+  }
+
+  if(_filterUri !== undefined)
+    _filterUri += `&` + pageQuery;
+  else
+    _filterUri = pageQuery;
+  
   await axios.get(`/api/board/${_category}/find?${_filterUri}`)
     .then((res) => {
       if (res.data.code === 200) {
@@ -356,7 +386,6 @@ export const getPosts = async (_category: CategoryType, _filterUri?: string) => 
 
       return false;
     });
-
     return posts;
 }
 

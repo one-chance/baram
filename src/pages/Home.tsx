@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import IPost from "interfaces/Board/IPost";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
@@ -22,16 +23,21 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px",
   },
   boardItem: {
-    height: "60px",
-    margin: "10px",
+    height: "65px",
+    margin: "10px 5px",
     padding: "0",
-    fontWeight: "bold",
+    "& p": {
+      fontWeight: "bold",
+      margin: "0",
+    },
   },
   boardItemButton: {
     minWidth: "60px",
+    height: "40px",
   },
   boardItemText: {
     textAlign: "center",
+    lineHeight: "20px",
     margin: "5px 0 0 0",
   },
 }));
@@ -86,7 +92,7 @@ const Home = () => {
         <Grid item style={{ width: "320px", margin: "0", padding: "0" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item container justify='center' style={{ width: "320px", height: "160px", margin: "0", padding: "0" }}>
+        <Grid item container justify='space-around' style={{ width: "320px", height: "170px", margin: "0", padding: "0" }}>
           <Grid item className={classes.boardItem}>
             <Button variant='outlined' className={classes.boardItemButton}>
               <PriorityHighIcon />
@@ -111,10 +117,9 @@ const Home = () => {
             </Button>
             <h5 className={classes.boardItemText}>공식</h5>
           </Grid>
-          <Grid item className={classes.boardItem}>
-            <span style={{ color: "red" }}>TODAY : {todayVisit}</span>
-            <br />
-            TOTAL : {totalVisit}
+          <Grid item container direction='column' alignItems='center' className={classes.boardItem}>
+            <Typography style={{ color: "red" }}>TODAY : {todayVisit}</Typography>
+            <Typography>TOTAL : {totalVisit}</Typography>
           </Grid>
         </Grid>
       </Grid>

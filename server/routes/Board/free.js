@@ -553,6 +553,56 @@ router.put("/recomment/:recommentIdx", (req, res) => {
 });
 
 /*
+ *    NOTE 게시글 카운트
+ *    TYPE : GET
+ *    URI : /api/board/free/count
+ *    HEADER: { "token": token }
+ *    BODY: { "filter" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.get("/count", (req, res) => {
+  let filter = {};
+  if (req.query.title) {
+    filter = {
+      title: { $regex: req.query.title },
+    };
+  }
+  if (req.query.content) {
+    filter = {
+      content: { $regex: req.query.content },
+    };
+  }
+  if (req.query.writer) {
+    filter["writer.id"] = { $regex: req.query.writer };
+  }
+
+  FreeSchema.findCountByFilter(filter)
+    .then(count => {
+      logger.info(`[SUCCESS] : POST COUNT FIND SUCCESS`);
+      // 최신 조회 개수가 존재하면
+
+      res.status(200).send({
+        code: 200,
+        message: "카운트 조회에 성공하였습니다.",
+        count: count,
+      });
+
+      return true;
+    })
+    .catch(e => {
+      logger.error(`POST COUNT FIND ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: "카운트 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.",
+      });
+
+      return false;
+    });
+});
+
+/*
  *    NOTE 게시글 전체 조회
  *    TYPE : GET
  *    URI : /api/board/free/find
@@ -577,8 +627,17 @@ router.get("/find", (req, res) => {
   if (req.query.writer) {
     filter["writer.id"] = { $regex: req.query.writer };
   }
+  
+  let page = -1;
+  let pageSize = -1;
+  if(req.query.page) {
+    page = Number(req.query.page);
+  }
+  if(req.query.pageSize){
+    pageSize = Number(req.query.pageSize);
+  }
 
-  FreeSchema.findByFilter(filter)
+  FreeSchema.findByFilter(filter, page, pageSize)
     .then(posts => {
       logger.info(`[SUCCESS] : POST LIST FIND SUCCESS`);
       // 최신 조회 개수가 존재하면

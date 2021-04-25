@@ -14,7 +14,7 @@ import Home from "pages/Home";
 
 // User
 import SignUp from "pages/User/SignUp";
-import SignUpSmall from "pages/User/SignUpSmall";
+import SignUpM from "pages/User/SignUpM";
 import Forget from "pages/User/Forget";
 import MyInfo from "pages/User/MyInfo";
 
@@ -33,12 +33,13 @@ import AnimalItem from "pages/Dictionary/AnimalItem";
 import Raid from "pages/Dictionary/Raid";
 import RaidInfo from "pages/Dictionary/RaidInfo";
 import Item from "pages/Dictionary/Item";
-import ItemSmall from "pages/Dictionary/ItemSmall";
+import ItemM from "pages/Dictionary/ItemM";
 import PetItem from "pages/Dictionary/PetItem";
 import Archeology from "pages/Dictionary/Archeology";
 
 // Calculator
 import Ability from "pages/Calculator/Ability";
+import AbilityM from "pages/Calculator/AbilityM";
 import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
@@ -130,7 +131,8 @@ function App() {
                 <Route exact path='/' component={Home} />
 
                 {/*Common*/}
-                {smallScreen ? <Route exact path='/signup' component={SignUpSmall} /> : <Route exact path='/signup' component={SignUp} />}
+                <Route exact path='/signup' component={SignUp} />
+                <Route exact path='/signupM' component={SignUpM} />
                 <Route exact path='/forget' component={Forget} />
 
                 {/*Board*/}
@@ -146,6 +148,7 @@ function App() {
 
                 {/*Calculator*/}
                 <Route exact path='/cal/ability' component={Ability} />
+                <Route exact path='/cal/abilityM' component={AbilityM} />
                 <Route exact path='/cal/exp' component={Exp} />
                 <Route exact path='/cal/power' component={Power} />
                 <Route exact path='/cal/production' component={Production} />
@@ -155,8 +158,8 @@ function App() {
                 <Route exact path='/dic/animalitem' component={AnimalItem} />
                 <Route exact path='/dic/raid' component={Raid} />
                 <Route path='/dic/raid/:key' component={RaidInfo} />
-                {smallScreen ? <Route exact path='/dic/item' component={ItemSmall} /> : <Route exact path='/dic/item' component={Item} />}
                 <Route exact path='/dic/item' component={Item} />
+                <Route exact path='/dic/itemM' component={ItemM} />
                 <Route exact path='/dic/petitem' component={PetItem} />
                 <Route exact path='/dic/archeology' component={Archeology} />
 
