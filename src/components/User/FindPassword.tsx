@@ -136,86 +136,84 @@ export default function FindPassword() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={2} style={{ height: "250px", textAlign: "center" }}>
-        <Grid item xs={12}>
+      <Grid item style={{ width: "100%", height: "250px", textAlign: "center", padding: "0" }}>
+        <TextField
+          variant='outlined'
+          error={id !== "" && checkId === false}
+          helperText={id !== "" && checkId === false ? "아이디에 한글/특수문자가 포함되어 있습니다." : ""}
+          required
+          id='id'
+          name='id'
+          label='아이디'
+          inputRef={refId}
+          value={id || ""}
+          onChange={e => {
+            verifyId(e.target.value);
+          }}
+          inputProps={{ style: { height: "40px", padding: "0 10px" } }}
+          style={{ width: "280px", margin: "2px 0 10px 0", paddingTop: "8px" }}
+        />
+        <div style={{ width: "100%", height: "60px", textAlign: "center" }}>
           <TextField
+            error={email !== "" && checkEmail === false}
+            helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
             variant='outlined'
-            error={id !== "" && checkId === false}
-            helperText={id !== "" && checkId === false ? "아이디에 한글/특수문자가 포함되어 있습니다." : ""}
             required
-            id='id'
-            name='id'
-            label='아이디'
-            inputRef={refId}
-            value={id || ""}
-            onChange={e => {
-              verifyId(e.target.value);
-            }}
+            name='email'
+            label='이메일 주소'
+            id='email'
+            type='email'
+            value={email || ""}
+            disabled={isVerifiedEmail}
+            onChange={e => verifyEmail(e.target.value)}
             inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-            style={{ width: "300px", margin: "2px 0 10px 0", paddingTop: "8px" }}
+            style={{ width: "210px", margin: "2px 10px 10px 0", paddingTop: "8px" }}
           />
+          <Button
+            variant='outlined'
+            color='primary'
+            disabled={!id || checkEmail === false || isVerifiedEmail}
+            style={{ minWidth: "60px", height: "40px", padding: "0 5px", margin: "10px 0" }}
+            onClick={() => _onSendEmail()}>
+            {emailCode === undefined ? "전송" : "재전송"}
+          </Button>
+        </div>
+        {emailCode !== undefined && (
           <div style={{ width: "100%", height: "60px", textAlign: "center" }}>
             <TextField
               error={email !== "" && checkEmail === false}
-              helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
               variant='outlined'
               required
-              name='email'
-              label='이메일 주소'
-              id='email'
-              type='email'
-              value={email || ""}
+              name='code'
+              label='인증번호'
+              id='code'
+              autoComplete='off'
+              value={emailCode || ""}
+              inputRef={refEmailCode}
               disabled={isVerifiedEmail}
-              onChange={e => verifyEmail(e.target.value)}
+              onChange={e => setEmailCode(e.target.value.toString())}
               inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-              style={{ width: "230px", margin: "2px 10px 10px 0", paddingTop: "8px" }}
+              style={{ width: "210px", margin: "2px 10px 10px 0", paddingTop: "8px" }}
             />
             <Button
               variant='outlined'
               color='primary'
-              disabled={!id || checkEmail === false || isVerifiedEmail}
+              disabled={checkEmail === false || isVerifiedEmail}
               style={{ minWidth: "60px", height: "40px", padding: "0 5px", margin: "10px 0" }}
-              onClick={() => _onSendEmail()}>
-              {emailCode === undefined ? "전송" : "재전송"}
+              onClick={() => _onCheckEmail()}>
+              인증
             </Button>
           </div>
-          {emailCode !== undefined && (
-            <div style={{ width: "100%", height: "60px", textAlign: "center" }}>
-              <TextField
-                error={email !== "" && checkEmail === false}
-                variant='outlined'
-                required
-                name='code'
-                label='인증번호'
-                id='code'
-                autoComplete='off'
-                value={emailCode || ""}
-                inputRef={refEmailCode}
-                disabled={isVerifiedEmail}
-                onChange={e => setEmailCode(e.target.value.toString())}
-                inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-                style={{ width: "230px", margin: "2px 10px 10px 0", paddingTop: "8px" }}
-              />
-              <Button
-                variant='outlined'
-                color='primary'
-                disabled={checkEmail === false || isVerifiedEmail}
-                style={{ minWidth: "60px", height: "40px", padding: "0 5px", margin: "10px 0" }}
-                onClick={() => _onCheckEmail()}>
-                인증
-              </Button>
-            </div>
-          )}
+        )}
 
-          <Button
-            variant='contained'
-            color='primary'
-            disabled={!isVerifiedEmail}
-            onClick={_onResetPassword}
-            style={{ width: "300px", height: "40px", marginTop: "10px" }}>
-            신규 비밀번호 전송
-          </Button>
-        </Grid>
+        <Button
+          variant='contained'
+          color='primary'
+          disabled={!isVerifiedEmail}
+          onClick={_onResetPassword}
+          style={{ width: "280px", height: "40px", marginTop: "10px" }}>
+          신규 비밀번호 전송
+        </Button>
       </Grid>
     </React.Fragment>
   );
