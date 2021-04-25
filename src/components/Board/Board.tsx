@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -124,8 +124,26 @@ function CustomPagination() {
   const { pagination } = state;
   const setMyAlert = useSetRecoilState(MyAlertState);
   const filterValue = useRecoilValue(FilterState);
-  const [searchFilter, setSearchFilter] = React.useState<string | undefined>(filterValue.filter);
-  const [searchValue, setSearchValue] = React.useState<string | undefined>(filterValue.keyword);
+
+  const [searchQuery, setSearchQuery] = React.useState<string | undefined>(``);
+  const [searchFilter, setSearchFilter] = React.useState<string | undefined>(``);
+  const [searchValue, setSearchValue] = React.useState<string | undefined>(``);
+
+  useEffect(() => {
+    for(let idx in filterValue.query) {
+      let query = filterValue.query[idx].split(`=`);
+      if(query[0] === `title` || query[0] === `content` || query[0] === `writer`) {
+        setSearchFilter(query[0]);
+        setSearchValue(query[1]);
+      }
+      else {
+        if(searchQuery === ``)
+          setSearchQuery(filterValue.query[idx]);
+        else
+          setSearchQuery(searchQuery + `&` + filterValue.query[idx]);
+      }
+    }
+  }, [filterValue]);
 
   const _onChangePage = (event : React.ChangeEvent<unknown>, value : number) => {
     apiRef.current.setPage(value - 1)
@@ -158,9 +176,11 @@ function CustomPagination() {
       return 0;
     }
 
-    let uri = `/board/`;
-
-    uri += `${nowCategory}?${searchFilter}=${searchValue}`;
+    let uri = `/board/${nowCategory}?`;
+    if(searchQuery === ``)
+      uri += `${searchFilter}=${searchValue}`;
+    else
+      uri += searchQuery + `&${searchFilter}=${searchValue}`;
     document.location.href = uri;
   };
 

@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { FilterState } from "state/index";
+import { FilterState, MyBackdropState } from "state/index";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { GridPageChangeParams } from "@material-ui/data-grid";
@@ -25,38 +25,50 @@ function FreeBoard({ location }: any) {
   const classes = useStyles();
   const query = queryString.parse(location.search);
   const setFilter = useSetRecoilState(FilterState);
-  const [rowCount, setRowCount] = React.useState<number>(0); 
-
-  let filterUri: string;
-  let filter;
-  let keyword;
-  if (Object.keys(query).length > 0) {
-    for (let prop in query) {
-      filter = prop;
-      keyword = query[prop]?.toString();
-    }
-    setFilter({
-      filter: filter,
-      keyword: keyword,
-    });
-    filterUri = `${filter}=${keyword}`;
-  }
-
-  const [posts, setPosts] = React.useState<Array<IPost>>([]);
-
-  const _onLoad = async () => {
-    setRowCount(await getPostCount(nowCategory, filterUri));
-    setPosts(await getPosts(nowCategory, filterUri, 0, 10));
-  };
-
-  const _onPageChanged = async(params: GridPageChangeParams) => {
-    setPosts(await getPosts(nowCategory, filterUri, params.page, params.pageSize));
-  }
+  const [rowCount, setRowCount] = useState<number>(0);
+  const [posts, setPosts] = useState<Array<IPost>>([]);
+  const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
   useEffect(() => {
     _onLoad();
-    // eslint-disable-next-line
   }, []);
+
+  const _onLoad = async () => {
+    await initPage(0, 10);
+  };
+
+  const _onPageChanged = async(params: GridPageChangeParams) => {
+    await initPage(params.page, params.pageSize);
+  }
+
+  const initPage = async (page: number, pageSize: number) => {
+    let filterUri: string;
+    let currentQuery = Array<string>();
+
+    if (Object.keys(query).length > 0) {
+      for (let prop in query) {
+        let qu = `` + prop + `=` + query[prop]?.toString();
+        currentQuery.push(qu);
+      }
+    }
+
+    filterUri = ``;
+    for (let idx in currentQuery) {
+      if(filterUri === ``)
+        filterUri += currentQuery[idx];
+      else
+        filterUri += `&` + currentQuery[idx];
+    }
+
+    setFilter({
+      query : currentQuery
+    });
+
+    setMyBackdrop(true);
+    setRowCount(await getPostCount(nowCategory, filterUri));
+    setPosts(await getPosts(nowCategory, filterUri, page, pageSize));
+    setMyBackdrop(false);
+  }
 
   return (
     <Grid container justify='center' className={classes.root}>

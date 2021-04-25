@@ -585,7 +585,7 @@ router.get("/count", (req, res) => {
 
       res.status(200).send({
         code: 200,
-        message: "게시글 조회에 성공하였습니다.",
+        message: "카운트 조회에 성공하였습니다.",
         count: count,
       });
 

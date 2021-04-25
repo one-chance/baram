@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { FilterState } from "state/index";
+import { FilterState, MyBackdropState } from "state/index";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
+import { GridPageChangeParams } from "@material-ui/data-grid";
 import Grid from "@material-ui/core/Grid";
 
 import IPost from "interfaces/Board/IPost";
-import { getPosts } from "utils/PostUtil";
+import { getPosts, getPostCount } from "utils/PostUtil";
 
 import Board from "components/Board/Board";
 
@@ -24,37 +25,57 @@ function TipBoard({ location }: any) {
   const classes = useStyles();
   const query = queryString.parse(location.search);
   const setFilter = useSetRecoilState(FilterState);
-  let filterUri: string;
-  let filter;
-  let keyword;
-  if (Object.keys(query).length > 0) {
-    for (let prop in query) {
-      filter = prop;
-      keyword = query[prop]?.toString();
-    }
-    setFilter({
-      filter: filter,
-      keyword: keyword,
-    });
-    filterUri = `${filter}=${keyword}`;
-  }
-
-  const [posts, setPosts] = React.useState<Array<IPost>>([]);
+  const [rowCount, setRowCount] = useState<number>(0);
+  const [posts, setPosts] = useState<Array<IPost>>([]);
+  const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
   useEffect(() => {
     _onLoad();
-    // eslint-disable-next-line
   }, []);
 
   const _onLoad = async () => {
-    setPosts(await getPosts(nowCategory, filterUri));
+    await initPage(0, 10);
   };
+
+  const _onPageChanged = async(params: GridPageChangeParams) => {
+    await initPage(params.page, params.pageSize);
+  }
+
+  const initPage = async (page: number, pageSize: number) => {
+    let filterUri: string;
+    let currentQuery = Array<string>();
+
+    if (Object.keys(query).length > 0) {
+      for (let prop in query) {
+        let qu = `` + prop + `=` + query[prop]?.toString();
+        currentQuery.push(qu);
+      }
+    }
+
+    filterUri = ``;
+    for (let idx in currentQuery) {
+      if(filterUri === ``)
+        filterUri += currentQuery[idx];
+      else
+        filterUri += `&` + currentQuery[idx];
+    }
+
+    setFilter({
+      query : currentQuery
+    });
+
+    setMyBackdrop(true);
+    setRowCount(await getPostCount(nowCategory, filterUri));
+    setPosts(await getPosts(nowCategory, filterUri, page, pageSize));
+    setMyBackdrop(false);
+  }
 
   return (
     <Grid container justify='center' className={classes.root}>
-      <Board category={nowCategory} posts={posts} page={2} />
+      <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged}/>
     </Grid>
   );
 }
+
 
 export default TipBoard;

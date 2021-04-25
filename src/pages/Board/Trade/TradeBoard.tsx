@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
+import { FilterState, MyBackdropState } from "state/index";
+import queryString from "query-string";
+
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ServerState from "state/Board/ServerState";
 
 import Grid from "@material-ui/core/Grid";
+import { GridPageChangeParams } from "@material-ui/data-grid";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +15,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import IPost from "interfaces/Board/IPost";
 import IServer from "interfaces/Common/IServer";
-import { getPosts } from "utils/PostUtil";
+import { getPostCount, getPosts } from "utils/PostUtil";
 
 import Board from "components/Board/Board";
 import { getServerList } from "utils/CommonUtil";
@@ -63,6 +67,21 @@ function TradeBoard({ location }: any) {
   const [server, setServer] = useState<IServer>();
   const setServerState = useSetRecoilState(ServerState);
 
+  const query = queryString.parse(location.search);
+  const setFilter = useSetRecoilState(FilterState);
+  const [rowCount, setRowCount] = useState<number>(0);
+  const setMyBackdrop = useSetRecoilState(MyBackdropState);
+
+
+  useEffect(() => {
+    _onLoad();
+  }, []);
+
+  useEffect(() => {
+    if (server) _onServerLoad();
+    // eslint-disable-next-line
+  }, [server]);
+
   const _onServerLoad = async () => {
     let filterUri = "";
 
@@ -72,10 +91,45 @@ function TradeBoard({ location }: any) {
     setPosts(await getPosts(nowCategory, filterUri));
   };
 
-  useEffect(() => {
-    if (server) _onServerLoad();
-    // eslint-disable-next-line
-  }, [server]);
+  const _onLoad = async () => {
+    await initPage(0, 10);
+  };
+
+  const _onPageChanged = async(params: GridPageChangeParams) => {
+    await initPage(params.page, params.pageSize);
+  }
+
+  const initPage = async (page: number, pageSize: number) => {
+    let filterUri: string;
+    let currentQuery = Array<string>();
+
+    if (Object.keys(query).length > 0) {
+      for (let prop in query) {
+        let qu = `` + prop + `=` + query[prop]?.toString();
+        if(prop === `server`) {
+          
+        }
+        currentQuery.push(qu);
+      }
+    }
+
+    filterUri = ``;
+    for (let idx in currentQuery) {
+      if(filterUri === ``)
+        filterUri += currentQuery[idx];
+      else
+        filterUri += `&` + currentQuery[idx];
+    }
+
+    setFilter({
+      query : currentQuery
+    });
+
+    setMyBackdrop(true);
+    setRowCount(await getPostCount(nowCategory, filterUri));
+    setPosts(await getPosts(nowCategory, filterUri, page, pageSize));
+    setMyBackdrop(false);
+  }
 
   return (
     <Grid container justify='center' className={classes.root}>
@@ -143,7 +197,7 @@ function TradeBoard({ location }: any) {
           </Typography>
         </Grid>
       ) : (
-        <Board category={nowCategory} posts={posts} page={2} />
+        <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged}/>
       )}
     </Grid>
   );

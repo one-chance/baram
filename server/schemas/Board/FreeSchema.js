@@ -113,9 +113,9 @@ freeSchema.statics.findCountByFilter = function (filter) {
 // NOTE find by filter
 freeSchema.statics.findByFilter = function (filter, page, pageSize) {
   if(page !== -1 && pageSize !== -1) {
-    return this.find(filter).sort({seq: -1}).skip(pageSize*page).limit(pageSize);
+    return this.find(filter, 'viewCount commentCount recommendUserList title writer commentList._id seq').sort({seq: -1}).skip(pageSize*page).limit(pageSize);
   }
-  return this.find(filter).sort({seq: -1});
+  return this.find(filter, 'viewCount commentCount recommendUserList title writer commentList._id seq').sort({seq: -1});
 }
 
 // NOTE Get by seq

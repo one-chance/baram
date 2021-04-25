@@ -1,15 +1,13 @@
 import { atom } from 'recoil';
 
 interface IPostFilter {
-  filter: string | undefined,
-  keyword: string | undefined
+  query: Array<string>
 }
 
 const FilterState = atom<IPostFilter>({
   key: "FilterState",
   default: {
-    filter: undefined,
-    keyword: undefined
+    query : []
   },
 });
 
