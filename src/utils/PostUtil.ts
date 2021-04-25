@@ -414,7 +414,9 @@ export const getCategoryName = (_category: CategoryType) => {
 // NOTE 작성자 객체 생성
 const getWriter = () => {
   const signInUser = getNowUserInfo();
-
+  console.log('getWriter');
+  console.log(signInUser);
+  
   return {
     key: getSignInUserKey(),
     id: getSignInUserId(),

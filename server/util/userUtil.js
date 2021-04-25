@@ -15,10 +15,10 @@ module.exports.PlusPointByKey = function PlusPointByKey(key, point) {
 module.exports.MinusPointByKey = function MinusPointByKey(key, point) {
   UserInfoSchema.minusPointByKey(key, point)
     .then(() => {
-      logger.info(`[SUCCESS] : PLUS POINT [${key}] ${point}`);
+      logger.info(`[SUCCESS] : MINUS POINT [${key}] ${point}`);
     })
     .catch(e => {
-      logger.error(`[ERROR] : PLUS POINT ERROR [${key}] ${point} > ${e}`);
+      logger.error(`[ERROR] : MINUS POINT ERROR [${key}] ${point} > ${e}`);
     });
 };
 

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import IUserInfo from 'interfaces/User/IUserInfo';
 import ISignUpUser from 'interfaces/User/ISignUpUser';
+import IAccount from 'interfaces/User/IAccount';
 
 import * as CommonUtil from 'utils/CommonUtil';
 
@@ -277,11 +278,13 @@ export const authUser = async (key: number, id: string, server: string, characte
 /*
 * NOTE 대표캐릭터 설정
 */
-export const setTitleAccount = async (id: string, character: string, server: string) => {
+export const setTitleAccount = async (id: string, titleAccount: IAccount) => {
+  console.log('run setTitleAccount');
+  console.log(titleAccount);
+
   const r = await axios.put('/api/user/titleaccount', {
     id,
-    server,
-    character 
+    titleAccount
   },
   {
     headers: {
@@ -290,11 +293,6 @@ export const setTitleAccount = async (id: string, character: string, server: str
   })
   .then((res) => {
     if (CommonUtil.checkServerError(res.data)) return false;
-
-    CommonUtil.changeTitleAccountToken({
-      server,
-      character 
-    });
     
     return res.data;
   })

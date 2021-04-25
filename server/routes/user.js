@@ -261,14 +261,10 @@ router.get("/find", (req, res) => {
  *        500: 서버 오류
  */
 router.put("/titleaccount", (req, res) => {
-  const id = req.body.id;
-  const titleAccountInfo = {
-    server: req.body.server,
-    character: req.body.character,
-  };
+  const { id, titleAccount } = req.body;
   const editDate = new Date();
 
-  UserInfoSchema.updateById(id, { titleAccount: titleAccountInfo, editDate: editDate })
+  UserInfoSchema.updateById(id, { titleAccount, editDate })
     .then(updatedUserInfo => {
       if (updatedUserInfo) {
         logger.info(`[SUCCESS] : ${updatedUserInfo.id} SET TITLE ACCOUNT`);

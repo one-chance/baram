@@ -237,26 +237,25 @@ router.post("/signin", (req, res) => {
  *        401: 유효하지 않은 토큰
  */
 router.post("/refresh", (req, res) => {
-  const { token, id, key, grade, titleAccount } = req.body;
+  const { token, id, key } = req.body;
   const decoded = jsonwebtoken.verify(token, process.env.MONGODB_SECRET);
-  const userInfo = {
-    grade,
-    titleAccount
-  }
 
-  if (decoded) {
-    logger.info(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
-    res.status(200).send({
-      code: 200,
-      token: createToken(id, key, userInfo),
+  UserInfoSchema.findOneById(id)
+    .then((userInfo) => {
+      if (decoded) {
+        logger.info(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
+        res.status(200).send({
+          code: 200,
+          token: createToken(id, key, userInfo),
+        });
+      } else {
+        logger.info(`[FAILED] : ${id} INVALID ACCESS TOKEN`);
+        res.status(200).send({
+          code: 401,
+          token: null,
+        });
+      }
     });
-  } else {
-    logger.info(`[FAILED] : ${id} INVALID ACCESS TOKEN`);
-    res.status(200).send({
-      code: 401,
-      token: null,
-    });
-  }
 });
 
 /*
@@ -870,13 +869,21 @@ router.get("/visit/count", (req, res) => {
  *   NOTE 신규 토큰 생성
  */
 const createToken = (id, key, userInfo) => {
+  console.log('createToken : ');
+  console.log({
+    id,
+    key,
+    grade: userInfo.grade,
+    titleAccount: userInfo.titleAccount
+  });
+
   // CREATE JSONWEBTOKEN
   const token = jsonwebtoken.sign(
     {
       id,
       key,
       grade: userInfo.grade,
-      titleAccount: userInfo.titleAccount
+      titleAccount: userInfo.titleAccount ? userInfo.titleAccount : {}
     },
     process.env.MONGODB_SECRET,
     {

@@ -67,18 +67,18 @@ function MyInfo({ match }: any) {
 
   // NOTE Init User Information
   useEffect(() => {
-    const getUserInfo = async () => {
-      const id = getSignInUserId();
-      if (id) {
-        const info = await getUserInfoById(id);
-        info && setUserInfo(info);
-      } else {
-        setIsNoSignInUser(true);
-      }
-    };
-
     getUserInfo();
   }, []);
+
+  const getUserInfo = async () => {
+    const id = getSignInUserId();
+    if (id) {
+      const info = await getUserInfoById(id);
+      info && setUserInfo(info);
+    } else {
+      setIsNoSignInUser(true);
+    }
+  };
 
   return (
     <React.Fragment>
