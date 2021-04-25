@@ -172,27 +172,25 @@ export const checkUploadImage = async (content: any) => {
       const base64Data: Buffer = Buffer.from(base64, 'base64');
 
       // 파일번호 채번
-      await axios.post('/api/common/config/imageCount')
-        .then(async (res) => {
-          if (res.data.code === 200) {
-            // S3에 저장.
-            await axios.post('/api/common/upload', {
-              fileName: `IM${res.data.newImageCount}`,
-              file: base64Data
-            })
-              .then((res) => {
-                if (res.data.code === 200) {
-                  // 게시글 내용의 base64 이미지를 S3 이미지 경로로 변경.
-                  content = content.replace(/data:image\/.*?;base64,/g, "");
-                  content = content.replace(base64, `${res.data.url}">`);
-                  imgs.push(res.data.url);
-                }
-                else {
-                  // 업로드 실패
-                }
-            });
-          }
+      const res = await axios.post('/api/common/config/imageCount');
+
+      if (res.data.code === 200) {
+        // S3에 저장.
+        const res2 = await axios.post('/api/common/upload', {
+          fileName: `IM${res.data.newImageCount}`,
+          file: base64Data
         });
+
+        if (res2.data.code === 200) {
+          // 게시글 내용의 base64 이미지를 S3 이미지 경로로 변경.
+          content = content.replace(/data:image\/.*?;base64,/g, "");
+          content = content.replace(base64, `${res2.data.url}">`);
+          imgs.push(res2.data.url);
+        }
+        else {
+          // 업로드 실패
+        }
+      }
     }
 
     return { content, imgs };
