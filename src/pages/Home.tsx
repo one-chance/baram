@@ -17,7 +17,6 @@ import { getVisitCount } from "utils/CommonUtil";
 
 const useStyles = makeStyles(theme => ({
   secondSection: {
-    minHeight: "160px",
     margin: "10px 0",
     border: "1px solid lightgray",
     borderRadius: "10px",
@@ -85,14 +84,14 @@ const Home = () => {
       <Grid item xs={12}>
         <MainCarousel />
       </Grid>
-      <Grid item container justify='space-around' xs={10} className={classes.secondSection}>
+      <Grid item container alignItems='flex-end' justify='space-around' xs={10} className={classes.secondSection}>
         <Grid item style={{ width: "320px", margin: "0", padding: "0" }}>
           <LatestBoardPaper category='free' posts={freePosts} />
         </Grid>
         <Grid item style={{ width: "320px", margin: "0", padding: "0" }}>
           <LatestBoardPaper category='tip' posts={tipPosts} />
         </Grid>
-        <Grid item container justify='space-around' style={{ width: "320px", height: "170px", margin: "0", padding: "0" }}>
+        <Grid item container justify='space-around' style={{ width: "320px", height: "168px", margin: "5px 10px", padding: "0" }}>
           <Grid item className={classes.boardItem}>
             <Button variant='outlined' className={classes.boardItemButton}>
               <PriorityHighIcon />
