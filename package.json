@@ -1,6 +1,6 @@
 {
   "name": "dotols",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "private": true,
   "proxy": "http://3.36.177.106:3001",
   "dependencies": {

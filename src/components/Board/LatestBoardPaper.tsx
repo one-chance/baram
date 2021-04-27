@@ -15,8 +15,8 @@ import { getMMDDByDate } from "utils/CommonUtil";
 const useStyles = makeStyles(theme => ({
   paper: {
     width: "auto",
-    height: "160px",
-    margin: "5px",
+    height: "168px",
+    margin: "5px 10px",
     padding: "0",
   },
   linkItem: {
@@ -49,7 +49,7 @@ const LatestBoardPaper = (props: IProps) => {
 
   return (
     <Grid container direction='column' className={classes.paper}>
-      <Grid container justify='space-between' style={{ fontSize: "1rem", fontWeight: "bold", margin: "0 5px" }}>
+      <Grid container justify='space-between' style={{ height: "25px", fontSize: "1rem", fontWeight: "bold", padding: "0 5px", marginTop: "8px" }}>
         {PostUtil.getCategoryName(category)}
         <Button href={`/board/${category}`} style={{ minWidth: "22px", height: "22px", padding: "0", float: "right" }}>
           <AddIcon style={{ width: "20px", height: "20px" }} />
@@ -61,7 +61,7 @@ const LatestBoardPaper = (props: IProps) => {
           posts.length > 0 ? (
             posts.map((post: IPost) => (
               <div key={post.seq} className={classes.linkItem}>
-                <Link href={`/board/${post.category}/${post.seq}`}>
+                <Link href={`/board/${category}/${post.seq}`}>
                   {post.title} {post.commentList ? ` (+${post.commentList.length})` : ``}
                 </Link>
                 <span>{getMMDDByDate(post.writer.createDate)}</span>
