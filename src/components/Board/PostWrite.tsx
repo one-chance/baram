@@ -66,10 +66,11 @@ const modules = {
   toolbar: {
     container: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
+      [{ size: ["small", false, "large", "huge"] }],
       [{ color: ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
       ["link", "image"],
     ],
   },
@@ -125,8 +126,15 @@ function PostWrite(props: IProps) {
     setMyBackdrop(true);
 
     let res: any;
-    if (server) res = seq ? await EditPost(title, content, post, server.key) : await CreatePost(category, title, content, server.key);
-    else res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
+    if (server) {
+      res = seq ? 
+        await EditPost(title, content, post, server.key) 
+        : await CreatePost(category, title, content, server.key);
+    } else { 
+      res = seq ? 
+        await EditPost(title, content, post) 
+        : await CreatePost(category, title, content);
+    }
 
     if (res.code === 200) {
       setMyAlert({
@@ -248,6 +256,7 @@ function PostWrite(props: IProps) {
             placeholder='작성할 내용을 입력하세요.'
             onChange={e => {
               setContent(e);
+              console.log(e);
             }}
           />
         </Grid>

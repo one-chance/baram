@@ -1,7 +1,9 @@
 import axios from 'axios';
+import jwtDecode from "jwt-decode";
 
 import { getSessionNameUserToken } from 'utils/ConfigUtil';
 import IServer from 'interfaces/Common/IServer';
+import IAccount from 'interfaces/User/IAccount';
 
 export const checkServerError = (res: any) => {
   
@@ -36,11 +38,13 @@ export const delToken = () => {
 
 export const refreshToken = () => {
   const token = getToken();
-  const id = getIdFromToken(token);
-  const key = getKeyFromToken(token);
+  const signInUser = getSignInUserFromToken(token);
   
   if (token){
-    const res = axios.post('/api/common/refresh', {id: id, key: key, token: token})
+    const res = axios.post('/api/common/refresh', {
+      ...signInUser,
+      token
+    })
       .then((res) => {
         if (res.data.code === 200 && res.data.token) { // 토큰 갱신
           setToken(res.data.token);
@@ -68,12 +72,8 @@ export const refreshToken = () => {
   }
 }
 
-export const getNowId = () => {
-  return getIdFromToken(getToken());
-}
-
-export const getNowKey = () => {
-  return getKeyFromToken(getToken());
+export const getNowUser = () => {
+  return getSignInUserFromToken(getToken());
 }
 
 export const getStringByDate = (date: Date | undefined, full?: boolean) => {
@@ -112,6 +112,10 @@ export const getMMDDByDate = (date: Date | undefined) => {
   return d;
 }
 
+export const getTitleAccountString = (titleAccount?: IAccount) => {
+  return titleAccount ? `${titleAccount.character}@${titleAccount.server}` : "Unknown Account";
+}
+
 // 이미지 포함여부를 확인하여 있을 경우 S3에 업로드 처리
 // react quill 에서 이미지는 <img src={base64}> 로 사용함..
 // 1. base64 를 이미지 파일로 변경
@@ -132,27 +136,25 @@ export const checkUploadImage = async (content: any) => {
       const base64Data: Buffer = Buffer.from(base64, 'base64');
 
       // 파일번호 채번
-      await axios.post('/api/common/config/imageCount')
-        .then(async (res) => {
-          if (res.data.code === 200) {
-            // S3에 저장.
-            await axios.post('/api/common/upload', {
-              fileName: `IM${res.data.newImageCount}`,
-              file: base64Data
-            })
-              .then((res) => {
-                if (res.data.code === 200) {
-                  // 게시글 내용의 base64 이미지를 S3 이미지 경로로 변경.
-                  content = content.replace(/data:image\/.*?;base64,/g, "");
-                  content = content.replace(base64, `${res.data.url}">`);
-                  imgs.push(res.data.url);
-                }
-                else {
-                  // 업로드 실패
-                }
-            });
-          }
+      const res = await axios.post('/api/common/config/imageCount');
+
+      if (res.data.code === 200) {
+        // S3에 저장.
+        const res2 = await axios.post('/api/common/upload', {
+          fileName: `IM${res.data.newImageCount}`,
+          file: base64Data
         });
+
+        if (res2.data.code === 200) {
+          // 게시글 내용의 base64 이미지를 S3 이미지 경로로 변경.
+          content = content.replace(/data:image\/.*?;base64,/g, "");
+          content = content.replace(base64, `${res2.data.url}">`);
+          imgs.push(res2.data.url);
+        }
+        else {
+          // 업로드 실패
+        }
+      }
     }
 
     return { content, imgs };
@@ -311,38 +313,20 @@ export const getServerList = () => {
 * JWT 구조
 * [HEADER].[PAYLOAD].[VERIFY SIGNATURE]
 */
-const getIdFromToken = (token: string | null) => {
+const getSignInUserFromToken = (token: string | null) => {
   if (token !== null) {
-    // Get Token
-    const splitToken = token.split(".");
-  
-    // Get Payload Token
-    const payloadToken = splitToken[1];
-  
+    // Get Payload Token from Token
+    const payloadToken = token.split(".")[1];
+   
     // Decode Base64 and Transfer to JSON
-    const payload = JSON.parse(atob(payloadToken));
-  
-    return payload.id;
-  }
-  else {
-    return null;
-  }
-}
+    var payload = JSON.parse(atob(payloadToken));
+ 
+    const decoded = jwtDecode<any>(token);
+    payload.titleAccount = decoded.titleAccount;
 
-const getKeyFromToken = (token: string | null) => {
-  if (token !== null) {
-    // Get Token
-    const splitToken = token.split(".");
-  
-    // Get Payload Token
-    const payloadToken = splitToken[1];
-  
-    // Decode Base64 and Transfer to JSON
-    const payload = JSON.parse(atob(payloadToken));
-  
-    return payload.key;
+    return payload;
   }
   else {
-    return null;
+    return null
   }
 }

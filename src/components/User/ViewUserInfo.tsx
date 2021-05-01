@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import IUserInfo from "interfaces/User/IUserInfo";
 import { setUserInfo } from "utils/UserUtil";
-import { getStringByDate } from "utils/CommonUtil";
+import { getStringByDate, getTitleAccountString } from "utils/CommonUtil";
 
 interface IProps {
   userInfo: IUserInfo;
@@ -143,7 +143,7 @@ function ViewUserInfo(props: IProps) {
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
           <Typography className={classes.text}>등급</Typography>
-          <span className={classes.box}>{userInfo.grade}</span>
+          <span className={classes.box}>Level {userInfo.grade}</span>
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
           <Typography className={classes.text}>포인트</Typography>
@@ -152,7 +152,7 @@ function ViewUserInfo(props: IProps) {
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
           <Typography className={classes.text}>대표 캐릭터</Typography>
           <span style={{ width: "290px", margin: "0 5px" }}>
-            {userInfo.titleAccount ? `${userInfo.titleAccount.character}@${userInfo.titleAccount.server}` : "　"}
+            { getTitleAccountString(userInfo.titleAccount) }
           </span>
           <Button variant='outlined' color='secondary' className={classes.btn} href='/myinfo/auth'>
             변경

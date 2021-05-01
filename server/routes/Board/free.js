@@ -7,6 +7,8 @@ const logger = require('../../winston');
 const FreeSchema = require("../../schemas/Board/FreeSchema");
 const UserWriteSchema = require("../../schemas/User/UserWriteSchema");
 
+const {PlusPointByKey, MinusPointByKey} = require("../../util/userUtil");
+
 /*
  *    NOTE 게시글 생성
  *    TYPE : POST
@@ -53,7 +55,9 @@ router.post("/post", (req, res) => {
         .catch(e => {
           logger.error(`[ERROR] : ADD USERWRITE POST ERROR [${key}]${id} - ${category} : ${seq} > ${e}`);
         })
-        
+
+      // PlusPointByKey(key, 5);
+      
       logger.info(`[SUCCESS] : ${post.title} CREATED SUCCESS`);
       res.status(200).send({
         code: 200,

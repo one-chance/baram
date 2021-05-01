@@ -16,8 +16,10 @@ import FormControl from "@material-ui/core/FormControl";
 
 import { getBaseUrlForAuth } from "utils/ConfigUtil";
 import { checkGameUser } from "utils/UserUtil";
+import { getTitleAccountString } from "utils/CommonUtil";
 import IUserInfo from "interfaces/User/IUserInfo";
 import { setTitleAccount } from "utils/UserUtil";
+import IAccount from "interfaces/User/IAccount";
 
 interface IProps {
   userInfo: IUserInfo;
@@ -59,96 +61,103 @@ function AuthAccount(props: IProps) {
   const [server, setServer] = useState<string>("");
   const [character, setCharacter] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
-  const [characterList, setCharacterList] = useState<Array<string>>([]);
+  const [selectedTitleAccount, setSelectedTitleAccount] = useState<IAccount>();
+  const [accountList, setAccountList] = useState<Array<IAccount>>([]);
 
-  const _clear = () => {
-    setServer("");
-    setCharacter("");
-    setIsDisabled(false);
+  useEffect(() => {
+    setSelectedTitleAccount(userInfo.titleAccount);
 
-    setMyBackdrop(false);
-  };
+    if (userInfo.accountList) {
+      setAccountList(userInfo.accountList);
+    }
+  }, [userInfo]);
 
   const _onEnterCharacter = (keyCode: number) => {
     if (keyCode === 13) {
+      setIsDisabled(true);
       _onAuthRequest();
     }
   };
 
   const _onAuthRequest = async () => {
-    setMyBackdrop(true);
-    setIsDisabled(true);
+    if (!isDisabled) {
+      setMyBackdrop(true);
+      setIsDisabled(true);
 
-    const res = await checkGameUser(userInfo.id, server, character);
+      const res = await checkGameUser(userInfo.key, userInfo.id, server, character);
 
-    if (res.code === 200) {
-      // Successed Authentication
-      setMyAlert({
-        isOpen: true,
-        severity: "success",
-        duration: duration,
-        message: res.message,
-      });
-      setTimeout(() => _clear(), duration);
-    } else {
-      // Failed Authentication
-      setMyAlert({
-        isOpen: true,
-        severity: "error",
-        duration: duration,
-        message: res.message,
-      });
+      if (res.code === 200) {
+        // Successed Authentication
 
-      setTimeout(() => setMyBackdrop(false), duration);
+        if (accountList.length < 1) {
+          await setTitleAccount(userInfo.id, {
+            character,
+            server,
+          });
+        }
+
+        setMyAlert({
+          isOpen: true,
+          severity: "success",
+          duration: duration,
+          message: res.message,
+        });
+
+        setTimeout(() => window.location.reload(), duration);
+      } else {
+        // Failed Authentication
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: duration,
+          message: res.message,
+        });
+
+        setIsDisabled(false);
+        setMyBackdrop(false);
+      }
     }
-
-    setIsDisabled(false);
-
-    /*     let chracterAndServer: string[] = characterList;
-    chracterAndServer.push(`${character}@${server}`);
-    setCharacterList(chracterAndServer); */
-    characterList.push(`${character}@${server}`);
-    setCharacterList(characterList);
   };
 
   const _onChangeAccount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+    const parseValue = (event.target as HTMLInputElement).value.split("@");
+
+    const titleAccount: IAccount = {
+      server: parseValue[1],
+      character: parseValue[0],
+    };
+
+    setSelectedTitleAccount(titleAccount);
   };
 
-  const _onSave = async () => {
-    const parseValue = value.split("@");
-    const res = await setTitleAccount(userInfo.id, parseValue[0], parseValue[1]);
+  const _onSetTitleAccount = async () => {
+    if (selectedTitleAccount) {
+      const res = await setTitleAccount(userInfo.id, selectedTitleAccount);
 
-    if (res.code === 200) {
-      setMyAlert({
-        isOpen: true,
-        severity: "success",
-        duration: duration,
-        message: res.message,
-      });
+      if (res.code === 200) {
+        setMyAlert({
+          isOpen: true,
+          severity: "success",
+          duration: duration,
+          message: res.message,
+        });
+      } else {
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: duration,
+          message: res.message,
+        });
+      }
     } else {
       setMyAlert({
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: res.message,
+        message: "선택된 대표 캐릭터가 없습니다.",
       });
     }
   };
-
-  useEffect(() => {
-    const titleAccount = userInfo.titleAccount ? `${userInfo.titleAccount.character}@${userInfo.titleAccount.server}` : "";
-    setValue(titleAccount);
-
-    let chracterAndServer: string[] = [];
-    if (userInfo.accountList) {
-      for (let a = 0; a < userInfo.accountList.length; a++) {
-        chracterAndServer[a] = `${userInfo.accountList[a].character}@${userInfo.accountList[a].server}`;
-      }
-    }
-    setCharacterList(chracterAndServer);
-  }, [userInfo]);
 
   return (
     <React.Fragment>
@@ -209,22 +218,25 @@ function AuthAccount(props: IProps) {
             <Button
               variant='outlined'
               color='primary'
-              disabled={!characterList || characterList.length === 0}
-              onClick={_onSave}
+              disabled={!accountList || accountList.length === 0}
+              onClick={_onSetTitleAccount}
               style={{ height: "40px", margin: "0 20px" }}>
               설정
             </Button>
           </Grid>
           <Grid container item xs={12} style={{ margin: "10px 0", padding: "0 5px" }}>
-            {characterList && characterList.length > 0 ? (
+            {accountList && accountList.length > 0 ? (
               <FormControl component='fieldset'>
-                <RadioGroup value={value} onChange={_onChangeAccount} style={{ display: "flex", flexWrap: "nowrap", flexDirection: "row" }}>
-                  {characterList.map((acc, index) => (
+                <RadioGroup
+                  value={getTitleAccountString(selectedTitleAccount)}
+                  onChange={_onChangeAccount}
+                  style={{ display: "flex", flexWrap: "nowrap", flexDirection: "row" }}>
+                  {accountList.map((acc, index) => (
                     <FormControlLabel
-                      value={acc}
+                      value={getTitleAccountString(acc)}
                       key={index}
                       control={<Radio style={{ width: "40px", height: "40px" }} />}
-                      label={acc}
+                      label={getTitleAccountString(acc)}
                       style={{ margin: "0 10px", float: "left" }}
                     />
                   ))}

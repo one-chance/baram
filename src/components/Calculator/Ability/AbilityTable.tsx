@@ -194,16 +194,33 @@ export default function AbilityTable() {
               fontWeight: "bold",
               margin: "10px 0",
             }}>{`최종 능력치 = {(A + B or B' +  C + D) x E + F} x G + H`}</Typography>
-          <Typography variant='h6'>A &nbsp;= 직업 스텟 (힘민지건혜)</Typography>
-          <Typography variant='h6'>B &nbsp;= 장비 스텟 (아이템 + 각인 + 황돋 + 신수 장비)</Typography>
-          <Typography variant='h6'>B' = 신체 각성</Typography>
-          <Typography variant='h6'>C &nbsp;= 환수 시동</Typography>
-          <Typography variant='h6'>D &nbsp;= 한벌 효과</Typography>
-          <Typography variant='h6'>E &nbsp;= 황돋 %돋</Typography>
-          <Typography variant='h6'>F &nbsp;= 칭호 효과</Typography>
-          <Typography variant='h6'>G &nbsp;= 품의 효과</Typography>
-          <Typography variant='h6'>H &nbsp;= 기타 효과 (마법 + 물약 + 가문 특성)</Typography>
-          <Typography variant='h6'>* 방어도는 마법 효과에 %돋과 품의 효과가 적용 된다. (수정 당할수도..)</Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            A &nbsp;= 직업 스탯 (힘민지건혜)
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            B &nbsp;= 장비 스탯 (아이템 + 각인 + 황돋 + 신수 장비)
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            B' = 신체 각성
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            C &nbsp;= 환수 시동
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            D &nbsp;= 한벌 효과
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            E &nbsp;= 황돋 %돋
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            F &nbsp;= 칭호 효과
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            G &nbsp;= 품의 효과
+          </Typography>
+          <Typography variant='h6' style={{ padding: "0 20px" }}>
+            H &nbsp;= 마법 효과 + 물약 효과 + 가문 특성
+          </Typography>
         </DialogContent>
         <Divider />
         <DialogActions style={{ padding: "10px" }}>

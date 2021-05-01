@@ -18,7 +18,8 @@ const userInfoSchema = new mongoose.Schema({
     })
   ],
   isAuth: { type: Boolean, required: false },
-  point: { type: Number, required: false },
+  point: { type: Number, required: false, default: 0 },
+  totalPoint: { type: Number, required: false, default: 0 },
   grade: { type: String, required: false },
   createDate: { type: Date, required: false },
   editDate: { type: Date, required: false },
@@ -70,6 +71,35 @@ userInfoSchema.statics.pushAccountListByKey = function (key, payload) {
 userInfoSchema.statics.pushAccountListById = function (id, payload) {
   return this.findOneAndUpdate({ id: id }, { $push: { accountList: payload } }, { upsert: true, new: true });
 };
+
+// plusPoint by user key
+userInfoSchema.statics.plusPointByKey = function (key, point) {
+  return this.findOne({ key: key }, (err, userInfo) => {
+    userInfo.point += point;
+    userInfo.totalPoint += point;
+
+    if (100 <= userInfo.point) {
+      userInfo.grade = "2";
+    }
+
+    userInfo.save();
+  });
+}
+
+// minusPoint by user key
+userInfoSchema.statics.minusPointByKey = function (key, point) {
+  
+  return this.findOne({ key: key }, (err, userInfo) => {
+    if (userInfo.point < point) {
+      userInfo.point = 0;
+    }
+    else {
+      userInfo.point -= point;
+    }
+
+    userInfo.save();
+  });
+}
 
 // Delete by user key
 userInfoSchema.statics.deleteByKey = function (key) {

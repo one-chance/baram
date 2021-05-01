@@ -257,7 +257,7 @@ const Board = (props: IProps) => {
     rows.push({
       id: post.seq ? post.seq : -1,
       title: post.title,
-      writer: post.writer.id,
+      writer: CommonUtil.getTitleAccountString(post.writer.titleAccount),
       viewCount: post.viewCount,
       commentCount: post.commentList ? post.commentList.length : 0,
       recommendCount: post.recommendUserList ? post.recommendUserList.length : 0,
