@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { CommentListState } from "state/index";
 
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -25,12 +25,18 @@ const useStyles = makeStyles(theme => ({
     padding: "0",
     lineHeight: "30px",
   },
+  infoText: {
+    margin: "0",
+    padding: "0",
+    float: "left",
+  },
+  infoIcon: {
+    height: "32px",
+    margin: "0 5px",
+    float: "left",
+  },
   form: {
     marginTop: "10px",
-  },
-  middleText: {
-    margin: "auto",
-    verticalAlign: "middle",
   },
   btn: {
     minWidth: "40px",
@@ -95,20 +101,20 @@ function PostTitle(props: IProps) {
           </Grid>
           <Grid item container justify='space-around' xs={4}>
             <div>
-              <CreateIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
-              <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
-                {post.writer.id}
+              <CreateIcon fontSize='small' className={classes.infoIcon} />
+              <Typography variant='h6' className={classes.infoText} style={{ fontWeight: "bold" }}>
+                {CommonUtil.getTitleAccountString(post.writer.titleAccount)}
               </Typography>
             </div>
             <div>
-              <VisibilityIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
-              <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
+              <VisibilityIcon fontSize='small' className={classes.infoIcon} />
+              <Typography variant='h6' className={classes.infoText}>
                 {post.viewCount}
               </Typography>
             </div>
             <div>
-              <MessageIcon fontSize='small' style={{ height: "32px", margin: "0 5px", float: "left" }} />
-              <Typography variant='h6' style={{ margin: "0", padding: "0", float: "left" }}>
+              <MessageIcon fontSize='small' className={classes.infoIcon} />
+              <Typography variant='h6' className={classes.infoText}>
                 {count}
               </Typography>
             </div>

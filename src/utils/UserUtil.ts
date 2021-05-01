@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import IUserInfo from 'interfaces/User/IUserInfo';
 import ISignUpUser from 'interfaces/User/ISignUpUser';
+import IAccount from 'interfaces/User/IAccount';
 
 import * as CommonUtil from 'utils/CommonUtil';
 
@@ -46,10 +47,10 @@ export const SignUpUser = async (_id: string, _password: string, _email: string)
 /*
 * NOTE 사용자 로그인
 */
-export const SignInUser = async (_id: string, _password: string) => {
+export const SignInUser = async (id: string, password: string) => {
   const res = await axios.post('/api/common/signin', {
-    id: _id, 
-    password: _password
+    id,
+    password
   })
     .then((res) => {
 
@@ -111,13 +112,24 @@ export const LogoutUser = () => {
 * NOTE 로그인 한 사용자 ID 가져오기
 */
 export const getSignInUserId = () => {
-  return CommonUtil.getNowId();
+  const signInUser = CommonUtil.getNowUser();
+  return signInUser ? signInUser.id : '';
 }
+
 /*
 * NOTE 로그인 한 사용자 KEY 가져오기
 */
 export const getSignInUserKey = () => {
-  return CommonUtil.getNowKey();
+  const signInUser = CommonUtil.getNowUser();
+  return signInUser ? signInUser.key : '';
+}
+
+/*
+* NOTE 로그인 한 사용자정보 가져오기
+*/
+export const getNowUserInfo = () => {
+  const signInUser = CommonUtil.getNowUser();
+  return signInUser ? signInUser : '';
 }
 
 /*
@@ -205,11 +217,11 @@ export const setChangePassword = async (_id: string, _changePassword: string) =>
 /*
 * NOTE 바람의나라 공식 사이트 한줄인사말 데이터 크롤링하여 사용자 인증
 */
-export const checkGameUser = async (_id: string, _server: string, _character: string) => {
+export const checkGameUser = async (key: number, id: string, server: string, character: string) => {
   const r = await axios.post('/api/user/check', {
-      id: _id,
-      server: _server,
-      character: _character
+      id,
+      server,
+      character,
     }, 
     {
       headers: {
@@ -220,7 +232,7 @@ export const checkGameUser = async (_id: string, _server: string, _character: st
       if (CommonUtil.checkServerError(res.data)) return false;
 
       if (res.data.code === 200) {
-        return authUser(_id, _server, _character);
+        return authUser(key, id, server, character);
       }
       else {
         return res.data;
@@ -239,11 +251,12 @@ export const checkGameUser = async (_id: string, _server: string, _character: st
 /*
 * NOTE 사용자 인증 DB 처리
 */
-export const authUser = async (_id: string, _server: string, _character: string) => {
+export const authUser = async (key: number, id: string, server: string, character: string) => {
   const r = await axios.put('/api/user/auth', {
-    id: _id,
-    server: _server,
-    character: _character
+    key,
+    id,
+    server,
+    character,
   }, 
   {
     headers: {
@@ -265,11 +278,13 @@ export const authUser = async (_id: string, _server: string, _character: string)
 /*
 * NOTE 대표캐릭터 설정
 */
-export const setTitleAccount = async (_id: string, _character: string, _server: string) => {
+export const setTitleAccount = async (id: string, titleAccount: IAccount) => {
+  console.log('run setTitleAccount');
+  console.log(titleAccount);
+
   const r = await axios.put('/api/user/titleaccount', {
-    id: _id,
-    server: _server,
-    character: _character
+    id,
+    titleAccount
   },
   {
     headers: {
@@ -314,6 +329,7 @@ export const WithDrawUser = async (_id: string, _password: string) => {
 
 const getUserInfoFromJson = (jsonInfo: JSON) => {
   const userInfo: IUserInfo = {
+    key: 0,
     id: "",
     email: "",
     isActive: false,
