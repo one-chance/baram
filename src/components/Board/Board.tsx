@@ -60,6 +60,14 @@ const useStyles = makeStyles(theme => ({
     "& .MuiDataGrid-colCell, .MuiDataGrid-cell": {
       padding: "0 10px",
     },
+    "& .MuiDataGrid-row": {
+      cursor: "pointer",
+      "& div": {
+        "&:focus, &:hover, &:visited, &:link, &:active": {
+          outline: "none",
+        },
+      },
+    },
   },
   pageBox: {
     width: "100%",
@@ -130,24 +138,21 @@ function CustomPagination() {
   const [searchValue, setSearchValue] = React.useState<string | undefined>(``);
 
   useEffect(() => {
-    for(let idx in filterValue.query) {
+    for (let idx in filterValue.query) {
       let query = filterValue.query[idx].split(`=`);
-      if(query[0] === `title` || query[0] === `content` || query[0] === `writer`) {
+      if (query[0] === `title` || query[0] === `content` || query[0] === `writer`) {
         setSearchFilter(query[0]);
         setSearchValue(query[1]);
-      }
-      else {
-        if(searchQuery === ``)
-          setSearchQuery(filterValue.query[idx]);
-        else
-          setSearchQuery(searchQuery + `&` + filterValue.query[idx]);
+      } else {
+        if (searchQuery === ``) setSearchQuery(filterValue.query[idx]);
+        else setSearchQuery(searchQuery + `&` + filterValue.query[idx]);
       }
     }
   }, [filterValue]);
 
-  const _onChangePage = (event : React.ChangeEvent<unknown>, value : number) => {
-    apiRef.current.setPage(value - 1)
-  }
+  const _onChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    apiRef.current.setPage(value - 1);
+  };
   const _onChangeSearch = (value: string) => {
     setSearchValue(value);
   };
@@ -177,10 +182,8 @@ function CustomPagination() {
     }
 
     let uri = `/board/${nowCategory}?`;
-    if(searchQuery === ``)
-      uri += `${searchFilter}=${searchValue}`;
-    else
-      uri += searchQuery + `&${searchFilter}=${searchValue}`;
+    if (searchQuery === ``) uri += `${searchFilter}=${searchValue}`;
+    else uri += searchQuery + `&${searchFilter}=${searchValue}`;
     document.location.href = uri;
   };
 
@@ -270,9 +273,8 @@ const Board = (props: IProps) => {
   };
 
   const _onPageChanged = (params: GridPageChangeParams) => {
-    if(onPageChange !== undefined)
-      onPageChange(params);
-  }
+    if (onPageChange !== undefined) onPageChange(params);
+  };
 
   return (
     <React.Fragment>
@@ -290,7 +292,7 @@ const Board = (props: IProps) => {
           disableColumnMenu={true}
           columns={smallScreen ? cols2 : cols}
           rows={rows}
-          rowCount={rowCount? rowCount : rows.length}
+          rowCount={rowCount ? rowCount : rows.length}
           onRowClick={param => _onRowClick(param.row.id as number)}
           components={{
             Header: CustomHeader,
