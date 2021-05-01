@@ -15,7 +15,7 @@ import * as CommonUtil from "utils/CommonUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { EditRecomment, DeleteRecomment } from "utils/PostUtil";
-import { getSignInUserKey } from "utils/UserUtil";
+import { getNowUserInfo } from "utils/UserUtil";
 
 interface IProps {
   post: IPost;
@@ -83,6 +83,7 @@ const RecommentItem = (props: IProps) => {
   const { post, comment, recommentItem } = props;
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
+  const signInUserKey = getNowUserInfo().key;
 
   const [recomment, setRecomment] = useState<IRecomment>();
   const [editRecommentMessage, setEditRecommentMessage] = useState("");
@@ -194,7 +195,7 @@ const RecommentItem = (props: IProps) => {
                       </Grid>
                     ) : (
                       <Grid container direction='row' className={classes.buttonWrapper}>
-                        {recomment.writer.key === getSignInUserKey() && (
+                        {recomment.writer.key === signInUserKey && (
                           <>
                             <Button
                               className={classes.btn}

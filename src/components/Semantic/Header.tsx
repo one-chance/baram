@@ -14,7 +14,7 @@ import SignInForm from "components/User/SignInForm";
 
 import HomeIcon from "@material-ui/icons/Home";
 import AppBar from "@material-ui/core/AppBar";
-import { getSignInUserId, LogoutUser } from "utils/UserUtil";
+import { getNowUserInfo, LogoutUser } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -110,7 +110,7 @@ export default function Header() {
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
   const [opener, setOpener] = useState(false);
 
-  const signInUserId = getSignInUserId();
+  const signInUserId = getNowUserInfo().id;
 
   const _onSignInOpen = () => {
     setIsSignInOpen(true);

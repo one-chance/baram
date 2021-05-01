@@ -109,22 +109,6 @@ export const LogoutUser = () => {
 }
 
 /*
-* NOTE 로그인 한 사용자 ID 가져오기
-*/
-export const getSignInUserId = () => {
-  const signInUser = CommonUtil.getNowUser();
-  return signInUser ? signInUser.id : '';
-}
-
-/*
-* NOTE 로그인 한 사용자 KEY 가져오기
-*/
-export const getSignInUserKey = () => {
-  const signInUser = CommonUtil.getNowUser();
-  return signInUser ? signInUser.key : '';
-}
-
-/*
 * NOTE 로그인 한 사용자정보 가져오기
 */
 export const getNowUserInfo = () => {

@@ -19,7 +19,7 @@ import PostCommentList from "components/Board/PostCommentList";
 
 import IPost from "interfaces/Board/IPost";
 import { getPost, DeletePost } from "utils/PostUtil";
-import { getSignInUserId } from "utils/UserUtil";
+import { getNowUserInfo } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,7 +48,7 @@ function TipPostView({ match }: any) {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [post, setPost] = useState<IPost>();
   const [writer, setWriter] = useState("");
-  const signInUserId = getSignInUserId();
+  const signInUserId = getNowUserInfo().id;
 
   const _onLoad = async () => {
     const res = await getPost(category, seq);

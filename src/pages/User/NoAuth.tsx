@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import SignInDialogState from "state/common/SignInDialogState";
 import Typography from "@material-ui/core/Typography";
-import { getSignInUserId } from "utils/UserUtil";
+import { getNowUserInfo } from "utils/UserUtil";
 
 const NoAuth = () => {
   const setIsOpen = useSetRecoilState(SignInDialogState);
@@ -10,7 +10,7 @@ const NoAuth = () => {
   useEffect(() => {
     setIsOpen(true);
 
-    var signInUserId = getSignInUserId();
+    var signInUserId = getNowUserInfo().id;
     if (signInUserId) {
       setIsOpen(false);
       document.location.href = "/";
