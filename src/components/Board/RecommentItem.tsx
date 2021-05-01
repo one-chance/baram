@@ -167,7 +167,9 @@ const RecommentItem = (props: IProps) => {
           <Grid container direction='column' className={classes.recommentWrapper}>
             <Grid container justify='space-between' className={classes.writerWrapper}>
               <div>
-                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>{recomment.writer.id}</Typography>
+                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>
+                  {CommonUtil.getTitleAccountString(recomment.writer.titleAccount)}
+                </Typography>
 
                 <div className={classes.textBox}>
                   <Typography>{CommonUtil.getStringByDate(recomment.writer.lastEditDate, true)}</Typography>
