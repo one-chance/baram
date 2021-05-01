@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwtDecode from "jwt-decode";
 
 import { getSessionNameUserToken } from 'utils/ConfigUtil';
 import IServer from 'interfaces/Common/IServer';
@@ -314,18 +315,18 @@ export const getServerList = () => {
 */
 const getSignInUserFromToken = (token: string | null) => {
   if (token !== null) {
-    // Get Token
-    const splitToken = token.split(".");
-  
-    // Get Payload Token
-    const payloadToken = splitToken[1];
-  
+    // Get Payload Token from Token
+    const payloadToken = token.split(".")[1];
+   
     // Decode Base64 and Transfer to JSON
-    const payload = JSON.parse(atob(payloadToken));
-  
+    var payload = JSON.parse(atob(payloadToken));
+ 
+    const decoded = jwtDecode<any>(token);
+    payload.titleAccount = decoded.titleAccount;
+
     return payload;
   }
   else {
-    return null;
+    return null
   }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
+import SignInDialogState from "state/common/SignInDialogState";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +11,7 @@ import TextField from "@material-ui/core/TextField";
 
 import IPost from "interfaces/Board/IPost";
 import { CreateComment } from "utils/PostUtil";
+import { getNowUserInfo } from "utils/UserUtil";
 
 interface IProps {
   post: IPost;
@@ -43,6 +45,8 @@ function PostComment(props: IProps) {
   const classes = useStyles();
   const { post } = props;
 
+  const signInUser = getNowUserInfo();
+  const setIsSignInOpen = useSetRecoilState(SignInDialogState);
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const setCommentList = useSetRecoilState(CommentListState);
@@ -50,6 +54,11 @@ function PostComment(props: IProps) {
   const [inputComment, setInputComment] = React.useState("");
 
   const _onSubmitComment = async () => {
+    if (!signInUser) {
+      setIsSignInOpen(true);
+      return;
+    }
+
     setMyBackdrop(true);
 
     if (post.seq) {

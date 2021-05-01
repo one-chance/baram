@@ -68,13 +68,11 @@ function AuthAccount(props: IProps) {
     setSelectedTitleAccount(userInfo.titleAccount);
 
     if (userInfo.accountList) {
-      setAccountList(userInfo.accountList); 
+      setAccountList(userInfo.accountList);
     }
-
   }, [userInfo]);
 
   const _onEnterCharacter = (keyCode: number) => {
-    
     if (keyCode === 13) {
       setIsDisabled(true);
       _onAuthRequest();
@@ -85,27 +83,26 @@ function AuthAccount(props: IProps) {
     if (!isDisabled) {
       setMyBackdrop(true);
       setIsDisabled(true);
-  
+
       const res = await checkGameUser(userInfo.key, userInfo.id, server, character);
-  
+
       if (res.code === 200) {
         // Successed Authentication
-        
+
         if (accountList.length < 1) {
-          console.log(accountList.length);
           await setTitleAccount(userInfo.id, {
-            character, 
-            server
+            character,
+            server,
           });
         }
-  
+
         setMyAlert({
           isOpen: true,
           severity: "success",
           duration: duration,
           message: res.message,
         });
-        
+
         setTimeout(() => window.location.reload(), duration);
       } else {
         // Failed Authentication
@@ -115,10 +112,9 @@ function AuthAccount(props: IProps) {
           duration: duration,
           message: res.message,
         });
-        
+
         setIsDisabled(false);
         setMyBackdrop(false);
-
       }
     }
   };
@@ -128,16 +124,16 @@ function AuthAccount(props: IProps) {
 
     const titleAccount: IAccount = {
       server: parseValue[1],
-      character: parseValue[0]
-    }
-    
+      character: parseValue[0],
+    };
+
     setSelectedTitleAccount(titleAccount);
   };
 
   const _onSetTitleAccount = async () => {
     if (selectedTitleAccount) {
       const res = await setTitleAccount(userInfo.id, selectedTitleAccount);
-  
+
       if (res.code === 200) {
         setMyAlert({
           isOpen: true,
@@ -153,16 +149,15 @@ function AuthAccount(props: IProps) {
           message: res.message,
         });
       }
-    }
-    else {
+    } else {
       setMyAlert({
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: '선택된 대표 캐릭터가 없습니다.',
+        message: "선택된 대표 캐릭터가 없습니다.",
       });
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -232,19 +227,19 @@ function AuthAccount(props: IProps) {
           <Grid container item xs={12} style={{ margin: "10px 0", padding: "0 5px" }}>
             {accountList && accountList.length > 0 ? (
               <FormControl component='fieldset'>
-                <RadioGroup value={getTitleAccountString(selectedTitleAccount)} onChange={_onChangeAccount} 
+                <RadioGroup
+                  value={getTitleAccountString(selectedTitleAccount)}
+                  onChange={_onChangeAccount}
                   style={{ display: "flex", flexWrap: "nowrap", flexDirection: "row" }}>
-                  {
-                    accountList.map((acc, index) => (
-                      <FormControlLabel
-                        value={getTitleAccountString(acc)}
-                        key={index}
-                        control={<Radio style={{ width: "40px", height: "40px" }} />}
-                        label={getTitleAccountString(acc)}
-                        style={{ margin: "0 10px", float: "left" }}
-                      />
-                    ))
-                  }
+                  {accountList.map((acc, index) => (
+                    <FormControlLabel
+                      value={getTitleAccountString(acc)}
+                      key={index}
+                      control={<Radio style={{ width: "40px", height: "40px" }} />}
+                      label={getTitleAccountString(acc)}
+                      style={{ margin: "0 10px", float: "left" }}
+                    />
+                  ))}
                 </RadioGroup>
               </FormControl>
             ) : (
