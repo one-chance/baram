@@ -52,6 +52,17 @@ const useStyles = makeStyles(theme => ({
       maxHeight: "500px",
     },
   },
+  preview: {
+    "& p": {
+      margin: "5px 0",
+    },
+    "& h1": {
+      margin: "15px 0",
+    },
+    "& h2": {
+      margin: "10px 0",
+    },
+  }
 }));
 
 const Menus = withStyles({
@@ -256,7 +267,6 @@ function PostWrite(props: IProps) {
             placeholder='작성할 내용을 입력하세요.'
             onChange={e => {
               setContent(e);
-              console.log(e);
             }}
           />
         </Grid>
@@ -288,9 +298,9 @@ function PostWrite(props: IProps) {
       </Dialog>
 
       <Dialog open={openPreview} maxWidth='lg'>
-        <DialogTitle style={{ fontWeight: "bold", textAlign: "center" }}>{title}</DialogTitle>
+        <DialogTitle ><span style={{ fontWeight: "bold", textAlign: "center" }}>{title}</span></DialogTitle>
         <Divider />
-        <DialogContent style={{ padding: "10px" }} dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
+        <DialogContent className={classes.preview} style={{ padding: "10px" }} dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
         <Divider />
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
           <Button

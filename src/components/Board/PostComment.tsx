@@ -56,6 +56,7 @@ function PostComment(props: IProps) {
   const _onSubmitComment = async () => {
     if (!signInUser) {
       setIsSignInOpen(true);
+      console.log(post);
       return;
     } else if (signInUser.grade < 2) {
       setMyAlert({

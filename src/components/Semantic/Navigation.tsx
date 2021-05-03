@@ -155,15 +155,11 @@ export default function Header() {
         <a href='/board/free'>자유 게시판</a>
         <Divider />
         <a href='#1' onClick={_prepare}>
+          서버 게시판
+        </a>
+        <Divider />
+        <a href='#1' onClick={_prepare}>
           스샷 게시판
-        </a>
-        <Divider />
-        <a href='#1' onClick={_prepare}>
-          구인 게시판
-        </a>
-        <Divider />
-        <a href='#1' onClick={_prepare}>
-          직업 게시판
         </a>
         <Divider />
       </div>
