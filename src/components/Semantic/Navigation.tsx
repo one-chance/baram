@@ -17,7 +17,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import SignInForm from "components/User/SignInForm";
 import AppBar from "@material-ui/core/AppBar";
-import { getSignInUserId, LogoutUser } from "utils/UserUtil";
+import { getNowUserInfo, LogoutUser } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -89,7 +89,7 @@ export default function Header() {
   const [opener, setOpener] = useState(false);
   const [state, setState] = useState(false);
 
-  const signInUserId = getSignInUserId();
+  const signInUserId = getNowUserInfo().id;
 
   const _onSignInOpen = () => {
     setIsSignInOpen(true);
@@ -155,15 +155,11 @@ export default function Header() {
         <a href='/board/free'>자유 게시판</a>
         <Divider />
         <a href='#1' onClick={_prepare}>
+          서버 게시판
+        </a>
+        <Divider />
+        <a href='#1' onClick={_prepare}>
           스샷 게시판
-        </a>
-        <Divider />
-        <a href='#1' onClick={_prepare}>
-          구인 게시판
-        </a>
-        <Divider />
-        <a href='#1' onClick={_prepare}>
-          직업 게시판
         </a>
         <Divider />
       </div>

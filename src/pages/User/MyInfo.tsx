@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-import { getSignInUserId, getUserInfoById } from "utils/UserUtil";
+import { getNowUserInfo, getUserInfoById } from "utils/UserUtil";
 import IUserInfo from "interfaces/User/IUserInfo";
 
 import NoAuth from "pages/User/NoAuth";
@@ -71,9 +71,9 @@ function MyInfo({ match }: any) {
   }, []);
 
   const getUserInfo = async () => {
-    const id = getSignInUserId();
-    if (id) {
-      const info = await getUserInfoById(id);
+    const signInUserId = getNowUserInfo().id;
+    if (signInUserId) {
+      const info = await getUserInfoById(signInUserId);
       info && setUserInfo(info);
     } else {
       setIsNoSignInUser(true);
@@ -125,15 +125,15 @@ function MyInfo({ match }: any) {
               </Grid>
             </React.Fragment>
           )}
-          { userInfo &&
-              <Grid item container className={smallScreen ? classes.box : classes.box2}>
-                {mode === "view" && smallScreen && <ViewUserInfoSmall userInfo={userInfo} />}
-                {mode === "view" && !smallScreen && <ViewUserInfo userInfo={userInfo} />}
-                {mode === "auth" && <AuthAccount userInfo={userInfo} />}
-                {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
-                {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
-              </Grid>
-          }
+          {userInfo && (
+            <Grid item container className={smallScreen ? classes.box : classes.box2}>
+              {mode === "view" && smallScreen && <ViewUserInfoSmall userInfo={userInfo} />}
+              {mode === "view" && !smallScreen && <ViewUserInfo userInfo={userInfo} />}
+              {mode === "auth" && <AuthAccount userInfo={userInfo} />}
+              {mode === "changepassword" && <ChagnePassword id={userInfo.id} />}
+              {mode === "withdraw" && <WithdrawUser id={userInfo.id} />}
+            </Grid>
+          )}
         </Grid>
       )}
     </React.Fragment>

@@ -14,7 +14,7 @@ import SignInForm from "components/User/SignInForm";
 
 import HomeIcon from "@material-ui/icons/Home";
 import AppBar from "@material-ui/core/AppBar";
-import { getSignInUserId, LogoutUser } from "utils/UserUtil";
+import { getNowUserInfo, LogoutUser } from "utils/UserUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -110,7 +110,7 @@ export default function Header() {
   const [isSignInOpen, setIsSignInOpen] = useRecoilState(SignInDialogState);
   const [opener, setOpener] = useState(false);
 
-  const signInUserId = getSignInUserId();
+  const signInUserId = getNowUserInfo().id;
 
   const _onSignInOpen = () => {
     setIsSignInOpen(true);
@@ -176,13 +176,10 @@ export default function Header() {
               <a href='/board/tip'>팁 게시판</a>
               <a href='/board/free'>자유 게시판</a>
               <a href='#1' onClick={_prepare}>
+                서버 게시판
+              </a>
+              <a href='#1' onClick={_prepare}>
                 스샷 게시판
-              </a>
-              <a href='#1' onClick={_prepare}>
-                구인 게시판
-              </a>
-              <a href='#1' onClick={_prepare}>
-                직업 게시판
               </a>
             </div>
           </Grid>
