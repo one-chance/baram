@@ -56,6 +56,15 @@ function PostComment(props: IProps) {
   const _onSubmitComment = async () => {
     if (!signInUser) {
       setIsSignInOpen(true);
+      console.log(post);
+      return;
+    } else if (signInUser.grade < 2) {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: 2000,
+        message: "Level 2 부터 작성하실 수 있습니다. 대표 캐릭터 인증을 완료해주세요.",
+      });
       return;
     }
 

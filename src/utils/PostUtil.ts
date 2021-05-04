@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import IPost from 'interfaces/Board/IPost';
-import { getSignInUserKey, getSignInUserId, getNowUserInfo } from 'utils/UserUtil';
+import { getNowUserInfo } from 'utils/UserUtil';
 import * as CommonUtil from 'utils/CommonUtil';
 
 import { CategoryType } from 'interfaces/Board/IPost';
@@ -443,12 +443,10 @@ export const getCategoryName = (_category: CategoryType) => {
 // NOTE 작성자 객체 생성
 const getWriter = () => {
   const signInUser = getNowUserInfo();
-  console.log('getWriter');
-  console.log(signInUser);
   
   return {
-    key: getSignInUserKey(),
-    id: getSignInUserId(),
+    key: signInUser.key,
+    id: signInUser.id,
     titleAccount: signInUser.titleAccount
   }
 }

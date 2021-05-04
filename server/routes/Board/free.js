@@ -281,17 +281,6 @@ router.post("/comment", (req, res) => {
   comment.writer.createDate = new Date();
   comment.writer.lastEditDate = new Date();
 
-  if (!comment.writer.id || !comment.writer.key) {
-    logger.info(`[FAILED] : COMMENT CREATED ERROR - NOT FOUND USER INFORMATION`);
-    res.status(200).send({
-      code: 401,
-      message: "유효하지 않은 사용자 정보입니다. 로그인 후 다시 작성해주세요.",
-      redirectUri: "/signin"
-    });
-
-    return false;
-  }
-
   FreeSchema.createComment(seq, comment)
     .then(post => {
       const { key, id } = comment.writer;

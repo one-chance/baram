@@ -18,7 +18,7 @@ import { getStringByDate, getTitleAccountString } from "utils/CommonUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { CreateRecomment, DeleteComment, EditComment } from "utils/PostUtil";
-import { getSignInUserKey } from "utils/UserUtil";
+import { getNowUserInfo } from "utils/UserUtil";
 import RecommentItem from "components/Board/RecommentItem";
 
 interface IProps {
@@ -94,6 +94,7 @@ const CommentItem = (props: IProps) => {
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const setCommentList = useSetRecoilState(CommentListState);
   const setIsSignInOpen = useSetRecoilState(SignInDialogState);
+  const signInUserKey = getNowUserInfo().key;
 
   const [comment, setComment] = useState<IComment>();
   const [editCommentMessage, setEditCommentMessage] = useState("");
@@ -226,8 +227,7 @@ const CommentItem = (props: IProps) => {
             <Grid container justify='space-between' className={classes.writerWrapper}>
               <div>
                 <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>
-                  {/* {comment.writer.id} */}
-                  { getTitleAccountString(comment.writer.titleAccount) }
+                  {getTitleAccountString(comment.writer.titleAccount)}
                 </Typography>
 
                 <div className={classes.textBox}>
@@ -255,7 +255,7 @@ const CommentItem = (props: IProps) => {
                         <Button
                           className={classes.btn}
                           onClick={() => {
-                            if (getSignInUserKey()) {
+                            if (signInUserKey) {
                               setRecommentIdx(comment.idx);
                             } else {
                               setIsSignInOpen(true);
@@ -264,7 +264,7 @@ const CommentItem = (props: IProps) => {
                           답글
                         </Button>
 
-                        {comment.writer.key === getSignInUserKey() && (
+                        {comment.writer.key === signInUserKey && (
                           <>
                             <Button
                               className={classes.btn}
