@@ -132,10 +132,8 @@ tipSchema.statics.createComment = function (postSeq, comment) {
   return this.findOneAndUpdate({
     seq: postSeq
   }, { 
-    $inc: { 
-      commentIdx: 1 }, 
-    $push: { 
-      commentList: comment } 
+    $inc: { commentCount: 1 }, 
+    $push: { commentList: comment } 
   }, { 
     upsert: true, 
     new: true 
