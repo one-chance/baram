@@ -78,7 +78,11 @@ const Bottom = (props: IProps) => {
 
   const handlePostWrite = () => {
     if (signInUser) {
-      if (1 < Number(signInUser.grade)) {
+      if (category === "tip") {
+        writeTip();
+        return;
+      }
+      else if (1 < Number(signInUser.grade)) {
         document.location.href = `/board/write/${category}`;
       }
       else {
@@ -87,6 +91,24 @@ const Bottom = (props: IProps) => {
           severity: "error",
           duration: 2000,
           message: "Level 2 부터 작성하실 수 있습니다. 대표 캐릭터 인증을 완료해주세요.",
+        });
+      }
+    } else {
+      setIsSignInOpen(true);
+    }
+  }
+
+  const writeTip = () => {
+    if (signInUser) {
+      if (category === "tip" && 9 === Number(signInUser.grade)) {
+        document.location.href = `/board/write/tip`;
+      }
+      else {
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: 2000,
+          message: "Level 9 부터 작성할 수 있습니다.",
         });
       }
     } else {

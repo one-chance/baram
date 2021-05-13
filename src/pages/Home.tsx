@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px",
   },
   boardItem: {
+    maxWidth:"150px",
     height: "65px",
     margin: "10px 5px",
     padding: "0",
