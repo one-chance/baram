@@ -88,7 +88,7 @@ function WithdrawUser(props: IProps) {
         isOpen: true,
         severity: "error",
         duration: duration,
-        message: "일치하지 않는 비밀번호입니다.",
+        message: "비밀번호가 일치하지 않습니다.",
       });
     }
 

@@ -5,8 +5,8 @@ const cheerio = require("cheerio");
 
 const logger = require("../winston");
 
-const SearchItemSchema = require('../schemas/Cal/SearchItemSchema');
-const SearchOptionSchema = require('../schemas/Cal/SearchOptionSchema');
+const SearchItemSchema = require("../schemas/Cal/SearchItemSchema");
+const SearchOptionSchema = require("../schemas/Cal/SearchOptionSchema");
 
 /*
  *
@@ -127,15 +127,15 @@ router.get("/searchitem", (req, res) => {
  */
 router.get("/searchoption", (req, res) => {
   var filter = {};
-  filter['name'] = req.query.name;
-  
+  filter["name"] = req.query.name;
+
   SearchOptionSchema.findOneByFilter(filter)
-  .then((items) => {
-    res.status(200).send({
-      code: 200,
-      message: "아이템 조회에 성공하였습니다.",
-      items: items
-    });
+    .then(items => {
+      res.status(200).send({
+        code: 200,
+        message: "아이템 조회에 성공하였습니다.",
+        items: items,
+      });
 
       return true;
     })
@@ -146,6 +146,46 @@ router.get("/searchoption", (req, res) => {
       });
       return false;
     });
+});
+
+router.get("/tradition", (req, res) => {
+  const year = req.query.yyyy;
+  const month = req.query.mm;
+  const day = req.query.dd;
+
+  new Promise((resolve, reject) => {
+    var param = "lunYear=" + year + "&lunMonth=" + month + "&lunDay=" + day;
+    var key = "&ServiceKey=72ItYH8uDU2pI72WvT8aJXRKDUsydwcnrGsgMgm7SXKXQs6ozKcMgl%2BuU%2BFjxHsCqPd56kvFuOajaq2Hyl%2BmFg%3D%3D";
+    var url = "http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getSolCalInfo?" + param + key;
+
+    const option = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Content-Length, X-Requested-With",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    };
+
+    axios
+      .get(url, option)
+      .then(html => {
+        const datas = html.data.response.body.items.item;
+        res.status(200).send({
+          code: 200,
+          message: "성공하였습니다.",
+          data: datas,
+        });
+      })
+      .catch(e => {
+        res.status(200).send({
+          code: 500,
+          message: "잠시 후 다시 시도해주세요.",
+        });
+
+        return false;
+      });
+  });
 });
 
 module.exports = router;
