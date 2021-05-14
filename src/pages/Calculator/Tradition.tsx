@@ -83,18 +83,28 @@ export default function Tradition() {
     setMyBackdrop(true);
     for (let i = 0; i < 12; i++) {
       lunaToSolar(pYear.toString(), start[i]).then(res => {
-        sStart[i] = `${res.data.solMonth}월 ${res.data.solDay}일`;
+        var temp = res.data;
+        if (Object.keys(temp).length === 2) {
+          sStart[i] = `${temp[0].solMonth}월 ${temp[0].solDay}일`;
+        } else {
+          sStart[i] = `${temp.solMonth}월 ${temp.solDay}일`;
+        }
         setSStart([...sStart]);
       });
 
       lunaToSolar(pYear.toString(), end[i]).then(res => {
-        sEnd[i] = `${res.data.solMonth}월 ${res.data.solDay}일`;
+        var temp = res.data;
+        if (Object.keys(temp).length === 2) {
+          sEnd[i] = `${temp[0].solMonth}월 ${temp[0].solDay}일`;
+        } else {
+          sEnd[i] = `${temp.solMonth}월 ${temp.solDay}일`;
+        }
         setSEnd([...sEnd]);
       });
     }
     setTimeout(() => {
       setMyBackdrop(false);
-    }, 4000);
+    }, 3000);
   };
 
   const makePanel = (s: number, e: number) => {
