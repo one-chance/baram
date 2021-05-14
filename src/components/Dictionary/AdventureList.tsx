@@ -104,7 +104,7 @@ export default function AdventureList() {
       <Grid container justify='center' style={{ padding: "0" }}>
         {adventureList.map((adventure: IAdventure) => (
           <Grid item className={classes.box} key={adventure.idx}>
-            <h2 style={{ width: "100%", margin: "0", textAlign: "center" }}>{adventure.name}</h2>
+            <h2 style={{ width: "100%", margin: "5px 0", textAlign: "center" }}>{adventure.name}</h2>
             <Container style={{ width: "100%", padding: "0", textAlign: "center" }}>
               {adventure.monsterList && (
                 <Button

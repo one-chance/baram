@@ -190,6 +190,7 @@ export default function Header() {
               <a href='/cal/ability'>능력치</a>
               <a href='/cal/exp'>경험치</a>
               <a href='/cal/production'>생 산</a>
+              <a href='/cal/tradition'>세시마을</a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>

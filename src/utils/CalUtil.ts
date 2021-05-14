@@ -117,3 +117,22 @@ export const SearchOptionByName = async (_name: string) => {
   
   return itemOptions;
 }
+
+export const lunaToSolar = async (yyyy: string, mmdd: string) => {
+  const res = await axios.get('/api/cal/tradition', {
+    params: {
+      "yyyy": yyyy,
+      "mm": mmdd.substr(0,2),
+      "dd": mmdd.substr(2,2)
+    }
+  })
+    .then((res) => {
+      return res.data;
+  })
+  .catch((e) => {
+    alert(e)
+    return false;
+  });
+  
+  return res;
+}

@@ -61,9 +61,7 @@ const LatestBoardPaper = (props: IProps) => {
           posts.length > 0 ? (
             posts.map((post: IPost) => (
               <div key={post.seq} className={classes.linkItem}>
-                <Link href={`/board/${category}/${post.seq}`}>
-                  {post.title} {post.commentList ? ` (+${post.commentList.length})` : ``}
-                </Link>
+                <Link href={`/board/${category}/${post.seq}`}>{post.title} </Link>
                 <span>{getMMDDByDate(post.writer.createDate)}</span>
               </div>
             ))

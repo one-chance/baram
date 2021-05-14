@@ -43,6 +43,7 @@ import AbilityM from "pages/Calculator/AbilityM";
 import Exp from "pages/Calculator/Exp";
 import Power from "pages/Calculator/Power";
 import Production from "pages/Calculator/Production";
+import Tradition from "pages/Calculator/Tradition";
 
 import NotFound from "pages/NotFound";
 import PrivacyPolicy from "components/PrivacyPolicy";
@@ -152,6 +153,7 @@ function App() {
                 <Route exact path='/cal/exp' component={Exp} />
                 <Route exact path='/cal/power' component={Power} />
                 <Route exact path='/cal/production' component={Production} />
+                <Route exact path='/cal/tradition' component={Tradition} />
 
                 {/*Dictionary*/}
                 <Route exact path='/dic/adventure' component={Adventure} />
