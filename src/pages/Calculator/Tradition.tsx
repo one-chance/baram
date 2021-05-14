@@ -19,7 +19,7 @@ const useStyles = makeStyles(
       minWidth: "30px",
       padding: "0",
       fontSize: "1.2rem",
-      margin: "0 10px",
+      margin: "0",
     },
   })
 );
@@ -144,7 +144,7 @@ export default function Tradition() {
           <Button variant='outlined' className={classes.btn} onClick={yearMinus}>
             ◀
           </Button>
-          <Typography style={{ minWidth: "300px", fontSize: "1.5rem", fontWeight: "bold", textAlign: "center" }}>{sYear}년 세시마을 일정</Typography>
+          <Typography style={{ minWidth: "220px", fontSize: "1.5rem", fontWeight: "bold", textAlign: "center" }}>{sYear}년 세시마을</Typography>
           <Button variant='outlined' className={classes.btn} onClick={yearPlus}>
             ▶
           </Button>
