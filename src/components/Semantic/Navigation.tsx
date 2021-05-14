@@ -173,6 +173,8 @@ export default function Header() {
         <Divider />
         <a href='/cal/production'>생 산</a>
         <Divider />
+        <a href='/cal/tradition'>세시마을</a>
+        <Divider />
       </div>
       <div className={classes.text}>
         <Typography variant='h6'>도감</Typography>

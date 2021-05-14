@@ -29,17 +29,9 @@ function TipBoard({ location }: any) {
   const [posts, setPosts] = useState<Array<IPost>>([]);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
-  useEffect(() => {
-    _onLoad();
-  }, []);
-
-  const _onLoad = async () => {
-    await initPage(0, 10);
-  };
-
-  const _onPageChanged = async(params: GridPageChangeParams) => {
+  const _onPageChanged = async (params: GridPageChangeParams) => {
     await initPage(params.page, params.pageSize);
-  }
+  };
 
   const initPage = async (page: number, pageSize: number) => {
     let filterUri: string;
@@ -54,28 +46,30 @@ function TipBoard({ location }: any) {
 
     filterUri = ``;
     for (let idx in currentQuery) {
-      if(filterUri === ``)
-        filterUri += currentQuery[idx];
-      else
-        filterUri += `&` + currentQuery[idx];
+      if (filterUri === ``) filterUri += currentQuery[idx];
+      else filterUri += `&` + currentQuery[idx];
     }
 
     setFilter({
-      query : currentQuery
+      query: currentQuery,
     });
 
     setMyBackdrop(true);
     setRowCount(await getPostCount(nowCategory, filterUri));
     setPosts(await getPosts(nowCategory, filterUri, page, pageSize));
     setMyBackdrop(false);
-  }
+  };
+
+  useEffect(() => {
+    initPage(0, 10);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Grid container justify='center' className={classes.root}>
-      <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged}/>
+      <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged} />
     </Grid>
   );
 }
-
 
 export default TipBoard;

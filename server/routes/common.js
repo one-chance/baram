@@ -176,32 +176,31 @@ router.post("/signin", (req, res) => {
           if (key.toString("base64") === user.password) {
             logger.info(`[SUCCESS] : ${id} SIGNIN SUCCESSED`);
 
-            UserInfoSchema.findOneById(id)
-              .then(userInfo => {
-                const token = createToken(user.id, user.key, userInfo);
-    
-                // signInLog 컬렉션에 로그인 로깅
-                const signInIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress; // 로그인 사용자 IP 조회
-                SignInLogSchema.create({
-                  userId: id,
-                  signInIP: signInIP,
-                  signInDate: new Date(),
-                });
-    
-                res.status(200).send({
-                  code: 200,
-                  message: "로그인 하였습니다.",
-                  token: token,
-                  isReset: user.isReset,
-                });
-    
-                return true;
-              })
+            UserInfoSchema.findOneById(id).then(userInfo => {
+              const token = createToken(user.id, user.key, userInfo);
+
+              // signInLog 컬렉션에 로그인 로깅
+              const signInIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress; // 로그인 사용자 IP 조회
+              SignInLogSchema.create({
+                userId: id,
+                signInIP: signInIP,
+                signInDate: new Date(),
+              });
+
+              res.status(200).send({
+                code: 200,
+                message: "로그인 하였습니다.",
+                token: token,
+                isReset: user.isReset,
+              });
+
+              return true;
+            });
           } else {
             logger.info(`[FAILED] : ${id} IS NOT MATCHED PASSWORD`);
             res.status(200).send({
               code: 1003,
-              message: "일치하지 않는 비밀번호 입니다.",
+              message: "비밀번호가 일치하지 않습니다.",
             });
 
             return false;
@@ -240,22 +239,21 @@ router.post("/refresh", (req, res) => {
   const { token, id, key } = req.body;
   const decoded = jsonwebtoken.verify(token, process.env.MONGODB_SECRET);
 
-  UserInfoSchema.findOneById(id)
-    .then((userInfo) => {
-      if (decoded) {
-        logger.info(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
-        res.status(200).send({
-          code: 200,
-          token: createToken(id, key, userInfo),
-        });
-      } else {
-        logger.info(`[FAILED] : ${id} INVALID ACCESS TOKEN`);
-        res.status(200).send({
-          code: 401,
-          token: null,
-        });
-      }
-    });
+  UserInfoSchema.findOneById(id).then(userInfo => {
+    if (decoded) {
+      logger.info(`[SUCCESS] : ${id} REFRESHED ACCESS TOKEN`);
+      res.status(200).send({
+        code: 200,
+        token: createToken(id, key, userInfo),
+      });
+    } else {
+      logger.info(`[FAILED] : ${id} INVALID ACCESS TOKEN`);
+      res.status(200).send({
+        code: 401,
+        token: null,
+      });
+    }
+  });
 });
 
 /*
@@ -313,7 +311,7 @@ router.post("/upload", (req, res) => {
  */
 router.post("/config/imageCount", (req, res) => {
   ConfigSchema.addNewImageCount(process.env.RUNTIME_MODE)
-    .then((conf) => {
+    .then(conf => {
       const { newImageCount } = conf;
       logger.info("[SUCCESS] CHECKED IMAGE COUNT");
       res.status(200).send({
@@ -869,12 +867,12 @@ router.get("/visit/count", (req, res) => {
  *   NOTE 신규 토큰 생성
  */
 const createToken = (id, key, userInfo) => {
-  console.log('createToken : ');
+  console.log("createToken : ");
   console.log({
     id,
     key,
     grade: userInfo.grade,
-    titleAccount: userInfo.titleAccount
+    titleAccount: userInfo.titleAccount,
   });
 
   // CREATE JSONWEBTOKEN
@@ -883,7 +881,7 @@ const createToken = (id, key, userInfo) => {
       id,
       key,
       grade: userInfo.grade,
-      titleAccount: userInfo.titleAccount ? userInfo.titleAccount : {}
+      titleAccount: userInfo.titleAccount ? userInfo.titleAccount : {},
     },
     process.env.MONGODB_SECRET,
     {

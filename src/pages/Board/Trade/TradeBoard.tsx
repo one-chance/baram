@@ -72,16 +72,6 @@ function TradeBoard({ location }: any) {
   const [rowCount, setRowCount] = useState<number>(0);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
-
-  useEffect(() => {
-    _onLoad();
-  }, []);
-
-  useEffect(() => {
-    if (server) _onServerLoad();
-    // eslint-disable-next-line
-  }, [server]);
-
   const _onServerLoad = async () => {
     let filterUri = "";
 
@@ -91,13 +81,9 @@ function TradeBoard({ location }: any) {
     setPosts(await getPosts(nowCategory, filterUri));
   };
 
-  const _onLoad = async () => {
-    await initPage(0, 10);
-  };
-
-  const _onPageChanged = async(params: GridPageChangeParams) => {
+  const _onPageChanged = async (params: GridPageChangeParams) => {
     await initPage(params.page, params.pageSize);
-  }
+  };
 
   const initPage = async (page: number, pageSize: number) => {
     let filterUri: string;
@@ -106,8 +92,7 @@ function TradeBoard({ location }: any) {
     if (Object.keys(query).length > 0) {
       for (let prop in query) {
         let qu = `` + prop + `=` + query[prop]?.toString();
-        if(prop === `server`) {
-          
+        if (prop === `server`) {
         }
         currentQuery.push(qu);
       }
@@ -115,21 +100,29 @@ function TradeBoard({ location }: any) {
 
     filterUri = ``;
     for (let idx in currentQuery) {
-      if(filterUri === ``)
-        filterUri += currentQuery[idx];
-      else
-        filterUri += `&` + currentQuery[idx];
+      if (filterUri === ``) filterUri += currentQuery[idx];
+      else filterUri += `&` + currentQuery[idx];
     }
 
     setFilter({
-      query : currentQuery
+      query: currentQuery,
     });
 
     setMyBackdrop(true);
     setRowCount(await getPostCount(nowCategory, filterUri));
     setPosts(await getPosts(nowCategory, filterUri, page, pageSize));
     setMyBackdrop(false);
-  }
+  };
+
+  useEffect(() => {
+    initPage(0, 10);
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (server) _onServerLoad();
+    // eslint-disable-next-line
+  }, [server]);
 
   return (
     <Grid container justify='center' className={classes.root}>
@@ -197,7 +190,7 @@ function TradeBoard({ location }: any) {
           </Typography>
         </Grid>
       ) : (
-        <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged}/>
+        <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged} />
       )}
     </Grid>
   );
