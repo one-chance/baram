@@ -198,7 +198,10 @@ export default function Engrave() {
             ★ 각인 전투력 = 장비에 각인된 능력치들의 전투력 ★
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
-            * 문양, 앞/뒤에 관계 없이 능력치와 수치에 따라 전투력이 결정된다.
+            * 정확한 수치를 얻으려면 문양과 앞/뒤의 수치 모두 따로 계산해야 한다.
+          </Typography>
+          <Typography variant='h5' className={classes.dlgText}>
+            * 최종 수치가 같아도 구성에 따라 전투력이 다르게 측정된다. (소수점 손실)
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
             * 치장 한벌효과인 모든 능력 증가가 반영된다.
