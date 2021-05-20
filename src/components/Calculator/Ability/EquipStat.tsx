@@ -190,10 +190,27 @@ export default function EquipStat() {
       return;
     }
 
+    let parts2 = 0;
+    if (parts === 9) {
+      parts2 = 7;
+    } else if (parts === 10) {
+      parts2 = 9;
+    } else if (parts === 11) {
+      parts2 = 10;
+    } else if (parts === 12) {
+      parts2 = 9;
+    } else if (parts === 13) {
+      parts2 = 11;
+    } else if (parts === 14) {
+      parts2 = 12;
+    } else {
+      parts2 = parts;
+    }
+
     let realName = convertName(name);
-    const res = await SearchItem(realName, 0, parts, 0);
+    const res = await SearchItem(realName, 0, parts2, 0);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 
@@ -215,7 +232,7 @@ export default function EquipStat() {
 
     const res = await SearchItem("", options.op1, options.op2, options.op3);
     const temp = Array<IItemInfo>();
-    res.forEach(r => temp.push(r));
+    if (res !== null && res !== undefined) res.forEach(r => temp.push(r));
     setItemList(temp);
   };
 

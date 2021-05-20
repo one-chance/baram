@@ -159,7 +159,7 @@ export default function Tradition() {
         </Grid>
 
         <Grid container justify='center'>
-          <Typography style={{ margin: "10px 15px" }}>※ 음력이 30일까지 있는 달은 양력도 하루 연장된다 ※</Typography>
+          <Typography style={{ margin: "10px 15px" }}>※ 음력이 30일까지인 달은 양력도 하루 연장된다 ※</Typography>
         </Grid>
       </Grid>
     </>
