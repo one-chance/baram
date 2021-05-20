@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { CommentListState } from "state/index";
@@ -51,7 +51,7 @@ function PostComment(props: IProps) {
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const setCommentList = useSetRecoilState(CommentListState);
 
-  const [inputComment, setInputComment] = React.useState("");
+  const [inputComment, setInputComment] = useState("");
 
   const _onSubmitComment = async () => {
     if (!signInUser) {
@@ -107,11 +107,13 @@ function PostComment(props: IProps) {
           variant='outlined'
           id='input-comment'
           className={classes.input}
-          multiline
+          multiline={true}
           rows={4}
           placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
           value={inputComment}
-          onChange={e => setInputComment(e.target.value)}
+          onChange={e => {
+            setInputComment(e.target.value);
+          }}
         />
 
         <Button className={classes.inputButton} variant='outlined' color='primary' onClick={() => _onSubmitComment()}>
