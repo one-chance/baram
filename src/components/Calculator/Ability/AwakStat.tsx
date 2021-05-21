@@ -57,7 +57,7 @@ export default function AwakStat() {
         className={classes.btnAwak}
         onClick={() => {
           if (stat.s3 === 0) setStat({ ...stat, s3: 21 });
-          else setStat({ ...stat, s1: 0 });
+          else setStat({ ...stat, s3: 0 });
         }}>
         방어도무시 21
       </Button>

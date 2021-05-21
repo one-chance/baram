@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import InputBase from "@material-ui/core/InputBase";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -25,14 +26,8 @@ interface IProps {
 
 const useStyles = makeStyles(() => ({
   recommentWrapper: {
-    display: "flex",
-    justifyContent: "space-between",
     backgroundColor: "#d6e0f0",
     padding: "0 20px",
-  },
-  writerWrapper: {
-    width: "auto",
-    margin: "5px",
   },
   textBox: {
     alignItems: "center",
@@ -43,11 +38,6 @@ const useStyles = makeStyles(() => ({
       margin: "2.5px 5px",
       float: "left",
     },
-  },
-  messageWrapper: {
-    margin: "5px 10px 20px 10px",
-    width: "auto",
-    flexGrow: 1,
   },
   buttonWrapper: {
     width: "auto",
@@ -61,13 +51,11 @@ const useStyles = makeStyles(() => ({
       borderRadius: "0",
     },
     "& .MuiOutlinedInput-multiline": {
-      padding: "15px",
+      padding: "5px",
     },
   },
   deleteCommentMessage: {
-    width: "100%",
     fontStyle: "italic",
-    textAlign: "center",
   },
   btn: {
     minWidth: "40px",
@@ -165,8 +153,8 @@ const RecommentItem = (props: IProps) => {
     <>
       {recomment !== undefined && (
         <>
-          <Grid container direction='column' className={classes.recommentWrapper}>
-            <Grid container justify='space-between' className={classes.writerWrapper}>
+          <Grid container direction='column' justify='space-between' className={classes.recommentWrapper}>
+            <Grid container justify='space-between' style={{ margin: "5px 0" }}>
               <div>
                 <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>
                   {CommonUtil.getTitleAccountString(recomment.writer.titleAccount)}
@@ -219,25 +207,29 @@ const RecommentItem = (props: IProps) => {
             </Grid>
 
             {editRecommentIdx === recomment.idx ? (
-              <Grid container className={classes.messageWrapper}>
+              <Grid container>
                 <TextField
                   id='edit-comment'
                   variant='outlined'
                   className={classes.inputText}
                   multiline
                   fullWidth
-                  rows={4}
+                  rows={3}
                   placeholder={recomment.message}
                   value={editRecommentMessage}
                   onChange={e => setEditRecommentMessage(e.target.value)}
                 />
               </Grid>
             ) : (
-              <Grid container className={classes.messageWrapper}>
-                <Typography className={recomment.isDeleted ? classes.deleteCommentMessage : ""}>
-                  {recomment.isDeleted ? "삭제된 답글입니다." : recomment.message}
-                </Typography>
-              </Grid>
+              <InputBase
+                className={comment.isDeleted ? classes.deleteCommentMessage : ""}
+                multiline={true}
+                rows={3}
+                fullWidth
+                value={recomment.isDeleted ? "삭제된 답글입니다." : recomment.message}
+                inputProps={{ readOnly: true }}
+                style={{ padding: "0 5px", margin: "10px 5px" }}
+              />
             )}
             <MyGridDivider />
           </Grid>

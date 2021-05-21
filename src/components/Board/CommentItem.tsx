@@ -7,6 +7,7 @@ import SignInDialogState from "state/common/SignInDialogState";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import InputBase from "@material-ui/core/InputBase";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import SubdirectoryArrowRightIcon from "@material-ui/icons/SubdirectoryArrowRight";
@@ -28,20 +29,12 @@ interface IProps {
 
 const useStyles = makeStyles(() => ({
   commentWrapper: {
-    display: "flex",
-    justifyContent: "space-between",
     backgroundColor: "#f1f3f8",
     padding: "0px 10px",
   },
   recommentWrapper: {
-    display: "flex",
-    justifyContent: "space-between",
     backgroundColor: "#d6e0f0",
     padding: "0px 10px",
-  },
-  writerWrapper: {
-    width: "auto",
-    margin: "5px",
   },
   textBox: {
     alignItems: "center",
@@ -52,11 +45,6 @@ const useStyles = makeStyles(() => ({
       margin: "2.5px 5px",
       float: "left",
     },
-  },
-  messageWrapper: {
-    margin: "5px 10px 20px 10px",
-    width: "auto",
-    flexGrow: 1,
   },
   buttonWrapper: {
     width: "auto",
@@ -70,13 +58,11 @@ const useStyles = makeStyles(() => ({
       borderRadius: "0",
     },
     "& .MuiOutlinedInput-multiline": {
-      padding: "15px",
+      padding: "5px",
     },
   },
   deleteCommentMessage: {
-    width: "100%",
     fontStyle: "italic",
-    textAlign: "center",
   },
   btn: {
     minWidth: "40px",
@@ -223,8 +209,8 @@ const CommentItem = (props: IProps) => {
     <>
       {comment !== undefined && (
         <>
-          <Grid container direction='column' className={classes.commentWrapper}>
-            <Grid container justify='space-between' className={classes.writerWrapper}>
+          <Grid container direction='column' justify='space-between' className={classes.commentWrapper}>
+            <Grid container justify='space-between' style={{ margin: "5px 0" }}>
               <div>
                 <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>
                   {getTitleAccountString(comment.writer.titleAccount)}
@@ -252,7 +238,7 @@ const CommentItem = (props: IProps) => {
                       </Grid>
                     ) : (
                       <Grid container direction='row' className={classes.buttonWrapper}>
-                        {/*                         <Button
+                        <Button
                           className={classes.btn}
                           onClick={() => {
                             if (signInUserKey) {
@@ -260,10 +246,9 @@ const CommentItem = (props: IProps) => {
                             } else {
                               setIsSignInOpen(true);
                             }
-                          }}
-                          >
+                          }}>
                           답글
-                        </Button> */}
+                        </Button>
 
                         {comment.writer.key === signInUserKey && (
                           <>
@@ -290,39 +275,43 @@ const CommentItem = (props: IProps) => {
             </Grid>
 
             {editCommentIdx === comment.idx ? (
-              <Grid container className={classes.messageWrapper}>
+              <Grid container>
                 <TextField
                   id='edit-comment'
                   variant='outlined'
                   className={classes.inputText}
                   multiline
                   fullWidth
-                  rows={4}
+                  rows={3}
                   placeholder={comment.message}
                   value={editCommentMessage}
                   onChange={e => setEditCommentMessage(e.target.value)}
                 />
               </Grid>
             ) : (
-              <Grid container className={classes.messageWrapper}>
-                <Typography className={comment.isDeleted ? classes.deleteCommentMessage : ""}>
-                  {comment.isDeleted ? "삭제된 댓글입니다." : comment.message}
-                </Typography>
-              </Grid>
+              <InputBase
+                className={comment.isDeleted ? classes.deleteCommentMessage : ""}
+                multiline={true}
+                rows={3}
+                fullWidth
+                value={comment.isDeleted ? "===== 삭제된 댓글입니다 =====" : comment.message}
+                inputProps={{ readOnly: true }}
+                style={{ padding: "0 5px", margin: "10px 5px" }}
+              />
             )}
 
             <MyGridDivider />
           </Grid>
 
-          <Grid container direction='row' className={classes.recommentWrapper}>
+          <Grid container direction='row' justify='space-between' className={classes.recommentWrapper}>
             {recommentIdx !== undefined && (
               <>
-                <Grid item className={classes.writerWrapper}>
+                <Grid item style={{ margin: "5px" }}>
                   <Typography variant='subtitle1'>
                     <SubdirectoryArrowRightIcon />
                   </Typography>
                 </Grid>
-                <Grid item className={classes.messageWrapper}>
+                <Grid item>
                   <TextField
                     variant='outlined'
                     id='input-recomment'
