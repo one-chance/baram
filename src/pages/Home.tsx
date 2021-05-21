@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import IPost from "interfaces/Board/IPost";
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px",
   },
   boardItem: {
-    maxWidth:"150px",
+    maxWidth: "150px",
     height: "65px",
     margin: "10px 5px",
     padding: "0",
@@ -54,10 +54,10 @@ const getTip = async () => {
 const Home = () => {
   const classes = useStyles();
 
-  const [freePosts, setFreePosts] = React.useState<Array<IPost>>([]);
-  const [tipPosts, setTipPosts] = React.useState<Array<IPost>>([]);
-  const [todayVisit, setTodayVisit] = React.useState(0);
-  const [totalVisit, setTotalVisit] = React.useState(0);
+  const [freePosts, setFreePosts] = useState<Array<IPost>>([]);
+  const [tipPosts, setTipPosts] = useState<Array<IPost>>([]);
+  const [todayVisit, setTodayVisit] = useState(0);
+  const [totalVisit, setTotalVisit] = useState(0);
 
   useEffect(() => {
     getFree()

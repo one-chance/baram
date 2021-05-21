@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -133,9 +133,9 @@ function CustomPagination() {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const filterValue = useRecoilValue(FilterState);
 
-  const [searchQuery, setSearchQuery] = React.useState<string | undefined>(``);
-  const [searchFilter, setSearchFilter] = React.useState<string | undefined>(``);
-  const [searchValue, setSearchValue] = React.useState<string | undefined>(``);
+  const [searchQuery, setSearchQuery] = useState<string | undefined>(``);
+  const [searchFilter, setSearchFilter] = useState<string | undefined>(``);
+  const [searchValue, setSearchValue] = useState<string | undefined>(``);
 
   useEffect(() => {
     for (let idx in filterValue.query) {

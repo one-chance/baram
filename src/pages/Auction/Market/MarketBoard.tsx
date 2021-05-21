@@ -4,7 +4,7 @@ import Container from "@material-ui/core/Container";
 
 import IMarketItem from "interfaces/Auction/IMarketItem";
 import MarketDataGrid from "components/Auction/MarketDataGrid";
-import {getMarketItemsDummy} from "utils/AuctionUtil";
+import { getMarketItemsDummy } from "utils/AuctionUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,7 +19,7 @@ function MarketBoard() {
 
   const _onLoad = async () => {
     setPosts(await getMarketItemsDummy());
-  }
+  };
 
   useEffect(() => {
     _onLoad();
@@ -27,9 +27,7 @@ function MarketBoard() {
 
   return (
     <Container className={classes.root}>
-      <MarketDataGrid
-        posts={posts}
-      />
+      <MarketDataGrid posts={posts} />
     </Container>
   );
 }
