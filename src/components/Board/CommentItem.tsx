@@ -238,7 +238,7 @@ const CommentItem = (props: IProps) => {
                       </Grid>
                     ) : (
                       <Grid container direction='row' className={classes.buttonWrapper}>
-                        <Button
+                        {/*                         <Button
                           className={classes.btn}
                           onClick={() => {
                             if (signInUserKey) {
@@ -248,7 +248,7 @@ const CommentItem = (props: IProps) => {
                             }
                           }}>
                           답글
-                        </Button>
+                        </Button> */}
 
                         {comment.writer.key === signInUserKey && (
                           <>
