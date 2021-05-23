@@ -45,8 +45,8 @@ function TradeBoardView({ match }: any) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
-  const [openConfirm, setOpenConfirm] = React.useState(false);
-  const [post, setPost] = React.useState<IPost>();
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [post, setPost] = useState<IPost>();
   const [writer, setWriter] = useState("");
   const signInUserId = getNowUserInfo().id;
 

@@ -61,8 +61,9 @@ function ViewUserInfo(props: IProps) {
     setMyBackdrop(true);
 
     const editUserInfo: IUserInfo = Object.assign(userInfo);
-    if (openKakao.split("https://open.kakao.com/o/").length > 1 || openKakao === "") {
-      editUserInfo.openKakao = openKakao;
+    if (openKakao.split("open.kakao.com/o/").length > 1 || openKakao === "") {
+      if (openKakao.split("https://").length > 1) editUserInfo.openKakao = openKakao.split("https://")[1];
+      else editUserInfo.openKakao = openKakao;
     } else {
       alert("올바른 오픈카톡 형식이 아닙니다.");
       setMyBackdrop(false);
@@ -151,9 +152,7 @@ function ViewUserInfo(props: IProps) {
         </Grid>
         <Grid item container alignItems='center' style={{ lineHeight: "40px", padding: "0 0 0 5px" }}>
           <Typography className={classes.text}>대표 캐릭터</Typography>
-          <span style={{ width: "290px", margin: "0 5px" }}>
-            { getTitleAccountString(userInfo.titleAccount) }
-          </span>
+          <span style={{ width: "290px", margin: "0 5px" }}>{getTitleAccountString(userInfo.titleAccount)}</span>
           <Button variant='outlined' color='secondary' className={classes.btn} href='/myinfo/auth'>
             변경
           </Button>

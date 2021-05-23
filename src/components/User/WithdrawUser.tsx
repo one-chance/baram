@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
@@ -45,11 +45,10 @@ const duration = 3000;
 function WithdrawUser(props: IProps) {
   const classes = useStyles();
   const { id } = props;
+  const [password, setPassword] = useState("");
 
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
-
-  const [password, setPassword] = React.useState("");
 
   const _onEnterPassword = (keyCode: number) => {
     if (keyCode === 13) {

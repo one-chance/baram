@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
   boxWrapper: {
     display: "block",
     width: "100%",
+    minWidth: "350px",
     marginTop: "10px",
     "& span, a": {
       margin: "0 5px",

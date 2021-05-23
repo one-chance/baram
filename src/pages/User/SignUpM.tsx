@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { makeStyles } from "@material-ui/core/styles";
@@ -73,13 +73,13 @@ export default function SignUp() {
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
   const [id, setId] = useState("");
-  const refId = React.useRef<any>();
+  const refId = useRef<any>();
   const [isNewId, setIsNewId] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState<string | undefined>(undefined); //메일 전송 전 > undefined
-  const refEmailCode = React.useRef<any>();
+  const refEmailCode = useRef<any>();
   const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
   const [agreeService, setAgreeService] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);

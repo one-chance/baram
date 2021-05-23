@@ -212,7 +212,7 @@ const CommentItem = (props: IProps) => {
           <Grid container direction='column' justify='space-between' className={classes.commentWrapper}>
             <Grid container justify='space-between' style={{ margin: "5px 0" }}>
               <div>
-                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>
+                <Typography style={{ width: "auto", fontWeight: "bold", margin: "0 5px", float: "left" }}>
                   {getTitleAccountString(comment.writer.titleAccount)}
                 </Typography>
 
@@ -228,7 +228,7 @@ const CommentItem = (props: IProps) => {
                 {!comment.isDeleted && (
                   <>
                     {editCommentIdx === comment.idx ? (
-                      <Grid container direction='row' className={classes.buttonWrapper} style={{ paddingRight: "10px" }}>
+                      <Grid container direction='row' className={classes.buttonWrapper}>
                         <Button className={classes.btn} onClick={() => _onEditComment()}>
                           완료
                         </Button>
@@ -238,7 +238,7 @@ const CommentItem = (props: IProps) => {
                       </Grid>
                     ) : (
                       <Grid container direction='row' className={classes.buttonWrapper}>
-                        {/*                         <Button
+                        <Button
                           className={classes.btn}
                           onClick={() => {
                             if (signInUserKey) {
@@ -248,7 +248,7 @@ const CommentItem = (props: IProps) => {
                             }
                           }}>
                           답글
-                        </Button> */}
+                        </Button>
 
                         {comment.writer.key === signInUserKey && (
                           <>
@@ -311,7 +311,7 @@ const CommentItem = (props: IProps) => {
                     <SubdirectoryArrowRightIcon />
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item style={{ width: "800px" }}>
                   <TextField
                     variant='outlined'
                     id='input-recomment'
