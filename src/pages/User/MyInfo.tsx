@@ -85,7 +85,7 @@ function MyInfo({ match }: any) {
       {isNoSignInUser ? (
         <NoAuth />
       ) : (
-        <Grid container className={classes.root}>
+        <Grid container className={!smallScreen ? classes.root : ""}>
           {!smallScreen ? (
             <React.Fragment>
               <Grid item>
@@ -106,20 +106,20 @@ function MyInfo({ match }: any) {
                 container
                 direction='row'
                 justify='space-around'
-                style={{ minWidth: "360px", margin: "0", borderTop: "2px solid lightgray", borderBottom: "2px solid lightgray" }}>
-                <Menus onClick={_onViewUser} style={{ padding: "5px 0", float: "left" }}>
+                style={{ minWidth: "350px", margin: "0", borderTop: "2px solid lightgray", borderBottom: "2px solid lightgray" }}>
+                <Menus onClick={_onViewUser} style={{ padding: "5px 0", fontSize: "0.9rem", float: "left" }}>
                   회원 정보
                 </Menus>
                 <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0" }} />
-                <Menus onClick={_onAuthUser} style={{ padding: "5px 0", float: "left" }}>
+                <Menus onClick={_onAuthUser} style={{ padding: "5px 0", fontSize: "0.9rem", float: "left" }}>
                   캐릭터 인증
                 </Menus>
                 <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0" }} />
-                <Menus onClick={_onChangePassword} style={{ padding: "5px 0", float: "left" }}>
+                <Menus onClick={_onChangePassword} style={{ padding: "5px 0", fontSize: "0.9rem", float: "left" }}>
                   비밀번호 변경
                 </Menus>
                 <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0" }} />
-                <Menus onClick={_onWithdraw} style={{ padding: "5px 0", float: "left" }}>
+                <Menus onClick={_onWithdraw} style={{ padding: "5px 0", fontSize: "0.9rem", float: "left" }}>
                   회원 탈퇴
                 </Menus>
               </Grid>

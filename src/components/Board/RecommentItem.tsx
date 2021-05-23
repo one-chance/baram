@@ -156,7 +156,7 @@ const RecommentItem = (props: IProps) => {
           <Grid container direction='column' justify='space-between' className={classes.recommentWrapper}>
             <Grid container justify='space-between' style={{ margin: "5px 0" }}>
               <div>
-                <Typography style={{ width: "auto", fontWeight: "bold", marginRight: "5px", float: "left" }}>
+                <Typography style={{ width: "auto", fontWeight: "bold", margin: "0 5px", float: "left" }}>
                   {CommonUtil.getTitleAccountString(recomment.writer.titleAccount)}
                 </Typography>
 
@@ -226,7 +226,7 @@ const RecommentItem = (props: IProps) => {
                 multiline={true}
                 rows={3}
                 fullWidth
-                value={recomment.isDeleted ? "삭제된 답글입니다." : recomment.message}
+                value={recomment.isDeleted ? "===== 삭제된 답글입니다 =====" : recomment.message}
                 inputProps={{ readOnly: true }}
                 style={{ padding: "0 5px", margin: "10px 5px" }}
               />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState } from "state/index";
 
@@ -14,10 +14,10 @@ export default function FindPassword() {
   const setMyAlert = useSetRecoilState(MyAlertState);
 
   const [id, setId] = useState("");
-  const refId = React.useRef<any>();
+  const refId = useRef<any>();
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState<string | undefined>(undefined); //메일 전송 전 > undefined
-  const refEmailCode = React.useRef<any>();
+  const refEmailCode = useRef<any>();
   const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
 
   const [checkId, setCheckId] = useState(false);
