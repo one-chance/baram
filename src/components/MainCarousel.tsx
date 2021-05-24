@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
   cardCarousel: {
     border: "0",
     borderRadius: "5px",
+    width: "100%",
     maxWidth: "515px",
     maxHeight: "300px",
     boxShadow: "none",
@@ -26,7 +27,9 @@ const useStyles = makeStyles(theme => ({
     margin: "0 5px",
     float: "left",
     "& img": {
+      borderRadius: "5px",
       maxWidth: "100%",
+      margin: "0 auto",
       height: "300px",
     },
   },
@@ -44,13 +47,17 @@ const useStyles = makeStyles(theme => ({
       maxWidth: "515px",
       height: "auto",
       maxHeight: "300px",
-      margin: "0 auto",
+      margin: "0",
     },
   },
   gridItem: {
     position: "relative",
     width: "100%",
     flexBasis: "auto",
+    textAlign: "center",
+    "& .slick-prev:before, .slick-next:before": {
+      display: "none",
+    },
   },
   btnMove: {
     margin: "auto",
@@ -59,24 +66,6 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: "middle",
   },
 }));
-
-function NextArrow(props: any) {
-  const { onClick } = props;
-  return (
-    <IconButton onClick={onClick}>
-      <ArrowForwardIosIcon />
-    </IconButton>
-  );
-}
-
-function PrevArrow(props: any) {
-  const { onClick } = props;
-  return (
-    <IconButton onClick={onClick}>
-      <ArrowBackIosIcon />
-    </IconButton>
-  );
-}
 
 export default function MainCarousel() {
   const classes = useStyles();
@@ -92,45 +81,49 @@ export default function MainCarousel() {
     speed: 1500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    NextArrow: <NextArrow />,
-    PrevArrow: <PrevArrow />,
   };
 
   //creating the ref
   const refCarousel: React.RefObject<Carousel> = React.createRef();
   const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
-  const images = ["bg1.jpg", "bg2.jpg", "bg3.jpg"];
-  const images2 = ["bg1.jpg", "bg2.jpg", "bg3.jpg", "bg1.jpg", "bg2.jpg", "bg3.jpg"];
-  const hrefs = ["/dic/item", "/cal/power", "/cal/ability"];
-  const hrefs2 = ["/dic/item", "/cal/power", "/cal/ability", "/dic/item", "/cal/power", "/cal/ability"];
+  const images = ["bg1.jpg", "bg2.jpg", "bg3.jpg", "bg4.jpg", "bg5.jpg", "bg6.jpg"];
+  const hrefs = ["/dic/item", "/cal/power", "/cal/ability", "/dic/item", "/cal/power", "/cal/ability"];
 
   const cards = () => {
-    let temp: JSX.Element[] = images.map((image, i) => (
-      <React.Fragment key={image}>
-        <Card className={classes.cardCarousel}>
-          <a href={`${hrefs[i]}`}>
-            <img src={baseUrlForMainCarousel + image} alt={"slide_" + i + "-1"} className='slick-image' />
-          </a>
-        </Card>
-        <Card className={classes.cardCarousel}>
-          <a href={`${hrefs[2 - i]}`}>
-            <img src={baseUrlForMainCarousel + image} alt={"slide_" + i + "-2"} className='slick-image' />
-          </a>
-        </Card>
-      </React.Fragment>
-    ));
+    let temp: JSX.Element[] = [];
+
+    for (let i = 0; i < 3; i++) {
+      temp[i] = (
+        <React.Fragment key={i}>
+          <Card className={classes.cardCarousel}>
+            <a href={`${hrefs[i]}`}>
+              <img src={baseUrlForMainCarousel + images[i]} alt={"slide_" + i + "-1"} className='slick-image' />
+            </a>
+          </Card>
+          <Card className={classes.cardCarousel}>
+            <a href={`${hrefs[i + 3]}`}>
+              <img src={baseUrlForMainCarousel + images[i + 3]} alt={"slide_" + i + "-2"} className='slick-image' />
+            </a>
+          </Card>
+        </React.Fragment>
+      );
+    }
 
     return temp;
   };
 
   const cards2 = () => {
-    let temp: JSX.Element[] = images2.map((image, i) => (
-      <Card className={classes.cardCarousel2} key={image}>
-        <a href={`${hrefs2[i]}`}>
-          <img src={baseUrlForMainCarousel + image} alt={"slide_" + i + "-1"} className='slick-image' />
-        </a>
-      </Card>
-    ));
+    let temp: JSX.Element[] = [];
+
+    for (let i = 0; i < 6; i++) {
+      temp[i] = (
+        <Card className={classes.cardCarousel2} key={i}>
+          <a href={`${hrefs[i]}`}>
+            <img src={baseUrlForMainCarousel + images[i]} alt={"slide_" + i} className='slick-image' />
+          </a>
+        </Card>
+      );
+    }
 
     return temp;
   };
