@@ -1,8 +1,10 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
@@ -16,18 +18,34 @@ const useStyles = makeStyles(theme => ({
   },
   cardCarousel: {
     border: "0",
-    borderRadius: "6px",
-    color: "rgba(0, 0, 0, 0.87)",
-    background: "#fff",
+    borderRadius: "5px",
+    maxWidth: "515px",
+    maxHeight: "300px",
+    boxShadow: "none",
+    transition: "all 300ms linear",
+    margin: "0 5px",
+    float: "left",
+    "& img": {
+      maxWidth: "100%",
+      height: "300px",
+    },
+  },
+  cardCarousel2: {
+    border: "0",
+    borderRadius: "5px",
     width: "100%",
     maxHeight: "300px",
-    boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    wordWrap: "break-word",
+    boxShadow: "none",
     transition: "all 300ms linear",
-    overflow: "hidden",
+    margin: "0",
+    "& img": {
+      borderRadius: "5px",
+      width: "100%",
+      maxWidth: "515px",
+      height: "auto",
+      maxHeight: "300px",
+      margin: "0 auto",
+    },
   },
   gridItem: {
     position: "relative",
@@ -62,24 +80,60 @@ function PrevArrow(props: any) {
 
 export default function MainCarousel() {
   const classes = useStyles();
+  const theme = useTheme();
+  const middleScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   const settings = {
     dots: true,
     arrows: true,
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 3000,
-    speed: 500,
+    autoplaySpeed: 5000,
+    speed: 1500,
     slidesToShow: 1,
     slidesToScroll: 1,
     NextArrow: <NextArrow />,
     PrevArrow: <PrevArrow />,
   };
 
-  const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
-  const images = ["bg1.jpg", "bg2.jpg", "bg3.jpg"];
-
   //creating the ref
   const refCarousel: React.RefObject<Carousel> = React.createRef();
+  const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
+  const images = ["bg1.jpg", "bg2.jpg", "bg3.jpg"];
+  const images2 = ["bg1.jpg", "bg2.jpg", "bg3.jpg", "bg1.jpg", "bg2.jpg", "bg3.jpg"];
+  const hrefs = ["/dic/item", "/cal/power", "/cal/ability"];
+  const hrefs2 = ["/dic/item", "/cal/power", "/cal/ability", "/dic/item", "/cal/power", "/cal/ability"];
+
+  const cards = () => {
+    let temp: JSX.Element[] = images.map((image, i) => (
+      <React.Fragment key={image}>
+        <Card className={classes.cardCarousel}>
+          <a href={`${hrefs[i]}`}>
+            <img src={baseUrlForMainCarousel + image} alt={"slide_" + i + "-1"} className='slick-image' />
+          </a>
+        </Card>
+        <Card className={classes.cardCarousel}>
+          <a href={`${hrefs[2 - i]}`}>
+            <img src={baseUrlForMainCarousel + image} alt={"slide_" + i + "-2"} className='slick-image' />
+          </a>
+        </Card>
+      </React.Fragment>
+    ));
+
+    return temp;
+  };
+
+  const cards2 = () => {
+    let temp: JSX.Element[] = images2.map((image, i) => (
+      <Card className={classes.cardCarousel2} key={image}>
+        <a href={`${hrefs2[i]}`}>
+          <img src={baseUrlForMainCarousel + image} alt={"slide_" + i + "-1"} className='slick-image' />
+        </a>
+      </Card>
+    ));
+
+    return temp;
+  };
 
   return (
     <React.Fragment>
@@ -91,11 +145,7 @@ export default function MainCarousel() {
         </Grid>
         <Grid item xs={10} className={classes.gridItem}>
           <Carousel ref={refCarousel} {...settings}>
-            {images.map((image, i) => (
-              <Card className={classes.cardCarousel} key={image}>
-                <img src={baseUrlForMainCarousel + image} alt={"slide_" + i} className='slick-image' />
-              </Card>
-            ))}
+            {middleScreen ? cards2() : cards()}
           </Carousel>
         </Grid>
         <Grid item xs={1} className={classes.btnMove}>
