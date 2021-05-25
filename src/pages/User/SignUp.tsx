@@ -78,7 +78,8 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
-  const [emailCode, setEmailCode] = useState<string | undefined>(undefined); //메일 전송 전 > undefined
+  const [emailCode, setEmailCode] = useState<string>("");
+  const [showEmailCode, setShowEmailCode] = useState<boolean>(false);
   const refEmailCode = useRef<any>();
   const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
   const [agreeService, setAgreeService] = useState(false);
@@ -223,6 +224,7 @@ export default function SignUp() {
     const res = await sendVerifyEmail(email);
     if (res.result === "success") {
       alertSuccess(res.message);
+      setShowEmailCode(true);
       setEmailCode("");
       refEmailCode.current.focus();
     } else {
@@ -231,8 +233,7 @@ export default function SignUp() {
   };
 
   const _onCheckEmail = async () => {
-    if (emailCode) {
-      // 인증번호 확인
+    if (showEmailCode) {
       const res = await checkVerifyEmail(email, emailCode);
       if (res) {
         alertSuccess("인증번호 확인에 성공하였습니다.");
@@ -348,12 +349,12 @@ export default function SignUp() {
               disabled={checkEmail === false || isVerifiedEmail}
               className={classes.btnCheck}
               onClick={() => _onSendEmail()}>
-              {emailCode === undefined ? "전송" : "재전송"}
+              {!showEmailCode ? "전송" : "재전송"}
             </Button>
             <Typography className={classes.text2}></Typography>
           </Grid>
           <Grid item container justify='center' style={{ minHeight: "62px", margin: "5px 0" }}>
-            {emailCode !== undefined && (
+            {showEmailCode && (
               <React.Fragment>
                 <Typography className={classes.text}></Typography>
                 <TextField

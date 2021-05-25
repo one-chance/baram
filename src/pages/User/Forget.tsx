@@ -28,12 +28,12 @@ export default function Forget() {
     <React.Fragment>
       <Grid container alignItems='center' justify='space-around' className={classes.root}>
         <Grid container alignItems='center' className={classes.item}>
-          <h2 style={{ width: "100%", textAlign: "center", margin: "20px 0" }}>아이디 찾기</h2>
+          <h2 style={{ width: "100%", textAlign: "center", margin: "20px 0 10xp 0" }}>아이디 찾기</h2>
           <FindId />
         </Grid>
 
         <Grid container alignItems='center' className={classes.item}>
-          <h2 style={{ width: "100%", textAlign: "center", margin: "20px 0" }}>비밀번호 찾기</h2>
+          <h2 style={{ width: "100%", textAlign: "center", margin: "20px 0 10px 0" }}>비밀번호 찾기</h2>
           <FindPassword />
         </Grid>
       </Grid>
