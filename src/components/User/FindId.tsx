@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyAlertState } from "state/index";
 
@@ -9,9 +10,27 @@ import Button from "@material-ui/core/Button";
 
 import { FindIdByEmail } from "utils/CommonUtil";
 
+const useStyles = makeStyles({
+  text: {
+    width: "280px",
+    margin: "2px 5px 10px 5px",
+    paddingTop: "8px",
+    "& input": {
+      height: "40px",
+      padding: "0 10px",
+    },
+  },
+  btn: {
+    width: "280px",
+    height: "40px",
+    margin: "10px 5px",
+  },
+});
+
 const duration = 2000;
 
 export default function FindId() {
+  const classes = useStyles();
   const setMyAlert = useSetRecoilState(MyAlertState);
 
   const [email, setEmail] = useState("");
@@ -20,17 +39,10 @@ export default function FindId() {
 
   const verifyEmail = (input: string) => {
     var pattern = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-
-    if (input !== "") {
-      setEmail("");
-      setCheckEmail(false);
-    }
-
+    setCheckEmail(false);
     setEmail(input);
 
-    if (!pattern.test(input)) {
-      setCheckEmail(false);
-    } else {
+    if (pattern.test(input) && input.split(".")[1].length > 1) {
       setCheckEmail(true);
     }
   };
@@ -60,26 +72,27 @@ export default function FindId() {
 
   return (
     <React.Fragment>
-      <Grid item style={{ height: "250px", textAlign: "center", padding: "0" }}>
-        <TextField
-          error={email !== "" && checkEmail === false}
-          helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
-          variant='outlined'
-          required
-          name='email'
-          id='email'
-          type='email'
-          label='이메일 주소'
-          value={email || ""}
-          onChange={e => verifyEmail(e.target.value)}
-          inputProps={{ style: { height: "40px", padding: "0 10px" } }}
-          style={{ width: "280px", margin: "2px 5px 10px 5px", paddingTop: "8px" }}
-        />
+      <Grid item style={{ width: "100%", height: "280px", textAlign: "center", padding: "0" }}>
+        <div style={{ width: "100%", height: "70px", textAlign: "center" }}>
+          <TextField
+            className={classes.text}
+            error={email !== "" && checkEmail === false}
+            helperText={email !== "" && checkEmail === false ? "올바른 이메일 형식이 아닙니다." : ""}
+            variant='outlined'
+            required
+            name='email'
+            id='email'
+            type='email'
+            label='이메일 주소'
+            autoComplete='off'
+            value={email || ""}
+            onChange={e => verifyEmail(e.target.value)}
+          />
+        </div>
         <Button
+          className={classes.btn}
           variant='contained'
-          fullWidth
           color='primary'
-          style={{ width: "280px", height: "40px", margin: "10px 5px" }}
           disabled={!checkEmail}
           onClick={() => {
             _onFindId();
