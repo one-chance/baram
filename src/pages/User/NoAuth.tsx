@@ -20,8 +20,9 @@ const NoAuth = () => {
   return (
     <>
       <div style={{ height: "70vh" }}>
-        <Typography style={{ width: "100%", margin: "20px 0", textAlign: "center" }} gutterBottom>
-          로그인 정보가 없습니다.
+        <Typography style={{ width: "100%", margin: "30px 0", textAlign: "center" }}>로그인 정보가 없습니다.</Typography>
+        <Typography style={{ width: "100%", margin: "30px 0", textAlign: "center" }}>
+          <a href='/'>홈으로 돌아가기</a>
         </Typography>
       </div>
     </>
