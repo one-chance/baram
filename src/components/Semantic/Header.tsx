@@ -146,9 +146,7 @@ export default function Header() {
               <HomeIcon style={{ width: "36px", height: "36px" }} />
             </Button>
           </div>
-
-          <img src='/assets/img/title.png' alt='title' />
-
+          <img src='/assets/img/title.png' alt='title' width='58' height='22' />
           {signInUserId ? (
             <Grid item style={{ margin: "0", padding: "0" }}>
               <Button className={classes.btn} onClick={_onLogoutUser}>
