@@ -84,17 +84,17 @@ const CommentItem = (props: IProps) => {
 
   const [comment, setComment] = useState<IComment>();
   const [editCommentMessage, setEditCommentMessage] = useState("");
-  const [editCommentIdx, setEditCommentIdx] = useState<number | undefined>(undefined);
+  const [editCommentIdx, setEditCommentIdx] = useState<number>(999);
 
   const [recommentCount, setRecommentCount] = useState<number>(0);
-  const [recommentIdx, setRecommentIdx] = useState<number | undefined>(undefined); // 답글 달 대상이 될 댓글 인덱스 값
+  const [recommentIdx, setRecommentIdx] = useState<number>(99); // 답글 달 대상이 될 댓글 인덱스 값
   const [inputRecommentMessage, setInputRecommentMessage] = useState("");
   const [recommentList, setRecommentList] = useState<Array<IRecomment>>([]);
 
   const _onSubmitRecomment = async () => {
     setMyBackdrop(true);
 
-    if (post.seq && comment && comment.idx !== undefined) {
+    if (post.seq && comment) {
       const res = await CreateRecomment(post, comment, recommentCount, inputRecommentMessage);
 
       if (res.code === 200) {
@@ -105,7 +105,7 @@ const CommentItem = (props: IProps) => {
           message: res.message,
         });
 
-        setRecommentIdx(undefined);
+        setRecommentIdx(99);
         setInputRecommentMessage("");
         setRecommentList(recommentList.concat(res.recomment));
         setRecommentCount(res.recommentCount);
@@ -145,7 +145,7 @@ const CommentItem = (props: IProps) => {
           });
 
           setMyBackdrop(false);
-          setEditCommentIdx(undefined);
+          setEditCommentIdx(999);
           setComment(res.comment);
         } else {
           setMyAlert({
@@ -163,33 +163,31 @@ const CommentItem = (props: IProps) => {
     }
   };
 
-  const _onDeleteComment = async (commentIdx?: number) => {
+  const _onDeleteComment = async (commentIdx: number) => {
     setMyBackdrop(true);
 
-    if (commentIdx !== undefined) {
-      const res = await DeleteComment(post, commentIdx);
-      if (res.code === 200) {
-        setMyAlert({
-          isOpen: true,
-          severity: "success",
-          duration: duration,
-          message: res.message,
-        });
+    const res = await DeleteComment(post, commentIdx);
+    if (res.code === 200) {
+      setMyAlert({
+        isOpen: true,
+        severity: "success",
+        duration: duration,
+        message: res.message,
+      });
 
+      setMyBackdrop(false);
+      setCommentList(res.commentList);
+    } else {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: duration,
+        message: res.message,
+      });
+
+      setTimeout(() => {
         setMyBackdrop(false);
-        setCommentList(res.commentList);
-      } else {
-        setMyAlert({
-          isOpen: true,
-          severity: "error",
-          duration: duration,
-          message: res.message,
-        });
-
-        setTimeout(() => {
-          setMyBackdrop(false);
-        }, duration);
-      }
+      }, duration);
     }
   };
 
@@ -198,7 +196,7 @@ const CommentItem = (props: IProps) => {
   }, [commentItem]);
 
   useEffect(() => {
-    if (comment !== undefined) {
+    if (comment) {
       if (comment.recommentList && comment.recommentList.length > 0) setRecommentList(comment.recommentList);
 
       setRecommentCount(comment.recommentCount);
@@ -207,7 +205,7 @@ const CommentItem = (props: IProps) => {
 
   return (
     <>
-      {comment !== undefined && (
+      {comment && (
         <>
           <Grid container direction='column' justify='space-between' className={classes.commentWrapper}>
             <Grid container justify='space-between' style={{ margin: "5px 0" }}>
@@ -232,7 +230,7 @@ const CommentItem = (props: IProps) => {
                         <Button className={classes.btn} onClick={() => _onEditComment()}>
                           완료
                         </Button>
-                        <Button className={classes.btn} onClick={() => setEditCommentIdx(undefined)}>
+                        <Button className={classes.btn} onClick={() => setEditCommentIdx(999)}>
                           취소
                         </Button>
                       </Grid>
@@ -255,7 +253,7 @@ const CommentItem = (props: IProps) => {
                             <Button
                               className={classes.btn}
                               onClick={() => {
-                                setRecommentIdx(undefined);
+                                setRecommentIdx(99);
                                 setEditCommentMessage(comment.message);
                                 setEditCommentIdx(comment.idx);
                               }}>
@@ -304,7 +302,7 @@ const CommentItem = (props: IProps) => {
           </Grid>
 
           <Grid container direction='row' justify='space-between' className={classes.recommentWrapper}>
-            {recommentIdx !== undefined && (
+            {recommentIdx !== 99 && (
               <>
                 <Grid item style={{ margin: "5px" }}>
                   <Typography variant='subtitle1'>
@@ -328,7 +326,7 @@ const CommentItem = (props: IProps) => {
                   <Button onClick={() => _onSubmitRecomment()} style={{ padding: "5px" }}>
                     등록
                   </Button>
-                  <Button onClick={() => setRecommentIdx(undefined)} style={{ padding: "5px" }}>
+                  <Button onClick={() => setRecommentIdx(99)} style={{ padding: "5px" }}>
                     취소
                   </Button>
                 </Grid>

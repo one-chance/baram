@@ -222,9 +222,7 @@ export default function Header() {
               {menuList("left")}
             </Drawer>
           </div>
-
-          <img src='/assets/img/title.png' alt='title' />
-
+          <img src='/assets/img/title.png' alt='title' width='58' height='22' />
           <Button href='/' style={{ padding: "0", textTransform: "none" }}>
             <HomeIcon />
           </Button>
