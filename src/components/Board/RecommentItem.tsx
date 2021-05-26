@@ -75,7 +75,7 @@ const RecommentItem = (props: IProps) => {
 
   const [recomment, setRecomment] = useState<IRecomment>();
   const [editRecommentMessage, setEditRecommentMessage] = useState("");
-  const [editRecommentIdx, setEditRecommentIdx] = useState<number | undefined>(undefined);
+  const [editRecommentIdx, setEditRecommentIdx] = useState<number>(99);
 
   useEffect(() => {
     setRecomment(recommentItem);
@@ -84,37 +84,35 @@ const RecommentItem = (props: IProps) => {
   const _onEditRecomment = async () => {
     setMyBackdrop(true);
 
-    if (recomment !== undefined) {
+    if (recomment) {
       const editRecomment = {
         ...recomment,
         message: editRecommentMessage,
       };
 
-      if (recomment && recomment.idx !== undefined && comment.idx !== undefined) {
-        const res = await EditRecomment(post, comment.idx, editRecomment);
-        if (res.code === 200) {
-          setMyAlert({
-            isOpen: true,
-            severity: "success",
-            duration: duration,
-            message: res.message,
-          });
+      const res = await EditRecomment(post, comment.idx, editRecomment);
+      if (res.code === 200) {
+        setMyAlert({
+          isOpen: true,
+          severity: "success",
+          duration: duration,
+          message: res.message,
+        });
 
+        setMyBackdrop(false);
+        setEditRecommentIdx(99);
+        setRecomment(res.recomment);
+      } else {
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: duration,
+          message: res.message,
+        });
+
+        setTimeout(() => {
           setMyBackdrop(false);
-          setEditRecommentIdx(undefined);
-          setRecomment(res.recomment);
-        } else {
-          setMyAlert({
-            isOpen: true,
-            severity: "error",
-            duration: duration,
-            message: res.message,
-          });
-
-          setTimeout(() => {
-            setMyBackdrop(false);
-          }, duration);
-        }
+        }, duration);
       }
     }
   };
@@ -122,7 +120,7 @@ const RecommentItem = (props: IProps) => {
   const _onDeleteRecomment = async () => {
     setMyBackdrop(true);
 
-    if (recomment && recomment.idx !== undefined && comment.idx !== undefined) {
+    if (recomment) {
       const res = await DeleteRecomment(post, comment.idx, recomment);
       if (res.code === 200) {
         setMyAlert({
@@ -151,7 +149,7 @@ const RecommentItem = (props: IProps) => {
 
   return (
     <>
-      {recomment !== undefined && (
+      {recomment && (
         <>
           <Grid container direction='column' justify='space-between' className={classes.recommentWrapper}>
             <Grid container justify='space-between' style={{ margin: "5px 0" }}>
@@ -177,7 +175,7 @@ const RecommentItem = (props: IProps) => {
                           완료
                         </Button>
 
-                        <Button className={classes.btn} onClick={() => setEditRecommentIdx(undefined)}>
+                        <Button className={classes.btn} onClick={() => setEditRecommentIdx(99)}>
                           취소
                         </Button>
                       </Grid>

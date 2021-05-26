@@ -1,7 +1,7 @@
 import IWriter from 'interfaces/Common/IWriter';
 
 interface IRecomment {
-  idx?: number,
+  idx: number,
   message: string,
   writer: IWriter,
   isDeleted: boolean
