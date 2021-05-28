@@ -134,11 +134,11 @@ const Home = () => {
         </DialogTitle>
         <Divider />
         <DialogContent style={{ padding: "10px" }}>
-          <h4>도톨 v.1.2.0 업데이트</h4>
-          <h4>- 모바일 환경 UI 개선</h4>
+          <h4>도톨 v.1.2.1 업데이트</h4>
+          <h4>- 답글 DB 버그 수정</h4>
           <h4>====================================================================</h4>
           <h4>추가 예정 : 장비마법</h4>
-          <h4>추가할수도 : 치장 룩북, 장비 재료, 한벌효과, bj 및 스트리머</h4>
+          <h4>추가할수도 : 치장 룩북, 장비 재료, 한벌효과, bj/스트리머</h4>
         </DialogContent>
         <Divider />
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
