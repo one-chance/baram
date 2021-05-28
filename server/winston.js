@@ -13,7 +13,7 @@ const logFormat = printf(info => {
 });
 const date = moment().tz("Asia/Seoul");
 const koreaTime = format(info => {
-  info.timestamp = date.format();
+  info.timestamp = date.format("YYYY-MM-DD HH:mm:ss");
   return info;
 });
 
