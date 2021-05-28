@@ -1,13 +1,20 @@
 require("dotenv").config({ path: "variables.env" });
-const winston = require('winston');
-const winstonDaily = require('winston-daily-rotate-file');
+const winston = require("winston");
+const moment = require("moment-timezone");
+const winstonDaily = require("winston-daily-rotate-file");
 
-const logDir = 'logs';  // logs 디렉토리 하위에 로그 파일 저장
-const { combine, timestamp, printf } = winston.format;
+const logDir = "logs"; // logs 디렉토리 하위에 로그 파일 저장
+const { format } = require("winston");
+const { combine, printf } = winston.format;
 
 // Define log format
 const logFormat = printf(info => {
   return `${info.timestamp} ${info.level}: ${info.message}`;
+});
+
+const appendTimestamp = format((info, opts) => {
+  if (opts.tz) info.timestamp = moment().tz(opts.tz).format();
+  return info;
 });
 
 const LOG_PERIOD = 30; // 일 단위
@@ -18,26 +25,27 @@ const LOG_PERIOD = 30; // 일 단위
  */
 const logger = winston.createLogger({
   format: combine(
-    timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss',
-    }),
-    logFormat,
+    /*     timestamp({
+      format: "YYYY-MM-DD HH:mm:ss",
+    }), */
+    appendTimestamp({ tz: "Asia/Seoul" }),
+    logFormat
   ),
   transports: [
     // info 레벨 로그를 저장할 파일 설정
     new winstonDaily({
-      level: 'info',
-      datePattern: 'YYYY-MM-DD',
+      level: "info",
+      datePattern: "YYYY-MM-DD",
       dirname: logDir,
       filename: `%DATE%.log`,
-      maxFiles: LOG_PERIOD,  // 30일치 로그 파일 저장
-      zippedArchive: true, 
+      maxFiles: LOG_PERIOD, // 30일치 로그 파일 저장
+      zippedArchive: true,
     }),
     // error 레벨 로그를 저장할 파일 설정
     new winstonDaily({
-      level: 'error',
-      datePattern: 'YYYY-MM-DD',
-      dirname: logDir + '/error',  // error.log 파일은 /logs/error 하위에 저장 
+      level: "error",
+      datePattern: "YYYY-MM-DD",
+      dirname: logDir + "/error", // error.log 파일은 /logs/error 하위에 저장
       filename: `%DATE%.error.log`,
       maxFiles: LOG_PERIOD,
       zippedArchive: true,
@@ -45,14 +53,16 @@ const logger = winston.createLogger({
   ],
 });
 
-// Production 환경이 아닌 경우(dev 등) 
-if (process.env.RUNTIME_MODE !== 'prod') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize(),  // 색깔 넣어서 출력
-      winston.format.simple(),  // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
-    )
-  }));
+// Production 환경이 아닌 경우(dev 등)
+if (process.env.RUNTIME_MODE !== "prod") {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(), // 색깔 넣어서 출력
+        winston.format.simple() // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
+      ),
+    })
+  );
 }
 
 module.exports = logger;
