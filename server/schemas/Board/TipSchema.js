@@ -222,11 +222,10 @@ tipSchema.statics.createRecomment = function (postSeq, commentIdx, recomment) {
           idx = _idx;
           return comment.idx === commentIdx;
         }
-      });
-      comment.recommentCount++;
+      })[0];
+      comment.recommentCount += 1;
       comment.recommentList.push(recomment);
       post.commentList[idx] = comment;
-
       post.save();
     }
   );
