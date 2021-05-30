@@ -292,11 +292,12 @@ export default function EquipStat() {
       setEquipSlotList([...equipSlotList]);
 
       for (let i = 1; i < 6; i++) {
-        if (i === 2) {
+        if (i === 2 && statusList[2] !== 0) {
           if (statusList[2] < 7) statusList[2] += 1;
           else statusList[2] += 3;
-        } else {
+        } else if (i !== 2 && statusList[i] !== 0) {
           let temp = Math.floor(statusList[i] * 0.3);
+          if (temp === 0) temp = 1;
           if (temp < max[i]) statusList[i] += temp;
           else statusList[i] += max[i];
         }
