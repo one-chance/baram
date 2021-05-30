@@ -110,7 +110,7 @@ export default function AbilityTable() {
         let g: number = clothState[idx];
         let h: number = skillState[idx] + potionState[idx] + +familyState[idx];
 
-        if (b > c) {
+        if (Math.abs(b) > Math.abs(c)) {
           total[idx] = Math.floor((Math.floor((a + b + d) * (1 + e / 100)) + f) * g) + h;
         } else {
           total[idx] = Math.floor((Math.floor((a + c + d) * (1 + e / 100)) + f) * g) + h;
