@@ -3,11 +3,13 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import EquipState from "state/Calculator/Ability/EquipState";
 
+import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import Chip from "@material-ui/core/Chip";
 import Select from "@material-ui/core/Select";
+import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Table from "@material-ui/core/Table";
@@ -15,7 +17,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -116,6 +117,7 @@ interface IEquipSlot {
   type: string;
   name: string;
   status: number[];
+  check: boolean;
 }
 
 export default function EquipStat() {
@@ -127,6 +129,8 @@ export default function EquipStat() {
   const [itemList, setItemList] = useState<Array<IItemInfo>>([]); // 검색 결과 목록
   const [statusList, setStatusList] = useState<Array<number>>([0, 0, 0, 0, 0, 0]); // 검색된 장비의 옵션
   var statList = ["방어도", "방어구관통", "방어도무시", "공격력증가", "마법치명", "마력증강"]; // 옵션 종류
+  var ops: any = [0, 0, 0, 0, 0, 0, 0, 0]; // 아이템 옵션 검색 결과 받아오는 배열
+  const [ops2, setOps2] = useState<Array<number>>([]); // 아이템 옵션만 저장하는 배열
 
   // prettier-ignore
   var menuList = [
@@ -136,20 +140,20 @@ export default function EquipStat() {
   ];
 
   const [equipSlotList, setEquipSlotList] = useState<Array<IEquipSlot>>([
-    { num: 1, type: "목/어깨장식", name: "목/어깨장식", status: [0, 0, 0, 0, 0, 0] },
-    { num: 2, type: "투구", name: "투구", status: [0, 0, 0, 0, 0, 0] },
-    { num: 3, type: "얼굴장식", name: "얼굴장식", status: [0, 0, 0, 0, 0, 0] },
-    { num: 4, type: "무기", name: "무기", status: [0, 0, 0, 0, 0, 0] },
-    { num: 5, type: "갑옷", name: "갑옷", status: [0, 0, 0, 0, 0, 0] },
-    { num: 6, type: "방패/보조무기", name: "방패/보조무기", status: [0, 0, 0, 0, 0, 0] },
-    { num: 7, type: "오른손", name: "오른손", status: [0, 0, 0, 0, 0, 0] },
-    { num: 8, type: "망토", name: "망토", status: [0, 0, 0, 0, 0, 0] },
-    { num: 9, type: "왼손", name: "왼손", status: [0, 0, 0, 0, 0, 0] },
-    { num: 10, type: "보조1", name: "보조1", status: [0, 0, 0, 0, 0, 0] },
-    { num: 11, type: "신발", name: "신발", status: [0, 0, 0, 0, 0, 0] },
-    { num: 12, type: "보조2", name: "보조2", status: [0, 0, 0, 0, 0, 0] },
-    { num: 13, type: "세트", name: "세트", status: [0, 0, 0, 0, 0, 0] },
-    { num: 14, type: "장신구", name: "장신구", status: [0, 0, 0, 0, 0, 0] },
+    { num: 1, type: "목/어깨장식", name: "목/어깨장식", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 2, type: "투구", name: "투구", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 3, type: "얼굴장식", name: "얼굴장식", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 4, type: "무기", name: "무기", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 5, type: "갑옷", name: "갑옷", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 6, type: "방패/보조무기", name: "방패/보조무기", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 7, type: "오른손", name: "오른손", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 8, type: "망토", name: "망토", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 9, type: "왼손", name: "왼손", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 10, type: "보조1", name: "보조1", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 11, type: "신발", name: "신발", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 12, type: "보조2", name: "보조2", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 13, type: "세트", name: "세트", status: [0, 0, 0, 0, 0, 0], check: false },
+    { num: 14, type: "장신구", name: "장신구", status: [0, 0, 0, 0, 0, 0], check: false },
   ]);
 
   const [dlgItem, setDlgItem] = useState({
@@ -176,6 +180,7 @@ export default function EquipStat() {
     if (name === "") {
       setSearchName("");
       setItemList([]);
+      setStatusList([0, 0, 0, 0, 0, 0]);
     } else {
       setSearchName(name);
     }
@@ -262,20 +267,43 @@ export default function EquipStat() {
     }
   };
 
-  var temp: any = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   // 선택된 아이템의 스텟 데이터 불러오기
   const loadData = async (name: string) => {
     let res: IItemOptionInfo;
     res = await SearchOptionByName(name);
-
+    console.log(res);
     if (res !== null) {
-      temp = res;
-      temp.shift();
-      temp.shift();
+      ops = res;
+      ops.shift();
+      ops.shift();
     }
+    setOps2([...ops]);
+    setStatusList(ops);
+  };
 
-    setStatusList(temp);
+  const checking = (num: number) => {
+    var max = [0, 15, 3, 21, 21, 21];
+    if (equipSlotList[num].check === true) {
+      equipSlotList[num].check = false;
+      setEquipSlotList([...equipSlotList]);
+      setStatusList([...ops2]);
+    } else {
+      equipSlotList[num].check = true;
+      setEquipSlotList([...equipSlotList]);
+
+      for (let i = 1; i < 6; i++) {
+        if (i === 2 && statusList[2] !== 0) {
+          if (statusList[2] < 7) statusList[2] += 1;
+          else statusList[2] += 3;
+        } else if (i !== 2 && statusList[i] !== 0) {
+          let temp = Math.floor(statusList[i] * 0.3);
+          if (temp === 0) temp = 1;
+          if (temp < max[i]) statusList[i] += temp;
+          else statusList[i] += max[i];
+        }
+        setStatusList([...statusList]);
+      }
+    }
   };
 
   useEffect(() => {
@@ -328,140 +356,154 @@ export default function EquipStat() {
         </DialogTitle>
         <Divider />
         <DialogContent style={{ width: "500px", maxWidth: "500px", padding: "10px", margin: "0" }}>
-          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <TextField
-              className={classes.itemText}
-              variant='outlined'
-              placeholder={`(${equipSlotList[dlgItem.parts - 1].type}) 아이템명 `}
-              value={searchName}
-              onChange={e => {
-                inputName(e.target.value);
-              }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              className={classes.dlgButton}
-              onClick={e => {
-                searchByName(searchName, dlgItem.parts);
-              }}>
-              검색
-            </Button>
-          </Container>
-          <Container style={{ margin: "2.5px 0", padding: "0", textAlign: "center", float: "left" }}>
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={options.op1}
-              /* MenuProps={{ disableScrollLock: true }} */
-              onChange={e => {
-                setOptions({ ...options, op1: Number(e.target.value) });
-              }}>
-              {menuList[0].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
-
-            <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px" }}>
-              {menuList[1].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
-
-            <Select
-              variant='outlined'
-              className={classes.select}
-              value={options.op3}
-              onChange={e => {
-                setOptions({ ...options, op3: Number(e.target.value) });
-              }}
-              style={{ width: "80px" }}>
-              {menuList[2].map((name: string, idx: number) => {
-                return (
-                  <Menus value={idx} key={idx} disableGutters={true}>
-                    {name}
-                  </Menus>
-                );
-              })}
-            </Select>
-
-            <Button
-              variant='contained'
-              color='primary'
-              className={classes.dlgButton}
-              onClick={() => {
-                searchByList();
-              }}>
-              검색
-            </Button>
-          </Container>
-          <Container
-            style={{
-              width: "380px",
-              minHeight: "70px",
-              margin: "2.5px 50px",
-              padding: "5px",
-              border: "1px solid lightgray",
-              borderRadius: "5px",
-              textAlign: "center",
-              float: "left",
-            }}>
-            {itemList.length === 0 ? (
-              <span>
-                <br />
-                검색 결과가 없습니다.
-              </span>
-            ) : (
-              itemName
-            )}
-          </Container>
-
-          <TableContainer style={{ margin: "5px 0", padding: "0 50px", textAlign: "center", float: "left" }}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: "50%" }}>종류</TableCell>
-                  <TableCell style={{ width: "50%" }}>수치</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {statusList.map((status: number, idx: number) => {
+          <Grid container direction='row'>
+            <Grid item style={{ width: "100%", margin: "2.5px 0", padding: "0", textAlign: "center" }}>
+              <TextField
+                className={classes.itemText}
+                variant='outlined'
+                placeholder={`(${equipSlotList[dlgItem.parts - 1].type}) 아이템명 `}
+                value={searchName}
+                onChange={e => {
+                  inputName(e.target.value);
+                }}
+              />
+              <Button
+                variant='contained'
+                color='primary'
+                className={classes.dlgButton}
+                onClick={e => {
+                  searchByName(searchName, dlgItem.parts);
+                }}>
+                검색
+              </Button>
+            </Grid>
+            <Grid item style={{ width: "100%", margin: "2.5px 0", padding: "0", textAlign: "center" }}>
+              <Select
+                variant='outlined'
+                className={classes.select}
+                value={options.op1}
+                /* MenuProps={{ disableScrollLock: true }} */
+                onChange={e => {
+                  setOptions({ ...options, op1: Number(e.target.value) });
+                }}>
+                {menuList[0].map((name: string, idx: number) => {
                   return (
-                    <TableRow key={idx}>
-                      <TableCell>{statList[idx]}</TableCell>
-                      <TableCell>{status}</TableCell>
-                    </TableRow>
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
                   );
                 })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Container style={{ width: "100%", margin: "5px 0", padding: "0 50px", textAlign: "center", float: "left" }}>
-            <Button
-              fullWidth
-              variant='contained'
-              color='secondary'
-              onClick={() => {
-                setDlgItem({ ...dlgItem, isOpen: false });
-                if (itemList.length !== 0) {
-                  equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
-                  equipSlotList[dlgItem.parts - 1].status = statusList;
-                } else {
-                  equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
-                }
-                setEquipSlotList(equipSlotList);
+              </Select>
+
+              <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px" }}>
+                {menuList[1].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
+
+              <Select
+                variant='outlined'
+                className={classes.select}
+                value={options.op3}
+                onChange={e => {
+                  setOptions({ ...options, op3: Number(e.target.value) });
+                }}
+                style={{ width: "80px" }}>
+                {menuList[2].map((name: string, idx: number) => {
+                  return (
+                    <Menus value={idx} key={idx} disableGutters={true}>
+                      {name}
+                    </Menus>
+                  );
+                })}
+              </Select>
+
+              <Button
+                variant='contained'
+                color='primary'
+                className={classes.dlgButton}
+                onClick={() => {
+                  searchByList();
+                }}>
+                검색
+              </Button>
+            </Grid>
+            <Grid
+              item
+              style={{
+                width: "380px",
+                minHeight: "70px",
+                margin: "2.5px 50px",
+                padding: "5px",
+                border: "1px solid lightgray",
+                borderRadius: "5px",
+                textAlign: "center",
               }}>
-              적용
-            </Button>
-          </Container>
+              {itemList.length === 0 ? (
+                <span>
+                  <br />
+                  검색 결과가 없습니다.
+                </span>
+              ) : (
+                itemName
+              )}
+            </Grid>
+
+            <Grid style={{ width: "100%", margin: "5px 0", padding: "0 50px", textAlign: "center" }}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ width: "50%" }}>종류</TableCell>
+                    <TableCell style={{ width: "50%" }}>수치</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {statusList.map((status: number, idx: number) => {
+                    return (
+                      <TableRow key={idx}>
+                        <TableCell>{statList[idx]}</TableCell>
+                        <TableCell>{status}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </Grid>
+
+            <Grid container alignItems='center' justify='center' style={{ margin: "5px 0", padding: "0 50px" }}>
+              <div style={{ width: "50%", padding: "0 20px", float: "left" }}>
+                <Typography style={{ lineHeight: "36px", fontSize: "1rem", fontWeight: "bold", margin: "0 6px", float: "left" }}>강화석 최대</Typography>
+                <Checkbox
+                  color='primary'
+                  checked={equipSlotList[dlgItem.parts - 1].check}
+                  onChange={() => {
+                    checking(dlgItem.parts - 1);
+                  }}
+                  style={{ margin: "6px", padding: "0", float: "left" }}
+                />
+              </div>
+              <Button
+                style={{ width: "50%", float: "left" }}
+                variant='contained'
+                color='secondary'
+                onClick={() => {
+                  setDlgItem({ ...dlgItem, isOpen: false });
+                  if (itemList.length !== 0) {
+                    equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
+                    equipSlotList[dlgItem.parts - 1].status = statusList;
+                  } else {
+                    equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
+                  }
+                  setEquipSlotList(equipSlotList);
+                }}>
+                적용
+              </Button>
+            </Grid>
+          </Grid>
         </DialogContent>
       </Dialog>
     </React.Fragment>

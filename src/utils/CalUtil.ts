@@ -118,6 +118,9 @@ export const SearchOptionByName = async (_name: string) => {
   return itemOptions;
 }
 
+/*
+* 음력 to 양력으로 변환
+*/
 export const lunaToSolar = async (yyyy: string, mmdd: string) => {
   const res = await axios.get('/api/cal/tradition', {
     params: {
