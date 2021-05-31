@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Chip from "@material-ui/core/Chip";
-import Divider from "@material-ui/core/Divider";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -316,8 +315,7 @@ export default function Equip() {
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>장비 전투력 TMI</Typography>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "20px 30px" }}>
+        <DialogContent dividers={true} style={{ minWidth: "40vw", padding: "20px 30px" }}>
           <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
             ★ 장비 전투력 = 각인, 돋, 기술능력을 제외한 순수한 아이템 전투력 ★
           </Typography>
@@ -340,9 +338,8 @@ export default function Equip() {
             ex) 무기, 투구, 손 (최대 400), 방패/보조무기 (최대 200)
           </Typography>
         </DialogContent>
-        <Divider />
         <DialogActions>
-          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>
@@ -364,8 +361,7 @@ export default function Equip() {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "10px", margin: "5px 10px" }}>
+        <DialogContent dividers={true} style={{ padding: "10px", margin: "5px 10px" }}>
           <Grid container direction='column' justify='center' style={{ padding: "0" }}>
             <Grid item container style={{ maxWidth: "400px", margin: "5px 0", padding: "0" }}>
               <TextField

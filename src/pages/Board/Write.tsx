@@ -1,12 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import PostWrite from "components/Board/PostWrite";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: "10px",
+    maxWidth: "960px",
+    margin: "10px auto",
+    padding: "0 5px",
   },
 }));
 
@@ -16,9 +18,9 @@ function Write({ match }: any) {
 
   return (
     <React.Fragment>
-      <Container maxWidth='md' className={classes.root}>
+      <Grid container justify='center' className={classes.root}>
         <PostWrite tab={tab} seq={seq} />
-      </Container>
+      </Grid>
     </React.Fragment>
   );
 }

@@ -12,7 +12,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -37,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
   selector: {
     width: "150px",
-    margin: "0 5px",
+    margin: "0",
     "& .MuiSelect-selectMenu": {
       padding: "2px 20px 2px 5px",
       lineHeight: "36px",
@@ -46,13 +45,16 @@ const useStyles = makeStyles(theme => ({
   },
   box: {
     margin: "5px 0",
-    height: "550px",
+    height: "500px",
     "& div": {
       width: "100%",
-      maxHeight: "500px",
+      maxHeight: "450px",
     },
   },
   preview: {
+    minWidth: "40vw",
+    minHeight: "30vh",
+    padding: "10px",
     "& p": {
       margin: "5px 0",
     },
@@ -62,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     "& h2": {
       margin: "10px 0",
     },
-  }
+  },
 }));
 
 const Menus = withStyles({
@@ -138,13 +140,9 @@ function PostWrite(props: IProps) {
 
     let res: any;
     if (server) {
-      res = seq ? 
-        await EditPost(title, content, post, server.key) 
-        : await CreatePost(category, title, content, server.key);
-    } else { 
-      res = seq ? 
-        await EditPost(title, content, post) 
-        : await CreatePost(category, title, content);
+      res = seq ? await EditPost(title, content, post, server.key) : await CreatePost(category, title, content, server.key);
+    } else {
+      res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
     }
 
     if (res.code === 200) {
@@ -223,7 +221,7 @@ function PostWrite(props: IProps) {
               variant='contained'
               color='secondary'
               onClick={() => setOpenConfirmCancle(true)}
-              style={{ width: "100px", margin: "0 5px", height: "40px", boxShadow: "none" }}>
+              style={{ width: "100px", margin: "0", height: "40px", boxShadow: "none" }}>
               취소
             </Button>
             <Button
@@ -231,10 +229,10 @@ function PostWrite(props: IProps) {
               onClick={() => {
                 if (title !== "" && content !== "") setOpenPreview(true);
               }}
-              style={{ width: "100px", margin: "0 5px", height: "40px" }}>
+              style={{ width: "100px", margin: "0 10px", height: "40px" }}>
               미리보기
             </Button>
-            <Button variant='contained' color='primary' onClick={_onWrite} style={{ width: "100px", margin: "0 5px", height: "40px", boxShadow: "none" }}>
+            <Button variant='contained' color='primary' onClick={_onWrite} style={{ width: "100px", margin: "0", height: "40px", boxShadow: "none" }}>
               작성
             </Button>
           </div>
@@ -263,7 +261,7 @@ function PostWrite(props: IProps) {
             theme='snow'
             modules={modules}
             formats={formats}
-            style={{ maxHeight: "550px" }}
+            style={{ maxHeight: "500px" }}
             placeholder='작성할 내용을 입력하세요.'
             onChange={e => {
               setContent(e);
@@ -298,10 +296,10 @@ function PostWrite(props: IProps) {
       </Dialog>
 
       <Dialog open={openPreview} maxWidth='lg'>
-        <DialogTitle ><span style={{ fontWeight: "bold", textAlign: "center" }}>{title}</span></DialogTitle>
-        <Divider />
-        <DialogContent className={classes.preview} style={{ padding: "10px" }} dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
-        <Divider />
+        <DialogTitle>
+          <span style={{ fontWeight: "bold", textAlign: "center" }}>{title}</span>
+        </DialogTitle>
+        <DialogContent className={classes.preview} dividers={true} dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
           <Button
             onClick={() => {

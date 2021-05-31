@@ -359,7 +359,7 @@ export default function Exp() {
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <span style={{ fontWeight: "bolder" }}>격수용 마력별 필요경험치표</span>
         </DialogTitle>
-        <DialogContent style={{ padding: "10px" }}>
+        <DialogContent dividers={true} style={{ padding: "10px" }}>
           <img src={baseUrlForExpImg + "mana.png"} alt='마력별 필요경험치표' />
         </DialogContent>
         <DialogActions style={{ padding: "0" }}>

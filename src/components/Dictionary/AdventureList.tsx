@@ -15,7 +15,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Divider from "@material-ui/core/Divider";
 
 import { getAdventureList } from "utils/DictionaryUtil";
 import { IAdventure, IMonster, IStuff, IMission, IPlace, IRewardImg } from "interfaces/Dictionary/IAdventure";
@@ -204,8 +203,7 @@ export default function AdventureList() {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "5px" }}>
+        <DialogContent dividers={true} style={{ padding: "5px" }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -244,8 +242,7 @@ export default function AdventureList() {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "5px" }}>
+        <DialogContent dividers={true} style={{ padding: "5px" }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -284,8 +281,7 @@ export default function AdventureList() {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "5px" }}>
+        <DialogContent dividers={true} style={{ padding: "5px" }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -324,8 +320,7 @@ export default function AdventureList() {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "5px" }}>
+        <DialogContent dividers={true} style={{ padding: "5px" }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -364,8 +359,7 @@ export default function AdventureList() {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "5px" }}>
+        <DialogContent dividers={true} style={{ padding: "5px" }}>
           {dlgRewardImg.rewardImgList.map((rewardImg: IRewardImg) => (
             <img src={baseUrlForAdventureImg + rewardImg.img} key={rewardImg.idx} alt='보상' />
           ))}

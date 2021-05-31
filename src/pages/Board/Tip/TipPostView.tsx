@@ -33,6 +33,19 @@ const useStyles = makeStyles(theme => ({
   editBox: {
     padding: "0 10px",
   },
+  dlgBox: {
+    minWidth: "400px",
+    minHeight: "150px",
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    "& h6": {
+      width: "100%",
+      textAlign: "center",
+      fontWeight: "bold",
+    },
+  },
 }));
 
 const duration = 2000;
@@ -132,14 +145,12 @@ function TipPostView({ match }: any) {
       </Grid>
 
       <Dialog open={openConfirm} onClose={_onCloseConfirm}>
-        <DialogContent style={{ padding: "20px 40px 30px 40px" }}>
-          <Typography variant='h6' style={{ fontWeight: "bold" }}>
-            게시물을 삭제하시겠습니까?
-          </Typography>
+        <DialogContent dividers={true} className={classes.dlgBox}>
+          <Typography variant='h6'>게시물을 삭제하시겠습니까?</Typography>
         </DialogContent>
         <DialogActions style={{ padding: "0" }}>
           <Button onClick={_onCloseConfirm} color='primary' style={{ fontWeight: "bold" }}>
-            돌아가기
+            취소
           </Button>
           <Button onClick={_onAgreeConfirm} color='primary' style={{ fontWeight: "bold" }}>
             확인

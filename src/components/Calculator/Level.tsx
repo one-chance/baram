@@ -6,7 +6,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 
@@ -116,8 +115,7 @@ export default function Level() {
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>레벨 전투력 TMI</Typography>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "20px 30px" }}>
+        <DialogContent dividers={true} style={{ padding: "20px 30px" }}>
           <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
             ★ 레벨 전투력 = 렙업 전투력 + 승급 전투력 ★
           </Typography>
@@ -143,9 +141,8 @@ export default function Level() {
             ex) 700 렙업시 3.5 x 7 + 350 x 7 = 2474.5 증가
           </Typography>
         </DialogContent>
-        <Divider />
         <DialogActions>
-          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>

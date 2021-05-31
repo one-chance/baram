@@ -4,7 +4,6 @@ import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/s
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
@@ -183,8 +182,7 @@ export default function Gold() {
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem", color: "blue" }}>황돋 전투력 TMI</Typography>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "20px 30px" }}>
+        <DialogContent dividers={true} style={{ padding: "20px 30px" }}>
           <Typography variant='h5' className={classes.dlgText} style={{ color: "red" }}>
             ★ 황돋 전투력 = 장비에 감정된 부가 잠재능력들의 전투력 ★
           </Typography>
@@ -204,9 +202,8 @@ export default function Gold() {
             * 치장 한벌효과인 모든 능력 증가가 반영된다.
           </Typography>
         </DialogContent>
-        <Divider />
         <DialogActions>
-          <Button tabIndex={-1} color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
+          <Button color='primary' onClick={switchDlg} style={{ fontFamily: "Do Hyeon", fontSize: "1.2rem", padding: "0" }}>
             닫기
           </Button>
         </DialogActions>
