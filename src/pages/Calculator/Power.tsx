@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "none",
       },
     },
-
     plus: {
       minWidth: "10px",
       lineHeight: "40px",
@@ -40,7 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
         textDecoration: "none",
       },
     },
-
     btn: {
       minWidth: "50px",
       height: "40px",
@@ -49,14 +47,12 @@ const useStyles = makeStyles((theme: Theme) =>
       borderTopLeftRadius: "0",
       borderBottomLeftRadius: "0",
     },
-
     boxSmall: {
       marginBottom: "10px",
       padding: "9px",
       border: "1px solid gray",
       borderRadius: "10px",
     },
-
     select: {
       width: "80px",
       height: "40px",
@@ -114,7 +110,7 @@ export default function Power() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={3} direction='row' alignItems='center' justify='space-around' style={{ width: "auto", margin: "0", padding: "0" }}>
+      <Grid container direction='row' alignItems='center' justify='space-around' style={{ maxWidth: "100%", margin: "0", padding: "0" }}>
         {/* LEFT COLUMN */}
         <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0 5px" }}>
           <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>

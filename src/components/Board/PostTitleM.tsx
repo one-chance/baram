@@ -30,14 +30,16 @@ const useStyles = makeStyles(theme => ({
     lineHeight: "30px",
   },
   infoText: {
-    lineHeight: "35px",
+    lineHeight: "20px",
+    fontSize: "0.8rem",
     margin: "0",
     padding: "0",
     float: "left",
   },
   infoIcon: {
-    height: "35px",
-    margin: "0 5px",
+    width: "15px",
+    height: "15px",
+    margin: "2.5px",
     float: "left",
   },
   btn: {
@@ -48,9 +50,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "0.8rem",
   },
   dlgBox: {
-    minWidth: "400px",
-    minHeight: "150px",
-    padding: "20px",
+    padding: "20px 10px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 const duration = 2000;
 const category = "free";
 
-function PostTitle(props: IProps) {
+function PostTitleM(props: IProps) {
   const classes = useStyles();
   const post: IPost = props.post;
   const seq = post.seq;
@@ -162,34 +162,25 @@ function PostTitle(props: IProps) {
   return (
     <>
       <Grid container>
-        <Grid container direction='row' style={{ margin: "7.5px 0" }}>
-          <Grid item xs={8}>
-            <Typography variant='h6' className={classes.title} style={{ lineHeight: "35px", color: "blue", margin: "0 10px", float: "left" }}>
-              [{categoryName}]
-            </Typography>
-            <Typography variant='h5' style={{ lineHeight: "35px", float: "left" }}>
-              {post.title}
+        <Grid container direction='row' style={{ margin: "5px 0" }}>
+          <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
+            <Typography variant='h6' className={classes.title}>
+              [{categoryName ? categoryName.split(" ")[0] : ""}] {post.title}
             </Typography>
           </Grid>
-          <Grid item container justify='space-around' xs={4}>
-            <div>
-              <CreateIcon fontSize='small' className={classes.infoIcon} />
-              <Typography variant='h6' className={classes.infoText} style={{ fontWeight: "bold" }}>
-                {CommonUtil.getTitleAccountString(post.writer.titleAccount)}
-              </Typography>
-            </div>
-            <div>
-              <VisibilityIcon fontSize='small' className={classes.infoIcon} />
-              <Typography variant='h6' className={classes.infoText}>
-                {post.viewCount}
-              </Typography>
-            </div>
-            <div>
-              <MessageIcon fontSize='small' className={classes.infoIcon} />
-              <Typography variant='h6' className={classes.infoText}>
-                {count}
-              </Typography>
-            </div>
+          <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
+            <CreateIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{CommonUtil.getTitleAccountString(post.writer.titleAccount)}</Typography>
+            <Typography className={classes.infoText} style={{ margin: "0 10px" }}>
+              |
+            </Typography>
+            <VisibilityIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{post.viewCount}</Typography>
+            <Typography className={classes.infoText} style={{ margin: "0 10px" }}>
+              |
+            </Typography>
+            <MessageIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{count}</Typography>
           </Grid>
         </Grid>
         <MyGridDivider />
@@ -230,4 +221,4 @@ function PostTitle(props: IProps) {
   );
 }
 
-export default PostTitle;
+export default PostTitleM;

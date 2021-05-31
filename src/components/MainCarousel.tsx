@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
       maxWidth: "515px",
       height: "auto",
       maxHeight: "300px",
-      margin: "0",
+      margin: "0 auto",
     },
   },
   gridItem: {

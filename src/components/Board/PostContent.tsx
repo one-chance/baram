@@ -70,8 +70,8 @@ function PostContent(props: IProps) {
   };
   return (
     <Container style={{ padding: "0" }}>
-      <Grid item xs={12} style={{ minHeight: "300px", padding: "0 15px", marginBottom: "30px" }}>
-        <div className='ql-editor'>
+      <Grid item xs={12} style={{ minHeight: "300px", padding: "10px 15px", marginBottom: "20px" }}>
+        <div className='ql-editor' style={{ padding: "5px 10px" }}>
           <div className={classes.BodyContent} dangerouslySetInnerHTML={{ __html: post.content }}></div>
         </div>
       </Grid>
