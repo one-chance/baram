@@ -194,6 +194,10 @@ export default function Exp() {
     }
   };
 
+  const switchDialog = () => {
+    setOpenHelper(!openHelper);
+  };
+
   useEffect(() => {
     setTemp(expTable);
     // eslint-disable-next-line
@@ -340,7 +344,7 @@ export default function Exp() {
           </Grid>
 
           <Grid container justify='center' style={{ width: "auto", margin: "10px", border: "none", textAlign: "center" }}>
-            <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)} style={{ height: "35px", margin: "0 10px" }}>
+            <Button variant='outlined' color='primary' onClick={switchDialog} style={{ height: "35px", margin: "0 10px" }}>
               격수용 마력별 필요경험치표
             </Button>
             {/*             <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)} style={{ height: "35px", margin: "0 10px" }}>
@@ -350,12 +354,7 @@ export default function Exp() {
         </Grid>
       </Grid>
 
-      <Dialog
-        open={openHelper}
-        maxWidth='lg'
-        onClose={() => {
-          setOpenHelper(false);
-        }}>
+      <Dialog open={openHelper} maxWidth='lg' onClose={switchDialog}>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <span style={{ fontWeight: "bolder" }}>격수용 마력별 필요경험치표</span>
         </DialogTitle>
@@ -363,12 +362,7 @@ export default function Exp() {
           <img src={baseUrlForExpImg + "mana.png"} alt='마력별 필요경험치표' />
         </DialogContent>
         <DialogActions style={{ padding: "0" }}>
-          <Button
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontWeight: "bolder" }}>
+          <Button color='primary' onClick={switchDialog} style={{ fontWeight: "bolder" }}>
             닫기
           </Button>
         </DialogActions>

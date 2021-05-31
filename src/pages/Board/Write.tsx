@@ -4,13 +4,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import PostWrite from "components/Board/PostWrite";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
-    maxWidth: "960px",
-    margin: "10px auto",
+    margin: "10px 0",
     padding: "0 5px",
   },
-}));
+});
 
 function Write({ match }: any) {
   const classes = useStyles();
