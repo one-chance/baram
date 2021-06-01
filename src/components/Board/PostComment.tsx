@@ -23,17 +23,17 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
   },
   input: {
-    width: `calc(100% - 70px)`,
+    width: `calc(100% - 75px)`,
     backgroundColor: "#ffffff",
     border: "2px",
-
+    margin: "0 5px",
     "& .MuiOutlinedInput-multiline": {
       padding: "15px",
     },
   },
   inputButton: {
     minWidth: "60px",
-    marginLeft: "10px",
+    marginRight: "5px",
     height: "100%",
     padding: "0",
   },

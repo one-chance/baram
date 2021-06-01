@@ -26,18 +26,22 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   title: {
+    fontSize: "1rem",
+    fontWeight: "bold",
     padding: "0",
     lineHeight: "30px",
   },
   infoText: {
-    lineHeight: "35px",
+    lineHeight: "20px",
+    fontSize: "0.8rem",
     margin: "0",
     padding: "0",
     float: "left",
   },
   infoIcon: {
-    height: "35px",
-    margin: "0 5px",
+    width: "15px",
+    height: "15px",
+    margin: "2.5px 5px 2.5px 0",
     float: "left",
   },
   btn: {
@@ -48,9 +52,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "0.8rem",
   },
   dlgBox: {
-    minWidth: "400px",
-    minHeight: "150px",
-    padding: "20px",
+    padding: "20px 10px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -65,7 +67,7 @@ const useStyles = makeStyles(theme => ({
 const duration = 2000;
 const category = "free";
 
-function PostTitle(props: IProps) {
+function PostTitleM(props: IProps) {
   const classes = useStyles();
   const post: IPost = props.post;
   const seq = post.seq;
@@ -164,47 +166,37 @@ function PostTitle(props: IProps) {
   return (
     <>
       <Grid container>
-        <Grid container direction='row' style={{ margin: "7.5px 0", padding: "0 10px" }}>
-          <Grid item xs={7}>
-            <Typography variant='h6' className={classes.title} style={{ lineHeight: "35px", color: "blue", margin: "0 10px", float: "left" }}>
-              [{categoryName}]
-            </Typography>
-            <Typography variant='h5' style={{ lineHeight: "35px", float: "left" }}>
-              {post.title}
+        <Grid container direction='row' style={{ margin: "5px 0" }}>
+          <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
+            <Typography className={classes.title}>
+              [{categoryName ? categoryName.split(" ")[0] : ""}] {post.title}
             </Typography>
           </Grid>
-          <Grid item container justify='space-around' xs={5}>
-            <div>
-              <CreateIcon fontSize='small' className={classes.infoIcon} />
-              <Typography variant='h6' className={classes.infoText} style={{ fontWeight: "bold" }}>
-                {CommonUtil.getTitleAccountString(post.writer.titleAccount)}
-              </Typography>
-            </div>
-            <div>
-              <VisibilityIcon fontSize='small' className={classes.infoIcon} />
-              <Typography variant='h6' className={classes.infoText}>
-                {post.viewCount}
-              </Typography>
-            </div>
-            <div>
-              <MessageIcon fontSize='small' className={classes.infoIcon} />
-              <Typography variant='h6' className={classes.infoText}>
-                {count}
-              </Typography>
-            </div>
+          <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
+            <CreateIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{CommonUtil.getTitleAccountString(post.writer.titleAccount)}</Typography>
+            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
+              |
+            </Typography>
+            <VisibilityIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{post.viewCount}</Typography>
+            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
+              |
+            </Typography>
+            <MessageIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{count}</Typography>
+            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
+              |
+            </Typography>
+            <Typography className={classes.infoText}>{dateW !== dateE ? `${dateW} (E)` : `${dateW}`}</Typography>
           </Grid>
         </Grid>
         <MyGridDivider />
 
-        <Grid container alignItems='center' justify='space-between' style={{ padding: "0 10px", margin: "5px 0" }}>
-          <div>
-            <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl} style={{ float: "left" }}>
-              URL 복사
-            </Button>
-            <Typography variant='h6' style={{ lineHeight: "25px", margin: "5px", fontSize: "0.8rem", float: "left" }}>
-              {dateW !== dateE ? `작성일 : ${dateW} (편집됨)` : `작성일 : ${dateW}`}
-            </Typography>
-          </div>
+        <Grid container alignItems='center' justify='space-between' style={{ color: "darkgray", padding: "0 10px", margin: "5px 0" }}>
+          <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl}>
+            URL 복사
+          </Button>
           <div>
             <Button onClick={_onEdit} style={{ minWidth: "50px", lineHeight: "25px", padding: "0" }}>
               수정
@@ -213,6 +205,10 @@ function PostTitle(props: IProps) {
               삭제
             </Button>
           </div>
+          {/*           <Typography variant='h6' style={{ margin: "2px 0", fontSize: "0.8rem" }}>
+            {post.writer.createDate && `작성일 : ${CommonUtil.getStringByDate(post.writer.createDate, true)}`}
+            {post.writer.lastEditDate && ` / 수정일 : ${CommonUtil.getStringByDate(post.writer.lastEditDate, true)}`}
+          </Typography> */}
         </Grid>
       </Grid>
 
@@ -233,4 +229,4 @@ function PostTitle(props: IProps) {
   );
 }
 
-export default PostTitle;
+export default PostTitleM;

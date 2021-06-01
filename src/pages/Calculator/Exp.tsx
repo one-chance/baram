@@ -64,8 +64,10 @@ const useStyles = makeStyles({
       height: "32px",
       border: "none",
       fontSize: "1rem",
-      padding: "2px",
+      padding: "1px",
       textAlign: "center",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     },
     "& th": {
       borderBottom: "1px solid",
@@ -194,6 +196,10 @@ export default function Exp() {
     }
   };
 
+  const switchDialog = () => {
+    setOpenHelper(!openHelper);
+  };
+
   useEffect(() => {
     setTemp(expTable);
     // eslint-disable-next-line
@@ -201,10 +207,10 @@ export default function Exp() {
 
   return (
     <>
-      <Grid container style={{ margin: "10px 0", padding: "0" }}>
-        <Grid item container direction='column' style={{ minWidth: "500px", maxWidth: "620px", margin: "0 5px", padding: "0", float: "left" }}>
+      <Grid container style={{ margin: "5px 0", padding: "0" }}>
+        <Grid item container direction='column' style={{ maxWidth: "620px", margin: "0 5px", padding: "0", float: "left" }}>
           <Grid container justify='space-between' className={classes.box} style={{ border: "none", padding: "0" }}>
-            <div>
+            <div style={{ margin: "5px 0" }}>
               <Typography style={{ width: "160px", lineHeight: "35px", fontSize: "1.25rem", fontWeight: "bold", textAlign: "center", float: "left" }}>
                 경험치 계산기 for
               </Typography>
@@ -217,7 +223,7 @@ export default function Exp() {
                 {toggle ? "격수" : "비격수"}
               </Button>
             </div>
-            <div>
+            <div style={{ margin: "5px 0" }}>
               <TextField
                 className={classes.input}
                 type='number'
@@ -340,7 +346,7 @@ export default function Exp() {
           </Grid>
 
           <Grid container justify='center' style={{ width: "auto", margin: "10px", border: "none", textAlign: "center" }}>
-            <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)} style={{ height: "35px", margin: "0 10px" }}>
+            <Button variant='outlined' color='primary' onClick={switchDialog} style={{ height: "35px", margin: "0 10px" }}>
               격수용 마력별 필요경험치표
             </Button>
             {/*             <Button variant='outlined' color='primary' onClick={() => setOpenHelper(true)} style={{ height: "35px", margin: "0 10px" }}>
@@ -350,25 +356,15 @@ export default function Exp() {
         </Grid>
       </Grid>
 
-      <Dialog
-        open={openHelper}
-        maxWidth='lg'
-        onClose={() => {
-          setOpenHelper(false);
-        }}>
+      <Dialog open={openHelper} maxWidth='lg' onClose={switchDialog}>
         <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
           <span style={{ fontWeight: "bolder" }}>격수용 마력별 필요경험치표</span>
         </DialogTitle>
-        <DialogContent style={{ padding: "10px" }}>
+        <DialogContent dividers={true} style={{ padding: "10px" }}>
           <img src={baseUrlForExpImg + "mana.png"} alt='마력별 필요경험치표' />
         </DialogContent>
         <DialogActions style={{ padding: "0" }}>
-          <Button
-            color='primary'
-            onClick={() => {
-              setOpenHelper(false);
-            }}
-            style={{ fontWeight: "bolder" }}>
+          <Button color='primary' onClick={switchDialog} style={{ fontWeight: "bolder" }}>
             닫기
           </Button>
         </DialogActions>

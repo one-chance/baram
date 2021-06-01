@@ -21,7 +21,6 @@ import TableCell from "@material-ui/core/TableCell";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Divider from "@material-ui/core/Divider";
 
 import { SearchItem, SearchOptionByName } from "../../../utils/CalUtil";
 import IItemInfo from "interfaces/Calculator/IItemInfo";
@@ -354,8 +353,7 @@ export default function EquipStat() {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ width: "500px", maxWidth: "500px", padding: "10px", margin: "0" }}>
+        <DialogContent dividers={true} style={{ width: "500px", maxWidth: "500px", padding: "10px", margin: "0" }}>
           <Grid container direction='row'>
             <Grid item style={{ width: "100%", margin: "2.5px 0", padding: "0", textAlign: "center" }}>
               <TextField

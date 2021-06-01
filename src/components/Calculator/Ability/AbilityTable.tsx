@@ -184,8 +184,7 @@ export default function AbilityTable() {
             </Button>
           </span>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "10px 40px" }}>
+        <DialogContent dividers={true} style={{ padding: "10px 40px" }}>
           <Typography
             variant='h5'
             style={{
@@ -222,7 +221,6 @@ export default function AbilityTable() {
             H &nbsp;= 마법 효과 + 물약 효과 + 가문 특성
           </Typography>
         </DialogContent>
-        <Divider />
         <DialogActions style={{ padding: "10px" }}>
           <Button
             color='primary'
@@ -253,8 +251,7 @@ export default function AbilityTable() {
             </Button>
           </span>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "20px 40px" }}>
+        <DialogContent dividers={true} style={{ padding: "20px 40px" }}>
           <Grid container direction='row'>
             <Typography className={classes.title}></Typography>
             {statList.map((name: string) => {
@@ -397,7 +394,6 @@ export default function AbilityTable() {
             })}
           </Grid>
         </DialogContent>
-        <Divider />
         <DialogActions style={{ padding: "10px" }}>
           <Button
             color='primary'

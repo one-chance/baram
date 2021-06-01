@@ -14,7 +14,6 @@ import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import HomeIcon from "@material-ui/icons/Home";
-import Divider from "@material-ui/core/Divider";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -198,17 +197,16 @@ const Home = () => {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "10px" }}>
+        <DialogContent dividers={true} style={{ minWidth: "40vw", minHeight: "30vh", padding: "10px" }}>
           <h4>도톨 v.1.2.2 업데이트</h4>
           <h4>능력치 계산기 - 강화석 기능 추가</h4>
           <h4>아이템 정보 - 백기린, 흑기린 추가</h4>
           <h4>FAQ 질문 및 답변 추가</h4>
+          <h4>모바일 UI 최적화 - 게시판, 게시물, 경험치 계산기, 신수 장비</h4>
           <h4>========================================</h4>
           <h4>추가 예정 : 장비마법</h4>
           <h4>추가할수도 : 치장 룩북, 장비 재료, 한벌효과, bj/스트리머</h4>
         </DialogContent>
-        <Divider />
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
           <Button onClick={openDlg} color='primary'>
             닫기
@@ -223,8 +221,7 @@ const Home = () => {
             &#10006;
           </Button>
         </DialogTitle>
-        <Divider />
-        <DialogContent style={{ padding: "10px" }}>
+        <DialogContent dividers={true} style={{ padding: "10px" }}>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel1-content'>
               <Typography>Q. 캐릭터 인증을 하면 호패 내용을 다시 바꿔도 되나요?</Typography>
@@ -280,7 +277,6 @@ const Home = () => {
             </AccordionDetails>
           </Accordion>
         </DialogContent>
-        <Divider />
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
           <Button onClick={openDlg2} color='primary'>
             닫기

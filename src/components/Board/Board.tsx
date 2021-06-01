@@ -19,15 +19,13 @@ import SearchIcon from "@material-ui/icons/Search";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 import Bottom from "./Bottom";
 
-import IPost from "interfaces/Board/IPost";
-import { CategoryType } from "interfaces/Board/IPost";
-
+import IPost, { CategoryType } from "interfaces/Board/IPost";
 import * as CommonUtil from "utils/CommonUtil";
 import { getCategoryName } from "utils/PostUtil";
 
 let nowCategory: CategoryType;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   header: {
     padding: "10px",
     paddingLeft: "30px",
@@ -77,7 +75,7 @@ const useStyles = makeStyles(theme => ({
       padding: "0",
     },
   },
-}));
+});
 
 interface IProps {
   category: CategoryType;
@@ -133,9 +131,9 @@ function CustomPagination() {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const filterValue = useRecoilValue(FilterState);
 
-  const [searchQuery, setSearchQuery] = useState<string | undefined>(``);
-  const [searchFilter, setSearchFilter] = useState<string | undefined>(``);
-  const [searchValue, setSearchValue] = useState<string | undefined>(``);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchFilter, setSearchFilter] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     for (let idx in filterValue.query) {
@@ -148,6 +146,7 @@ function CustomPagination() {
         else setSearchQuery(searchQuery + `&` + filterValue.query[idx]);
       }
     }
+    // eslint-disable-next-line
   }, [filterValue]);
 
   const _onChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -194,6 +193,7 @@ function CustomPagination() {
         <Pagination
           color='primary'
           shape='rounded'
+          boundaryCount={5}
           count={pagination.pageCount}
           page={pagination.page + 1}
           showFirstButton={true}
