@@ -64,8 +64,10 @@ const useStyles = makeStyles({
       height: "32px",
       border: "none",
       fontSize: "1rem",
-      padding: "2px",
+      padding: "1px",
       textAlign: "center",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     },
     "& th": {
       borderBottom: "1px solid",
@@ -205,10 +207,10 @@ export default function Exp() {
 
   return (
     <>
-      <Grid container style={{ margin: "10px 0", padding: "0" }}>
-        <Grid item container direction='column' style={{ minWidth: "500px", maxWidth: "620px", margin: "0 5px", padding: "0", float: "left" }}>
+      <Grid container style={{ margin: "5px 0", padding: "0" }}>
+        <Grid item container direction='column' style={{ maxWidth: "620px", margin: "0 5px", padding: "0", float: "left" }}>
           <Grid container justify='space-between' className={classes.box} style={{ border: "none", padding: "0" }}>
-            <div>
+            <div style={{ margin: "5px 0" }}>
               <Typography style={{ width: "160px", lineHeight: "35px", fontSize: "1.25rem", fontWeight: "bold", textAlign: "center", float: "left" }}>
                 경험치 계산기 for
               </Typography>
@@ -221,7 +223,7 @@ export default function Exp() {
                 {toggle ? "격수" : "비격수"}
               </Button>
             </div>
-            <div>
+            <div style={{ margin: "5px 0" }}>
               <TextField
                 className={classes.input}
                 type='number'

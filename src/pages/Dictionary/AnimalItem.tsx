@@ -1,5 +1,5 @@
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -8,39 +8,36 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    tableContainer: {
-      minWidth: "700px",
-      margin: "5px 0",
-      padding: "5px",
+const useStyles = makeStyles({
+  tableContainer: {
+    maxWidth: "700px",
+    margin: "5px auto",
+    padding: "5px 0",
+  },
+  textContainer: {
+    maxWidth: "330px",
+    margin: "0 auto",
+    padding: "10px 0",
+  },
+  table: {
+    maxWidth: "700px",
+    border: "1px solid",
+    "& th, td": {
+      height: "32px",
+      border: "none",
+      padding: "1px",
+      textAlign: "center",
     },
-    textContainer: {
-      width: "380px",
-      margin: "0 0 0 20px",
-      padding: "10px 0",
+    "& th": {
+      backgroundColor: "#1976d2",
+      color: "white",
     },
-    table: {
-      width: "800px",
-      border: "1px solid",
-      "& th, td": {
-        height: "32px",
-        border: "none",
-        fontSize: "1rem",
-        padding: "2px",
-        textAlign: "center",
-      },
-      "& th": {
-        backgroundColor: "#1976d2",
-        color: "white",
-      },
-    },
-    text: {
-      margin: "5px 0",
-      float: "left",
-    },
-  })
-);
+  },
+  text: {
+    margin: "5px 0",
+    float: "left",
+  },
+});
 
 export default function AnimalItem() {
   const classes = useStyles();
@@ -102,14 +99,14 @@ export default function AnimalItem() {
   return (
     <React.Fragment>
       <Grid container direction='column' alignItems='center' justify='center' style={{ margin: "10px auto" }}>
-        <Grid item className={classes.tableContainer}>
+        <Grid container justify='center' className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>무기</TableCell>
                 <TableCell>파괴력</TableCell>
                 <TableCell>피흡무시</TableCell>
-                <TableCell>체력/마력</TableCell>
+                <TableCell>체/마</TableCell>
                 <TableCell>방무</TableCell>
                 <TableCell>방관</TableCell>
                 <TableCell>공증</TableCell>
@@ -134,14 +131,14 @@ export default function AnimalItem() {
             </TableBody>
           </Table>
         </Grid>
-        <Grid item className={classes.tableContainer}>
+        <Grid container justify='center' className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>투구</TableCell>
                 <TableCell>방어도</TableCell>
                 <TableCell>피흡무시</TableCell>
-                <TableCell>체력/마력</TableCell>
+                <TableCell>체/마</TableCell>
                 <TableCell>방무</TableCell>
                 <TableCell>공증</TableCell>
                 <TableCell>마치</TableCell>
@@ -166,14 +163,14 @@ export default function AnimalItem() {
             </TableBody>
           </Table>
         </Grid>
-        <Grid item className={classes.tableContainer}>
+        <Grid container justify='center' className={classes.tableContainer}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>갑옷</TableCell>
                 <TableCell>방어도</TableCell>
                 <TableCell>피흡무시</TableCell>
-                <TableCell>체력/마력</TableCell>
+                <TableCell>체/마</TableCell>
                 <TableCell>방무</TableCell>
                 <TableCell>직타</TableCell>
                 <TableCell>회향</TableCell>
@@ -199,105 +196,99 @@ export default function AnimalItem() {
           </Table>
         </Grid>
         <Grid item container direction='row' alignItems='center' justify='center' className={classes.tableContainer}>
-          <Grid item>
-            <Table className={classes.table} style={{ width: "400px" }}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>손</TableCell>
-                  <TableCell>방어도</TableCell>
-                  <TableCell>피흡무시</TableCell>
-                  <TableCell>힘민지</TableCell>
-                  <TableCell>마법수준</TableCell>
-                  <TableCell>전투력</TableCell>
+          <Table className={classes.table} style={{ maxWidth: "350px" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>손</TableCell>
+                <TableCell>방어도</TableCell>
+                <TableCell>피흡무시</TableCell>
+                <TableCell>힘민지</TableCell>
+                <TableCell>마법수준</TableCell>
+                <TableCell>전투력</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {datas2.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row[0]}</TableCell>
+                  <TableCell>{row[1]}</TableCell>
+                  <TableCell>{row[2]}</TableCell>
+                  <TableCell>{row[3]}</TableCell>
+                  <TableCell>{row[4]}</TableCell>
+                  <TableCell>{row[5]}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {datas2.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{row[0]}</TableCell>
-                    <TableCell>{row[1]}</TableCell>
-                    <TableCell>{row[2]}</TableCell>
-                    <TableCell>{row[3]}</TableCell>
-                    <TableCell>{row[4]}</TableCell>
-                    <TableCell>{row[5]}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Grid>
+              ))}
+            </TableBody>
+          </Table>
           <Grid item className={classes.textContainer}>
-            <h4 className={classes.text}>▶ 범위 수치는 최초 감정시 확정되며 재감정할 수 없다.</h4>
-            <h4 className={classes.text}>▶ 손, 보주 아이템은 사신정기로 교환할 수 있다. (교불)</h4>
-            <h4 className={classes.text}>▶ 손, 보주 아이템은 사행성으로 얻을 수 있다. (교환)</h4>
+            <h4 className={classes.text}>▶ 범위 수치는 최초 감정 후 재감정할 수 없다.</h4>
+            <h4 className={classes.text}>▶ 손/보주 부위는 사신정기로 얻을 수 있다. (교불)</h4>
+            <h4 className={classes.text}>▶ 손/보주 부위는 사행성으로 얻을 수 있다. (교가)</h4>
           </Grid>
         </Grid>
 
         <Grid item container direction='row' alignItems='center' justify='center' className={classes.tableContainer}>
-          <Grid item>
-            <Table className={classes.table} style={{ width: "400px" }}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>보주</TableCell>
-                  <TableCell>특성</TableCell>
-                  <TableCell>명중회피</TableCell>
-                  <TableCell>피흡무시</TableCell>
-                  <TableCell>전투력</TableCell>
+          <Table className={classes.table} style={{ width: "350px" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>보주</TableCell>
+                <TableCell>특성</TableCell>
+                <TableCell>명중회피</TableCell>
+                <TableCell>피흡무시</TableCell>
+                <TableCell>전투력</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {datas3.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row[0]}</TableCell>
+                  <TableCell>{row[1]}</TableCell>
+                  <TableCell>{row[2]}</TableCell>
+                  <TableCell>{row[3]}</TableCell>
+                  <TableCell>{row[4]}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {datas3.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{row[0]}</TableCell>
-                    <TableCell>{row[1]}</TableCell>
-                    <TableCell>{row[2]}</TableCell>
-                    <TableCell>{row[3]}</TableCell>
-                    <TableCell>{row[4]}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Grid>
+              ))}
+            </TableBody>
+          </Table>
           <Grid item className={classes.textContainer}>
             <h4 className={classes.text}>▶ 보주는 신수에 관계없이 착용할 수 있다.</h4>
-            <h4 className={classes.text}>▶ 손, 보주 아이템은 신수계 대장장이에게 파괴할 수 있다.</h4>
+            <h4 className={classes.text}>▶ 손/보주 아이템은 신수계 대장장이가 삭제해준다.</h4>
             <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 강화시 손상된다.</h4>
             <h4 className={classes.text}>▶ 무기/투구/갑옷은 7성 이상부터 교환시 전속된다.</h4>
           </Grid>
         </Grid>
 
         <Grid item container direction='row' alignItems='center' justify='center' className={classes.tableContainer}>
-          <Grid>
-            <Table className={classes.table} style={{ width: "400px" }}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>재료</TableCell>
-                  <TableCell>2성</TableCell>
-                  <TableCell>3성</TableCell>
-                  <TableCell>4성</TableCell>
-                  <TableCell>5성</TableCell>
-                  <TableCell>6성</TableCell>
-                  <TableCell>7성</TableCell>
-                  <TableCell>8성</TableCell>
-                  <TableCell>9성</TableCell>
+          <Table className={classes.table} style={{ width: "350px" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>재료</TableCell>
+                <TableCell>2성</TableCell>
+                <TableCell>3성</TableCell>
+                <TableCell>4성</TableCell>
+                <TableCell>5성</TableCell>
+                <TableCell>6성</TableCell>
+                <TableCell>7성</TableCell>
+                <TableCell>8성</TableCell>
+                <TableCell>9성</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {datas4.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row[0]}</TableCell>
+                  <TableCell>{row[1]}</TableCell>
+                  <TableCell>{row[2]}</TableCell>
+                  <TableCell>{row[3]}</TableCell>
+                  <TableCell>{row[4]}</TableCell>
+                  <TableCell>{row[5]}</TableCell>
+                  <TableCell>{row[6]}</TableCell>
+                  <TableCell>{row[7]}</TableCell>
+                  <TableCell>{row[8]}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {datas4.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{row[0]}</TableCell>
-                    <TableCell>{row[1]}</TableCell>
-                    <TableCell>{row[2]}</TableCell>
-                    <TableCell>{row[3]}</TableCell>
-                    <TableCell>{row[4]}</TableCell>
-                    <TableCell>{row[5]}</TableCell>
-                    <TableCell>{row[6]}</TableCell>
-                    <TableCell>{row[7]}</TableCell>
-                    <TableCell>{row[8]}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Grid>
+              ))}
+            </TableBody>
+          </Table>
           <Grid item className={classes.textContainer}>
             <h4 className={classes.text}>▶ 10성은 없지만 9성(손상)은 데이터로 존재한다.</h4>
             <h4 className={classes.text}>▶ 손상 되어도 지를 수 있으나 재료가 2배 필요하다.</h4>
