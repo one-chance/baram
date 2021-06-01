@@ -19,7 +19,7 @@ import { getPost } from "utils/PostUtil";
 const useStyles = makeStyles(theme => ({
   root: {
     margin: "10px auto",
-    width: "960px",
+    maxWidth: "960px",
   },
   postBox: {
     border: "1px solid lightgray",
