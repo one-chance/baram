@@ -75,6 +75,8 @@ function PostTitle(props: IProps) {
   const copyUrl = document.location.href;
   const signInUserId = getNowUserInfo().id;
   const categoryName = getCategoryName(post.category);
+  const dateW = CommonUtil.getStringByDate(post.writer.createDate, true);
+  const dateE = CommonUtil.getStringByDate(post.writer.lastEditDate, true);
 
   const [count, setCount] = useState(0);
   const [commentList, setCommentList] = useRecoilState(CommentListState);
@@ -162,8 +164,8 @@ function PostTitle(props: IProps) {
   return (
     <>
       <Grid container>
-        <Grid container direction='row' style={{ margin: "7.5px 0" }}>
-          <Grid item xs={8}>
+        <Grid container direction='row' style={{ margin: "7.5px 0", padding: "0 10px" }}>
+          <Grid item xs={7}>
             <Typography variant='h6' className={classes.title} style={{ lineHeight: "35px", color: "blue", margin: "0 10px", float: "left" }}>
               [{categoryName}]
             </Typography>
@@ -171,7 +173,7 @@ function PostTitle(props: IProps) {
               {post.title}
             </Typography>
           </Grid>
-          <Grid item container justify='space-around' xs={4}>
+          <Grid item container justify='space-around' xs={5}>
             <div>
               <CreateIcon fontSize='small' className={classes.infoIcon} />
               <Typography variant='h6' className={classes.infoText} style={{ fontWeight: "bold" }}>
@@ -194,10 +196,15 @@ function PostTitle(props: IProps) {
         </Grid>
         <MyGridDivider />
 
-        <Grid container alignItems='center' justify='space-between' style={{ color: "darkgray", padding: "0 10px", margin: "5px 0" }}>
-          <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl}>
-            URL 복사
-          </Button>
+        <Grid container alignItems='center' justify='space-between' style={{ padding: "0 10px", margin: "5px 0" }}>
+          <div>
+            <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl} style={{ float: "left" }}>
+              URL 복사
+            </Button>
+            <Typography variant='h6' style={{ lineHeight: "25px", margin: "5px", fontSize: "0.8rem", float: "left" }}>
+              {dateW !== dateE ? `작성일 : ${dateW} (편집됨)` : `작성일 : ${dateW}`}
+            </Typography>
+          </div>
           <div>
             <Button onClick={_onEdit} style={{ minWidth: "50px", lineHeight: "25px", padding: "0" }}>
               수정
@@ -206,10 +213,6 @@ function PostTitle(props: IProps) {
               삭제
             </Button>
           </div>
-          {/*           <Typography variant='h6' style={{ margin: "2px 0", fontSize: "0.8rem" }}>
-            {post.writer.createDate && `작성일 : ${CommonUtil.getStringByDate(post.writer.createDate, true)}`}
-            {post.writer.lastEditDate && ` / 수정일 : ${CommonUtil.getStringByDate(post.writer.lastEditDate, true)}`}
-          </Typography> */}
         </Grid>
       </Grid>
 

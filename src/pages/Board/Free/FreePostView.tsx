@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useRecoilState } from "recoil";
 import { CommentListState } from "state/index";
-import { makeStyles } from "@material-ui/core/styles";
+
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 
@@ -23,15 +25,12 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid lightgray",
     padding: "0 2.5px",
   },
-  editBox: {
-    padding: "0 10px",
-  },
 }));
-
-const category = "free";
 
 function FreePostView({ match }: any) {
   const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const { seq } = match.params;
   const [commentList, setCommentList] = useRecoilState(CommentListState);
   const [post, setPost] = useState<IPost>();
@@ -47,10 +46,8 @@ function FreePostView({ match }: any) {
   }, [post]);
 
   const _onLoad = async () => {
-    const res = await getPost(category, seq);
-    if (res) {
-      setPost(res);
-    }
+    const res = await getPost("free", seq);
+    if (res) setPost(res);
   };
 
   return (
@@ -58,7 +55,7 @@ function FreePostView({ match }: any) {
       <Grid container justify='center' className={classes.root}>
         {post ? (
           <Grid container direction='column' className={classes.postBox}>
-            <PostTitle post={post} />
+            {smallScreen ? <PostTitleM post={post} /> : <PostTitle post={post} />}
             <PostContent post={post} />
             <PostComment post={post} />
             <PostCommentList post={post} commentList={commentList} />

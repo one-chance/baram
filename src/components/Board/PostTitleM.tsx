@@ -26,6 +26,8 @@ interface IProps {
 
 const useStyles = makeStyles(theme => ({
   title: {
+    fontSize: "1rem",
+    fontWeight: "bold",
     padding: "0",
     lineHeight: "30px",
   },
@@ -39,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   infoIcon: {
     width: "15px",
     height: "15px",
-    margin: "2.5px",
+    margin: "2.5px 5px 2.5px 0",
     float: "left",
   },
   btn: {
@@ -75,6 +77,8 @@ function PostTitleM(props: IProps) {
   const copyUrl = document.location.href;
   const signInUserId = getNowUserInfo().id;
   const categoryName = getCategoryName(post.category);
+  const dateW = CommonUtil.getStringByDate(post.writer.createDate, true);
+  const dateE = CommonUtil.getStringByDate(post.writer.lastEditDate, true);
 
   const [count, setCount] = useState(0);
   const [commentList, setCommentList] = useRecoilState(CommentListState);
@@ -164,23 +168,27 @@ function PostTitleM(props: IProps) {
       <Grid container>
         <Grid container direction='row' style={{ margin: "5px 0" }}>
           <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
-            <Typography variant='h6' className={classes.title}>
+            <Typography className={classes.title}>
               [{categoryName ? categoryName.split(" ")[0] : ""}] {post.title}
             </Typography>
           </Grid>
           <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
             <CreateIcon className={classes.infoIcon} />
             <Typography className={classes.infoText}>{CommonUtil.getTitleAccountString(post.writer.titleAccount)}</Typography>
-            <Typography className={classes.infoText} style={{ margin: "0 10px" }}>
+            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
               |
             </Typography>
             <VisibilityIcon className={classes.infoIcon} />
             <Typography className={classes.infoText}>{post.viewCount}</Typography>
-            <Typography className={classes.infoText} style={{ margin: "0 10px" }}>
+            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
               |
             </Typography>
             <MessageIcon className={classes.infoIcon} />
             <Typography className={classes.infoText}>{count}</Typography>
+            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
+              |
+            </Typography>
+            <Typography className={classes.infoText}>{dateW !== dateE ? `${dateW} (E)` : `${dateW}`}</Typography>
           </Grid>
         </Grid>
         <MyGridDivider />
