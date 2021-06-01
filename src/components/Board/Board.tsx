@@ -146,6 +146,7 @@ function CustomPagination() {
         else setSearchQuery(searchQuery + `&` + filterValue.query[idx]);
       }
     }
+    // eslint-disable-next-line
   }, [filterValue]);
 
   const _onChangePage = (event: React.ChangeEvent<unknown>, value: number) => {

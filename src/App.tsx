@@ -89,6 +89,7 @@ const useStyles = makeStyles(theme => ({
     zIndex: 1,
     marginTop: "60px",
     padding: "5px 2.5px",
+    overflowX: "hidden",
   },
   footer: {
     width: "100%",
