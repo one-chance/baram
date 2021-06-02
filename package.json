@@ -2,7 +2,7 @@
   "name": "dotols",
   "version": "1.2.3",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://3.36.177.106:3001",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.25",
