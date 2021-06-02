@@ -142,7 +142,7 @@ export default function Header() {
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
           <div style={{ width: "160px" }}>
-            <Button href='/' style={{ minWidth: "40px", padding: "2px" }}>
+            <Button href='/' style={{ minWidth: "40px", padding: "2px" }} aria-label='Home=Button'>
               <HomeIcon style={{ width: "36px", height: "36px" }} />
             </Button>
           </div>

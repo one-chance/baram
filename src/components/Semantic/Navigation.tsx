@@ -223,7 +223,7 @@ export default function Header() {
             </Drawer>
           </div>
           <img src='/assets/img/title.png' alt='title' width='58' height='22' />
-          <Button href='/' style={{ padding: "0", textTransform: "none" }}>
+          <Button href='/' style={{ padding: "0", textTransform: "none" }} aria-label='Home-Button'>
             <HomeIcon />
           </Button>
         </Grid>

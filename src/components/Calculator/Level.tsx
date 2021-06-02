@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -21,23 +20,17 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "40px",
       lineHeight: "40px",
       margin: "5px 0",
-      color: "black",
       fontSize: "1rem",
       fontWeight: "bold",
       textAlign: "center",
       float: "left",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
     },
-
     btn: {
       minWidth: "40px",
       height: "40px",
       margin: "5px",
       padding: "0",
     },
-
     dlgText: {
       height: "30px",
       fontFamily: "Jua",
@@ -104,8 +97,8 @@ export default function Level() {
           style={{ width: "150px", margin: "2.5px 0" }}
         />
       </Grid>
-      <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.powerText}>레벨 전투력 : {levelPower === levelPower2 ? levelPower : `${levelPower} (${levelPower2})`}</Link>
+      <Grid container>
+        <Typography className={classes.powerText}>레벨 전투력 : {levelPower === levelPower2 ? levelPower : `${levelPower} (${levelPower2})`}</Typography>
         <Button variant='contained' className={classes.btn} color='secondary' onClick={switchDlg}>
           ?
         </Button>

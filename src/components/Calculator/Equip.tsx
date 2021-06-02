@@ -4,7 +4,6 @@ import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Chip from "@material-ui/core/Chip";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -20,20 +19,16 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { SearchItem } from "../../utils/CalUtil";
 import IItemInfo from "interfaces/Calculator/IItemInfo";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   powerText: {
     width: "240px",
     height: "40px",
     lineHeight: "40px",
     margin: "5px 0",
-    color: "black",
     fontSize: "1rem",
     fontWeight: "bold",
     textAlign: "center",
     float: "left",
-    "&:focus, &:hover, &:visited, &:link, &:active": {
-      textDecoration: "none",
-    },
   },
   dlgButton: {
     minWidth: "60px",
@@ -74,19 +69,14 @@ const useStyles = makeStyles(theme => ({
   },
   linkText: {
     lineHeight: "40px",
-    color: "black",
     margin: "0",
     float: "left",
-    "&:focus, &:hover, &:visited, &:link, &:active": {
-      textDecoration: "none",
-    },
   },
-
   dlgText: {
     fontFamily: "Jua",
     marginBottom: "10px",
   },
-}));
+});
 
 const Menus = withStyles({
   root: {
@@ -300,8 +290,8 @@ export default function Equip() {
         );
       })}
 
-      <Grid item style={{ width: "100%", padding: "0", margin: "0" }}>
-        <Link className={classes.powerText}>장비 전투력 : {itemPower}</Link>
+      <Grid container>
+        <Typography className={classes.powerText}>장비 전투력 : {itemPower}</Typography>
         <Button
           variant='contained'
           color='secondary'
@@ -464,9 +454,9 @@ export default function Equip() {
             </Grid>
             <Grid item container justify='space-between' style={{ maxWidth: "400px", margin: "5px 0", padding: "0" }}>
               <div>
-                <Link className={classes.linkText} style={{ margin: "0 2.5px" }}>
+                <Typography className={classes.linkText} style={{ margin: "0 2.5px" }}>
                   강화
-                </Link>
+                </Typography>
                 <Checkbox
                   color='primary'
                   disabled={!check1.includes(equipSlotList[dlgItem.parts - 1].num) || itemList.length === 0}
@@ -480,9 +470,9 @@ export default function Equip() {
                   }}
                   style={{ width: "20px", height: "40px", float: "left" }}
                 />
-                <Link className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
+                <Typography className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
                   +1
-                </Link>
+                </Typography>
                 <Checkbox
                   color='primary'
                   disabled={!check2.includes(equipSlotList[dlgItem.parts - 1].num) || itemList.length === 0}
@@ -496,12 +486,12 @@ export default function Equip() {
                   }}
                   style={{ width: "20px", height: "40px", float: "left" }}
                 />
-                <Link className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
+                <Typography className={classes.linkText} style={{ width: "25px", textAlign: "center" }}>
                   +2
-                </Link>
-                <Link className={classes.linkText} style={{ width: "100px", marginLeft: "20px", fontWeight: "bold", fontSize: "1rem" }}>
+                </Typography>
+                <Typography className={classes.linkText} style={{ width: "100px", marginLeft: "20px", fontWeight: "bold", fontSize: "1rem" }}>
                   전투력 : {itemList.length === 0 ? 0 : tempPower + reinforce}
-                </Link>
+                </Typography>
               </div>
               <div>
                 <Button
