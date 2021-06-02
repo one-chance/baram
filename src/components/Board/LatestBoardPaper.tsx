@@ -51,7 +51,7 @@ const LatestBoardPaper = (props: IProps) => {
     <Grid container direction='column' className={classes.paper}>
       <Grid container justify='space-between' style={{ height: "25px", fontSize: "1rem", fontWeight: "bold", padding: "0 5px", marginTop: "8px" }}>
         {PostUtil.getCategoryName(category)}
-        <Button href={`/board/${category}`} style={{ minWidth: "22px", height: "22px", padding: "0", float: "right" }}>
+        <Button href={`/board/${category}`} style={{ minWidth: "22px", height: "22px", padding: "0", float: "right" }} aria-label='Board-Button'>
           <AddIcon style={{ width: "20px", height: "20px" }} />
         </Button>
       </Grid>
@@ -61,7 +61,9 @@ const LatestBoardPaper = (props: IProps) => {
           posts.length > 0 ? (
             posts.map((post: IPost) => (
               <div key={post.seq} className={classes.linkItem}>
-                <Link href={`/board/${category}/${post.seq}`}>{post.title} </Link>
+                <Link href={`/board/${category}/${post.seq}`} aria-label={`post-${post.seq}`}>
+                  {post.title}{" "}
+                </Link>
                 <span>{getMMDDByDate(post.writer.createDate)}</span>
               </div>
             ))

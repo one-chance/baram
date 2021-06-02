@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -14,76 +13,66 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    box: {
-      width: "40px",
-      margin: "5px",
-      float: "left",
-      "& input": {
-        height: "40px",
-        padding: "0",
-        textAlign: "center",
-      },
-      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-        display: "none",
-      },
-    },
-    select2: {
-      width: "80px",
+const useStyles = makeStyles({
+  box: {
+    width: "40px",
+    margin: "5px",
+    float: "left",
+    "& input": {
       height: "40px",
-      padding: "1px",
-      margin: "5px 2.5px",
-      color: "blue",
-      textAlignLast: "center",
-      float: "left",
-      "& .MuiSelect-selectMenu": {
-        padding: "2px 20px 2px 5px",
-        lineHeight: "30px",
-        fontSize: "0.9rem",
-        textAlign: "center",
-        color: "blue",
-      },
-    },
-    petText: {
-      width: "50px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      float: "left",
-      textAlign: "center",
-      color: "black",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
-    },
-    powerText: {
-      width: "240px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      color: "black",
-      fontSize: "1rem",
-      fontWeight: "bold",
-      textAlign: "center",
-      float: "left",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
-    },
-    btn: {
-      height: "40px",
-      margin: "5px",
       padding: "0",
-      float: "left",
+      textAlign: "center",
     },
-    dlgText: {
-      height: "30px",
-      fontFamily: "Jua",
-      marginBottom: "10px",
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
     },
-  })
-);
+  },
+  select2: {
+    width: "80px",
+    height: "40px",
+    padding: "1px",
+    margin: "5px 2.5px",
+    color: "blue",
+    textAlignLast: "center",
+    float: "left",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
+      fontSize: "0.9rem",
+      textAlign: "center",
+      color: "blue",
+    },
+  },
+  petText: {
+    width: "50px",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    float: "left",
+    textAlign: "center",
+  },
+  powerText: {
+    width: "240px",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    float: "left",
+  },
+  btn: {
+    height: "40px",
+    margin: "5px",
+    padding: "0",
+    float: "left",
+  },
+  dlgText: {
+    height: "30px",
+    fontFamily: "Jua",
+    marginBottom: "10px",
+  },
+});
 
 const Menus = withStyles({
   root: {
@@ -125,40 +114,44 @@ export default function Animal() {
   return (
     <React.Fragment>
       <Grid item container justify='center' style={{ padding: "0", margin: "0" }}>
-        <TextField
-          variant='outlined'
-          className={classes.box}
-          value={animalInfo.grade || ""}
-          onChange={e => {
-            if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 6) {
-              setAnimalInfo({ ...animalInfo, grade: Number(e.target.value) });
-            } else {
-              setAnimalInfo({ ...animalInfo, grade: 0 });
-            }
-          }}
-        />
-        <Link className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
+        <label>
+          <TextField
+            variant='outlined'
+            className={classes.box}
+            value={animalInfo.grade || ""}
+            onChange={e => {
+              if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 6) {
+                setAnimalInfo({ ...animalInfo, grade: Number(e.target.value) });
+              } else {
+                setAnimalInfo({ ...animalInfo, grade: 0 });
+              }
+            }}
+          />
+        </label>
+        <Typography className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
           등급
-        </Link>
-        <TextField
-          variant='outlined'
-          type='number'
-          className={classes.box}
-          value={animalInfo.level || ""}
-          onChange={e => {
-            if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 100) {
-              setAnimalInfo({ ...animalInfo, level: parseInt(e.target.value) });
-            } else {
-              setAnimalInfo({ ...animalInfo, level: 0 });
-            }
-          }}
-        />
-        <Link className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
+        </Typography>
+        <label>
+          <TextField
+            variant='outlined'
+            type='number'
+            className={classes.box}
+            value={animalInfo.level || ""}
+            onChange={e => {
+              if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 100) {
+                setAnimalInfo({ ...animalInfo, level: parseInt(e.target.value) });
+              } else {
+                setAnimalInfo({ ...animalInfo, level: 0 });
+              }
+            }}
+          />
+        </label>
+        <Typography className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
           레벨
-        </Link>
+        </Typography>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>무 기</Link>
+        <Typography className={classes.petText}>무 기</Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -172,9 +165,9 @@ export default function Animal() {
           <Menus value={8}>8성</Menus>
           <Menus value={9}>9성</Menus>
         </Select>
-        <Link className={classes.petText} style={{ marginLeft: "20px" }}>
+        <Typography className={classes.petText} style={{ marginLeft: "20px" }}>
           손
-        </Link>
+        </Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -189,7 +182,7 @@ export default function Animal() {
         </Select>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>투구</Link>
+        <Typography className={classes.petText}>투구</Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -203,9 +196,9 @@ export default function Animal() {
           <Menus value={8}>8성</Menus>
           <Menus value={9}>9성</Menus>
         </Select>
-        <Link className={classes.petText} style={{ marginLeft: "20px" }}>
+        <Typography className={classes.petText} style={{ marginLeft: "20px" }}>
           손
-        </Link>
+        </Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -220,7 +213,7 @@ export default function Animal() {
         </Select>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>갑옷</Link>
+        <Typography className={classes.petText}>갑옷</Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -234,9 +227,9 @@ export default function Animal() {
           <Menus value={8}>8성</Menus>
           <Menus value={9}>9성</Menus>
         </Select>
-        <Link className={classes.petText} style={{ marginLeft: "20px" }}>
+        <Typography className={classes.petText} style={{ marginLeft: "20px" }}>
           보주
-        </Link>
+        </Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -250,7 +243,7 @@ export default function Animal() {
         </Select>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.powerText}>신수 전투력 : {animalPower}</Link>
+        <Typography className={classes.powerText}>신수 전투력 : {animalPower}</Typography>
         <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px", margin: "5px 0" }} onClick={switchDlg}>
           ?
         </Button>

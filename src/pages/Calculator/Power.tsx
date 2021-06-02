@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import LevelState from "state/Calculator/LevelState";
-import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 
 import Level from "components/Calculator/Level";
@@ -20,56 +20,51 @@ import Pet from "components/Calculator/Pet";
 
 import { getItemData } from "utils/CalUtil";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    powers: {
-      width: "60px",
-      margin: "0",
-      "& input": { height: "40px", padding: "0", textAlign: "center" },
-      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-        display: "none",
-      },
+const useStyles = makeStyles({
+  powers: {
+    width: "60px",
+    margin: "0",
+    "& input": { height: "40px", padding: "0", textAlign: "center" },
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
     },
-    plus: {
-      minWidth: "10px",
-      lineHeight: "40px",
-      margin: "0 2px",
-      color: "black",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
-    },
-    btn: {
-      minWidth: "50px",
-      height: "40px",
-      marginLeft: "-5px",
-      padding: "0",
-      borderTopLeftRadius: "0",
-      borderBottomLeftRadius: "0",
-    },
-    boxSmall: {
-      marginBottom: "10px",
-      padding: "9px",
-      border: "1px solid gray",
-      borderRadius: "10px",
-    },
-    select: {
-      width: "80px",
-      height: "40px",
-      padding: "0",
-      margin: "0",
+  },
+  plus: {
+    minWidth: "10px",
+    lineHeight: "40px",
+    textAlign: "center",
+    margin: "0 2px",
+  },
+  btn: {
+    minWidth: "50px",
+    height: "40px",
+    marginLeft: "-5px",
+    padding: "0",
+    borderTopLeftRadius: "0",
+    borderBottomLeftRadius: "0",
+  },
+  boxSmall: {
+    marginBottom: "10px",
+    padding: "9px",
+    border: "1px solid gray",
+    borderRadius: "10px",
+  },
+  select: {
+    width: "80px",
+    height: "40px",
+    padding: "0",
+    margin: "0",
+    color: "blue",
+    textAlignLast: "center",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
+      fontSize: "0.9rem",
+      textAlign: "center",
       color: "blue",
-      textAlignLast: "center",
-      "& .MuiSelect-selectMenu": {
-        padding: "2px 20px 2px 5px",
-        lineHeight: "30px",
-        fontSize: "0.9rem",
-        textAlign: "center",
-        color: "blue",
-      },
     },
-  })
-);
+  },
+});
 
 const Menus = withStyles({
   root: {
@@ -80,7 +75,6 @@ const Menus = withStyles({
 
 export default function Power() {
   const classes = useStyles();
-
   let [auto, setAuto] = useState<string>("");
   const [plus, setPlus] = useState({ p1: 0, p2: 0, p3: 0 });
   const [multiple, setMultiple] = useState({ m1: 0, m2: 0 });
@@ -110,7 +104,7 @@ export default function Power() {
 
   return (
     <React.Fragment>
-      <Grid container direction='row' alignItems='center' justify='space-around' style={{ maxWidth: "100%", margin: "0", padding: "0" }}>
+      <Grid container direction='row' alignItems='center' justify='space-around' style={{ margin: "0", padding: "0" }}>
         {/* LEFT COLUMN */}
         <Grid item container direction='column' style={{ width: "320px", padding: "0", margin: "0 5px" }}>
           <Grid item container justify='center' style={{ padding: "0", margin: "15px 0" }}>
@@ -154,7 +148,7 @@ export default function Power() {
                 }
               }}
             />
-            <Link className={classes.plus}>+</Link>
+            <Typography className={classes.plus}>+</Typography>
             <TextField
               className={classes.powers}
               variant='outlined'
@@ -169,7 +163,7 @@ export default function Power() {
                 }
               }}
             />
-            <Link className={classes.plus}>+</Link>
+            <Typography className={classes.plus}>+</Typography>
             <TextField
               className={classes.powers}
               variant='outlined'
@@ -184,8 +178,18 @@ export default function Power() {
                 }
               }}
             />
-            <Link className={classes.plus}>=</Link>
-            <TextField className={classes.powers} variant='outlined' disabled={true} value={Math.floor(plus.p1 + plus.p2 + plus.p3) || "합계"} />
+            <Typography className={classes.plus}>=</Typography>
+            <Typography
+              style={{
+                width: "60px",
+                height: "40px",
+                lineHeight: "40px",
+                border: "1px solid silver",
+                borderRadius: "5px",
+                textAlign: "center",
+              }}>
+              {Math.floor(plus.p1 + plus.p2 + plus.p3) || "합계"}
+            </Typography>
           </Grid>
 
           <Grid item className={classes.boxSmall}>
@@ -218,7 +222,7 @@ export default function Power() {
                 }
               }}
             />
-            <Link className={classes.plus}>x</Link>
+            <Typography className={classes.plus}>x</Typography>
             <Select
               variant='outlined'
               value={multiple.m2}
@@ -231,8 +235,18 @@ export default function Power() {
               <Menus value={1.05}>1품의</Menus>
               <Menus value={1.075}>명품의</Menus>
             </Select>
-            <Link className={classes.plus}>=</Link>
-            <TextField className={classes.powers} variant='outlined' disabled={true} value={Math.floor(multiple.m1 * multiple.m2) || "결과"} />
+            <Typography className={classes.plus}>=</Typography>
+            <Typography
+              style={{
+                width: "60px",
+                height: "40px",
+                lineHeight: "40px",
+                border: "1px solid silver",
+                borderRadius: "5px",
+                textAlign: "center",
+              }}>
+              {Math.floor(multiple.m1 * multiple.m2) || "결과"}
+            </Typography>
           </Grid>
 
           <Grid item className={classes.boxSmall}>

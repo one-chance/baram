@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -51,14 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "40px",
       lineHeight: "40px",
       margin: "5px 0",
-      color: "black",
       fontSize: "1rem",
       fontWeight: "bold",
       textAlign: "center",
       float: "left",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
     },
     btn: {
       height: "40px",
@@ -181,7 +176,7 @@ export default function Engrave() {
       })}
 
       <Grid item style={{ width: "100%", padding: "0", float: "left" }}>
-        <Link className={classes.powerText}>각인 전투력 : {engraveSlotList[0].power + engraveSlotList[1].power}</Link>
+        <Typography className={classes.powerText}>각인 전투력 : {engraveSlotList[0].power + engraveSlotList[1].power}</Typography>
         <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={switchDlg}>
           ?
         </Button>

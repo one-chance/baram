@@ -18,6 +18,8 @@ import { getPost } from "utils/PostUtil";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    overflow: "hidden",
+    position: "relative",
     margin: "10px auto",
     maxWidth: "960px",
   },
@@ -30,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 function FreePostView({ match }: any) {
   const classes = useStyles();
   const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down(370));
   const { seq } = match.params;
   const [commentList, setCommentList] = useRecoilState(CommentListState);
   const [post, setPost] = useState<IPost>();

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -14,69 +13,59 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    select: {
-      width: "200px",
-      height: "50px",
-      padding: "1px",
-      margin: "5px",
+const useStyles = makeStyles({
+  select: {
+    width: "200px",
+    height: "50px",
+    padding: "1px",
+    margin: "5px",
+    color: "blue",
+    textAlignLast: "center",
+    float: "left",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
+      textAlign: "center",
       color: "blue",
-      textAlignLast: "center",
-      float: "left",
-      "& .MuiSelect-selectMenu": {
-        padding: "2px 20px 2px 5px",
-        lineHeight: "30px",
-        textAlign: "center",
-        color: "blue",
-      },
     },
-
-    selText: {
-      width: "80px",
-      margin: "5px",
-      textAlign: "center",
-      float: "left",
-      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-        display: "none",
-      },
-      "& input": {
-        padding: "0",
-        height: "50px",
-        textAlign: "center",
-        color: "blue",
-      },
+  },
+  selText: {
+    width: "80px",
+    margin: "5px",
+    textAlign: "center",
+    float: "left",
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
     },
-
-    powerText: {
-      width: "80%",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      color: "black",
-      fontSize: "1rem",
-      fontWeight: "bold",
-      textAlign: "center",
-      float: "left",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
-    },
-
-    btn: {
-      height: "40px",
-      margin: "5px",
+    "& input": {
       padding: "0",
-      float: "left",
+      height: "50px",
+      textAlign: "center",
+      color: "blue",
     },
-
-    dlgText: {
-      height: "30px",
-      fontFamily: "Jua",
-      marginBottom: "10px",
-    },
-  })
-);
+  },
+  powerText: {
+    width: "80%",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    float: "left",
+  },
+  btn: {
+    height: "40px",
+    margin: "5px",
+    padding: "0",
+    float: "left",
+  },
+  dlgText: {
+    height: "30px",
+    fontFamily: "Jua",
+    marginBottom: "10px",
+  },
+});
 
 const Menus = withStyles({
   root: {
@@ -323,7 +312,7 @@ export default function Skill() {
         />
       </Grid>
       <Grid item style={{ width: "100%", padding: "0", float: "left" }}>
-        <Link className={classes.powerText}>기술능력 전투력 : {skillPower}</Link>
+        <Typography className={classes.powerText}>기술능력 전투력 : {skillPower}</Typography>
         <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={switchDlg}>
           ?
         </Button>

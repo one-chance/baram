@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -14,89 +13,79 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    box: {
-      width: "40px",
-      margin: "5px",
-      float: "left",
-      "& input": {
-        height: "40px",
-        padding: "0",
-        textAlign: "center",
-      },
-      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-        display: "none",
-      },
-    },
-    select2: {
-      width: "80px",
+const useStyles = makeStyles({
+  box: {
+    width: "40px",
+    margin: "5px",
+    float: "left",
+    "& input": {
       height: "40px",
-      padding: "1px",
-      margin: "5px 2.5px",
-      color: "blue",
-      textAlignLast: "center",
-      float: "left",
-      "& .MuiSelect-selectMenu": {
-        padding: "2px 20px 2px 5px",
-        lineHeight: "30px",
-        fontSize: "0.9rem",
-        textAlign: "center",
-        color: "blue",
-      },
-    },
-    petText: {
-      width: "50px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      float: "left",
-      textAlign: "center",
-      color: "black",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
-    },
-    petInput: {
-      width: "80px",
-      float: "left",
-      margin: "5px 25px 5px 0",
-      "& input": {
-        height: "40px",
-        padding: "0",
-        textAlign: "center",
-      },
-      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-        display: "none",
-      },
-    },
-    powerText: {
-      width: "240px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      color: "black",
-      fontSize: "1rem",
-      fontWeight: "bold",
-      textAlign: "center",
-      float: "left",
-      "&:focus, &:hover, &:visited, &:link, &:active": {
-        textDecoration: "none",
-      },
-    },
-    btn: {
-      height: "40px",
-      margin: "5px",
       padding: "0",
-      float: "left",
+      textAlign: "center",
     },
-    dlgText: {
-      height: "30px",
-      fontFamily: "Jua",
-      marginBottom: "10px",
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
     },
-  })
-);
+  },
+  select2: {
+    width: "80px",
+    height: "40px",
+    padding: "1px",
+    margin: "5px 2.5px",
+    color: "blue",
+    textAlignLast: "center",
+    float: "left",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
+      fontSize: "0.9rem",
+      textAlign: "center",
+      color: "blue",
+    },
+  },
+  petText: {
+    width: "50px",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    float: "left",
+    textAlign: "center",
+  },
+  petInput: {
+    width: "80px",
+    float: "left",
+    margin: "5px 25px 5px 0",
+    "& input": {
+      height: "40px",
+      padding: "0",
+      textAlign: "center",
+    },
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
+    },
+  },
+  powerText: {
+    width: "240px",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    float: "left",
+  },
+  btn: {
+    height: "40px",
+    margin: "5px",
+    padding: "0",
+    float: "left",
+  },
+  dlgText: {
+    height: "30px",
+    fontFamily: "Jua",
+    marginBottom: "10px",
+  },
+});
 
 const Menus = withStyles({
   root: {
@@ -154,41 +143,45 @@ export default function Pet() {
   return (
     <React.Fragment>
       <Grid item container justify='center' style={{ padding: "0", margin: "0" }}>
-        <TextField
-          variant='outlined'
-          type='number'
-          value={petInfo.grade || ""}
-          className={classes.box}
-          onChange={e => {
-            if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 10) {
-              setPetInfo({ ...petInfo, grade: parseInt(e.target.value) });
-            } else {
-              setPetInfo({ ...petInfo, grade: 0 });
-            }
-          }}
-        />
-        <Link className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
+        <label>
+          <TextField
+            variant='outlined'
+            type='number'
+            value={petInfo.grade || ""}
+            className={classes.box}
+            onChange={e => {
+              if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 10) {
+                setPetInfo({ ...petInfo, grade: parseInt(e.target.value) });
+              } else {
+                setPetInfo({ ...petInfo, grade: 0 });
+              }
+            }}
+          />
+        </label>
+        <Typography className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
           등급
-        </Link>
-        <TextField
-          variant='outlined'
-          type='number'
-          className={classes.box}
-          value={petInfo.level || ""}
-          onChange={e => {
-            if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 100) {
-              setPetInfo({ ...petInfo, level: parseInt(e.target.value) });
-            } else {
-              setPetInfo({ ...petInfo, level: 0 });
-            }
-          }}
-        />
-        <Link className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
+        </Typography>
+        <label>
+          <TextField
+            variant='outlined'
+            type='number'
+            className={classes.box}
+            value={petInfo.level || ""}
+            onChange={e => {
+              if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 100) {
+                setPetInfo({ ...petInfo, level: parseInt(e.target.value) });
+              } else {
+                setPetInfo({ ...petInfo, level: 0 });
+              }
+            }}
+          />
+        </label>
+        <Typography className={classes.petText} style={{ width: "40px", textAlign: "left" }}>
           레벨
-        </Link>
+        </Typography>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>무 기</Link>
+        <Typography className={classes.petText}>무 기</Typography>
         <TextField
           variant='outlined'
           type='number'
@@ -203,7 +196,7 @@ export default function Pet() {
             }
           }}
         />
-        <Link className={classes.petText}>목걸이</Link>
+        <Typography className={classes.petText}>목걸이</Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -219,7 +212,7 @@ export default function Pet() {
         </Select>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>투 구</Link>
+        <Typography className={classes.petText}>투 구</Typography>
         <TextField
           variant='outlined'
           type='number'
@@ -234,7 +227,7 @@ export default function Pet() {
             }
           }}
         />
-        <Link className={classes.petText}>문 양</Link>
+        <Typography className={classes.petText}>문 양</Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -248,7 +241,7 @@ export default function Pet() {
         </Select>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>갑 옷</Link>
+        <Typography className={classes.petText}>갑 옷</Typography>
         <TextField
           variant='outlined'
           type='number'
@@ -263,7 +256,7 @@ export default function Pet() {
             }
           }}
         />
-        <Link className={classes.petText}>세트옷</Link>
+        <Typography className={classes.petText}>세트옷</Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -276,7 +269,7 @@ export default function Pet() {
         </Select>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>성 물</Link>
+        <Typography className={classes.petText}>성 물</Typography>
         <TextField
           variant='outlined'
           type='number'
@@ -291,7 +284,7 @@ export default function Pet() {
             }
           }}
         />
-        <Link className={classes.petText}>신 물</Link>
+        <Typography className={classes.petText}>신 물</Typography>
         <Select
           className={classes.select2}
           variant='outlined'
@@ -307,7 +300,7 @@ export default function Pet() {
         </Select>
       </Grid>
       <Grid item style={{ padding: "0", margin: "0" }}>
-        <Link className={classes.petText}>성 물</Link>
+        <Typography className={classes.petText}>성 물</Typography>
         <TextField
           variant='outlined'
           type='number'
@@ -322,12 +315,12 @@ export default function Pet() {
             }
           }}
         />
-        <Link className={classes.petText} style={{ width: "130px", color: "gray", fontSize: "0.8rem" }}>
+        <Typography className={classes.petText} style={{ width: "130px", color: "blue", fontSize: "0.8rem" }}>
           * 신물은 강화 적용됨 *
-        </Link>
+        </Typography>
       </Grid>
       <Grid item style={{ width: "100%", padding: "0", margin: "0" }}>
-        <Link className={classes.powerText}>환수 전투력 : {petPower}</Link>
+        <Typography className={classes.powerText}>환수 전투력 : {petPower}</Typography>
         <Button className={classes.btn} variant='contained' color='secondary' style={{ minWidth: "40px" }} onClick={switchDlg}>
           ?
         </Button>
