@@ -126,7 +126,7 @@ function ViewUserInfo(props: IProps) {
                 value={openKakao}
                 onChange={e => setOpenKakao(e.target.value)}
               />
-              <Button variant='outlined' color='primary' className={classes.btn} onClick={_onSave}>
+              <Button variant='outlined' color='primary' className={classes.btn} onClick={_onSave} aria-label='save'>
                 <DoneIcon />
               </Button>
             </React.Fragment>
@@ -136,6 +136,7 @@ function ViewUserInfo(props: IProps) {
               <Button
                 variant='outlined'
                 color='secondary'
+                aria-label='write'
                 className={classes.btn}
                 onClick={() => {
                   setIsEdit(true);
@@ -159,7 +160,7 @@ function ViewUserInfo(props: IProps) {
           <span style={{ width: "205px", marginLeft: "5px", fontSize: "0.8rem" }}>
             {userInfo.titleAccount ? `${userInfo.titleAccount.character}@${userInfo.titleAccount.server}` : "　"}
           </span>
-          <Button variant='outlined' color='secondary' className={classes.btn} href='/myinfo/auth'>
+          <Button variant='outlined' color='secondary' className={classes.btn} href='/myinfo/auth' aria-label='change'>
             <CreateIcon />
           </Button>
         </Grid>

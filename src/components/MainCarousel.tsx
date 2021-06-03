@@ -132,7 +132,7 @@ export default function MainCarousel() {
     <React.Fragment>
       <Grid container className={classes.gridContainer}>
         <Grid item xs={1} className={classes.btnMove}>
-          <IconButton onClick={() => refCarousel.current?.slickPrev()}>
+          <IconButton onClick={() => refCarousel.current?.slickPrev()} aria-label='left-arrow'>
             <ArrowBackIosIcon />
           </IconButton>
         </Grid>
@@ -142,7 +142,7 @@ export default function MainCarousel() {
           </Carousel>
         </Grid>
         <Grid item xs={1} className={classes.btnMove}>
-          <IconButton onClick={() => refCarousel.current?.slickNext()}>
+          <IconButton onClick={() => refCarousel.current?.slickNext()} aria-label='right-arrow'>
             <ArrowForwardIosIcon />
           </IconButton>
         </Grid>
