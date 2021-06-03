@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   postBox: {
     border: "1px solid lightgray",
-    padding: "0 2.5px",
+    padding: "0 5px",
   },
 }));
 
