@@ -161,25 +161,25 @@ const Home = () => {
       </Grid>
       <Grid item container justify='space-around' style={{ width: "320px", height: "168px", padding: "0" }}>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg}>
+          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg} aria-label='Notice'>
             <PriorityHighIcon />
           </Button>
           <h5 className={classes.boardItemText}>공 지</h5>
         </Grid>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' className={classes.boardItemButton}>
+          <Button variant='outlined' className={classes.boardItemButton} aria-label='Ask'>
             <MailOutlineIcon />
           </Button>
           <h5 className={classes.boardItemText}>문 의</h5>
         </Grid>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg2}>
+          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg2} aria-label='FAQ'>
             <QuestionAnswerIcon />
           </Button>
           <h5 className={classes.boardItemText}>FAQ</h5>
         </Grid>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' href='http://www.baram.nexon.com' target='_blank' className={classes.boardItemButton} aria-label='official-site'>
+          <Button variant='outlined' href='http://www.baram.nexon.com' target='_blank' className={classes.boardItemButton} aria-label='Site'>
             <HomeIcon />
           </Button>
           <h5 className={classes.boardItemText}>공식</h5>

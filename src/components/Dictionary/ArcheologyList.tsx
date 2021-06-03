@@ -88,7 +88,7 @@ function ArcheologyList() {
             setSearch(e.target.value);
           }}
         />
-        <Button variant='contained' color='primary' className={classes.btn} onClick={moveToItem}>
+        <Button variant='contained' color='primary' className={classes.btn} onClick={moveToItem} aria-label='search'>
           <SearchIcon />
         </Button>
       </div>

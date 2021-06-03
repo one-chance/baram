@@ -215,7 +215,7 @@ export default function Header() {
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
           <div>
-            <Button onClick={toggleDrawer("left", true)} style={{ padding: "5px" }}>
+            <Button onClick={toggleDrawer("left", true)} style={{ padding: "5px" }} aria-label='Menu'>
               <MenuIcon />
             </Button>
             <Drawer anchor={"left"} open={state} onClose={toggleDrawer("left", false)}>
@@ -223,7 +223,7 @@ export default function Header() {
             </Drawer>
           </div>
           <img src='/assets/img/title.png' alt='title' width='58' height='22' />
-          <Button href='/' style={{ padding: "0", textTransform: "none" }} aria-label='Home-Button'>
+          <Button href='/' style={{ padding: "0", textTransform: "none" }} aria-label='Home'>
             <HomeIcon />
           </Button>
         </Grid>

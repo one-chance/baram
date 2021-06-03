@@ -63,7 +63,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const duration = 2000;
-const category = "free";
 
 function PostTitle(props: IProps) {
   const classes = useStyles();
@@ -73,6 +72,7 @@ function PostTitle(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const copyUrl = document.location.href;
+  const category = post.category;
   const signInUserId = getNowUserInfo().id;
   const categoryName = getCategoryName(post.category);
   const dateW = CommonUtil.getStringByDate(post.writer.createDate, true);
