@@ -24,7 +24,7 @@ interface IProps {
   post: IPost;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   title: {
     padding: "0",
     lineHeight: "30px",
@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
       fontWeight: "bold",
     },
   },
-}));
+});
 
 const duration = 2000;
 

@@ -19,7 +19,7 @@ import SignInForm from "components/User/SignInForm";
 import AppBar from "@material-ui/core/AppBar";
 import { getNowUserInfo, LogoutUser } from "utils/UserUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     position: "sticky",
     height: "100%",
@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "lightgray",
     },
   },
-}));
+});
 
 type Anchor = "left";
 

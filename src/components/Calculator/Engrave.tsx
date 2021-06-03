@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -13,61 +13,59 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    select: {
-      width: "200px",
-      height: "50px",
-      padding: "1px",
-      margin: "5px",
+const useStyles = makeStyles({
+  select: {
+    width: "200px",
+    height: "50px",
+    padding: "1px",
+    margin: "5px",
+    color: "blue",
+    textAlignLast: "center",
+    float: "left",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
+      textAlign: "center",
       color: "blue",
-      textAlignLast: "center",
-      float: "left",
-      "& .MuiSelect-selectMenu": {
-        padding: "2px 20px 2px 5px",
-        lineHeight: "30px",
-        textAlign: "center",
-        color: "blue",
-      },
     },
-    selText: {
-      width: "80px",
-      margin: "5px",
-      textAlign: "center",
-      float: "left",
-      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-        display: "none",
-      },
-      "& input": {
-        padding: "0",
-        height: "50px",
-        textAlign: "center",
-        color: "blue",
-      },
+  },
+  selText: {
+    width: "80px",
+    margin: "5px",
+    textAlign: "center",
+    float: "left",
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
     },
-    powerText: {
-      width: "240px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      fontSize: "1rem",
-      fontWeight: "bold",
-      textAlign: "center",
-      float: "left",
-    },
-    btn: {
-      height: "40px",
-      margin: "5px",
+    "& input": {
       padding: "0",
-      float: "left",
+      height: "50px",
+      textAlign: "center",
+      color: "blue",
     },
-    dlgText: {
-      height: "30px",
-      fontFamily: "Jua",
-      marginBottom: "10px",
-    },
-  })
-);
+  },
+  powerText: {
+    width: "240px",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    float: "left",
+  },
+  btn: {
+    height: "40px",
+    margin: "5px",
+    padding: "0",
+    float: "left",
+  },
+  dlgText: {
+    height: "30px",
+    fontFamily: "Jua",
+    marginBottom: "10px",
+  },
+});
 
 const Menus = withStyles({
   root: {

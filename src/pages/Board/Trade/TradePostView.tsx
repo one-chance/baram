@@ -15,7 +15,7 @@ import PostCommentList from "components/Board/PostCommentList";
 import IPost from "interfaces/Board/IPost";
 import { getPost } from "utils/PostUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     margin: "10px auto",
     maxWidth: "960px",
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid lightgray",
     padding: "0 5px",
   },
-}));
+});
 
 function TradeBoardView({ match }: any) {
   const classes = useStyles();

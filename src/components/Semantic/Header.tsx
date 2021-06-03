@@ -16,7 +16,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import AppBar from "@material-ui/core/AppBar";
 import { getNowUserInfo, LogoutUser } from "utils/UserUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     position: "sticky",
     height: "100%",
@@ -55,7 +55,6 @@ const useStyles = makeStyles(theme => ({
     padding: "0",
     margin: "0",
     float: "left",
-
     "& div": {
       width: "100%",
       height: "25vh",
@@ -101,7 +100,7 @@ const useStyles = makeStyles(theme => ({
     top: 5,
     right: 10,
   },
-}));
+});
 
 export default function Header() {
   const classes = useStyles();

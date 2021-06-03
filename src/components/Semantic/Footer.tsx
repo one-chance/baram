@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   footerWrapper: {
     width: "70vw",
     padding: "0",
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
       margin: "0 5px",
     },
   },
-}));
+});
 
 export default function Footer() {
   const classes = useStyles();

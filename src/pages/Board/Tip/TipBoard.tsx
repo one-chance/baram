@@ -7,19 +7,18 @@ import { GridPageChangeParams } from "@material-ui/data-grid";
 import Grid from "@material-ui/core/Grid";
 
 import IPost from "interfaces/Board/IPost";
-import { getPosts, getPostCount } from "utils/PostUtil";
-
 import Board from "components/Board/Board";
+import { getPosts, getPostCount } from "utils/PostUtil";
 
 const nowCategory = "tip";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     width: "auto",
     margin: "10px 0",
     padding: "0",
   },
-}));
+});
 
 function TipBoard({ location }: any) {
   const classes = useStyles();

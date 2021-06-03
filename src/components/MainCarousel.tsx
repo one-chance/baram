@@ -11,7 +11,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Carousel from "react-slick";
 import { getBaseUrlForMainCarousel } from "utils/ConfigUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   gridContainer: {
     width: "auto",
     marginBottom: "25px",
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     verticalAlign: "middle",
   },
-}));
+});
 
 export default function MainCarousel() {
   const classes = useStyles();

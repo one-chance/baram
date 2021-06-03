@@ -6,12 +6,12 @@ import IMarketItem from "interfaces/Auction/IMarketItem";
 import MarketDataGrid from "components/Auction/MarketDataGrid";
 import { getMarketItemsDummy } from "utils/AuctionUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     margin: "0 0 15px 0",
     float: "left",
   },
-}));
+});
 
 function MarketBoard() {
   const classes = useStyles();

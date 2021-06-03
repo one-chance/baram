@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useSetRecoilState } from "recoil";
 import { MyBackdropState } from "state/index";
 
@@ -10,19 +10,17 @@ import Divider from "@material-ui/core/Divider";
 
 import { lunaToSolar } from "../../utils/CalUtil";
 
-const useStyles = makeStyles(
-  createStyles({
-    root: {
-      marginTop: "15px",
-    },
-    btn: {
-      minWidth: "30px",
-      padding: "0",
-      fontSize: "1.2rem",
-      margin: "0",
-    },
-  })
-);
+const useStyles = makeStyles({
+  root: {
+    marginTop: "15px",
+  },
+  btn: {
+    minWidth: "30px",
+    padding: "0",
+    fontSize: "1.2rem",
+    margin: "0",
+  },
+});
 
 export default function Tradition() {
   const classes = useStyles();

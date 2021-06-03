@@ -13,7 +13,7 @@ import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
 import { getBaseUrlForItemImg } from "utils/ConfigUtil";
 import IItemInfo from "interfaces/Calculator/IItemInfo";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   itemChip: {
     height: "30px",
     margin: "2.5px",
@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: "none",
     float: "left",
   },
-}));
+});
 
 const Menus = withStyles({
   root: {

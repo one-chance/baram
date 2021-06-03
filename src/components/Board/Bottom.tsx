@@ -19,7 +19,7 @@ interface IProps {
   onRecommendPost?: any;
   onUnrecommendPost?: any;
 }
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   buttonWrapper: {
     width: "100%",
     padding: "0 20px",
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     top: 5,
     right: 10,
   },
-}));
+});
 
 const Bottom = (props: IProps) => {
   const classes = useStyles();
@@ -70,8 +70,7 @@ const Bottom = (props: IProps) => {
         setIsReload(true);
         setRc(rc > -1 ? rc + 1 : 0);
       }
-    }
-    else {
+    } else {
       setIsSignInOpen(true);
     }
   };
@@ -81,11 +80,9 @@ const Bottom = (props: IProps) => {
       if (category === "tip") {
         writeTip();
         return;
-      }
-      else if (1 < Number(signInUser.grade)) {
+      } else if (1 < Number(signInUser.grade)) {
         document.location.href = `/board/write/${category}`;
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
@@ -96,14 +93,13 @@ const Bottom = (props: IProps) => {
     } else {
       setIsSignInOpen(true);
     }
-  }
+  };
 
   const writeTip = () => {
     if (signInUser) {
       if (category === "tip" && 9 === Number(signInUser.grade)) {
         document.location.href = `/board/write/tip`;
-      }
-      else {
+      } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
@@ -114,7 +110,7 @@ const Bottom = (props: IProps) => {
     } else {
       setIsSignInOpen(true);
     }
-  }
+  };
 
   return (
     <>
@@ -150,12 +146,7 @@ const Bottom = (props: IProps) => {
             </Button>
           )
         }
-        <Button
-          variant='contained'
-          color='primary'
-          className={classes.button}
-          onClick={handlePostWrite}
-          style={{ height: "35px" }}>
+        <Button variant='contained' color='primary' className={classes.button} onClick={handlePostWrite} style={{ height: "35px" }}>
           글쓰기
         </Button>
       </Grid>

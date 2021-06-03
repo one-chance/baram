@@ -17,7 +17,7 @@ interface IProps {
   post: IPost;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     margin: "30px 0 5px 0",
     padding: 0,
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     padding: "0",
   },
-}));
+});
 
 const duration = 2000;
 
@@ -50,7 +50,6 @@ function PostComment(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const setCommentList = useSetRecoilState(CommentListState);
-
   const [inputComment, setInputComment] = useState("");
 
   const _onSubmitComment = async () => {

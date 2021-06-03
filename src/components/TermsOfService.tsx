@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   title: {
     width: "100%",
     margin: "20px 0 0 0",
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     margin: "20px 0",
     padding: "10px 50px",
   },
-}));
+});
 
 export default function TermsOfService() {
   const classes = useStyles();
