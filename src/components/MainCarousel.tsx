@@ -88,6 +88,7 @@ export default function MainCarousel() {
   const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
   const images = ["bg1.png", "bg2.png", "bg3.png", "bg4.png", "bg5.png", "bg6.png"];
   const hrefs = ["/dic/item", "/cal/ability", "/dic/adventure", "/dic/archeology", "/cal/exp", "/cal/power"];
+  const hrefs2 = ["/dic/itemM", "/cal/abilityM", "/dic/adventure", "/dic/archeology", "/cal/exp", "/cal/power"];
 
   const cards = () => {
     let temp: JSX.Element[] = [];
@@ -96,12 +97,12 @@ export default function MainCarousel() {
       temp[i] = (
         <React.Fragment key={i}>
           <Card className={classes.cardCarousel}>
-            <a href={`${hrefs[i]}`}>
+            <a href={`${hrefs2[i]}`}>
               <img src={baseUrlForMainCarousel + images[i]} alt={"slide_" + i + "-1"} className='slick-image' />
             </a>
           </Card>
           <Card className={classes.cardCarousel}>
-            <a href={`${hrefs[i + 1]}`}>
+            <a href={`${hrefs2[i + 1]}`}>
               <img src={baseUrlForMainCarousel + images[i + 1]} alt={"slide_" + (i + 1)} className='slick-image' />
             </a>
           </Card>
