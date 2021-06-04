@@ -97,12 +97,12 @@ export default function MainCarousel() {
       temp[i] = (
         <React.Fragment key={i}>
           <Card className={classes.cardCarousel}>
-            <a href={`${hrefs2[i]}`}>
+            <a href={`${hrefs[i]}`}>
               <img src={baseUrlForMainCarousel + images[i]} alt={"slide_" + i + "-1"} className='slick-image' />
             </a>
           </Card>
           <Card className={classes.cardCarousel}>
-            <a href={`${hrefs2[i + 1]}`}>
+            <a href={`${hrefs[i + 1]}`}>
               <img src={baseUrlForMainCarousel + images[i + 1]} alt={"slide_" + (i + 1)} className='slick-image' />
             </a>
           </Card>
@@ -119,7 +119,7 @@ export default function MainCarousel() {
     for (let i = 0; i < 6; i++) {
       temp[i] = (
         <Card className={classes.cardCarousel2} key={i}>
-          <a href={`${hrefs[i]}`}>
+          <a href={`${hrefs2[i]}`}>
             <img src={baseUrlForMainCarousel + images[i]} alt={"slide_" + i} className='slick-image' />
           </a>
         </Card>
