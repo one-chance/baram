@@ -42,10 +42,6 @@ const useStyles = makeStyles({
       padding: "0 10px",
     },
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
 });
 
 const duration = 3000;
