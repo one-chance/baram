@@ -11,7 +11,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Carousel from "react-slick";
 import { getBaseUrlForMainCarousel } from "utils/ConfigUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   gridContainer: {
     width: "auto",
     marginBottom: "25px",
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     verticalAlign: "middle",
   },
-}));
+});
 
 export default function MainCarousel() {
   const classes = useStyles();
@@ -86,13 +86,13 @@ export default function MainCarousel() {
   //creating the ref
   const refCarousel: React.RefObject<Carousel> = React.createRef();
   const baseUrlForMainCarousel = getBaseUrlForMainCarousel();
-  const images = ["bg1.jpg", "bg2.jpg", "bg3.jpg", "bg4.jpg", "bg5.jpg", "bg6.jpg"];
-  const hrefs = ["/dic/item", "/cal/power", "/cal/ability", "/dic/item", "/cal/power", "/cal/ability"];
+  const images = ["bg1.png", "bg2.png", "bg3.png", "bg4.png", "bg5.png", "bg6.png"];
+  const hrefs = ["/dic/item", "/cal/ability", "/dic/adventure", "/dic/archeology", "/cal/exp", "/cal/power"];
 
   const cards = () => {
     let temp: JSX.Element[] = [];
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i += 2) {
       temp[i] = (
         <React.Fragment key={i}>
           <Card className={classes.cardCarousel}>
@@ -101,8 +101,8 @@ export default function MainCarousel() {
             </a>
           </Card>
           <Card className={classes.cardCarousel}>
-            <a href={`${hrefs[i + 3]}`}>
-              <img src={baseUrlForMainCarousel + images[i + 3]} alt={"slide_" + i + "-2"} className='slick-image' />
+            <a href={`${hrefs[i + 1]}`}>
+              <img src={baseUrlForMainCarousel + images[i + 1]} alt={"slide_" + (i + 1)} className='slick-image' />
             </a>
           </Card>
         </React.Fragment>

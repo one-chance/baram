@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import FindId from "components/User/FindId";
 import FindPassword from "components/User/FindPassword";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     width: "auto",
     minHeight: "65vh",
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid lightgray",
     borderRadius: "10px",
   },
-}));
+});
 
 export default function Forget() {
   const classes = useStyles();

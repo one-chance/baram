@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { GridPageChangeParams } from "@material-ui/data-grid";
 import { useSetRecoilState } from "recoil";
 import { FilterState, MyBackdropState } from "state/index";
 import queryString from "query-string";
-import { makeStyles } from "@material-ui/core/styles";
-import { GridPageChangeParams } from "@material-ui/data-grid";
+
 import Grid from "@material-ui/core/Grid";
 
 import IPost from "interfaces/Board/IPost";
@@ -13,13 +14,13 @@ import Board from "components/Board/Board";
 
 const nowCategory = "free";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     width: "auto",
     margin: "10px 0",
     padding: "0",
   },
-}));
+});
 
 function FreeBoard({ location }: any) {
   const classes = useStyles();

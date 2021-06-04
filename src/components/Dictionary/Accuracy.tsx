@@ -8,7 +8,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   selectBox: {
     height: "45px",
     margin: "5px 10px",
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
       color: "blue",
     },
   },
-}));
+});
 
 const Menus = withStyles({
   root: {

@@ -96,11 +96,11 @@ const AccordionSummary = withStyles({
   expanded: {},
 })(MuiAccordionSummary);
 
-const AccordionDetails = withStyles(theme => ({
+const AccordionDetails = withStyles({
   root: {
     padding: "10px 20px",
   },
-}))(MuiAccordionDetails);
+})(MuiAccordionDetails);
 
 const VIEW_COUNT = 5;
 

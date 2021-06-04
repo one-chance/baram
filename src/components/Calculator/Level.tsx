@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { useRecoilState } from "recoil";
 import LevelState from "state/Calculator/LevelState";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -13,31 +13,29 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    powerText: {
-      width: "240px",
-      height: "40px",
-      lineHeight: "40px",
-      margin: "5px 0",
-      fontSize: "1rem",
-      fontWeight: "bold",
-      textAlign: "center",
-      float: "left",
-    },
-    btn: {
-      minWidth: "40px",
-      height: "40px",
-      margin: "5px",
-      padding: "0",
-    },
-    dlgText: {
-      height: "30px",
-      fontFamily: "Jua",
-      marginBottom: "10px",
-    },
-  })
-);
+const useStyles = makeStyles({
+  powerText: {
+    width: "240px",
+    height: "40px",
+    lineHeight: "40px",
+    margin: "5px 0",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "center",
+    float: "left",
+  },
+  btn: {
+    minWidth: "40px",
+    height: "40px",
+    margin: "5px",
+    padding: "0",
+  },
+  dlgText: {
+    height: "30px",
+    fontFamily: "Jua",
+    marginBottom: "10px",
+  },
+});
 
 export default function Level() {
   const classes = useStyles();

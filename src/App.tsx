@@ -56,7 +56,7 @@ import AuctionMarket from "pages/Auction/Market/MarketBoard";
 
 import { refreshToken } from "utils/CommonUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   header: {
     zIndex: 10,
     position: "fixed",
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: "10px",
     padding: "0",
   },
-}));
+});
 
 function App() {
   const classes = useStyles();

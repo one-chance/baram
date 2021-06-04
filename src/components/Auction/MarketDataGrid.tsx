@@ -4,7 +4,7 @@ import { DataGrid, GridRowsProp, GridColDef } from "@material-ui/data-grid";
 
 import IMarketItem from "interfaces/Auction/IMarketItem";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   datagrid: {
     "& .title": {
       paddingLeft: "30px",
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
       margin: "auto",
     },
   },
-}));
+});
 
 interface IProps {
   posts: Array<IMarketItem>;

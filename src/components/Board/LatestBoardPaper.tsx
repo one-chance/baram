@@ -12,7 +12,7 @@ import { CategoryType } from "interfaces/Board/IPost";
 import * as PostUtil from "utils/PostUtil";
 import { getMMDDByDate } from "utils/CommonUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   paper: {
     width: "auto",
     height: "168px",
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
       width: "40px",
     },
   },
-}));
+});
 
 interface IProps {
   category: CategoryType;

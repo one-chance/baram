@@ -16,7 +16,7 @@ interface IProps {
   post: IPost;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   BodyContent: {
     "& img": {
       display: "block",
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
       margin: "10px 0",
     },
   },
-}));
+});
 
 const duration = 2000;
 function PostContent(props: IProps) {

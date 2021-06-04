@@ -19,7 +19,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { getAdventureList } from "utils/DictionaryUtil";
 import { IAdventure, IMonster, IStuff, IMission, IPlace, IRewardImg } from "interfaces/Dictionary/IAdventure";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   btn: {
     minWidth: "60px",
     height: "40px",
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid gray",
     borderRadius: "10px",
   },
-}));
+});
 
 const StyledTableRow = withStyles((theme: Theme) =>
   createStyles({

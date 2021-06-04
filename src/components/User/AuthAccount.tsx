@@ -25,7 +25,7 @@ interface IProps {
   userInfo: IUserInfo;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   text: {
     width: "160px",
     lineHeight: "40px",
@@ -42,11 +42,7 @@ const useStyles = makeStyles(theme => ({
       padding: "0 10px",
     },
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
-}));
+});
 
 const duration = 3000;
 

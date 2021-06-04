@@ -16,7 +16,7 @@ import PostCommentList from "components/Board/PostCommentList";
 import IPost from "interfaces/Board/IPost";
 import { getPost } from "utils/PostUtil";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     overflow: "hidden",
     position: "relative",
@@ -25,9 +25,9 @@ const useStyles = makeStyles(theme => ({
   },
   postBox: {
     border: "1px solid lightgray",
-    padding: "0 2.5px",
+    padding: "0 5px",
   },
-}));
+});
 
 function FreePostView({ match }: any) {
   const classes = useStyles();

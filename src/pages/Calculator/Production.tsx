@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
@@ -9,60 +9,58 @@ import TextField from "@material-ui/core/TextField";
 import Chip from "@material-ui/core/Chip";
 import prodList from "conf/production.json";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    itemChip: {
-      height: "30px",
-      margin: "2.5px",
-      borderRadius: "10px",
-      fontSize: "1rem",
-      float: "left",
-      "& .MuiChip-label": {
-        padding: "0 10px",
-      },
+const useStyles = makeStyles({
+  itemChip: {
+    height: "30px",
+    margin: "2.5px",
+    borderRadius: "10px",
+    fontSize: "1rem",
+    float: "left",
+    "& .MuiChip-label": {
+      padding: "0 10px",
     },
-    select: {
-      width: "90px",
-      height: "50px",
+  },
+  select: {
+    width: "90px",
+    height: "50px",
+    padding: "0",
+    margin: "5px",
+    textAlignLast: "center",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
+      textAlign: "center",
+    },
+  },
+  text: {
+    width: "60px",
+    padding: "0px",
+    margin: "5px",
+    float: "left",
+    "& input": {
       padding: "0",
-      margin: "5px",
-      textAlignLast: "center",
-      "& .MuiSelect-selectMenu": {
-        padding: "2px 20px 2px 5px",
-        lineHeight: "30px",
-        textAlign: "center",
-      },
-    },
-    text: {
-      width: "60px",
-      padding: "0px",
-      margin: "5px",
-      float: "left",
-      "& input": {
-        padding: "0",
-        height: "50px",
-        textAlign: "center",
-      },
-      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-        display: "none",
-      },
-    },
-    btn: {
-      minWidth: "60px",
       height: "50px",
-      margin: "5px",
-      padding: "0",
-      float: "left",
+      textAlign: "center",
     },
-    resultBox: {
-      minHeight: "82px",
-      border: "1px solid lightgray",
-      borderRadius: "5px",
-      margin: "5px",
-      padding: "5px 10px",
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
     },
-  })
-);
+  },
+  btn: {
+    minWidth: "60px",
+    height: "50px",
+    margin: "5px",
+    padding: "0",
+    float: "left",
+  },
+  resultBox: {
+    minHeight: "82px",
+    border: "1px solid lightgray",
+    borderRadius: "5px",
+    margin: "5px",
+    padding: "5px 10px",
+  },
+});
 
 const Menus = withStyles({
   root: {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useSetRecoilState } from "recoil";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSetRecoilState } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 
 import Grid from "@material-ui/core/Grid";
@@ -18,7 +18,7 @@ interface IProps {
   userInfo: IUserInfo;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   text: {
     width: "70px",
     lineHeight: "40px",
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: "0.8rem",
     },
   },
-}));
+});
 
 const duration = 3000;
 

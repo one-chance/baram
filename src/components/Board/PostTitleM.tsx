@@ -24,7 +24,7 @@ interface IProps {
   post: IPost;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   title: {
     fontSize: "1rem",
     fontWeight: "bold",
@@ -62,18 +62,18 @@ const useStyles = makeStyles(theme => ({
       fontWeight: "bold",
     },
   },
-}));
+});
 
 const duration = 2000;
-const category = "free";
 
 function PostTitleM(props: IProps) {
   const classes = useStyles();
+  const setMyAlert = useSetRecoilState(MyAlertState);
+  const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const post: IPost = props.post;
   const seq = post.seq;
   const writer = post.writer.id;
-  const setMyAlert = useSetRecoilState(MyAlertState);
-  const setMyBackdrop = useSetRecoilState(MyBackdropState);
+  const category = post.category;
   const copyUrl = document.location.href;
   const signInUserId = getNowUserInfo().id;
   const categoryName = getCategoryName(post.category);

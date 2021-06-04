@@ -14,7 +14,7 @@ interface IProps {
   id: string;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   text: {
     minWidth: "140px",
     width: "25%",
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
       padding: "0 10px",
     },
   },
-}));
+});
 
 const duration = 3000;
 
