@@ -10,6 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import SearchIcon from "@material-ui/icons/Search";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -372,7 +373,7 @@ export default function Equip() {
                   searchByName(searchName, dlgItem.parts);
                 }}
                 style={{ width: "20%", maxWidth: "60px", float: "left" }}>
-                검색
+                <SearchIcon />
               </Button>
             </Grid>
             <Grid item container justify='center' style={{ maxWidth: "400px", margin: "0", padding: "0" }}>
@@ -428,7 +429,7 @@ export default function Equip() {
                 onClick={() => {
                   searchByList();
                 }}>
-                검색
+                <SearchIcon />
               </Button>
             </Grid>
             <Grid

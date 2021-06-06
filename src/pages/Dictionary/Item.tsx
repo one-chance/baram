@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Chip from "@material-ui/core/Chip";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
 import { getBaseUrlForItemImg } from "utils/ConfigUtil";
@@ -48,7 +49,7 @@ const useStyles = makeStyles({
     },
   },
   btn: {
-    minWidth: "60px",
+    minWidth: "40px",
     height: "40px",
     margin: "5px 2.5px",
     padding: "0",
@@ -188,15 +189,21 @@ export default function Item() {
                 onChange={e => {
                   inputName(e.target.value);
                 }}
+                onKeyPress={e => {
+                  if (e.key === "Enter") {
+                    searchByName(searchName);
+                  }
+                }}
               />
               <Button
                 className={classes.btn}
                 variant='contained'
                 color='primary'
+                style={{ marginLeft: "-5px", borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }}
                 onClick={e => {
                   searchByName(searchName);
                 }}>
-                검색
+                <SearchIcon />
               </Button>
             </div>
             <div>
@@ -254,7 +261,7 @@ export default function Item() {
                 onClick={() => {
                   searchByList();
                 }}>
-                검색
+                <SearchIcon />
               </Button>
             </div>
           </Grid>

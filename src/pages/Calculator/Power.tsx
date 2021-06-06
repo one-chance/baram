@@ -9,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import SearchIcon from "@material-ui/icons/Search";
 
 import Level from "components/Calculator/Level";
 import Equip from "components/Calculator/Equip";
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
     margin: "0 2px",
   },
   btn: {
-    minWidth: "50px",
+    minWidth: "40px",
     height: "40px",
     marginLeft: "-5px",
     padding: "0",
@@ -80,9 +81,16 @@ export default function Power() {
   const [multiple, setMultiple] = useState({ m1: 0, m2: 0 });
   const setLevel = useSetRecoilState(LevelState);
 
+  const inputName = (name: string) => {
+    if (name === "") {
+      setAuto("");
+    } else {
+      setAuto(name);
+    }
+  };
+
   // 계정 정보 찾아와서 자동 입력해주는 함수
   const autoApply = () => {
-    setAuto(auto);
     if (auto.split("@").length === 2) {
       getItemData(auto).then(res => {
         // 레벨 세팅
@@ -111,14 +119,19 @@ export default function Power() {
             <TextField
               variant='outlined'
               placeholder='아이디@서버'
-              onChange={e => {
-                auto = e.target.value;
-              }}
               inputProps={{ style: { height: "40px", padding: "0", textAlign: "center" } }}
-              style={{ width: "175px" }}
+              style={{ width: "185px" }}
+              onChange={e => {
+                inputName(e.target.value);
+              }}
+              onKeyPress={e => {
+                if (e.key === "Enter") {
+                  autoApply();
+                }
+              }}
             />
             <Button variant='contained' color='primary' className={classes.btn} onClick={autoApply}>
-              적용
+              <SearchIcon />
             </Button>
           </Grid>
 

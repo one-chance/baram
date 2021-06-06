@@ -234,10 +234,16 @@ export default function Exp() {
                 onChange={e => {
                   setLevel(parseInt(e.target.value));
                 }}
+                onKeyPress={e => {
+                  if (e.key === "Enter") {
+                    if (level >= 700 && level < 799) fillTable(level);
+                    else setLevel(0);
+                  }
+                }}
               />
               <Button
                 className={classes.btn}
-                variant='outlined'
+                variant='contained'
                 color='primary'
                 onClick={() => {
                   if (level >= 700 && level < 799) fillTable(level);

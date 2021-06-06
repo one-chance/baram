@@ -7,8 +7,6 @@ export type CategoryType =
   | "free"
   | "screenshot"
   | "server"
-  | "offer"
-  | "job"
   | "trade";
 
 interface IPost {

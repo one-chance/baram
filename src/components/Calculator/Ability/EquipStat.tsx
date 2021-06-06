@@ -11,6 +11,7 @@ import Chip from "@material-ui/core/Chip";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
+import SearchIcon from "@material-ui/icons/Search";
 
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -364,6 +365,9 @@ export default function EquipStat() {
                 onChange={e => {
                   inputName(e.target.value);
                 }}
+                onKeyPress={e => {
+                  searchByName(searchName, dlgItem.parts);
+                }}
               />
               <Button
                 variant='contained'
@@ -372,7 +376,7 @@ export default function EquipStat() {
                 onClick={e => {
                   searchByName(searchName, dlgItem.parts);
                 }}>
-                검색
+                <SearchIcon />
               </Button>
             </Grid>
             <Grid item style={{ width: "100%", margin: "2.5px 0", padding: "0", textAlign: "center" }}>
@@ -427,7 +431,7 @@ export default function EquipStat() {
                 onClick={() => {
                   searchByList();
                 }}>
-                검색
+                <SearchIcon />
               </Button>
             </Grid>
             <Grid
