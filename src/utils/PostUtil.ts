@@ -429,10 +429,6 @@ export const getCategoryName = (_category: CategoryType) => {
       return "스크린 게시판";
     case "server":
       return "서버 게시판";
-    case "offer":
-      return "구인구직 게시판";
-    case "job":
-      return "직업 게시판";
     case "trade":
       return "거래 게시판";
     default:
