@@ -193,8 +193,7 @@ function CustomPagination() {
         <Pagination
           color='primary'
           shape='rounded'
-          boundaryCount={5}
-          count={pagination.pageCount}
+          count={5}
           page={pagination.page + 1}
           showFirstButton={true}
           showLastButton={true}

@@ -133,7 +133,7 @@ export default function SignUp() {
     if (res.code === 200) {
       // Successed Authentication
       alertSuccess(res.message);
-      document.location.href = "/";
+      document.location.href = "/myinfo/auth";
     } else {
       // Failed Authentication
       alertError(res.message);

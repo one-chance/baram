@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { SearchItemByName, SearchItemByOption } from "../../utils/CalUtil";
 import { getBaseUrlForItemImg } from "utils/ConfigUtil";
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
     },
   },
   select: {
-    width: "120px",
+    width: "100px",
     height: "40px",
     padding: "0",
     margin: "5px 2.5px",
@@ -45,7 +46,7 @@ const useStyles = makeStyles({
     },
   },
   btn: {
-    minWidth: "60px",
+    minWidth: "40px",
     height: "40px",
     margin: "5px 2.5px",
     padding: "0",
@@ -55,7 +56,7 @@ const useStyles = makeStyles({
 
 const Menus = withStyles({
   root: {
-    fontSize: "0.9rem",
+    fontSize: "0.875rem",
     justifyContent: "center",
   },
 })(MenuItem);
@@ -139,72 +140,82 @@ export default function Item() {
     <React.Fragment>
       <Grid container justify='center' direction='column' style={{ margin: "0", padding: "0" }}>
         <Grid container justify='center' style={{ margin: "5px 0", padding: "0" }}>
-          <TextField
-            className={classes.itemText}
-            variant='outlined'
-            placeholder='아이템명'
-            value={searchName || ""}
-            onChange={e => {
-              inputName(e.target.value);
-            }}
-          />
-          <Button
-            className={classes.btn}
-            variant='contained'
-            color='primary'
-            onClick={e => {
-              searchByName(searchName);
-            }}>
-            검색
-          </Button>
-          <Select
-            variant='outlined'
-            className={classes.select}
-            value={options.op1}
-            onChange={e => {
-              setOptions({ ...options, op1: Number(e.target.value) });
-            }}>
-            {menuList[0].map((name: string, idx: number) => {
-              return (
-                <Menus value={idx} key={idx} disableGutters={true}>
-                  {name}
-                </Menus>
-              );
-            })}
-          </Select>
+          <div>
+            <TextField
+              className={classes.itemText}
+              variant='outlined'
+              placeholder='아이템명'
+              value={searchName || ""}
+              onChange={e => {
+                inputName(e.target.value);
+              }}
+              onKeyPress={e => {
+                if (e.key === "Enter") {
+                  searchByName(searchName);
+                }
+              }}
+            />
+            <Button
+              className={classes.btn}
+              variant='contained'
+              color='primary'
+              style={{ marginLeft: "-5px", borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }}
+              onClick={e => {
+                searchByName(searchName);
+              }}>
+              <SearchIcon />
+            </Button>
+          </div>
+          <div>
+            <Select
+              variant='outlined'
+              className={classes.select}
+              value={options.op1}
+              onChange={e => {
+                setOptions({ ...options, op1: Number(e.target.value) });
+              }}>
+              {menuList[0].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
+            </Select>
 
-          <Select
-            variant='outlined'
-            className={classes.select}
-            value={options.op2}
-            onChange={e => {
-              setOptions({ ...options, op2: Number(e.target.value) });
-            }}>
-            {menuList[1].map((name: string, idx: number) => {
-              return (
-                <Menus value={idx} key={idx} disableGutters={true}>
-                  {name}
-                </Menus>
-              );
-            })}
-          </Select>
+            <Select
+              variant='outlined'
+              className={classes.select}
+              value={options.op2}
+              onChange={e => {
+                setOptions({ ...options, op2: Number(e.target.value) });
+              }}>
+              {menuList[1].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
+            </Select>
 
-          <Select
-            variant='outlined'
-            className={classes.select}
-            value={options.op3}
-            style={{ width: "80px" }}
-            onChange={e => {
-              setOptions({ ...options, op3: Number(e.target.value) });
-            }}>
-            {menuList[2].map((name: string, idx: number) => {
-              return (
-                <Menus value={idx} key={idx} disableGutters={true}>
-                  {name}
-                </Menus>
-              );
-            })}
-          </Select>
+            <Select
+              variant='outlined'
+              className={classes.select}
+              value={options.op3}
+              style={{ width: "80px" }}
+              onChange={e => {
+                setOptions({ ...options, op3: Number(e.target.value) });
+              }}>
+              {menuList[2].map((name: string, idx: number) => {
+                return (
+                  <Menus value={idx} key={idx} disableGutters={true}>
+                    {name}
+                  </Menus>
+                );
+              })}
+            </Select>
+          </div>
           <Button
             className={classes.btn}
             variant='contained'
@@ -212,7 +223,7 @@ export default function Item() {
             onClick={() => {
               searchByList();
             }}>
-            검색
+            <SearchIcon />
           </Button>
         </Grid>
         <Grid
@@ -237,7 +248,7 @@ export default function Item() {
         </Grid>
         <Grid container justify='center' style={{ margin: "5px 0", padding: "0" }}>
           <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
-          <Typography style={{ margin: "20px 5px", padding: "0", textAlign: "center" }}>비교 기능은 PC환경에서만 제공됩니다.</Typography>
+          <Typography style={{ margin: "20px 5px", textAlign: "center" }}>※ 비교 기능은 PC환경에서만 제공됩니다 ※</Typography>
         </Grid>
       </Grid>
     </React.Fragment>

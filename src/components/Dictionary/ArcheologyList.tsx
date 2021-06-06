@@ -77,6 +77,14 @@ function ArcheologyList() {
     }
   };
 
+  const inputName = (name: string) => {
+    if (name === "") {
+      setSearch("");
+    } else {
+      setSearch(name);
+    }
+  };
+
   return (
     <Grid container className={classes.tableContainer}>
       <div style={{ marginBottom: "10px" }}>
@@ -85,7 +93,12 @@ function ArcheologyList() {
           placeholder='아이템명'
           className={classes.input}
           onChange={e => {
-            setSearch(e.target.value);
+            inputName(e.target.value);
+          }}
+          onKeyPress={e => {
+            if (e.key === "Enter") {
+              moveToItem();
+            }
           }}
         />
         <Button variant='contained' color='primary' className={classes.btn} onClick={moveToItem} aria-label='search'>
