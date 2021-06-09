@@ -32,16 +32,16 @@ const useStyles = makeStyles({
     float: "left",
   },
   dlgButton: {
-    minWidth: "60px",
+    minWidth: "40px",
     height: "40px",
-    margin: "0 5px",
-    padding: "5px",
+    margin: "5px 0 5px 5px",
+    padding: "0",
   },
   select: {
     width: "120px",
     height: "40px",
-    padding: "1px",
-    margin: "5px",
+    padding: "0",
+    margin: "5px 0",
     color: "blue",
     textAlignLast: "center",
     fontSize: "0.8rem",
@@ -57,15 +57,12 @@ const useStyles = makeStyles({
     margin: "2.5px",
   },
   itemText: {
-    margin: "0 5px",
-    flaot: "left",
+    width: `calc(100% - 50px)`,
+    margin: "5px 0",
     "& input": {
       height: "40px",
       padding: "0 10px",
       textAlign: "center",
-    },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: "1px solid",
     },
   },
   linkText: {
@@ -352,9 +349,9 @@ export default function Equip() {
             &#10006;
           </Button>
         </DialogTitle>
-        <DialogContent dividers={true} style={{ padding: "10px", margin: "5px 10px" }}>
-          <Grid container direction='column' justify='center' style={{ padding: "0" }}>
-            <Grid item container style={{ maxWidth: "400px", margin: "5px 0", padding: "0" }}>
+        <DialogContent dividers={true} style={{ maxWidth: "400px", padding: "20px" }}>
+          <Grid container justify='center'>
+            <Grid item container justify='space-between' style={{ maxWidth: "360px", margin: "0", padding: "0" }}>
               <TextField
                 className={classes.itemText}
                 variant='outlined'
@@ -363,7 +360,11 @@ export default function Equip() {
                 onChange={e => {
                   inputName(e.target.value);
                 }}
-                style={{ width: `calc(100% - 80px)`, maxWidth: "320px" }}
+                onKeyPress={e => {
+                  if (e.key === "Enter") {
+                    searchByName(searchName, dlgItem.parts);
+                  }
+                }}
               />
               <Button
                 variant='contained'
@@ -371,61 +372,60 @@ export default function Equip() {
                 className={classes.dlgButton}
                 onClick={e => {
                   searchByName(searchName, dlgItem.parts);
-                }}
-                style={{ width: "20%", maxWidth: "60px", float: "left" }}>
+                }}>
                 <SearchIcon />
               </Button>
             </Grid>
-            <Grid item container justify='center' style={{ maxWidth: "400px", margin: "0", padding: "0" }}>
-              <Select
-                variant='outlined'
-                className={classes.select}
-                value={options.op1}
-                /* MenuProps={{ disableScrollLock: true }} */
-                onChange={e => {
-                  setOptions({ ...options, op1: Number(e.target.value) });
-                }}>
-                {menuList[0].map((name: string, idx: number) => {
-                  return (
-                    <Menus value={idx} key={idx} disableGutters={true}>
-                      {name}
-                    </Menus>
-                  );
-                })}
-              </Select>
+            <Grid container justify='space-around' style={{ maxWidth: "360px", margin: "0", padding: "0" }}>
+              <div>
+                <Select
+                  variant='outlined'
+                  className={classes.select}
+                  value={options.op1}
+                  /* MenuProps={{ disableScrollLock: true }} */
+                  onChange={e => {
+                    setOptions({ ...options, op1: Number(e.target.value) });
+                  }}>
+                  {menuList[0].map((name: string, idx: number) => {
+                    return (
+                      <Menus value={idx} key={idx} disableGutters={true}>
+                        {name}
+                      </Menus>
+                    );
+                  })}
+                </Select>
 
-              <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px" }}>
-                {menuList[1].map((name: string, idx: number) => {
-                  return (
-                    <Menus value={idx} key={idx} disableGutters={true}>
-                      {name}
-                    </Menus>
-                  );
-                })}
-              </Select>
+                <Select variant='outlined' className={classes.select} value={options.op2} disabled={true} style={{ width: "100px", margin: "5px 4px" }}>
+                  {menuList[1].map((name: string, idx: number) => {
+                    return (
+                      <Menus value={idx} key={idx} disableGutters={true}>
+                        {name}
+                      </Menus>
+                    );
+                  })}
+                </Select>
 
-              <Select
-                variant='outlined'
-                className={classes.select}
-                value={options.op3}
-                onChange={e => {
-                  setOptions({ ...options, op3: Number(e.target.value) });
-                }}
-                style={{ width: "80px" }}>
-                {menuList[2].map((name: string, idx: number) => {
-                  return (
-                    <Menus value={idx} key={idx} disableGutters={true}>
-                      {name}
-                    </Menus>
-                  );
-                })}
-              </Select>
-
+                <Select
+                  variant='outlined'
+                  className={classes.select}
+                  value={options.op3}
+                  onChange={e => {
+                    setOptions({ ...options, op3: Number(e.target.value) });
+                  }}
+                  style={{ width: "80px" }}>
+                  {menuList[2].map((name: string, idx: number) => {
+                    return (
+                      <Menus value={idx} key={idx} disableGutters={true}>
+                        {name}
+                      </Menus>
+                    );
+                  })}
+                </Select>
+              </div>
               <Button
                 variant='contained'
                 color='primary'
                 className={classes.dlgButton}
-                style={{ margin: "5px" }}
                 onClick={() => {
                   searchByList();
                 }}>
@@ -435,10 +435,10 @@ export default function Equip() {
             <Grid
               item
               style={{
-                width: `(100%-20px)`,
-                maxWidth: "390px",
+                width: "100%",
+                maxWidth: "360px",
                 minHeight: "62px",
-                margin: "10px 5px",
+                margin: "10px 0",
                 padding: "0",
                 border: "1px solid lightgray",
                 borderRadius: "5px",
@@ -453,9 +453,9 @@ export default function Equip() {
                 itemName
               )}
             </Grid>
-            <Grid item container justify='space-between' style={{ maxWidth: "400px", margin: "5px 0", padding: "0" }}>
+            <Grid item container justify='space-between' style={{ maxWidth: "360px", margin: "5px 0", padding: "0" }}>
               <div>
-                <Typography className={classes.linkText} style={{ margin: "0 2.5px" }}>
+                <Typography className={classes.linkText} style={{ marginRight: "5px" }}>
                   강화
                 </Typography>
                 <Checkbox
@@ -494,28 +494,26 @@ export default function Equip() {
                   전투력 : {itemList.length === 0 ? 0 : tempPower + reinforce}
                 </Typography>
               </div>
-              <div>
-                <Button
-                  variant='contained'
-                  color='secondary'
-                  className={classes.dlgButton}
-                  style={{ margin: "0 5px", float: "right" }}
-                  onClick={() => {
-                    setDlgItem({ ...dlgItem, isOpen: false });
-                    if (itemList.length !== 0) {
-                      equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
-                      equipSlotList[dlgItem.parts - 1].power = tempPower;
-                      equipSlotList[dlgItem.parts - 1].reinforce = reinforce;
-                    } else {
-                      equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
-                      equipSlotList[dlgItem.parts - 1].power = 0;
-                      equipSlotList[dlgItem.parts - 1].reinforce = 0;
-                    }
-                    _calTotalPower();
-                  }}>
-                  저장
-                </Button>
-              </div>
+              <Button
+                variant='contained'
+                color='secondary'
+                className={classes.dlgButton}
+                style={{ margin: "0" }}
+                onClick={() => {
+                  setDlgItem({ ...dlgItem, isOpen: false });
+                  if (itemList.length !== 0) {
+                    equipSlotList[dlgItem.parts - 1].name = dlgItem.title;
+                    equipSlotList[dlgItem.parts - 1].power = tempPower;
+                    equipSlotList[dlgItem.parts - 1].reinforce = reinforce;
+                  } else {
+                    equipSlotList[dlgItem.parts - 1].name = equipSlotList[dlgItem.parts - 1].type;
+                    equipSlotList[dlgItem.parts - 1].power = 0;
+                    equipSlotList[dlgItem.parts - 1].reinforce = 0;
+                  }
+                  _calTotalPower();
+                }}>
+                저장
+              </Button>
             </Grid>
           </Grid>
         </DialogContent>

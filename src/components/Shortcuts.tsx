@@ -3,23 +3,25 @@ import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import HomeIcon from "@material-ui/icons/Home";
+
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import LatestBoardPaper from "components/Board/LatestBoardPaper";
 
+import LatestBoardPaper from "components/Board/LatestBoardPaper";
 import IPost from "interfaces/Board/IPost";
 import { getPosts } from "utils/PostUtil";
 import { getVisitCount } from "utils/CommonUtil";
@@ -179,7 +181,7 @@ const Home = () => {
           <h5 className={classes.boardItemText}>FAQ</h5>
         </Grid>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' href='http://www.baram.nexon.com' target='_blank' className={classes.boardItemButton} aria-label='Site'>
+          <Button variant='outlined' href='http://www.baram.nexon.com' rel='noopener' target='_blank' className={classes.boardItemButton} aria-label='Site'>
             <HomeIcon />
           </Button>
           <h5 className={classes.boardItemText}>공식</h5>
@@ -201,7 +203,7 @@ const Home = () => {
           <h2>도톨 v.1.2.4 업데이트</h2>
           <h4>메인 배너 업데이트</h4>
           <h4>검색 버튼 엔터로 작동 - 전투력, 능력치, 경험치, 아이템, 고고학</h4>
-          <h4>========================================</h4>
+          <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h4>추가 예정 : 장비마법</h4>
           <h4>추가할수도 : 치장 룩북, 장비 재료, 한벌효과, bj/스트리머</h4>
         </DialogContent>

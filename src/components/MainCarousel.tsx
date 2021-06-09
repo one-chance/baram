@@ -55,15 +55,6 @@ const useStyles = makeStyles({
     width: "100%",
     flexBasis: "auto",
     textAlign: "center",
-    "& .slick-prev:before, .slick-next:before": {
-      display: "none",
-    },
-  },
-  btnMove: {
-    margin: "auto",
-    textAlign: "center",
-    alignItems: "center",
-    verticalAlign: "middle",
   },
 });
 
@@ -74,7 +65,7 @@ export default function MainCarousel() {
 
   const settings = {
     dots: true,
-    arrows: true,
+    arrows: false,
     infinite: true,
     autoplay: true,
     autoplaySpeed: 5000,
@@ -132,9 +123,9 @@ export default function MainCarousel() {
   return (
     <React.Fragment>
       <Grid container className={classes.gridContainer}>
-        <Grid item xs={1} className={classes.btnMove}>
-          <IconButton onClick={() => refCarousel.current?.slickPrev()} aria-label='left-arrow'>
-            <ArrowBackIosIcon />
+        <Grid item container justify='center' alignItems='center' xs={1}>
+          <IconButton onClick={() => refCarousel.current?.slickPrev()} aria-label='left-arrow' style={{ padding: "10px" }}>
+            <ArrowBackIosIcon viewBox='-4 0 24 24' />
           </IconButton>
         </Grid>
         <Grid item xs={10} className={classes.gridItem}>
@@ -142,8 +133,8 @@ export default function MainCarousel() {
             {middleScreen ? cards2() : cards()}
           </Carousel>
         </Grid>
-        <Grid item xs={1} className={classes.btnMove}>
-          <IconButton onClick={() => refCarousel.current?.slickNext()} aria-label='right-arrow'>
+        <Grid item container justify='center' alignItems='center' xs={1}>
+          <IconButton onClick={() => refCarousel.current?.slickNext()} aria-label='right-arrow' style={{ padding: "10px" }}>
             <ArrowForwardIosIcon />
           </IconButton>
         </Grid>
