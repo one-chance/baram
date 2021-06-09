@@ -31,8 +31,8 @@ export default function TermsOfService() {
           제 1조. 목적
         </Typography>
         <Typography>
-          본 약관은 도톨(‘https://www.dotols.com’ 이하 "도톨")에서 제공하는 게임 정보 서비스 및 부수된 제반 서비스(이하 "서비스")를 이용함에 있어 도톨과
-          이용자의 권리, 의무 및 책임사항, 기타 필요한 사항을 구체적으로 규정함을 목적으로 합니다.
+          본 약관은 도톨(‘https://dotols.com’ 이하 "도톨")에서 제공하는 게임 정보 서비스 및 부수된 제반 서비스(이하 "서비스")를 이용함에 있어 도톨과 이용자의
+          권리, 의무 및 책임사항, 기타 필요한 사항을 구체적으로 규정함을 목적으로 합니다.
         </Typography>
 
         <Typography variant='h6' className={classes.title}>

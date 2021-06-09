@@ -720,7 +720,7 @@ router.put("/reset", (req, res) => {
                   임시 비밀번호 : &nbsp; &nbsp;${newPassword.source}<br>
                   <br><br>
                   감사합니다.<br>
-                  <a href="https://www.dotols.com/signin">로그인 바로가기</a>                  
+                  <a href="https://dotols.com/signin">로그인 바로가기</a>                  
                 `;
 
                 var params = {

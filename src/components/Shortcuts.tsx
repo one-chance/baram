@@ -29,8 +29,8 @@ import { getVisitCount } from "utils/CommonUtil";
 const useStyles = makeStyles({
   boardItem: {
     maxWidth: "150px",
-    height: "65px",
-    margin: "10px 5px",
+    height: "64px",
+    margin: "10px 4px",
     padding: "0",
     "& p": {
       fontWeight: "bold",
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
   boardItemText: {
     textAlign: "center",
     lineHeight: "20px",
-    margin: "5px 0 0 0",
+    margin: "4px 0 0 0",
   },
   btnClose: {
     minWidth: 15,
