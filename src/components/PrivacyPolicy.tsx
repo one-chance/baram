@@ -21,8 +21,8 @@ export default function PrivacyPolicy() {
           개인정보 처리방침
         </Typography>
         <Typography variant='h6' style={{ margin: "30px 0 0 0" }}>
-          도톨('https://www.dotols.com'이하 '도톨')은 「개인정보 보호법」 제30조에 따라 정부주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게
-          처리할 수 있도록 다음과 같이 개인정보 처리방침을 수립 · 공개합니다.
+          도톨('https://dotols.com'이하 '도톨')은 「개인정보 보호법」 제30조에 따라 정부주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할
+          수 있도록 다음과 같이 개인정보 처리방침을 수립 · 공개합니다.
         </Typography>
         <Typography variant='h6' style={{ width: "100%" }}>
           ○ 본 개인정보처리방침은 2021년 3월 20부터 적용됩니다.

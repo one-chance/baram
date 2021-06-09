@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 
 import AddIcon from "@material-ui/icons/Add";
@@ -15,18 +16,19 @@ import { getMMDDByDate } from "utils/CommonUtil";
 const useStyles = makeStyles({
   paper: {
     width: "auto",
-    height: "168px",
-    margin: "5px 10px",
+    height: "158px",
+    margin: "4px 12px",
     padding: "0",
   },
   linkItem: {
     display: "flex",
     width: "100%",
-    margin: "2.5px 0",
-    padding: "0 5px",
+    margin: "0",
+    padding: "0 4px",
     justifyContent: "space-between",
     "& a": {
       width: "200px",
+      lineHeight: "24px",
       display: "inline-block",
       overflow: "hidden",
       whiteSpace: "nowrap",
@@ -34,6 +36,7 @@ const useStyles = makeStyles({
     },
     "& span": {
       width: "40px",
+      lineHeight: "24px",
     },
   },
 });
@@ -49,8 +52,8 @@ const LatestBoardPaper = (props: IProps) => {
 
   return (
     <Grid container direction='column' className={classes.paper}>
-      <Grid container justify='space-between' style={{ height: "25px", fontSize: "1rem", fontWeight: "bold", padding: "0 5px", marginTop: "8px" }}>
-        {PostUtil.getCategoryName(category)}
+      <Grid container justify='space-between' style={{ padding: "0 4px", marginTop: "4px" }}>
+        <Typography style={{ lineHeight: "24px", fontSize: "1rem", fontWeight: "bold" }}>{PostUtil.getCategoryName(category)}</Typography>
         <Button href={`/board/${category}`} style={{ minWidth: "22px", height: "22px", padding: "0", float: "right" }} aria-label='Board-Button'>
           <AddIcon style={{ width: "20px", height: "20px" }} />
         </Button>
@@ -62,7 +65,7 @@ const LatestBoardPaper = (props: IProps) => {
             posts.map((post: IPost) => (
               <div key={post.seq} className={classes.linkItem}>
                 <Link href={`/board/${category}/${post.seq}`} aria-label={`post-${post.seq}`}>
-                  {post.title}{" "}
+                  {post.title}
                 </Link>
                 <span>{getMMDDByDate(post.writer.createDate)}</span>
               </div>
