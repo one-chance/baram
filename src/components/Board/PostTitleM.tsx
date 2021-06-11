@@ -205,10 +205,6 @@ function PostTitleM(props: IProps) {
               삭제
             </Button>
           </div>
-          {/*           <Typography variant='h6' style={{ margin: "2px 0", fontSize: "0.8rem" }}>
-            {post.writer.createDate && `작성일 : ${CommonUtil.getStringByDate(post.writer.createDate, true)}`}
-            {post.writer.lastEditDate && ` / 수정일 : ${CommonUtil.getStringByDate(post.writer.lastEditDate, true)}`}
-          </Typography> */}
         </Grid>
       </Grid>
 

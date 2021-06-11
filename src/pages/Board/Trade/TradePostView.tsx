@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { CommentListState } from "state/index";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -31,18 +31,13 @@ function TradeBoardView({ match }: any) {
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const { seq } = match.params;
-  const [commentList, setCommentList] = useRecoilState(CommentListState);
+  const commentList = useRecoilValue(CommentListState);
   const [post, setPost] = useState<IPost>();
 
   useEffect(() => {
     _onLoad();
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (post && post.commentList && post.commentList.length > 0) setCommentList(post.commentList);
-    // eslint-disable-next-line
-  }, [post]);
 
   const _onLoad = async () => {
     const res = await getPost("trade", seq);
