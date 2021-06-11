@@ -271,7 +271,6 @@ export default function EquipStat() {
   const loadData = async (name: string) => {
     let res: IItemOptionInfo;
     res = await SearchOptionByName(name);
-    console.log(res);
     if (res !== null) {
       ops = res;
       ops.shift();

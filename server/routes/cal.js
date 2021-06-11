@@ -43,7 +43,7 @@ router.get("/item", (req, res) => {
         //let itemList = [];
 
         const $ = cheerio.load(html.data);
-        console.log($["_equipItem"]);
+        //console.log($["_equipItem"]);
         const $level = Number($("div.inner ul").children("li.level").find("span.system").text());
         /*
         동적 웹 크롤링이 안되는 이슈로 인하여 아이템 가져오는 부분은 홀딩...
