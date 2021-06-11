@@ -1,3 +1,4 @@
 User-agent: *
 Allow : /
 Disallow: /public/assets/img/dictionary/item
+Sitemap: https://dotols.com/sitemap.xml

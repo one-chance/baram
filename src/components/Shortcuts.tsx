@@ -211,7 +211,7 @@ const Home = () => {
           <h4> 장점 : 운영자가 바람 하는 중, 최신 정보만 취급함 (패치 반영)</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>v.1.2.5 업데이트</h2>
-          <h4>메인 배너 업데이트</h4>
+          <h4>사이트맵 등록 - 홈페이지가 네이버 검색 결과에 노출(?)</h4>
           <h4>내부 안정화</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>추후 업데이트</h2>
