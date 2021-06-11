@@ -54,6 +54,12 @@ const useStyles = makeStyles({
     top: 5,
     right: 10,
   },
+  dlgContent: {
+    minWidth: "40vw",
+    minHeight: "30vh",
+    padding: "10px",
+    "& h2, h4": { margin: "12px 0" },
+  },
 });
 
 const Accordion = withStyles({
@@ -199,13 +205,19 @@ const Home = () => {
             &#10006;
           </Button>
         </DialogTitle>
-        <DialogContent dividers={true} style={{ minWidth: "40vw", minHeight: "30vh", padding: "10px" }}>
-          <h2>도톨 v.1.2.4 업데이트</h2>
-          <h4>메인 배너 업데이트</h4>
-          <h4>검색 버튼 엔터로 작동 - 전투력, 능력치, 경험치, 아이템, 고고학</h4>
+        <DialogContent dividers={true} className={classes.dlgContent}>
+          <h2 style={{ margin: "10px 0" }}>도톨 - 바람의나라 커뮤니티</h2>
+          <h4> 목적 : 기술 스택 좀 쌓을 겸, 유저에게 필요한 기능들 만들어봤음</h4>
+          <h4> 장점 : 운영자가 바람 하는 중, 최신 정보만 취급함 (패치 반영)</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
-          <h4>추가 예정 : 장비마법</h4>
-          <h4>추가할수도 : 치장 룩북, 장비 재료, 한벌효과, bj/스트리머</h4>
+          <h2>v.1.2.5 업데이트</h2>
+          <h4>메인 배너 업데이트</h4>
+          <h4>내부 안정화</h4>
+          <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
+          <h2>추후 업데이트</h2>
+          <h4>확정 : 장비마법</h4>
+          <h4>미확정 : 치장 룩북, 장비 재료, 한벌효과, 동영상(bj/스트리머/유튜버)</h4>
+          <h4>원하는 기능 건의 받음 (단, 데이터가 있고 흥미가 귀찮음보다 큰 경우)</h4>
         </DialogContent>
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
           <Button onClick={openDlg} color='primary'>

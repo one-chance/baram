@@ -867,13 +867,13 @@ router.get("/visit/count", (req, res) => {
  *   NOTE 신규 토큰 생성
  */
 const createToken = (id, key, userInfo) => {
-  /*   console.log("createToken : ");
+  console.log("createToken : ");
   console.log({
     id,
     key,
     grade: userInfo.grade,
     titleAccount: userInfo.titleAccount,
-  }); */
+  });
 
   // CREATE JSONWEBTOKEN
   const token = jsonwebtoken.sign(
