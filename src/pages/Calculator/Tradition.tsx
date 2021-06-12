@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 
 import { lunaToSolar } from "../../utils/CalUtil";
 
@@ -14,11 +15,24 @@ const useStyles = makeStyles({
   root: {
     marginTop: "15px",
   },
+  title: {
+    minWidth: "120px",
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    margin: "5px 10px",
+  },
   btn: {
     minWidth: "30px",
     padding: "0",
     fontSize: "1.2rem",
     margin: "0",
+  },
+  btnQuest: {
+    minWidth: "30px",
+    height: "30px",
+    marginLeft: "10px",
+    padding: "0",
+    backgroundColor: "transparent",
   },
 });
 
@@ -112,8 +126,8 @@ export default function Tradition() {
       panel[i] = (
         <React.Fragment key={i}>
           <Grid container alignItems='center' direction='row'>
-            <Typography style={{ minWidth: "120px", fontSize: "1.2rem", fontWeight: "bold", margin: "5px 20px" }}>{events[i]}</Typography>
-            <div style={{ margin: "0 20px" }}>
+            <Typography className={classes.title}>{events[i]}</Typography>
+            <div style={{ margin: "0 10px" }}>
               <Typography style={{ color: "blue" }}>
                 음력 : {strToNum(start[i])} ~ {strToNum(end[i])}
               </Typography>
@@ -121,6 +135,13 @@ export default function Tradition() {
                 양력 : {sStart[i]} ~ {sEnd[i]}
               </Typography>
             </div>
+            {i === 4 ? (
+              <Button className={classes.btnQuest} href='/board/tip/20'>
+                <HelpOutlineIcon />
+              </Button>
+            ) : (
+              ""
+            )}
           </Grid>
           <Divider style={{ width: "100%", height: "2px", margin: "4px 0" }} />
         </React.Fragment>
