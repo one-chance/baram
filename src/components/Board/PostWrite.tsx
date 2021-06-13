@@ -26,7 +26,7 @@ import { getServerList } from "utils/CommonUtil";
 
 interface IProps {
   tab: CategoryType;
-  seq?: number;
+  seq: number;
 }
 
 const useStyles = makeStyles({
