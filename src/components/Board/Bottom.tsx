@@ -13,7 +13,7 @@ import { getNowUserInfo } from "utils/UserUtil";
 
 interface IProps {
   category: CategoryType;
-  seq: number;
+  seq?: number;
   isRecommended?: boolean;
   recommendCount?: Number;
   onRecommendPost?: any;

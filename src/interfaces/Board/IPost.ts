@@ -10,7 +10,7 @@ export type CategoryType =
   | "trade";
 
 interface IPost {
-  seq: number,
+  seq?: number,
   category: CategoryType,
   server?: ServerType,
   title: string,

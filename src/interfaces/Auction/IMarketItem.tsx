@@ -1,5 +1,5 @@
 interface IMarketItem {
-  seq: number;
+  seq?: number;
   item: string;
   price: number;
   writer: string;
