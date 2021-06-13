@@ -254,6 +254,7 @@ const Board = (props: IProps) => {
   const { category, posts, rowCount, onPageChange } = props;
   const rows: GridRowsProp = [];
   nowCategory = category;
+  seq = posts.seq;
 
   posts.forEach(post => {
     rows.push({
