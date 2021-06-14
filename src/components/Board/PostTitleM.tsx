@@ -6,7 +6,6 @@ import { CommentListState } from "state/index";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import CreateIcon from "@material-ui/icons/Create";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import MessageIcon from "@material-ui/icons/Message";
 import Dialog from "@material-ui/core/Dialog";
@@ -39,9 +38,9 @@ const useStyles = makeStyles({
     float: "left",
   },
   infoIcon: {
-    width: "15px",
-    height: "15px",
-    margin: "2.5px 5px 2.5px 0",
+    width: "16px",
+    height: "16px",
+    margin: "2px 4px 2px 0",
     float: "left",
   },
   btn: {
@@ -169,25 +168,16 @@ function PostTitleM(props: IProps) {
         <Grid container direction='row' style={{ margin: "5px 0" }}>
           <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
             <Typography className={classes.title}>
-              [{categoryName ? categoryName.split(" ")[0] : ""}] {post.title}
+              <span style={{ color: "blue", marginRight: "5px" }}>[{categoryName ? categoryName.split(" ")[0] : ""}]</span>
+              <span>{post.title}</span>
             </Typography>
           </Grid>
           <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
-            <CreateIcon className={classes.infoIcon} />
-            <Typography className={classes.infoText}>{CommonUtil.getTitleAccountString(post.writer.titleAccount)}</Typography>
-            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
-              |
-            </Typography>
+            <Typography className={classes.infoText}>{CommonUtil.getTitleAccountString(post.writer.titleAccount)} │</Typography>
             <VisibilityIcon className={classes.infoIcon} />
-            <Typography className={classes.infoText}>{post.viewCount}</Typography>
-            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
-              |
-            </Typography>
+            <Typography className={classes.infoText}>{post.viewCount} │</Typography>
             <MessageIcon className={classes.infoIcon} />
-            <Typography className={classes.infoText}>{count}</Typography>
-            <Typography className={classes.infoText} style={{ width: "4px", margin: "0 5px" }}>
-              |
-            </Typography>
+            <Typography className={classes.infoText}>{count} │</Typography>
             <Typography className={classes.infoText}>{dateW !== dateE ? `${dateW} (E)` : `${dateW}`}</Typography>
           </Grid>
         </Grid>

@@ -56,6 +56,7 @@ const useStyles = makeStyles({
 
 const Menus = withStyles({
   root: {
+    minHeight: "40px",
     fontSize: "0.875rem",
     justifyContent: "center",
   },
