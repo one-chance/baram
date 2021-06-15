@@ -165,11 +165,28 @@ function PostWrite(props: IProps) {
   const _onWrite = async () => {
     setMyBackdrop(true);
 
+    //post의 writer랑 현재 아이디랑 같아야 수정 가능하게 변경해야 함
+    // 최초 작성 seq는 undefined, 수정은 seq 번호
     let res: any;
+
     if (server) {
       res = seq ? await EditPost(title, content, post, server.key) : await CreatePost(category, title, content, server.key);
     } else {
       res = seq ? await EditPost(title, content, post) : await CreatePost(category, title, content);
+    }
+
+    if (!res) {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: 2000,
+        message: "수정 권한이 없습니다.",
+      });
+      setTimeout(() => {
+        setMyBackdrop(false);
+      }, 2000);
+      document.location.href = `/board/${category}`;
+      return;
     }
 
     if (res.code === 200) {

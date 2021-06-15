@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const authMiddleware = require("../../middleware/auth");
-const logger = require('../../winston');
+const logger = require("../../winston");
 
 const FreeSchema = require("../../schemas/Board/FreeSchema");
 const UserWriteSchema = require("../../schemas/User/UserWriteSchema");
 
-const {PlusPointByKey, MinusPointByKey} = require("../../util/userUtil");
+const { PlusPointByKey, MinusPointByKey } = require("../../util/userUtil");
 
 /*
  *    NOTE 게시글 생성
@@ -45,7 +45,6 @@ router.post("/post", (req, res) => {
     return post;
   })
     .then(post => {
-      
       const { key, id } = req.body.post.writer;
       const { category, seq } = post;
       UserWriteSchema.addPost(key, id, category, seq)
@@ -54,10 +53,10 @@ router.post("/post", (req, res) => {
         })
         .catch(e => {
           logger.error(`[ERROR] : ADD USERWRITE POST ERROR [${key}]${id} - ${category} : ${seq} > ${e}`);
-        })
+        });
 
       // PlusPointByKey(key, 5);
-      
+
       logger.info(`[SUCCESS] : ${post.title} CREATED SUCCESS`);
       res.status(200).send({
         code: 200,
@@ -96,7 +95,7 @@ router.put("/post", (req, res) => {
     ...req.body.post,
     writer: {
       ...req.body.post.writer,
-      lastEditDate: new Date()
+      lastEditDate: new Date(),
     },
   };
 
@@ -151,15 +150,14 @@ router.delete("/post/:seq", (req, res) => {
   FreeSchema.deleteBySeq(seq)
     .then(deletedCount => {
       if (deletedCount) {
-
-        UserWriteSchema.deletePost(key, id, 'free', seq)
+        UserWriteSchema.deletePost(key, id, "free", seq)
           .then(() => {
             logger.info(`[SUCCESS] : DELETE USERWRITE POST [${key}]${id} - : free : ${seq}`);
           })
           .catch(e => {
             logger.error(`[ERROR] : DELETE USERWRITE POST ERROR [${key}]${id} - free : ${seq} > ${e}`);
-          })
-          
+          });
+
         logger.info(`[SUCCESS] : POST NUMBER ${seq} DELETED SUCCESS`);
         res.status(200).send({
           code: 200,
@@ -285,20 +283,20 @@ router.post("/comment", (req, res) => {
     .then(post => {
       const { key, id } = comment.writer;
 
-      UserWriteSchema.addComment(key, id, 'free', seq, commentCount)
+      UserWriteSchema.addComment(key, id, "free", seq, commentCount)
         .then(() => {
           logger.info(`[SUCCESS] : ADD USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentCount}`);
         })
         .catch(e => {
           logger.error(`[ERROR] : ADD USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentCount}> ${e}`);
-        })
+        });
 
       logger.info(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
       res.status(200).send({
         code: 200,
         message: "댓글이 등록되었습니다.",
         commentList: post.commentList,
-        commentCount: commentCount+1,
+        commentCount: commentCount + 1,
       });
 
       return true;
@@ -372,13 +370,13 @@ router.delete("/comment/:postSeq/:commentIdx", (req, res) => {
   FreeSchema.deleteComment(seq, commentIdx)
     .then(post => {
       // 사용자 작성 댓글 삭제
-      UserWriteSchema.deleteComment(key, id, 'free', seq, commentIdx)
+      UserWriteSchema.deleteComment(key, id, "free", seq, commentIdx)
         .then(() => {
           logger.info(`[SUCCESS] : DELETE USERWRITE COMMENT : [${key}]${id} - free : ${seq} : ${commentIdx}`);
         })
         .catch(e => {
           logger.error(`[ERROR] : DELETE USERWRITE COMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx}> ${e}`);
-        })
+        });
 
       logger.info(`[SUCCESS] : COMMENT DELETED SUCCESS`);
       res.status(200).send({
@@ -421,13 +419,13 @@ router.post("/recomment", (req, res) => {
   FreeSchema.createRecomment(seq, commentIdx, recomment)
     .then(post => {
       const { key, id } = recomment.writer;
-      UserWriteSchema.addRecomment(key, id, 'free', seq, commentIdx, recommentCount)
+      UserWriteSchema.addRecomment(key, id, "free", seq, commentIdx, recommentCount)
         .then(() => {
           logger.info(`[SUCCESS] : ADD USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentCount}`);
         })
         .catch(e => {
           logger.error(`[ERROR] : ADD USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentCount}> ${e}`);
-        })
+        });
 
       logger.info(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
 
@@ -435,7 +433,7 @@ router.post("/recomment", (req, res) => {
         code: 200,
         message: "답글이 등록되었습니다.",
         recomment: recomment,
-        recommentCount: recommentCount+1,
+        recommentCount: recommentCount + 1,
       });
 
       return true;
@@ -475,7 +473,7 @@ router.put("/recomment", (req, res) => {
       res.status(200).send({
         code: 200,
         message: "답글이 수정되었습니다.",
-        recomment: recomment
+        recomment: recomment,
       });
 
       return true;
@@ -509,26 +507,26 @@ router.put("/recomment/:recommentIdx", (req, res) => {
   const { key, id } = req.headers;
   const recommentIdx = req.params.recommentIdx;
   const { post, commentIdx, recomment } = req.body;
-  recomment.message = 'DELETED COMMENT';
+  recomment.message = "DELETED COMMENT";
   recomment.isDeleted = true;
 
   FreeSchema.deleteRecomment(post.seq, commentIdx, recomment)
     .then(post => {
       const { seq } = post;
-      UserWriteSchema.deleteRecomment(key, id, 'free', seq, commentIdx, recommentIdx)
+      UserWriteSchema.deleteRecomment(key, id, "free", seq, commentIdx, recommentIdx)
         .then(() => {
           logger.info(`[SUCCESS] : DELETE USERWRITE RECOMMENT : [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}`);
         })
         .catch(e => {
           logger.error(`[ERROR] : DELETE USERWRITE RECOMMENT ERROR [${key}]${id} - free : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
-        })
+        });
 
       logger.info(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
 
       res.status(200).send({
         code: 200,
         message: "답글이 삭제되었습니다.",
-        recomment: recomment
+        recomment: recomment,
       });
 
       return true;
@@ -620,13 +618,13 @@ router.get("/find", (req, res) => {
   if (req.query.writer) {
     filter["writer.id"] = { $regex: req.query.writer };
   }
-  
+
   let page = -1;
   let pageSize = -1;
-  if(req.query.page) {
+  if (req.query.page) {
     page = Number(req.query.page);
   }
-  if(req.query.pageSize){
+  if (req.query.pageSize) {
     pageSize = Number(req.query.pageSize);
   }
 
@@ -634,9 +632,7 @@ router.get("/find", (req, res) => {
     .then(posts => {
       logger.info(`[SUCCESS] : POST LIST FIND SUCCESS`);
       // 최신 조회 개수가 존재하면
-      let postList = req.query.latestCount ?
-          posts.slice(0, req.query.latestCount)
-        : posts;
+      let postList = req.query.latestCount ? posts.slice(0, req.query.latestCount) : posts;
 
       res.status(200).send({
         code: 200,
@@ -667,6 +663,10 @@ router.get("/find", (req, res) => {
  */
 router.get("/find/:seq", (req, res) => {
   const seq = req.params.seq;
+
+  if (isNaN(seq)) {
+    return;
+  }
 
   addViewCount(seq);
 

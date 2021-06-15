@@ -59,6 +59,12 @@ export const EditPost = async (_title: string, _content: string, _post?: IPost, 
       content: _content,
       server: _server
     }
+
+    // 작성자 확인
+    const userId = getNowUserInfo().id;
+    if (userId !== post.writer.id) {
+      return false;
+    }
   
     const up = await CommonUtil.checkUploadImage(_content);
     if (up) {
