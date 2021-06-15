@@ -210,9 +210,9 @@ const Home = () => {
           <h4> 목적 : 기술 스택 좀 쌓을 겸, 유저에게 필요한 기능들 만들어봤음</h4>
           <h4> 장점 : 운영자가 바람 하는 중, 최신 정보만 취급함 (패치 반영)</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
-          <h2>v.1.2.5 업데이트</h2>
-          <h4>네이버 검색에 노출되게 설정했으나 네이버 사정으로 다음달에 가능함</h4>
-          <h4>내부 안정화</h4>
+          <h2>v.1.2.6 업데이트</h2>
+          <h4>보안 취약점 해결</h4>
+          <h4>게시판 리모델링 진행중</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>추후 업데이트</h2>
           <h4>확정 : 장비마법</h4>

@@ -20,6 +20,8 @@ import CreateIcon from "@material-ui/icons/Create";
 import SearchIcon from "@material-ui/icons/Search";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import MessageIcon from "@material-ui/icons/Message";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
 import MyGridDivider from "elements/Grid/MyGridDivider";
 import Bottom from "./Bottom";
@@ -87,7 +89,7 @@ const useStyles = makeStyles({
   infoText: {
     lineHeight: "20px",
     fontSize: "0.8rem",
-    margin: "0",
+    margin: "0 10px 0 0",
     padding: "0",
     float: "left",
   },
@@ -233,7 +235,7 @@ function CustomPagination() {
         <Pagination
           color='primary'
           shape='rounded'
-          count={pagination.pageCount > 5 ? 5 : pagination.pageCount}
+          count={pagination.pageCount}
           page={pagination.page + 1}
           showFirstButton={true}
           showLastButton={true}
@@ -310,6 +312,36 @@ const BoardM = (props: IProps) => {
     });
   });
 
+  const article = () => {
+    let temp: JSX.Element[] = [];
+
+    temp = rows.map((row, idx) => {
+      return (
+        <Grid container key={idx} style={{ borderTop: "1px solid lightgray", padding: "0 5px" }}>
+          <a
+            style={{ width: "100%", lineHeight: "24px", fontSize: "1rem", margin: "4px 0", textDecoration: "none", color: "black" }}
+            href={`/board/tip/${row.id}`}>
+            <span style={{ color: "blue", marginRight: "5px" }}>[게시판]</span>
+            <span>{row.title}</span>
+          </a>
+          <Grid container style={{ margin: "4px 0", padding: "0" }}>
+            <Typography className={classes.infoText}>{row.writer}</Typography>
+            <VisibilityIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.viewCount}</Typography>
+            <MessageIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.commentCount}</Typography>
+            <ThumbUpIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.recommendCount}</Typography>
+            <AccessTimeIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.createDate}</Typography>
+          </Grid>
+        </Grid>
+      );
+    });
+
+    return temp;
+  };
+
   const _onRowClick = (id: number) => {
     document.location.href = `/board/${nowCategory}/${id}`;
   };
@@ -372,10 +404,11 @@ const BoardM = (props: IProps) => {
               <CreateIcon style={{ width: "28px", height: "28px" }} />
             </Button>
           </Grid>
-          <Grid container style={{ borderTop: "1px solid lightgray", padding: "0 5px" }}>
+          {article()}
+          {/*     <Grid container style={{ borderTop: "1px solid lightgray", padding: "0 5px" }}>
             <a style={{ width: "100%", lineHeight: "24px", fontSize: "1rem", margin: "4px 0", textDecoration: "none", color: "black" }} href='/board/tip/384'>
               <span style={{ color: "blue", marginRight: "5px" }}>[게시판]</span>
-              <span>제목</span>
+              <span>456</span>
             </a>
             <Grid container style={{ margin: "4px 0", padding: "0" }}>
               <Typography className={classes.infoText}>작성자@서버 │</Typography>
@@ -413,9 +446,8 @@ const BoardM = (props: IProps) => {
               <Typography className={classes.infoText}>댓글수 │</Typography>
               <Typography className={classes.infoText}>2021.06.12</Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid container justify='center' style={{ height: "56px", padding: "8px 0", borderTop: "1px solid lightgray" }}>
-            {/*             <Pagination color='primary' shape='rounded' count={5} showFirstButton showLastButton /> */}
             <Button style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}>《</Button>
             <Button style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}>&lt;</Button>
             <Button variant='contained' color='primary' style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}>
@@ -456,13 +488,13 @@ const BoardM = (props: IProps) => {
             <Grid item style={{ padding: "0", margin: "2px 8px" }}>
               <FormControl variant='outlined'>
                 <OutlinedInput
-                  id='post-search-text'
+                  id='post-search'
                   //value={searchValue}
                   //onChange={e => _onChangeSearch(e.target.value)}
                   //onKeyUp={e => _onEnterSearch(e.keyCode)}
                   endAdornment={
                     <InputAdornment position='end'>
-                      <IconButton aria-label='post-search-icon' edge='end' style={{ height: "36px", padding: "0" }}>
+                      <IconButton aria-label='post-search' edge='end' style={{ height: "36px", padding: "0" }}>
                         <SearchIcon />
                       </IconButton>
                     </InputAdornment>
