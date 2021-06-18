@@ -211,6 +211,7 @@ const Home = () => {
           <h4> 장점 : 운영자가 바람 하는 중, 최신 정보만 취급함 (패치 반영)</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>v.1.2.6 업데이트</h2>
+          <h4>모바일 화면 최적화 - 전투력 계산기 도움말</h4>
           <h4>보안 취약점 해결</h4>
           <h4>게시판 리모델링 진행중</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />

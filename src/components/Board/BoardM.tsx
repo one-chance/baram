@@ -447,6 +447,7 @@ const BoardM = (props: IProps) => {
               <Typography className={classes.infoText}>2021.06.12</Typography>
             </Grid>
           </Grid> */}
+
           <Grid container justify='center' style={{ height: "56px", padding: "8px 0", borderTop: "1px solid lightgray" }}>
             <Button style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}>《</Button>
             <Button style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}>&lt;</Button>

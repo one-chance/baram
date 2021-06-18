@@ -61,9 +61,8 @@ const useStyles = makeStyles({
     float: "left",
   },
   dlgText: {
-    height: "30px",
     fontFamily: "Jua",
-    marginBottom: "10px",
+    marginBottom: "8px",
   },
 });
 
@@ -333,10 +332,10 @@ export default function Skill() {
           <Typography variant='h5' className={classes.dlgText}>
             * 기술능력 전투력의 최대값은 대략 200이다. (오차 존재)
           </Typography>
-          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
+          <Typography variant='h5' className={classes.dlgText}>
             * 패치를 통해 일부 기술능력이 삭제되거나 수치가 조정되었다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ height: "28px", paddingLeft: "20px" }}>
+          <Typography variant='h6' className={classes.dlgText}>
             So, 그전에 부여된 아이템은 여전히 이탈 옵션을 유지하고 있다.
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>

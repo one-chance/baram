@@ -517,7 +517,7 @@ export default function CalProduction() {
           ) : (
             <span style={{ fontSize: "1rem" }}>
               <br />
-              실패시 재료가 소멸될 수 있으니 여분을 준비하자
+              환약과(조제술), 저항부적(강화술) 아이템은 이곳에 있습니다.
             </span>
           )}
         </Grid>
