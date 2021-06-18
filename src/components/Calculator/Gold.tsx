@@ -62,7 +62,7 @@ const useStyles = makeStyles({
   },
   dlgText: {
     fontFamily: "Jua",
-    margin: "10px 0",
+    marginBottom: "8px",
   },
 });
 
