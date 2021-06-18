@@ -61,7 +61,6 @@ const useStyles = makeStyles({
     flaot: "left",
   },
   dlgText: {
-    height: "30px",
     fontFamily: "Jua",
     margin: "10px 0",
   },

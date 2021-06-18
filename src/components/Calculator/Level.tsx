@@ -31,7 +31,6 @@ const useStyles = makeStyles({
     padding: "0",
   },
   dlgText: {
-    height: "30px",
     fontFamily: "Jua",
     marginBottom: "10px",
   },
@@ -103,7 +102,7 @@ export default function Level() {
       </Grid>
 
       <Dialog open={openHelper} onClose={switchDlg} maxWidth='lg'>
-        <DialogTitle style={{ padding: "10px", textAlign: "center" }}>
+        <DialogTitle style={{ padding: "10px", textAlign: "center", color: "blue" }}>
           <Typography style={{ fontFamily: "Do Hyeon", fontSize: "2.5rem" }}>레벨 전투력 TMI</Typography>
         </DialogTitle>
         <DialogContent dividers={true} style={{ padding: "20px 30px" }}>
@@ -122,13 +121,13 @@ export default function Level() {
           <Typography variant='h5' className={classes.dlgText}>
             * 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.
           </Typography>
-          <Typography variant='h5' className={classes.dlgText} style={{ marginBottom: "5px" }}>
-            * [렙업 전투력 = 3.5 x 승급 차수] [승급 전투력 = 350 x 승급 차수]
+          <Typography variant='h5' className={classes.dlgText}>
+            * 렙업 전투력 = 3.5 x 승급 차수 // 승급 전투력 = 350 x 승급 차수
           </Typography>
-          <Typography variant='h6' style={{ height: "28px", fontFamily: "Jua", paddingLeft: "20px" }}>
+          <Typography variant='h6' className={classes.dlgText}>
             ex) 699 렙업시 3.5 x 6 = 21 증가
           </Typography>
-          <Typography variant='h6' style={{ height: "28px", fontFamily: "Jua", paddingLeft: "20px" }}>
+          <Typography variant='h6' className={classes.dlgText}>
             ex) 700 렙업시 3.5 x 7 + 350 x 7 = 2474.5 증가
           </Typography>
         </DialogContent>

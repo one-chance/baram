@@ -81,7 +81,6 @@ const useStyles = makeStyles({
     float: "left",
   },
   dlgText: {
-    height: "30px",
     fontFamily: "Jua",
     marginBottom: "10px",
   },
@@ -338,17 +337,14 @@ export default function Pet() {
           <Typography variant='h5' className={classes.dlgText}>
             * 기본 전투력 = 200 x 등급 + 2 x 레벨
           </Typography>
-          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
-            * 잠재능력에 %돋이 없고 최대 수치가 일반 장비와 다르다.
+          <Typography variant='h5' className={classes.dlgText}>
+            * 잠재 능력에 %돋이 없고 최대 수치가 일반 장비와 다르다.
           </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
-            ex) 방관/마치 : 50, 마법수준향상 : 3, 명중률 : 4
+          <Typography variant='h5' className={classes.dlgText}>
+            * 부위(무기/투구/갑옷/손)에 따라서도 최대 수치가 다르다.
           </Typography>
-          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
+          <Typography variant='h5' className={classes.dlgText}>
             * 일반 장비처럼 강화가 가능하다.
-          </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
-            ex) 무기, 투구, 갑옷, 성물(손), 신물(방패)
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
             * 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.

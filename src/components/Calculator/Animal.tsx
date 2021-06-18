@@ -68,7 +68,6 @@ const useStyles = makeStyles({
     float: "left",
   },
   dlgText: {
-    height: "30px",
     fontFamily: "Jua",
     marginBottom: "10px",
   },
@@ -261,11 +260,8 @@ export default function Animal() {
           <Typography variant='h5' className={classes.dlgText}>
             * 기본 전투력 = 400 x 등급 + 4 x 레벨
           </Typography>
-          <Typography variant='h5' className={classes.dlgText} style={{ margin: "0" }}>
-            * 등급업도 레벨업으로 취급된다. 99 &gt; 등급업 &gt; 1
-          </Typography>
-          <Typography variant='h6' className={classes.dlgText} style={{ paddingLeft: "20px" }}>
-            So, 승급 전투력은 따로 없고 렙업 전투력x2
+          <Typography variant='h5' className={classes.dlgText}>
+            * 등급업은 레벨 +2로 취급된다. (99 &gt; 등급업 &gt; 1)
           </Typography>
           <Typography variant='h5' className={classes.dlgText}>
             * 치장 한벌효과인 모든 능력 증가가 반영되지 않는다.
