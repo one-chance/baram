@@ -75,6 +75,14 @@ const useStyles = makeStyles({
       padding: "0",
     },
   },
+  infoText: {
+    minWidth: "60px",
+    lineHeight: "24px",
+    margin: "4px 0",
+    padding: "0",
+    textAlign: "center",
+    float: "left",
+  },
 });
 
 interface IProps {
@@ -275,8 +283,56 @@ const Board = (props: IProps) => {
     if (onPageChange !== undefined) onPageChange(params);
   };
 
+  const article = () => {
+    let temp: JSX.Element[] = [];
+
+    temp = rows.map((row, idx) => {
+      return (
+        <Grid container key={idx} justify='space-between' style={{ borderTop: "1px solid lightgray", padding: "4px 8px" }}>
+          <Typography className={classes.infoText}>{row.id}</Typography>
+          <a
+            style={{ minWidth: "300px", lineHeight: "24px", fontSize: "1rem", margin: "4px 0", textDecoration: "none", color: "black" }}
+            href={`/board/tip/${row.id}`}>
+            {row.title}
+          </a>
+          <Typography className={classes.infoText}>{row.writer}</Typography>
+          <Typography className={classes.infoText}>{row.viewCount}</Typography>
+          <Typography className={classes.infoText}>{row.commentCount}</Typography>
+          <Typography className={classes.infoText}>{row.recommendCount}</Typography>
+          <Typography className={classes.infoText} style={{ minWidth: "100px" }}>
+            {row.createDate}
+          </Typography>
+        </Grid>
+      );
+    });
+
+    return temp;
+  };
+
   return (
     <React.Fragment>
+      <Grid container style={{ maxWidth: "960px", margin: "0 auto", border: "1px solid darkgray", borderRadius: "5px" }}>
+        <Grid container>
+          <Typography style={{ width: "100%", lineHeight: "32px", paddingLeft: "30px", margin: "8px 0", fontSize: "1.2rem", fontWeight: "bold" }}>
+            팁 게시판
+          </Typography>
+          <Grid container justify='space-between' style={{ padding: "4px 8px", color: "blue" }}>
+            <Typography className={classes.infoText}>번호</Typography>
+            <Typography className={classes.infoText} style={{ minWidth: "300px" }}>
+              제목
+            </Typography>
+            <Typography className={classes.infoText}>작성자</Typography>
+            <Typography className={classes.infoText}>조회수</Typography>
+            <Typography className={classes.infoText}>댓글</Typography>
+            <Typography className={classes.infoText}>추천</Typography>
+            <Typography className={classes.infoText} style={{ minWidth: "100px" }}>
+              작성일
+            </Typography>
+          </Grid>
+        </Grid>
+        {article()}
+        <Bottom category={nowCategory} />
+      </Grid>
       <Grid container justify='center' className={smallScreen ? classes.box2 : classes.box}>
         <DataGrid
           className={classes.datagrid}
