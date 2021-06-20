@@ -7,7 +7,7 @@ import { GridPageChangeParams } from "@material-ui/data-grid";
 import Grid from "@material-ui/core/Grid";
 
 import IPost from "interfaces/Board/IPost";
-import Board from "components/Board/Board";
+import BoardM from "components/Board/BoardM";
 import { getPosts, getPostCount } from "utils/PostUtil";
 
 const nowCategory = "tip";
@@ -28,8 +28,8 @@ function TipBoard({ location }: any) {
   const [posts, setPosts] = useState<Array<IPost>>([]);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
-  const _onPageChanged = async (params: GridPageChangeParams) => {
-    await initPage(params.page, params.pageSize);
+  const _onPageChanged = async (page: number, articleSize: number) => {
+    await initPage(page, articleSize);
   };
 
   const initPage = async (page: number, pageSize: number) => {
@@ -66,7 +66,13 @@ function TipBoard({ location }: any) {
 
   return (
     <Grid container justify='center' className={classes.root}>
-      <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged} />
+      <BoardM 
+        category={nowCategory} 
+        posts={posts} 
+        page={2} 
+        totalArticleCount={rowCount} 
+        articleSize={10}
+        onPageChange={_onPageChanged} />
     </Grid>
   );
 }
