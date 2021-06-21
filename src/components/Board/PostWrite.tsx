@@ -294,10 +294,10 @@ function PostWrite(props: IProps) {
             autoComplete='off'
             placeholder='게시글의 제목을 입력하세요.'
             value={title}
-            inputProps={{ style: { padding: "0 10px", height: "40px", lineHeight: "40px", fontSize: "1rem" } }}
+            inputProps={{ style: { padding: "0 8px", height: "40px", lineHeight: "40px", fontSize: "1rem" } }}
             style={{ margin: "2.5px 0" }}
             onChange={e => {
-              if (e.target.value.length < 25) {
+              if (e.target.value.length < 21) {
                 setTitle(e.target.value);
               }
             }}

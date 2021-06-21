@@ -165,7 +165,7 @@ function PostTitle(props: IProps) {
     <>
       <Grid container>
         <Grid container direction='row' style={{ margin: "7.5px 0", padding: "0 10px" }}>
-          <Grid item xs={7}>
+          <Grid item xs={8}>
             <Typography variant='h6' className={classes.title} style={{ lineHeight: "35px", color: "blue", margin: "0 10px", float: "left" }}>
               [{categoryName}]
             </Typography>
@@ -173,7 +173,7 @@ function PostTitle(props: IProps) {
               {post.title}
             </Typography>
           </Grid>
-          <Grid item container justify='space-around' xs={5}>
+          <Grid item container justify='space-around' xs={4}>
             <div>
               <CreateIcon fontSize='small' className={classes.infoIcon} />
               <Typography variant='h6' className={classes.infoText} style={{ fontWeight: "bold" }}>

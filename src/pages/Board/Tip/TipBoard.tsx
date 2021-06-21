@@ -15,7 +15,7 @@ import { getPosts, getPostCount } from "utils/PostUtil";
 const useStyles = makeStyles({
   root: {
     width: "auto",
-    margin: "10px 0",
+    margin: "0",
     padding: "0",
   },
 });

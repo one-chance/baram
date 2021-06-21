@@ -22,7 +22,7 @@ interface IProps {
 
 const useStyles = makeStyles({
   buttonWrapper: {
-    padding: "8px 20px",
+    padding: "8px 20px 0 20px",
   },
   button: {
     minWidth: "80px",

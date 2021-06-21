@@ -40,6 +40,16 @@ const useStyles = makeStyles({
     padding: "0",
     float: "left",
   },
+  titleLink: {
+    width: "100%",
+    lineHeight: "24px",
+    fontSize: "1rem",
+    margin: "4px 0",
+    color: "black",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      textDecoration: "none",
+    },
+  },
   select: {
     width: "80px",
     height: "36px",
@@ -324,9 +334,7 @@ const BoardM = (props: IProps) => {
     temp = rows.map((row: any, idx: number) => {
       return (
         <Grid container key={idx} style={{ borderTop: "1px solid lightgray", padding: "0 5px" }}>
-          <a
-            style={{ width: "100%", lineHeight: "24px", fontSize: "1rem", margin: "4px 0", textDecoration: "none", color: "black" }}
-            href={`/board/tip/${row.id}`}>
+          <a className={classes.titleLink} href={`/board/${nowCategory}/${row.id}`}>
             <span style={{ color: "blue", marginRight: "5px" }}>{`[${categoryName}]`}</span>
             <span>{row.title}</span>
           </a>
@@ -395,22 +403,20 @@ const BoardM = (props: IProps) => {
 
   return (
     <React.Fragment>
-      <Grid container justify='center'>
-        <Grid id='renew' container justify='center' style={{ border: "1px solid darkgray", borderRadius: "5px", margin: "10px 0" }}>
-          <Grid id='title' container alignItems='center' justify='space-between'>
-            <Button variant='outlined' onClick={handleList} style={{ minWidth: "32px", lineHeight: "28px", padding: "0", margin: "8px" }}>
-              <ListIcon style={{ width: "28px", height: "28px" }} />
-            </Button>
-            <Typography style={{ lineHeight: "28px", margin: "8px", fontSize: "1.2rem", fontWeight: "bold" }}>팁 게시판</Typography>
-            <Button variant='outlined' onClick={handlePostWrite} style={{ minWidth: "32px", lineHeight: "28px", padding: "0", margin: "8px" }}>
-              <CreateIcon style={{ width: "28px", height: "28px" }} />
-            </Button>
-          </Grid>
-
-          {article()}
-
-          <CustomPagination totalPageCount={Math.floor((totalArticleCount - 1) / articleSize) + 1} onPageChange={_onPageChanged} />
+      <Grid container justify='center' style={{ border: "1px solid darkgray", borderRadius: "5px", margin: "4px 0" }}>
+        <Grid container alignItems='center' justify='space-between'>
+          <Button variant='outlined' onClick={handleList} style={{ minWidth: "32px", lineHeight: "28px", padding: "0", margin: "8px" }}>
+            <ListIcon style={{ width: "28px", height: "28px" }} />
+          </Button>
+          <Typography style={{ lineHeight: "28px", margin: "8px", fontSize: "1.2rem", fontWeight: "bold" }}>팁 게시판</Typography>
+          <Button variant='outlined' onClick={handlePostWrite} style={{ minWidth: "32px", lineHeight: "28px", padding: "0", margin: "8px" }}>
+            <CreateIcon style={{ width: "28px", height: "28px" }} />
+          </Button>
         </Grid>
+
+        <div style={{ width: "100%", minHeight: "410px" }}>{article()}</div>
+
+        <CustomPagination totalPageCount={Math.floor((totalArticleCount - 1) / articleSize) + 1} onPageChange={_onPageChanged} />
       </Grid>
     </React.Fragment>
   );

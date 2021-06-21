@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -16,10 +14,11 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 
-import Bottom from "./Bottom";
 import IPost, { CategoryType } from "interfaces/Board/IPost";
+import SignInDialogState from "state/common/SignInDialogState";
 import { getCategoryName } from "utils/PostUtil";
 import * as CommonUtil from "utils/CommonUtil";
+import { getNowUserInfo } from "utils/UserUtil";
 
 const useStyles = makeStyles({
   select: {
@@ -54,6 +53,26 @@ const useStyles = makeStyles({
     textAlign: "center",
     float: "left",
   },
+  titleLink: {
+    width: "340px",
+    lineHeight: "24px",
+    fontSize: "1rem",
+    margin: "4px 0",
+    color: "black",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      textDecoration: "none",
+    },
+  },
+  bottomBtn: {
+    minWidth: "80px",
+    height: "36px",
+    padding: "0",
+    margin: "2px 0",
+    boxShadow: "none",
+  },
   pageBtn: {
     backgroundColor: "transparent",
     color: "black",
@@ -83,15 +102,6 @@ const useStyles = makeStyles({
     },
   },
 });
-
-const Menus = withStyles({
-  root: {
-    minHeight: "36px",
-    justifyContent: "center",
-    paddding: "4px 0",
-    color: "blue",
-  },
-})(MenuItem);
 
 interface IProps {
   category: CategoryType;
@@ -126,6 +136,8 @@ function CustomPagination(props: PaginationProps) {
   const classes = useStyles();
   const filterValue = useRecoilValue(FilterState);
   const setMyAlert = useSetRecoilState(MyAlertState);
+  const setIsSignInOpen = useSetRecoilState(SignInDialogState);
+  const signInUser = getNowUserInfo();
 
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [selectedPage, setSelectedPage] = useState<number>(0);
@@ -133,7 +145,7 @@ function CustomPagination(props: PaginationProps) {
   const pageListSize = 5; // 화면에 보여지는 최대 페이지 수
 
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchFilter, setSearchFilter] = useState<string>("title");
+  const [searchFilter, setSearchFilter] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
@@ -152,8 +164,45 @@ function CustomPagination(props: PaginationProps) {
 
   useEffect(() => {}, [pageNumber]);
 
-  const selectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSearchFilter(event.target.value as string);
+  const handleList = () => {
+    document.location.href = `/board/${nowCategory}`;
+  };
+
+  const handlePostWrite = () => {
+    if (signInUser) {
+      if (nowCategory === "tip") {
+        writeTip();
+        return;
+      } else if (1 < Number(signInUser.grade)) {
+        document.location.href = `/board/write/${nowCategory}`;
+      } else {
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: 2000,
+          message: "Level 2 부터 작성하실 수 있습니다. 대표 캐릭터 인증을 완료해주세요.",
+        });
+      }
+    } else {
+      setIsSignInOpen(true);
+    }
+  };
+
+  const writeTip = () => {
+    if (signInUser) {
+      if (nowCategory === "tip" && 9 === Number(signInUser.grade)) {
+        document.location.href = `/board/write/tip`;
+      } else {
+        setMyAlert({
+          isOpen: true,
+          severity: "error",
+          duration: 2000,
+          message: "Level 9 부터 작성할 수 있습니다.",
+        });
+      }
+    } else {
+      setIsSignInOpen(true);
+    }
   };
 
   const onPageListChanged = (diff: number) => {
@@ -241,9 +290,8 @@ function CustomPagination(props: PaginationProps) {
       </Button>
     );
 
-    for (var i = 0; i < pageListSize && pageList * pageListSize + i < props.totalPageCount; ++i) {
-      temp.push(PageButton(i));
-    }
+    temp.push(PageButton(0));
+    for (var i = 1; i < pageListSize && pageList * pageListSize + i < props.totalPageCount; ++i) temp.push(PageButton(i));
 
     temp.push(
       <Button className={classes.pageBtn} key={-1} onClick={onPageListLast}>
@@ -256,37 +304,54 @@ function CustomPagination(props: PaginationProps) {
 
   return (
     <>
-      <Grid container justify='center' style={{ height: "40px", padding: "0" }}>
-        {PageButtonList()}
+      <Grid container justify='space-between' style={{ height: "40px", padding: "0 20px", margin: "12px 0 4px 0" }}>
+        <Button variant='outlined' color='primary' className={classes.bottomBtn} onClick={handleList}>
+          전체목록
+        </Button>
+        <div>{PageButtonList()}</div>
+        <Button variant='contained' color='secondary' className={classes.bottomBtn} onClick={handlePostWrite}>
+          글쓰기
+        </Button>
       </Grid>
 
-      <Grid container justify='center' style={{ height: "56px", padding: "8px 0" }}>
-        <Select variant='outlined' className={classes.select} value={searchFilter} onChange={selectChange}>
-          <Menus value={"title"} disableGutters={true}>
-            제목
-          </Menus>
-          <Menus value={"content"} disableGutters={true}>
-            내용
-          </Menus>
-          <Menus value={"writer"} disableGutters={true}>
-            작성자
-          </Menus>
-        </Select>
-        <Grid item style={{ padding: "0", margin: "2px 8px" }}>
+      <Grid container direction='row' justify='center' style={{ margin: "4px 0 12px 0" }}>
+        <Grid item style={{ padding: "0", margin: "5px 10px" }}>
+          <ButtonGroup color='default'>
+            <Button
+              color={searchFilter === "title" ? "secondary" : "primary"}
+              onClick={() => setSearchFilter(searchFilter === "title" ? "" : "title")}
+              style={{ height: "36px", margin: "0" }}>
+              제목
+            </Button>
+            <Button
+              color={searchFilter === "content" ? "secondary" : "primary"}
+              onClick={() => setSearchFilter(searchFilter === "content" ? "" : "content")}
+              style={{ height: "36px", margin: "0" }}>
+              내용
+            </Button>
+            <Button
+              color={searchFilter === "writer" ? "secondary" : "primary"}
+              onClick={() => setSearchFilter(searchFilter === "writer" ? "" : "writer")}
+              style={{ height: "36px", margin: "0" }}>
+              작성자
+            </Button>
+          </ButtonGroup>
+        </Grid>
+        <Grid item style={{ padding: "0", margin: "5px 10px" }}>
           <FormControl variant='outlined'>
             <OutlinedInput
-              id='post-search'
+              id='post-search-text'
               value={searchValue}
               onChange={e => _onChangeSearch(e.target.value)}
               onKeyUp={e => _onEnterSearch(e.keyCode)}
               endAdornment={
                 <InputAdornment position='end'>
-                  <IconButton aria-label='post-search' edge='end' style={{ height: "36px", padding: "0" }}>
-                    <SearchIcon />
+                  <IconButton aria-label='post-search-icon' onClick={search} edge='end' style={{ height: "36px", padding: "5px" }}>
+                    <SearchIcon style={{ height: "36px" }} />
                   </IconButton>
                 </InputAdornment>
               }
-              inputProps={{ style: { width: "100px", height: "36px", padding: "0 0 0 10px" } }}
+              inputProps={{ style: { height: "36px", padding: "0 10px" } }}
             />
           </FormControl>
         </Grid>
@@ -321,9 +386,7 @@ const Board = (props: IProps) => {
       return (
         <Grid container key={idx} justify='space-between' style={{ borderTop: "1px solid lightgray", padding: "4px 8px" }}>
           <Typography className={classes.infoText}>{row.id}</Typography>
-          <a
-            style={{ minWidth: "300px", lineHeight: "24px", fontSize: "1rem", margin: "4px 0", textDecoration: "none", color: "black" }}
-            href={`/board/tip/${row.id}`}>
+          <a className={classes.titleLink} href={`/board/${nowCategory}/${row.id}`}>
             {row.title}
           </a>
           <Typography className={classes.infoText} style={{ minWidth: "140px" }}>
@@ -348,14 +411,14 @@ const Board = (props: IProps) => {
 
   return (
     <React.Fragment>
-      <Grid container style={{ maxWidth: "960px", margin: "0 auto", border: "1px solid darkgray", borderRadius: "5px" }}>
+      <Grid container alignItems='flex-start' style={{ maxWidth: "960px", margin: "8px auto", border: "1px solid darkgray", borderRadius: "5px" }}>
         <Grid container>
-          <Typography style={{ width: "100%", lineHeight: "32px", paddingLeft: "30px", margin: "12px 0 4px 0", fontSize: "1.2rem", fontWeight: "bold" }}>
+          <Typography style={{ width: "100%", lineHeight: "32px", paddingLeft: "20px", margin: "12px 0 4px 0", fontSize: "1.2rem", fontWeight: "bold" }}>
             {categoryName}
           </Typography>
           <Grid container justify='space-between' style={{ padding: "4px 8px" }}>
             <Typography className={classes.titleText}>번호</Typography>
-            <Typography className={classes.titleText} style={{ minWidth: "300px" }}>
+            <Typography className={classes.titleText} style={{ width: "340px" }}>
               제목
             </Typography>
             <Typography className={classes.titleText} style={{ minWidth: "140px" }}>
@@ -369,10 +432,9 @@ const Board = (props: IProps) => {
             </Typography>
           </Grid>
         </Grid>
-        {article()}
+        <div style={{ width: "100%", minHeight: "410px" }}>{article()}</div>
 
         <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
-        <Bottom category={nowCategory} />
         <CustomPagination totalPageCount={Math.floor((totalArticleCount - 1) / articleSize) + 1} onPageChange={_onPageChanged} />
       </Grid>
     </React.Fragment>
