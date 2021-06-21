@@ -37,7 +37,7 @@ const Bottom = (props: IProps) => {
   const setIsSignInOpen = useSetRecoilState(SignInDialogState);
   const setMyAlert = useSetRecoilState(MyAlertState);
 
-  const { category, seq, isRecommended, recommendCount, onRecommendPost, onUnrecommendPost } = props;
+  const { category, isRecommended, recommendCount, onRecommendPost, onUnrecommendPost } = props;
   const [isReload, setIsReload] = useState(false);
   const [rc, setRc] = useState(0);
   const signInUser = getNowUserInfo();
@@ -113,18 +113,16 @@ const Bottom = (props: IProps) => {
           전체목록
         </Button>
 
-        {seq && (
-          <Button
-            aria-label='recommend'
-            variant={isReload ? "contained" : "outlined"}
-            color='primary'
-            size='small'
-            className={classes.button}
-            onClick={handleRecommend}
-            startIcon={<ThumbUpIcon />}>
-            {rc}
-          </Button>
-        )}
+        <Button
+          aria-label='recommend'
+          variant={isReload ? "contained" : "outlined"}
+          color='primary'
+          size='small'
+          className={classes.button}
+          onClick={handleRecommend}
+          startIcon={<ThumbUpIcon />}>
+          {rc}
+        </Button>
 
         <Button variant='contained' color='primary' className={classes.button} onClick={handlePostWrite}>
           글쓰기

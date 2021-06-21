@@ -384,7 +384,7 @@ const Board = (props: IProps) => {
 
     temp = rows.map((row, idx) => {
       return (
-        <Grid container key={idx} justify='space-between' style={{ borderTop: "1px solid lightgray", padding: "4px 8px" }}>
+        <Grid container key={idx} justify='space-between' style={{ borderTop: "1px solid lightgray", borderBottom: "1px solid lightgray", padding: "4px 8px" }}>
           <Typography className={classes.infoText}>{row.id}</Typography>
           <a className={classes.titleLink} href={`/board/${nowCategory}/${row.id}`}>
             {row.title}
@@ -432,6 +432,8 @@ const Board = (props: IProps) => {
             </Typography>
           </Grid>
         </Grid>
+        <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
+
         <div style={{ width: "100%", minHeight: "410px" }}>{article()}</div>
 
         <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
