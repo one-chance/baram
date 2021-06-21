@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { FilterState, MyBackdropState } from "state/index";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import queryString from "query-string";
-import { makeStyles } from "@material-ui/core/styles";
-import { GridPageChangeParams } from "@material-ui/data-grid";
+
 import Grid from "@material-ui/core/Grid";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import IPost from "interfaces/Board/IPost";
 import BoardM from "components/Board/BoardM";
 import { getPosts, getPostCount } from "utils/PostUtil";
-
-const nowCategory = "tip";
 
 const useStyles = makeStyles({
   root: {
@@ -22,11 +21,14 @@ const useStyles = makeStyles({
 
 function TipBoard({ location }: any) {
   const classes = useStyles();
-  const query = queryString.parse(location.search);
+  const theme = useTheme();
   const setFilter = useSetRecoilState(FilterState);
+  const setMyBackdrop = useSetRecoilState(MyBackdropState);
+  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const query = queryString.parse(location.search);
+
   const [rowCount, setRowCount] = useState<number>(0);
   const [posts, setPosts] = useState<Array<IPost>>([]);
-  const setMyBackdrop = useSetRecoilState(MyBackdropState);
 
   const _onPageChanged = async (page: number, articleSize: number) => {
     await initPage(page, articleSize);
@@ -54,8 +56,8 @@ function TipBoard({ location }: any) {
     });
 
     setMyBackdrop(true);
-    setRowCount(await getPostCount(nowCategory, filterUri));
-    setPosts(await getPosts(nowCategory, filterUri, page, pageSize));
+    setRowCount(await getPostCount("tip", filterUri));
+    setPosts(await getPosts("tip", filterUri, page, pageSize));
     setMyBackdrop(false);
   };
 
@@ -66,13 +68,11 @@ function TipBoard({ location }: any) {
 
   return (
     <Grid container justify='center' className={classes.root}>
-      <BoardM 
-        category={nowCategory} 
-        posts={posts} 
-        page={2} 
-        totalArticleCount={rowCount} 
-        articleSize={10}
-        onPageChange={_onPageChanged} />
+      {smallScreen ? (
+        <BoardM category={"tip"} posts={posts} page={2} totalArticleCount={rowCount} articleSize={10} onPageChange={_onPageChanged} />
+      ) : (
+        "게시물이 없습니다."
+      )}
     </Grid>
   );
 }

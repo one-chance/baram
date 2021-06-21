@@ -2,15 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { DataGrid, GridRowsProp, GridColDef, GridOverlay, useGridSlotComponentProps, GridPageChangeParams, unorderedGridRowModelsSelector } from "@material-ui/data-grid";
+
 import Typography from "@material-ui/core/Typography";
-import Pagination from "@material-ui/lab/Pagination";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -23,63 +20,13 @@ import MessageIcon from "@material-ui/icons/Message";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
-import MyGridDivider from "elements/Grid/MyGridDivider";
-import Bottom from "./Bottom";
-
 import IPost, { CategoryType } from "interfaces/Board/IPost";
 import SignInDialogState from "state/common/SignInDialogState";
 import * as CommonUtil from "utils/CommonUtil";
 import { getCategoryName } from "utils/PostUtil";
 import { getNowUserInfo } from "utils/UserUtil";
 
-let nowCategory: CategoryType;
-
 const useStyles = makeStyles({
-  header: {
-    padding: "10px",
-    paddingLeft: "30px",
-    fontWeight: "bold",
-    lineHeight: "30px",
-  },
-  box: {
-    minHeight: "560px",
-  },
-  datagrid: {
-    "& .title": {
-      paddingLeft: "30px",
-    },
-    "& .MuiDataGrid-footer": {
-      padding: "0",
-      margin: "0",
-      align: "center",
-    },
-    "& .MuiDataGrid-mainGridContainer": {
-      minHeight: "450px",
-      maxHeight: "450px",
-    },
-    "& .MuiDataGrid-overlay": {
-      margin: "auto",
-    },
-    "& .MuiDataGrid-colCell, .MuiDataGrid-cell": {
-      padding: "0 10px",
-    },
-    "& .MuiDataGrid-row": {
-      cursor: "pointer",
-      "& div": {
-        "&:focus, &:hover, &:visited, &:link, &:active": {
-          outline: "none",
-        },
-      },
-    },
-  },
-  pageBox: {
-    width: "100%",
-    height: "30px",
-    marginBottom: "10px",
-    "& button": {
-      padding: "0",
-    },
-  },
   infoIcon: {
     width: "16px",
     height: "16px",
@@ -108,11 +55,33 @@ const useStyles = makeStyles({
       color: "blue",
     },
   },
-  pageButton: {
-
+  pageBtn: {
+    backgroundColor: "transparent",
+    color: "black",
+    boxShadow: "none",
+    minWidth: "32px",
+    height: "32px",
+    padding: "0",
+    margin: "4px 2px",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      backgroundColor: "transparent",
+      outline: "none",
+      boxShadow: "none",
+    },
   },
-  selectPageButton: {
-
+  selectPageBtn: {
+    backgroundColor: "#3f51b5",
+    color: "white",
+    boxShadow: "none",
+    minWidth: "32px",
+    height: "32px",
+    padding: "0",
+    margin: "4px 2px",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      backgroundColor: "#3f51b5",
+      outline: "none",
+      boxShadow: "none",
+    },
   },
 });
 
@@ -137,141 +106,206 @@ interface IProps {
   onPageChange?: (page: number, articleSize: number) => Promise<void>;
 }
 
-/* const cols: GridColDef[] = [
-  { field: "id", headerName: "번호", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "title", headerName: "제목", type: "string", width: 420, sortable: false, headerAlign: "center" },
-  { field: "writer", headerName: "작성자", type: "string", width: 140, sortable: false, headerAlign: "center", align: "center" },
-  { field: "viewCount", headerName: "조회수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "commentCount", headerName: "댓글수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "recommendCount", headerName: "추천수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "createDate", headerName: "작성일", type: "date", width: 120, headerAlign: "center", align: "center" },
-]; */
-
-const cols2: GridColDef[] = [
-  { field: "title", headerName: "제목", type: "string", width: 230, sortable: false, headerAlign: "center" },
-  { field: "writer", headerName: "작성자", type: "string", width: 90, sortable: false, headerAlign: "center", align: "center" },
-  { field: "viewCount", headerName: "조회수", type: "number", width: 70, headerAlign: "center", align: "center" },
-  { field: "createDate", headerName: "작성일", type: "date", width: 90, headerAlign: "center", align: "center" },
-];
-
-function CustomHeader() {
-  const classes = useStyles();
-
-  return (
-    <Grid container direction='row' justify='space-between' alignItems='center'>
-      <Typography className={classes.header} variant='h6'>
-        {getCategoryName(nowCategory)}
-      </Typography>
-    </Grid>
-  );
-}
-
-function CustomNoRowsOverlay() {
-  return (
-    <GridOverlay>
-      <Typography>게시글이 존재하지 않습니다.</Typography>
-    </GridOverlay>
-  );
-}
-
 interface PaginationProps {
   totalPageCount: number;
   onPageChange?: (index: number) => void;
 }
 
-function CustomPagination(props : PaginationProps) {
+interface Article {
+  id: number;
+  title: string;
+  writer: string;
+  viewCount: number;
+  commentCount: number;
+  recommendCount: number;
+  createDate: string;
+}
+
+let nowCategory: CategoryType;
+
+function CustomPagination(props: PaginationProps) {
   const classes = useStyles();
+  const filterValue = useRecoilValue(FilterState);
+  const setMyAlert = useSetRecoilState(MyAlertState);
+
   const [pageNumber, setPageNumber] = useState<number>(0);
-
-  const [pageList, setPageList] = useState<number>(0);
-  const [pageListSize, setPageListSize] = useState<number>(5);
-
   const [selectedPage, setSelectedPage] = useState<number>(0);
+  const [pageList, setPageList] = useState<number>(0);
+  const pageListSize = 5; // 화면에 보여지는 최대 페이지 수
 
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchFilter, setSearchFilter] = useState<string>("title");
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
-    
+    for (let idx in filterValue.query) {
+      let query = filterValue.query[idx].split(`=`);
+      if (query[0] === `title` || query[0] === `content` || query[0] === `writer`) {
+        setSearchFilter(query[0]);
+        setSearchValue(query[1]);
+      } else {
+        if (searchQuery === ``) setSearchQuery(filterValue.query[idx]);
+        else setSearchQuery(searchQuery + `&` + filterValue.query[idx]);
+      }
+    }
     // eslint-disable-next-line
-  }, [pageNumber]);
-  
-  const onPageListChanged = (diff : number) => {
-    if(pageList + diff >= 0 && pageList + diff <= Math.floor((props.totalPageCount-1) / pageListSize)) {
+  }, [filterValue]);
+
+  useEffect(() => {}, [pageNumber]);
+
+  const selectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setSearchFilter(event.target.value as string);
+  };
+
+  const onPageListChanged = (diff: number) => {
+    if (pageList + diff >= 0 && pageList + diff <= Math.floor((props.totalPageCount - 1) / pageListSize)) {
       setPageList(pageList + diff);
       onPageButtonClick(pageList + diff, 0);
     }
-  } 
+  };
 
-  const onPageButtonClick = (searchPageList : number, searchPage : number) => {
+  const onPageListFirst = () => {
+    onPageListChanged(-1);
+  };
+
+  const onPageListLast = () => {
+    onPageListChanged(1);
+  };
+
+  const onPageButtonClick = (searchPageList: number, searchPage: number) => {
     setSelectedPage(searchPage);
     onPageChanged(searchPageList, searchPage);
-  }
+  };
 
-  const onPageChanged = (searchPageList : number, searchPage : number) => {
-    setPageNumber(searchPageList*pageListSize + searchPage);
-    if(props.onPageChange != undefined)
-      props.onPageChange(searchPageList*pageListSize + searchPage);
-  }
+  const onPageChanged = (searchPageList: number, searchPage: number) => {
+    setPageNumber(searchPageList * pageListSize + searchPage);
+    if (props.onPageChange !== undefined) props.onPageChange(searchPageList * pageListSize + searchPage);
+  };
 
-  const PageButton = (page : number) => {
-    let btn :JSX.Element = (
+  const _onChangeSearch = (value: string) => {
+    setSearchValue(value);
+  };
+
+  const _onEnterSearch = (keyCode: number) => {
+    keyCode === 13 && search();
+  };
+
+  const search = () => {
+    if (!searchFilter) {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: 2000,
+        message: "검색 조건을 설정해주세요.",
+      });
+
+      return 0;
+    }
+    if (!searchValue) {
+      setMyAlert({
+        isOpen: true,
+        severity: "error",
+        duration: 2000,
+        message: "검색어를 입력해주세요.",
+      });
+
+      return 0;
+    }
+
+    let uri = `/board/${nowCategory}?`;
+    if (searchQuery === ``) uri += `${searchFilter}=${searchValue}`;
+    else uri += searchQuery + `&${searchFilter}=${searchValue}`;
+    document.location.href = uri;
+  };
+
+  const PageButton = (page: number) => {
+    let btn: JSX.Element = (
       <Button
         variant='contained'
-        color='primary' 
-        className={page === selectedPage ? `${classes.pageButton} ${classes.selectPageButton}` : classes.pageButton} 
-        style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}
-        onClick={()=> {onPageButtonClick(pageList, page)}}>
-        {pageList*pageListSize + page + 1}
+        key={page}
+        className={page === selectedPage ? classes.selectPageBtn : classes.pageBtn}
+        onClick={() => {
+          onPageButtonClick(pageList, page);
+        }}>
+        {pageList * pageListSize + page + 1}
       </Button>
     );
     return btn;
-  }
+  };
 
   const PageButtonList = () => {
     let temp: JSX.Element[] = [];
-    for(var i = 0; i < pageListSize && pageList*pageListSize + i < props.totalPageCount; ++i) {
+
+    temp.push(
+      <Button className={classes.pageBtn} key={-2} onClick={onPageListFirst}>
+        ◀
+      </Button>
+    );
+
+    for (var i = 0; i < pageListSize && pageList * pageListSize + i < props.totalPageCount; ++i) {
       temp.push(PageButton(i));
     }
 
+    temp.push(
+      <Button className={classes.pageBtn} key={-1} onClick={onPageListLast}>
+        ▶
+      </Button>
+    );
+
     return temp;
-  }
+  };
 
   return (
-    <Container style={{ margin: "0", padding: "0" }}>
-      <Bottom category={nowCategory} />
-      <Grid container direction='row' justify='center' className={classes.pageBox}>
-        <Grid container justify='center' style={{ height: "56px", padding: "8px 0", borderTop: "1px solid lightgray" }}>
-          <Button
-            style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}
-            onClick={()=> {onPageListChanged(-1)}}
-          >
-              &lt;
-          </Button>
+    <>
+      <Grid container justify='center' style={{ height: "56px", padding: "8px 0", borderTop: "1px solid lightgray" }}>
+        {PageButtonList()}
+      </Grid>
 
-          {PageButtonList()}
-
-          <Button
-            style={{ minWidth: "32px", height: "32px", padding: "0", margin: "4px 2px" }}
-            onClick={()=> {onPageListChanged(1)}}
-          >
-            &gt;
-          </Button>
+      <Grid container justify='center' style={{ height: "56px", padding: "8px 0" }}>
+        <Select variant='outlined' className={classes.select} value={searchFilter} onChange={selectChange}>
+          <Menus value={"title"} disableGutters={true}>
+            제목
+          </Menus>
+          <Menus value={"content"} disableGutters={true}>
+            내용
+          </Menus>
+          <Menus value={"writer"} disableGutters={true}>
+            작성자
+          </Menus>
+        </Select>
+        <Grid item style={{ padding: "0", margin: "2px 8px" }}>
+          <FormControl variant='outlined'>
+            <OutlinedInput
+              id='post-search'
+              value={searchValue}
+              onChange={e => _onChangeSearch(e.target.value)}
+              onKeyUp={e => _onEnterSearch(e.keyCode)}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton aria-label='post-search' edge='end' style={{ height: "36px", padding: "0" }}>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              inputProps={{ style: { width: "100px", height: "36px", padding: "0 0 0 10px" } }}
+            />
+          </FormControl>
         </Grid>
       </Grid>
-      <MyGridDivider />
-    </Container>
+    </>
   );
 }
 
 const BoardM = (props: IProps) => {
   const classes = useStyles();
-  const { category, posts, totalArticleCount, articleSize, onPageChange } = props;
-  const rows: GridRowsProp = [];
-  nowCategory = category;
-
-  const signInUser = getNowUserInfo();
   const setIsSignInOpen = useSetRecoilState(SignInDialogState);
   const setMyAlert = useSetRecoilState(MyAlertState);
-  const [searchFilter, setSearchFilter] = useState<number>(0);
+  const { category, posts, totalArticleCount, articleSize, onPageChange } = props;
+  const rows: Array<Article> = [];
+  nowCategory = category;
+  const categoryName = getCategoryName(nowCategory)?.split(" ")[0];
+
+  const signInUser = getNowUserInfo();
 
   posts.forEach(post => {
     rows.push({
@@ -288,13 +322,13 @@ const BoardM = (props: IProps) => {
   const article = () => {
     let temp: JSX.Element[] = [];
 
-    temp = rows.map((row, idx) => {
+    temp = rows.map((row: any, idx: number) => {
       return (
         <Grid container key={idx} style={{ borderTop: "1px solid lightgray", padding: "0 5px" }}>
           <a
             style={{ width: "100%", lineHeight: "24px", fontSize: "1rem", margin: "4px 0", textDecoration: "none", color: "black" }}
             href={`/board/tip/${row.id}`}>
-            <span style={{ color: "blue", marginRight: "5px" }}>[게시판]</span>
+            <span style={{ color: "blue", marginRight: "5px" }}>{`[${categoryName}]`}</span>
             <span>{row.title}</span>
           </a>
           <Grid container style={{ margin: "4px 0", padding: "0" }}>
@@ -313,10 +347,6 @@ const BoardM = (props: IProps) => {
     });
 
     return temp;
-  };
-
-  const _onRowClick = (id: number) => {
-    document.location.href = `/board/${nowCategory}/${id}`;
   };
 
   const _onPageChanged = (params: number) => {
@@ -377,47 +407,10 @@ const BoardM = (props: IProps) => {
               <CreateIcon style={{ width: "28px", height: "28px" }} />
             </Button>
           </Grid>
-          {article()}
-          
-          <CustomPagination totalPageCount={Math.floor((totalArticleCount-1)/articleSize)+1} onPageChange={_onPageChanged}/>
 
-          <Grid container justify='center' style={{ height: "56px", padding: "8px 0" }}>
-            <Select
-              variant='outlined'
-              className={classes.select}
-              defaultValue={0}
-              onChange={e => {
-                setSearchFilter(Number(e));
-              }}>
-              <Menus value={0} disableGutters={true}>
-                제목
-              </Menus>
-              <Menus value={1} disableGutters={true}>
-                내용
-              </Menus>
-              <Menus value={2} disableGutters={true}>
-                작성자
-              </Menus>
-            </Select>
-            <Grid item style={{ padding: "0", margin: "2px 8px" }}>
-              <FormControl variant='outlined'>
-                <OutlinedInput
-                  id='post-search'
-                  //value={searchValue}
-                  //onChange={e => _onChangeSearch(e.target.value)}
-                  //onKeyUp={e => _onEnterSearch(e.keyCode)}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton aria-label='post-search' edge='end' style={{ height: "36px", padding: "0" }}>
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  inputProps={{ style: { width: "100px", height: "36px", padding: "0 0 0 10px" } }}
-                />
-              </FormControl>
-            </Grid>
-          </Grid>
+          {article()}
+
+          <CustomPagination totalPageCount={Math.floor((totalArticleCount - 1) / articleSize) + 1} onPageChange={_onPageChanged} />
         </Grid>
       </Grid>
     </React.Fragment>
