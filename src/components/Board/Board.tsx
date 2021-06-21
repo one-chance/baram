@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid, GridRowsProp, GridColDef, GridOverlay, useGridSlotComponentProps, GridPageChangeParams } from "@material-ui/data-grid";
 import Typography from "@material-ui/core/Typography";
 import Pagination from "@material-ui/lab/Pagination";
 import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -13,7 +14,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import IconButton from "@material-ui/core/IconButton";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import SearchIcon from "@material-ui/icons/Search";
 
 import MyGridDivider from "elements/Grid/MyGridDivider";
@@ -35,9 +35,6 @@ const useStyles = makeStyles({
   box: {
     width: "1010px",
     height: "630px",
-  },
-  box2: {
-    height: "560px",
   },
   datagrid: {
     "& .title": {
@@ -75,6 +72,23 @@ const useStyles = makeStyles({
       padding: "0",
     },
   },
+  infoText: {
+    minWidth: "60px",
+    lineHeight: "24px",
+    margin: "4px 0",
+    padding: "0",
+    textAlign: "center",
+    float: "left",
+  },
+  titleText: {
+    minWidth: "60px",
+    lineHeight: "24px",
+    margin: "4px 0",
+    padding: "0",
+    fontWeight: "bold",
+    textAlign: "center",
+    float: "left",
+  },
 });
 
 interface IProps {
@@ -95,13 +109,6 @@ const cols: GridColDef[] = [
   { field: "commentCount", headerName: "댓글수", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "recommendCount", headerName: "추천수", type: "number", width: 80, headerAlign: "center", align: "center" },
   { field: "createDate", headerName: "작성일", type: "date", width: 120, headerAlign: "center", align: "center" },
-];
-
-const cols2: GridColDef[] = [
-  { field: "title", headerName: "제목", type: "string", width: 230, sortable: false, headerAlign: "center" },
-  { field: "writer", headerName: "작성자", type: "string", width: 90, sortable: false, headerAlign: "center", align: "center" },
-  { field: "viewCount", headerName: "조회수", type: "number", width: 70, headerAlign: "center", align: "center" },
-  { field: "createDate", headerName: "작성일", type: "date", width: 90, headerAlign: "center", align: "center" },
 ];
 
 function CustomHeader() {
@@ -249,8 +256,6 @@ function CustomPagination() {
 
 const Board = (props: IProps) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const { category, posts, rowCount, onPageChange } = props;
   const rows: GridRowsProp = [];
   nowCategory = category;
@@ -275,13 +280,67 @@ const Board = (props: IProps) => {
     if (onPageChange !== undefined) onPageChange(params);
   };
 
+  const article = () => {
+    let temp: JSX.Element[] = [];
+
+    temp = rows.map((row, idx) => {
+      return (
+        <Grid container key={idx} justify='space-between' style={{ borderTop: "1px solid lightgray", padding: "4px 8px" }}>
+          <Typography className={classes.infoText}>{row.id}</Typography>
+          <a
+            style={{ minWidth: "300px", lineHeight: "24px", fontSize: "1rem", margin: "4px 0", textDecoration: "none", color: "black" }}
+            href={`/board/tip/${row.id}`}>
+            {row.title}
+          </a>
+          <Typography className={classes.infoText} style={{ minWidth: "140px" }}>
+            {row.writer}
+          </Typography>
+          <Typography className={classes.infoText}>{row.viewCount}</Typography>
+          <Typography className={classes.infoText}>{row.commentCount}</Typography>
+          <Typography className={classes.infoText}>{row.recommendCount}</Typography>
+          <Typography className={classes.infoText} style={{ minWidth: "100px" }}>
+            {row.createDate}
+          </Typography>
+        </Grid>
+      );
+    });
+
+    return temp;
+  };
+
   return (
     <React.Fragment>
-      <Grid container justify='center' className={smallScreen ? classes.box2 : classes.box}>
+      <Grid container style={{ maxWidth: "960px", margin: "0 auto", border: "1px solid darkgray", borderRadius: "5px" }}>
+        <Grid container>
+          <Typography style={{ width: "100%", lineHeight: "32px", paddingLeft: "30px", margin: "8px 0", fontSize: "1.2rem", fontWeight: "bold" }}>
+            팁 게시판
+          </Typography>
+          <Grid container justify='space-between' style={{ padding: "4px 8px" }}>
+            <Typography className={classes.titleText}>번호</Typography>
+            <Typography className={classes.titleText} style={{ minWidth: "300px" }}>
+              제목
+            </Typography>
+            <Typography className={classes.titleText} style={{ minWidth: "140px" }}>
+              작성자
+            </Typography>
+            <Typography className={classes.titleText}>조회수</Typography>
+            <Typography className={classes.titleText}>댓글</Typography>
+            <Typography className={classes.titleText}>추천</Typography>
+            <Typography className={classes.titleText} style={{ minWidth: "100px" }}>
+              작성일
+            </Typography>
+          </Grid>
+        </Grid>
+        {article()}
+
+        <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
+        <Bottom category={nowCategory} />
+      </Grid>
+      {/*       <Grid container justify='center' className={classes.box}>
         <DataGrid
           className={classes.datagrid}
-          headerHeight={smallScreen ? 30 : 40} //default 56
-          rowHeight={smallScreen ? 30 : 40} //default 52
+          headerHeight={40} //default 56
+          rowHeight={40} //default 52
           sortingMode='client'
           pageSize={10}
           paginationMode='server'
@@ -289,7 +348,7 @@ const Board = (props: IProps) => {
           hideFooterRowCount={true}
           hideFooterSelectedRowCount={true}
           disableColumnMenu={true}
-          columns={smallScreen ? cols2 : cols}
+          columns={cols}
           rows={rows}
           rowCount={rowCount ? rowCount : rows.length}
           onRowClick={param => _onRowClick(param.row.id as number)}
@@ -299,7 +358,7 @@ const Board = (props: IProps) => {
             Pagination: CustomPagination,
           }}
         />
-      </Grid>
+      </Grid> */}
     </React.Fragment>
   );
 };
