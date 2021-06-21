@@ -19,28 +19,16 @@ interface IProps {
   onRecommendPost?: any;
   onUnrecommendPost?: any;
 }
+
 const useStyles = makeStyles({
   buttonWrapper: {
-    width: "100%",
-    padding: "0 20px",
-    marginBottom: "5px",
-    justifyContent: "space-between",
-  },
-  buttonWrapperOne: {
-    width: "100%",
-    float: "right",
-    textAlign: "right",
+    padding: "8px 20px",
   },
   button: {
-    boxShadow: "none",
-  },
-  btnClose: {
-    minWidth: 10,
-    fontSize: "1rem",
+    minWidth: "80px",
+    height: "36px",
     padding: "0",
-    position: "absolute",
-    top: 5,
-    right: 10,
+    boxShadow: "none",
   },
 });
 
@@ -114,39 +102,31 @@ const Bottom = (props: IProps) => {
 
   return (
     <>
-      <Grid container direction='row' className={document.location.href.indexOf(`/board/write`) < 0 ? classes.buttonWrapper : classes.buttonWrapperOne}>
-        {
-          // 게시글 View 에서만 보여지도록
-          document.location.href.indexOf(`/board/write`) < 0 && (
-            <Button
-              variant='outlined'
-              color='primary'
-              className={classes.button}
-              onClick={() => {
-                document.location.href = `/board/${category}`;
-              }}
-              style={{ height: "35px" }}>
-              전체목록
-            </Button>
-          )
-        }
-        {
-          // 게시글 정보가 있으면
-          seq && (
-            <Button
-              aria-label='recommend'
-              variant={isReload ? "contained" : "outlined"}
-              color='primary'
-              size='small'
-              className={classes.button}
-              onClick={handleRecommend}
-              startIcon={<ThumbUpIcon />}
-              style={{ height: "35px" }}>
-              {rc}
-            </Button>
-          )
-        }
-        <Button variant='contained' color='primary' className={classes.button} onClick={handlePostWrite} style={{ height: "35px" }}>
+      <Grid container direction='row' justify='space-between' className={classes.buttonWrapper}>
+        <Button
+          variant='outlined'
+          color='primary'
+          className={classes.button}
+          onClick={() => {
+            document.location.href = `/board/${category}`;
+          }}>
+          전체목록
+        </Button>
+
+        {seq && (
+          <Button
+            aria-label='recommend'
+            variant={isReload ? "contained" : "outlined"}
+            color='primary'
+            size='small'
+            className={classes.button}
+            onClick={handleRecommend}
+            startIcon={<ThumbUpIcon />}>
+            {rc}
+          </Button>
+        )}
+
+        <Button variant='contained' color='primary' className={classes.button} onClick={handlePostWrite}>
           글쓰기
         </Button>
       </Grid>
