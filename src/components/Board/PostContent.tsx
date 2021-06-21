@@ -79,7 +79,6 @@ function PostContent(props: IProps) {
 
       <Bottom
         category={post.category}
-        seq={post.seq}
         isRecommended={post.recommendUserList ? post.recommendUserList.includes(signInUserId) : false}
         recommendCount={post.recommendUserList ? post.recommendUserList.length : 0}
         onRecommendPost={onRecommendPost}
