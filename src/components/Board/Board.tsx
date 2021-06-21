@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, FilterState } from "state/index";
-import { makeStyles } from "@material-ui/core/styles";
-import { DataGrid, GridRowsProp, GridColDef, GridOverlay, useGridSlotComponentProps, GridPageChangeParams } from "@material-ui/data-grid";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+
 import Typography from "@material-ui/core/Typography";
-import Pagination from "@material-ui/lab/Pagination";
-import Container from "@material-ui/core/Container";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -16,60 +16,25 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 
-import MyGridDivider from "elements/Grid/MyGridDivider";
 import Bottom from "./Bottom";
-
 import IPost, { CategoryType } from "interfaces/Board/IPost";
-import * as CommonUtil from "utils/CommonUtil";
 import { getCategoryName } from "utils/PostUtil";
-
-let nowCategory: CategoryType;
+import * as CommonUtil from "utils/CommonUtil";
 
 const useStyles = makeStyles({
-  header: {
-    padding: "10px",
-    paddingLeft: "30px",
-    fontWeight: "bold",
-    lineHeight: "30px",
-  },
-  box: {
-    width: "1010px",
-    height: "630px",
-  },
-  datagrid: {
-    "& .title": {
-      paddingLeft: "30px",
-    },
-    "& .MuiDataGrid-footer": {
-      padding: "0",
-      margin: "0",
-      align: "center",
-    },
-    "& .MuiDataGrid-mainGridContainer": {
-      minHeight: "450px",
-      maxHeight: "450px",
-    },
-    "& .MuiDataGrid-overlay": {
-      margin: "auto",
-    },
-    "& .MuiDataGrid-colCell, .MuiDataGrid-cell": {
-      padding: "0 10px",
-    },
-    "& .MuiDataGrid-row": {
-      cursor: "pointer",
-      "& div": {
-        "&:focus, &:hover, &:visited, &:link, &:active": {
-          outline: "none",
-        },
-      },
-    },
-  },
-  pageBox: {
-    width: "100%",
-    height: "30px",
-    marginBottom: "10px",
-    "& button": {
-      padding: "0",
+  select: {
+    width: "80px",
+    height: "36px",
+    padding: "0",
+    margin: "2px 0",
+    fontSize: "0.875rem",
+    color: "blue",
+    textAlignLast: "center",
+    "& .MuiSelect-selectMenu": {
+      padding: "2px 20px 2px 5px",
+      lineHeight: "30px",
+      textAlign: "center",
+      color: "blue",
     },
   },
   infoText: {
@@ -89,57 +54,86 @@ const useStyles = makeStyles({
     textAlign: "center",
     float: "left",
   },
+  pageBtn: {
+    backgroundColor: "transparent",
+    color: "black",
+    boxShadow: "none",
+    minWidth: "32px",
+    height: "32px",
+    padding: "0",
+    margin: "4px 2px",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      backgroundColor: "transparent",
+      outline: "none",
+      boxShadow: "none",
+    },
+  },
+  selectPageBtn: {
+    backgroundColor: "#3f51b5",
+    color: "white",
+    boxShadow: "none",
+    minWidth: "32px",
+    height: "32px",
+    padding: "0",
+    margin: "4px 2px",
+    "&:focus, &:hover, &:visited, &:link, &:active": {
+      backgroundColor: "#3f51b5",
+      outline: "none",
+      boxShadow: "none",
+    },
+  },
 });
+
+const Menus = withStyles({
+  root: {
+    minHeight: "36px",
+    justifyContent: "center",
+    paddding: "4px 0",
+    color: "blue",
+  },
+})(MenuItem);
 
 interface IProps {
   category: CategoryType;
+  subCategory?: string;
   posts: Array<IPost>;
-  rowCount?: number;
+  totalArticleCount: number;
+  articleSize: number;
   page?: number;
   filter?: string;
   keyword?: string;
-  onPageChange?: (params: GridPageChangeParams) => void;
+  onPageChange?: (page: number, articleSize: number) => Promise<void>;
 }
 
-const cols: GridColDef[] = [
-  { field: "id", headerName: "번호", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "title", headerName: "제목", type: "string", width: 420, sortable: false, headerAlign: "center" },
-  { field: "writer", headerName: "작성자", type: "string", width: 140, sortable: false, headerAlign: "center", align: "center" },
-  { field: "viewCount", headerName: "조회수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "commentCount", headerName: "댓글수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "recommendCount", headerName: "추천수", type: "number", width: 80, headerAlign: "center", align: "center" },
-  { field: "createDate", headerName: "작성일", type: "date", width: 120, headerAlign: "center", align: "center" },
-];
+interface PaginationProps {
+  totalPageCount: number;
+  onPageChange?: (index: number) => void;
+}
 
-function CustomHeader() {
+interface Article {
+  id: number;
+  title: string;
+  writer: string;
+  viewCount: number;
+  commentCount: number;
+  recommendCount: number;
+  createDate: string;
+}
+
+let nowCategory: CategoryType;
+
+function CustomPagination(props: PaginationProps) {
   const classes = useStyles();
-
-  return (
-    <Grid container direction='row' justify='space-between' alignItems='center'>
-      <Typography className={classes.header} variant='h6'>
-        {getCategoryName(nowCategory)}
-      </Typography>
-    </Grid>
-  );
-}
-
-function CustomNoRowsOverlay() {
-  return (
-    <GridOverlay>
-      <Typography>게시글이 존재하지 않습니다.</Typography>
-    </GridOverlay>
-  );
-}
-
-function CustomPagination() {
-  const classes = useStyles();
-  const { state, apiRef } = useGridSlotComponentProps();
-  const { pagination } = state;
-  const setMyAlert = useSetRecoilState(MyAlertState);
   const filterValue = useRecoilValue(FilterState);
+  const setMyAlert = useSetRecoilState(MyAlertState);
+
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [selectedPage, setSelectedPage] = useState<number>(0);
+  const [pageList, setPageList] = useState<number>(0);
+  const pageListSize = 5; // 화면에 보여지는 최대 페이지 수
 
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchFilter, setSearchFilter] = useState<string>("");
+  const [searchFilter, setSearchFilter] = useState<string>("title");
   const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
@@ -156,15 +150,45 @@ function CustomPagination() {
     // eslint-disable-next-line
   }, [filterValue]);
 
-  const _onChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    apiRef.current.setPage(value - 1);
+  useEffect(() => {}, [pageNumber]);
+
+  const selectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setSearchFilter(event.target.value as string);
   };
+
+  const onPageListChanged = (diff: number) => {
+    if (pageList + diff >= 0 && pageList + diff <= Math.floor((props.totalPageCount - 1) / pageListSize)) {
+      setPageList(pageList + diff);
+      onPageButtonClick(pageList + diff, 0);
+    }
+  };
+
+  const onPageListFirst = () => {
+    onPageListChanged(-1);
+  };
+
+  const onPageListLast = () => {
+    onPageListChanged(1);
+  };
+
+  const onPageButtonClick = (searchPageList: number, searchPage: number) => {
+    setSelectedPage(searchPage);
+    onPageChanged(searchPageList, searchPage);
+  };
+
+  const onPageChanged = (searchPageList: number, searchPage: number) => {
+    setPageNumber(searchPageList * pageListSize + searchPage);
+    if (props.onPageChange !== undefined) props.onPageChange(searchPageList * pageListSize + searchPage);
+  };
+
   const _onChangeSearch = (value: string) => {
     setSearchValue(value);
   };
+
   const _onEnterSearch = (keyCode: number) => {
     keyCode === 13 && search();
   };
+
   const search = () => {
     if (!searchFilter) {
       setMyAlert({
@@ -193,72 +217,90 @@ function CustomPagination() {
     document.location.href = uri;
   };
 
+  const PageButton = (page: number) => {
+    let btn: JSX.Element = (
+      <Button
+        variant='contained'
+        key={page}
+        className={page === selectedPage ? classes.selectPageBtn : classes.pageBtn}
+        onClick={() => {
+          onPageButtonClick(pageList, page);
+        }}>
+        {pageList * pageListSize + page + 1}
+      </Button>
+    );
+    return btn;
+  };
+
+  const PageButtonList = () => {
+    let temp: JSX.Element[] = [];
+
+    temp.push(
+      <Button className={classes.pageBtn} key={-2} onClick={onPageListFirst}>
+        ◀
+      </Button>
+    );
+
+    for (var i = 0; i < pageListSize && pageList * pageListSize + i < props.totalPageCount; ++i) {
+      temp.push(PageButton(i));
+    }
+
+    temp.push(
+      <Button className={classes.pageBtn} key={-1} onClick={onPageListLast}>
+        ▶
+      </Button>
+    );
+
+    return temp;
+  };
+
   return (
-    <Container style={{ margin: "0", padding: "0" }}>
-      <Bottom category={nowCategory} />
-      <Grid container direction='row' justify='center' className={classes.pageBox}>
-        <Pagination
-          color='primary'
-          shape='rounded'
-          count={pagination.pageCount}
-          page={pagination.page + 1}
-          showFirstButton={true}
-          showLastButton={true}
-          onChange={(event, value) => _onChangePage(event, value)}
-        />
+    <>
+      <Grid container justify='center' style={{ height: "40px", padding: "0" }}>
+        {PageButtonList()}
       </Grid>
-      <MyGridDivider />
-      <Grid container spacing={2} direction='row' justify='center' style={{ width: "100%", margin: "5px 0" }}>
-        <Grid item style={{ padding: "0", margin: "2.5px 10px" }}>
-          <ButtonGroup color='default'>
-            <Button
-              color={searchFilter === "title" ? "secondary" : "primary"}
-              onClick={() => setSearchFilter(searchFilter === "title" ? "" : "title")}
-              style={{ height: "35px", margin: "0" }}>
-              제목
-            </Button>
-            <Button
-              color={searchFilter === "content" ? "secondary" : "primary"}
-              onClick={() => setSearchFilter(searchFilter === "content" ? "" : "content")}
-              style={{ height: "35px", margin: "0" }}>
-              내용
-            </Button>
-            <Button
-              color={searchFilter === "writer" ? "secondary" : "primary"}
-              onClick={() => setSearchFilter(searchFilter === "writer" ? "" : "writer")}
-              style={{ height: "35px", margin: "0" }}>
-              작성자
-            </Button>
-          </ButtonGroup>
-        </Grid>
-        <Grid item style={{ padding: "0", margin: "2.5px 10px" }}>
+
+      <Grid container justify='center' style={{ height: "56px", padding: "8px 0" }}>
+        <Select variant='outlined' className={classes.select} value={searchFilter} onChange={selectChange}>
+          <Menus value={"title"} disableGutters={true}>
+            제목
+          </Menus>
+          <Menus value={"content"} disableGutters={true}>
+            내용
+          </Menus>
+          <Menus value={"writer"} disableGutters={true}>
+            작성자
+          </Menus>
+        </Select>
+        <Grid item style={{ padding: "0", margin: "2px 8px" }}>
           <FormControl variant='outlined'>
             <OutlinedInput
-              id='post-search-text'
+              id='post-search'
               value={searchValue}
               onChange={e => _onChangeSearch(e.target.value)}
               onKeyUp={e => _onEnterSearch(e.keyCode)}
               endAdornment={
                 <InputAdornment position='end'>
-                  <IconButton aria-label='post-search-icon' onClick={search} edge='end' style={{ height: "35px", padding: "5px" }}>
-                    <SearchIcon style={{ height: "35px" }} />
+                  <IconButton aria-label='post-search' edge='end' style={{ height: "36px", padding: "0" }}>
+                    <SearchIcon />
                   </IconButton>
                 </InputAdornment>
               }
-              inputProps={{ style: { height: "35px", padding: "5px 10px" } }}
+              inputProps={{ style: { width: "100px", height: "36px", padding: "0 0 0 10px" } }}
             />
           </FormControl>
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 }
 
 const Board = (props: IProps) => {
   const classes = useStyles();
-  const { category, posts, rowCount, onPageChange } = props;
-  const rows: GridRowsProp = [];
+  const { category, posts, totalArticleCount, articleSize, onPageChange } = props;
+  const rows: Array<Article> = [];
   nowCategory = category;
+  const categoryName = getCategoryName(nowCategory);
 
   posts.forEach(post => {
     rows.push({
@@ -271,14 +313,6 @@ const Board = (props: IProps) => {
       createDate: CommonUtil.getStringByDate(post.writer.createDate),
     });
   });
-
-  const _onRowClick = (id: number) => {
-    document.location.href = `/board/${nowCategory}/${id}`;
-  };
-
-  const _onPageChanged = (params: GridPageChangeParams) => {
-    if (onPageChange !== undefined) onPageChange(params);
-  };
 
   const article = () => {
     let temp: JSX.Element[] = [];
@@ -308,12 +342,16 @@ const Board = (props: IProps) => {
     return temp;
   };
 
+  const _onPageChanged = (params: number) => {
+    if (onPageChange !== undefined) onPageChange(params, articleSize);
+  };
+
   return (
     <React.Fragment>
       <Grid container style={{ maxWidth: "960px", margin: "0 auto", border: "1px solid darkgray", borderRadius: "5px" }}>
         <Grid container>
-          <Typography style={{ width: "100%", lineHeight: "32px", paddingLeft: "30px", margin: "8px 0", fontSize: "1.2rem", fontWeight: "bold" }}>
-            팁 게시판
+          <Typography style={{ width: "100%", lineHeight: "32px", paddingLeft: "30px", margin: "12px 0 4px 0", fontSize: "1.2rem", fontWeight: "bold" }}>
+            {categoryName}
           </Typography>
           <Grid container justify='space-between' style={{ padding: "4px 8px" }}>
             <Typography className={classes.titleText}>번호</Typography>
@@ -335,30 +373,8 @@ const Board = (props: IProps) => {
 
         <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
         <Bottom category={nowCategory} />
+        <CustomPagination totalPageCount={Math.floor((totalArticleCount - 1) / articleSize) + 1} onPageChange={_onPageChanged} />
       </Grid>
-      {/*       <Grid container justify='center' className={classes.box}>
-        <DataGrid
-          className={classes.datagrid}
-          headerHeight={40} //default 56
-          rowHeight={40} //default 52
-          sortingMode='client'
-          pageSize={10}
-          paginationMode='server'
-          onPageChange={_onPageChanged}
-          hideFooterRowCount={true}
-          hideFooterSelectedRowCount={true}
-          disableColumnMenu={true}
-          columns={cols}
-          rows={rows}
-          rowCount={rowCount ? rowCount : rows.length}
-          onRowClick={param => _onRowClick(param.row.id as number)}
-          components={{
-            Header: CustomHeader,
-            NoRowsOverlay: CustomNoRowsOverlay,
-            Pagination: CustomPagination,
-          }}
-        />
-      </Grid> */}
     </React.Fragment>
   );
 };

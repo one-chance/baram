@@ -68,7 +68,7 @@ function FreeBoard({ location }: any) {
 
   return (
     <Grid container justify='center' className={classes.root}>
-      <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged} />
+      {/* <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged} /> */}
     </Grid>
   );
 }

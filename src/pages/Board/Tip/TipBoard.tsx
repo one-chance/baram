@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import IPost from "interfaces/Board/IPost";
+import Board from "components/Board/Board";
 import BoardM from "components/Board/BoardM";
 import { getPosts, getPostCount } from "utils/PostUtil";
 
@@ -71,7 +72,7 @@ function TipBoard({ location }: any) {
       {smallScreen ? (
         <BoardM category={"tip"} posts={posts} page={2} totalArticleCount={rowCount} articleSize={10} onPageChange={_onPageChanged} />
       ) : (
-        "게시물이 없습니다."
+        <Board category={"tip"} posts={posts} page={2} totalArticleCount={rowCount} articleSize={10} onPageChange={_onPageChanged} />
       )}
     </Grid>
   );

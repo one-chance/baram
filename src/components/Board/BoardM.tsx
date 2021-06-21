@@ -304,7 +304,6 @@ const BoardM = (props: IProps) => {
   const rows: Array<Article> = [];
   nowCategory = category;
   const categoryName = getCategoryName(nowCategory)?.split(" ")[0];
-
   const signInUser = getNowUserInfo();
 
   posts.forEach(post => {

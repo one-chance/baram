@@ -190,7 +190,9 @@ function TradeBoard({ location }: any) {
           </Typography>
         </Grid>
       ) : (
-        <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged} />
+        {
+          /* <Board category={nowCategory} posts={posts} page={2} rowCount={rowCount} onPageChange={_onPageChanged} /> */
+        }
       )}
     </Grid>
   );
