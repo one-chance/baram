@@ -31,6 +31,14 @@ interface IProps {
   keyword?: string;
 }
 
+interface Grid {
+  id: number;
+  item: string;
+  price: number;
+  writer: string;
+  remainDate: Date;
+}
+
 const cols: GridColDef[] = [
   { field: "id", headerName: "번호", type: "number", headerAlign: "center", align: "center" },
   { field: "item", headerName: "아이템", type: "string", width: 400, headerClassName: "title", cellClassName: "title" },
@@ -41,7 +49,7 @@ const cols: GridColDef[] = [
 
 const MarketDataGrid = (props: IProps) => {
   const classes = useStyles();
-  const rows: GridRowsProp = [] as GridRowsProp;
+  const rows: Array<Grid> = [];
 
   props.posts.forEach(post => {
     rows.push({
