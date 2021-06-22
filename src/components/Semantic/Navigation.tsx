@@ -23,14 +23,14 @@ const useStyles = makeStyles({
   root: {
     position: "sticky",
     height: "100%",
+    backgroundColor: "#E3BF7D",
   },
   boxUp: {
     width: "100%",
     height: "100%",
     margin: "0",
     padding: "0",
-    backgroundColor: "white",
-    borderBottom: "1px solid",
+    //borderBottom: "1px solid",
   },
   btn: {
     minWidth: "70px",
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     margin: "0",
     padding: "0",
     float: "left",
-    "&:hover, &:active, &:focus": {
+    "&:focus, &:hover, &:visited, &:link, &:active": {
       outline: "none",
       backgroundColor: "transparent",
     },

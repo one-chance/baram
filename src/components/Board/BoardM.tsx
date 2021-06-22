@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -30,10 +31,12 @@ const useStyles = makeStyles({
   infoIcon: {
     width: "16px",
     height: "16px",
+    color: "gray",
     margin: "2px 4px 2px 0",
     float: "left",
   },
   infoText: {
+    color: "gray",
     lineHeight: "20px",
     fontSize: "0.8rem",
     margin: "0 10px 0 0",
@@ -46,6 +49,9 @@ const useStyles = makeStyles({
     fontSize: "1rem",
     margin: "4px 0",
     color: "black",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
     "&:focus, &:hover, &:visited, &:link, &:active": {
       textDecoration: "none",
     },
@@ -333,7 +339,7 @@ const BoardM = (props: IProps) => {
 
     temp = rows.map((row: any, idx: number) => {
       return (
-        <Grid container key={idx} style={{ borderTop: "1px solid lightgray", padding: "0 5px" }}>
+        <Grid container key={idx} style={{ borderTop: "1px solid lightgray", borderBottom: "1px solid lightgray", padding: "0 5px" }}>
           <a className={classes.titleLink} href={`/board/${nowCategory}/${row.id}`}>
             <span style={{ color: "blue", marginRight: "5px" }}>{`[${categoryName}]`}</span>
             <span>{row.title}</span>
@@ -403,16 +409,18 @@ const BoardM = (props: IProps) => {
 
   return (
     <React.Fragment>
-      <Grid container justify='center' style={{ border: "1px solid darkgray", borderRadius: "5px", margin: "4px 0" }}>
+      <Grid container justify='center' style={{ border: "1px solid darkgray", margin: "4px auto" }}>
         <Grid container alignItems='center' justify='space-between'>
           <Button variant='outlined' onClick={handleList} style={{ minWidth: "32px", lineHeight: "28px", padding: "0", margin: "8px" }}>
             <ListIcon style={{ width: "28px", height: "28px" }} />
           </Button>
-          <Typography style={{ lineHeight: "28px", margin: "8px", fontSize: "1.2rem", fontWeight: "bold" }}>팁 게시판</Typography>
+          <Typography style={{ lineHeight: "28px", margin: "8px", fontSize: "1.2rem", fontWeight: "bold" }}>{getCategoryName(nowCategory)}</Typography>
           <Button variant='outlined' onClick={handlePostWrite} style={{ minWidth: "32px", lineHeight: "28px", padding: "0", margin: "8px" }}>
             <CreateIcon style={{ width: "28px", height: "28px" }} />
           </Button>
         </Grid>
+
+        <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
 
         <div style={{ width: "100%", minHeight: "410px" }}>{article()}</div>
 

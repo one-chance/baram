@@ -213,6 +213,7 @@ const Home = () => {
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>v.1.3.0 업데이트</h2>
           <h4>게시판 리모델링 완료</h4>
+          <h4>작성자로 게시물 검색하는 기능 수정중</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>추후 업데이트</h2>
           <h4>확정 : 장비마법</h4>
