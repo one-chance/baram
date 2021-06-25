@@ -72,9 +72,10 @@ function PostTitle(props: IProps) {
   const setMyAlert = useSetRecoilState(MyAlertState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
   const copyUrl = document.location.href;
-  const category = post.category;
+
   const signInUserId = getNowUserInfo().id;
-  const categoryName = getCategoryName(post.category);
+  const category = post.category;
+  const categoryName = getCategoryName(post.category)?.split(" ")[0];
   const dateW = CommonUtil.getStringByDate(post.writer.createDate, true);
   const dateE = CommonUtil.getStringByDate(post.writer.lastEditDate, true);
 
@@ -165,7 +166,7 @@ function PostTitle(props: IProps) {
     <>
       <Grid container>
         <Grid container direction='row' style={{ margin: "7.5px 0", padding: "0 10px" }}>
-          <Grid item xs={8}>
+          <Grid item xs={8} style={{ minWidth: "600px" }}>
             <Typography variant='h6' className={classes.title} style={{ lineHeight: "35px", color: "blue", margin: "0 10px", float: "left" }}>
               [{categoryName}]
             </Typography>
@@ -173,7 +174,7 @@ function PostTitle(props: IProps) {
               {post.title}
             </Typography>
           </Grid>
-          <Grid item container justify='space-around' xs={4}>
+          <Grid item container justify='space-around' xs={4} style={{ minWidth: "300px" }}>
             <div>
               <CreateIcon fontSize='small' className={classes.infoIcon} />
               <Typography variant='h6' className={classes.infoText} style={{ fontWeight: "bold" }}>

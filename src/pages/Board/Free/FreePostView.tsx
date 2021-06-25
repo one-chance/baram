@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 function FreePostView({ match }: any) {
   const classes = useStyles();
   const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down(370));
+  const smallScreen = useMediaQuery(theme.breakpoints.down(720));
   const { seq } = match.params;
   const commentList = useRecoilValue(CommentListState);
   const [post, setPost] = useState<IPost>();

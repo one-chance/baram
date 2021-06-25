@@ -25,7 +25,7 @@ function FreeBoard({ location }: any) {
   const theme = useTheme();
   const setFilter = useSetRecoilState(FilterState);
   const setMyBackdrop = useSetRecoilState(MyBackdropState);
-  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const query = queryString.parse(location.search);
 
   const [rowCount, setRowCount] = useState<number>(0);

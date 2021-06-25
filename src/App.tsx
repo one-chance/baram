@@ -92,7 +92,7 @@ const useStyles = makeStyles({
   },
   footer: {
     width: "100%",
-    height: "12vh",
+    height: "90px",
     margin: 0,
     marginTop: "10px",
     padding: "0",
@@ -102,7 +102,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down(720));
 
   useEffect(() => {
     // 토큰 자동갱신 실행

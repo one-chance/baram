@@ -26,11 +26,13 @@ const useStyles = makeStyles({
     transition: "all 300ms linear",
     margin: "0 5px",
     float: "left",
+    outline: "none",
     "& img": {
       borderRadius: "5px",
       maxWidth: "100%",
       margin: "0 auto",
       height: "300px",
+      outline: "none",
     },
   },
   cardCarousel2: {
@@ -41,6 +43,7 @@ const useStyles = makeStyles({
     boxShadow: "none",
     transition: "all 300ms linear",
     margin: "0",
+    outline: "none",
     "& img": {
       borderRadius: "5px",
       width: "100%",
@@ -48,6 +51,7 @@ const useStyles = makeStyles({
       height: "auto",
       maxHeight: "300px",
       margin: "0 auto",
+      outline: "none",
     },
   },
   gridItem: {
