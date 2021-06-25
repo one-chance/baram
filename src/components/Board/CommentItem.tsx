@@ -280,7 +280,6 @@ const CommentItem = (props: IProps) => {
                   className={classes.inputText}
                   multiline
                   fullWidth
-                  rows={3}
                   placeholder={comment.message}
                   value={editCommentMessage}
                   onChange={e => setEditCommentMessage(e.target.value)}
@@ -290,11 +289,10 @@ const CommentItem = (props: IProps) => {
               <InputBase
                 className={comment.isDeleted ? classes.deleteCommentMessage : ""}
                 multiline={true}
-                rows={3}
                 fullWidth
                 value={comment.isDeleted ? "===== 삭제된 댓글입니다 =====" : comment.message}
                 inputProps={{ readOnly: true }}
-                style={{ padding: "0 5px", margin: "10px 5px" }}
+                style={{ padding: "0 5px", margin: "10px 5px", height: "auto" }}
               />
             )}
 
