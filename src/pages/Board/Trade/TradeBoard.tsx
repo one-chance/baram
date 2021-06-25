@@ -59,7 +59,7 @@ const useStyles = makeStyles({
 function TradeBoard({ location }: any) {
   const classes = useStyles();
   const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [defaultScreen, setDefaultScreen] = useState(true);
 
   const serverList = getServerList();

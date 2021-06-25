@@ -44,7 +44,7 @@ const useStyles = makeStyles({
   },
   menuText: {
     width: "100%",
-    lineHeight: "7.5vh",
+    lineHeight: "60px",
     margin: "0",
     textAlign: "center",
     fontSize: "1.2rem",
@@ -57,7 +57,7 @@ const useStyles = makeStyles({
     float: "left",
     "& div": {
       width: "100%",
-      height: "25vh",
+      height: "200px",
       padding: "5px 0",
       listStyle: "none",
       backgroundColor: "white",
@@ -65,7 +65,7 @@ const useStyles = makeStyles({
       textAlign: "center",
       display: "none",
       "& a": {
-        lineHeight: "4vh",
+        lineHeight: "32px",
         margin: "0 20%",
         padding: "0",
         textDecoration: "none",
