@@ -216,24 +216,24 @@ export default function Item() {
                 );
               })}
             </Select>
+            <Button
+              className={classes.btn}
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                searchByList();
+              }}>
+              <SearchIcon />
+            </Button>
           </div>
-          <Button
-            className={classes.btn}
-            variant='contained'
-            color='primary'
-            onClick={() => {
-              searchByList();
-            }}>
-            <SearchIcon />
-          </Button>
         </Grid>
         <Grid
           container
           justify='center'
           style={{
-            width: `calc(100% - 10px)`,
+            width: "90%",
             minHeight: "82px",
-            margin: "5px",
+            margin: "5px auto",
             padding: "5px 10px",
             border: "1px solid lightgray",
             borderRadius: "10px",
@@ -249,7 +249,7 @@ export default function Item() {
         </Grid>
         <Grid container justify='center' style={{ margin: "5px 0", padding: "0" }}>
           <img src={baseUrlForItemImg + selectedImg} alt='아이템' />
-          <Typography style={{ margin: "20px 5px", textAlign: "center" }}>※ 비교 기능은 PC환경에서만 제공됩니다 ※</Typography>
+          <Typography style={{ width: "100%", margin: "20px 5px", textAlign: "center" }}>※ 비교 기능은 PC환경에서만 제공됩니다 ※</Typography>
         </Grid>
       </Grid>
     </React.Fragment>

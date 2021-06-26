@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { CommentListState } from "state/index";
 
+import Popover from "@material-ui/core/Popover";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -12,11 +13,13 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
+import IUserInfo from "interfaces/User/IUserInfo";
 import IPost from "interfaces/Board/IPost";
+import { getItemData } from "utils/CalUtil";
 import * as CommonUtil from "utils/CommonUtil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import { getCategoryName, DeletePost } from "utils/PostUtil";
-import { getNowUserInfo } from "utils/UserUtil";
+import { getNowUserInfo, getUserInfoById } from "utils/UserUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
 interface IProps {
@@ -42,6 +45,24 @@ const useStyles = makeStyles({
     height: "16px",
     margin: "2px 4px 2px 0",
     float: "left",
+  },
+  popBtn: {
+    fontSize: "0.8rem",
+    lineHeight: "20px",
+    padding: "0",
+    backgroundColor: "transparent",
+    float: "left",
+  },
+  popBtn2: {
+    fontSize: "0.8rem",
+    minWidth: "80px",
+    height: "28px",
+    padding: "0 4px",
+    margin: "2px",
+    boxShadow: "none",
+    "&:hover": {
+      boxShadow: "none",
+    },
   },
   btn: {
     height: "25px",
@@ -72,6 +93,7 @@ function PostTitleM(props: IProps) {
   const post: IPost = props.post;
   const seq = post.seq;
   const writer = post.writer.id;
+  const titleAccount = CommonUtil.getTitleAccountString(post.writer.titleAccount);
   const category = post.category;
   const copyUrl = document.location.href;
   const signInUserId = getNowUserInfo().id;
@@ -82,6 +104,21 @@ function PostTitleM(props: IProps) {
   const [count, setCount] = useState(0);
   const [commentList, setCommentList] = useRecoilState(CommentListState);
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const [charInfo, setCharInfo] = useState("");
+  const [kakaoInfo, setKakaoInfo] = useState("");
+
+  const popClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const popClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const popId = open ? "simple-popover" : undefined;
 
   const _onCopyUrl = () => {
     var ta = document.createElement("textarea");
@@ -148,6 +185,25 @@ function PostTitleM(props: IProps) {
     delPost();
   };
 
+  const getCharInfo = () => {
+    if (charInfo === "") {
+      getItemData(titleAccount).then(res => {
+        setCharInfo(`Lv.${res.level} ${res.job}`);
+      });
+    } else {
+      setCharInfo("");
+    }
+  };
+
+  const getTalkInfo = async () => {
+    if (kakaoInfo === "") {
+      let userInfo: IUserInfo | null = await getUserInfoById(writer);
+      setKakaoInfo("https://" + userInfo?.openKakao);
+    } else {
+      setKakaoInfo("");
+    }
+  };
+
   //NOTE 최초 로딩 시
   useEffect(() => {
     if (post.commentList) {
@@ -173,7 +229,47 @@ function PostTitleM(props: IProps) {
             </Typography>
           </Grid>
           <Grid container style={{ margin: "5px 0", padding: "0 10px" }}>
-            <Typography className={classes.infoText}>{CommonUtil.getTitleAccountString(post.writer.titleAccount)} │</Typography>
+            <Button className={classes.popBtn} onClick={popClick}>
+              {titleAccount} |&nbsp;
+            </Button>
+            <Popover
+              id={popId}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={popClose}
+              elevation={2}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}>
+              <div style={{ padding: "4px" }}>
+                <Button className={classes.popBtn2} variant={charInfo === "" ? "outlined" : "contained"} color='primary' onClick={getCharInfo}>
+                  캐릭터 정보
+                </Button>
+                <Button className={classes.popBtn2} variant='outlined' color='primary'>
+                  작성글 보기
+                </Button>
+                {category === "trade" ? (
+                  <Button className={classes.popBtn2} variant={kakaoInfo === "" ? "outlined" : "contained"} color='primary' onClick={getTalkInfo}>
+                    오픈 카톡
+                  </Button>
+                ) : (
+                  ""
+                )}
+
+                <Typography style={{ margin: "2px", color: "blue", fontSize: "0.8rem" }}>{charInfo}</Typography>
+                <Typography style={{ margin: "2px", color: "blue", fontSize: "0.8rem" }}>
+                  <a href={kakaoInfo} rel='noopener noreferrer' target='_blank'>
+                    {kakaoInfo}
+                  </a>
+                </Typography>
+              </div>
+            </Popover>
+
             <VisibilityIcon className={classes.infoIcon} />
             <Typography className={classes.infoText}>{post.viewCount} │</Typography>
             <MessageIcon className={classes.infoIcon} />

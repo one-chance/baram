@@ -212,7 +212,6 @@ const RecommentItem = (props: IProps) => {
                   className={classes.inputText}
                   multiline
                   fullWidth
-                  rows={3}
                   placeholder={recomment.message}
                   value={editRecommentMessage}
                   onChange={e => setEditRecommentMessage(e.target.value)}
@@ -222,7 +221,6 @@ const RecommentItem = (props: IProps) => {
               <InputBase
                 className={comment.isDeleted ? classes.deleteCommentMessage : ""}
                 multiline={true}
-                rows={3}
                 fullWidth
                 value={recomment.isDeleted ? "===== 삭제된 답글입니다 =====" : recomment.message}
                 inputProps={{ readOnly: true }}
