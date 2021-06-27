@@ -545,7 +545,7 @@ router.get("/count", (req, res) => {
     };
   }
   if (req.query.writer) {
-    filter["writer.id"] = { $regex: req.query.writer };
+    filter["writer.titleAccount.character"] = req.query.writer;
   }
 
   TipSchema.findCountByFilter(filter)
@@ -595,7 +595,7 @@ router.get("/find", (req, res) => {
     };
   }
   if (req.query.writer) {
-    filter["writer.id"] = { $regex: req.query.writer };
+    filter["writer.titleAccount.character"] = req.query.writer;
   }
 
   let page = -1;

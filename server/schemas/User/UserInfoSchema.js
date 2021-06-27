@@ -38,8 +38,10 @@ userInfoSchema.statics.findOneByKey = function (key) {
 }
 
 // Get by user id
-userInfoSchema.statics.findOneById = function (id) {
-  return this.findOne({id: id});
+userInfoSchema.statics.findOneById = function (id, tokenId) {
+  if(id === tokenId)
+    return this.findOne({id: id});
+  return this.findOne({id: id}).select("-email");
 }
 
 // Get by email

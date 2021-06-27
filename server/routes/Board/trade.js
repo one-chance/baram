@@ -562,7 +562,7 @@ router.get("/find", (req, res) => {
     };
   }
   if (req.query.writer) {
-    filter["writer.id"] = { $regex: req.query.writer };
+    filter["writer.titleAccount.character"] = req.query.writer;
   }
   if (req.query.server) {
     filter = {
