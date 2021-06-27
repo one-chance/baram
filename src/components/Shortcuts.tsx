@@ -213,7 +213,7 @@ const Home = () => {
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>v.1.3.1 업데이트</h2>
           <h4>작성자 버튼 추가 (캐릭터 정보, 작성글 보기, 오픈카톡 주소)</h4>
-          <h4>작성자로 게시물 검색하는 기능 수정중</h4>
+          <h4>작성자 검색 수정 완료</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>추후 업데이트</h2>
           <h4>확정 : 장비마법</h4>
