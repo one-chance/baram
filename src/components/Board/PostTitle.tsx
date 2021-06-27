@@ -130,7 +130,7 @@ function PostTitle(props: IProps) {
       isOpen: true,
       severity: "success",
       duration: 2000,
-      message: "클립보드에 복사되었습니다.",
+      message: "URL 주소가 복사되었습니다.",
     });
   };
 
@@ -295,7 +295,7 @@ function PostTitle(props: IProps) {
         <Grid container alignItems='center' justify='space-between' style={{ padding: "0 10px", margin: "5px 0" }}>
           <div>
             <Button variant='outlined' className={classes.btn} onClick={_onCopyUrl} style={{ float: "left" }}>
-              URL 복사
+              주소 복사
             </Button>
             <Typography variant='h6' style={{ lineHeight: "25px", margin: "5px", fontSize: "0.8rem", float: "left" }}>
               {dateW !== dateE ? `작성일 : ${dateW} (편집됨)` : `작성일 : ${dateW}`}
