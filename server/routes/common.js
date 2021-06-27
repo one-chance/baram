@@ -864,6 +864,54 @@ router.get("/visit/count", (req, res) => {
 });
 
 /*
+ *    NOTE openkakao 정보조회
+ *    TYPE : GET
+ *    URI : /api/common/openkakao
+ *    QUERYSTRING: { "id": id }
+ *    RETURN: userInfo
+ *    RETURN CODES:
+ *        200: 성공
+ *        2005: 사용자 정보가 존재하지 않음.
+ *        500: 서버 오류
+ */
+router.get("/openkakao", (req, res) => {
+  const id = req.query.id;
+
+  logger.info(`[OPENKAKAO] start`);
+  UserInfoSchema.findOpenKakaoById(id)
+    .then(userInfo => {
+      
+      if (userInfo) {
+        logger.info(`[SUCCESS] : ${id} OPENKAKAO FIND`);
+        res.status(200).send({
+          code: 200,
+          message: "오픈카카오 정보를 조회하였습니다.",
+          userInfo: userInfo,
+        });
+
+        return true;
+      } else {
+        logger.info(`[FAILED] : ${id} OPENKAKAO FIND ERROR`);
+        res.status(200).send({
+          code: 2005,
+          message: "오픈카카오 정보를 찾을 수 없습니다.",
+        });
+
+        return false;
+      }
+    })
+    .catch(e => {
+      logger.error(`OPENKAKAO FIND ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: "오픈카카오 정보를 찾는 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.",
+      });
+
+      return false;
+    });
+});
+
+/*
  *   NOTE 신규 토큰 생성
  */
 const createToken = (id, key, userInfo) => {
