@@ -566,7 +566,7 @@ router.get("/count", (req, res) => {
     };
   }
   if (req.query.writer) {
-    filter["writer.id"] = { $regex: req.query.writer };
+    filter["writer.titleAccount.character"] = req.query.writer;
   }
 
   FreeSchema.findCountByFilter(filter)
@@ -616,7 +616,7 @@ router.get("/find", (req, res) => {
     };
   }
   if (req.query.writer) {
-    filter["writer.id"] = { $regex: req.query.writer };
+    filter["writer.titleAccount.character"] = req.query.writer;
   }
 
   let page = -1;
