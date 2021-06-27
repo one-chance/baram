@@ -227,6 +227,9 @@ function CustomPagination(props: PaginationProps) {
 
       return 0;
     }
+    if (searchValue.split("@").length > 1) {
+      setSearchValue(searchValue.split("@")[0]);
+    }
 
     let uri = `/board/${nowCategory}?`;
     if (searchQuery === ``) uri += `${searchFilter}=${searchValue}`;
