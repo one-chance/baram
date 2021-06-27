@@ -12,6 +12,8 @@ const AccountInfoSchema = require("../schemas/User/AccountInfoSchema");
 
 const {PlusPointByKey, MinusPointByKey} = require("../util/userUtil");
 
+const jwt = require("jwt-decode");
+
 /*
  *    NOTE 사용자 서버, 닉네임 검사
  *    TYPE : POST
@@ -216,9 +218,11 @@ router.put("/info", (req, res) => {
  */
 router.get("/find", (req, res) => {
   const id = req.query.id;
+  const tokenId = jwt(req.headers.token).id;
 
-  UserInfoSchema.findOneById(id)
+  UserInfoSchema.findOneById(id, tokenId)
     .then(userInfo => {
+      logger.info(JSON.stringify(userInfo));
       if (userInfo) {
         logger.info(`[SUCCESS] : ${id} INFORMATION FIND`);
         res.status(200).send({
