@@ -119,6 +119,11 @@ userInfoSchema.statics.deleteById = function (id) {
   });
 }
 
+// Get openkakao by user id
+userInfoSchema.statics.findOpenKakaoById = function (id) {
+  return this.findOne({id: id}).select("openKakao");
+}
+
 // Get All UserInfo
 userInfoSchema.statics.getAllUserInfo = function () {
   return this.find({});

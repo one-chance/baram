@@ -148,18 +148,14 @@ export const getUserInfoById = async (_id: string) => {
 * NOTE 사용자 ID로 사용자 정보 가져오기
 */
 export const getOpenKakaoById = async (_id: string) => {
-  const info = await axios.get('/api/user/find', {
+  const info = await axios.get('/api/common/openkakao', {
     params: {
       "id": _id
-    },
-    headers: {
-      token: CommonUtil.getToken()
     }
   })
   .then((res) => {
     return res.data.userInfo;
   });
-
   if ( typeof info === "object" ) {
     const userInfo: IUserInfo = getUserInfoFromJson(info);
     return userInfo;
