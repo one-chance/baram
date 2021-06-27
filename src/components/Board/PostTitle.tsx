@@ -20,7 +20,7 @@ import { MyAlertState, MyBackdropState } from "state/index";
 import { getItemData } from "utils/CalUtil";
 import * as CommonUtil from "utils/CommonUtil";
 import { getCategoryName, DeletePost } from "utils/PostUtil";
-import { getNowUserInfo, getUserInfoById } from "utils/UserUtil";
+import { getNowUserInfo, getOpenKakaoById } from "utils/UserUtil";
 import MyGridDivider from "elements/Grid/MyGridDivider";
 
 interface IProps {
@@ -106,7 +106,7 @@ function PostTitle(props: IProps) {
   const [commentList, setCommentList] = useRecoilState(CommentListState);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
+  const openPop = Boolean(anchorEl);
   const [charInfo, setCharInfo] = useState("");
   const [kakaoInfo, setKakaoInfo] = useState("");
 
@@ -117,9 +117,6 @@ function PostTitle(props: IProps) {
   const popClose = () => {
     setAnchorEl(null);
   };
-
-  const open = Boolean(anchorEl);
-  const popId = open ? "simple-popover" : undefined;
 
   const _onCopyUrl = () => {
     var ta = document.createElement("textarea");
@@ -196,10 +193,14 @@ function PostTitle(props: IProps) {
     }
   };
 
-  const getTalkInfo = async () => {
+  const searchArticle = () => {
+    document.location.href = `/board/${category}?writer=${titleAccount.split("@")[0]}`;
+  };
+
+  const getKakaoInfo = async () => {
     if (kakaoInfo === "") {
-      let userInfo: IUserInfo | null = await getUserInfoById(writer);
-      setKakaoInfo("https://" + userInfo?.openKakao);
+      let userInfo: IUserInfo | null = await getOpenKakaoById(writer);
+      if (userInfo !== null) setKakaoInfo("https://" + userInfo?.openKakao);
     } else {
       setKakaoInfo("");
     }
@@ -239,8 +240,7 @@ function PostTitle(props: IProps) {
               </Button>
 
               <Popover
-                id={popId}
-                open={open}
+                open={openPop}
                 anchorEl={anchorEl}
                 onClose={popClose}
                 elevation={2}
@@ -256,11 +256,11 @@ function PostTitle(props: IProps) {
                   <Button className={classes.popBtn2} variant={charInfo === "" ? "outlined" : "contained"} color='primary' onClick={getCharInfo}>
                     캐릭터 정보
                   </Button>
-                  <Button className={classes.popBtn2} variant='outlined' color='primary'>
+                  <Button className={classes.popBtn2} variant='outlined' color='primary' onClick={searchArticle}>
                     작성글 보기
                   </Button>
                   {category === "trade" ? (
-                    <Button className={classes.popBtn2} variant={kakaoInfo === "" ? "outlined" : "contained"} color='primary' onClick={getTalkInfo}>
+                    <Button className={classes.popBtn2} variant={kakaoInfo === "" ? "outlined" : "contained"} color='primary' onClick={getKakaoInfo}>
                       오픈 카톡
                     </Button>
                   ) : (
