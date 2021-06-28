@@ -129,7 +129,7 @@ tipSchema.statics.findAll = function () {
 
 // NOTE find count by filter
 tipSchema.statics.findCountByFilter = function (filter) {
-  return this.count(filter);
+  return this.countDocuments(filter);
 };
 
 // NOTE find by filter

@@ -880,7 +880,6 @@ router.get("/openkakao", (req, res) => {
   logger.info(`[OPENKAKAO] start`);
   UserInfoSchema.findOpenKakaoById(id)
     .then(userInfo => {
-      
       if (userInfo) {
         logger.info(`[SUCCESS] : ${id} OPENKAKAO FIND`);
         res.status(200).send({
@@ -915,13 +914,11 @@ router.get("/openkakao", (req, res) => {
  *   NOTE 신규 토큰 생성
  */
 const createToken = (id, key, userInfo) => {
-  console.log("createToken : ");
-  console.log({
-    id,
-    key,
-    grade: userInfo.grade,
-    titleAccount: userInfo.titleAccount,
-  });
+  if (userInfo.titleAccount.character !== undefined) {
+    console.log(`Token = { ${id}, ${key}, ${userInfo.grade}, ${userInfo.titleAccount.character}@${userInfo.titleAccount.server} }`);
+  } else {
+    console.log(`Token = { ${id}, ${key}, ${userInfo.grade}, no TitleAccount }`);
+  }
 
   // CREATE JSONWEBTOKEN
   const token = jsonwebtoken.sign(

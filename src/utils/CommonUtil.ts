@@ -308,15 +308,15 @@ export const getServerList = () => {
 const getSignInUserFromToken = (token: string | null) => {
   if (token !== null) {
     // Get Payload Token from Token
-    const payloadToken = token.split(".")[1];
+    //const payloadToken = token.split(".")[1];
 
     // Decode Base64 and Transfer to JSON
-    var payload = JSON.parse(atob(payloadToken));
+    //var payload = JSON.parse(atob(payloadToken));
 
     const decoded = jwtDecode<any>(token);
-    payload.titleAccount = decoded.titleAccount;
+    //payload.titleAccount = decoded.titleAccount;
 
-    return payload;
+    return decoded;
   } else {
     return null;
   }
