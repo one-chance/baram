@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
   },
   recommentWrapper: {
     backgroundColor: "#d6e0f0",
-    padding: "0px 10px",
+    paddingLeft: "10px",
   },
   textBox: {
     alignItems: "center",
@@ -53,7 +53,7 @@ const useStyles = makeStyles(() => ({
   inputText: {
     backgroundColor: "#ffffff",
     border: "2px",
-    margin: "5px",
+    margin: "5px 0",
     "& .MuiOutlinedInput-root": {
       borderRadius: "0",
     },
@@ -68,6 +68,10 @@ const useStyles = makeStyles(() => ({
     minWidth: "40px",
     padding: "0",
     float: "left",
+  },
+  recommentBtn: {
+    minWidth: "60px",
+    padding: "0",
   },
 }));
 
@@ -92,6 +96,8 @@ const CommentItem = (props: IProps) => {
   const [recommentList, setRecommentList] = useState<Array<IRecomment>>([]);
 
   const _onSubmitRecomment = async () => {
+    if (inputRecommentMessage === "") return;
+
     setMyBackdrop(true);
 
     if (post.seq && comment) {
@@ -215,7 +221,7 @@ const CommentItem = (props: IProps) => {
                 </Typography>
 
                 <div className={classes.textBox}>
-                  <Typography>{getStringByDate(comment.writer.lastEditDate, true)}</Typography>
+                  <Typography>{getStringByDate(comment.writer.lastEditDate, false)}</Typography>
                   <Typography style={{ color: "grey" }}>
                     {comment.isDeleted ? "(삭제됨)" : comment.writer.createDate !== comment.writer.lastEditDate && "(편집됨)"}
                   </Typography>
@@ -279,6 +285,8 @@ const CommentItem = (props: IProps) => {
                   variant='outlined'
                   className={classes.inputText}
                   multiline
+                  rows={3}
+                  rowsMax={10}
                   fullWidth
                   placeholder={comment.message}
                   value={editCommentMessage}
@@ -302,29 +310,29 @@ const CommentItem = (props: IProps) => {
           <Grid container direction='row' justify='space-between' className={classes.recommentWrapper}>
             {recommentIdx !== 99 && (
               <>
-                <Grid item style={{ margin: "5px" }}>
-                  <Typography variant='subtitle1'>
-                    <SubdirectoryArrowRightIcon />
-                  </Typography>
-                </Grid>
-                <Grid item style={{ width: "800px" }}>
+                <Typography variant='subtitle1'>
+                  <SubdirectoryArrowRightIcon />
+                </Typography>
+
+                <Grid item style={{ width: `calc(100% - 100px)` }}>
                   <TextField
                     variant='outlined'
                     id='input-recomment'
                     className={classes.inputText}
                     multiline
+                    rows={3}
+                    rowsMax={10}
                     fullWidth
-                    rows={4}
                     placeholder='욕설, 비방, 분란을 조장하는 답글은 제재될 수 있습니다.'
                     value={inputRecommentMessage}
                     onChange={e => setInputRecommentMessage(e.target.value)}
                   />
                 </Grid>
-                <Grid container alignItems='center' direction='column' className={classes.buttonWrapper} style={{ padding: "15px 0" }}>
-                  <Button onClick={() => _onSubmitRecomment()} style={{ padding: "5px" }}>
+                <Grid item container alignItems='center' justify='center' direction='row' style={{ width: "70px" }}>
+                  <Button className={classes.recommentBtn} onClick={() => _onSubmitRecomment()}>
                     등록
                   </Button>
-                  <Button onClick={() => setRecommentIdx(99)} style={{ padding: "5px" }}>
+                  <Button className={classes.recommentBtn} onClick={() => setRecommentIdx(99)}>
                     취소
                   </Button>
                 </Grid>

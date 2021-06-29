@@ -53,6 +53,8 @@ function PostComment(props: IProps) {
   const [inputComment, setInputComment] = useState("");
 
   const _onSubmitComment = async () => {
+    if (inputComment === "") return;
+
     if (!signInUser) {
       setIsSignInOpen(true);
       return;
@@ -107,6 +109,7 @@ function PostComment(props: IProps) {
           className={classes.input}
           multiline={true}
           rows={4}
+          rowsMax={10}
           placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
           value={inputComment}
           onChange={e => {
