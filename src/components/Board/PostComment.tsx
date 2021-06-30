@@ -108,7 +108,7 @@ function PostComment(props: IProps) {
           id='input-comment'
           className={classes.input}
           multiline={true}
-          rows={4}
+          rows={3}
           rowsMax={10}
           placeholder='욕설, 비방, 분란을 조장하는 댓글은 제재될 수 있습니다.'
           value={inputComment}

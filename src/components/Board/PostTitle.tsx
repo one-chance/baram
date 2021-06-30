@@ -235,7 +235,7 @@ function PostTitle(props: IProps) {
           <Grid item container justify='space-around' xs={4} style={{ minWidth: "280px", margin: "2px 0" }}>
             <div>
               <CreateIcon fontSize='small' className={classes.infoIcon} />
-              <Button className={classes.popBtn} onClick={popClick}>
+              <Button className={classes.popBtn} onClick={popClick} disableRipple={true}>
                 {titleAccount}
               </Button>
 
@@ -298,7 +298,7 @@ function PostTitle(props: IProps) {
               주소 복사
             </Button>
             <Typography variant='h6' style={{ lineHeight: "25px", margin: "5px", fontSize: "0.8rem", float: "left" }}>
-              {dateW !== dateE ? `작성일 : ${dateW} (편집됨)` : `작성일 : ${dateW}`}
+              {dateW !== dateE ? `작성일 : ${dateW} (편집)` : `작성일 : ${dateW}`}
             </Typography>
           </div>
           <div>

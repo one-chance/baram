@@ -132,17 +132,17 @@ export default function Header() {
             {signInUserId}
           </Button>
           <Divider orientation='vertical' flexItem style={{ width: "2px", margin: "0", float: "left" }} />
-          <Button className={classes.btn} onClick={_onLogoutUser}>
+          <Button className={classes.btn} onClick={_onLogoutUser} disableRipple={true}>
             로그아웃
           </Button>
         </Grid>
       ) : (
         <Grid container justify='space-around' style={{ height: "40px", backgroundColor: "white", margin: "0", padding: "0" }}>
-          <Button className={classes.btn} onClick={_onSignInOpen}>
+          <Button className={classes.btn} onClick={_onSignInOpen} disableRipple={true}>
             로그인
           </Button>
           <Divider orientation='vertical' style={{ width: "2px", margin: "0", float: "left" }} />
-          <Button className={classes.btn} onClick={_onMoveSignUp}>
+          <Button className={classes.btn} onClick={_onMoveSignUp} disableRipple={true}>
             회원가입
           </Button>
         </Grid>
@@ -215,7 +215,7 @@ export default function Header() {
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
           <div>
-            <Button onClick={toggleDrawer("left", true)} style={{ padding: "5px" }} aria-label='Menu'>
+            <Button onClick={toggleDrawer("left", true)} style={{ padding: "5px" }} aria-label='Menu' disableRipple={true}>
               <MenuIcon />
             </Button>
             <Drawer anchor={"left"} open={state} onClose={toggleDrawer("left", false)}>
@@ -223,7 +223,7 @@ export default function Header() {
             </Drawer>
           </div>
           <img src='/assets/img/title.png' alt='title' width='58' height='22' />
-          <Button href='/' style={{ padding: "0", textTransform: "none" }} aria-label='Home'>
+          <Button href='/' style={{ padding: "0", textTransform: "none" }} aria-label='Home' disableRipple={true}>
             <HomeIcon />
           </Button>
         </Grid>

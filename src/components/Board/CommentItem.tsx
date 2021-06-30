@@ -16,7 +16,6 @@ import IPost from "interfaces/Board/IPost";
 import IComment from "interfaces/Board/IComment";
 import IRecomment from "interfaces/Board/IRecomment";
 import { getStringByDate, getTitleAccountString } from "utils/CommonUtil";
-import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { CreateRecomment, DeleteComment, EditComment } from "utils/PostUtil";
 import { getNowUserInfo } from "utils/UserUtil";
@@ -29,10 +28,12 @@ interface IProps {
 
 const useStyles = makeStyles(() => ({
   commentWrapper: {
+    borderBottom: "1px solid lightgray",
     backgroundColor: "#f1f3f8",
     padding: "0px 10px",
   },
   recommentWrapper: {
+    borderBottom: "1px solid lightgray",
     backgroundColor: "#d6e0f0",
     paddingLeft: "10px",
   },
@@ -58,11 +59,11 @@ const useStyles = makeStyles(() => ({
       borderRadius: "0",
     },
     "& .MuiOutlinedInput-multiline": {
-      padding: "5px",
+      padding: "5px 10px",
     },
   },
   deleteCommentMessage: {
-    fontStyle: "italic",
+    color: "gray",
   },
   btn: {
     minWidth: "40px",
@@ -214,16 +215,16 @@ const CommentItem = (props: IProps) => {
       {comment && (
         <>
           <Grid container direction='column' justify='space-between' className={classes.commentWrapper}>
-            <Grid container justify='space-between' style={{ margin: "5px 0" }}>
+            <Grid container justify='space-between' style={{ margin: "4px 0" }}>
               <div>
-                <Typography style={{ width: "auto", fontWeight: "bold", margin: "0 5px", float: "left" }}>
+                <Typography style={{ width: "auto", fontWeight: "bold", margin: "0 4px", float: "left" }}>
                   {getTitleAccountString(comment.writer.titleAccount)}
                 </Typography>
 
                 <div className={classes.textBox}>
                   <Typography>{getStringByDate(comment.writer.lastEditDate, false)}</Typography>
                   <Typography style={{ color: "grey" }}>
-                    {comment.isDeleted ? "(삭제됨)" : comment.writer.createDate !== comment.writer.lastEditDate && "(편집됨)"}
+                    {comment.isDeleted ? "(삭제)" : comment.writer.createDate !== comment.writer.lastEditDate && "(편집)"}
                   </Typography>
                 </div>
               </div>
@@ -285,8 +286,6 @@ const CommentItem = (props: IProps) => {
                   variant='outlined'
                   className={classes.inputText}
                   multiline
-                  rows={3}
-                  rowsMax={10}
                   fullWidth
                   placeholder={comment.message}
                   value={editCommentMessage}
@@ -298,51 +297,45 @@ const CommentItem = (props: IProps) => {
                 className={comment.isDeleted ? classes.deleteCommentMessage : ""}
                 multiline={true}
                 fullWidth
-                value={comment.isDeleted ? "===== 삭제된 댓글입니다 =====" : comment.message}
+                value={comment.isDeleted ? "삭제된 댓글입니다." : comment.message}
                 inputProps={{ readOnly: true }}
-                style={{ padding: "0 5px", margin: "10px 5px", height: "auto" }}
+                style={{ padding: "0 5px", margin: "10px 5px" }}
               />
             )}
-
-            <MyGridDivider />
           </Grid>
 
-          <Grid container direction='row' justify='space-between' className={classes.recommentWrapper}>
-            {recommentIdx !== 99 && (
-              <>
-                <Typography variant='subtitle1'>
-                  <SubdirectoryArrowRightIcon />
-                </Typography>
+          {recommentIdx !== 99 && (
+            <Grid container direction='row' justify='space-between' className={classes.recommentWrapper}>
+              <Typography variant='subtitle1'>
+                <SubdirectoryArrowRightIcon />
+              </Typography>
 
-                <Grid item style={{ width: `calc(100% - 100px)` }}>
-                  <TextField
-                    variant='outlined'
-                    id='input-recomment'
-                    className={classes.inputText}
-                    multiline
-                    rows={3}
-                    rowsMax={10}
-                    fullWidth
-                    placeholder='욕설, 비방, 분란을 조장하는 답글은 제재될 수 있습니다.'
-                    value={inputRecommentMessage}
-                    onChange={e => setInputRecommentMessage(e.target.value)}
-                  />
-                </Grid>
-                <Grid item container alignItems='center' justify='center' direction='row' style={{ width: "70px" }}>
-                  <Button className={classes.recommentBtn} onClick={() => _onSubmitRecomment()}>
-                    등록
-                  </Button>
-                  <Button className={classes.recommentBtn} onClick={() => setRecommentIdx(99)}>
-                    취소
-                  </Button>
-                </Grid>
-                <MyGridDivider />
-              </>
-            )}
-          </Grid>
-          {recommentList &&
-            recommentList.length > 0 &&
-            recommentList.map(recomment => <RecommentItem key={recomment.idx} post={post} comment={comment} recommentItem={recomment} />)}
+              <Grid item style={{ width: `calc(100% - 100px)` }}>
+                <TextField
+                  variant='outlined'
+                  id='input-recomment'
+                  className={classes.inputText}
+                  multiline
+                  rows={3}
+                  rowsMax={10}
+                  fullWidth
+                  placeholder='욕설, 비방, 분란을 조장하는 답글은 제재될 수 있습니다.'
+                  value={inputRecommentMessage}
+                  onChange={e => setInputRecommentMessage(e.target.value)}
+                />
+              </Grid>
+              <Grid item container alignItems='center' justify='center' direction='row' style={{ width: "70px" }}>
+                <Button className={classes.recommentBtn} onClick={() => _onSubmitRecomment()}>
+                  등록
+                </Button>
+                <Button className={classes.recommentBtn} onClick={() => setRecommentIdx(99)}>
+                  취소
+                </Button>
+              </Grid>
+            </Grid>
+          )}
+
+          {recommentList && recommentList.map(recomment => <RecommentItem key={recomment.idx} post={post} comment={comment} recommentItem={recomment} />)}
         </>
       )}
     </>

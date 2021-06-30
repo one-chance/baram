@@ -14,7 +14,6 @@ import IPost from "interfaces/Board/IPost";
 import IComment from "interfaces/Board/IComment";
 import IRecomment from "interfaces/Board/IRecomment";
 import * as CommonUtil from "utils/CommonUtil";
-import MyGridDivider from "elements/Grid/MyGridDivider";
 
 import { EditRecomment, DeleteRecomment } from "utils/PostUtil";
 import { getNowUserInfo } from "utils/UserUtil";
@@ -57,7 +56,7 @@ const useStyles = makeStyles(() => ({
     },
   },
   deleteCommentMessage: {
-    fontStyle: "italic",
+    color: "gray",
   },
   btn: {
     minWidth: "40px",
@@ -153,23 +152,23 @@ const RecommentItem = (props: IProps) => {
     <>
       {recomment && (
         <>
-          <Grid container direction='row' style={{ backgroundColor: "#d6e0f0" }}>
-            <Grid item style={{ padding: "4px 4px 4px 12px" }}>
+          <Grid container direction='row' style={{ backgroundColor: "#d6e0f0", borderBottom: "1px solid lightgray" }}>
+            <Grid item style={{ padding: "4px 4px 4px 12px", color: "gray" }}>
               <Typography variant='subtitle1'>
                 <SubdirectoryArrowRightIcon />
               </Typography>
             </Grid>
             <Grid item container direction='column' justify='space-between' className={classes.recommentWrapper}>
-              <Grid container justify='space-between' style={{ margin: "5px 0" }}>
+              <Grid container justify='space-between' style={{ margin: "4px 0" }}>
                 <div>
-                  <Typography style={{ width: "auto", fontWeight: "bold", margin: "0 5px", float: "left" }}>
+                  <Typography style={{ width: "auto", fontWeight: "bold", margin: "0 4px", float: "left" }}>
                     {CommonUtil.getTitleAccountString(recomment.writer.titleAccount)}
                   </Typography>
 
                   <div className={classes.textBox}>
                     <Typography>{CommonUtil.getStringByDate(recomment.writer.lastEditDate, false)}</Typography>
                     <Typography style={{ color: "grey" }}>
-                      {recomment.isDeleted ? "(삭제됨)" : recomment.writer.createDate !== recomment.writer.lastEditDate && "(편집됨)"}
+                      {recomment.isDeleted ? "(삭제)" : recomment.writer.createDate !== recomment.writer.lastEditDate && "(편집)"}
                     </Typography>
                   </div>
                 </div>
@@ -219,8 +218,6 @@ const RecommentItem = (props: IProps) => {
                     variant='outlined'
                     className={classes.inputText}
                     multiline
-                    rows={3}
-                    rowsMax={10}
                     fullWidth
                     placeholder={recomment.message}
                     value={editRecommentMessage}
@@ -229,16 +226,15 @@ const RecommentItem = (props: IProps) => {
                 </Grid>
               ) : (
                 <InputBase
-                  className={comment.isDeleted ? classes.deleteCommentMessage : ""}
-                  multiline={true}
+                  className={recomment.isDeleted ? classes.deleteCommentMessage : ""}
+                  multiline
                   fullWidth
-                  value={recomment.isDeleted ? "===== 삭제된 답글입니다 =====" : recomment.message}
+                  value={recomment.isDeleted ? "삭제된 답글입니다." : recomment.message}
                   inputProps={{ readOnly: true }}
                   style={{ padding: "0 5px", margin: "10px 5px" }}
                 />
               )}
             </Grid>
-            <MyGridDivider />
           </Grid>
         </>
       )}

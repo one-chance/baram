@@ -57,7 +57,7 @@ export const refreshToken = () => {
       })
       .catch(e => {
         delToken();
-        document.location.href = "/signin";
+        //document.location.href = "/signin";
 
         return false;
       });
