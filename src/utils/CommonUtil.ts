@@ -50,6 +50,7 @@ export const refreshToken = () => {
         } else {
           // 토큰 만료
           delToken();
+          document.location.reload();
           //document.location.href = '/signin';
 
           return false;
@@ -57,7 +58,8 @@ export const refreshToken = () => {
       })
       .catch(e => {
         delToken();
-        document.location.href = "/signin";
+        document.location.reload();
+        //document.location.href = "/signin";
 
         return false;
       });
