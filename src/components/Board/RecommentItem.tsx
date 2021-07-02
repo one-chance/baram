@@ -40,10 +40,6 @@ const useStyles = makeStyles(() => ({
       float: "left",
     },
   },
-  buttonWrapper: {
-    width: "auto",
-    height: "auto",
-  },
   inputText: {
     backgroundColor: "#ffffff",
     border: "2px",
@@ -173,11 +169,11 @@ const RecommentItem = (props: IProps) => {
                   </div>
                 </div>
 
-                <Grid item container justify='flex-end' className={classes.buttonWrapper}>
+                <Grid item>
                   {!recomment.isDeleted && (
                     <>
                       {editRecommentIdx === recomment.idx ? (
-                        <Grid container direction='row' className={classes.buttonWrapper}>
+                        <>
                           <Button className={classes.btn} onClick={() => _onEditRecomment()}>
                             완료
                           </Button>
@@ -185,9 +181,9 @@ const RecommentItem = (props: IProps) => {
                           <Button className={classes.btn} onClick={() => setEditRecommentIdx(99)}>
                             취소
                           </Button>
-                        </Grid>
+                        </>
                       ) : (
-                        <Grid container direction='row' className={classes.buttonWrapper}>
+                        <>
                           {recomment.writer.key === signInUserKey && (
                             <>
                               <Button
@@ -204,7 +200,7 @@ const RecommentItem = (props: IProps) => {
                               </Button>
                             </>
                           )}
-                        </Grid>
+                        </>
                       )}
                     </>
                   )}

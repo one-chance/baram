@@ -614,7 +614,6 @@ router.get("/find/:seq", (req, res) => {
 
   TradeSchema.findOneBySeq(seq)
     .then(post => {
-      logger.info(post);
       logger.info(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
       res.status(200).send({
         code: 200,
