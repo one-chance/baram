@@ -33,6 +33,11 @@ const useStyles = makeStyles({
     "& h2": {
       margin: "10px 0",
     },
+    "& .ql-video": {
+      width: "800px",
+      height: "450px",
+      margin: "0 auto",
+    },
   },
 });
 

@@ -50,6 +50,11 @@ const useStyles = makeStyles({
       padding: "10px",
       height: "460px",
     },
+    "& .ql-editor .ql-video": {
+      width: "800px",
+      height: "450px",
+      margin: "0 auto",
+    },
     "& .ql-container.ql-snow": {
       maxHeight: "460px",
     },
@@ -107,11 +112,11 @@ const modules = {
     container: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
       [{ size: ["small", false, "large", "huge"] }],
-      [{ color: ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff"] }],
+      [{ color: ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }],
       [{ indent: "-1" }, { indent: "+1" }],
-      ["link", "image"],
+      ["link", "image", "video"],
     ],
   },
   clipboard: {
