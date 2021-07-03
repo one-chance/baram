@@ -162,6 +162,8 @@ export default function Header() {
           스샷 게시판
         </a>
         <Divider />
+        <a href='/board/video'>영상 게시판</a>
+        <Divider />
       </div>
       <div className={classes.text}>
         <Typography variant='h6'>계산기</Typography>

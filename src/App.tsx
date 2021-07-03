@@ -25,6 +25,8 @@ import TipBoard from "pages/Board/Tip/TipBoard";
 import TipPostView from "pages/Board/Tip/TipPostView";
 import TradeBoard from "pages/Board/Trade/TradeBoard";
 import TradePostView from "pages/Board/Trade/TradePostView";
+import VideoBoard from "pages/Board/Video/VideoBoard";
+import VideoPostView from "pages/Board/Video/VideoPostView";
 import Write from "pages/Board/Write";
 
 // Dictionary
@@ -143,6 +145,8 @@ function App() {
                 <Route exact path='/board/tip/:seq' component={TipPostView} />
                 <Route exact path='/board/trade' component={TradeBoard} />
                 <Route exact path='/board/trade/:seq' component={TradePostView} />
+                <Route exact path='/board/video' component={VideoBoard} />
+                <Route exact path='/board/vide/:seq' component={VideoPostView} />
                 <Route exact path='/board/write' component={Write} />
                 <Route exact path='/board/write/:tab' component={Write} />
                 <Route exact path='/board/write/:tab/:seq' component={Write} />
