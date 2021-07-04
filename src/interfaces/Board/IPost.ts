@@ -2,7 +2,7 @@ import IWriter from "interfaces/Common/IWriter";
 import IComment from "interfaces/Board/IComment";
 import { ServerType } from "interfaces/Common/IServer";
 
-export type CategoryType = "tip" | "free" | "photo" | "server" | "trade" | "video";
+export type CategoryType = "tip" | "free" | "server" | "trade" | "video";
 
 interface IPost {
   seq?: number;

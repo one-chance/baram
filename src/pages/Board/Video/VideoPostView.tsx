@@ -58,7 +58,7 @@ function VideoPostView({ match }: any) {
             <PostCommentList post={post} commentList={commentList} />
           </Grid>
         ) : (
-          <Container style={{ maxWidth: "960px" }}>게시물을 불러오고 있습니다.</Container>
+          <Container style={{ maxWidth: "960px" }}>해당 게시물이 존재하지 않습니다.</Container>
         )}
       </Grid>
     </React.Fragment>

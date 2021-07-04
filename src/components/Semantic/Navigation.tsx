@@ -158,10 +158,6 @@ export default function Header() {
           서버 게시판
         </a>
         <Divider />
-        <a href='#1' onClick={_prepare}>
-          스샷 게시판
-        </a>
-        <Divider />
         <a href='/board/video'>영상 게시판</a>
         <Divider />
       </div>

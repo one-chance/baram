@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     color: "gray",
     lineHeight: "20px",
     fontSize: "0.8rem",
-    margin: "0 4px 0 0",
+    margin: "0 8px 0 0",
     padding: "0",
     float: "left",
   },
@@ -127,6 +127,7 @@ interface Article {
   id: number;
   title: string;
   writer: string;
+  content: string;
   viewCount: number;
   commentCount: number;
   recommendCount: number;
@@ -173,34 +174,14 @@ function CustomPagination(props: PaginationProps) {
 
   const handlePostWrite = () => {
     if (signInUser) {
-      if (nowCategory === "tip") {
-        writeTip();
-        return;
-      } else if (1 < Number(signInUser.grade)) {
-        document.location.href = `/board/write/${nowCategory}`;
+      if (1 < Number(signInUser.grade)) {
+        document.location.href = `/board/write/video`;
       } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
           duration: 2000,
           message: "Level 2 부터 작성하실 수 있습니다. 대표 캐릭터 인증을 완료해주세요.",
-        });
-      }
-    } else {
-      setIsSignInOpen(true);
-    }
-  };
-
-  const writeTip = () => {
-    if (signInUser) {
-      if (nowCategory === "tip" && 9 === Number(signInUser.grade)) {
-        document.location.href = `/board/write/tip`;
-      } else {
-        setMyAlert({
-          isOpen: true,
-          severity: "error",
-          duration: 2000,
-          message: "Level 9 부터 작성할 수 있습니다.",
         });
       }
     } else {
@@ -372,30 +353,34 @@ const BoardV = (props: IProps) => {
   const rows: Array<Article> = [];
   nowCategory = category;
   const categoryName = getCategoryName(nowCategory);
-
+  console.log(posts);
   posts.forEach(post => {
     rows.push({
       id: post.seq ? post.seq : -1,
       title: post.title,
       writer: CommonUtil.getTitleAccountString(post.writer.titleAccount),
+      content: post.content,
       viewCount: post.viewCount,
       commentCount: post.commentList ? post.commentList.length : 0,
       recommendCount: post.recommendUserList ? post.recommendUserList.length : 0,
-      createDate: CommonUtil.getStringByDate(post.writer.createDate, true),
+      createDate: CommonUtil.getStringByDate(post.writer.createDate, false),
     });
   });
 
   const article = () => {
     let temp: JSX.Element[] = [];
-
     temp = rows.map((row, idx) => {
-      let url = posts[idx].content.split("/embed/")[1].split("?")[0];
+      let url = "tn-z2wOKE4s";
+
+      //row.content.split("/embed/")[1].split("?")[0];
 
       return (
-        <Grid item container direction='column' style={{ width: "320px", height: "240px", border: "1px solid gray", margin: "8px" }}>
-          <a href='/board/free/1' style={{ color: "black", textDecoration: "none" }}>
-            <img src={`https://img.youtube.com/vi/${url}/mqdefault.jpg`} alt={`썸네일-${idx}`} />
-            <Typography style={{ lineHeight: "20px", margin: "6px 0 4px 0", padding: "0 4px" }}>제목</Typography>
+        <Grid item container direction='column' key={idx} style={{ width: "320px", height: "240px", border: "1px solid gray", margin: "8px" }}>
+          <a href={`/board/video/${row.id}`} className={classes.titleLink}>
+            <div style={{ width: "100%", height: "180px", backgroundColor: "darkgray" }}>
+              <img src={`https://img.youtube.com/vi/${url}/mqdefault.jpg`} alt='썸네일' style={{ width: "100%", height: "100%" }} />
+            </div>
+            <Typography>{row.title}</Typography>
           </a>
           <div style={{ width: "100%", height: "auto", margin: "4px 0", padding: "0 4px" }}>
             <Typography className={classes.infoText}>{row.writer}</Typography>
@@ -429,8 +414,9 @@ const BoardV = (props: IProps) => {
         </Grid>
         <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
 
-        <Grid container justify='center' style={{ padding: "4px 0" }}>
-          <Grid item container direction='column' style={{ width: "320px", height: "240px", border: "1px solid gray", margin: "8px" }}>
+        <Grid container style={{ minHeight: "520px", padding: "4px 0" }}>
+          {article()}
+          {/*   <Grid item container direction='column' style={{ width: "320px", height: "240px", border: "1px solid gray", margin: "8px" }}>
             <a href='/board/free/1' className={classes.titleLink}>
               <div style={{ width: "100%", height: "180px", backgroundColor: "darkgray" }}>
                 <img src='https://img.youtube.com/vi/WDVR4IqENN0/mqdefault.jpg' alt='썸네일' style={{ width: "100%", height: "100%" }} />
@@ -528,7 +514,7 @@ const BoardV = (props: IProps) => {
               <AccessTimeIcon className={classes.infoIcon} />
               <Typography className={classes.infoText}>06.02</Typography>
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />

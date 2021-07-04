@@ -54,13 +54,13 @@ function VideoBoard({ location }: any) {
     });
 
     setMyBackdrop(true);
-    setRowCount(await getPostCount("trade", filterUri));
-    setPosts(await getPosts("trade", filterUri, page, pageSize));
+    setRowCount(await getPostCount("video", filterUri));
+    setPosts(await getPosts("video", filterUri, page, pageSize));
     setMyBackdrop(false);
   };
 
   useEffect(() => {
-    //initPage(0, 6);
+    initPage(0, 6);
     // eslint-disable-next-line
   }, []);
 

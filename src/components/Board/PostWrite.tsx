@@ -246,7 +246,6 @@ function PostWrite(props: IProps) {
             <Select variant='outlined' id='category' value={category} className={classes.selector} disabled={true}>
               <Menus value={"tip"}>팁 게시판</Menus>
               <Menus value={"free"}>자유 게시판</Menus>
-              <Menus value={"photo"}>스샷 게시판</Menus>
               <Menus value={"server"}>서버 게시판</Menus>
               <Menus value={"job"}>직업 게시판</Menus>
               <Menus value={"trade"}>거래 게시판</Menus>

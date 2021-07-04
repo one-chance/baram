@@ -146,7 +146,7 @@ function App() {
                 <Route exact path='/board/trade' component={TradeBoard} />
                 <Route exact path='/board/trade/:seq' component={TradePostView} />
                 <Route exact path='/board/video' component={VideoBoard} />
-                <Route exact path='/board/vide/:seq' component={VideoPostView} />
+                <Route exact path='/board/video/:seq' component={VideoPostView} />
                 <Route exact path='/board/write' component={Write} />
                 <Route exact path='/board/write/:tab' component={Write} />
                 <Route exact path='/board/write/:tab/:seq' component={Write} />

@@ -474,8 +474,6 @@ export const getCategoryName = (_category: CategoryType) => {
       return "팁 게시판";
     case "free":
       return "자유 게시판";
-    case "photo":
-      return "스샷 게시판";
     case "server":
       return "서버 게시판";
     case "trade":
