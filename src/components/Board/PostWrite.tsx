@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MyAlertState, MyBackdropState } from "state/index";
 import ServerState from "state/Board/ServerState";
@@ -12,6 +12,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -63,6 +64,29 @@ const useStyles = makeStyles({
       padding: "5px",
     },
   },
+  boxM: {
+    margin: "5px 0",
+    "& .quill": {
+      width: "100%",
+      minHeight: "500px",
+      height: "100%",
+    },
+    "& .ql-editor.ql-blank": {
+      padding: "10px",
+      height: "460px",
+    },
+    "& .ql-editor .ql-video": {
+      width: "100%",
+      height: "auto",
+    },
+    "& .ql-container.ql-snow": {
+      maxHeight: "460px",
+    },
+    "& .ql-toolbar.ql-snow": {
+      minHeight: "40px",
+      padding: "5px",
+    },
+  },
   preview: {
     minWidth: "40vw",
     minHeight: "30vh",
@@ -75,6 +99,29 @@ const useStyles = makeStyles({
     },
     "& h2": {
       margin: "10px 0",
+    },
+    "& .ql-video": {
+      width: "90%",
+      height: "300px",
+      margin: "0 5%",
+    },
+  },
+  previewM: {
+    minWidth: "40vw",
+    minHeight: "30vh",
+    padding: "10px",
+    "& p": {
+      margin: "5px 0",
+    },
+    "& h1": {
+      margin: "15px 0",
+    },
+    "& h2": {
+      margin: "10px 0",
+    },
+    "& .ql-video": {
+      width: "100%",
+      height: "auto",
     },
   },
   dlgBox: {
@@ -146,6 +193,8 @@ const duration = 3000;
 
 function PostWrite(props: IProps) {
   const classes = useStyles();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down(800));
   const { tab, seq } = props;
 
   const setMyAlert = useSetRecoilState(MyAlertState);
@@ -307,7 +356,7 @@ function PostWrite(props: IProps) {
             }}
           />
         </Grid>
-        <Grid item container className={classes.box}>
+        <Grid item container className={smallScreen ? classes.boxM : classes.box}>
           <ReactQuill
             value={content}
             theme='snow'
@@ -348,7 +397,10 @@ function PostWrite(props: IProps) {
         <DialogTitle>
           <span style={{ fontWeight: "bold", textAlign: "center" }}>{title}</span>
         </DialogTitle>
-        <DialogContent className={classes.preview} dividers={true} dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
+        <DialogContent
+          className={smallScreen ? classes.previewM : classes.preview}
+          dividers={true}
+          dangerouslySetInnerHTML={{ __html: content }}></DialogContent>
         <DialogActions style={{ padding: "0" }} disableSpacing={true}>
           <Button
             onClick={() => {
