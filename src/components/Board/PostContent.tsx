@@ -21,7 +21,7 @@ interface IProps {
 const useStyles = makeStyles({
   BodyContent: {
     "& img": {
-      display: "block",
+      display: "inline-block",
       maxWidth: "100%",
       height: "auto",
     },
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
   },
   BodyContentM: {
     "& img": {
-      display: "block",
+      display: "inline-block",
       maxWidth: "100%",
       height: "auto",
     },

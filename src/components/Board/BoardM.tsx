@@ -227,14 +227,14 @@ function CustomPagination(props: PaginationProps) {
 
       return 0;
     }
+    var sValue = searchValue;
     if (searchValue.split("@").length > 1) {
-      setSearchValue(searchValue.split("@")[0]);
+      sValue = searchValue.split("@")[0];
     }
 
     let uri = `/board/${nowCategory}?`;
-    if (searchQuery === ``) uri += `${searchFilter}=${searchValue}`;
-    else uri += searchQuery + `&${searchFilter}=${searchValue}`;
-    document.location.href = uri;
+    if (searchQuery === ``) uri += `${searchFilter}=${sValue}`;
+    else uri += searchQuery + `&${searchFilter}=${sValue}`;
   };
 
   const PageButton = (page: number) => {

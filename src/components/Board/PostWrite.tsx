@@ -171,6 +171,23 @@ const modules = {
   },
 };
 
+const modules2 = {
+  toolbar: {
+    container: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: ["small", false, "large", "huge"] }],
+      [{ color: ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff"] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      ["link", "image"],
+    ],
+  },
+  clipboard: {
+    matchVisual: false,
+  },
+};
+
 const formats = [
   "header",
   "font",
@@ -360,7 +377,7 @@ function PostWrite(props: IProps) {
           <ReactQuill
             value={content}
             theme='snow'
-            modules={modules}
+            modules={category === "trade" ? modules2 : modules}
             formats={formats}
             placeholder='작성할 내용을 입력하세요.'
             onChange={e => {

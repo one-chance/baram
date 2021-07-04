@@ -243,14 +243,14 @@ function CustomPagination(props: PaginationProps) {
 
       return 0;
     }
+    var sValue = searchValue;
     if (searchValue.split("@").length > 1) {
-      setSearchValue(searchValue.split("@")[0]);
+      sValue = searchValue.split("@")[0];
     }
 
     let uri = `/board/${nowCategory}?`;
-    if (searchQuery === ``) uri += `${searchFilter}=${searchValue}`;
-    else uri += searchQuery + `&${searchFilter}=${searchValue}`;
-    document.location.href = uri;
+    if (searchQuery === ``) uri += `${searchFilter}=${sValue}`;
+    else uri += searchQuery + `&${searchFilter}=${sValue}`;
   };
 
   const PageButton = (page: number) => {
@@ -353,7 +353,7 @@ const BoardV = (props: IProps) => {
   const rows: Array<Article> = [];
   nowCategory = category;
   const categoryName = getCategoryName(nowCategory);
-  console.log(posts);
+
   posts.forEach(post => {
     rows.push({
       id: post.seq ? post.seq : -1,
@@ -370,15 +370,16 @@ const BoardV = (props: IProps) => {
   const article = () => {
     let temp: JSX.Element[] = [];
     temp = rows.map((row, idx) => {
-      let url = "tn-z2wOKE4s";
-
-      //row.content.split("/embed/")[1].split("?")[0];
+      let url = "";
+      if (row.content.split("/embed/").length > 1) url = row.content.split("/embed/")[1].split("?")[0];
+      else url = "0";
+      let sumnail = `https://img.youtube.com/vi/${url}/mqdefault.jpg`;
 
       return (
         <Grid item container direction='column' key={idx} style={{ width: "320px", height: "240px", border: "1px solid gray", margin: "8px" }}>
           <a href={`/board/video/${row.id}`} className={classes.titleLink}>
             <div style={{ width: "100%", height: "180px", backgroundColor: "darkgray" }}>
-              <img src={`https://img.youtube.com/vi/${url}/mqdefault.jpg`} alt='썸네일' style={{ width: "100%", height: "100%" }} />
+              <img src={sumnail} alt={`썸네일${row.id}`} />
             </div>
             <Typography>{row.title}</Typography>
           </a>
