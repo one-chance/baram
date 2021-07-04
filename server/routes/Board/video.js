@@ -4,13 +4,15 @@ const router = express.Router();
 const authMiddleware = require("../../middleware/auth");
 const logger = require("../../winston");
 
-const TradeSchema = require("../../schemas/Board/TradeSchema");
+const VideoSchema = require("../../schemas/Board/VideoSchema");
 const UserWriteSchema = require("../../schemas/User/UserWriteSchema");
+
+const { PlusPointByKey, MinusPointByKey } = require("../../util/userUtil");
 
 /*
  *    NOTE 게시글 생성
  *    TYPE : POST
- *    URI : /api/board/trade/post
+ *    URI : /api/board/video/post
  *    HEADER: { "token": token }
  *    BODY: { "post" }
  *    RETURN CODES:
@@ -20,7 +22,7 @@ const UserWriteSchema = require("../../schemas/User/UserWriteSchema");
  */
 router.use("/post", authMiddleware);
 router.post("/post", (req, res) => {
-  const post = new TradeSchema({
+  const post = new VideoSchema({
     ...req.body.post,
     writer: {
       ...req.body.post.writer,
@@ -29,7 +31,7 @@ router.post("/post", (req, res) => {
     },
   });
 
-  TradeSchema.create(post, (err, post) => {
+  VideoSchema.create(post, (err, post) => {
     if (err) {
       logger.error(`[ERROR] : ${post.title} CREATED ERROR`);
       res.status(200).send({
@@ -77,7 +79,7 @@ router.post("/post", (req, res) => {
 /*
  *    NOTE 게시글 수정
  *    TYPE : PUT
- *    URI : /api/board/trade/post
+ *    URI : /api/board/video/post
  *    HEADER: { "token": token }
  *    BODY: { "post" }
  *    RETURN CODES:
@@ -95,7 +97,7 @@ router.put("/post", (req, res) => {
     },
   };
 
-  TradeSchema.updateBySeq(post.seq, post)
+  VideoSchema.updateBySeq(post.seq, post)
     .then(updatedPost => {
       if (updatedPost) {
         logger.info(`[SUCCESS] : ${post.title} EDITED SUCCESS`);
@@ -131,7 +133,7 @@ router.put("/post", (req, res) => {
 /*
  *    NOTE 게시글 삭제
  *    TYPE : DLELTE
- *    URI : /api/board/trade/post/${seq}
+ *    URI : /api/board/video/post/${seq}
  *    HEADER: { "token": token }
  *    RETURN CODES:
  *        200: 성공
@@ -143,15 +145,15 @@ router.delete("/post/:seq", (req, res) => {
   const { key, id } = req.headers;
   const seq = req.params.seq;
 
-  TradeSchema.deleteBySeq(seq)
+  VideoSchema.deleteBySeq(seq)
     .then(deletedCount => {
       if (deletedCount) {
-        UserWriteSchema.deletePost(key, id, "trade", seq)
+        UserWriteSchema.deletePost(key, id, "video", seq)
           .then(() => {
-            logger.info(`[SUCCESS] : DELETE USERWRITE POST [${key}]${id} - : trade : ${seq}`);
+            logger.info(`[SUCCESS] : DELETE USERWRITE POST [${key}]${id} - : video : ${seq}`);
           })
           .catch(e => {
-            logger.error(`[ERROR] : DELETE USERWRITE POST ERROR [${key}]${id} - trade : ${seq} > ${e}`);
+            logger.error(`[ERROR] : DELETE USERWRITE POST ERROR [${key}]${id} - video : ${seq} > ${e}`);
           });
 
         logger.info(`[SUCCESS] : POST NUMBER ${seq} DELETED SUCCESS`);
@@ -186,7 +188,7 @@ router.delete("/post/:seq", (req, res) => {
 /*
  *    NOTE 게시글 추천
  *    TYPE : POST
- *    URI : /api/board/trade/post/recommend/
+ *    URI : /api/board/video/post/recommend/
  *    HEADER: { "token": token }
  * *    BODY: { "seq", "userid" }
  *    RETURN CODES:
@@ -198,7 +200,7 @@ router.post("/post/recommend/:seq", (req, res) => {
   const seq = req.body.seq;
   const userid = req.body.userid;
 
-  TradeSchema.pushRecommendUser(seq, userid)
+  VideoSchema.pushRecommendUser(seq, userid)
     .then(() => {
       logger.info(`[SUCCESS] : POST ${seq} RECOMMNED SUCCESS BY ${userid}`);
       res.status(200).send({
@@ -223,7 +225,7 @@ router.post("/post/recommend/:seq", (req, res) => {
 /*
  *    NOTE 게시글 추천해제
  *    TYPE : POST
- *    URI : /api/board/trade/post/unrecommend/
+ *    URI : /api/board/video/post/unrecommend/
  *    HEADER: { "token": token }
  * *    BODY: { "seq", "userid" }
  *    RETURN CODES:
@@ -235,7 +237,7 @@ router.post("/post/unrecommend/:seq", (req, res) => {
   const seq = req.body.seq;
   const userid = req.body.userid;
 
-  TradeSchema.popRecommendUser(seq, userid)
+  VideoSchema.popRecommendUser(seq, userid)
     .then(() => {
       logger.info(`[SUCCESS] : POST ${seq} UNRECOMMNED SUCCESS BY ${userid}`);
       res.status(200).send({
@@ -260,7 +262,7 @@ router.post("/post/unrecommend/:seq", (req, res) => {
 /*
  *    NOTE 댓글쓰기
  *    TYPE : POST
- *    URI : /api/board/trade/comment
+ *    URI : /api/board/video/comment
  *    HEADER: { "token": token }
  *    BODY: { "seq", "comment" }
  *    RETURN CODES:
@@ -275,16 +277,16 @@ router.post("/comment", (req, res) => {
   comment.writer.createDate = new Date();
   comment.writer.lastEditDate = new Date();
 
-  TradeSchema.createComment(seq, comment)
+  VideoSchema.createComment(seq, comment)
     .then(post => {
       const { key, id } = comment.writer;
 
-      UserWriteSchema.addComment(key, id, "trade", seq, commentCount)
+      UserWriteSchema.addComment(key, id, "video", seq, commentCount)
         .then(() => {
-          logger.info(`[SUCCESS] : ADD USERWRITE COMMENT : [${key}]${id} - trade : ${seq} : ${commentCount}`);
+          logger.info(`[SUCCESS] : ADD USERWRITE COMMENT : [${key}]${id} - video : ${seq} : ${commentCount}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : ADD USERWRITE COMMENT ERROR [${key}]${id} - trade : ${seq} : ${commentCount}> ${e}`);
+          logger.error(`[ERROR] : ADD USERWRITE COMMENT ERROR [${key}]${id} - video : ${seq} : ${commentCount}> ${e}`);
         });
 
       logger.info(`[SUCCESS] : ${post.title} COMMENT CREATED SUCCESS`);
@@ -312,7 +314,7 @@ router.post("/comment", (req, res) => {
 /*
  *    NOTE 댓글수정
  *    TYPE : PUT
- *    URI : /api/board/trade/comment
+ *    URI : /api/board/video/comment
  *    HEADER: { "token": token }
  *    BODY: { "post", "comment" }
  *    RETURN CODES:
@@ -325,7 +327,7 @@ router.put("/comment", (req, res) => {
   const { post, comment } = req.body;
   comment.writer.lastEditDate = new Date();
 
-  TradeSchema.updateComment(post.seq, comment)
+  VideoSchema.updateComment(post.seq, comment)
     .then(post => {
       logger.info(`[SUCCESS] : COMMENT UPDATED SUCCESS`);
       res.status(200).send({
@@ -351,7 +353,7 @@ router.put("/comment", (req, res) => {
 /*
  *    NOTE 댓글삭제
  *    TYPE : DELETE
- *    URI : /api/board/trade/comment/:postSeq/:commentIdx
+ *    URI : /api/board/video/comment/:postSeq/:commentIdx
  *    HEADER: { "token": token }
  *    RETURN CODES:
  *        200: 성공
@@ -363,15 +365,15 @@ router.delete("/comment/:postSeq/:commentIdx", (req, res) => {
   const seq = req.params.postSeq;
   const commentIdx = req.params.commentIdx;
 
-  TradeSchema.deleteComment(seq, commentIdx)
+  VideoSchema.deleteComment(seq, commentIdx)
     .then(post => {
       // 사용자 작성 댓글 삭제
-      UserWriteSchema.deleteComment(key, id, "trade", seq, commentIdx)
+      UserWriteSchema.deleteComment(key, id, "video", seq, commentIdx)
         .then(() => {
-          logger.info(`[SUCCESS] : DELETE USERWRITE COMMENT : [${key}]${id} - trade : ${seq} : ${commentIdx}`);
+          logger.info(`[SUCCESS] : DELETE USERWRITE COMMENT : [${key}]${id} - video : ${seq} : ${commentIdx}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : DELETE USERWRITE COMMENT ERROR [${key}]${id} - trade : ${seq} : ${commentIdx}> ${e}`);
+          logger.error(`[ERROR] : DELETE USERWRITE COMMENT ERROR [${key}]${id} - video : ${seq} : ${commentIdx}> ${e}`);
         });
 
       logger.info(`[SUCCESS] : COMMENT DELETED SUCCESS`);
@@ -398,7 +400,7 @@ router.delete("/comment/:postSeq/:commentIdx", (req, res) => {
 /*
  *    NOTE 답글쓰기
  *    TYPE : POST
- *    URI : /api/board/trade/recomment
+ *    URI : /api/board/video/recomment
  *    HEADER: { "token": token }
  *    BODY: { "seq", "commentSeq", "recomment" }
  *    RETURN CODES:
@@ -412,15 +414,15 @@ router.post("/recomment", (req, res) => {
   recomment.writer.createDate = new Date();
   recomment.writer.lastEditDate = new Date();
 
-  TradeSchema.createRecomment(seq, commentIdx, recomment)
+  VideoSchema.createRecomment(seq, commentIdx, recomment)
     .then(post => {
       const { key, id } = recomment.writer;
-      UserWriteSchema.addRecomment(key, id, "trade", seq, commentIdx, recommentCount)
+      UserWriteSchema.addRecomment(key, id, "video", seq, commentIdx, recommentCount)
         .then(() => {
-          logger.info(`[SUCCESS] : ADD USERWRITE RECOMMENT : [${key}]${id} - trade : ${seq} : ${commentIdx} : ${recommentCount}`);
+          logger.info(`[SUCCESS] : ADD USERWRITE RECOMMENT : [${key}]${id} - video : ${seq} : ${commentIdx} : ${recommentCount}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : ADD USERWRITE RECOMMENT ERROR [${key}]${id} - trade : ${seq} : ${commentIdx} : ${recommentCount}> ${e}`);
+          logger.error(`[ERROR] : ADD USERWRITE RECOMMENT ERROR [${key}]${id} - video : ${seq} : ${commentIdx} : ${recommentCount}> ${e}`);
         });
 
       logger.info(`[SUCCESS] : ${post.title}-${commentIdx} RECOMMENT CREATED SUCCESS`);
@@ -449,7 +451,7 @@ router.post("/recomment", (req, res) => {
 /*
  *    NOTE 답글수정
  *    TYPE : PUT
- *    URI : /api/board/trade/recomment
+ *    URI : /api/board/video/recomment
  *    HEADER: { "token": token }
  *    BODY: { "post", "commentIdx", "comment", "recomment" }
  *    RETURN CODES:
@@ -462,7 +464,7 @@ router.put("/recomment", (req, res) => {
   const { post, commentIdx, recomment } = req.body;
   recomment.writer.lastEditDate = new Date();
 
-  TradeSchema.updateRecomment(post.seq, commentIdx, recomment)
+  VideoSchema.updateRecomment(post.seq, commentIdx, recomment)
     .then(post => {
       logger.info(`[SUCCESS] : RECOMMENT UPDATED SUCCESS`);
 
@@ -489,7 +491,7 @@ router.put("/recomment", (req, res) => {
 /*
  *    NOTE 답글삭제
  *    TYPE : PUT
- *    URI : /api/board/trade/recomment/:recommentIdx
+ *    URI : /api/board/video/recomment/:recommentIdx
  *    HEADER: { "token": token }
  *    PARAMS: {recommentIdx}
  *    BODY : {post, commentIdx}
@@ -506,15 +508,15 @@ router.put("/recomment/:recommentIdx", (req, res) => {
   recomment.message = "DELETED COMMENT";
   recomment.isDeleted = true;
 
-  TradeSchema.deleteRecomment(post.seq, commentIdx, recomment)
+  VideoSchema.deleteRecomment(post.seq, commentIdx, recomment)
     .then(post => {
       const { seq } = post;
-      UserWriteSchema.deleteRecomment(key, id, "trade", seq, commentIdx, recommentIdx)
+      UserWriteSchema.deleteRecomment(key, id, "video", seq, commentIdx, recommentIdx)
         .then(() => {
-          logger.info(`[SUCCESS] : DELETE USERWRITE RECOMMENT : [${key}]${id} - trade : ${seq} : ${commentIdx} : ${recommentIdx}`);
+          logger.info(`[SUCCESS] : DELETE USERWRITE RECOMMENT : [${key}]${id} - video : ${seq} : ${commentIdx} : ${recommentIdx}`);
         })
         .catch(e => {
-          logger.error(`[ERROR] : DELETE USERWRITE RECOMMENT ERROR [${key}]${id} - trade : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
+          logger.error(`[ERROR] : DELETE USERWRITE RECOMMENT ERROR [${key}]${id} - video : ${seq} : ${commentIdx} : ${recommentIdx}> ${e}`);
         });
 
       logger.info(`[SUCCESS] : RECOMMENT DELETED SUCCESS`);
@@ -540,9 +542,59 @@ router.put("/recomment/:recommentIdx", (req, res) => {
 });
 
 /*
+ *    NOTE 게시글 카운트
+ *    TYPE : GET
+ *    URI : /api/board/video/count
+ *    HEADER: { "token": token }
+ *    BODY: { "filter" }
+ *    RETURN CODES:
+ *        200: 성공
+ *        500: 서버 오류
+ */
+router.get("/count", (req, res) => {
+  let filter = {};
+  if (req.query.title) {
+    filter = {
+      title: { $regex: req.query.title },
+    };
+  }
+  if (req.query.content) {
+    filter = {
+      content: { $regex: req.query.content },
+    };
+  }
+  if (req.query.writer) {
+    filter["writer.titleAccount.character"] = req.query.writer;
+  }
+
+  VideoSchema.findCountByFilter(filter)
+    .then(count => {
+      logger.info(`[SUCCESS] : POST COUNT FIND SUCCESS`);
+      // 최신 조회 개수가 존재하면
+
+      res.status(200).send({
+        code: 200,
+        message: "카운트 조회에 성공하였습니다.",
+        count: count,
+      });
+
+      return true;
+    })
+    .catch(e => {
+      logger.error(`POST COUNT FIND ERROR > ${e}`);
+      res.status(200).send({
+        code: 500,
+        message: "카운트 조회 중 서버 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.",
+      });
+
+      return false;
+    });
+});
+
+/*
  *    NOTE 게시글 전체 조회
  *    TYPE : GET
- *    URI : /api/board/trade/find
+ *    URI : /api/board/video/find
  *    HEADER: { "token": token }
  *    BODY: { "filter" }
  *    RETURN CODES:
@@ -570,7 +622,7 @@ router.get("/find", (req, res) => {
     };
   }
 
-  TradeSchema.findByFilter(filter)
+  VideoSchema.findByFilter(filter)
     .then(posts => {
       logger.info(`[SUCCESS] : POST LIST FIND SUCCESS`);
       // 최신 조회 개수가 존재하면
@@ -598,7 +650,7 @@ router.get("/find", (req, res) => {
 /*
  *    NOTE 게시글 조회
  *    TYPE : GET
- *    URI : /api/board/trade/find/:seq
+ *    URI : /api/board/video/find/:seq
  *    RETURN CODES:
  *        200: 성공
  *        500: 서버 오류
@@ -612,7 +664,7 @@ router.get("/find/:seq", (req, res) => {
 
   addViewCount(seq);
 
-  TradeSchema.findOneBySeq(seq)
+  VideoSchema.findOneBySeq(seq)
     .then(post => {
       logger.info(`[SUCCESS] : ${post.title} POST FIND SUCCESS`);
       res.status(200).send({
@@ -635,7 +687,7 @@ router.get("/find/:seq", (req, res) => {
 });
 
 function addViewCount(seq) {
-  TradeSchema.addViewCount(seq).then(() => {
+  VideoSchema.addViewCount(seq).then(() => {
     logger.info(`Add ViewCount`);
   });
 }

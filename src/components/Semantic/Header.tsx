@@ -175,9 +175,7 @@ export default function Header() {
               <a href='#1' onClick={_prepare}>
                 서버 게시판
               </a>
-              <a href='#1' onClick={_prepare}>
-                스샷 게시판
-              </a>
+              <a href='/board/video'>영상 게시판</a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>

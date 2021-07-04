@@ -47,10 +47,6 @@ const useStyles = makeStyles(() => ({
       float: "left",
     },
   },
-  buttonWrapper: {
-    width: "auto",
-    height: "auto",
-  },
   inputText: {
     backgroundColor: "#ffffff",
     border: "2px",
@@ -229,20 +225,20 @@ const CommentItem = (props: IProps) => {
                 </div>
               </div>
 
-              <Grid item container justify='flex-end' className={classes.buttonWrapper}>
+              <Grid item>
                 {!comment.isDeleted && (
                   <>
                     {editCommentIdx === comment.idx ? (
-                      <Grid container direction='row' className={classes.buttonWrapper}>
+                      <>
                         <Button className={classes.btn} onClick={() => _onEditComment()}>
                           완료
                         </Button>
                         <Button className={classes.btn} onClick={() => setEditCommentIdx(999)}>
                           취소
                         </Button>
-                      </Grid>
+                      </>
                     ) : (
-                      <Grid container direction='row' className={classes.buttonWrapper}>
+                      <>
                         <Button
                           className={classes.btn}
                           onClick={() => {
@@ -272,7 +268,7 @@ const CommentItem = (props: IProps) => {
                             </Button>
                           </>
                         )}
-                      </Grid>
+                      </>
                     )}
                   </>
                 )}

@@ -13,6 +13,10 @@ import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import MessageIcon from "@material-ui/icons/Message";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
 import IPost, { CategoryType } from "interfaces/Board/IPost";
 import SignInDialogState from "state/common/SignInDialogState";
@@ -21,12 +25,19 @@ import * as CommonUtil from "utils/CommonUtil";
 import { getNowUserInfo } from "utils/UserUtil";
 
 const useStyles = makeStyles({
+  infoIcon: {
+    width: "16px",
+    height: "16px",
+    color: "gray",
+    margin: "2px 4px 2px 0",
+    float: "left",
+  },
   infoText: {
-    minWidth: "60px",
-    lineHeight: "24px",
-    margin: "4px 0",
+    color: "gray",
+    lineHeight: "20px",
+    fontSize: "0.8rem",
+    margin: "0 8px 0 0",
     padding: "0",
-    textAlign: "center",
     float: "left",
   },
   titleText: {
@@ -39,14 +50,21 @@ const useStyles = makeStyles({
     float: "left",
   },
   titleLink: {
-    width: "340px",
-    lineHeight: "24px",
-    fontSize: "1rem",
-    margin: "4px 0",
+    width: "100%",
     color: "black",
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+    "& p": {
+      lineHeight: "20px",
+      margin: "6px 0 4px 0",
+      padding: "0 4px",
+    },
+    "& img": {
+      width: "100%",
+      height: "180px",
+      backgroundColor: "darkgray",
+    },
     "&:focus, &:hover, &:visited, &:link, &:active": {
       textDecoration: "none",
     },
@@ -109,6 +127,7 @@ interface Article {
   id: number;
   title: string;
   writer: string;
+  content: string;
   viewCount: number;
   commentCount: number;
   recommendCount: number;
@@ -155,34 +174,14 @@ function CustomPagination(props: PaginationProps) {
 
   const handlePostWrite = () => {
     if (signInUser) {
-      if (nowCategory === "tip") {
-        writeTip();
-        return;
-      } else if (1 < Number(signInUser.grade)) {
-        document.location.href = `/board/write/${nowCategory}`;
+      if (1 < Number(signInUser.grade)) {
+        document.location.href = `/board/write/video`;
       } else {
         setMyAlert({
           isOpen: true,
           severity: "error",
           duration: 2000,
           message: "Level 2 부터 작성하실 수 있습니다. 대표 캐릭터 인증을 완료해주세요.",
-        });
-      }
-    } else {
-      setIsSignInOpen(true);
-    }
-  };
-
-  const writeTip = () => {
-    if (signInUser) {
-      if (nowCategory === "tip" && 9 === Number(signInUser.grade)) {
-        document.location.href = `/board/write/tip`;
-      } else {
-        setMyAlert({
-          isOpen: true,
-          severity: "error",
-          duration: 2000,
-          message: "Level 9 부터 작성할 수 있습니다.",
         });
       }
     } else {
@@ -252,7 +251,6 @@ function CustomPagination(props: PaginationProps) {
     let uri = `/board/${nowCategory}?`;
     if (searchQuery === ``) uri += `${searchFilter}=${sValue}`;
     else uri += searchQuery + `&${searchFilter}=${sValue}`;
-    document.location.href = uri;
   };
 
   const PageButton = (page: number) => {
@@ -349,7 +347,7 @@ function CustomPagination(props: PaginationProps) {
   );
 }
 
-const Board = (props: IProps) => {
+const BoardV = (props: IProps) => {
   const classes = useStyles();
   const { category, posts, totalArticleCount, articleSize, onPageChange } = props;
   const rows: Array<Article> = [];
@@ -361,32 +359,41 @@ const Board = (props: IProps) => {
       id: post.seq ? post.seq : -1,
       title: post.title,
       writer: CommonUtil.getTitleAccountString(post.writer.titleAccount),
+      content: post.content,
       viewCount: post.viewCount,
       commentCount: post.commentList ? post.commentList.length : 0,
       recommendCount: post.recommendUserList ? post.recommendUserList.length : 0,
-      createDate: CommonUtil.getStringByDate(post.writer.createDate),
+      createDate: CommonUtil.getStringByDate(post.writer.createDate, false),
     });
   });
 
   const article = () => {
     let temp: JSX.Element[] = [];
-
     temp = rows.map((row, idx) => {
+      let url = "";
+      if (row.content.split("/embed/").length > 1) url = row.content.split("/embed/")[1].split("?")[0];
+      else url = "0";
+      let sumnail = `https://img.youtube.com/vi/${url}/mqdefault.jpg`;
+
       return (
-        <Grid container key={idx} justify='space-between' style={{ borderTop: "1px solid lightgray", borderBottom: "1px solid lightgray", padding: "4px 8px" }}>
-          <Typography className={classes.infoText}>{row.id}</Typography>
-          <a className={classes.titleLink} href={`/board/${nowCategory}/${row.id}`}>
-            {row.title}
+        <Grid item container direction='column' key={idx} style={{ width: "320px", height: "240px", border: "1px solid gray", margin: "8px" }}>
+          <a href={`/board/video/${row.id}`} className={classes.titleLink}>
+            <div style={{ width: "100%", height: "180px", backgroundColor: "darkgray" }}>
+              <img src={sumnail} alt={`썸네일${row.id}`} />
+            </div>
+            <Typography>{row.title}</Typography>
           </a>
-          <Typography className={classes.infoText} style={{ minWidth: "140px" }}>
-            {row.writer}
-          </Typography>
-          <Typography className={classes.infoText}>{row.viewCount}</Typography>
-          <Typography className={classes.infoText}>{row.commentCount}</Typography>
-          <Typography className={classes.infoText}>{row.recommendCount}</Typography>
-          <Typography className={classes.infoText} style={{ minWidth: "100px" }}>
-            {row.createDate}
-          </Typography>
+          <div style={{ width: "100%", height: "auto", margin: "4px 0", padding: "0 4px" }}>
+            <Typography className={classes.infoText}>{row.writer}</Typography>
+            <VisibilityIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.viewCount}</Typography>
+            <MessageIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.commentCount}</Typography>
+            <ThumbUpIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.recommendCount}</Typography>
+            <AccessTimeIcon className={classes.infoIcon} />
+            <Typography className={classes.infoText}>{row.createDate}</Typography>
+          </div>
         </Grid>
       );
     });
@@ -400,30 +407,17 @@ const Board = (props: IProps) => {
 
   return (
     <React.Fragment>
-      <Grid container alignItems='flex-start' style={{ maxWidth: "960px", margin: "8px auto", border: "1px solid darkgray", borderRadius: "5px" }}>
+      <Grid container alignItems='flex-start' style={{ maxWidth: "1020px", margin: "8px auto", border: "1px solid darkgray", borderRadius: "5px" }}>
         <Grid container>
           <Typography style={{ width: "100%", lineHeight: "32px", paddingLeft: "20px", margin: "12px 0 4px 0", fontSize: "1.2rem", fontWeight: "bold" }}>
             {categoryName}
           </Typography>
-          <Grid container justify='space-between' style={{ padding: "4px 8px" }}>
-            <Typography className={classes.titleText}>번호</Typography>
-            <Typography className={classes.titleText} style={{ width: "340px" }}>
-              제목
-            </Typography>
-            <Typography className={classes.titleText} style={{ minWidth: "140px" }}>
-              작성자
-            </Typography>
-            <Typography className={classes.titleText}>조회수</Typography>
-            <Typography className={classes.titleText}>댓글</Typography>
-            <Typography className={classes.titleText}>추천</Typography>
-            <Typography className={classes.titleText} style={{ minWidth: "100px" }}>
-              작성일
-            </Typography>
-          </Grid>
         </Grid>
         <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
 
-        <div style={{ width: "100%", minHeight: "410px" }}>{article()}</div>
+        <Grid container style={{ minHeight: "520px", padding: "4px 0" }}>
+          {article()}
+        </Grid>
 
         <Divider style={{ width: "100%", backgroundColor: "lightgray", margin: "0" }} />
         <CustomPagination totalPageCount={Math.floor((totalArticleCount - 1) / articleSize) + 1} onPageChange={_onPageChanged} />
@@ -432,4 +426,4 @@ const Board = (props: IProps) => {
   );
 };
 
-export default Board;
+export default BoardV;

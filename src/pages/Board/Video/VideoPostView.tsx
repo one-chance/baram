@@ -12,24 +12,27 @@ import PostTitleM from "components/Board/PostTitleM";
 import PostContent from "components/Board/PostContent";
 import PostComment from "components/Board/PostComment";
 import PostCommentList from "components/Board/PostCommentList";
+
 import IPost from "interfaces/Board/IPost";
 import { getPost } from "utils/PostUtil";
 
 const useStyles = makeStyles({
   root: {
+    overflow: "hidden",
+    position: "relative",
     margin: "10px auto",
     maxWidth: "960px",
   },
   postBox: {
     border: "1px solid lightgray",
-    padding: "0 5px",
+    padding: "0",
   },
 });
 
-function TradeBoardView({ match }: any) {
+function VideoPostView({ match }: any) {
   const classes = useStyles();
   const theme = useTheme();
-  const smallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down(720));
   const { seq } = match.params;
   const commentList = useRecoilValue(CommentListState);
   const [post, setPost] = useState<IPost>();
@@ -40,7 +43,7 @@ function TradeBoardView({ match }: any) {
   }, []);
 
   const _onLoad = async () => {
-    const res = await getPost("trade", seq);
+    const res = await getPost("video", seq);
     if (res) setPost(res);
   };
 
@@ -55,11 +58,11 @@ function TradeBoardView({ match }: any) {
             <PostCommentList post={post} commentList={commentList} />
           </Grid>
         ) : (
-          <Container style={{ maxWidth: "960px" }}> 해당 게시물이 존재하지 않습니다.</Container>
+          <Container style={{ maxWidth: "960px" }}>해당 게시물이 존재하지 않습니다.</Container>
         )}
       </Grid>
     </React.Fragment>
   );
 }
 
-export default TradeBoardView;
+export default VideoPostView;
