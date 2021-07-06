@@ -28,10 +28,6 @@ interface IProps {
 }
 
 const useStyles = makeStyles({
-  title: {
-    padding: "0",
-    lineHeight: "30px",
-  },
   infoText: {
     lineHeight: "36px",
     margin: "0",
@@ -225,11 +221,9 @@ function PostTitle(props: IProps) {
       <Grid container>
         <Grid container direction='row' style={{ margin: "4px 0", padding: "0 10px" }}>
           <Grid item xs={8} style={{ minWidth: "500px", margin: "2px 0" }}>
-            <Typography variant='h6' className={classes.title} style={{ lineHeight: "36px", color: "blue", margin: "0 10px", float: "left" }}>
-              [{categoryName}]
-            </Typography>
-            <Typography variant='h6' style={{ lineHeight: "36px", float: "left" }}>
-              {post.title}
+            <Typography variant='h6' style={{ lineHeight: "36px", padding: "0 8px", float: "left" }}>
+              <span style={{ color: "blue", margin: "0 4px" }}>[{categoryName}]</span>
+              <span>{post.title}</span>
             </Typography>
           </Grid>
           <Grid item container justify='space-around' xs={4} style={{ minWidth: "280px", margin: "2px 0" }}>

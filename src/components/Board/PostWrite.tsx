@@ -367,7 +367,7 @@ function PostWrite(props: IProps) {
             inputProps={{ style: { padding: "0 8px", height: "40px", lineHeight: "40px", fontSize: "1rem" } }}
             style={{ margin: "2.5px 0" }}
             onChange={e => {
-              if (e.target.value.length < 26) {
+              if (e.target.value.length < 41) {
                 setTitle(e.target.value);
               }
             }}
