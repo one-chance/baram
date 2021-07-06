@@ -251,6 +251,7 @@ function CustomPagination(props: PaginationProps) {
     let uri = `/board/${nowCategory}?`;
     if (searchQuery === ``) uri += `${searchFilter}=${sValue}`;
     else uri += searchQuery + `&${searchFilter}=${sValue}`;
+    document.location.href = uri;
   };
 
   const PageButton = (page: number) => {
