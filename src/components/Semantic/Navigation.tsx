@@ -162,6 +162,25 @@ export default function Header() {
         <Divider />
       </div>
       <div className={classes.text}>
+        <Typography variant='h6'>코디</Typography>
+        <a href='/deco/lookbook'>룩북</a>
+        <Divider />
+        <a href='/deco/tanning'>태닝</a>
+        <Divider />
+        <a href='#1' onClick={_prepare}>
+          헤어
+        </a>
+        <Divider />
+        <a href='#1' onClick={_prepare}>
+          얼굴
+        </a>
+        <Divider />
+        <a href='#1' onClick={_prepare}>
+          치장
+        </a>
+        <Divider />
+      </div>
+      <div className={classes.text}>
         <Typography variant='h6'>계산기</Typography>
         <a href='/cal/power'>전투력</a>
         <Divider />

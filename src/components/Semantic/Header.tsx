@@ -51,7 +51,7 @@ const useStyles = makeStyles({
     fontWeight: "bold",
   },
   mainmenu: {
-    width: "20%",
+    width: "16.66%",
     padding: "0",
     margin: "0",
     float: "left",
@@ -186,6 +186,16 @@ export default function Header() {
               <a href='/cal/exp'>경험치</a>
               <a href='/cal/production'>생 산</a>
               <a href='/cal/tradition'>세시마을</a>
+            </div>
+          </Grid>
+          <Grid item container className={classes.mainmenu}>
+            <Typography className={classes.menuText}>코디</Typography>
+            <div style={{ marginTop: "-1px" }}>
+              <a href='/deco/lookbook'>룩북</a>
+              <a href='/deco/tanning'>태닝</a>
+              <a href='/cal/power'>헤어</a>
+              <a href='/cal/power'>얼굴</a>
+              <a href='/cal/power'>치장</a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
