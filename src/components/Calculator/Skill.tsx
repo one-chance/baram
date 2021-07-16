@@ -236,9 +236,11 @@ export default function Skill() {
       [0, 50, 50, 10, 300, 30, 100],
     ];
 
-    let temp: number = Number((200 / values[name][sNumber]).toFixed(3));
-    if (Math.floor(sInput * temp) <= 200) {
-      setSkillPower(Math.floor(sInput * temp));
+    let tempValue: number = Number((200 / values[name][sNumber]).toFixed(3));
+    let tempInput = 0;
+    if (!isNaN(sInput) && !Number.isInteger(sInput)) tempInput = sInput * 10;
+    if (Math.floor(tempValue * tempInput) <= 200) {
+      setSkillPower(Math.floor(tempValue * tempInput));
     } else {
       setSInput(0);
       setSkillPower(0);
