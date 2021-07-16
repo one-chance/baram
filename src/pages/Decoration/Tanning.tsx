@@ -45,7 +45,7 @@ const useStyles = makeStyles({
     "& .Mui-disabled": { backgroundColor: "transparent", borderColor: "#3f51b5", color: "#3f51b5" },
   },
   refreshBtn: { minWidth: "36px", height: "36px", padding: "0", float: "right" },
-  wearBtn: { minWidth: "60px", height: "36px", margin: "4px", padding: "0 4px", boxShadow: "none" },
+  wearBtn: { minWidth: "60px", height: "36px", margin: "4px", padding: "0 4px", boxShadow: "none", "&:hover": { boxShadow: "none" } },
 });
 
 export default function Tanning() {
@@ -104,84 +104,82 @@ export default function Tanning() {
 
   return (
     <>
-      {account !== "아이디@서버" && (
-        <Grid spacing={2} container justify='center' alignContent='center' className={classes.root}>
-          <Grid item container justify='center' direction='column' style={{ width: "210px", border: "1px solid silver", margin: "4px" }}>
-            <ToggleButtonGroup className={classes.dirBtn}>
-              {dirList.map((arr, idx) => {
-                return (
-                  <ToggleButton
-                    key={idx}
-                    value={dirNumber[idx]}
-                    selected={dir === dirNumber[idx] ? true : false}
-                    onClick={() => {
-                      changeDirection(dirNumber[idx]);
-                    }}>
-                    {arr}
-                  </ToggleButton>
-                );
-              })}
-            </ToggleButtonGroup>
-            <img src={avartar} alt='아바타' style={{ margin: "auto" }} />
-            <Typography style={{ height: "36px", lineHeight: "36px", margin: "4px", fontWeight: "bold", textAlign: "center" }}>
-              {account === "Unknown Account" ? "아이디@서버" : account}
-            </Typography>
-            <Grid container justify='center'>
-              <Button
-                className={classes.wearBtn}
-                variant={naked === "Y" ? "contained" : "outlined"}
-                color='primary'
-                onClick={() => {
-                  setNaked("Y");
-                }}>
-                벗기
-              </Button>
-              <Button
-                className={classes.wearBtn}
-                variant={naked === "N" ? "contained" : "outlined"}
-                color='primary'
-                onClick={() => {
-                  setNaked("N");
-                }}>
-                입기
-              </Button>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} style={{ maxWidth: "850px", border: "1px solid silver", margin: "4px" }}>
-            <Typography style={{ margin: "16px 8px", fontSize: "1.5rem", fontWeight: "bold", padding: "0 8px", textAlign: "center" }}>
-              태닝 종류
-              <Button
-                className={classes.refreshBtn}
-                variant='outlined'
-                color='secondary'
-                onClick={() => {
-                  changeSkin(-1);
-                }}>
-                <RefreshIcon />
-              </Button>
-            </Typography>
-
-            <div style={{ padding: "8px" }}>
-              {skinList.map((name, idx) => {
-                return (
-                  <Chip
-                    variant='outlined'
-                    color={skin === skinNumber[idx] ? "secondary" : "primary"}
-                    className={classes.chip}
-                    label={name}
-                    key={idx}
-                    onClick={() => {
-                      changeSkin(idx);
-                    }}
-                  />
-                );
-              })}
-              <Typography style={{ color: "gray", textAlign: "center", margin: "8px 0 0 0" }}>※ 초기화시 적용 중인 태닝으로 돌아갑니다 ※</Typography>
-            </div>
+      <Grid spacing={2} container justify='center' alignContent='center' className={classes.root}>
+        <Grid item container justify='center' direction='column' style={{ width: "210px", border: "1px solid silver", margin: "4px" }}>
+          <ToggleButtonGroup className={classes.dirBtn}>
+            {dirList.map((arr, idx) => {
+              return (
+                <ToggleButton
+                  key={idx}
+                  value={dirNumber[idx]}
+                  selected={dir === dirNumber[idx] ? true : false}
+                  onClick={() => {
+                    changeDirection(dirNumber[idx]);
+                  }}>
+                  {arr}
+                </ToggleButton>
+              );
+            })}
+          </ToggleButtonGroup>
+          <img src={avartar} alt='아바타' style={{ margin: "auto" }} />
+          <Typography style={{ height: "36px", lineHeight: "36px", margin: "4px", fontWeight: "bold", textAlign: "center" }}>
+            {account === "Unknown Account" ? "아이디@서버" : account}
+          </Typography>
+          <Grid container justify='center'>
+            <Button
+              className={classes.wearBtn}
+              variant={naked === "Y" ? "contained" : "outlined"}
+              color='primary'
+              onClick={() => {
+                setNaked("Y");
+              }}>
+              벗기
+            </Button>
+            <Button
+              className={classes.wearBtn}
+              variant={naked === "N" ? "contained" : "outlined"}
+              color='primary'
+              onClick={() => {
+                setNaked("N");
+              }}>
+              입기
+            </Button>
           </Grid>
         </Grid>
-      )}
+
+        <Grid item xs={12} style={{ maxWidth: "850px", border: "1px solid silver", margin: "4px" }}>
+          <Typography style={{ margin: "16px 8px", fontSize: "1.5rem", fontWeight: "bold", padding: "0 8px", textAlign: "center" }}>
+            태닝 종류
+            <Button
+              className={classes.refreshBtn}
+              variant='outlined'
+              color='secondary'
+              onClick={() => {
+                changeSkin(-1);
+              }}>
+              <RefreshIcon />
+            </Button>
+          </Typography>
+
+          <div style={{ padding: "8px" }}>
+            {skinList.map((name, idx) => {
+              return (
+                <Chip
+                  variant='outlined'
+                  color={skin === skinNumber[idx] ? "secondary" : "primary"}
+                  className={classes.chip}
+                  label={name}
+                  key={idx}
+                  onClick={() => {
+                    changeSkin(idx);
+                  }}
+                />
+              );
+            })}
+            <Typography style={{ color: "gray", textAlign: "center", margin: "8px 0 0 0" }}>※ 초기화시 적용 중인 태닝으로 돌아갑니다 ※</Typography>
+          </div>
+        </Grid>
+      </Grid>
     </>
   );
 }

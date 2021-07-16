@@ -59,7 +59,7 @@ export default function Level() {
 
       let a: number = Math.floor(level / 100);
       let b: number = level % 100;
-      let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824];
+      let c: number[] = [649.5, 1003, 2056.5, 3810, 6263.5, 9417, 13270.5, 17824, 20249.5];
       let res: number = 0;
 
       if (level.toString().length === 3 && level < 800) {
@@ -85,7 +85,7 @@ export default function Level() {
       <Grid item container justify='center' style={{ padding: "0", margin: "0" }}>
         <TextField
           variant='outlined'
-          placeholder='99~799'
+          placeholder='99~899'
           value={level || ""}
           onChange={e => {
             setLevel(parseInt(e.target.value));
@@ -125,10 +125,10 @@ export default function Level() {
             * 렙업 전투력 = 3.5 x 승급 차수 // 승급 전투력 = 350 x 승급 차수
           </Typography>
           <Typography variant='h6' className={classes.dlgText}>
-            ex) 699 렙업시 3.5 x 6 = 21 증가
+            ex) 700 달성시 3.5 x 7 + 350 x 7 = 2474.5 증가
           </Typography>
           <Typography variant='h6' className={classes.dlgText}>
-            ex) 700 렙업시 3.5 x 7 + 350 x 7 = 2474.5 증가
+            ex) 800 렙업시 3.5 x 8 + 350 x 8 = 2828 증가
           </Typography>
         </DialogContent>
         <DialogActions>

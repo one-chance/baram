@@ -193,9 +193,15 @@ export default function Header() {
             <div style={{ marginTop: "-1px" }}>
               <a href='/deco/lookbook'>룩북</a>
               <a href='/deco/tanning'>태닝</a>
-              <a href='/cal/power'>헤어</a>
-              <a href='/cal/power'>얼굴</a>
-              <a href='/cal/power'>치장</a>
+              <a href='#1' onClick={_prepare}>
+                헤어
+              </a>
+              <a href='#1' onClick={_prepare}>
+                얼굴
+              </a>
+              <a href='#1' onClick={_prepare}>
+                치장
+              </a>
             </div>
           </Grid>
           <Grid item container className={classes.mainmenu}>
