@@ -29,6 +29,18 @@ import VideoBoard from "pages/Board/Video/VideoBoard";
 import VideoPostView from "pages/Board/Video/VideoPostView";
 import Write from "pages/Board/Write";
 
+// Calculator
+import Ability from "pages/Calculator/Ability";
+import AbilityM from "pages/Calculator/AbilityM";
+import Exp from "pages/Calculator/Exp";
+import Power from "pages/Calculator/Power";
+import Production from "pages/Calculator/Production";
+import Tradition from "pages/Calculator/Tradition";
+
+// Decoration
+import LookBook from "pages/Decoration/LookBook";
+import Tanning from "pages/Decoration/Tanning";
+
 // Dictionary
 import Adventure from "pages/Dictionary/Adventure";
 import AnimalItem from "pages/Dictionary/AnimalItem";
@@ -38,14 +50,6 @@ import Item from "pages/Dictionary/Item";
 import ItemM from "pages/Dictionary/ItemM";
 import PetItem from "pages/Dictionary/PetItem";
 import Archeology from "pages/Dictionary/Archeology";
-
-// Calculator
-import Ability from "pages/Calculator/Ability";
-import AbilityM from "pages/Calculator/AbilityM";
-import Exp from "pages/Calculator/Exp";
-import Power from "pages/Calculator/Power";
-import Production from "pages/Calculator/Production";
-import Tradition from "pages/Calculator/Tradition";
 
 import NotFound from "pages/NotFound";
 import PrivacyPolicy from "components/PrivacyPolicy";
@@ -158,6 +162,10 @@ function App() {
                 <Route exact path='/cal/power' component={Power} />
                 <Route exact path='/cal/production' component={Production} />
                 <Route exact path='/cal/tradition' component={Tradition} />
+
+                {/*Decoration*/}
+                <Route path='/deco/lookbook' component={LookBook} />
+                <Route path='/deco/tanning' component={Tanning} />
 
                 {/*Dictionary*/}
                 <Route exact path='/dic/adventure' component={Adventure} />

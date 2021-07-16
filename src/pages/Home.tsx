@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Home = () => {
+export default function Home() {
   const classes = useStyles();
 
   return (
@@ -28,6 +28,4 @@ const Home = () => {
       </Grid>
     </>
   );
-};
-
-export default Home;
+}

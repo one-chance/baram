@@ -74,8 +74,8 @@ const Bottom = (props: IProps) => {
         setMyAlert({
           isOpen: true,
           severity: "error",
-          duration: 2000,
-          message: "Level 2 부터 작성하실 수 있습니다. 대표 캐릭터 인증을 완료해주세요.",
+          duration: 3000,
+          message: "대표 캐릭터를 인증한 Lv.2 부터 작성할 수 있습니다.",
         });
       }
     } else {

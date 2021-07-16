@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-const NotFound = () => {
+export default function NotFound() {
   const classes = useStyles();
 
   return (
@@ -19,6 +19,4 @@ const NotFound = () => {
       <div className={classes.root}>요청하신 페이지를 찾을 수 없습니다.</div>
     </>
   );
-};
-
-export default NotFound;
+}
