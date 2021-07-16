@@ -169,19 +169,19 @@ const Home = () => {
       </Grid>
       <Grid item container justify='space-around' style={{ width: "320px", height: "168px", padding: "0" }}>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg} aria-label='Notice'>
+          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg} aria-label='Notice' disableRipple={true}>
             <PriorityHighIcon />
           </Button>
           <h5 className={classes.boardItemText}>공 지</h5>
         </Grid>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' className={classes.boardItemButton} aria-label='Ask'>
+          <Button variant='outlined' className={classes.boardItemButton} aria-label='Ask' disableRipple={true}>
             <MailOutlineIcon />
           </Button>
           <h5 className={classes.boardItemText}>문 의</h5>
         </Grid>
         <Grid item className={classes.boardItem}>
-          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg2} aria-label='FAQ'>
+          <Button variant='outlined' className={classes.boardItemButton} onClick={openDlg2} aria-label='FAQ' disableRipple={true}>
             <QuestionAnswerIcon />
           </Button>
           <h5 className={classes.boardItemText}>FAQ</h5>
@@ -212,7 +212,7 @@ const Home = () => {
           <h4> 단점 : 혼자 오만가지 처리해서 업뎃이 좀 느림</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>v.1.4.0 업데이트</h2>
-          <h4>코디 메뉴 추가 - 룩북(현재 무기만 가능), 태닝</h4>
+          <h4>코디 메뉴 추가 - 룩북, 태닝</h4>
           <h4>레벨 전투력 899까지로 확장</h4>
           <Divider style={{ height: "3px", backgroundColor: "drakgray" }} />
           <h2>추후 업데이트</h2>

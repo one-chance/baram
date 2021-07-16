@@ -141,14 +141,14 @@ export default function Header() {
       <AppBar color='inherit' elevation={0} className={classes.root}>
         <Grid container alignItems='center' justify='space-between' id='up' className={classes.boxUp}>
           <div style={{ width: "160px" }}>
-            <Button href='/' style={{ minWidth: "40px", padding: "2px" }} aria-label='Home=Button'>
+            <Button href='/' style={{ minWidth: "40px", padding: "2px" }} aria-label='Home=Button' disableRipple={true}>
               <HomeIcon style={{ width: "36px", height: "36px" }} />
             </Button>
           </div>
           <img src='/assets/img/title.png' alt='title' width='58' height='22' />
           {signInUserId ? (
             <Grid item style={{ margin: "0", padding: "0" }}>
-              <Button className={classes.btn} onClick={_onLogoutUser}>
+              <Button className={classes.btn} onClick={_onLogoutUser} disableRipple={true}>
                 로그아웃
               </Button>
               <Button className={classes.btn} style={{ color: "blue" }} disabled>
@@ -157,10 +157,10 @@ export default function Header() {
             </Grid>
           ) : (
             <Grid item style={{ margin: "0", padding: "0" }}>
-              <Button className={classes.btn} onClick={_onSignInOpen}>
+              <Button className={classes.btn} onClick={_onSignInOpen} disableRipple={true}>
                 로그인
               </Button>
-              <Button className={classes.btn} onClick={_onMoveSignUp}>
+              <Button className={classes.btn} onClick={_onMoveSignUp} disableRipple={true}>
                 회원가입
               </Button>
             </Grid>
